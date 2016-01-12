@@ -11,6 +11,24 @@
 
 struct DeserializerImpl;
 
+/**@brief Tryby parsowania.
+
+Parsowanie insitu powoduje zapisanie ca³ego parsowanego dokumentu w pamiêci deserializatora.
+Nowe stringi nie s¹ alokowane, a zapisywane s¹ wska¿niki do tego dokumentu.
+Metoda prawdopodobnie zajmie wiêcej pamiêci ni¿ w przypadku alokowania, poniewa¿
+przechowywane s¹ równie¿ nadmiarowe bia³e znaki i wszystkie niepotrzebne elementy.
+Zalet¹ jest za to unikanie alokacji, co powinno przypsieszyæ dzia³anie.
+
+AllocString usuwa ca³y dokument z pamiêci po sparsowaniu.
+Metoda dzia³a wolniej, ale za to przechowuje tylko to co potrzebne.
+Wskazaniem do u¿ycia s¹ przypadki, gdy deserializator s³u¿y nie tylko
+do jednokrotnego parsowania, ale równie¿ przechowywania danych.*/
+enum class ParsingMode
+{
+	ParseInsitu,		///< Nie alokuje stringów, ale zapisuje sobie wskaŸniki na miejsca w parsowanym tekœcie.
+	AllocStrings		///< Przy parsowaniu alokuje nowe stringi.
+};
+
 /**@brief Interfejs deserializatorów.*/
 class IDeserializer
 {
@@ -20,6 +38,9 @@ protected:
 public:
 	IDeserializer();
 	~IDeserializer();
+
+	bool			LoadFromFile	( const std::string& fileName, ParsingMode mode );
+	bool			LoadFromString	( const std::string& contentString );
 
 
 	std::string&	GetValue		( const std::string& name, std::string& defaultValue );
