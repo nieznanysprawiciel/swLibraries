@@ -43,6 +43,10 @@ public:
 	bool			LoadFromString	( const std::string& contentString );
 
 
+	bool			EnterObject		( const std::string& name );
+	bool			EnterArray		( const std::string& name );
+	void			Exit			();
+
 	std::string&	GetValue		( const std::string& name, std::string& defaultValue );
 	uint32			GetValue		( const std::string& name, uint32 defaultValue );
 	uint64			GetValue		( const std::string& name, uint64 defaultValue );
