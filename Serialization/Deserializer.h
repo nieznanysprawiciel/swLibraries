@@ -47,8 +47,10 @@ public:
 	bool			EnterArray		( const std::string& name );
 	void			Exit			();
 
+	bool			FirstElement	();
 	bool			NextElement		();
 	bool			PrevElement		();
+	bool			LastElement		();
 
 	std::string		GetAttribute		( const std::string& name, std::string& defaultValue );
 	const char*		GetAttribute		( const std::string& name, const char* defaultValue );
@@ -58,6 +60,15 @@ public:
 	int64			GetAttribute		( const std::string& name, int64 defaultValue );
 	bool			GetAttribute		( const std::string& name, bool defaultValue );
 	double			GetAttribute		( const std::string& name, double defaultValue );
+
+	std::string		GetAttribute		( const char* name, std::string& defaultValue );
+	const char*		GetAttribute		( const char* name, const char* defaultValue );
+	uint32			GetAttribute		( const char* name, uint32 defaultValue );
+	uint64			GetAttribute		( const char* name, uint64 defaultValue );
+	int32			GetAttribute		( const char* name, int32 defaultValue );
+	int64			GetAttribute		( const char* name, int64 defaultValue );
+	bool			GetAttribute		( const char* name, bool defaultValue );
+	double			GetAttribute		( const char* name, double defaultValue );
 
 
 	std::string		GetError			();

@@ -33,18 +33,18 @@ public:
 
 	void		Exit			();
 
-	void		SetValue		( const std::string& name, const std::string& value );
-	void		SetValue		( const std::string& name, const char* value );
-	void		SetValue		( const std::string& name, uint32 value );
-	void		SetValue		( const std::string& name, uint64 value );
-	void		SetValue		( const std::string& name, int32 value );
-	void		SetValue		( const std::string& name, int64 value );
-	void		SetValue		( const std::string& name, bool value );
-	void		SetValue		( const std::string& name, double value );
+	void		SetAttribute		( const std::string& name, const std::string& value );
+	void		SetAttribute		( const std::string& name, const char* value );
+	void		SetAttribute		( const std::string& name, uint32 value );
+	void		SetAttribute		( const std::string& name, uint64 value );
+	void		SetAttribute		( const std::string& name, int32 value );
+	void		SetAttribute		( const std::string& name, int64 value );
+	void		SetAttribute		( const std::string& name, bool value );
+	void		SetAttribute		( const std::string& name, double value );
 
 
-	bool		SaveFile		( const std::string& fileName, WritingMode mode = WritingMode::Sparing );
-	std::string	SaveString		( WritingMode mode = WritingMode::Sparing );
+	bool		SaveFile			( const std::string& fileName, WritingMode mode = WritingMode::Sparing );
+	std::string	SaveString			( WritingMode mode = WritingMode::Sparing );
 };
 
 
