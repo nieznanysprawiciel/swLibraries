@@ -42,9 +42,12 @@ public:
 	bool			LoadFromFile	( const std::string& fileName, ParsingMode mode );
 	bool			LoadFromString	( const std::string& contentString );
 
+	const char*		GetName			();
 
 	bool			EnterObject		( const std::string& name );
 	bool			EnterArray		( const std::string& name );
+	bool			EnterObject		( const char* name );
+	bool			EnterArray		( const char* name );
 	void			Exit			();
 
 	bool			FirstElement	();
