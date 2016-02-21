@@ -6,6 +6,7 @@
 @brief Deklaracja klasy deserializatora.*/
 
 #include "Common/TypesDefinitions.h"
+#include "Common/Serialization/SerializationContext.h"
 
 #include <string>
 
@@ -34,6 +35,7 @@ class IDeserializer
 {
 private:
 	DeserializerImpl*		impl;
+	SerializationContext*	context;
 protected:
 public:
 	IDeserializer();
@@ -75,6 +77,28 @@ public:
 
 
 	std::string		GetError			();
+
+public:
+
+	/**@brief Zwraca kontekst serializacji.
+	
+	Funkcja sprawdza typ kontekstu jedynie w trybie debug (assert).*/
+	template< typename ContextType >
+	inline ContextType*			GetContext	()
+	{
+		assert( context != nullptr );
+		
+		// Sprawdzanie dynamicznego typu tylko, je¿eli w³¹czone jest RTTI.
+#ifdef _CPPRTTI
+		assert( typeid( *context ) == typeid( ContextType ) );
+#endif
+
+		return static_cast< ContextType* >( context );
+	}
+
+	/**@brief Ustawia kontekst serializacji.
+	@attention Deserializator nie przejmuje w³asnoœci nad kontekstem.*/
+	inline void					SetContext	( SerializationContext* serContext )		{ context = serContext; }
 };
 
 

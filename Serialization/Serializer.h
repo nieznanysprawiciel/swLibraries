@@ -6,8 +6,10 @@
 @brief Deklaracja klasy serializatora.*/
 
 #include "Common/TypesDefinitions.h"
+#include "Common/Serialization/SerializationContext.h"
 
 #include <string>
+#include <assert.h>
 
 struct SerializerImpl;
 
@@ -22,7 +24,8 @@ enum class WritingMode
 class ISerializer
 {
 private:
-	SerializerImpl*		impl;
+	SerializerImpl*				impl;
+	SerializationContext*		context;
 protected:
 public:
 	ISerializer();
@@ -45,6 +48,29 @@ public:
 
 	bool		SaveFile			( const std::string& fileName, WritingMode mode = WritingMode::Sparing );
 	std::string	SaveString			( WritingMode mode = WritingMode::Sparing );
+
+
+public:
+
+	/**@brief Zwraca kontekst serializacji.
+	
+	Funkcja sprawdza typ kontekstu jedynie w trybie debug (assert).*/
+	template< typename ContextType >
+	inline ContextType*			GetContext	()
+	{
+		assert( context != nullptr );
+		
+		// Sprawdzanie dynamicznego typu tylko, je¿eli w³¹czone jest RTTI.
+#ifdef _CPPRTTI
+		assert( typeid( *context ) == typeid( ContextType ) );
+#endif
+
+		return static_cast< ContextType* >( context );
+	}
+
+	/**@brief Ustawia kontekst serializacji.
+	@attention Serializator nie przejmuje w³asnoœci nad kontekstem.*/
+	inline void					SetContext	( SerializationContext* serContext )		{ context = serContext; }
 };
 
 
