@@ -13,6 +13,7 @@
 struct DeserializerImpl;
 
 /**@brief Tryby parsowania.
+@ingruop Serialization
 
 Parsowanie insitu powoduje zapisanie ca³ego parsowanego dokumentu w pamiêci deserializatora.
 Nowe stringi nie s¹ alokowane, a zapisywane s¹ wska¿niki do tego dokumentu.
@@ -30,7 +31,9 @@ enum class ParsingMode
 	AllocStrings		///< Przy parsowaniu alokuje nowe stringi.
 };
 
-/**@brief Interfejs deserializatorów.*/
+/**@brief Interfejs deserializatorów.
+
+@ingruop Serialization*/
 class IDeserializer
 {
 private:

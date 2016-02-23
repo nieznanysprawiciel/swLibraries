@@ -11,16 +11,26 @@
 #include <string>
 #include <assert.h>
 
+
+/**@defgroup Serialization
+@ingroup Tools
+@brief Biblioteki do serializacji.*/
+
+
+
 struct SerializerImpl;
 
-/**@brief Tryb Zapisywania JSONa.*/
+/**@brief Tryb Zapisywania JSONa.
+@ingroup Serialization*/
 enum class WritingMode
 {
 	Sparing,				///< Tryb oszczêdny bez spacji i tabulacji.
 	Readable				///< Tryb przeznaczony do czytania przez ludzi.
 };
 
-/**@brief Interfejs dla serializatorów.*/
+/**@brief Interfejs dla serializatorów.
+
+@ingruop Serialization*/
 class ISerializer
 {
 private:
