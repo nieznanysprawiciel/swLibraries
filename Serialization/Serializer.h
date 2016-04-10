@@ -12,7 +12,7 @@
 #include <assert.h>
 
 
-/**@defgroup Serialization
+/**@defgroup Serialization Serializacja
 @ingroup Tools
 @brief Biblioteki do serializacji.*/
 
