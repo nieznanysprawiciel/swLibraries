@@ -33,7 +33,7 @@ enum class ParsingMode
 
 /**@brief Interfejs deserializatorów.
 
-@ingruop Serialization*/
+@ingroup Serialization*/
 class IDeserializer
 {
 private:

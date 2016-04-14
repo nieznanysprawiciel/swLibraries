@@ -9,7 +9,7 @@
 
 
 /**@brief Interface kontekstu serializacji i deserializacji.
-@ingruop Serialization
+@ingroup Serialization
 
 W klasach pochodnych nale¿y umieœciæ dowolne dane, które s¹ potrzebne w trakcie serializacji.*/
 struct SerializationContext

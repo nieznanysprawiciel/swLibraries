@@ -30,7 +30,7 @@ enum class WritingMode
 
 /**@brief Interfejs dla serializatorów.
 
-@ingruop Serialization*/
+@ingroup Serialization*/
 class ISerializer
 {
 private:
