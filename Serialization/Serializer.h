@@ -10,6 +10,7 @@
 
 #include <string>
 #include <assert.h>
+#include <memory>
 
 
 /**@defgroup Serialization Serializacja
@@ -34,12 +35,12 @@ enum class WritingMode
 class ISerializer
 {
 private:
-	SerializerImpl*				impl;
-	SerializationContext*		context;
+	SerializerImpl*								impl;
+	std::unique_ptr< SerializationContext >		context;
 protected:
 public:
-	ISerializer();
-	virtual ~ISerializer();
+	explicit	ISerializer		( std::unique_ptr< SerializationContext > serContext );
+	virtual		~ISerializer	();
 
 	void		EnterObject		( const std::string& name );
 	void		EnterArray		( const std::string& name );
@@ -75,12 +76,8 @@ public:
 		assert( typeid( *context ) == typeid( ContextType ) );
 #endif
 
-		return static_cast< ContextType* >( context );
+		return static_cast< ContextType* >( context.get() );
 	}
-
-	/**@brief Ustawia kontekst serializacji.
-	@attention Serializator nie przejmuje w³asnoœci nad kontekstem.*/
-	inline void					SetContext	( SerializationContext* serContext )		{ context = serContext; }
 };
 
 
