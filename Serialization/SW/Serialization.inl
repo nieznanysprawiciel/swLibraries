@@ -3,6 +3,28 @@
 #include "Serialization.h"
 
 
+template< typename Type >
+inline Type					TypeDefaultValue()
+{ return Type(); }
+
+template<>	inline uint16			TypeDefaultValue()		{	return 0;	}
+template<>	inline int16			TypeDefaultValue()		{	return 0;	}
+template<>	inline uint32			TypeDefaultValue()		{	return 0;	}
+template<>	inline int32			TypeDefaultValue()		{	return 0;	}
+template<>	inline int64			TypeDefaultValue()		{	return 0;	}
+
+template<>	inline float			TypeDefaultValue()		{	return 0.0f;}
+template<>	inline double			TypeDefaultValue()		{	return 0.0;	}
+
+template<>	inline std::wstring		TypeDefaultValue()		{	return std::wstring( L"" );	}
+template<>	inline std::string		TypeDefaultValue()		{	return std::string( "" );	}
+
+template<>	inline DirectX::XMFLOAT2	TypeDefaultValue()	{	return DirectX::XMFLOAT2( 0.0, 0.0 );	}
+template<>	inline DirectX::XMFLOAT3	TypeDefaultValue()	{	return DirectX::XMFLOAT3( 0.0, 0.0, 0.0 );	}
+template<>	inline DirectX::XMFLOAT4	TypeDefaultValue()	{	return DirectX::XMFLOAT4( 0.0, 0.0, 0.0, 0.0 );	}
+
+template<>	inline EngineObject*		TypeDefaultValue()		{	return nullptr;	}
+
 
 /**@brief Zwraca wartoœæ podanej w³aœciwoœci.*/
 template< typename PropertyType >
@@ -24,6 +46,29 @@ template< typename PropertyType >
 void			Serialization::SerializeProperty					( ISerializer* ser, rttr::property prop, const EngineObject* object )
 {
 	ser->SetAttribute( prop.get_name(), GetPropertyValue< PropertyType >( prop, object ) );
+}
+
+
+/**@brief Ustawia wartoœæ podanej w³aœciwoœci.*/
+template< typename PropertyType >
+void			Serialization::SetPropertyValue( rttr::property prop, const EngineObject* object, PropertyType value )
+{
+	if( prop.get_declaring_type().is_derived_from< EngineObject >() )
+	{
+		prop.set_value( *static_cast< const EngineObject* >( object ), value );
+	}
+	else
+		assert( false );
+}
+
+/**@brief Deserializuje w³aœciwoœæ podanego typu.
+
+@todo Mo¿na zoptymalizowaæ pobieranie nazwy z w³aœciwoœci i ograniczyæ alokacjê stringów.*/
+template< typename PropertyType >
+void			Serialization::DeserializeProperty					( IDeserializer* deser, rttr::property prop, const EngineObject* object )
+{
+	PropertyType value = static_cast< PropertyType >( deser->GetAttribute( prop.get_name(), TypeDefaultValue< PropertyType >() ) );
+	SetPropertyValue< PropertyType >( prop, object, value );
 }
 
 

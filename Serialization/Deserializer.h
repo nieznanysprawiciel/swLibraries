@@ -9,6 +9,7 @@
 #include "Common/Serialization/SerializationContext.h"
 
 #include <string>
+#include <memory>
 
 struct DeserializerImpl;
 
@@ -37,11 +38,12 @@ enum class ParsingMode
 class IDeserializer
 {
 private:
-	DeserializerImpl*		impl;
-	SerializationContext*	context;
+	DeserializerImpl*							impl;
+	std::unique_ptr< SerializationContext >		context;
 protected:
 public:
 	IDeserializer();
+	IDeserializer( std::unique_ptr< SerializationContext > serContext );
 	~IDeserializer();
 
 	bool			LoadFromFile	( const std::string& fileName, ParsingMode mode );
@@ -96,12 +98,9 @@ public:
 		assert( typeid( *context ) == typeid( ContextType ) );
 #endif
 
-		return static_cast< ContextType* >( context );
+		return static_cast< ContextType* >( context.get() );
 	}
 
-	/**@brief Ustawia kontekst serializacji.
-	@attention Deserializator nie przejmuje w³asnoœci nad kontekstem.*/
-	inline void					SetContext	( SerializationContext* serContext )		{ context = serContext; }
 };
 
 

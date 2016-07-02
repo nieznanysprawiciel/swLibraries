@@ -57,7 +57,7 @@ bool Serialization::ShouldSave( rttr::property& prop, MetaDataType saveFlag )
 
 Serializowane s¹ wszystkie w³aœciwoœci, które nie zosta³y w metadanych oznaczone
 jako nieserializowalne.*/
-void Serialization::DefaultSerialize( ISerializer* ser, const EngineObject* object )
+void	Serialization::DefaultSerialize( ISerializer* ser, const EngineObject* object )
 {
 	auto objectType = object->GetType();
 	auto& properties = GetTypeFilteredProperties( objectType, ser->GetContext< EngineSerializationContext >() );
@@ -91,6 +91,40 @@ void Serialization::DefaultSerialize( ISerializer* ser, const EngineObject* obje
 	ser->Exit();	// objectType.get_name()
 }
 
+/**@brief Domyœlny tryb deserialziacji obiektów.
+
+Deserializowane s¹ wszystkie typy podstawowe.*/
+void	Serialization::DefaultDeserialize	( IDeserializer* deser, EngineObject* object )
+{
+	auto objectType = object->GetType();
+	auto& properties = Serialization::GetTypeFilteredProperties( objectType, deser->GetContext< EngineSerializationContext >() );
+
+	for( auto& property : properties )
+	{
+		auto propertyType = property.get_type();
+		
+		if( propertyType == rttr::type::get< float >() )
+			Serialization::DeserializeProperty< float >( deser, property, object );
+		else if( propertyType == rttr::type::get< double >() )
+			Serialization::DeserializeProperty< double >( deser, property, object );
+		else if( propertyType == rttr::type::get< int >() )
+			Serialization::DeserializeProperty< double >( deser, property, object );
+		else if( propertyType == rttr::type::get< DirectX::XMFLOAT2* >() )
+			Serialization::DeserializeProperty< DirectX::XMFLOAT2* >( deser, property, object );
+		else if( propertyType == rttr::type::get< DirectX::XMFLOAT3* >() )
+			Serialization::DeserializeProperty< DirectX::XMFLOAT3* >( deser, property, object );
+		else if( propertyType == rttr::type::get< DirectX::XMFLOAT4* >() )
+			Serialization::DeserializeProperty< DirectX::XMFLOAT4* >( deser, property, object );
+		else if( propertyType == rttr::type::get< std::string >() )
+			Serialization::DeserializeProperty< std::string >( deser, property, object );
+		else if( propertyType == rttr::type::get< std::wstring >() )
+			Serialization::DeserializeProperty< std::wstring >( deser, property, object );
+		//else if( propertyType.is_derived_from< EngineObject >() )
+		//	SerializeProperty< EngineObject* >( ser, property, this );
+	}
+}
+
+
 std::string Serialization::WstringToUTF( const std::wstring & str )
 {
     std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
@@ -123,7 +157,8 @@ template<>
 void			Serialization::SerializeProperty< EngineObject* >	( ISerializer* ser, rttr::property prop, const EngineObject* object )
 {
 	EngineObject* engineObj = GetPropertyValue< EngineObject* >( prop, object );
-	engineObj->Serialize( ser );
+	if( engineObj )
+		engineObj->Serialize( ser );
 }
 
 /**@brief Specjalizacja dla DirectX::XMFLOAT3.*/
@@ -174,4 +209,76 @@ void			Serialization::SerializeProperty< std::wstring >	( ISerializer* ser, rttr
 {
 	std::wstring str = GetPropertyValue< std::wstring >( prop, object );
 	ser->SetAttribute( prop.get_name(), WstringToUTF( str ) );
+}
+
+//====================================================================================//
+//				DeserializeProperty template specialization
+//====================================================================================//
+
+template	void	Serialization::DeserializeProperty< unsigned int >	( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+template	void	Serialization::DeserializeProperty< float >			( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+template	void	Serialization::DeserializeProperty< double >		( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+template	void	Serialization::DeserializeProperty< int >			( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+template	void	Serialization::DeserializeProperty< int16 >			( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+template	void	Serialization::DeserializeProperty< uint16 >		( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+template	void	Serialization::DeserializeProperty< int32 >			( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+template	void	Serialization::DeserializeProperty< uint32 >		( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+template	void	Serialization::DeserializeProperty< int64 >			( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+template	void	Serialization::DeserializeProperty< uint64 >		( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+
+
+/**@brief Specjalizacja dla DirectX::XMFLOAT3.*/
+template<>
+void			Serialization::DeserializeProperty< DirectX::XMFLOAT3* >	( IDeserializer* deser, rttr::property prop, const EngineObject* object )
+{
+	deser->EnterObject( prop.get_name() );
+
+	DirectX::XMFLOAT3 value;
+	value.x = static_cast< float > ( deser->GetAttribute( "X", TypeDefaultValue< float >() ) );
+	value.y = static_cast< float > ( deser->GetAttribute( "Y", TypeDefaultValue< float >() ) );
+	value.z = static_cast< float > ( deser->GetAttribute( "Z", TypeDefaultValue< float >() ) );
+
+	SetPropertyValue( prop, object, &value );
+
+	deser->Exit();	// prop.get_name()
+}
+
+/**@brief Specjalizacja dla DirectX::XMFLOAT2.*/
+template<>
+void			Serialization::DeserializeProperty< DirectX::XMFLOAT2* >	( IDeserializer* deser, rttr::property prop, const EngineObject* object )
+{
+	deser->EnterObject( prop.get_name() );
+
+	DirectX::XMFLOAT2 value;
+	value.x = static_cast< float > ( deser->GetAttribute( "X", TypeDefaultValue< float >() ) );
+	value.y = static_cast< float > ( deser->GetAttribute( "Y", TypeDefaultValue< float >() ) );
+
+	SetPropertyValue( prop, object, &value );
+
+	deser->Exit();	// prop.get_name()
+}
+
+/**@brief Specjalizacja dla DirectX::XMFLOAT4.*/
+template<>
+void			Serialization::DeserializeProperty< DirectX::XMFLOAT4* >	( IDeserializer* deser, rttr::property prop, const EngineObject* object )
+{
+	deser->EnterObject( prop.get_name() );
+
+	DirectX::XMFLOAT4 value;
+	value.x = static_cast< float > ( deser->GetAttribute( "X", TypeDefaultValue< float >() ) );
+	value.y = static_cast< float > ( deser->GetAttribute( "Y", TypeDefaultValue< float >() ) );
+	value.z = static_cast< float > ( deser->GetAttribute( "Z", TypeDefaultValue< float >() ) );
+	value.w = static_cast< float > ( deser->GetAttribute( "W", TypeDefaultValue< float >() ) );
+
+	SetPropertyValue( prop, object, &value );
+
+	deser->Exit();	// prop.get_name()
+}
+
+/**@brief Specjalizacja dla std::wstring.*/
+template<>
+void			Serialization::DeserializeProperty< std::wstring >	( IDeserializer* deser, rttr::property prop, const EngineObject* object )
+{
+	std::wstring str = GetPropertyValue< std::wstring >( prop, object );
+	SetPropertyValue( prop, object, UTFToWstring( deser->GetAttribute( prop.get_name(), TypeDefaultValue< std::string >() ) ) );
 }
