@@ -21,6 +21,15 @@ public:
 	static void				DefaultSerialize	( ISerializer* ser, const EngineObject* object );
 	static void				DefaultDeserialize	( IDeserializer* deser, EngineObject* object );
 
+	static bool				SerializeBasicTypes		( ISerializer* ser, const EngineObject* object, rttr::property& prop );
+	static bool				SerializeVectorTypes	( ISerializer* ser, const EngineObject* object, rttr::property& prop );
+	static bool				SerializeStringTypes	( ISerializer* ser, const EngineObject* object, rttr::property& prop );
+
+	static bool				DeserializeBasicTypes	( IDeserializer* deser, const EngineObject* object, rttr::property& prop );
+	static bool				DeserializeVectorTypes	( IDeserializer* deser, const EngineObject* object, rttr::property& prop );
+	static bool				DeserializeStringTypes	( IDeserializer* deser, const EngineObject* object, rttr::property& prop );
+
+
 	static std::string		WstringToUTF		( const std::wstring& str );
 	static std::wstring		UTFToWstring		( const std::string& str );
 
@@ -31,11 +40,12 @@ public:
 	static void				SerializeProperty	( ISerializer* ser, rttr::property prop, const EngineObject* object );
 
 
-	template<>	static void				SerializeProperty< int16 >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
-	template<>	static void				SerializeProperty< uint16 >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
-	template<>	static void				SerializeProperty< int32 >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
-	template<>	static void				SerializeProperty< uint32 >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
-	template<>	static void				SerializeProperty< int64 >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
+	//template<>	static void				SerializeProperty< int >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
+	//template<>	static void				SerializeProperty< int16 >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
+	//template<>	static void				SerializeProperty< uint16 >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
+	//template<>	static void				SerializeProperty< int32 >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
+	//template<>	static void				SerializeProperty< uint32 >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
+	//template<>	static void				SerializeProperty< int64 >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
 
 	template<>	static void				SerializeProperty< EngineObject* >		( ISerializer* ser, rttr::property prop, const EngineObject* object );
 	template<>	static void				SerializeProperty< DirectX::XMFLOAT2* >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
@@ -51,11 +61,12 @@ public:
 	static void				DeserializeProperty	( IDeserializer* deser, rttr::property prop, const EngineObject* object );
 
 
-	template<>	static void				DeserializeProperty< int16 >				( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-	template<>	static void				DeserializeProperty< uint16 >				( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-	template<>	static void				DeserializeProperty< int32 >				( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-	template<>	static void				DeserializeProperty< uint32 >				( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-	template<>	static void				DeserializeProperty< int64 >				( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+	//template<>	static void				DeserializeProperty< int >				( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+	//template<>	static void				DeserializeProperty< int16 >				( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+	//template<>	static void				DeserializeProperty< uint16 >				( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+	//template<>	static void				DeserializeProperty< int32 >				( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+	//template<>	static void				DeserializeProperty< uint32 >				( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+	//template<>	static void				DeserializeProperty< int64 >				( IDeserializer* deser, rttr::property prop, const EngineObject* object );
 
 	template<>	static void				DeserializeProperty< DirectX::XMFLOAT2* >	( IDeserializer* deser, rttr::property prop, const EngineObject* object );
 	template<>	static void				DeserializeProperty< DirectX::XMFLOAT3* >	( IDeserializer* deser, rttr::property prop, const EngineObject* object );
