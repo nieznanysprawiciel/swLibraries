@@ -14,6 +14,7 @@ struct EngineSerializationContext : public SerializationContext
 public:
 
 	bool					SaveWholeMap;		///< Wartoœæ true oznacza, ¿e zapisujemy mapê, false, ¿e zapisujemy stan gry.
+	bool					EditorLoad;			///< Wczytywanie mapy w trybie edytora.
 
 	TypePropertyMap			TypeProperties;		///< Mapa zawieraj¹ca typy i ich w³aœciwoœci. W³aœciwoœci nieserializowane s¹ odfiltrowane.
 
