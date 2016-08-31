@@ -74,6 +74,8 @@ void	Serialization::DefaultSerialize( ISerializer* ser, const EngineObject* obje
 
 		if( !serialized && propertyType.is_derived_from< EngineObject >() )
 			SerializeProperty< EngineObject* >( ser, property, object );
+		//else if( !serialized && propertyType.is_pointer() )
+		//	SerializeProperty< void* >( ser, property, static_cast< void* >( object ) );
 	}
 
 	ser->Exit();	// objectType.get_name()
