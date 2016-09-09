@@ -17,9 +17,12 @@ public:
 	static std::vector< rttr::property >&		GetTypeFilteredProperties	( rttr::type objType, EngineSerializationContext* context );
 
 
-	static bool				ShouldSave			( rttr::property& prop, MetaDataType saveFlag );
-	static void				DefaultSerialize	( ISerializer* ser, const rttr::instance& object );
-	static void				DefaultDeserialize	( IDeserializer* deser, EngineObject* object );
+	static bool				ShouldSave				( rttr::property& prop, MetaDataType saveFlag );
+	
+	static void				DefaultSerialize		( ISerializer* ser, const EngineObject* object );
+	static void				DefaultDeserialize		( IDeserializer* deser, EngineObject* object );
+
+	static void				DefaultSerializeImpl	( ISerializer* ser, const rttr::instance& object, rttr::type dynamicType );
 
 	static bool				SerializeBasicTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
 	static bool				SerializeVectorTypes	( ISerializer* ser, const rttr::instance& object, rttr::property& prop );

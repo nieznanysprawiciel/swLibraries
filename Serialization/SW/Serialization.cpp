@@ -3,6 +3,12 @@
 
 #include <codecvt>
 
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+	
+	registration::class_< EngineObject >( "EngineObject" );
+}
 
 
 /**@brief Zwraca wektor propertiesów dla danego typu.
@@ -57,9 +63,16 @@ bool Serialization::ShouldSave( rttr::property& prop, MetaDataType saveFlag )
 
 Serializowane s¹ wszystkie w³aœciwoœci, które nie zosta³y w metadanych oznaczone
 jako nieserializowalne.*/
-void	Serialization::DefaultSerialize( ISerializer* ser, const rttr::instance& object )
+void	Serialization::DefaultSerialize	( ISerializer* ser, const EngineObject* object )
 {
-	auto objectType = object.get_type();
+	DefaultSerializeImpl( ser, object, object->GetType() );
+}
+
+
+
+void	Serialization::DefaultSerializeImpl( ISerializer* ser, const rttr::instance& object, rttr::type dynamicType  )
+{
+	auto objectType = dynamicType;
 	auto& properties = GetTypeFilteredProperties( objectType, ser->GetContext< EngineSerializationContext >() );
 
 	ser->EnterObject( objectType.get_name() );
@@ -176,9 +189,14 @@ bool	Serialization::SerializeEnumTypes( ISerializer* ser, const rttr::instance& 
 	if( !propertyType.is_enumeration() )
 		return false;
 	
-	assert( false );
+	assert( propertyType.is_valid() );		/// Type haven't been registered.
+	assert( propertyType.is_enumeration() );
+	
+	rttr::enumeration enumVal = propertyType.get_enumeration();
 
-	return false;
+	ser->SetAttribute( prop.get_name(), enumVal.value_to_name( prop.get_value( object ) ) );
+
+	return true;
 }
 
 /**@brief Deserializuje podstawowe typy.
