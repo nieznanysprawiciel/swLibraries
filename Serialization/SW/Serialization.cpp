@@ -83,12 +83,13 @@ void	Serialization::DefaultSerializeImpl( ISerializer* ser, const rttr::instance
 		
 		bool serialized =	SerializeBasicTypes( ser, object, property ) ||
 							SerializeVectorTypes( ser, object, property ) ||
-							SerializeStringTypes( ser, object, property );
+							SerializeStringTypes( ser, object, property ) ||
+							SerializeEnumTypes( ser, object, property );
 
 		if( !serialized && propertyType.is_derived_from< EngineObject >() )
 			SerializeProperty< EngineObject* >( ser, property, object );
-		//else if( !serialized && propertyType.is_pointer() )
-		//	SerializeProperty< void* >( ser, property, static_cast< void* >( object ) );
+		else if( !serialized && propertyType.is_pointer() )
+			SerializeProperty< void* >( ser, property, object );
 	}
 
 	ser->Exit();	// objectType.get_name()
@@ -293,6 +294,27 @@ void			Serialization::SerializeProperty< EngineObject* >( ISerializer* ser, rttr
 	{
 		ser->EnterObject( prop.get_name() );
 		engineObj->Serialize( ser );
+		ser->Exit();	//	prop.get_name()
+	}
+}
+
+/**@brief Specjalizacja dla wszystkich obiektów, które nie dziedzicz¹ po EngineObject.
+
+Musz¹ to byæ struktury bez hierarchii dziedziczenia, poniewa¿ nie mo¿na ustaliæ ich dynamicznego typu.*/
+template<>
+void			Serialization::SerializeProperty< void* >( ISerializer* ser, rttr::property prop, const rttr::instance& object )
+{
+	void* engineObj = GetPropertyValue< void* >( prop, object );
+	if( engineObj )
+	{
+		ser->EnterObject( prop.get_name() );
+		
+		rttr::variant objVariant( engineObj );
+		TypeID realType = prop.get_type();
+		objVariant.unsafe_convert_void( realType );
+
+		DefaultSerializeImpl( ser, objVariant, realType.get_raw_type() );
+
 		ser->Exit();	//	prop.get_name()
 	}
 }
