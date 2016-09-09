@@ -108,6 +108,9 @@ przez ni¹ typów. W przeciwnym razie nie robi nic.
 bool Serialization::SerializeBasicTypes( ISerializer* ser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
+
+	if( !propertyType.is_arithmetic() )
+		return false;
 		
 	if( propertyType == rttr::type::get< float >() )
 		SerializeProperty< float >( ser, prop, object );
