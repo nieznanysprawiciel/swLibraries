@@ -172,8 +172,10 @@ bool	Serialization::SerializeEnumTypes( ISerializer* ser, const rttr::instance& 
 
 	if( !propertyType.is_enumeration() )
 		return false;
+	
+	assert( false );
 
-
+	return false;
 }
 
 /**@brief Deserializuje podstawowe typy.

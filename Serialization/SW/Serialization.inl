@@ -46,7 +46,7 @@ void			Serialization::SerializeProperty		( ISerializer* ser, rttr::property prop
 
 /**@brief Ustawia wartoœæ podanej w³aœciwoœci.*/
 template< typename PropertyType >
-void			Serialization::SetPropertyValue			( rttr::property prop, const rttr::instance& object, PropertyType value )
+void			Serialization::SetPropertyValue			( rttr::property prop, const EngineObject* object, PropertyType value )
 {
 	if( prop.get_declaring_type().is_derived_from< EngineObject >() )
 	{
