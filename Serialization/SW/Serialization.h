@@ -18,12 +18,13 @@ public:
 
 
 	static bool				ShouldSave			( rttr::property& prop, MetaDataType saveFlag );
-	static void				DefaultSerialize	( ISerializer* ser, const EngineObject* object );
+	static void				DefaultSerialize	( ISerializer* ser, const rttr::instance& object );
 	static void				DefaultDeserialize	( IDeserializer* deser, EngineObject* object );
 
-	static bool				SerializeBasicTypes		( ISerializer* ser, const EngineObject* object, rttr::property& prop );
-	static bool				SerializeVectorTypes	( ISerializer* ser, const EngineObject* object, rttr::property& prop );
-	static bool				SerializeStringTypes	( ISerializer* ser, const EngineObject* object, rttr::property& prop );
+	static bool				SerializeBasicTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
+	static bool				SerializeVectorTypes	( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
+	static bool				SerializeStringTypes	( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
+	static bool				SerializeEnumTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
 
 	static bool				DeserializeBasicTypes	( IDeserializer* deser, const EngineObject* object, rttr::property& prop );
 	static bool				DeserializeVectorTypes	( IDeserializer* deser, const EngineObject* object, rttr::property& prop );
@@ -34,18 +35,18 @@ public:
 	static std::wstring		UTFToWstring		( const std::string& str );
 
 	template< typename PropertyType >
-	static PropertyType		GetPropertyValue	( rttr::property prop, const EngineObject* object );
+	static PropertyType		GetPropertyValue	( rttr::property prop, const rttr::instance& object );
 
 	template< typename PropertyType >
-	static void				SerializeProperty	( ISerializer* ser, rttr::property prop, const EngineObject* object );
+	static void				SerializeProperty	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 
 
 
-	template<>	static void				SerializeProperty< EngineObject* >		( ISerializer* ser, rttr::property prop, const EngineObject* object );
-	template<>	static void				SerializeProperty< DirectX::XMFLOAT2* >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
-	template<>	static void				SerializeProperty< DirectX::XMFLOAT3* >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
-	template<>	static void				SerializeProperty< DirectX::XMFLOAT4* >	( ISerializer* ser, rttr::property prop, const EngineObject* object );
-	template<>	static void				SerializeProperty< std::wstring >		( ISerializer* ser, rttr::property prop, const EngineObject* object );
+	template<>	static void				SerializeProperty< EngineObject* >			( ISerializer* ser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				SerializeProperty< DirectX::XMFLOAT2* >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				SerializeProperty< DirectX::XMFLOAT3* >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				SerializeProperty< DirectX::XMFLOAT4* >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				SerializeProperty< std::wstring >			( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 
 
 	template< typename PropertyType >

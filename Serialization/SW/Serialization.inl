@@ -26,24 +26,19 @@ template<>	inline DirectX::XMFLOAT4	TypeDefaultValue()	{	return DirectX::XMFLOAT
 template<>	inline EngineObject*		TypeDefaultValue()		{	return nullptr;	}
 
 
-/**@brief Zwraca wartoœæ podanej w³aœciwoœci.*/
+/**@brief Returns typed property value.*/
 template< typename PropertyType >
-PropertyType	Serialization::GetPropertyValue( rttr::property prop, const EngineObject* object )
+PropertyType	Serialization::GetPropertyValue			( rttr::property prop, const rttr::instance& object )
 {
-	if( prop.get_declaring_type().is_derived_from< EngineObject >() )
-	{
-		auto value = prop.get_value( *static_cast< const EngineObject* >( object ) );
-		return value.get_value< PropertyType >();
-	}
-	else
-		assert( false );	return PropertyType();
+	auto value = prop.get_value( object );
+	return value.get_value< PropertyType >();
 }
 
 /**@brief Serializuje w³aœciwoœæ podanego typu.
 
 @todo Mo¿na zoptymalizowaæ pobieranie nazwy z w³aœciwoœci i ograniczyæ alokacjê stringów.*/
 template< typename PropertyType >
-void			Serialization::SerializeProperty					( ISerializer* ser, rttr::property prop, const EngineObject* object )
+void			Serialization::SerializeProperty		( ISerializer* ser, rttr::property prop, const rttr::instance& object )
 {
 	ser->SetAttribute( prop.get_name(), GetPropertyValue< PropertyType >( prop, object ) );
 }
@@ -51,7 +46,7 @@ void			Serialization::SerializeProperty					( ISerializer* ser, rttr::property p
 
 /**@brief Ustawia wartoœæ podanej w³aœciwoœci.*/
 template< typename PropertyType >
-void			Serialization::SetPropertyValue( rttr::property prop, const EngineObject* object, PropertyType value )
+void			Serialization::SetPropertyValue			( rttr::property prop, const rttr::instance& object, PropertyType value )
 {
 	if( prop.get_declaring_type().is_derived_from< EngineObject >() )
 	{
