@@ -3,12 +3,6 @@
 
 #include <codecvt>
 
-RTTR_REGISTRATION
-{
-    using namespace rttr;
-	
-	registration::class_< EngineObject >( "EngineObject" );
-}
 
 
 /**@brief Zwraca wektor propertiesów dla danego typu.
@@ -227,8 +221,8 @@ bool	Serialization::SerializeArrayTypes		( ISerializer* ser, const rttr::instanc
 		return true;
 
 	TypeID arrayElementType = arrayView.get_rank_type( 1 );
-	assert( arrayElementType.is_class() );
-	if( !arrayElementType.is_class() )
+	assert( arrayElementType.is_class() || arrayElementType.get_raw_type().is_class() );
+	if( !arrayElementType.is_class() && !arrayElementType.get_raw_type().is_class() )
 		return true;
 
 	ser->EnterArray( prop.get_name() );
@@ -239,7 +233,20 @@ bool	Serialization::SerializeArrayTypes		( ISerializer* ser, const rttr::instanc
 	for( int i = 0; i < arrayView.get_size(); ++i )
 	{
 		auto element = arrayView.get_value_as_ptr( i );
-		DefaultSerializeImpl( ser, element, arrayElementType );		// @todo Use dynamic element type if posible.
+
+		// Process generic objects. We must get real object type.
+		if( arrayElementType.is_pointer() )
+		{
+			element = arrayView.get_value( i );
+			
+			EngineObject* engineObject = element.get_value< EngineObject* >();
+			engineObject->Serialize( ser );
+		}
+		else
+		{
+			// Non generic objects use default serialization.
+			DefaultSerializeImpl( ser, element, arrayElementType );
+		}
 	}
 
 	ser->Exit();

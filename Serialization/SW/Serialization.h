@@ -7,6 +7,7 @@
 
 #include "Common/Serialization/SW/EngineSerializationContext.h"
 
+#include <DirectXMath.h>
 #include <string>
 
 

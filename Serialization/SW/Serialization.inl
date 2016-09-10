@@ -31,6 +31,7 @@ template< typename PropertyType >
 PropertyType	Serialization::GetPropertyValue			( rttr::property prop, const rttr::instance& object )
 {
 	auto value = prop.get_value( object );
+	assert( value.is_valid() );
 	return value.get_value< PropertyType >();
 }
 
