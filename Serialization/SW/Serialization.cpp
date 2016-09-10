@@ -228,7 +228,7 @@ bool	Serialization::SerializeArrayTypes		( ISerializer* ser, const rttr::instanc
 	ser->EnterArray( prop.get_name() );
 	
 	if( arrayView.is_dynamic() )
-		ser->SetAttribute( "Size", arrayView.get_size() );
+		ser->SetAttribute( "ArraySize", arrayView.get_size() );
 
 	for( int i = 0; i < arrayView.get_size(); ++i )
 	{
