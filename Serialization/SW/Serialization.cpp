@@ -83,6 +83,8 @@ void	Serialization::SerializePropertiesVec	( ISerializer* ser, const rttr::insta
 	for( auto& property : properties )
 	{
 		auto propertyType = property.get_type();
+		if( propertyType.is_wrapper() )
+			propertyType = propertyType.get_wrapped_type();
 		
 		bool serialized =	SerializeBasicTypes( ser, object, property ) ||
 							SerializeVectorTypes( ser, object, property ) ||
