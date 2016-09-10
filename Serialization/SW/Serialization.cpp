@@ -17,6 +17,8 @@ Propertisy s¹ pobierane z contextu, je¿eli ju¿ tam istniej¹. Je¿eli nie to s¹ re
 W ten sposób unikamy filtrowania w³aœciwoœci przy ka¿dym obiekcie.*/
 std::vector< rttr::property >&	Serialization::GetTypeFilteredProperties( rttr::type objType, EngineSerializationContext* context )
 {
+	objType = objType.get_raw_type();
+
 	auto iter = context->TypeProperties.find( objType );
 	if( iter == context->TypeProperties.end() )
 	{
@@ -77,6 +79,13 @@ void	Serialization::DefaultSerializeImpl( ISerializer* ser, const rttr::instance
 
 	ser->EnterObject( objectType.get_name() );
 
+	SerializePropertiesVec( ser, object, properties );
+
+	ser->Exit();	// objectType.get_name()
+}
+
+void	Serialization::SerializePropertiesVec	( ISerializer* ser, const rttr::instance& object, std::vector< rttr::property >& properties )
+{
 	for( auto& property : properties )
 	{
 		auto propertyType = property.get_type();
@@ -84,15 +93,14 @@ void	Serialization::DefaultSerializeImpl( ISerializer* ser, const rttr::instance
 		bool serialized =	SerializeBasicTypes( ser, object, property ) ||
 							SerializeVectorTypes( ser, object, property ) ||
 							SerializeStringTypes( ser, object, property ) ||
-							SerializeEnumTypes( ser, object, property );
+							SerializeEnumTypes( ser, object, property ) ||
+							SerializeArrayTypes( ser, object, property );
 
 		if( !serialized && propertyType.is_derived_from< EngineObject >() )
 			SerializeProperty< EngineObject* >( ser, property, object );
 		else if( !serialized && propertyType.is_pointer() )
 			SerializeProperty< void* >( ser, property, object );
 	}
-
-	ser->Exit();	// objectType.get_name()
 }
 
 /**@brief Domyœlny tryb deserialziacji obiektów.
@@ -200,6 +208,45 @@ bool	Serialization::SerializeEnumTypes( ISerializer* ser, const rttr::instance& 
 	return true;
 }
 
+/**@brief Serializes static or dynamic array.
+
+Only one dimensional arrays are supported. If this condition is not met, function returns true in Release mode
+and asserts in Debug mode. In both cases nothing will be serialized.*/
+bool	Serialization::SerializeArrayTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop )
+{
+	TypeID propertyType = prop.get_type();
+	if( !propertyType.is_array() )
+		return false;
+
+	auto arrayVariant = prop.get_value( object );
+	auto arrayView = arrayVariant.create_array_view();
+	
+	assert( arrayView.is_valid() );
+	assert( arrayView.get_rank() == 1 );
+	if( arrayView.get_rank() != 1 )
+		return true;
+
+	TypeID arrayElementType = arrayView.get_rank_type( 1 );
+	assert( arrayElementType.is_class() );
+	if( !arrayElementType.is_class() )
+		return true;
+
+	ser->EnterArray( prop.get_name() );
+	
+	if( arrayView.is_dynamic() )
+		ser->SetAttribute( "Size", arrayView.get_size() );
+
+	for( int i = 0; i < arrayView.get_size(); ++i )
+	{
+		auto element = arrayView.get_value_as_ptr( i );
+		DefaultSerializeImpl( ser, element, arrayElementType );		// @todo Use dynamic element type if posible.
+	}
+
+	ser->Exit();
+
+	return false;
+}
+
 /**@brief Deserializuje podstawowe typy.
 
 Funkcja sprawdza typ w³asciwoœci i deserializuje go tylko je¿eli jest jednym z obs³ugiwanych
@@ -285,7 +332,9 @@ template	void	Serialization::SerializeProperty< uint32 >	( ISerializer* ser, rtt
 template	void	Serialization::SerializeProperty< int64 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 template	void	Serialization::SerializeProperty< uint64 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 
-/**@brief Specjalizacja dla EngineObject.*/
+/**@brief Template specialization for classes derived from @ref EngineObject.
+
+Function serializes property name as first. Then EngineObject::Serialize method is invoked.*/
 template<>
 void			Serialization::SerializeProperty< EngineObject* >( ISerializer* ser, rttr::property prop, const rttr::instance& object )
 {
@@ -313,7 +362,9 @@ void			Serialization::SerializeProperty< void* >( ISerializer* ser, rttr::proper
 		TypeID realType = prop.get_type();
 		objVariant.unsafe_convert_void( realType );
 
-		DefaultSerializeImpl( ser, objVariant, realType.get_raw_type() );
+		auto& properties = GetTypeFilteredProperties( realType, ser->GetContext< EngineSerializationContext >() );
+
+		SerializePropertiesVec( ser, objVariant, properties );
 
 		ser->Exit();	//	prop.get_name()
 	}

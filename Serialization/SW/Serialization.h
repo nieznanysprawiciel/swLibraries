@@ -28,6 +28,9 @@ public:
 	static bool				SerializeVectorTypes	( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
 	static bool				SerializeStringTypes	( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
 	static bool				SerializeEnumTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
+	static bool				SerializeArrayTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
+	
+	static void				SerializePropertiesVec	( ISerializer* ser, const rttr::instance& object, std::vector< rttr::property >& properties );
 
 	static bool				DeserializeBasicTypes	( IDeserializer* deser, const EngineObject* object, rttr::property& prop );
 	static bool				DeserializeVectorTypes	( IDeserializer* deser, const EngineObject* object, rttr::property& prop );
