@@ -38,6 +38,7 @@ public:
 	static bool				DeserializeVectorTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
 	static bool				DeserializeStringTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
 	static bool				DeserializeEnumTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
+	static bool				DeserializeObjectTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
 
 
 	static std::string		WstringToUTF		( const std::wstring& str );
@@ -66,6 +67,8 @@ public:
 	static void				DeserializeProperty	( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 
 
+	template<>	static void				DeserializeProperty< EngineObject* >		( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				DeserializeProperty< void* >				( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				DeserializeProperty< DirectX::XMFLOAT2* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				DeserializeProperty< DirectX::XMFLOAT3* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				DeserializeProperty< DirectX::XMFLOAT4* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object );

@@ -122,12 +122,14 @@ void	Serialization::DefaultDeserializeImpl	( IDeserializer* deser, const rttr::i
 	{
 		auto propertyType = property.get_type();
 		
-		DeserializeBasicTypes( deser, object, property ) ||
-		DeserializeVectorTypes( deser, object, property ) ||
-		DeserializeStringTypes( deser, object, property ) ||
-		DeserializeEnumTypes( deser, object, property );
+		bool deserialized = DeserializeBasicTypes( deser, object, property );
+		deserialized = deserialized || DeserializeVectorTypes( deser, object, property );
+		deserialized = deserialized || DeserializeStringTypes( deser, object, property );
+		deserialized = deserialized || DeserializeEnumTypes( deser, object, property );
+		deserialized = deserialized || DeserializeObjectTypes( deser, object, property );
 	}
 }
+
 
 /**@brief Serializuje podstawowe typy.
 
@@ -185,6 +187,7 @@ bool Serialization::SerializeVectorTypes( ISerializer* ser, const rttr::instance
 	return true;
 }
 
+/**@brief Serializes string types.*/
 bool	Serialization::SerializeStringTypes( ISerializer* ser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
@@ -199,6 +202,7 @@ bool	Serialization::SerializeStringTypes( ISerializer* ser, const rttr::instance
 	return true;
 }
 
+/**@brief Serializes enum types to string representation.*/
 bool	Serialization::SerializeEnumTypes( ISerializer* ser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
@@ -309,7 +313,9 @@ bool	Serialization::DeserializeBasicTypes( IDeserializer* deser, const rttr::ins
 	return true;
 }
 
-/**@brief Deserializuje typy DirectXMath.*/
+/**@brief Deserializuje typy DirectXMath.
+
+@return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
 bool	Serialization::DeserializeVectorTypes( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
@@ -326,7 +332,9 @@ bool	Serialization::DeserializeVectorTypes( IDeserializer* deser, const rttr::in
 	return true;
 }
 
-/**@brief Deserializuje std::string i std::wstring.*/
+/**@brief Deserializuje std::string i std::wstring.
+
+@return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
 bool	Serialization::DeserializeStringTypes( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
@@ -341,7 +349,9 @@ bool	Serialization::DeserializeStringTypes( IDeserializer* deser, const rttr::in
 	return true;
 }
 
-/**@brief Deserializes enum properties from string.*/
+/**@brief Deserializes enum properties from string.
+
+@return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
 bool	Serialization::DeserializeEnumTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
@@ -358,6 +368,44 @@ bool	Serialization::DeserializeEnumTypes	( IDeserializer* deser, const rttr::ins
 	rttr::variant value = enumVal.name_to_value( enumString );
 
 	prop.set_value( object, value );
+
+	return true;
+}
+
+/**@brief Deserializes structures and generic objects.
+
+@return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
+bool	Serialization::DeserializeObjectTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
+{
+	auto propertyType = prop.get_type();
+
+	if( !propertyType.get_raw_type().is_class() )
+		return false;
+
+	if( propertyType.is_derived_from< EngineObject >() )
+	{
+		// Retrieve dynamic type of object from deserializer and create new object.
+		assert( !"Implement me" );
+
+		return true;
+	}
+	else
+	{
+		// We must find out whether type is a structure or pointer to structure.
+		// Checking type.is_pointer() tell us nothing, because every structure must be bound as pointer.
+		// Better get value of property from class and check if it is nullptr.
+		auto structVal = prop.get_value( object );
+		if( structVal == nullptr )
+		{
+			// We could construct object, but maybe it would be better, if objects have created it in constructor.
+			// @todo Think if we should create structure in deserialization if it is nullptr.
+			return true;	// Tell outside world, that it doesn't need to look for other function to deal with this property.
+		}
+		else
+		{
+			DeserializeProperty< void* >( deser, prop, object );
+		}
+	}
 
 	return true;
 }
@@ -498,52 +546,83 @@ template	void	Serialization::DeserializeProperty< int64 >			( IDeserializer* des
 template	void	Serialization::DeserializeProperty< uint64 >		( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 
 
+
+/**@brief Specialization for deserializing generic objects inheriting EngineObject.*/
+template<>
+void				Serialization::DeserializeProperty< EngineObject* >		( IDeserializer* deser, rttr::property prop, const rttr::instance& object )
+{
+	assert( !"Implement me" );
+}
+
+/**@brief Specialization for deserializing non generic structures..*/
+template<>
+void				Serialization::DeserializeProperty< void* >				( IDeserializer* deser, rttr::property prop, const rttr::instance& object )
+{
+	if( deser->EnterObject( prop.get_name() ) )
+	{
+		TypeID propertyType = prop.get_type();
+		auto deserObject = prop.get_value( object );
+
+		DefaultDeserializeImpl( deser, deserObject, propertyType );
+
+		deser->Exit();	//	prop.get_name()
+	}
+	// Error handling ??
+}
+
+
 /**@brief Specjalizacja dla DirectX::XMFLOAT3.*/
 template<>
 void			Serialization::DeserializeProperty< DirectX::XMFLOAT3* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object )
 {
-	deser->EnterObject( prop.get_name() );
+	if( deser->EnterObject( prop.get_name() ) )
+	{
+		DirectX::XMFLOAT3 value;
+		value.x = static_cast< float > ( deser->GetAttribute( "X", TypeDefaultValue< float >() ) );
+		value.y = static_cast< float > ( deser->GetAttribute( "Y", TypeDefaultValue< float >() ) );
+		value.z = static_cast< float > ( deser->GetAttribute( "Z", TypeDefaultValue< float >() ) );
 
-	DirectX::XMFLOAT3 value;
-	value.x = static_cast< float > ( deser->GetAttribute( "X", TypeDefaultValue< float >() ) );
-	value.y = static_cast< float > ( deser->GetAttribute( "Y", TypeDefaultValue< float >() ) );
-	value.z = static_cast< float > ( deser->GetAttribute( "Z", TypeDefaultValue< float >() ) );
+		SetPropertyValue( prop, object, &value );
 
-	SetPropertyValue( prop, object, &value );
-
-	deser->Exit();	// prop.get_name()
+		deser->Exit();	// prop.get_name()
+	}
+	// Error handling ??
 }
 
 /**@brief Specjalizacja dla DirectX::XMFLOAT2.*/
 template<>
 void			Serialization::DeserializeProperty< DirectX::XMFLOAT2* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object )
 {
-	deser->EnterObject( prop.get_name() );
+	if( deser->EnterObject( prop.get_name() ) )
+	{
+		DirectX::XMFLOAT2 value;
+		value.x = static_cast< float > ( deser->GetAttribute( "X", TypeDefaultValue< float >() ) );
+		value.y = static_cast< float > ( deser->GetAttribute( "Y", TypeDefaultValue< float >() ) );
 
-	DirectX::XMFLOAT2 value;
-	value.x = static_cast< float > ( deser->GetAttribute( "X", TypeDefaultValue< float >() ) );
-	value.y = static_cast< float > ( deser->GetAttribute( "Y", TypeDefaultValue< float >() ) );
+		SetPropertyValue( prop, object, &value );
 
-	SetPropertyValue( prop, object, &value );
-
-	deser->Exit();	// prop.get_name()
+		deser->Exit();	// prop.get_name()
+	}
+	// Error handling ??
 }
 
 /**@brief Specjalizacja dla DirectX::XMFLOAT4.*/
 template<>
 void			Serialization::DeserializeProperty< DirectX::XMFLOAT4* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object )
 {
-	deser->EnterObject( prop.get_name() );
+	if( deser->EnterObject( prop.get_name() ) )
+	{
+		DirectX::XMFLOAT4 value;
+		value.x = static_cast< float > ( deser->GetAttribute( "X", TypeDefaultValue< float >() ) );
+		value.y = static_cast< float > ( deser->GetAttribute( "Y", TypeDefaultValue< float >() ) );
+		value.z = static_cast< float > ( deser->GetAttribute( "Z", TypeDefaultValue< float >() ) );
+		value.w = static_cast< float > ( deser->GetAttribute( "W", TypeDefaultValue< float >() ) );
 
-	DirectX::XMFLOAT4 value;
-	value.x = static_cast< float > ( deser->GetAttribute( "X", TypeDefaultValue< float >() ) );
-	value.y = static_cast< float > ( deser->GetAttribute( "Y", TypeDefaultValue< float >() ) );
-	value.z = static_cast< float > ( deser->GetAttribute( "Z", TypeDefaultValue< float >() ) );
-	value.w = static_cast< float > ( deser->GetAttribute( "W", TypeDefaultValue< float >() ) );
+		SetPropertyValue( prop, object, &value );
 
-	SetPropertyValue( prop, object, &value );
-
-	deser->Exit();	// prop.get_name()
+		deser->Exit();	// prop.get_name()
+	}
+	// Error handling ??
 }
 
 /**@brief Specjalizacja dla std::wstring.*/
