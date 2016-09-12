@@ -47,21 +47,16 @@ void			Serialization::SerializeProperty		( ISerializer* ser, rttr::property prop
 
 /**@brief Ustawia wartoœæ podanej w³aœciwoœci.*/
 template< typename PropertyType >
-void			Serialization::SetPropertyValue			( rttr::property prop, const EngineObject* object, PropertyType value )
+void			Serialization::SetPropertyValue			( rttr::property prop, const rttr::instance& object, PropertyType value )
 {
-	if( prop.get_declaring_type().is_derived_from< EngineObject >() )
-	{
-		prop.set_value( *static_cast< const EngineObject* >( object ), value );
-	}
-	else
-		assert( false );
+	prop.set_value( object, value );
 }
 
 /**@brief Deserializuje w³aœciwoœæ podanego typu.
 
 @todo Mo¿na zoptymalizowaæ pobieranie nazwy z w³aœciwoœci i ograniczyæ alokacjê stringów.*/
 template< typename PropertyType >
-void			Serialization::DeserializeProperty					( IDeserializer* deser, rttr::property prop, const EngineObject* object )
+void			Serialization::DeserializeProperty					( IDeserializer* deser, rttr::property prop, const rttr::instance& object )
 {
 	PropertyType value = static_cast< PropertyType >( deser->GetAttribute( prop.get_name(), TypeDefaultValue< PropertyType >() ) );
 	SetPropertyValue< PropertyType >( prop, object, value );

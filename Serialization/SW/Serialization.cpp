@@ -65,7 +65,8 @@ void	Serialization::DefaultSerialize	( ISerializer* ser, const EngineObject* obj
 }
 
 
-
+// ================================ //
+//
 void	Serialization::DefaultSerializeImpl( ISerializer* ser, const rttr::instance& object, rttr::type dynamicType  )
 {
 	auto objectType = dynamicType;
@@ -78,6 +79,8 @@ void	Serialization::DefaultSerializeImpl( ISerializer* ser, const rttr::instance
 	ser->Exit();	// objectType.get_name()
 }
 
+// ================================ //
+//
 void	Serialization::SerializePropertiesVec	( ISerializer* ser, const rttr::instance& object, std::vector< rttr::property >& properties )
 {
 	for( auto& property : properties )
@@ -99,12 +102,20 @@ void	Serialization::SerializePropertiesVec	( ISerializer* ser, const rttr::insta
 	}
 }
 
+
 /**@brief Domyœlny tryb deserialziacji obiektów.
 
 Deserializowane s¹ wszystkie typy podstawowe.*/
 void	Serialization::DefaultDeserialize	( IDeserializer* deser, EngineObject* object )
 {
-	auto objectType = object->GetType();
+	DefaultDeserializeImpl( deser, object, object->GetType() );
+}
+
+// ================================ //
+//
+void	Serialization::DefaultDeserializeImpl	( IDeserializer* deser, const rttr::instance& object, rttr::type dynamicType )
+{
+	auto objectType = dynamicType;
 	auto& properties = Serialization::GetTypeFilteredProperties( objectType, deser->GetContext< EngineSerializationContext >() );
 
 	for( auto& property : properties )
@@ -113,7 +124,8 @@ void	Serialization::DefaultDeserialize	( IDeserializer* deser, EngineObject* obj
 		
 		DeserializeBasicTypes( deser, object, property ) ||
 		DeserializeVectorTypes( deser, object, property ) ||
-		DeserializeStringTypes( deser, object, property );
+		DeserializeStringTypes( deser, object, property ) ||
+		DeserializeEnumTypes( deser, object, property );
 	}
 }
 
@@ -262,18 +274,35 @@ Funkcja sprawdza typ w³asciwoœci i deserializuje go tylko je¿eli jest jednym z o
 przez ni¹ typów. W przeciwnym razie nie robi nic.
 
 @return Funkcja zwraca true, je¿eli uda³o jej siê obs³u¿yæ podany typ.*/
-bool Serialization::DeserializeBasicTypes( IDeserializer* deser, const EngineObject* object, rttr::property& prop )
+bool	Serialization::DeserializeBasicTypes( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
+
+	if( !propertyType.is_arithmetic() )
+		return false;
 		
 	if( propertyType == rttr::type::get< float >() )
 		Serialization::DeserializeProperty< float >( deser, prop, object );
-	else if( propertyType == rttr::type::get< double >() )
-		Serialization::DeserializeProperty< double >( deser, prop, object );
-	else if( propertyType == rttr::type::get< int >() )
-		Serialization::DeserializeProperty< int >( deser, prop, object );
 	else if( propertyType == rttr::type::get< bool >() )
 		Serialization::DeserializeProperty< bool >( deser, prop, object );
+	else if( propertyType == rttr::type::get< int32 >() )
+		Serialization::DeserializeProperty< int32 >( deser, prop, object );
+	else if( propertyType == rttr::type::get< uint32 >() )
+		Serialization::DeserializeProperty< uint32 >( deser, prop, object );
+	else if( propertyType == rttr::type::get< int16 >() )
+		Serialization::DeserializeProperty< int16 >( deser, prop, object );
+	else if( propertyType == rttr::type::get< uint16 >() )
+		Serialization::DeserializeProperty< uint16 >( deser, prop, object );
+	else if( propertyType == rttr::type::get< int8 >() )
+		Serialization::DeserializeProperty< int8 >( deser, prop, object );
+	else if( propertyType == rttr::type::get< uint8 >() )
+		Serialization::DeserializeProperty< uint8 >( deser, prop, object );
+	else if( propertyType == rttr::type::get< int64 >() )
+		Serialization::DeserializeProperty< int64 >( deser, prop, object );
+	else if( propertyType == rttr::type::get< uint64 >() )
+		Serialization::DeserializeProperty< uint64 >( deser, prop, object );
+	else if( propertyType == rttr::type::get< double >() )
+		Serialization::DeserializeProperty< double >( deser, prop, object );
 	else
 		return false;
 
@@ -281,7 +310,7 @@ bool Serialization::DeserializeBasicTypes( IDeserializer* deser, const EngineObj
 }
 
 /**@brief Deserializuje typy DirectXMath.*/
-bool Serialization::DeserializeVectorTypes( IDeserializer* deser, const EngineObject* object, rttr::property& prop )
+bool	Serialization::DeserializeVectorTypes( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
 
@@ -298,7 +327,7 @@ bool Serialization::DeserializeVectorTypes( IDeserializer* deser, const EngineOb
 }
 
 /**@brief Deserializuje std::string i std::wstring.*/
-bool Serialization::DeserializeStringTypes( IDeserializer* deser, const EngineObject* object, rttr::property& prop )
+bool	Serialization::DeserializeStringTypes( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
 
@@ -308,6 +337,27 @@ bool Serialization::DeserializeStringTypes( IDeserializer* deser, const EngineOb
 		Serialization::DeserializeProperty< std::wstring >( deser, prop, object );
 	else
 		return false;
+
+	return true;
+}
+
+/**@brief Deserializes enum properties from string.*/
+bool	Serialization::DeserializeEnumTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
+{
+	auto propertyType = prop.get_type();
+
+	if( !propertyType.is_enumeration() )
+		return false;
+	
+	assert( propertyType.is_valid() );		/// Type haven't been registered.
+	assert( propertyType.is_enumeration() );
+	
+	rttr::enumeration enumVal = propertyType.get_enumeration();
+
+	auto enumString = deser->GetAttribute( prop.get_name(), "" );
+	rttr::variant value = enumVal.name_to_value( enumString );
+
+	prop.set_value( object, value );
 
 	return true;
 }
@@ -334,6 +384,8 @@ template	void	Serialization::SerializeProperty< float >	( ISerializer* ser, rttr
 template	void	Serialization::SerializeProperty< double >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 template	void	Serialization::SerializeProperty< int >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 template	void	Serialization::SerializeProperty< bool >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
+template	void	Serialization::SerializeProperty< int8 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
+template	void	Serialization::SerializeProperty< uint8 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 template	void	Serialization::SerializeProperty< int16 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 template	void	Serialization::SerializeProperty< uint16 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 template	void	Serialization::SerializeProperty< int32 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
@@ -433,22 +485,22 @@ void			Serialization::SerializeProperty< std::wstring >	( ISerializer* ser, rttr
 //				DeserializeProperty template specialization
 //====================================================================================//
 
-template	void	Serialization::DeserializeProperty< unsigned int >	( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-template	void	Serialization::DeserializeProperty< float >			( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-template	void	Serialization::DeserializeProperty< double >		( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-template	void	Serialization::DeserializeProperty< int >			( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-template	void	Serialization::DeserializeProperty< bool >			( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-template	void	Serialization::DeserializeProperty< int16 >			( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-template	void	Serialization::DeserializeProperty< uint16 >		( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-template	void	Serialization::DeserializeProperty< int32 >			( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-template	void	Serialization::DeserializeProperty< uint32 >		( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-template	void	Serialization::DeserializeProperty< int64 >			( IDeserializer* deser, rttr::property prop, const EngineObject* object );
-template	void	Serialization::DeserializeProperty< uint64 >		( IDeserializer* deser, rttr::property prop, const EngineObject* object );
+template	void	Serialization::DeserializeProperty< unsigned int >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+template	void	Serialization::DeserializeProperty< float >			( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+template	void	Serialization::DeserializeProperty< double >		( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+template	void	Serialization::DeserializeProperty< int >			( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+template	void	Serialization::DeserializeProperty< bool >			( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+template	void	Serialization::DeserializeProperty< int16 >			( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+template	void	Serialization::DeserializeProperty< uint16 >		( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+template	void	Serialization::DeserializeProperty< int32 >			( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+template	void	Serialization::DeserializeProperty< uint32 >		( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+template	void	Serialization::DeserializeProperty< int64 >			( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+template	void	Serialization::DeserializeProperty< uint64 >		( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 
 
 /**@brief Specjalizacja dla DirectX::XMFLOAT3.*/
 template<>
-void			Serialization::DeserializeProperty< DirectX::XMFLOAT3* >	( IDeserializer* deser, rttr::property prop, const EngineObject* object )
+void			Serialization::DeserializeProperty< DirectX::XMFLOAT3* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object )
 {
 	deser->EnterObject( prop.get_name() );
 
@@ -464,7 +516,7 @@ void			Serialization::DeserializeProperty< DirectX::XMFLOAT3* >	( IDeserializer*
 
 /**@brief Specjalizacja dla DirectX::XMFLOAT2.*/
 template<>
-void			Serialization::DeserializeProperty< DirectX::XMFLOAT2* >	( IDeserializer* deser, rttr::property prop, const EngineObject* object )
+void			Serialization::DeserializeProperty< DirectX::XMFLOAT2* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object )
 {
 	deser->EnterObject( prop.get_name() );
 
@@ -479,7 +531,7 @@ void			Serialization::DeserializeProperty< DirectX::XMFLOAT2* >	( IDeserializer*
 
 /**@brief Specjalizacja dla DirectX::XMFLOAT4.*/
 template<>
-void			Serialization::DeserializeProperty< DirectX::XMFLOAT4* >	( IDeserializer* deser, rttr::property prop, const EngineObject* object )
+void			Serialization::DeserializeProperty< DirectX::XMFLOAT4* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object )
 {
 	deser->EnterObject( prop.get_name() );
 
@@ -496,7 +548,7 @@ void			Serialization::DeserializeProperty< DirectX::XMFLOAT4* >	( IDeserializer*
 
 /**@brief Specjalizacja dla std::wstring.*/
 template<>
-void			Serialization::DeserializeProperty< std::wstring >	( IDeserializer* deser, rttr::property prop, const EngineObject* object )
+void			Serialization::DeserializeProperty< std::wstring >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object )
 {
 	std::wstring str = GetPropertyValue< std::wstring >( prop, object );
 	SetPropertyValue( prop, object, UTFToWstring( deser->GetAttribute( prop.get_name(), TypeDefaultValue< std::string >() ) ) );
