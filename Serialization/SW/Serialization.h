@@ -38,6 +38,7 @@ public:
 	static bool				DeserializeVectorTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
 	static bool				DeserializeStringTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
 	static bool				DeserializeEnumTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
+	static bool				DeserializeArrayTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
 	static bool				DeserializeObjectTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
 
 

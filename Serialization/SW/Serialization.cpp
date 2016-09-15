@@ -127,6 +127,7 @@ void	Serialization::DefaultDeserializeImpl	( IDeserializer* deser, const rttr::i
 		deserialized = deserialized || DeserializeStringTypes( deser, object, property );
 		deserialized = deserialized || DeserializeEnumTypes( deser, object, property );
 		deserialized = deserialized || DeserializeObjectTypes( deser, object, property );
+		deserialized = deserialized || DeserializeArrayTypes( deser, object, property );
 	}
 }
 
@@ -370,6 +371,81 @@ bool	Serialization::DeserializeEnumTypes	( IDeserializer* deser, const rttr::ins
 	prop.set_value( object, value );
 
 	return true;
+}
+
+/**@brief Deserializes arrays.
+
+@return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
+bool	Serialization::DeserializeArrayTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
+{
+	TypeID propertyType = prop.get_type();
+	if( !propertyType.is_array() )
+		return false;
+
+	auto arrayVariant = prop.get_value( object );
+	auto arrayView = arrayVariant.create_array_view();
+	
+	assert( arrayView.is_valid() );
+	assert( arrayView.get_rank() == 1 );
+	if( arrayView.get_rank() != 1 )
+		return true;
+
+	TypeID arrayElementType = arrayView.get_rank_type( 1 );
+	assert( arrayElementType.is_class() || arrayElementType.get_raw_type().is_class() );
+	if( !arrayElementType.is_class() && !arrayElementType.get_raw_type().is_class() )
+		return true;
+
+	deser->EnterArray( prop.get_name() );
+	
+	if( arrayView.is_dynamic() )
+	{
+		// Array size is should be only hint for deserialization.
+		auto arraySize = deser->GetAttribute( "ArraySize", 0 );
+		if( arraySize != 0 )
+			arrayView.set_size( arraySize );
+	}
+
+	int idx = 0;
+	if( deser->FirstElement() )
+	{
+		do
+		{
+			// Resize array if it's posible.
+			if( arrayView.get_size() <= idx )
+			{
+				if( arrayView.is_dynamic() )
+					arrayView.set_size( idx + 1 );	// Performance penalty. Resizing vector each time by one element.
+				else
+				{
+					assert( !"Trying to insert to static array more elements then exists." );
+					/// @todo Error handling.
+				}
+			}
+
+			// Process generic objects. We must get real object type.
+			if( arrayElementType.is_pointer() )
+			{
+				assert( !"Implement me" );
+			
+				//EngineObject* engineObject = element.get_value< EngineObject* >();
+				//engineObject->Deserialize( deser );
+			}
+			else
+			{
+				auto element = arrayView.get_value_as_ptr( idx );
+
+				// Non generic objects use default deserialization.
+				DefaultDeserializeImpl( deser, element, arrayElementType );
+			}
+
+			idx++;
+		} while( deser->NextElement() );
+	}
+
+
+	deser->Exit();
+
+	return false;
 }
 
 /**@brief Deserializes structures and generic objects.
