@@ -15,5 +15,11 @@
   <PropertyGroup>
     <_PropertySheetDisplayName>Paths</_PropertySheetDisplayName>
   </PropertyGroup>
+  
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SourceDir)CommonLibrary/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
 
 </Project>
