@@ -9,27 +9,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\CommonLibrary\Serialization\Serializers\SerializerJson\Deserializer.cpp">
+    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerJson\Deserializer.cpp">
       <Filter>SerializerJSON</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonLibrary\Serialization\Serializers\SerializerJson\ErrorCodes.cpp">
+    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerJson\ErrorCodes.cpp">
       <Filter>SerializerJSON</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonLibrary\Serialization\Serializers\SerializerJson\Serializer.cpp">
+    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerJson\Serializer.cpp">
       <Filter>SerializerJSON</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\Serializers\SerializerJson\ErrorCodes.h">
+    <ClInclude Include="..\..\..\Serialization\Serializers\SerializerJson\ErrorCodes.h">
       <Filter>SerializerJSON</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\Deserializer.h">
+    <ClInclude Include="..\..\..\Serialization\Deserializer.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\SerializationContext.h">
+    <ClInclude Include="..\..\..\Serialization\SerializationContext.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\Serializer.h">
+    <ClInclude Include="..\..\..\Serialization\Serializer.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>

@@ -19,15 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\CommonLibrary\Serialization\Serializers\SerializerJson\Deserializer.cpp" />
-    <ClCompile Include="..\..\..\CommonLibrary\Serialization\Serializers\SerializerJson\ErrorCodes.cpp" />
-    <ClCompile Include="..\..\..\CommonLibrary\Serialization\Serializers\SerializerJson\Serializer.cpp" />
+    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerJson\Deserializer.cpp" />
+    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerJson\ErrorCodes.cpp" />
+    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerJson\Serializer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\Deserializer.h" />
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\SerializationContext.h" />
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\Serializer.h" />
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\Serializers\SerializerJson\ErrorCodes.h" />
+    <ClInclude Include="..\..\..\Serialization\Deserializer.h" />
+    <ClInclude Include="..\..\..\Serialization\SerializationContext.h" />
+    <ClInclude Include="..\..\..\Serialization\Serializer.h" />
+    <ClInclude Include="..\..\..\Serialization\Serializers\SerializerJson\ErrorCodes.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D8738375-5855-4241-8CB9-63FFE08E1B96}</ProjectGuid>

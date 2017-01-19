@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\CommonLibrary\Serialization\Serializers\SerializerXML\Deserializer.cpp" />
-    <ClCompile Include="..\..\..\CommonLibrary\Serialization\Serializers\SerializerXML\Serializer.cpp" />
+    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerXML\Deserializer.cpp" />
+    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerXML\Serializer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{91CC6D16-F22C-434A-95E0-35EE857054C7}</ProjectGuid>

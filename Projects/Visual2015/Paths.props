@@ -4,13 +4,13 @@
   
   <PropertyGroup Label="UserMacros">
 	<RootDir>$(SolutionDir)\</RootDir>
-	<ProjectsDir>$(RootDir)CommonLibrary\Projects\</ProjectsDir>
-	<LibDir>$(RootDir)LibDir\</LibDir>
-	<BuildDir>$(RootDir)BuildDir\</BuildDir>
-	<SourceDir>$(RootDir)</SourceDir>
-	
-	<ExternalDir>$(RootDir)External\</ExternalDir>
+	<ProjectsDir>$(RootDir)Projects\</ProjectsDir>
 	<TestsDir>$(RootDir)Tests\</TestsDir>
+	<ReleaseDir>$(RootDir)ReleaseDir\</ReleaseDir>
+	<LibDir>$(ReleaseDir)LibDir\</LibDir>
+	<BuildDir>$(ReleaseDir)BuildDir\</BuildDir>
+	<SourceDir>$(RootDir)</SourceDir>
+	<ExternalDir>$(RootDir)External\</ExternalDir>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -19,7 +19,7 @@
   
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SourceDir)CommonLibrary/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(RootDir);$(RootDir)Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	  <PreprocessorDefinitions>RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>

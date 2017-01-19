@@ -12,35 +12,35 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\PropertySerialization\EngineSerializationContext.h">
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineSerializationContext.h">
       <Filter>PropertySerialization</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\PropertySerialization\Serialization.h">
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\Serialization.h">
       <Filter>PropertySerialization</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\Deserializer.h">
+    <ClInclude Include="..\..\..\Serialization\Deserializer.h">
       <Filter>Serializer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\SerializationContext.h">
+    <ClInclude Include="..\..\..\Serialization\SerializationContext.h">
       <Filter>Serializer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\Serializer.h">
+    <ClInclude Include="..\..\..\Serialization\Serializer.h">
       <Filter>Serializer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\Serialization\PropertySerialization\stdafx.h">
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\stdafx.h">
       <Filter>PrecompiledHeader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\CommonLibrary\Serialization\PropertySerialization\Serialization.cpp">
+    <ClCompile Include="..\..\..\Serialization\PropertySerialization\Serialization.cpp">
       <Filter>PropertySerialization</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonLibrary\Serialization\PropertySerialization\stdafx.cpp">
+    <ClCompile Include="..\..\..\Serialization\PropertySerialization\stdafx.cpp">
       <Filter>PrecompiledHeader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\CommonLibrary\Serialization\PropertySerialization\Serialization.inl">
+    <None Include="..\..\..\Serialization\PropertySerialization\Serialization.inl">
       <Filter>PropertySerialization</Filter>
     </None>
   </ItemGroup>

@@ -147,7 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\CommonLibrary\Tests\SerializerTest\SerializationMain.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\SerializationMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Reflection\Reflection.vcxproj">

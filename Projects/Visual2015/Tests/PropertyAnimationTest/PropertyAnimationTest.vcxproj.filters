@@ -6,33 +6,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\CommonLibrary\Tests\PropertyAnimationTest\AnimationClassTest.cpp">
+    <ClCompile Include="..\..\..\..\Tests\PropertyAnimationTest\AnimationClassTest.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\CommonLibrary\Tests\PropertyAnimationTest\FakeTimeline.cpp">
+    <ClCompile Include="..\..\..\..\Tests\PropertyAnimationTest\FakeTimeline.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\CommonLibrary\Tests\PropertyAnimationTest\InterpolatorsTest.cpp">
+    <ClCompile Include="..\..\..\..\Tests\PropertyAnimationTest\InterpolatorsTest.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\CommonLibrary\Tests\PropertyAnimationTest\main.cpp">
+    <ClCompile Include="..\..\..\..\Tests\PropertyAnimationTest\main.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\CommonLibrary\Tests\PropertyAnimationTest\PropertyHelpersTest.cpp">
+    <ClCompile Include="..\..\..\..\Tests\PropertyAnimationTest\PropertyHelpersTest.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\CommonLibrary\Tests\PropertyAnimationTest\TestClasses.cpp">
+    <ClCompile Include="..\..\..\..\Tests\PropertyAnimationTest\TestClasses.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\CommonLibrary\Tests\PropertyAnimationTest\TimelinesTest.cpp">
+    <ClCompile Include="..\..\..\..\Tests\PropertyAnimationTest\TimelinesTest.cpp">
       <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\CommonLibrary\Tests\PropertyAnimationTest\FakeTimeline.h">
+    <ClInclude Include="..\..\..\..\Tests\PropertyAnimationTest\FakeTimeline.h">
       <Filter>Test</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\CommonLibrary\Tests\PropertyAnimationTest\TestClasses.h">
+    <ClInclude Include="..\..\..\..\Tests\PropertyAnimationTest\TestClasses.h">
       <Filter>Test</Filter>
     </ClInclude>
   </ItemGroup>

@@ -18,71 +18,71 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\CommonLibrary\ParameterAnimation\Interpolators\DefaultInterpolators.cpp">
+    <ClCompile Include="..\..\..\ParameterAnimation\Interpolators\DefaultInterpolators.cpp">
       <Filter>ParameterAnimation\Interpolators</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonLibrary\ParameterAnimation\Timelines\RelativeTimeline.cpp">
+    <ClCompile Include="..\..\..\ParameterAnimation\Timelines\RelativeTimeline.cpp">
       <Filter>ParameterAnimation\Timelines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonLibrary\ParameterAnimation\Timelines\TimelineBase.cpp">
+    <ClCompile Include="..\..\..\ParameterAnimation\Timelines\TimelineBase.cpp">
       <Filter>ParameterAnimation\Timelines</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Interpolators\DefaultInterpolators.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Interpolators\DefaultInterpolators.h">
       <Filter>ParameterAnimation\Interpolators</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Interpolators\DiscreteInterpolator.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Interpolators\DiscreteInterpolator.h">
       <Filter>ParameterAnimation\Interpolators</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Interpolators\IInterpolator.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Interpolators\IInterpolator.h">
       <Filter>ParameterAnimation\Interpolators</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Interpolators\LinearInterpolator.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Interpolators\LinearInterpolator.h">
       <Filter>ParameterAnimation\Interpolators</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Animation\Animation.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Animation\Animation.h">
       <Filter>ParameterAnimation\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Animation\AnimationSet.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Animation\AnimationSet.h">
       <Filter>ParameterAnimation\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Animation\AnimEvaluator.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Animation\AnimEvaluator.h">
       <Filter>ParameterAnimation\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Animation\IAnimation.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Animation\IAnimation.h">
       <Filter>ParameterAnimation\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Timelines\RelativeTimeline.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Timelines\RelativeTimeline.h">
       <Filter>ParameterAnimation\Timelines</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Timelines\TimelineBase.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Timelines\TimelineBase.h">
       <Filter>ParameterAnimation\Timelines</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Timelines\TimelineTypes.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Timelines\TimelineTypes.h">
       <Filter>ParameterAnimation\Timelines</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Parameters\DirectPropertyh.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Parameters\DirectPropertyh.h">
       <Filter>ParameterAnimation\Parameters</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Parameters\PropertyPath.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Parameters\PropertyPath.h">
       <Filter>ParameterAnimation\Parameters</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Parameters\StringPropertyPath.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Parameters\StringPropertyPath.h">
       <Filter>ParameterAnimation\Parameters</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\Key.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\Key.h">
       <Filter>ParameterAnimation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\CommonLibrary\ParameterAnimation\KeySet.h">
+    <ClInclude Include="..\..\..\ParameterAnimation\KeySet.h">
       <Filter>ParameterAnimation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\CommonLibrary\ParameterAnimation\Interpolators\DefaultInterpolators.inl">
+    <None Include="..\..\..\ParameterAnimation\Interpolators\DefaultInterpolators.inl">
       <Filter>ParameterAnimation\Interpolators</Filter>
     </None>
-    <None Include="..\..\..\CommonLibrary\ParameterAnimation\Animation\Animation.inl">
+    <None Include="..\..\..\ParameterAnimation\Animation\Animation.inl">
       <Filter>ParameterAnimation\Animation</Filter>
     </None>
   </ItemGroup>
