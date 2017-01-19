@@ -4,10 +4,11 @@
   
   <PropertyGroup Label="UserMacros">
 	<RootDir>$(SolutionDir)\</RootDir>
+	<ProjectsDir>$(RootDir)CommonLibrary\Projects\</ProjectsDir>
 	<LibDir>$(RootDir)LibDir\</LibDir>
 	<BuildDir>$(RootDir)BuildDir\</BuildDir>
 	<SourceDir>$(RootDir)</SourceDir>
-	<ProjectsDir>$(RootDir)Projects\</ProjectsDir>
+	
 	<ExternalDir>$(RootDir)External\</ExternalDir>
 	<TestsDir>$(RootDir)Tests\</TestsDir>
   </PropertyGroup>
