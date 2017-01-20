@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   
   <PropertyGroup Label="UserMacros">
-	<RootDir>$(SolutionDir)\</RootDir>
+	<RootDir>$(MSBuildThisFileDirectory)..\..\</RootDir>
 	<ProjectsDir>$(RootDir)Projects\</ProjectsDir>
 	<TestsDir>$(RootDir)Tests\</TestsDir>
 	<ReleaseDir>$(RootDir)ReleaseDir\</ReleaseDir>
