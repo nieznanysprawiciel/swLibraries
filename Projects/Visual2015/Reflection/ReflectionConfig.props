@@ -14,7 +14,6 @@
   
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SourceDir);$(SourceDir)CommonLibrary/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	  <PreprocessorDefinitions>RTTR_DLL;RTTR_DLL_EXPORTS;CMAKE_INTDIR="Debug";TypeInfo_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 	</ClCompile>
   </ItemDefinitionGroup>

@@ -14,9 +14,9 @@
   
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SourceDir);$(ExternalDir)/RapidJSON/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ExternalDir)/RapidJSON/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	</ClCompile>
-	
+  
     <Link>
       <AdditionalLibraryDirectories>$(SerializerJsonLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(SerializerJsonFileName).lib;%(AdditionalDependencies)</AdditionalDependencies>

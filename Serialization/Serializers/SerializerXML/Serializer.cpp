@@ -1,7 +1,7 @@
-#include "CommonLibrary/Serialization/Serializer.h"
+#include "swCommonLibraries/Serialization/Serializer.h"
 
-#include "RapidXML/rapidxml.hpp"
-#include "RapidXML/rapidxml_print.hpp"
+#include "swCommonLibraries/External/RapidXML/rapidxml.hpp"
+#include "swCommonLibraries/External/RapidXML/rapidxml_print.hpp"
 
 #include <fstream>
 #include <stack>

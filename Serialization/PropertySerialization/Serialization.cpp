@@ -1,4 +1,4 @@
-#include "CommonLibrary/Serialization/PropertySerialization/stdafx.h"
+#include "swCommonLibraries/Serialization/PropertySerialization/stdafx.h"
 #include "Serialization.h"
 
 #include <codecvt>

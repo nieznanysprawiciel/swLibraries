@@ -1,11 +1,11 @@
 #pragma once
 
-#include "CommonLibrary/Common/EngineObject.h"
-#include "CommonLibrary/Common/RTTR.h"
-#include "CommonLibrary/Serialization/Serializer.h"
-#include "CommonLibrary/Serialization/Deserializer.h"
+#include "swCommonLibraries/Common/EngineObject.h"
+#include "swCommonLibraries/Common/RTTR.h"
+#include "swCommonLibraries/Serialization/Serializer.h"
+#include "swCommonLibraries/Serialization/Deserializer.h"
 
-#include "CommonLibrary/Serialization/PropertySerialization/EngineSerializationContext.h"
+#include "swCommonLibraries/Serialization/PropertySerialization/EngineSerializationContext.h"
 #include <DirectXMath.h>
 #include <string>
 

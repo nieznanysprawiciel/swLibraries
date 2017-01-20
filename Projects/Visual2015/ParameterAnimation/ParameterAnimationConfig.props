@@ -12,12 +12,6 @@
     <ParameterAnimationBuildDir>$(BuildDir)$(ParameterAnimationName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</ParameterAnimationBuildDir>
   </PropertyGroup>
   
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <AdditionalIncludeDirectories>$(SourceDir);$(SourceDir)\Reflection=\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-	</ClCompile>
-  </ItemDefinitionGroup>
-  
   <PropertyGroup>
     <IntDir>$(ParameterAnimationBuildDir)</IntDir>
     <TargetName>$(ParameterAnimationFileName)</TargetName>

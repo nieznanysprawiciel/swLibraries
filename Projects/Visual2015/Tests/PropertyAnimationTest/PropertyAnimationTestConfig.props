@@ -12,12 +12,6 @@
     <PropertyAnimationTestBuildDir>$(BuildDir)$(PropertyAnimationTestName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</PropertyAnimationTestBuildDir>
   </PropertyGroup>
   
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <AdditionalIncludeDirectories>$(SourceDir);$(ExternalDir);$(SourceDir)\Reflection\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-	</ClCompile>
-  </ItemDefinitionGroup>
-  
   <PropertyGroup>
     <IntDir>$(PropertyAnimationTestBuildDir)</IntDir>
     <TargetName>$(PropertyAnimationTestFileName)</TargetName>

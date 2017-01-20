@@ -14,7 +14,6 @@
   
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SourceDir);$(ExternalDir)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	  <PreprocessorDefinitions>TEST_JSON;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 	</ClCompile>
   </ItemDefinitionGroup>

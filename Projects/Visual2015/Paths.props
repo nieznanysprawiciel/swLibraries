@@ -9,6 +9,7 @@
 	<ReleaseDir>$(RootDir)ReleaseDir\</ReleaseDir>
 	<LibDir>$(ReleaseDir)LibDir\</LibDir>
 	<BuildDir>$(ReleaseDir)BuildDir\</BuildDir>
+	<SourceInclude>$(RootDir)..\</SourceInclude>
 	<SourceDir>$(RootDir)</SourceDir>
 	<ExternalDir>$(RootDir)External\</ExternalDir>
   </PropertyGroup>
@@ -19,7 +20,7 @@
   
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(RootDir);$(RootDir)Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SourceInclude);$(SourceInclude)swCommonLibraries/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	  <PreprocessorDefinitions>RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>

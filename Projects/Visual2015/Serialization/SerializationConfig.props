@@ -12,12 +12,6 @@
     <SerializationBuildDir>$(BuildDir)$(SerializationName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</SerializationBuildDir>
   </PropertyGroup>
   
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <AdditionalIncludeDirectories>$(SourceDir);$(SourceDir)CommonLibrary/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-	</ClCompile>
-  </ItemDefinitionGroup>
-  
   <PropertyGroup>
     <IntDir>$(SerializationBuildDir)</IntDir>
     <TargetName>$(SerializationFileName)</TargetName>

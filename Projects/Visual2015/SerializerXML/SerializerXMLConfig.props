@@ -13,10 +13,6 @@
   </PropertyGroup>
   
   <ItemDefinitionGroup>
-    <ClCompile>
-      <AdditionalIncludeDirectories>$(SourceDir);$(ExternalDir)\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-	</ClCompile>
-	
     <Link>
       <AdditionalLibraryDirectories>$(SerializerXMLLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(SerializerXMLFileName).lib;%(AdditionalDependencies)</AdditionalDependencies>

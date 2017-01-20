@@ -1,7 +1,7 @@
 #pragma once
 
-#include "CommonLibrary/Common/RTTR.h"
-#include "CommonLibrary/Serialization/SerializationContext.h"
+#include "swCommonLibraries/Common/RTTR.h"
+#include "swCommonLibraries/Serialization/SerializationContext.h"
 
 #include <map>
 #include <vector>

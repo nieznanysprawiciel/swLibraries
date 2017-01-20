@@ -14,9 +14,8 @@
   
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SourceDir);$(ExternalDir);$(SourceDir)/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-	  <PreprocessorDefinitions>RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-	</ClCompile>
+      <AdditionalIncludeDirectories>$(SourceDir)External/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
   </ItemDefinitionGroup>
   
   <PropertyGroup>
