@@ -28,6 +28,7 @@
     <ClInclude Include="..\..\..\ParameterAnimation\Animation\AnimationSet.h" />
     <ClInclude Include="..\..\..\ParameterAnimation\Animation\AnimEvaluator.h" />
     <ClInclude Include="..\..\..\ParameterAnimation\Animation\IAnimation.h" />
+    <ClInclude Include="..\..\..\ParameterAnimation\Interpolators\CosinusInterpolator.h" />
     <ClInclude Include="..\..\..\ParameterAnimation\Interpolators\DefaultInterpolators.h" />
     <ClInclude Include="..\..\..\ParameterAnimation\Interpolators\DiscreteInterpolator.h" />
     <ClInclude Include="..\..\..\ParameterAnimation\Interpolators\IInterpolator.h" />
