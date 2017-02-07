@@ -1,6 +1,6 @@
-#include "swCommonLibraries/Serialization/Deserializer.h"
+#include "swCommonLib/Serialization/Deserializer.h"
 
-#include "swCommonLibraries/External/RapidXML/rapidxml.hpp"
+#include "swCommonLib/External/RapidXML/rapidxml.hpp"
 
 
 #include <fstream>

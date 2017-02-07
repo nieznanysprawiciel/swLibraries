@@ -5,8 +5,8 @@
 
 @brief Deklaracja klasy serializatora.*/
 
-#include "swCommonLibraries/Common/TypesDefinitions.h"
-#include "swCommonLibraries/Serialization/SerializationContext.h"
+#include "swCommonLib/Common/TypesDefinitions.h"
+#include "swCommonLib/Serialization/SerializationContext.h"
 
 #include <string>
 #include <assert.h>

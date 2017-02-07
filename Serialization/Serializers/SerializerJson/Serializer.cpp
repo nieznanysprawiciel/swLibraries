@@ -1,4 +1,4 @@
-#include "swCommonLibraries/Serialization/Serializer.h"
+#include "swCommonLib/Serialization/Serializer.h"
 
 
 #define RAPIDJSON_HAS_STDSTRING 1
