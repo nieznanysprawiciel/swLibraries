@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Attribute.cpp" />
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Attributes\ChunkNameAttrib.cpp" />
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Chunk.cpp" />
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\HCF.cpp" />

@@ -33,6 +33,9 @@
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Attributes\ChunkNameAttrib.cpp">
       <Filter>HCF\Attributes</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Attribute.cpp">
+      <Filter>HCF\Internal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\stdafx.h">
