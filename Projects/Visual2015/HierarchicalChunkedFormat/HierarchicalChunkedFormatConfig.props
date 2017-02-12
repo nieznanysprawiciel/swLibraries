@@ -21,7 +21,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <PrecompiledHeaderFile>swCommonLib/Tests/TestHCF/stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>swCommonLib/HierarchicalChunkedFormat/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>

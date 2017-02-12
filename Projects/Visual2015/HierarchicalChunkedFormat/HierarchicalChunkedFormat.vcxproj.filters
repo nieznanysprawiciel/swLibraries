@@ -10,10 +10,19 @@
     <Filter Include="HCF\Headers">
       <UniqueIdentifier>{6e82b0ad-ccf1-4cb0-bf3b-eac1028d9dc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HCF\Internal">
+      <UniqueIdentifier>{139fee55-610e-4a1b-af44-ed33bc59a502}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\stdafx.cpp">
       <Filter>PrecompiledHeader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\HCF.cpp">
+      <Filter>HCF</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Chunk.cpp">
+      <Filter>HCF</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -28,6 +37,21 @@
     </ClInclude>
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Headers\ChunkHeader.h">
       <Filter>HCF\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\HCF.h">
+      <Filter>HCF</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Headers\AttributeHeader.h">
+      <Filter>HCF\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Headers\AttributeTypes.h">
+      <Filter>HCF\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Chunk.h">
+      <Filter>HCF</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Internal\ChunkRepr.h">
+      <Filter>HCF\Internal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
