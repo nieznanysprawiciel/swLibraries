@@ -19,8 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Attributes\ChunkNameAttrib.cpp" />
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Chunk.cpp" />
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\HCF.cpp" />
+    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Internal\AttributeRepr.cpp" />
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">swCommonLib/Tests/TestHCF/stdafx.h</PrecompiledHeaderFile>
@@ -33,12 +35,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Attribute.h" />
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Attributes\AttributeTypes.h" />
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Attributes\ChunkNameAttrib.h" />
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Attributes\IAttribute.h" />
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Chunk.h" />
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\HCF.h" />
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Headers\AttributeHeader.h" />
-    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Headers\AttributeTypes.h" />
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Headers\ChunkHeader.h" />
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Headers\FileHeader.h" />
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Internal\AttributeRepr.h" />
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Internal\ChunkRepr.h" />
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\stdafx.h" />
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\targetver.h" />
