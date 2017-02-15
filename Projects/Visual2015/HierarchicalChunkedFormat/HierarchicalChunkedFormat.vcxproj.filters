@@ -21,23 +21,26 @@
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\stdafx.cpp">
       <Filter>PrecompiledHeader</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\HCF.cpp">
+    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Attributes\ChunkNameAttrib.cpp">
+      <Filter>HCF\Attributes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Attribute.cpp">
       <Filter>HCF</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Chunk.cpp">
       <Filter>HCF</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\HCF.cpp">
+      <Filter>HCF</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Internal\AttributeRepr.cpp">
       <Filter>HCF\Internal</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Attributes\ChunkNameAttrib.cpp">
-      <Filter>HCF\Attributes</Filter>
+    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Internal\ChunkRepr.cpp">
+      <Filter>HCF\Internal</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Internal\ImplHCF.cpp">
       <Filter>HCF\Internal</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Attribute.cpp">
-      <Filter>HCF</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,17 +56,8 @@
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Headers\ChunkHeader.h">
       <Filter>HCF\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\HCF.h">
-      <Filter>HCF</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Headers\AttributeHeader.h">
       <Filter>HCF\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Chunk.h">
-      <Filter>HCF</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Internal\ChunkRepr.h">
-      <Filter>HCF\Internal</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Attributes\AttributeTypes.h">
       <Filter>HCF\Attributes</Filter>
@@ -71,14 +65,23 @@
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Attributes\IAttribute.h">
       <Filter>HCF\Attributes</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Attributes\ChunkNameAttrib.h">
+      <Filter>HCF\Attributes</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Attribute.h">
+      <Filter>HCF</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Chunk.h">
+      <Filter>HCF</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\HCF.h">
       <Filter>HCF</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Internal\AttributeRepr.h">
       <Filter>HCF\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Attributes\ChunkNameAttrib.h">
-      <Filter>HCF\Attributes</Filter>
+    <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Internal\ChunkRepr.h">
+      <Filter>HCF\Internal</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\HierarchicalChunkedFormat\Internal\ImplHCF.h">
       <Filter>HCF\Internal</Filter>

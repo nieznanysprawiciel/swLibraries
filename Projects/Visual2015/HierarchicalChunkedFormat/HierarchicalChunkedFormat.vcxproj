@@ -24,6 +24,7 @@
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Chunk.cpp" />
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\HCF.cpp" />
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Internal\AttributeRepr.cpp" />
+    <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Internal\ChunkRepr.cpp" />
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\Internal\ImplHCF.cpp" />
     <ClCompile Include="..\..\..\HierarchicalChunkedFormat\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
