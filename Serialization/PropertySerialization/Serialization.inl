@@ -76,6 +76,22 @@ namespace sw
 template< typename Type >
 inline bool			Serialization::Serialize		( const filesystem::Path& filePath, const Type& object )
 {
+	ISerializer ser( std::static_pointer_cast< ISerializationContext >( m_context ) );
+
+	if( Serialize< Type >( ser, object ) )
+	{
+		/// @todo Create directories if doesn't exist.
+		return ser.SaveFile( filePath.String() );
+	}
+
+	return false;
+}
+
+// ================================ //
+//
+template< typename Type >
+inline bool			Serialization::Serialize		( ISerializer& ser, const Type& object )
+{
 	return false;
 }
 

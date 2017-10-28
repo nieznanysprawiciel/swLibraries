@@ -10,6 +10,9 @@
     <Filter Include="Serializer">
       <UniqueIdentifier>{06d2f42b-7176-414b-b33e-7df3e6ee02c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PropertySerialization\Core">
+      <UniqueIdentifier>{41de06a4-49ec-4d34-bcac-f0da2a91a02c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineSerializationContext.h">
@@ -33,6 +36,9 @@
     <ClInclude Include="..\..\..\Serialization\ISerializationContext.h">
       <Filter>Serializer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.h">
+      <Filter>PropertySerialization\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\Serialization.cpp">
@@ -41,10 +47,16 @@
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\stdafx.cpp">
       <Filter>PrecompiledHeader</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.cpp">
+      <Filter>PropertySerialization\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Serialization\PropertySerialization\Serialization.inl">
       <Filter>PropertySerialization</Filter>
+    </None>
+    <None Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.inl">
+      <Filter>PropertySerialization\Core</Filter>
     </None>
   </ItemGroup>
 </Project>

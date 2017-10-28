@@ -26,4 +26,5 @@ public:
 
 };
 
+DEFINE_PTR_TYPE( ISerializationContext )
 

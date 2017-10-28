@@ -39,7 +39,7 @@ public:
 	virtual		~SerializationContext() = default;
 };
 
-DEFINE_UPTR_TYPE( SerializationContext )
+DEFINE_PTR_TYPE( SerializationContext )
 
 
 }	// sw

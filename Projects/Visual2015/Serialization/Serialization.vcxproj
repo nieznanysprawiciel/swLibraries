@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Serialization\Deserializer.h" />
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.h" />
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineSerializationContext.h" />
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\Serialization.h" />
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\SerializationContext.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="..\..\..\Serialization\Serializer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.cpp" />
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\Serialization.cpp" />
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\stdafx.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">swCommonLib\Serialization\PropertySerialization\stdafx.h</PrecompiledHeaderFile>
@@ -41,6 +43,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.inl" />
     <None Include="..\..\..\Serialization\PropertySerialization\Serialization.inl" />
   </ItemGroup>
   <ItemGroup>

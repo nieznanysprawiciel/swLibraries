@@ -36,10 +36,10 @@ class ISerializer
 {
 private:
 	SerializerImpl*								impl;
-	std::unique_ptr< ISerializationContext >		context;
+	ISerializationContextPtr					context;
 protected:
 public:
-	explicit	ISerializer		( std::unique_ptr< ISerializationContext > serContext );
+	explicit	ISerializer		( ISerializationContextPtr serContext );
 	virtual		~ISerializer	();
 
 	void		EnterObject		( const std::string& name );

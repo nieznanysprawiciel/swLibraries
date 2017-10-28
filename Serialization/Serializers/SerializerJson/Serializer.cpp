@@ -62,8 +62,8 @@ inline void WriteToStreamBuffer( rapidjson::StringBuffer& buffer, rapidjson::Doc
 
 
 /**@brief Konstruktor*/
-ISerializer::ISerializer( std::unique_ptr< ISerializationContext > serContext )
-	: context( std::move( serContext ) )
+ISerializer::ISerializer( ISerializationContextPtr serContext )
+	: context( serContext )
 {
 	impl = new SerializerImpl;
 	rapidjson::Value newObject( rapidjson::kObjectType );
