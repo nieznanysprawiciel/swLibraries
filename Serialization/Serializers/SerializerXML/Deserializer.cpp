@@ -29,7 +29,7 @@ IDeserializer::IDeserializer()
 	impl = new DeserializerImpl;
 }
 
-IDeserializer::IDeserializer( std::unique_ptr< SerializationContext > serContext )
+IDeserializer::IDeserializer( std::unique_ptr< ISerializationContext > serContext )
 	: context( std::move( serContext ) )
 {
 	impl = new DeserializerImpl;

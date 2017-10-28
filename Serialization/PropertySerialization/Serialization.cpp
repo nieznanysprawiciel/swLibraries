@@ -1,3 +1,10 @@
+/**
+@file Serialization.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
+
 #include "swCommonLib/Serialization/PropertySerialization/stdafx.h"
 #include "Serialization.h"
 
@@ -708,3 +715,55 @@ void			Serialization::DeserializeProperty< std::wstring >	( IDeserializer* deser
 	std::wstring str = GetPropertyValue< std::wstring >( prop, object );
 	SetPropertyValue( prop, object, UTFToWstring( deser->GetAttribute( prop.get_name().to_string(), TypeDefaultValue< std::string >() ) ) );
 }
+
+
+//====================================================================================//
+//			New implementation	
+//====================================================================================//
+
+
+
+namespace sw
+{
+
+
+//====================================================================================//
+//			Initialziation	
+//====================================================================================//
+
+// ================================ //
+//
+Serialization::Serialization		()
+	:	m_context( new SerializationContext )
+{
+	InitializeContext( m_context.get() );
+}
+
+// ================================ //
+//
+Serialization::Serialization		( SerializationContextUPtr&& ctx )
+	:	m_context( std::move( ctx ) )
+{
+	InitializeContext( m_context.get() );
+}
+
+// ================================ //
+//
+void			Serialization::InitializeContext		( SerializationContext* ctx )
+{}
+
+//====================================================================================//
+//			Serialization	
+//====================================================================================//
+
+
+// ================================ //
+//
+bool			Serialization::Serialize				( const filesystem::Path& filePath, const EngineObject* object )
+{
+	return false;
+}
+
+}	// sw
+
+

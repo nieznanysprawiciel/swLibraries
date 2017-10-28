@@ -6,7 +6,7 @@
 @brief Deklaracja klasy deserializatora.*/
 
 #include "swCommonLib/Common/TypesDefinitions.h"
-#include "swCommonLib/Serialization/SerializationContext.h"
+#include "swCommonLib/Serialization/ISerializationContext.h"
 
 #include <string>
 #include <memory>
@@ -39,11 +39,11 @@ class IDeserializer
 {
 private:
 	DeserializerImpl*							impl;
-	std::unique_ptr< SerializationContext >		context;
+	std::unique_ptr< ISerializationContext >		context;
 protected:
 public:
 	IDeserializer();
-	IDeserializer( std::unique_ptr< SerializationContext > serContext );
+	IDeserializer( std::unique_ptr< ISerializationContext > serContext );
 	~IDeserializer();
 
 	bool			LoadFromFile	( const std::string& fileName, ParsingMode mode );

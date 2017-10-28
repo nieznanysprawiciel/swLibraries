@@ -63,3 +63,21 @@ void			Serialization::DeserializeProperty		( IDeserializer* deser, rttr::propert
 }
 
 
+//====================================================================================//
+//			New implementation	
+//====================================================================================//
+
+
+namespace sw
+{
+
+// ================================ //
+//
+template< typename Type >
+inline bool			Serialization::Serialize		( const filesystem::Path& filePath, const Type& object )
+{
+	return false;
+}
+
+
+}	// sw

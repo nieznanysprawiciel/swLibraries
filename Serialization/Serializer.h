@@ -6,7 +6,7 @@
 */
 
 #include "swCommonLib/Common/TypesDefinitions.h"
-#include "swCommonLib/Serialization/SerializationContext.h"
+#include "swCommonLib/Serialization/ISerializationContext.h"
 
 #include <string>
 #include <assert.h>
@@ -36,10 +36,10 @@ class ISerializer
 {
 private:
 	SerializerImpl*								impl;
-	std::unique_ptr< SerializationContext >		context;
+	std::unique_ptr< ISerializationContext >		context;
 protected:
 public:
-	explicit	ISerializer		( std::unique_ptr< SerializationContext > serContext );
+	explicit	ISerializer		( std::unique_ptr< ISerializationContext > serContext );
 	virtual		~ISerializer	();
 
 	void		EnterObject		( const std::string& name );
@@ -65,7 +65,7 @@ public:
 
 	/**@brief Returns serialization context.
 
-	Check documentation for @ref SerializationContext for more information.
+	Check documentation for @ref ISerializationContext for more information.
 
 	Context type is checked only in debug mode (asserts).*/
 	template< typename ContextType >

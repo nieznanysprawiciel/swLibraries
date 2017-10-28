@@ -21,14 +21,17 @@
     <ClInclude Include="..\..\..\Serialization\Deserializer.h">
       <Filter>Serializer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Serialization\SerializationContext.h">
-      <Filter>Serializer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Serialization\Serializer.h">
       <Filter>Serializer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\stdafx.h">
       <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\SerializationContext.h">
+      <Filter>PropertySerialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\ISerializationContext.h">
+      <Filter>Serializer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="TestClasses">
+      <UniqueIdentifier>{f97600c2-8921-4a3d-9181-9ddb5e9909b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestCases">
+      <UniqueIdentifier>{01fe24d8-d556-4ae8-b05f-862330eadb8c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\StructWithSimpleTypes.h">
+      <Filter>TestClasses</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\PropertyRegistration.cpp">
+      <Filter>TestClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\SimpleStructSerialization.cpp">
+      <Filter>TestCases</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
