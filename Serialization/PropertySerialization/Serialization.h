@@ -85,6 +85,7 @@ public:
 #include "swCommonLib/System/Path.h"
 
 #include "SerializationContext.h"
+#include "Core/SerializationCore.h"
 
 
 namespace sw

@@ -21,12 +21,12 @@
 
 struct SerializerImpl;
 
-/**@brief Tryb Zapisywania JSONa.
+/**@brief Writing to file mode.
 @ingroup Serialization*/
-enum class WritingMode
+enum class WritingMode : uint8
 {
-	Sparing,				///< Tryb oszczêdny bez spacji i tabulacji.
-	Readable				///< Tryb przeznaczony do czytania przez ludzi.
+	Sparing,				///< Mode without spaces and tabulations.
+	Readable				///< Mode for reading by people.
 };
 
 /**@brief Serializers interface.

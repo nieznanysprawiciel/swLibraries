@@ -92,7 +92,8 @@ inline bool			Serialization::Serialize		( const filesystem::Path& filePath, cons
 template< typename Type >
 inline bool			Serialization::Serialize		( ISerializer& ser, const Type& object )
 {
-	return false;
+	SerializationCore::DefaultSerializeImpl( &ser, object, TypeID::get( object ) );
+	return true;
 }
 
 
