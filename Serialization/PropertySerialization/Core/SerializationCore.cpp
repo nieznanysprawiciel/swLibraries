@@ -613,6 +613,15 @@ void			SerializationCore::SerializeProperty< std::wstring >	( ISerializer* ser, 
 	ser->SetAttribute( prop.get_name().to_string(), WstringToUTF( str ) );
 }
 
+// ================================ //
+//
+template<>
+static void		SerializationCore::SerializeProperty< char >			( ISerializer* ser, rttr::property prop, const rttr::instance& object )
+{
+	char character = GetPropertyValue< char >( prop, object );
+	ser->SetAttribute( prop.get_name().to_string(), std::string( 1, character ) );
+}
+
 //====================================================================================//
 //				DeserializeProperty template specialization
 //====================================================================================//
@@ -719,6 +728,16 @@ void			SerializationCore::DeserializeProperty< std::wstring >	( IDeserializer* d
 	SetPropertyValue( prop, object, UTFToWstring( deser->GetAttribute( prop.get_name().to_string(), TypeDefaultValue< std::string >() ) ) );
 }
 
+// ================================ //
+//
+template<>
+static void		SerializationCore::DeserializeProperty< char >			( IDeserializer* deser, rttr::property prop, const rttr::instance& object )
+{
+	auto str = deser->GetAttribute( prop.get_name().to_string(), std::string() );
 
+	if( str.size() == 1 )
+		SetPropertyValue( prop, object, str[ 0 ] );
+	///@todo Error handling.
+}
 
 }	// sw

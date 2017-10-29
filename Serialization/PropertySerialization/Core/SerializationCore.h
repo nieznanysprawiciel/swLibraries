@@ -87,6 +87,7 @@ public:
 	template<>	static void				SerializeProperty< DirectX::XMFLOAT3* >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				SerializeProperty< DirectX::XMFLOAT4* >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				SerializeProperty< std::wstring >			( ISerializer* ser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				SerializeProperty< char >					( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 
 
 	template< typename PropertyType >
@@ -102,6 +103,7 @@ public:
 	template<>	static void				DeserializeProperty< DirectX::XMFLOAT3* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				DeserializeProperty< DirectX::XMFLOAT4* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				DeserializeProperty< std::wstring >			( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				DeserializeProperty< char >					( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 };
 
 
