@@ -39,10 +39,10 @@ public:
 	static void				DefaultSerialize		( ISerializer& ser, const EngineObject* object );
 	static void				DefaultDeserialize		( IDeserializer& deser, EngineObject* object );
 
-	static void				DefaultSerializeImpl	( ISerializer& ser, const rttr::instance& object, rttr::type dynamicType );
+	static void				DefaultSerializeImpl	( ISerializer& ser, const rttr::variant& object, rttr::type dynamicType );
 	static void				DefaultDeserializeImpl	( IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType );
 
-	///@name Types serialization/
+	///@name Types serialization
 	///@{
 
 	/**@brief Serialize basic arithemtic types and bool.*/
@@ -51,7 +51,7 @@ public:
 	static bool				SerializeStringTypes	( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
 	static bool				SerializeEnumTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
 	static bool				SerializeArrayTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
-	
+	static bool				SerializeObjectTypes	( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
 	///@}
 
 

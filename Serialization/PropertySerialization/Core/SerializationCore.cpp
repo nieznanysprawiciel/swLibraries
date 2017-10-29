@@ -73,12 +73,12 @@ void					SerializationCore::DefaultSerialize			( ISerializer& ser, const EngineO
 
 // ================================ //
 //
-void					SerializationCore::DefaultSerializeImpl		( ISerializer& deser, const rttr::instance& object, rttr::type dynamicType )
+void					SerializationCore::DefaultSerializeImpl		( ISerializer& deser, const rttr::variant& object, rttr::type dynamicType )
 {
 	auto objectType = dynamicType;
 	auto& properties = GetTypeFilteredProperties( objectType, deser.GetContext< SerializationContext >() );
 
-	deser.EnterObject( objectType.get_name().to_string() );
+	deser.EnterObject( objectType.get_raw_type().get_name().to_string() );
 
 	SerializePropertiesVec( &deser, object, properties );
 
@@ -91,20 +91,13 @@ void					SerializationCore::SerializePropertiesVec	( ISerializer* ser, const rtt
 {
 	for( auto& property : properties )
 	{
-		auto propertyType = property.get_type();
-		if( propertyType.is_wrapper() )
-			propertyType = propertyType.get_wrapped_type();
-
-		bool serialized = SerializeBasicTypes( ser, object, property ) ||
-			SerializeVectorTypes( ser, object, property ) ||
-			SerializeStringTypes( ser, object, property ) ||
-			SerializeEnumTypes( ser, object, property ) ||
-			SerializeArrayTypes( ser, object, property );
-
-		if( !serialized && propertyType.is_derived_from< EngineObject >() )
-			SerializeProperty< EngineObject* >( ser, property, object );
-		else if( !serialized && propertyType.is_pointer() )
-			SerializeProperty< void* >( ser, property, object );
+		bool serialized = false;
+		serialized = serialized || SerializeBasicTypes( ser, object, property );
+		serialized = serialized || SerializeVectorTypes( ser, object, property );
+		serialized = serialized || SerializeStringTypes( ser, object, property );
+		serialized = serialized || SerializeEnumTypes( ser, object, property );
+		serialized = serialized || SerializeArrayTypes( ser, object, property );
+		serialized = serialized || SerializeObjectTypes( *ser, object, property );
 	}
 }
 
@@ -277,6 +270,26 @@ bool			SerializationCore::SerializeArrayTypes				( ISerializer* ser, const rttr:
 	ser->Exit();
 
 	return false;
+}
+
+// ================================ //
+//
+bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
+{
+	auto propertyType = prop.get_type();
+	if( propertyType.is_wrapper() )
+		propertyType = propertyType.get_wrapped_type();
+
+	bool serialized = true;
+
+	if( propertyType.is_derived_from< EngineObject >() )
+		SerializeProperty< EngineObject* >( &ser, prop, object );
+	else if( propertyType.is_pointer() )
+		SerializeProperty< void* >( &ser, prop, object );
+	else
+		serialized = false;
+
+	return serialized;
 }
 
 /**@brief Deserializuje podstawowe typy.

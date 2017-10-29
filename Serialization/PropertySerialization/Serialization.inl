@@ -17,7 +17,7 @@ inline bool			Serialization::Serialize		( const filesystem::Path& filePath, cons
 	if( Serialize< Type >( ser, object ) )
 	{
 		filesystem::Dir::CreateDirectory( filePath );
-		return ser.SaveFile( filePath.String() );
+		return ser.SaveFile( filePath.String(), WritingMode::Readable );
 	}
 
 	return false;
@@ -54,7 +54,7 @@ inline bool			Serialization::Deserialize		( IDeserializer& deser, Type& object )
 {
 	TypeID objType = TypeID::get< Type >();
 
-	if( deser.EnterObject( objType.get_name().to_string() ) )
+	if( deser.EnterObject( objType.get_raw_type().get_name().to_string() ) )
 	{
 		SerializationCore::DefaultDeserializeImpl( deser, object, objType );
 		deser.Exit();

@@ -36,7 +36,6 @@ public:
 
 // ================================ //
 //
-/**@brief */
 class DerivedObject : public BaseObject
 {
 	RTTR_ENABLE( BaseObject )
