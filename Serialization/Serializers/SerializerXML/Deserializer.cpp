@@ -9,7 +9,8 @@
 
 
 
-
+// ================================ //
+//
 struct DeserializerImpl
 {
 	rapidxml::xml_document<>				root;
@@ -22,19 +23,24 @@ struct DeserializerImpl
 };
 
 
-
+// ================================ //
+//
 IDeserializer::IDeserializer()
 	:	context( nullptr )
 {
 	impl = new DeserializerImpl;
 }
 
-IDeserializer::IDeserializer( std::unique_ptr< ISerializationContext > serContext )
-	: context( std::move( serContext ) )
+// ================================ //
+//
+IDeserializer::IDeserializer( ISerializationContextPtr serContext )
+	: context( serContext )
 {
 	impl = new DeserializerImpl;
 }
 
+// ================================ //
+//
 IDeserializer::~IDeserializer()
 {	
 	delete[] impl->fileContent;

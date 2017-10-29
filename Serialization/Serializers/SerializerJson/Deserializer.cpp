@@ -16,7 +16,8 @@
 #include "ErrorCodes.h"
 
 
-
+// ================================ //
+//
 struct DeserializerImpl
 {
 	rapidjson::Document				root;
@@ -27,6 +28,8 @@ struct DeserializerImpl
 	{	fileContent = nullptr;	}
 };
 
+// ================================ //
+//
 IDeserializer::IDeserializer()
 	:	context( nullptr )
 {
@@ -34,12 +37,16 @@ IDeserializer::IDeserializer()
 }
 
 
-IDeserializer::IDeserializer( std::unique_ptr< ISerializationContext > serContext )
-	: context( std::move( serContext ) )
+// ================================ //
+//
+IDeserializer::IDeserializer( ISerializationContextPtr serContext )
+	: context( serContext )
 {
 	impl = new DeserializerImpl;
 }
 
+// ================================ //
+//
 IDeserializer::~IDeserializer()
 {	
 	delete[] impl->fileContent;

@@ -65,7 +65,7 @@ bool					SerializationCore::ShouldSave				( const rttr::property& prop, MetaData
 
 // ================================ //
 //
-void					SerializationCore::DefaultSerialize			( ISerializer* ser, const EngineObject* object )
+void					SerializationCore::DefaultSerialize			( ISerializer& ser, const EngineObject* object )
 {
 	DefaultSerializeImpl( ser, object, object->GetType() );
 }
@@ -73,16 +73,16 @@ void					SerializationCore::DefaultSerialize			( ISerializer* ser, const EngineO
 
 // ================================ //
 //
-void					SerializationCore::DefaultSerializeImpl		( ISerializer* ser, const rttr::instance& object, rttr::type dynamicType )
+void					SerializationCore::DefaultSerializeImpl		( ISerializer& deser, const rttr::instance& object, rttr::type dynamicType )
 {
 	auto objectType = dynamicType;
-	auto& properties = GetTypeFilteredProperties( objectType, ser->GetContext< SerializationContext >() );
+	auto& properties = GetTypeFilteredProperties( objectType, deser.GetContext< SerializationContext >() );
 
-	ser->EnterObject( objectType.get_name().to_string() );
+	deser.EnterObject( objectType.get_name().to_string() );
 
-	SerializePropertiesVec( ser, object, properties );
+	SerializePropertiesVec( &deser, object, properties );
 
-	ser->Exit();	// objectType.get_name()
+	deser.Exit();	// objectType.get_name()
 }
 
 // ================================ //
@@ -111,28 +111,28 @@ void					SerializationCore::SerializePropertiesVec	( ISerializer* ser, const rtt
 
 // ================================ //
 //
-void					SerializationCore::DefaultDeserialize		( IDeserializer* deser, EngineObject* object )
+void					SerializationCore::DefaultDeserialize		( IDeserializer& deser, EngineObject* object )
 {
 	DefaultDeserializeImpl( deser, object, object->GetType() );
 }
 
 // ================================ //
 //
-void					SerializationCore::DefaultDeserializeImpl	( IDeserializer* deser, const rttr::instance& object, rttr::type dynamicType )
+void					SerializationCore::DefaultDeserializeImpl	( IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType )
 {
 	auto objectType = dynamicType;
-	auto& properties = SerializationCore::GetTypeFilteredProperties( objectType, deser->GetContext< SerializationContext >() );
+	auto& properties = SerializationCore::GetTypeFilteredProperties( objectType, deser.GetContext< SerializationContext >() );
 
 	for( auto& property : properties )
 	{
 		auto propertyType = property.get_type();
 
-		bool deserialized = DeserializeBasicTypes( deser, object, property );
-		deserialized = deserialized || DeserializeVectorTypes( deser, object, property );
-		deserialized = deserialized || DeserializeStringTypes( deser, object, property );
-		deserialized = deserialized || DeserializeEnumTypes( deser, object, property );
-		deserialized = deserialized || DeserializeObjectTypes( deser, object, property );
-		deserialized = deserialized || DeserializeArrayTypes( deser, object, property );
+		bool deserialized = DeserializeBasicTypes( &deser, object, property );
+		deserialized = deserialized || DeserializeVectorTypes( &deser, object, property );
+		deserialized = deserialized || DeserializeStringTypes( &deser, object, property );
+		deserialized = deserialized || DeserializeEnumTypes( &deser, object, property );
+		deserialized = deserialized || DeserializeObjectTypes( &deser, object, property );
+		deserialized = deserialized || DeserializeArrayTypes( &deser, object, property );
 	}
 }
 
@@ -160,6 +160,8 @@ bool				SerializationCore::SerializeBasicTypes			( ISerializer* ser, const rttr:
 		SerializeProperty< uint16 >( ser, prop, object );
 	else if( propertyType == rttr::type::get< int8 >() )
 		SerializeProperty< int8 >( ser, prop, object );
+	else if( propertyType == rttr::type::get< uint8 >() )
+		SerializeProperty< uint8 >( ser, prop, object );
 	else if( propertyType == rttr::type::get< int64 >() )
 		SerializeProperty< int64 >( ser, prop, object );
 	else if( propertyType == rttr::type::get< uint64 >() )
@@ -266,7 +268,7 @@ bool			SerializationCore::SerializeArrayTypes				( ISerializer* ser, const rttr:
 		else
 		{
 			// Non generic objects use default serialization.
-			DefaultSerializeImpl( ser, element, arrayElementType );
+			DefaultSerializeImpl( *ser, element, arrayElementType );
 		}
 	}
 
@@ -437,7 +439,7 @@ bool	SerializationCore::DeserializeArrayTypes	( IDeserializer* deser, const rttr
 				auto element = arrayView.get_value_as_ref( idx ).extract_wrapped_value();
 
 				// Non generic objects use default deserialization.
-				DefaultDeserializeImpl( deser, element, arrayElementType );
+				DefaultDeserializeImpl( *deser, element, arrayElementType );
 			}
 
 			idx++;
@@ -641,7 +643,7 @@ void				SerializationCore::DeserializeProperty< void* >				( IDeserializer* dese
 		TypeID propertyType = prop.get_type();
 		auto deserObject = prop.get_value( object );
 
-		DefaultDeserializeImpl( deser, deserObject, propertyType );
+		DefaultDeserializeImpl( *deser, deserObject, propertyType );
 
 		deser->Exit();	//	prop.get_name()
 	}

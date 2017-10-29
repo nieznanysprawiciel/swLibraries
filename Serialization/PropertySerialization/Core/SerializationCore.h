@@ -36,12 +36,13 @@ public:
 
 	static bool				ShouldSave				( const rttr::property& prop, MetaDataType saveFlag );
 	
-	static void				DefaultSerialize		( ISerializer* ser, const EngineObject* object );
-	static void				DefaultDeserialize		( IDeserializer* deser, EngineObject* object );
+	static void				DefaultSerialize		( ISerializer& ser, const EngineObject* object );
+	static void				DefaultDeserialize		( IDeserializer& deser, EngineObject* object );
 
-	static void				DefaultSerializeImpl	( ISerializer* ser, const rttr::instance& object, rttr::type dynamicType );
-	static void				DefaultDeserializeImpl	( IDeserializer* deser, const rttr::instance& object, rttr::type dynamicType );
+	static void				DefaultSerializeImpl	( ISerializer& ser, const rttr::instance& object, rttr::type dynamicType );
+	static void				DefaultDeserializeImpl	( IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType );
 
+	/**@brief Serialize basic arithemtic types and bool.*/
 	static bool				SerializeBasicTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
 	static bool				SerializeVectorTypes	( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
 	static bool				SerializeStringTypes	( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
@@ -50,6 +51,7 @@ public:
 	
 	static void				SerializePropertiesVec	( ISerializer* ser, const rttr::instance& object, std::vector< rttr::property >& properties );
 
+	/**@brief Deserialize basic arithemtic types and bool.*/
 	static bool				DeserializeBasicTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
 	static bool				DeserializeVectorTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
 	static bool				DeserializeStringTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );

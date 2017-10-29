@@ -62,6 +62,17 @@ public:
 	template< typename Type >
 	bool			Serialize			( ISerializer& ser, const Type& object );
 
+	/**@brief Deserialize object from file.*/
+	template< typename Type >
+	bool			Deserialize			( const filesystem::Path& filePath, const Type& object );
+
+	/**@brief Deserialize object to provided serializer.
+	This deserialization doesn't write it's output anywhere.
+
+	@note Deserializer must be initialized with context which is derived from SerializationContext.*/
+	template< typename Type >
+	bool			Deserialize			( IDeserializer& deser, Type& object );
+
 private:
 
 	void			InitializeContext	( SerializationContext* ctx );

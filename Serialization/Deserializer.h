@@ -39,12 +39,12 @@ class IDeserializer
 {
 private:
 	DeserializerImpl*							impl;
-	std::unique_ptr< ISerializationContext >		context;
+	ISerializationContextPtr					context;
 protected:
 public:
-	IDeserializer();
-	IDeserializer( std::unique_ptr< ISerializationContext > serContext );
-	~IDeserializer();
+	IDeserializer		();
+	IDeserializer		( ISerializationContextPtr serContext );
+	~IDeserializer		();
 
 	bool			LoadFromFile	( const std::string& fileName, ParsingMode mode );
 	bool			LoadFromString	( const std::string& contentString );

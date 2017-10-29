@@ -52,6 +52,48 @@ struct StructWithSimpleTypes
 	}
 };
 
+// ================================ //
+//
+inline bool		operator==		( const StructWithSimpleTypes& struct1, const StructWithSimpleTypes& struct2 )
+{
+	if( struct1.DoubleField != struct2.DoubleField )
+		return false;
+
+	if( struct1.FloatField != struct2.FloatField )
+		return false;
+
+	if( struct1.UIntField64 != struct2.UIntField64 )
+		return false;
+
+	if( struct1.IntField64 != struct2.IntField64 )
+		return false;
+
+	if( struct1.UIntField32 != struct2.UIntField32 )
+		return false;
+
+	if( struct1.IntField32 != struct2.IntField32 )
+		return false;
+
+	if( struct1.UIntField16 != struct2.UIntField16 )
+		return false;
+
+	if( struct1.IntField16 != struct2.IntField16 )
+		return false;
+
+	if( struct1.UIntField8 != struct2.UIntField8 )
+		return false;
+
+	if( struct1.IntField8 != struct2.IntField8 )
+		return false;
+
+	if( struct1.CharField != struct2.CharField )
+		return false;
+
+	if( struct1.BoolField != struct2.BoolField )
+		return false;
+
+	return true;
+}
 
 }	// sw
 

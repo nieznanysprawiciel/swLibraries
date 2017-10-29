@@ -16,8 +16,8 @@ inline bool			Serialization::Serialize		( const filesystem::Path& filePath, cons
 
 	if( Serialize< Type >( ser, object ) )
 	{
-		if( filesystem::Dir::CreateDirectory( filePath ) )
-			return ser.SaveFile( filePath.String() );
+		filesystem::Dir::CreateDirectory( filePath );
+		return ser.SaveFile( filePath.String() );
 	}
 
 	return false;
@@ -28,8 +28,41 @@ inline bool			Serialization::Serialize		( const filesystem::Path& filePath, cons
 template< typename Type >
 inline bool			Serialization::Serialize		( ISerializer& ser, const Type& object )
 {
-	SerializationCore::DefaultSerializeImpl( &ser, object, TypeID::get( object ) );
+	SerializationCore::DefaultSerializeImpl( ser, object, TypeID::get( object ) );
 	return true;
+}
+
+// ================================ //
+//
+template< typename Type >
+inline bool			Serialization::Deserialize		( const filesystem::Path& filePath, const Type& object )
+{
+	IDeserializer deser( std::static_pointer_cast< ISerializationContext >( m_context ) );
+
+	if( deser.LoadFromFile( filePath.String(), ParsingMode::ParseInsitu ) )
+	{
+		return Deserialize( deser, object );
+	}
+
+	return false;
+}
+
+// ================================ //
+//
+template< typename Type >
+inline bool			Serialization::Deserialize		( IDeserializer& deser, Type& object )
+{
+	TypeID objType = TypeID::get< Type >();
+
+	if( deser.EnterObject( objType.get_name().to_string() ) )
+	{
+		SerializationCore::DefaultDeserializeImpl( deser, object, objType );
+		deser.Exit();
+
+		return true;
+	}
+
+	return false;
 }
 
 
