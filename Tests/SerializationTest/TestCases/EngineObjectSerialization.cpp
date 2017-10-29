@@ -33,3 +33,20 @@ TEST_CASE( "GenericObject.StructField.AsPointer", "[Serialization]" )
 	CHECK( actual->m_simpleStruct1 == expected->m_simpleStruct1 );
 }
 
+// ================================ //
+// Serializes object passing reference to it instead of EngineObject*.
+TEST_CASE( "GenericObject.PassRefToObject", "[Serialization]" )
+{
+	BaseObject expected;
+	BaseObject actual;
+	actual.m_simpleStruct1.FillWithDataset2();
+
+	sw::Serialization serial;
+	sw::Serialization deserial;
+
+	REQUIRE( serial.Serialize( "Serialization/GenericObject.PassRefToObject.xml", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/GenericObject.PassRefToObject.xml", actual ) );
+
+	CHECK( actual.m_simpleStruct1 == expected.m_simpleStruct1 );
+}
+

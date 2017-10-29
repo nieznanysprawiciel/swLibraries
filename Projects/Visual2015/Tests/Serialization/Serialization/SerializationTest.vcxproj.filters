@@ -18,19 +18,22 @@
     <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\StringContainer.h">
       <Filter>TestClasses</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\ArrayContainer.h">
+      <Filter>TestClasses</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\PropertyRegistration.cpp">
       <Filter>TestClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\SimpleStructSerialization.cpp">
-      <Filter>TestCases</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\main.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\EngineObjectSerialization.cpp">
       <Filter>TestCases</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\StlTypesSerialization.cpp">
+      <Filter>TestCases</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\BasicTypesSerialization.cpp">
       <Filter>TestCases</Filter>
     </ClCompile>
   </ItemGroup>

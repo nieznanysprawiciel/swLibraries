@@ -40,6 +40,8 @@ struct StructWithSimpleTypes
 
 	void	FillWithDataset1	();
 	void	FillWithDataset2	();
+	void	FillWithDataset3	();
+	void	FillWithDataset4	();
 };
 
 
@@ -58,7 +60,7 @@ inline void		StructWithSimpleTypes::FillWithDataset1	()
 	UIntField64 = 4;
 	IntField64 = 5;
 	UIntField32 = 6;
-	IntField32 = 7;
+	IntField32 = -7;
 	UIntField16 = 8;
 	IntField16 = 9;
 	UIntField8 = 10;
@@ -76,7 +78,7 @@ inline void		StructWithSimpleTypes::FillWithDataset2	()
 	FloatField = 1.4424141f;
 
 	UIntField64 = 333;
-	IntField64 = 33;
+	IntField64 = -33;
 	UIntField32 = 1;
 	IntField32 = 55;
 	UIntField16 = 77;
@@ -86,6 +88,47 @@ inline void		StructWithSimpleTypes::FillWithDataset2	()
 
 	CharField = 'a';
 	BoolField = true;
+}
+
+// ================================ //
+//
+inline void		StructWithSimpleTypes::FillWithDataset3	()
+{
+	DoubleField = 7.1231;
+	FloatField = 10.4416141f;
+
+	UIntField64 = 22;
+	IntField64 = 222;
+	UIntField32 = 2224;
+	IntField32 = 95;
+	UIntField16 = 12;
+	IntField16 = -18;
+	UIntField8 = -9;
+	IntField8 = 5;
+
+	CharField = 'k';
+	BoolField = true;
+}
+
+
+// ================================ //
+//
+inline void		StructWithSimpleTypes::FillWithDataset4	()
+{
+	DoubleField = -13.1231;
+	FloatField = -10.4416141f;
+
+	UIntField64 = -22;
+	IntField64 = -222;
+	UIntField32 = -2224;
+	IntField32 = -95;
+	UIntField16 = -12;
+	IntField16 = 88;
+	UIntField8 = 87;
+	IntField8 = 0;
+
+	CharField = 'h';
+	BoolField = false;
 }
 
 

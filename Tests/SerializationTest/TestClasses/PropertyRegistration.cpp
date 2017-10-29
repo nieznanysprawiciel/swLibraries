@@ -8,6 +8,7 @@
 #include "StructWithSimpleTypes.h"
 #include "BaseObject.h"
 #include "StringContainer.h"
+#include "ArrayContainer.h"
 
 #include "swCommonLib/Common/RTTR.h"
 
@@ -39,4 +40,9 @@ RTTR_REGISTRATION
 	rttr::registration::class_< sw::StringContainer >( "StringContainer" )
 		.property( "Description", &sw::StringContainer::Description )
 		.property( "Content", &sw::StringContainer::Content );
+
+	rttr::registration::class_< std::vector< sw::StructWithSimpleTypes > >( "StructWithSimpleTypesVec" );
+
+	rttr::registration::class_< sw::ArrayContainer >( "ArrayContainer" )
+		.property( "Vector", &sw::ArrayContainer::StructsVec ) BIND_AS_REF;
 }

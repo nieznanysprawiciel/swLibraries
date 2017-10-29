@@ -104,34 +104,6 @@ void					SerializationCore::SerializePropertiesVec	( ISerializer* ser, const rtt
 
 // ================================ //
 //
-void					SerializationCore::DefaultDeserialize		( IDeserializer& deser, EngineObject* object )
-{
-	DefaultDeserializeImpl( deser, object, object->GetType() );
-}
-
-// ================================ //
-//
-void					SerializationCore::DefaultDeserializeImpl	( IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType )
-{
-	auto objectType = dynamicType;
-	auto& properties = SerializationCore::GetTypeFilteredProperties( objectType, deser.GetContext< SerializationContext >() );
-
-	for( auto& property : properties )
-	{
-		auto propertyType = property.get_type();
-
-		bool deserialized = DeserializeBasicTypes( &deser, object, property );
-		deserialized = deserialized || DeserializeVectorTypes( &deser, object, property );
-		deserialized = deserialized || DeserializeStringTypes( &deser, object, property );
-		deserialized = deserialized || DeserializeEnumTypes( &deser, object, property );
-		deserialized = deserialized || DeserializeObjectTypes( &deser, object, property );
-		deserialized = deserialized || DeserializeArrayTypes( &deser, object, property );
-	}
-}
-
-
-// ================================ //
-//
 bool				SerializationCore::SerializeBasicTypes			( ISerializer* ser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
@@ -291,6 +263,36 @@ bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr
 
 	return serialized;
 }
+
+
+// ================================ //
+//
+void					SerializationCore::DefaultDeserialize		( IDeserializer& deser, EngineObject* object )
+{
+	DefaultDeserializeImpl( deser, object, object->GetType() );
+}
+
+// ================================ //
+//
+void					SerializationCore::DefaultDeserializeImpl	( IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType )
+{
+	auto objectType = dynamicType;
+	auto& properties = SerializationCore::GetTypeFilteredProperties( objectType, deser.GetContext< SerializationContext >() );
+
+	for( auto& property : properties )
+	{
+		auto propertyType = property.get_type();
+
+		bool deserialized = DeserializeBasicTypes( &deser, object, property );
+		deserialized = deserialized || DeserializeVectorTypes( &deser, object, property );
+		deserialized = deserialized || DeserializeStringTypes( &deser, object, property );
+		deserialized = deserialized || DeserializeEnumTypes( &deser, object, property );
+		deserialized = deserialized || DeserializeObjectTypes( &deser, object, property );
+		deserialized = deserialized || DeserializeArrayTypes( &deser, object, property );
+	}
+}
+
+
 
 /**@brief Deserializuje podstawowe typy.
 

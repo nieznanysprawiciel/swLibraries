@@ -10,6 +10,7 @@
 #include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
 
 #include "swCommonLib/Tests/SerializationTest/TestClasses/StringContainer.h"
+#include "swCommonLib/Tests/SerializationTest/TestClasses/ArrayContainer.h"
 
 
 using namespace sw;
@@ -32,4 +33,22 @@ TEST_CASE( "GenericObject.Strings", "[Serialization]" )
 	CHECK( actual->Description == expected->Description );
 	CHECK( actual->Content == expected->Content );
 }
+
+// ================================ //
+// Serializes object derived from EngineObject with strings types.
+TEST_CASE( "GenericObject.Arrays", "[Serialization]" )
+{
+	ArrayContainer* expected = new ArrayContainer;
+	ArrayContainer* actual = new ArrayContainer;
+	actual->ArraysSet2();
+
+	sw::Serialization serial;
+	sw::Serialization deserial;
+
+	REQUIRE( serial.Serialize( "Serialization/GenericObject.Arrays.xml", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/GenericObject.Arrays.xml", actual ) );
+
+	CHECK( actual->StructsVec == expected->StructsVec );
+}
+
 
