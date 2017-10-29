@@ -6,7 +6,7 @@
 */
 
 
-#include "swCommonLib/Common/EngineObject.h"
+#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
 #include "swCommonLib/Common/RTTR.h"
 #include "swCommonLib/Serialization/Serializer.h"
 #include "swCommonLib/Serialization/Deserializer.h"

@@ -261,7 +261,7 @@ bool			SerializationCore::SerializeArrayTypes				( ISerializer* ser, const rttr:
 			element = arrayView.get_value( i );
 
 			EngineObject* engineObject = element.get_value< EngineObject* >();
-			engineObject->Serialize( ser );
+			engineObject->Serialize( *ser );
 		}
 		else
 		{
@@ -529,7 +529,7 @@ void			SerializationCore::SerializeProperty< EngineObject* >( ISerializer* ser, 
 	if( engineObj )
 	{
 		ser->EnterObject( prop.get_name().to_string() );
-		engineObj->Serialize( ser );
+		engineObj->Serialize( *ser );
 		ser->Exit();	//	prop.get_name()
 	}
 }

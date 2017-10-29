@@ -39,6 +39,9 @@
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.h">
       <Filter>PropertySerialization\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineObject.h">
+      <Filter>PropertySerialization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\Serialization.cpp">
@@ -49,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.cpp">
       <Filter>PropertySerialization\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Serialization\PropertySerialization\EngineObject.cpp">
+      <Filter>PropertySerialization</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

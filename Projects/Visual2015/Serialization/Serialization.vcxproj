@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Serialization\Deserializer.h" />
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.h" />
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineObject.h" />
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineSerializationContext.h" />
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\Serialization.h" />
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\SerializationContext.h" />
@@ -30,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.cpp" />
+    <ClCompile Include="..\..\..\Serialization\PropertySerialization\EngineObject.cpp" />
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\Serialization.cpp" />
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\stdafx.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">swCommonLib\Serialization\PropertySerialization\stdafx.h</PrecompiledHeaderFile>
@@ -47,6 +49,9 @@
     <None Include="..\..\..\Serialization\PropertySerialization\Serialization.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonBase\CommonBase.vcxproj">
+      <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Reflection\Reflection.vcxproj">
       <Project>{59fa8028-2346-4246-854f-14dcfab6ab56}</Project>
     </ProjectReference>
