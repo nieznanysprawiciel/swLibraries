@@ -35,7 +35,7 @@ RTTR_REGISTRATION
 		.property( "SimpleStruct1", &sw::BaseObject::m_simpleStruct1 ) BIND_AS_PTR;
 
 	rttr::registration::class_< sw::DerivedObject >( "DerivedObject" )
-		.property( "SimpleStruct2", &sw::DerivedObject::m_simpleStruct2 ) BIND_AS_REF;
+		.property( "SimpleStruct2", &sw::DerivedObject::m_simpleStruct2 ) BIND_AS_PTR;
 
 	rttr::registration::class_< sw::StringContainer >( "StringContainer" )
 		.property( "Description", &sw::StringContainer::Description )

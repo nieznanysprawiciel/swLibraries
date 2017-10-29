@@ -52,7 +52,9 @@ inline bool			Serialization::Deserialize		( const filesystem::Path& filePath, co
 template< typename Type >
 inline bool			Serialization::Deserialize		( IDeserializer& deser, Type& object )
 {
-	TypeID objType = TypeID::get< Type >();
+	rttr::instance objectVar( object );
+	TypeID objType = objectVar.get_derived_type();
+	objType = objType.is_wrapper() ? objType.get_wrapped_type() : objType;
 
 	if( deser.EnterObject( objType.get_raw_type().get_name().to_string() ) )
 	{

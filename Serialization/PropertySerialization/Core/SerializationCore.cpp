@@ -73,12 +73,15 @@ void					SerializationCore::DefaultSerialize			( ISerializer& ser, const EngineO
 
 // ================================ //
 //
-void					SerializationCore::DefaultSerializeImpl		( ISerializer& deser, const rttr::variant& object, rttr::type dynamicType )
+void					SerializationCore::DefaultSerializeImpl		( ISerializer& deser, const rttr::instance& object, rttr::type dynamicType )
 {
-	auto objectType = dynamicType;
-	auto& properties = GetTypeFilteredProperties( objectType, deser.GetContext< SerializationContext >() );
+	auto objectType = object.get_derived_type();
+	bool isWrapper = objectType.is_wrapper();
+	auto wrappedType = isWrapper ? objectType.get_wrapped_type() : objectType;
 
-	deser.EnterObject( objectType.get_raw_type().get_name().to_string() );
+	auto& properties = GetTypeFilteredProperties( wrappedType, deser.GetContext< SerializationContext >() );
+
+	deser.EnterObject( wrappedType.get_raw_type().get_name().to_string() );
 
 	SerializePropertiesVec( &deser, object, properties );
 

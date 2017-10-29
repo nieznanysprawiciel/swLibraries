@@ -39,7 +39,7 @@ public:
 	static void				DefaultSerialize		( ISerializer& ser, const EngineObject* object );
 	static void				DefaultDeserialize		( IDeserializer& deser, EngineObject* object );
 
-	static void				DefaultSerializeImpl	( ISerializer& ser, const rttr::variant& object, rttr::type dynamicType );
+	static void				DefaultSerializeImpl	( ISerializer& ser, const rttr::instance& object, rttr::type dynamicType );
 	static void				DefaultDeserializeImpl	( IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType );
 
 	///@name Types serialization
