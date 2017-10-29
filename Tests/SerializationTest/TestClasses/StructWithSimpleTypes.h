@@ -35,22 +35,59 @@ struct StructWithSimpleTypes
 //
 	StructWithSimpleTypes()
 	{
-		DoubleField = 1.0;
-		FloatField = 2.0;
-
-		UIntField64 = 4;
-		IntField64 = 4;
-		UIntField32 = 4;
-		IntField32 = 4;
-		UIntField16 = 4;
-		IntField16 = 4;
-		UIntField8 = 4;
-		IntField8 = 4;
-
-		CharField = 4;
-		BoolField = false;
+		FillWithDataset1();
 	}
+
+	void	FillWithDataset1	();
+	void	FillWithDataset2	();
 };
+
+
+//====================================================================================//
+//			Implementation
+//====================================================================================//
+
+
+// ================================ //
+//
+inline void		StructWithSimpleTypes::FillWithDataset1	()
+{
+	DoubleField = 1.0;
+	FloatField = 2.0f;
+
+	UIntField64 = 4;
+	IntField64 = 5;
+	UIntField32 = 6;
+	IntField32 = 7;
+	UIntField16 = 8;
+	IntField16 = 9;
+	UIntField8 = 10;
+	IntField8 = 11;
+
+	CharField = 'n';
+	BoolField = false;
+}
+
+// ================================ //
+//
+inline void		StructWithSimpleTypes::FillWithDataset2	()
+{
+	DoubleField = 3.1111;
+	FloatField = 1.4424141f;
+
+	UIntField64 = 333;
+	IntField64 = 33;
+	UIntField32 = 1;
+	IntField32 = 55;
+	UIntField16 = 77;
+	IntField16 = 22;
+	UIntField8 = 99;
+	IntField8 = 12;
+
+	CharField = 'a';
+	BoolField = true;
+}
+
 
 // ================================ //
 //

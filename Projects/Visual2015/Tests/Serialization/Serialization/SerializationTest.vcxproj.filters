@@ -12,6 +12,9 @@
     <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\StructWithSimpleTypes.h">
       <Filter>TestClasses</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\BaseObject.h">
+      <Filter>TestClasses</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\PropertyRegistration.cpp">
@@ -20,5 +23,6 @@
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\SimpleStructSerialization.cpp">
       <Filter>TestCases</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\main.cpp" />
   </ItemGroup>
 </Project>

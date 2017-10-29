@@ -42,6 +42,9 @@ public:
 	static void				DefaultSerializeImpl	( ISerializer& ser, const rttr::instance& object, rttr::type dynamicType );
 	static void				DefaultDeserializeImpl	( IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType );
 
+	///@name Types serialization/
+	///@{
+
 	/**@brief Serialize basic arithemtic types and bool.*/
 	static bool				SerializeBasicTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
 	static bool				SerializeVectorTypes	( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
@@ -49,7 +52,13 @@ public:
 	static bool				SerializeEnumTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
 	static bool				SerializeArrayTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
 	
+	///@}
+
+
 	static void				SerializePropertiesVec	( ISerializer* ser, const rttr::instance& object, std::vector< rttr::property >& properties );
+
+	///@name Types deserialization
+	///@{
 
 	/**@brief Deserialize basic arithemtic types and bool.*/
 	static bool				DeserializeBasicTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
@@ -59,6 +68,7 @@ public:
 	static bool				DeserializeArrayTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
 	static bool				DeserializeObjectTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
 
+	///@}
 
 	static std::string		WstringToUTF		( const std::wstring& str );
 	static std::wstring		UTFToWstring		( const std::string& str );

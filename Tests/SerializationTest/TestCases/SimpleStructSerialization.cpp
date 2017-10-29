@@ -20,7 +20,7 @@ using namespace sw;
 TEST_CASE( "Struct.BasicTypes", "[Serialization]" )
 {
 	StructWithSimpleTypes expected;
-	StructWithSimpleTypes actual;
+	StructWithSimpleTypes actual;		actual.FillWithDataset2();	// Change default dataset.
 
 	sw::Serialization serial;
 

@@ -168,6 +168,8 @@ bool				SerializationCore::SerializeBasicTypes			( ISerializer* ser, const rttr:
 		SerializeProperty< uint64 >( ser, prop, object );
 	else if( propertyType == rttr::type::get< double >() )
 		SerializeProperty< double >( ser, prop, object );
+	else if( propertyType == rttr::type::get< char >() )
+		SerializeProperty< char >( ser, prop, object );
 	else
 		return false;
 
@@ -312,6 +314,8 @@ bool			SerializationCore::DeserializeBasicTypes			( IDeserializer* deser, const 
 		SerializationCore::DeserializeProperty< uint64 >( deser, prop, object );
 	else if( propertyType == rttr::type::get< double >() )
 		SerializationCore::DeserializeProperty< double >( deser, prop, object );
+	else if( propertyType == rttr::type::get< char >() )
+		SerializationCore::DeserializeProperty< char >( deser, prop, object );
 	else
 		return false;
 
@@ -624,6 +628,8 @@ template	void	SerializationCore::DeserializeProperty< int32 >			( IDeserializer*
 template	void	SerializationCore::DeserializeProperty< uint32 >		( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 template	void	SerializationCore::DeserializeProperty< int64 >			( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 template	void	SerializationCore::DeserializeProperty< uint64 >		( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::DeserializeProperty< int8 >			( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::DeserializeProperty< uint8 >			( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 
 
 

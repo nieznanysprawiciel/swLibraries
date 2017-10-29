@@ -25,6 +25,7 @@
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\PropertyRegistration.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\BaseObject.h" />
     <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\StructWithSimpleTypes.h" />
   </ItemGroup>
   <ItemGroup>
