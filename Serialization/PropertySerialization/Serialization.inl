@@ -53,8 +53,7 @@ template< typename Type >
 inline bool			Serialization::Deserialize		( IDeserializer& deser, Type& object )
 {
 	rttr::instance objectVar( object );
-	TypeID objType = objectVar.get_derived_type();
-	objType = objType.is_wrapper() ? objType.get_wrapped_type() : objType;
+	auto objType = SerializationCore::GetRealType( objectVar );
 
 	if( deser.EnterObject( objType.get_raw_type().get_name().to_string() ) )
 	{

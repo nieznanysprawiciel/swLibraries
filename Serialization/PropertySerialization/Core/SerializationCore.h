@@ -104,6 +104,9 @@ public:
 	template<>	static void				DeserializeProperty< DirectX::XMFLOAT4* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				DeserializeProperty< std::wstring >			( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				DeserializeProperty< char >					( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+
+	/**@brief Gets real type of the object that means most derived and wrapped type.*/
+	static TypeID						GetRealType			( const rttr::instance& object );
 };
 
 

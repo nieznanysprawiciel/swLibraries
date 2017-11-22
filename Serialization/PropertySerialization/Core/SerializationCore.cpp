@@ -75,9 +75,7 @@ void					SerializationCore::DefaultSerialize			( ISerializer& ser, const EngineO
 //
 void					SerializationCore::DefaultSerializeImpl		( ISerializer& deser, const rttr::instance& object, rttr::type dynamicType )
 {
-	auto objectType = object.get_derived_type();
-	bool isWrapper = objectType.is_wrapper();
-	auto wrappedType = isWrapper ? objectType.get_wrapped_type() : objectType;
+	auto wrappedType = SerializationCore::GetRealType( object );
 
 	auto& properties = GetTypeFilteredProperties( wrappedType, deser.GetContext< SerializationContext >() );
 
@@ -254,6 +252,13 @@ bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr
 	auto propertyType = prop.get_type();
 	if( propertyType.is_wrapper() )
 		propertyType = propertyType.get_wrapped_type();
+
+	// Here can be serialized:
+	// - structs
+	// - structs pointers and references
+	// - classes derived from EngineObject (as reference, pointer or value ??)
+
+
 
 	bool serialized = true;
 

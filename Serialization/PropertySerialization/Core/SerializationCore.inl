@@ -83,6 +83,13 @@ void			SerializationCore::DeserializeProperty		( IDeserializer* deser, rttr::pro
 	SetPropertyValue< PropertyType >( prop, object, value );
 }
 
+// ================================ //
+//
+inline TypeID	SerializationCore::GetRealType				( const rttr::instance& object )
+{
+	auto objectType = object.get_derived_type();
+	return objectType.is_wrapper() ? objectType.get_wrapped_type() : objectType;
+}
 
 
 }	// sw
