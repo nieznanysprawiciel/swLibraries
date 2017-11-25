@@ -13,7 +13,8 @@
 RTTR_REGISTRATION
 {
 	rttr::registration::class_< sw::Animal >( "sw::Animal" )
-		.property( "Name", &sw::Animal::m_name ) BIND_AS_REF;
+		.property( "Name", &sw::Animal::m_name ) BIND_AS_REF
+		.property( "Age", &sw::Animal::m_age );
 
 	rttr::registration::class_< sw::Mammal >( "sw::Mammal" );
 

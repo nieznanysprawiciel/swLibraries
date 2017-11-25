@@ -28,6 +28,7 @@ class Animal
 private:
 
 	std::string			m_name;
+	uint16				m_age;
 
 protected:
 public:

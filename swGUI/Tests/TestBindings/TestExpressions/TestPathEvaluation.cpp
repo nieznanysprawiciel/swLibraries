@@ -92,3 +92,14 @@ TEST_CASE( "PathEvaluation_PathToPropertyInSubclass", "[GUI][BindingSystem][Expr
 
 	CHECK( target.get_value< Animal* >() == dog.get() );
 }
+
+// ================================ //
+//
+TEST_CASE( "PathEvaluation_TryAccessPropertyOfSimpleType", "[GUI][BindingSystem][Expressions]" )
+{
+	std::unique_ptr< Animal > animal = std::unique_ptr< Animal >( new Animal );
+	auto bindingTarget = gui::DefaultBindingExpression::EvaluateRelativeProperty( animal.get(), "Age.Name" );
+
+	REQUIRE_FALSE( bindingTarget.IsValid() );
+}
+
