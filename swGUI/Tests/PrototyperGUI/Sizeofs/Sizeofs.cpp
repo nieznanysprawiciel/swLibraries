@@ -15,6 +15,8 @@
 #include "swGUI/Core/Controls/UIElement.h"
 #include "swGUI/Core/Controls/Visual.h"
 
+#include "swGUI/Core/System/DataBinding/BindingInfo.h"
+
 
 
 class VirtualEmptyClass : std::enable_shared_from_this< VirtualEmptyClass >
@@ -52,6 +54,23 @@ void			PrintSizeofs()
 	PrintSizeofType< sw::gui::Visual >( std::cout );
 	PrintSizeofType< sw::gui::UIElement >( std::cout );
 
+	std::cout << std::left;
+	std::cout << std::endl << "GUI Internal objects:" << std::endl;
+	std::cout << std::setw( NameSize ) << "Objects name"  << "Sizeof" << std::endl;
+
+	PrintSizeofType< sw::gui::BindingsInfo >( std::cout );
+	PrintSizeofType< sw::gui::Binding >( std::cout );
+	PrintSizeofType< sw::gui::BindingExpression >( std::cout );
+	
+
+	std::cout << std::endl << "RTTR types:" << std::endl;
+	std::cout << std::setw( NameSize ) << "Objects name" << "Sizeof" << std::endl;
+
+	PrintSizeofType< rttr::variant >( std::cout );
+	PrintSizeofType< rttr::instance >( std::cout );
+	PrintSizeofType< rttr::property >( std::cout );
+	PrintSizeofType< rttr::type >( std::cout );
+	PrintSizeofType< rttr::method >( std::cout );
 
 	std::cout << std::endl << "Other:" << std::endl;
 	std::cout << std::setw( NameSize ) << "Objects name" << "Sizeof" << std::endl;
