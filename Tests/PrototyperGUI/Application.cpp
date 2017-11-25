@@ -12,9 +12,9 @@ using namespace sw::gui;
 //
 void		MouseMoveEventReceived			( UIElement* sender, MouseMoveEventArgs* e )
 {
-	std::cout	<< "MouseMove Window [" << sender->GetHost()->GetNativeWindow()->GetTitle()
-				<< "] Position [" << e->WindowPosX << ", " << e->WindowPosY << "], Delta [" 
-				<< e->MouseDeltaX << ", " << e->MouseDeltaY << "]" << std::endl;
+	//std::cout	<< "MouseMove Window [" << sender->GetHost()->GetNativeWindow()->GetTitle()
+	//			<< "] Position [" << e->WindowPosX << ", " << e->WindowPosY << "], Delta [" 
+	//			<< e->MouseDeltaX << ", " << e->MouseDeltaY << "]" << std::endl;
 }
 
 
