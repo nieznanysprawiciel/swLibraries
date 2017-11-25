@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="MockAPI">
+      <UniqueIdentifier>{aad9b431-ebd4-4e93-9102-916a0dbe213d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MockAPI\MockRenderer">
+      <UniqueIdentifier>{6c70ff23-53b0-4781-b3fb-ef77776b73fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MockAPI\MockInitializer">
+      <UniqueIdentifier>{5566195f-2394-44a4-a144-46f236a63a5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MockAPI\MockResources">
+      <UniqueIdentifier>{def22c45-370d-49d5-b5cb-efdb06006cc0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\MockAPI\MockResources\MockBuffer.cpp">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MockAPI\MockResources\MockComputeShader.cpp">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MockAPI\MockResources\MockInputLayout.cpp">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MockAPI\MockResources\MockInputLayoutDescriptor.cpp">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MockAPI\MockResources\MockPipelineState.cpp">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MockAPI\MockResources\MockPixelShader.cpp">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MockAPI\MockResources\MockRenderTarget.cpp">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MockAPI\MockResources\MockSwapChain.cpp">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MockAPI\MockResources\MockTexture.cpp">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MockAPI\MockResources\MockVertexShader.cpp">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MockAPI\MockResources\ResourcesFactory.cpp">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MockAPI\MockRenderer\MockRenderer.cpp">
+      <Filter>MockAPI\MockRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\MockAPI\MockInitializer\MockInitializer.cpp">
+      <Filter>MockAPI\MockInitializer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\MockAPI\MockResources\MockBuffer.h">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MockAPI\MockResources\MockComputeShader.h">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MockAPI\MockResources\MockInputLayout.h">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MockAPI\MockResources\MockInputLayoutDescriptor.h">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MockAPI\MockResources\MockPipelineState.h">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MockAPI\MockResources\MockPixelShader.h">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MockAPI\MockResources\MockRenderTarget.h">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MockAPI\MockResources\MockSwapChain.h">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MockAPI\MockResources\MockTexture.h">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MockAPI\MockResources\MockVertexShader.h">
+      <Filter>MockAPI\MockResources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MockAPI\MockRenderer\MockRenderer.h">
+      <Filter>MockAPI\MockRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\MockAPI\MockInitializer\MockInitializer.h">
+      <Filter>MockAPI\MockInitializer</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
