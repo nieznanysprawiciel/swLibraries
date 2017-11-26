@@ -16,10 +16,16 @@ RTTR_REGISTRATION
 		.property( "Name", &sw::Animal::m_name ) BIND_AS_REF
 		.property( "Age", &sw::Animal::m_age );
 
-	rttr::registration::class_< sw::Mammal >( "sw::Mammal" );
+	rttr::registration::class_< sw::Mammal >( "sw::Mammal" )
+		.property( "PhysicalProperties", &sw::Mammal::m_physicalProperties ) BIND_AS_PTR;
 
 	rttr::registration::class_< sw::Dog >( "sw::Dog" )
 		.property( "Race", &sw::Dog::m_race ) BIND_AS_REF;
+
+	rttr::registration::class_< sw::PhysicalProperties >( "sw::PhysicalProperties" )
+		.property( "Weight", &sw::PhysicalProperties::Weight )
+		.property( "Length", &sw::PhysicalProperties::Length )
+		.property( "Height", &sw::PhysicalProperties::Height );
 }
 
 

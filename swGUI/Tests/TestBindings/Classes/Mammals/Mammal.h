@@ -1,6 +1,9 @@
 #pragma once
 
 #include "swGUI/Tests/TestBindings/Classes/Animal.h"
+#include "swGUI/Tests/TestBindings/Classes/Components/PhysicalProperties.h"
+
+
 
 namespace sw
 {
@@ -13,7 +16,10 @@ class Mammal : public Animal
 	RTTR_ENABLE( Animal );
 	RTTR_REGISTRATION_FRIEND;
 private:
-protected:
+public:
+
+	PhysicalProperties		m_physicalProperties;
+
 public:
 	explicit		Mammal		() = default;
 	virtual			~Mammal		() = default;

@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Animal.h" />
+    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Components\PhysicalProperties.h" />
     <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Mammals\Dog.h" />
     <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Mammals\Mammal.h" />
   </ItemGroup>

@@ -13,6 +13,9 @@
     <Filter Include="Classes\Mammals">
       <UniqueIdentifier>{42aeed21-f22e-4d24-ade2-300ba6870b36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\Components">
+      <UniqueIdentifier>{091b4647-6869-4d03-bfe7-6073820da93c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestBindings\main.cpp" />
@@ -38,6 +41,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Mammals\Dog.h">
       <Filter>Classes\Mammals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Components\PhysicalProperties.h">
+      <Filter>Classes\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

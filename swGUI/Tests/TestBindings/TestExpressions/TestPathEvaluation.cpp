@@ -94,12 +94,35 @@ TEST_CASE( "PathEvaluation_PathToPropertyInSubclass", "[GUI][BindingSystem][Expr
 }
 
 // ================================ //
-//
+// Property path contains at beginning valid path, but last valid element is basic c++ type and
+// path tries to access property in it.
 TEST_CASE( "PathEvaluation_TryAccessPropertyOfSimpleType", "[GUI][BindingSystem][Expressions]" )
 {
 	std::unique_ptr< Animal > animal = std::unique_ptr< Animal >( new Animal );
 	auto bindingTarget = gui::DefaultBindingExpression::EvaluateRelativeProperty( animal.get(), "Age.Name" );
 
 	REQUIRE_FALSE( bindingTarget.IsValid() );
+}
+
+// ================================ //
+// Path with 2 properties levels. Target should point to one before last object on path.
+TEST_CASE( "PathEvaluation_TwoLevelsPath", "[GUI][BindingSystem][Expressions]" )
+{
+	std::unique_ptr< Dog > dog = std::unique_ptr< Dog >( new Dog );
+
+	auto bindingTarget = gui::DefaultBindingExpression::EvaluateRelativeProperty( dog.get(), "PhysicalProperties.Weight" );
+	REQUIRE( bindingTarget.IsValid() );
+
+	auto & property = bindingTarget.Get().Property;
+	auto & target = bindingTarget.Get().Target;
+
+	CHECK( property.is_valid() );
+	CHECK( target.is_valid() );
+
+	CHECK( bindingTarget.Get().Property.get_type() == TypeID::get< float >() );
+	CHECK( bindingTarget.Get().Property.get_declaring_type() == TypeID::get< sw::PhysicalProperties >() );
+
+	CHECK( target.get_type().get_raw_type() == TypeID::get< sw::PhysicalProperties >() );
+	CHECK( target.get_value< sw::PhysicalProperties* >() == &dog->m_physicalProperties );
 }
 
