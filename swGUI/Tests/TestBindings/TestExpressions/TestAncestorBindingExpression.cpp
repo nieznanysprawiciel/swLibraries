@@ -105,7 +105,7 @@ TEST_CASE( "AncestorBinding_FindAncestorLevel2", "[GUI][BindingSystem][Expressio
 }
 
 // ================================ //
-//
+// If during searching for ancestor one control has nullptr as parent, expression should return invalid value.
 TEST_CASE( "AncestorBinding_ToManyLevels", "[GUI][BindingSystem][Expressions]" )
 {
 	auto root = CreateControlsTree1();
@@ -115,4 +115,23 @@ TEST_CASE( "AncestorBinding_ToManyLevels", "[GUI][BindingSystem][Expressions]" )
 	auto bindingTarget = expression->EvaluateExpression( rttr::variant(), bindingOwner );
 
 	REQUIRE_FALSE( bindingTarget.IsValid() );
+}
+
+// ================================ //
+// Find ancestor and bind to it. This should result in valid binding target but invalid property.
+TEST_CASE( "AncestorBinding_FindAncestorWithEmptyPath", "[GUI][BindingSystem][Expressions]" )
+{
+	auto root = CreateControlsTree1();
+	auto bindingOwner = GetMostBottomControl( root.get() );
+	auto controlToFind = bindingOwner->GetParent();
+
+	gui::AncestorBindingExpressionPtr expression = std::make_shared< gui::AncestorBindingExpression >( "", TypeID::get< TestUIElementClass >() );
+	auto bindingTarget = expression->EvaluateExpression( rttr::variant(), bindingOwner );
+
+	REQUIRE( bindingTarget.IsValid() );
+
+	CHECK( Properties::GetRealType( bindingTarget.Get().Target ) == TypeID::get< TestUIElementClass >() );
+	CHECK( bindingTarget.Get().Target.get_value< gui::UIElement* >() == controlToFind );
+
+	CHECK_FALSE( bindingTarget.Get().Property.is_valid() );
 }
