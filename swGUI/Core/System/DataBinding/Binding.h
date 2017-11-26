@@ -25,6 +25,9 @@ namespace gui
 
 
 /**@brief Holds information about single binding.
+
+@todo Consider supporting asynchronous binding.
+
 @ingroup DataBindingSystem*/
 struct Binding
 {

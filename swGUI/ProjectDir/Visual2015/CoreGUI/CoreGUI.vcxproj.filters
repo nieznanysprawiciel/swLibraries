@@ -213,6 +213,9 @@
     <ClInclude Include="..\..\..\Core\System\DataBinding\Expressions\DefaultBindingExpression.h">
       <Filter>Core\System\DataBinding\Expressions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\DataBinding\Expressions\AncestorBindingExpression.h">
+      <Filter>Core\System\DataBinding\Expressions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\Controls\IControl.cpp">
@@ -287,7 +290,12 @@
     <ClCompile Include="..\..\..\Core\System\DataBinding\Expressions\DefaultBindingExpression.cpp">
       <Filter>Core\System\DataBinding\Expressions</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Core\System\DataBinding\Expressions\BindingExpression.cpp" />
+    <ClCompile Include="..\..\..\Core\System\DataBinding\Expressions\AncestorBindingExpression.cpp">
+      <Filter>Core\System\DataBinding\Expressions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\DataBinding\Expressions\BindingExpression.cpp">
+      <Filter>Core\System\DataBinding\Expressions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl">

@@ -53,8 +53,12 @@ enum class BindingExpressionType : uint8
 
 /**@brief Class can evaluate binding address to right property and object.
 
-@todo Consider redesign. We need to store data needed for all bindings here. Maybe we can inherit
-interface and use subclasses. But we don't want to allocate to many objects, so it's tradeoff.
+@todo WPF bindings support fallback value in case that binding failed. We need to consider implementing it.
+Find proper place for this value, propbably BindngExpression class.
+
+@todo Support for priority bindings.
+
+@todo How to handle multi binding ??
 
 @ingroup DataBindingSystem*/
 class BindingExpression
@@ -62,9 +66,6 @@ class BindingExpression
 protected:
 
 	std::string			m_path;
-	//TypeID				m_ancestorType;
-	//uint16				m_ancestorLevels;
-	//ExpressionType		m_exprType;
 
 public:
 

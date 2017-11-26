@@ -31,6 +31,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestBindings\TestExpressions\TestRTTRPreconditions.cpp">
       <Filter>TestExpressions</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestBindings\TestExpressions\TestAncestorBindingExpression.cpp">
+      <Filter>TestExpressions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Animal.h">

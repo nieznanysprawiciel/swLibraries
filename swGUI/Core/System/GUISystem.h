@@ -83,6 +83,7 @@ The best option is to add all libraries as subtrees to your project. Imagine tha
 Your directory should look like this:
 
 - External/
+	- swCommonLib/
 	- swInputLibrary/
 	- swGraphicAPI/
 	- swGUI/
@@ -99,6 +100,8 @@ to project that uses GUI.
 Note that all libraries are in development and not all commits will work together.
 In future we will tag which versions should be used or think of better solution for that, but first all
 libraries must stabilize.
+One of options is to clone swLibraries repository. Master branch of this repository should contain working version of library
+with newest features merged.
 
 @subsection Installation_Usage
 

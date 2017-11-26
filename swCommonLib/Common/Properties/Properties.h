@@ -23,7 +23,7 @@ public:
 	static Type						GetValue		( EngineObject* object, const std::vector< rttr::property >& propertyPath );
 
 	static rttr::property			EmptyProperty	();
-	static TypeID					GetRealType		( rttr::variant& object );
+	static TypeID					GetRealType		( const rttr::variant& object );
 	static TypeID					GetRealType		( EngineObject* object );
 };
 
