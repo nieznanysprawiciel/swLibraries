@@ -1,6 +1,7 @@
 #include "swGUI/TestFramework/stdafx.h"
 
 #include "TestUIElementClass.h"
+#include "SubclassTestElement.h"
 #include "swCommonLib/External/Catch/catch.hpp"
 
 
@@ -9,6 +10,8 @@
 RTTR_REGISTRATION
 {
 	rttr::registration::class_< TestUIElementClass >( "TestUIElementClass" );
+	rttr::registration::class_< SubclassTestElement >( "SubclassTestElement" )
+		.property( "Number", &SubclassTestElement::m_number );
 	rttr::registration::class_< ValidationEventArgs >( "ValidationEventArgs" );
 	rttr::registration::class_< UnusedEventArgs >( "UnusedEventArgs" );
 }

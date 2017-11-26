@@ -50,5 +50,8 @@
     <ClInclude Include="..\..\..\TestFramework\Testers\Window\HostWindowTester.h">
       <Filter>TestFramework\Accessors\Window</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\SubclassTestElement.h">
+      <Filter>TestFramework\Utils\ClassesUI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

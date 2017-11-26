@@ -43,6 +43,9 @@
     <ProjectReference Include="..\..\CoreGUI\CoreGUI.vcxproj">
       <Project>{c6dab3ee-e9a7-47fc-9b33-a8f4250c219b}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\TestFramework\TestFramework.vcxproj">
+      <Project>{187f6b99-c04b-4093-9cdf-13d8fc994817}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Animal.h" />

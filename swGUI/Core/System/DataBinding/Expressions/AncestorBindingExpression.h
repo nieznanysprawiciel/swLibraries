@@ -9,6 +9,8 @@ namespace sw {
 namespace gui
 {
 
+class UIElement;
+
 
 /**@brief Finds ancestor of current control. Then searches property by path.
 
@@ -42,7 +44,8 @@ public:
 
 public:
 
-	static rttr::variant					FindAncestor			( const rttr::variant& propertyOwner );
+	static rttr::variant					FindAncestor			( const rttr::variant& propertyOwner, TypeID ancestorType, uint16 levels );
+	static rttr::variant					FindAncestor			( const UIElement* control, TypeID ancestorType, uint16 levels );
 
 };
 

@@ -60,9 +60,18 @@ REGISTER_EVENT_DEFINITION( MouseLeave, RoutingStrategy::Direct, UIElement, Mouse
 
 
 
+
 // ================================ //
 //
-void		UIElement::SetParent				( UIElement* parent )
+UIElement::UIElement( UIElement* parent )
+	:	m_parent( parent )
+{}
+
+
+
+// ================================ //
+//
+void					UIElement::SetParent	( UIElement* parent )
 {
 	m_parent = parent;
 }

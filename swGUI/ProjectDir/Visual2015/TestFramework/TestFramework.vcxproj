@@ -34,6 +34,7 @@
     <ClInclude Include="..\..\..\TestFramework\targetver.h" />
     <ClInclude Include="..\..\..\TestFramework\Testers\Window\HostWindowTester.h" />
     <ClInclude Include="..\..\..\TestFramework\TestFramework.h" />
+    <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\SubclassTestElement.h" />
     <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\TestUIElementClass.h" />
   </ItemGroup>
   <ItemGroup>
