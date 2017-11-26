@@ -65,8 +65,6 @@ TEST_CASE( "AncestorBinding_FindFirstLevelAncestor", "[GUI][BindingSystem][Expre
 
 	REQUIRE( bindingTarget.IsValid() );
 
-	auto tatgetType = bindingTarget.Get().Target.get_type();
-
 	CHECK( Properties::GetRealType( bindingTarget.Get().Target ) == TypeID::get< SubclassTestElement >() );
 	CHECK( bindingTarget.Get().Target.get_value< gui::UIElement* >() == controlToFind );
 
@@ -74,4 +72,47 @@ TEST_CASE( "AncestorBinding_FindFirstLevelAncestor", "[GUI][BindingSystem][Expre
 	CHECK( bindingTarget.Get().Property.get_name() == "Number" );
 }
 
+// ================================ //
+// When you pass o levels in parameter it should return invalid value.
+TEST_CASE( "AncestorBinding_0AncestorLevels", "[GUI][BindingSystem][Expressions]" )
+{
+	auto root = CreateControlsTree1();
+	auto bindingOwner = GetMostBottomControl( root.get() );
 
+	gui::AncestorBindingExpressionPtr expression = std::make_shared< gui::AncestorBindingExpression >( "Number", TypeID::get< SubclassTestElement >(), 0 );
+	auto bindingTarget = expression->EvaluateExpression( rttr::variant(), bindingOwner );
+
+	REQUIRE_FALSE( bindingTarget.IsValid() );
+}
+
+// ================================ //
+// Find ancestor 2 levels above binding expression owner.
+TEST_CASE( "AncestorBinding_FindAncestorLevel2", "[GUI][BindingSystem][Expressions]" )
+{
+	auto root = CreateControlsTree1();
+	auto bindingOwner = GetMostBottomControl( root.get() );
+
+	gui::AncestorBindingExpressionPtr expression = std::make_shared< gui::AncestorBindingExpression >( "Number", TypeID::get< SubclassTestElement >(), 2 );
+	auto bindingTarget = expression->EvaluateExpression( rttr::variant(), bindingOwner );
+
+	REQUIRE( bindingTarget.IsValid() );
+
+	CHECK( Properties::GetRealType( bindingTarget.Get().Target ) == TypeID::get< SubclassTestElement >() );
+	CHECK( bindingTarget.Get().Target.get_value< gui::UIElement* >() == root.get() );
+
+	CHECK( bindingTarget.Get().Property.get_type() == TypeID::get< uint32 >() );
+	CHECK( bindingTarget.Get().Property.get_name() == "Number" );
+}
+
+// ================================ //
+//
+TEST_CASE( "AncestorBinding_ToManyLevels", "[GUI][BindingSystem][Expressions]" )
+{
+	auto root = CreateControlsTree1();
+	auto bindingOwner = GetMostBottomControl( root.get() );
+
+	gui::AncestorBindingExpressionPtr expression = std::make_shared< gui::AncestorBindingExpression >( "Number", TypeID::get< SubclassTestElement >(), 3 );
+	auto bindingTarget = expression->EvaluateExpression( rttr::variant(), bindingOwner );
+
+	REQUIRE_FALSE( bindingTarget.IsValid() );
+}

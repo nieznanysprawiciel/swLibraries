@@ -64,18 +64,12 @@ rttr::variant					AncestorBindingExpression::FindAncestor				( const UIElement* 
 	if( levels == 0 )
 		return rttr::variant();
 
-	// Ommit current control, it could be of type ancestorType.
-	control = control->GetParent();
-
 	while( control && levels > 0 )
 	{
-		if( control->GetType() == ancestorType )
-		{
-			levels--;
-			continue;
-		}
-
 		control = control->GetParent();
+
+		if( control && control->GetType() == ancestorType )
+			levels--;
 	}
 
 	return control == nullptr ? rttr::variant() : control;
