@@ -29,7 +29,6 @@ struct BindingsInfo
 {
 	Binding					PropertyBinding;
 	BindingsVec				BoundProperties;	///< All properties receiving values from this one.
-	BindingExpressionPtr	Expression;			///< Use BindingExpression to retrive binding info when DataContext changes.
 };
 
 

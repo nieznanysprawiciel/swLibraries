@@ -45,6 +45,8 @@ struct Binding
 
 	IValueConverter*		Converter;
 	IValueValidator*		Validator;
+
+	BindingExpressionPtr	Expression;				///< Use BindingExpression to retrive binding info when DataContext changes.
 };
 
 
