@@ -1,3 +1,5 @@
+#include "swGUI/TestFramework/stdafx.h"
+
 #include "TestUIElementClass.h"
 #include "swCommonLib/External/Catch/catch.hpp"
 

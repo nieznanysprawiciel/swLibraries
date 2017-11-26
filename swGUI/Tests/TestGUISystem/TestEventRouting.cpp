@@ -4,7 +4,7 @@
 #include "swGUI/Core/System/Events/IEventArgs.h"
 
 
-#include "Classes/TestUIElementClass.h"
+#include "swGUI/TestFramework/Utils/ClassesUI/TestUIElementClass.h"
 
 
 using namespace sw::gui;

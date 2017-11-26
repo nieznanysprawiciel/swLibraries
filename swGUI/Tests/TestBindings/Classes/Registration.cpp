@@ -30,12 +30,21 @@ RTTR_REGISTRATION
 
 
 // ================================ //
+// Add this function to pull registration code into library.
+int			sw::LinkRegistration()
+{
+	return 0;
+}
+
+
+
+// ================================ //
 //
 sw::Animal::Animal	( const std::string & name )
 	:	m_name( name )
 {}
 
 // ================================ //
-// Add one class to pull registration code into library.
+//
 sw::Animal::~Animal()
 {}

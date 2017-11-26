@@ -39,7 +39,7 @@ public:
 };
 
 
-
+int		LinkRegistration	();
 
 
 }	// sw

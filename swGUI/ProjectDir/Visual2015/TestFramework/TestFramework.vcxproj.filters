@@ -7,6 +7,18 @@
     <Filter Include="PrecompiledHeader">
       <UniqueIdentifier>{42c32aa9-1a1b-4b8d-bf78-243e0693bc9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestFramework\Utils">
+      <UniqueIdentifier>{02f02ebf-46a0-444b-9ee8-e7dea2559811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFramework\Accessors">
+      <UniqueIdentifier>{4d9b4202-2f46-449a-8c5a-fac1029486b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFramework\Utils\ClassesUI">
+      <UniqueIdentifier>{654ecd5c-9417-41bc-9ba1-217e0b9cadc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFramework\Accessors\Window">
+      <UniqueIdentifier>{b83b1530-2b39-41a3-91fd-dfb6453127d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\TestFramework\stdafx.cpp">
@@ -14,6 +26,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\TestFramework\TestFramework.cpp">
       <Filter>TestFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\TestFramework\Utils\ClassesUI\TestUIElementClass.cpp">
+      <Filter>TestFramework\Utils\ClassesUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\TestFramework\Testers\Window\HostWindowTester.cpp">
+      <Filter>TestFramework\Accessors\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -25,6 +43,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\TestFramework\TestFramework.h">
       <Filter>TestFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\TestUIElementClass.h">
+      <Filter>TestFramework\Utils\ClassesUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestFramework\Testers\Window\HostWindowTester.h">
+      <Filter>TestFramework\Accessors\Window</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

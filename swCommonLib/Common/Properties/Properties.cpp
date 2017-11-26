@@ -127,7 +127,9 @@ If class inherited EngineObject, we can check it's real type.*/
 TypeID					Properties::GetRealType		( const rttr::variant& object )
 {
 	rttr::instance realObject = object;
-	return realObject.get_derived_type().get_wrapped_type().get_raw_type();
+	auto type = realObject.get_derived_type();
+
+	return type.is_wrapper() ? type.get_wrapped_type().get_raw_type() : type.get_raw_type();
 }
 
 /**@brief Gets real type of object.

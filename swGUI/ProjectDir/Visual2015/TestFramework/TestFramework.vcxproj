@@ -25,12 +25,16 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\..\TestFramework\Testers\Window\HostWindowTester.cpp" />
     <ClCompile Include="..\..\..\TestFramework\TestFramework.cpp" />
+    <ClCompile Include="..\..\..\TestFramework\Utils\ClassesUI\TestUIElementClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\TestFramework\stdafx.h" />
     <ClInclude Include="..\..\..\TestFramework\targetver.h" />
+    <ClInclude Include="..\..\..\TestFramework\Testers\Window\HostWindowTester.h" />
     <ClInclude Include="..\..\..\TestFramework\TestFramework.h" />
+    <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\TestUIElementClass.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\swGraphicAPI\ProjectsDir\Visual2015\MockAPI\MockAPI.vcxproj">
