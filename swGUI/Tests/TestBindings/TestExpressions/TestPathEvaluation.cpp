@@ -1,7 +1,7 @@
 #include "swCommonLib/External/Catch/catch.hpp"
 
 
-#include "swGUI/Core/System/DataBinding/Expressions/DefaultBindingExpression.h"
+#include "swGUI/Core/System/DataBinding/Expressions/BindingExpression.h"
 
 #include "swGUI/Tests/TestBindings/Classes/Animal.h"
 #include "swGUI/Tests/TestBindings/Classes/Mammals/Dog.h"
@@ -18,7 +18,7 @@ using namespace sw;
 TEST_CASE( "PathEvaluation_OneElementPath", "[GUI][BindingSystem][Expressions]" )
 {
 	std::unique_ptr< Animal > animal = std::unique_ptr< Animal >( new Animal );
-	auto bindingTarget = gui::DefaultBindingExpression::EvaluateRelativeProperty( animal.get(), "Name" );
+	auto bindingTarget = gui::BindingExpression::EvaluateRelativeProperty( animal.get(), "Name" );
 
 	REQUIRE( bindingTarget.IsValid() );
 	
@@ -38,7 +38,7 @@ TEST_CASE( "PathEvaluation_OneElementPath", "[GUI][BindingSystem][Expressions]" 
 TEST_CASE( "PathEvaluation_PassNonExistingPropertyPath", "[GUI][BindingSystem][Expressions]" )
 {
 	std::unique_ptr< Animal > animal = std::unique_ptr< Animal >( new Animal );
-	auto bindingTarget = gui::DefaultBindingExpression::EvaluateRelativeProperty( animal.get(), "NonExistingProperty" );
+	auto bindingTarget = gui::BindingExpression::EvaluateRelativeProperty( animal.get(), "NonExistingProperty" );
 
 	REQUIRE_FALSE( bindingTarget.IsValid() );
 }
@@ -47,7 +47,7 @@ TEST_CASE( "PathEvaluation_PassNonExistingPropertyPath", "[GUI][BindingSystem][E
 //
 TEST_CASE( "PathEvaluation_PassNullDataContext", "[GUI][BindingSystem][Expressions]" )
 {
-	auto bindingTarget = gui::DefaultBindingExpression::EvaluateRelativeProperty( rttr::variant( nullptr ), "NonExistingProperty" );
+	auto bindingTarget = gui::BindingExpression::EvaluateRelativeProperty( rttr::variant( nullptr ), "NonExistingProperty" );
 
 	REQUIRE_FALSE( bindingTarget.IsValid() );
 }
@@ -57,7 +57,7 @@ TEST_CASE( "PathEvaluation_PassNullDataContext", "[GUI][BindingSystem][Expressio
 TEST_CASE( "PathEvaluation_EmptyBindingPath", "[GUI][BindingSystem][Expressions]" )
 {
 	std::unique_ptr< Animal > animal = std::unique_ptr< Animal >( new Animal );
-	auto bindingTarget = gui::DefaultBindingExpression::EvaluateRelativeProperty( animal.get(), "" );
+	auto bindingTarget = gui::BindingExpression::EvaluateRelativeProperty( animal.get(), "" );
 
 	REQUIRE( bindingTarget.IsValid() );
 
@@ -78,7 +78,7 @@ TEST_CASE( "PathEvaluation_PathToPropertyInSubclass", "[GUI][BindingSystem][Expr
 	std::unique_ptr< Dog > dog = std::unique_ptr< Dog >( new Dog );
 	Animal* animal = dog.get();
 
-	auto bindingTarget = gui::DefaultBindingExpression::EvaluateRelativeProperty( animal, "Race" );
+	auto bindingTarget = gui::BindingExpression::EvaluateRelativeProperty( animal, "Race" );
 	REQUIRE( bindingTarget.IsValid() );
 
 	auto & property = bindingTarget.Get().Property;
@@ -99,7 +99,7 @@ TEST_CASE( "PathEvaluation_PathToPropertyInSubclass", "[GUI][BindingSystem][Expr
 TEST_CASE( "PathEvaluation_TryAccessPropertyOfSimpleType", "[GUI][BindingSystem][Expressions]" )
 {
 	std::unique_ptr< Animal > animal = std::unique_ptr< Animal >( new Animal );
-	auto bindingTarget = gui::DefaultBindingExpression::EvaluateRelativeProperty( animal.get(), "Age.Name" );
+	auto bindingTarget = gui::BindingExpression::EvaluateRelativeProperty( animal.get(), "Age.Name" );
 
 	REQUIRE_FALSE( bindingTarget.IsValid() );
 }
@@ -110,7 +110,7 @@ TEST_CASE( "PathEvaluation_TwoLevelsPath", "[GUI][BindingSystem][Expressions]" )
 {
 	std::unique_ptr< Dog > dog = std::unique_ptr< Dog >( new Dog );
 
-	auto bindingTarget = gui::DefaultBindingExpression::EvaluateRelativeProperty( dog.get(), "PhysicalProperties.Weight" );
+	auto bindingTarget = gui::BindingExpression::EvaluateRelativeProperty( dog.get(), "PhysicalProperties.Weight" );
 	REQUIRE( bindingTarget.IsValid() );
 
 	auto & property = bindingTarget.Get().Property;

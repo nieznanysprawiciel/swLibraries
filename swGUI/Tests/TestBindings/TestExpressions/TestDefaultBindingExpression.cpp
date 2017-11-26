@@ -7,6 +7,12 @@
 #include "swGUI/Tests/TestBindings/Classes/Mammals/Dog.h"
 
 
+//====================================================================================//
+// Tests of DefaultBindingExpression. Most of functionality of this class it evaluation
+// of path in function EvaluateRelativeProperty. This funtion has separate tests.
+//====================================================================================//
+
+
 using namespace sw;
 
 

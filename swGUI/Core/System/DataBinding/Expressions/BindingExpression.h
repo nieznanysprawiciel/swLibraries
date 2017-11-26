@@ -86,6 +86,10 @@ public:
 
 	/**@brief Gets expression type.*/
 	virtual BindingExpressionType			GetExpressionType		() const = 0;
+
+public:
+
+	static Nullable< BindingTarget >		EvaluateRelativeProperty	( const rttr::variant & dataContext, const std::string & path );
 };
 
 DEFINE_PTR_TYPE( BindingExpression )
