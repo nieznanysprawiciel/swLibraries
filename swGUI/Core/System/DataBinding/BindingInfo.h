@@ -27,7 +27,7 @@ typedef std::vector< BindingInfoPtr > BindingsVec;
 @ingroup DataBindingSystem*/
 struct BindingsInfo
 {
-	Binding					PropertyBinding;
+	BindingPtr				PropertyBinding;
 	BindingsVec				BoundProperties;	///< All properties receiving values from this one.
 };
 

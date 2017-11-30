@@ -10,6 +10,7 @@
 
 #include "BindingMode.h"
 
+#include "Expressions/BindingExpression.h"
 
 #include "Converters/IValueConverter.h"
 #include "Validators/IValueValidator.h"
@@ -29,27 +30,56 @@ namespace gui
 @todo Consider supporting asynchronous binding.
 
 @ingroup DataBindingSystem*/
-struct Binding
+class Binding
 {
-	rttr::property			SourceProperty;
-	rttr::variant			SourceObject;
-	rttr::property			TargetProperty;
-	rttr::variant			TargetObject;
+	FRIEND_CLASS_TESTER( Binding )
+protected:
 
-	BindingMode				Mode;
-	UpdateSourceTrigger		UpdateTrigger;
+	rttr::property			m_sourceProperty;
+	rttr::variant			m_sourceObject;
+	rttr::property			m_targetProperty;
+	rttr::variant			m_targetObject;
 
-	bool					IsEmpty : 1;			///< This Binding object can be empty.
-	bool					UseConverter : 1;		
-	bool					UseValidation : 1;		///< Optimization: Don't try to access Validator since it can be in another cache line.
+	BindingMode				m_mode;
+	UpdateSourceTrigger		m_updateTrigger;
 
-	IValueConverter*		Converter;
-	IValueValidator*		Validator;
+	bool					m_useConverter : 1;		
+	bool					m_useValidation : 1;		///< Optimization: Don't try to access Validator since it can be in another cache line.
 
-	BindingExpressionPtr	Expression;				///< Use BindingExpression to retrive binding info when DataContext changes.
+	IValueConverter*		m_converter;
+	IValueValidator*		m_validator;
+
+	BindingExpressionPtr	m_expression;				///< Use BindingExpression to retrive binding info when DataContext changes.
+
+public:
+
+	explicit		Binding			( BindingExpressionPtr expression );
+
+
+private:
+
+	void			SetConverter	( IValueConverter* converter );
+	void			SetValidator	( IValueValidator* validator );
+
+
+public:
+
+	IValueConverter*		GetConverter			() const { return m_converter; }
+	IValueValidator*		GetValidator			() const { return m_validator; }
+
+	BindingMode				GetBindingMode			() const { return m_mode; }
+	UpdateSourceTrigger		GetUpdateTrigger		() const { return m_updateTrigger; }
+
+	BindingExpressionPtr	GetBindingExpression	() const { return m_expression; }
+
+	rttr::property			GetSourceProperty		() const { return m_sourceProperty; }
+	rttr::property			GetTargetProperty		() const { return m_targetProperty; }
+	rttr::variant			GetSourceObject			() const { return m_sourceObject; }
+	rttr::variant			GetTargetObject			() const { return m_targetObject; }
+
 };
 
-
+DEFINE_PTR_TYPE( Binding )
 
 
 }	// gui

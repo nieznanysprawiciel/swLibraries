@@ -22,6 +22,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestBindings\Classes\Registration.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestBindings\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestBindings\TestBindings\TestBinding.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestBindings\TestExpressions\TestAncestorBindingExpression.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestBindings\TestExpressions\TestDefaultBindingExpression.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestBindings\TestExpressions\TestPathEvaluation.cpp" />

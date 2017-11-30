@@ -199,6 +199,7 @@
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\IControl.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
+    <ClCompile Include="..\..\..\Core\System\DataBinding\Binding.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\DependencyObject.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\Expressions\AncestorBindingExpression.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\Expressions\BindingExpression.cpp" />
