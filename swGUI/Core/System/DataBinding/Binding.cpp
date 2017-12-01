@@ -11,15 +11,23 @@ namespace gui
 
 // ================================ //
 //
-Binding::Binding		( BindingExpressionPtr expression )
+Binding::Binding		( BindingExpressionPtr expression, const rttr::variant & target, const rttr::property & targetProperty )
 	: m_expression( expression )
 	, m_sourceProperty( Properties::EmptyProperty() )
-	, m_targetProperty( Properties::EmptyProperty() )
+	, m_targetProperty( targetProperty )
+	, m_targetObject( target )
 	, m_mode( BindingMode::OneWay )
 	, m_updateTrigger( UpdateSourceTrigger::Default )
 {
 	SetConverter( nullptr );
 	SetValidator( nullptr );
+}
+
+// ================================ //
+//
+void		Binding::UpdateBinding		( const rttr::variant& target, const rttr::variant& dataContext )
+{
+
 }
 
 // ================================ //

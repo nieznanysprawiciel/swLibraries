@@ -53,8 +53,10 @@ protected:
 
 public:
 
-	explicit		Binding			( BindingExpressionPtr expression );
+	explicit		Binding			( BindingExpressionPtr expression, const rttr::variant& target, const rttr::property& targetProperty );
 
+
+	void			UpdateBinding	( const rttr::variant& target, const rttr::variant& dataContext );
 
 private:
 
