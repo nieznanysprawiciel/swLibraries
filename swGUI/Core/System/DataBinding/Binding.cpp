@@ -33,10 +33,10 @@ Nullable< void >		Binding::UpdateBinding		( const rttr::variant& target, const r
 		m_sourceObject = bindingSource.Get().Target;
 		m_sourceProperty = bindingSource.Get().Property;
 
-		return true;
+		return Result::Success;
 	}
 
-	return false;
+	return Result::Error;
 }
 
 // ================================ //

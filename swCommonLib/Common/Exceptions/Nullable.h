@@ -16,6 +16,14 @@ namespace sw
 {
 
 
+/**@brief Enumeration for nullable for creating valid and invalid object.
+@ingroup Helpers*/
+enum class Result : uint8
+{
+	Error,
+	Success
+};
+
 
 
 /**@brief Alexandrescu Expected type for error handling.
@@ -85,7 +93,7 @@ private:
 public:
 
 	explicit                Nullable			();
-			                Nullable			( bool result );
+			                Nullable			( Result result );
                             Nullable			( const ErrorType& error );
 							Nullable			( const std::string& error );
 
@@ -309,8 +317,8 @@ inline Nullable< void >::Nullable			( const std::string& error )
 
 // ================================ //
 //
-inline Nullable< void >::Nullable			( bool result )
-	: m_isValid( result ), Error( nullptr )
+inline Nullable< void >::Nullable			( Result result )
+	: m_isValid( result == Result::Success ), Error( nullptr )
 {}
 
 
