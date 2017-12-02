@@ -15,7 +15,6 @@ Binding::Binding		( BindingExpressionPtr expression, const rttr::variant & targe
 	: m_expression( expression )
 	, m_sourceProperty( Properties::EmptyProperty() )
 	, m_targetProperty( targetProperty )
-	, m_targetObject( target )
 	, m_mode( BindingMode::OneWay )
 	, m_updateTrigger( UpdateSourceTrigger::Default )
 {
@@ -27,7 +26,13 @@ Binding::Binding		( BindingExpressionPtr expression, const rttr::variant & targe
 //
 void		Binding::UpdateBinding		( const rttr::variant& target, const rttr::variant& dataContext )
 {
-
+	auto bindingSource = m_expression->EvaluateExpression( dataContext, target );
+	
+	if( bindingSource.IsValid() )
+	{
+		m_sourceObject = bindingSource.Get().Target;
+		m_sourceProperty = bindingSource.Get().Property;
+	}
 }
 
 // ================================ //

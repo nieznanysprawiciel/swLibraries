@@ -30,13 +30,15 @@ class DependencyObject : public EngineObject
 private:
 protected:
 
-	EngineObject*			m_dataContext;		///< Context for binding. @todo Consider using std::shared_ptr.
+	rttr::variant		m_dataContext;		///< Context for binding. @todo Consider using std::shared_ptr.
 
 
 public:
 	explicit		DependencyObject	();
-	~DependencyObject	() = default;
+	virtual			~DependencyObject	() = default;
 
+
+	const rttr::variant&		GetDataContext	() const { return m_dataContext; }
 };
 
 

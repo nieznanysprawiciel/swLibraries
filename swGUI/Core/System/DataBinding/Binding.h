@@ -38,7 +38,6 @@ protected:
 	rttr::property			m_sourceProperty;
 	rttr::variant			m_sourceObject;
 	rttr::property			m_targetProperty;
-	rttr::variant			m_targetObject;
 
 	BindingMode				m_mode;
 	UpdateSourceTrigger		m_updateTrigger;
@@ -77,7 +76,6 @@ public:
 	rttr::property			GetSourceProperty		() const { return m_sourceProperty; }
 	rttr::property			GetTargetProperty		() const { return m_targetProperty; }
 	rttr::variant			GetSourceObject			() const { return m_sourceObject; }
-	rttr::variant			GetTargetObject			() const { return m_targetObject; }
 
 };
 

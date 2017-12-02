@@ -8,6 +8,7 @@
 
 #include "swGUI/TestFramework/Utils/ClassesUI/SubclassTestElement.h"
 
+#include "swCommonLib/Common/Properties/Properties.h"
 
 using namespace sw;
 
@@ -28,10 +29,7 @@ TEST_CASE( "Binding_Create", "[GUI][BindingSystem]" )
 	CHECK( binding.GetValidator() == nullptr );
 	CHECK_FALSE( binding.GetSourceObject().is_valid() );
 	CHECK_FALSE( binding.GetSourceProperty().is_valid() );
-	CHECK( binding.GetTargetObject().is_valid() );
 	CHECK( binding.GetTargetProperty().is_valid() );
-
-	CHECK( binding.GetTargetObject().get_value< SubclassTestElement* >() == root.get() );
 	CHECK( binding.GetTargetProperty() == TypeID::get< SubclassTestElement >().get_property( "Number" ) );
 }
 
@@ -50,10 +48,10 @@ TEST_CASE( "Binding_UpdateBinding", "[GUI][BindingSystem]" )
 	CHECK( binding.GetSourceObject().is_valid() );
 	CHECK( binding.GetSourceProperty().is_valid() );
 
-	REQUIRE( binding.GetSourceObject().get_type() == TypeID::get< SubclassTestElement >() );
+	REQUIRE( Properties::GetRealType( binding.GetSourceObject() ) == TypeID::get< PhysicalProperties >() );
 	CHECK( binding.GetSourceProperty().get_type() == TypeID::get< uint32 >() );
 
-	CHECK( binding.GetSourceObject().get_value< SubclassTestElement* >() == root.get() );
-	CHECK( binding.GetSourceProperty() == TypeID::get< SubclassTestElement >().get_property( "Number" ) );
+	CHECK( binding.GetSourceObject().get_value< PhysicalProperties* >() == &dog->m_physicalProperties );
+	CHECK( binding.GetSourceProperty().get_name() == "Length" );
 }
 
