@@ -6,6 +6,11 @@
 */
 
 
+#include "swCommonLib/Common/RTTR.h"
+
+#include "swGUI/Core/Cultures/CultureInfo.h"
+
+
 namespace sw {
 namespace gui
 {
@@ -28,6 +33,15 @@ public:
 	explicit		IValueConverter		() = default;
 	virtual			~IValueConverter	() = default;
 
+
+	virtual rttr::variant			Convert			( const rttr::variant& object, TypeID targetType, const rttr::variant& params, const CultureInfo* culture ) const = 0;
+	virtual rttr::variant			ConvertBack		( const rttr::variant& object, TypeID targetType, const rttr::variant& params, const CultureInfo* culture ) const = 0;
+
+	/**@brief Should return true if conversion to type is valid.*/
+	virtual bool					CanConvert		( TypeID srcType, TypeID targetType ) const = 0;
+
+	/**@brief Should return true if conversion to type is valid.*/
+	virtual bool					CanConvertBack	( TypeID srcType,TypeID targetType ) const = 0;
 };
 
 

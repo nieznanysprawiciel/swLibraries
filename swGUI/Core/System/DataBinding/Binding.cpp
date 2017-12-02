@@ -24,7 +24,7 @@ Binding::Binding		( BindingExpressionPtr expression, const rttr::variant & targe
 
 // ================================ //
 //
-void		Binding::UpdateBinding		( const rttr::variant& target, const rttr::variant& dataContext )
+Nullable< void >		Binding::UpdateBinding		( const rttr::variant& target, const rttr::variant& dataContext )
 {
 	auto bindingSource = m_expression->EvaluateExpression( dataContext, target );
 	
@@ -32,7 +32,11 @@ void		Binding::UpdateBinding		( const rttr::variant& target, const rttr::variant
 	{
 		m_sourceObject = bindingSource.Get().Target;
 		m_sourceProperty = bindingSource.Get().Property;
+
+		return true;
 	}
+
+	return false;
 }
 
 // ================================ //

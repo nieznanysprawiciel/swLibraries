@@ -52,15 +52,15 @@ protected:
 
 public:
 
-	explicit		Binding			( BindingExpressionPtr expression, const rttr::variant& target, const rttr::property& targetProperty );
+	explicit			Binding			( BindingExpressionPtr expression, const rttr::variant& target, const rttr::property& targetProperty );
 
 
-	void			UpdateBinding	( const rttr::variant& target, const rttr::variant& dataContext );
+	Nullable< void >	UpdateBinding	( const rttr::variant& target, const rttr::variant& dataContext );
 
 private:
 
-	void			SetConverter	( IValueConverter* converter );
-	void			SetValidator	( IValueValidator* validator );
+	void				SetConverter	( IValueConverter* converter );
+	void				SetValidator	( IValueValidator* validator );
 
 
 public:

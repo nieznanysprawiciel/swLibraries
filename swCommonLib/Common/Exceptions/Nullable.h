@@ -8,6 +8,8 @@
 #include <exception>
 #include <string>
 #include <memory>
+#include <assert.h>
+
 
 
 namespace sw
@@ -23,7 +25,7 @@ class Nullable
 {
 public:
 
-	typedef std::exception_ptr ErrorType;
+	typedef std::shared_ptr< std::exception > ErrorType;
 
 protected:
     union
@@ -66,6 +68,35 @@ public:
 };
 
 
+/**@brief Alexandrescu Expected type for error handling.
+@ingroup Helpers*/
+template<>
+class Nullable< void >
+{
+public:
+
+	typedef std::shared_ptr< std::exception > ErrorType;
+
+private:
+
+	ErrorType			Error;
+	bool				m_isValid;
+
+public:
+
+	explicit                Nullable			();
+			                Nullable			( bool result );
+                            Nullable			( const ErrorType& error );
+							Nullable			( const std::string& error );
+
+
+    bool                    IsValid             ();
+    std::string             GetErrorReason      ();
+    ErrorType				GetError            ();
+
+};
+
+
 // ========================================================================= //
 // Implementation
 // ========================================================================= //
@@ -103,7 +134,7 @@ inline Nullable< ContentType >::Nullable			( const ErrorType & error )
 //
 template< typename ContentType >
 inline Nullable< ContentType >::Nullable			( const std::string& error )
-	: m_isValid( false ), Error( std::make_shared< std::runtime_error >( error ) )
+	: m_isValid( false ), Error( std::make_exception_ptr( std::make_shared< std::runtime_error >( error ) ) )
 {}
 
 // ================================ //
@@ -207,7 +238,7 @@ template< typename ContentType >
 inline ContentType &			Nullable< ContentType >::Get          () 
 { 
 	if( !m_isValid )
-		std::rethrow_exception( Error );
+		throw Error;
     return Content; 
 }
 
@@ -249,6 +280,61 @@ template< typename ContentType >
 inline Nullable< ContentType >     Nullable< ContentType >::FromError       () 
 { 
     return Nullable< ContentType >(); 
+}
+
+
+//====================================================================================//
+//			Specialization for void	
+//====================================================================================//
+
+
+// ================================ //
+//
+inline Nullable< void >::Nullable			() 
+    : m_isValid( false )
+    , Error( nullptr ) 
+{}
+
+// ================================ //
+//
+inline Nullable< void >::Nullable			( const ErrorType & error ) 
+    : m_isValid( false ), Error( error )
+{}
+
+// ================================ //
+//
+inline Nullable< void >::Nullable			( const std::string& error )
+	: m_isValid( false ), Error( std::make_shared< std::runtime_error >( error ) )
+{}
+
+// ================================ //
+//
+inline Nullable< void >::Nullable			( bool result )
+	: m_isValid( result ), Error( nullptr )
+{}
+
+
+// ================================ //
+//
+inline bool						Nullable< void >::IsValid() 
+{
+    return m_isValid;
+}
+
+// ================================ //
+//
+inline std::string				Nullable< void >::GetErrorReason  () 
+{ 
+    return Error->what(); 
+}
+
+// ================================ //
+//
+inline typename Nullable< void >::ErrorType		Nullable< void >::GetError ()
+{
+    if( m_isValid )
+        assert( false ); // FIXME: error handling(?)
+    return Error;
 }
 
 }	// sw

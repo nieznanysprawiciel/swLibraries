@@ -43,7 +43,7 @@ TEST_CASE( "Binding_UpdateBinding", "[GUI][BindingSystem]" )
 	gui::DefaultBindingExpressionPtr expression = std::make_shared< gui::DefaultBindingExpression >( "PhysicalProperties.Length" );
 	gui::Binding binding( expression, root.get(), TypeID::get< SubclassTestElement >().get_property( "Number" ) );
 
-	binding.UpdateBinding( root.get(), dog.get() );
+	REQUIRE( binding.UpdateBinding( root.get(), dog.get() ).IsValid() );
 
 	CHECK( binding.GetSourceObject().is_valid() );
 	CHECK( binding.GetSourceProperty().is_valid() );
