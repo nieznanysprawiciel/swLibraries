@@ -37,6 +37,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestBindings\TestBindings\TestBinding.cpp">
       <Filter>TestBindings</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestBindings\TestBindings\TestBindingCompatibility.cpp">
+      <Filter>TestBindings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Animal.h">

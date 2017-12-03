@@ -41,7 +41,7 @@ Nullable< void >		Binding::UpdateBinding		( const rttr::variant& target, const r
 
 // ================================ //
 //
-void		Binding::SetConverter		( IValueConverter* converter )
+void					Binding::SetConverter		( IValueConverter* converter )
 {
 	if( converter )
 	{
@@ -57,7 +57,7 @@ void		Binding::SetConverter		( IValueConverter* converter )
 
 // ================================ //
 //
-void		Binding::SetValidator		( IValueValidator* validator )
+void					Binding::SetValidator		( IValueValidator* validator )
 {
 	if( validator )
 	{
@@ -70,6 +70,88 @@ void		Binding::SetValidator		( IValueValidator* validator )
 		m_validator = nullptr;
 	}
 }
+
+// ================================ //
+//
+bool				Binding::IsDirectionToSource		( BindingMode mode )
+{
+	return m_mode == BindingMode::OneWayToSource || m_mode == BindingMode::TwoWay;
+}
+
+// ================================ //
+//
+bool				Binding::IsDirectionToTarget		( BindingMode mode )
+{
+	return m_mode == BindingMode::OneWay || m_mode == BindingMode::TwoWay || m_mode == BindingMode::OneTime;
+}
+
+// ================================ //
+//
+Nullable< void >	Binding::ValidateBinding			( TypeID srcType, TypeID targetType )
+{
+	bool toSource = IsDirectionToSource( m_mode );
+	bool toTarget = IsDirectionToTarget( m_mode );
+
+	assert( toSource || toTarget );
+
+	bool valid = true;
+
+	// If converter exist, we don't try normal conversion path.
+	if( m_useConverter && m_converter )
+	{
+		valid = toTarget ? valid && ValidateConverter( srcType, targetType ) : valid;
+		valid = toSource ? valid && ValidateConverterBack( targetType, srcType ) : valid;
+
+		///< @todo Add exceptions.
+		return valid ? Result::Success : Result::Error;
+	}
+
+	valid = toTarget ? valid && srcType.is_derived_from( targetType ) : valid;
+	valid = toSource ? valid && targetType.is_derived_from( srcType ) : valid;
+
+	if( valid ) return Result::Success;
+
+	valid = true;
+	valid = toTarget ? valid && ValidateAutoConversion( srcType, targetType ) : valid;
+	valid = toSource ? valid && ValidateAutoConversion( targetType, srcType ) : valid;
+
+	if( valid ) return Result::Success;
+	return Result::Error;
+}
+
+// ================================ //
+//
+bool				Binding::ValidateConverter			( TypeID srcType, TypeID targetType )
+{
+	if( m_useConverter && m_converter )
+	{
+		return m_converter->CanConvert( srcType, targetType );
+	}
+
+	return false;
+}
+
+// ================================ //
+//
+bool				Binding::ValidateConverterBack		( TypeID srcType, TypeID targetType )
+{
+	if( m_useConverter && m_converter )
+	{
+		return m_converter->CanConvertBack( srcType, targetType );
+	}
+
+	return false;
+}
+
+// ================================ //
+//
+bool				Binding::ValidateAutoConversion		( TypeID srcType, TypeID targetType )
+{
+	// RTTR makes automatic conversion for arithmetic types for us.
+	return srcType.is_arithmetic() && targetType.is_arithmetic();
+}
+
+
 
 
 }	// gui

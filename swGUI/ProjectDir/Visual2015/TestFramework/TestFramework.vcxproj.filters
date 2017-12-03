@@ -19,6 +19,9 @@
     <Filter Include="TestFramework\Accessors\Window">
       <UniqueIdentifier>{b83b1530-2b39-41a3-91fd-dfb6453127d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestFramework\Accessors\Bindings">
+      <UniqueIdentifier>{85e23c9f-4732-4089-bb88-49fcf18ba7c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\TestFramework\stdafx.cpp">
@@ -52,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\SubclassTestElement.h">
       <Filter>TestFramework\Utils\ClassesUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestFramework\Testers\Bindings\TesterBinding.h">
+      <Filter>TestFramework\Accessors\Bindings</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

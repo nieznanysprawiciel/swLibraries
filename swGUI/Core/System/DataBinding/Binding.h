@@ -62,6 +62,31 @@ private:
 	void				SetConverter	( IValueConverter* converter );
 	void				SetValidator	( IValueValidator* validator );
 
+	/**@brief Validates binding between properties.
+	
+	@param[in] srcType Type of SourceProperty or SourceObject in case we bind to object instead of property.
+	@param[in] targetType Type of TargetProperty
+
+	Evaluation order:
+	- Check if converter can convert srcType to targetType. Next steps are performed only if converter is nullptr.
+	- Check if srcType is derived from targetType (in case of basic types it checks if are equal).
+	- Check if automatic conversion can be made.
+	
+	Evaluation order for @ref BindingMode::TwoWay:
+	- Check if converter can convert types fort and back. Next steps are performed only if converter is nullptr.
+	- Check if types are equal.
+	- Check if automatic conversion can be made.
+
+	@Note If this Validation fails, binding will return default value for these properties binding.*/
+	Nullable< void >	ValidateBinding			( TypeID srcType, TypeID targetType );
+
+	bool				ValidateConverter		( TypeID srcType, TypeID targetType );
+	bool				ValidateConverterBack	( TypeID srcType, TypeID targetType );
+	bool				ValidateAutoConversion	( TypeID srcType, TypeID targetType );
+
+
+	bool				IsDirectionToSource		( BindingMode mode );
+	bool				IsDirectionToTarget		( BindingMode mode );
 
 public:
 
@@ -77,6 +102,8 @@ public:
 	rttr::property			GetTargetProperty		() const { return m_targetProperty; }
 	rttr::variant			GetSourceObject			() const { return m_sourceObject; }
 
+	void					SetBindingMode			( BindingMode mode ) { m_mode = mode; }
+	void					SetUpdateTrigger		( UpdateSourceTrigger updateTrigger ) { m_updateTrigger = updateTrigger; }
 };
 
 DEFINE_PTR_TYPE( Binding )
