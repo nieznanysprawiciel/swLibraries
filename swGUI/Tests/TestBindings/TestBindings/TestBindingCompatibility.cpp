@@ -56,9 +56,39 @@ TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility", "[GUI][
 		CHECK( ValidateBinding( binding, TypeID::get< uint32 >(), TypeID::get< uint32 >() ).IsValid() );
 	}
 
-	SECTION( "DIfferentTypes_BasicTypes" )
+	SECTION( "DifferentTypes_IntTypes" )
 	{
 		binding.SetBindingMode( gui::BindingMode::OneWay );
 		CHECK( ValidateBinding( binding, TypeID::get< uint32 >(), TypeID::get< int64 >() ).IsValid() );
+	}
+
+	SECTION( "DifferentTypes_FloatTypes" )
+	{
+		binding.SetBindingMode( gui::BindingMode::TwoWay );
+		CHECK( ValidateBinding( binding, TypeID::get< uint32 >(), TypeID::get< float >() ).IsValid() );
+	}
+
+	SECTION( "DerivedTypes_ToTargetMode" )
+	{
+		binding.SetBindingMode( gui::BindingMode::OneWay );
+		CHECK( ValidateBinding( binding, TypeID::get< Dog* >(), TypeID::get< Mammal* >() ).IsValid() );
+	}
+
+	SECTION( "DerivedTypes_ToSourceMode" )
+	{
+		binding.SetBindingMode( gui::BindingMode::OneWayToSource );
+		CHECK( ValidateBinding( binding, TypeID::get< Mammal* >(), TypeID::get< Dog* >() ).IsValid() );
+	}
+
+	SECTION( "DerivedTypes_DifferentTypes_TwoWayMode" )
+	{
+		binding.SetBindingMode( gui::BindingMode::TwoWay );
+		CHECK_FALSE( ValidateBinding( binding, TypeID::get< Mammal* >(), TypeID::get< Dog* >() ).IsValid() );
+	}
+
+	SECTION( "DerivedTypes_EqualTypes_TwoWayMode" )
+	{
+		binding.SetBindingMode( gui::BindingMode::TwoWay );
+		CHECK( ValidateBinding( binding, TypeID::get< Dog* >(), TypeID::get< Dog* >() ).IsValid() );
 	}
 }
