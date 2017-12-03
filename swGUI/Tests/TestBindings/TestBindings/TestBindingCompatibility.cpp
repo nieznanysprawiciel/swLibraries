@@ -91,4 +91,16 @@ TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility", "[GUI][
 		binding.SetBindingMode( gui::BindingMode::TwoWay );
 		CHECK( ValidateBinding( binding, TypeID::get< Dog* >(), TypeID::get< Dog* >() ).IsValid() );
 	}
+
+	SECTION( "UnrelatedTypes_TwoWayMode" )
+	{
+		binding.SetBindingMode( gui::BindingMode::TwoWay );
+		CHECK_FALSE( ValidateBinding( binding, TypeID::get< Dog* >(), TypeID::get< uint32 >() ).IsValid() );
+	}
+
+	SECTION( "UnrelatedTypes_OneWayMode" )
+	{
+		binding.SetBindingMode( gui::BindingMode::OneWay );
+		CHECK_FALSE( ValidateBinding( binding, TypeID::get< Dog* >(), TypeID::get< uint32 >() ).IsValid() );
+	}
 }
