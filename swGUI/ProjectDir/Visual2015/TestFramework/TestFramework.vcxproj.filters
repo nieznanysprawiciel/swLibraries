@@ -36,6 +36,9 @@
     <ClCompile Include="..\..\..\TestFramework\Testers\Window\HostWindowTester.cpp">
       <Filter>TestFramework\Accessors\Window</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\TestFramework\Testers\Bindings\TesterBinding.cpp">
+      <Filter>TestFramework\Accessors\Bindings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\TestFramework\stdafx.h">
