@@ -24,6 +24,13 @@ protected:
 
 	// ================================ //
 	//
+	Nullable< void >	CheckCompatibility		( Binding& binding, const rttr::property& targetProperty, const rttr::property& srcProperty, const rttr::variant& srcObject )
+	{
+		return binding.CheckCompatibility( targetProperty, srcProperty, srcObject );
+	}
+
+	// ================================ //
+	//
 	void				SetConverter			( Binding& binding, IValueConverter* converter )
 	{
 		binding.SetConverter( converter );

@@ -54,5 +54,11 @@
     <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Components\PhysicalProperties.h">
       <Filter>Classes\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Mammals\HomoSapiens.h">
+      <Filter>Classes\Mammals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Zoo.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

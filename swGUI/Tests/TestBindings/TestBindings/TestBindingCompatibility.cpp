@@ -171,3 +171,14 @@ TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_Converter
 		CHECK_FALSE( ValidateBinding( binding, TypeID::get< uint32 >(), TypeID::get< uint32 >() ).IsValid() );
 	}
 }
+
+// ================================ //
+//
+TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_Wrappers", "[GUI][BindingSystem]" )
+{
+	gui::Binding binding( nullptr, nullptr, Properties::EmptyProperty() );
+
+
+
+}
+

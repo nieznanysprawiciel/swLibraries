@@ -45,6 +45,9 @@ protected:
 	bool					m_useConverter : 1;		
 	bool					m_useValidation : 1;		///< Optimization: Don't try to access Validator since it can be in another cache line.
 
+	bool					m_bindObject : 1;			///< Tells to bind object instead property in case that property is invalid.
+	bool					m_validConversion : 1;		///< True if property can be converted. Otherwise default value will be used to synchronize values.
+
 	IValueConverter*		m_converter;
 	IValueValidator*		m_validator;
 
@@ -61,6 +64,16 @@ private:
 
 	void				SetConverter	( IValueConverter* converter );
 	void				SetValidator	( IValueValidator* validator );
+
+
+	/**@brief Checks if properties are compatibile.
+	Function calls CheckCompatibility and passes @ref Binding members to it.*/
+	Nullable< void >	CheckCompatibility		();
+
+	/**@brief Checks if properties are compatibile.
+	Function determines if bound properties can be really bound by calling ValidateBinding. Then it sets internal flags which will be used
+	during property value evaluation. This should precompute all posible things to optimise future evaluations time.*/
+	Nullable< void >	CheckCompatibility		( const rttr::property& targetProperty, const rttr::property& srcProperty, const rttr::variant& srcObject );
 
 	/**@brief Validates binding between properties.
 	

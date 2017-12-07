@@ -53,7 +53,9 @@
     <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Animal.h" />
     <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Components\PhysicalProperties.h" />
     <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Mammals\Dog.h" />
+    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Mammals\HomoSapiens.h" />
     <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Mammals\Mammal.h" />
+    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Zoo.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{22C79F18-F938-4A9E-A4B0-B77E8F87429D}</ProjectGuid>

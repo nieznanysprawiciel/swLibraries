@@ -2,7 +2,9 @@
 
 #include "Mammals/Mammal.h"
 #include "Mammals/Dog.h"
+#include "Mammals/HomoSapiens.h"
 
+#include "Zoo.h"
 
 //====================================================================================//
 // Whole registration happens in one file, beacause visual studio can ommit unused code
@@ -19,6 +21,8 @@ RTTR_REGISTRATION
 	rttr::registration::class_< sw::Mammal >( "sw::Mammal" )
 		.property( "PhysicalProperties", &sw::Mammal::m_physicalProperties ) BIND_AS_PTR;
 
+	rttr::registration::class_< sw::HomoSapiens >( "sw::HomoSapiens" );
+
 	rttr::registration::class_< sw::Dog >( "sw::Dog" )
 		.property( "Race", &sw::Dog::m_race ) BIND_AS_REF;
 
@@ -26,6 +30,10 @@ RTTR_REGISTRATION
 		.property( "Weight", &sw::PhysicalProperties::Weight )
 		.property( "Length", &sw::PhysicalProperties::Length )
 		.property( "Height", &sw::PhysicalProperties::Height );
+
+	rttr::registration::class_< sw::Zoo >( "sw::Zoo" )
+		.property( "Owner", &sw::Zoo::m_owner )
+		.property( "Director", &sw::Zoo::m_director );
 }
 
 

@@ -73,6 +73,38 @@ void					Binding::SetValidator		( IValueValidator* validator )
 
 // ================================ //
 //
+Nullable< void >	Binding::CheckCompatibility			()
+{
+	return CheckCompatibility( m_targetProperty, m_sourceProperty, m_sourceObject );
+}
+
+// ================================ //
+//
+Nullable< void >	Binding::CheckCompatibility			( const rttr::property& targetProperty, const rttr::property& srcProperty, const rttr::variant& srcObject )
+{
+	// This shouldn't happen.
+	if( !targetProperty.is_valid() )
+		return "[Binding] Target property is invalid. This indicates error in code.";
+
+	TypeID srcType = srcProperty.get_type();
+	TypeID dstType = targetProperty.get_type();
+
+	// If property is invalid we bind source object. This isn't handling of invalid case.
+	// In some situations expressions can return only source object (while accessing array for example).
+	if( !srcProperty.is_valid() )
+	{
+		srcType = srcObject.get_type();
+		m_bindObject = true;
+	}
+
+
+
+
+	return Nullable<void>();
+}
+
+// ================================ //
+//
 bool				Binding::IsDirectionToSource		( BindingMode mode )
 {
 	return m_mode == BindingMode::OneWayToSource || m_mode == BindingMode::TwoWay;
