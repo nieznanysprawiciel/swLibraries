@@ -5,6 +5,7 @@
 
 #include "swGUI/Tests/TestBindings/Classes/Animal.h"
 #include "swGUI/Tests/TestBindings/Classes/Mammals/Dog.h"
+#include "swGUI/Tests/TestBindings/Classes/Zoo.h"
 
 #include "swGUI/TestFramework/Utils/ClassesUI/SubclassTestElement.h"
 
@@ -174,11 +175,31 @@ TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_Converter
 
 // ================================ //
 //
-TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_Wrappers", "[GUI][BindingSystem]" )
+TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_BothWrappers", "[GUI][BindingSystem]" )
 {
 	gui::Binding binding( nullptr, nullptr, Properties::EmptyProperty() );
+	
+	rttr::variant zooVariant = std::make_shared< Zoo >();
+	rttr::property sapiens = TypeID::get< Zoo >().get_property( "Owner" );
 
 
+	SECTION( "ToTarget" )
+	{
+		binding.SetBindingMode( gui::BindingMode::OneWay );
+		CHECK( CheckCompatibility( binding, sapiens, sapiens, zooVariant ).IsValid() );
+	}
+
+	SECTION( "ToSource" )
+	{
+		binding.SetBindingMode( gui::BindingMode::OneWayToSource );
+		CHECK( CheckCompatibility( binding, sapiens, sapiens, zooVariant ).IsValid() );
+	}
+
+	SECTION( "TwoWay" )
+	{
+		binding.SetBindingMode( gui::BindingMode::TwoWay );
+		CHECK( CheckCompatibility( binding, sapiens, sapiens, zooVariant ).IsValid() );
+	}
 
 }
 

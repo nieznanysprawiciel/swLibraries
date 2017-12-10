@@ -163,6 +163,7 @@
     <ClInclude Include="..\..\..\Core\System\DataBinding\BindingMode.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\Converters\IValueConverter.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\DependencyObject.h" />
+    <ClInclude Include="..\..\..\Core\System\DataBinding\Exceptions\InvalidBindingException.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\Expressions\AncestorBindingExpression.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\Expressions\BindingExpression.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\Expressions\DefaultBindingExpression.h" />
@@ -201,6 +202,7 @@
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\Binding.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\DependencyObject.cpp" />
+    <ClCompile Include="..\..\..\Core\System\DataBinding\Exceptions\InvalidBindingException.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\Expressions\AncestorBindingExpression.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\Expressions\BindingExpression.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\Expressions\DefaultBindingExpression.cpp" />

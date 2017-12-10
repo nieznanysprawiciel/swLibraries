@@ -1,6 +1,15 @@
+/**
+@file Binding.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
+
 #include "Binding.h"
 
 #include "swCommonLib/Common/Properties/Properties.h"
+
+#include "Exceptions/InvalidBindingException.h"
 
 
 
@@ -97,10 +106,15 @@ Nullable< void >	Binding::CheckCompatibility			( const rttr::property& targetPro
 		m_bindObject = true;
 	}
 
+	// Both types should be raw or wrapped. We can't support mixed types.
+	if( srcType.is_wrapper() != dstType.is_wrapper() )
+		return std::make_shared< InvalidBindingException >( srcType, dstType );
 
 
+	if( !ValidateBinding( srcType, dstType ).IsValid() )
+		return std::make_shared< InvalidBindingException >( srcType, dstType );
 
-	return Nullable<void>();
+	return Result::Success;
 }
 
 // ================================ //

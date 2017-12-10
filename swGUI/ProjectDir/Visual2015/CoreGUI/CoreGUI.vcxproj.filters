@@ -55,6 +55,9 @@
     <Filter Include="Core\System\DataBinding\Expressions">
       <UniqueIdentifier>{e85465e3-a3b7-4fea-b4e6-830da93e8b1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\System\DataBinding\Exceptions">
+      <UniqueIdentifier>{41d28770-ab16-45b2-9af4-2c576b0ea60b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\targetver.h">
@@ -216,6 +219,9 @@
     <ClInclude Include="..\..\..\Core\System\DataBinding\Expressions\AncestorBindingExpression.h">
       <Filter>Core\System\DataBinding\Expressions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\DataBinding\Exceptions\InvalidBindingException.h">
+      <Filter>Core\System\DataBinding\Exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\Controls\IControl.cpp">
@@ -296,7 +302,12 @@
     <ClCompile Include="..\..\..\Core\System\DataBinding\Expressions\BindingExpression.cpp">
       <Filter>Core\System\DataBinding\Expressions</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Core\System\DataBinding\Binding.cpp" />
+    <ClCompile Include="..\..\..\Core\System\DataBinding\Exceptions\InvalidBindingException.cpp">
+      <Filter>Core\System\DataBinding\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\DataBinding\Binding.cpp">
+      <Filter>Core\System\DataBinding</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl">
