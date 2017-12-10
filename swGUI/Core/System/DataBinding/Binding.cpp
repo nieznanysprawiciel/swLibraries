@@ -110,11 +110,6 @@ Nullable< void >	Binding::CheckCompatibility			( const rttr::property& targetPro
 		m_bindObject = true;
 	}
 
-	// Both types should be raw or wrapped. We can't support mixed types.
-	if( srcType.is_wrapper() != dstType.is_wrapper() )
-		return std::make_shared< InvalidBindingException >( srcType, dstType );
-
-
 	if( !ValidateBinding( srcType, dstType ).IsValid() )
 		return std::make_shared< InvalidBindingException >( srcType, dstType );
 
@@ -147,6 +142,10 @@ Nullable< void >	Binding::ValidateBinding			( TypeID srcType, TypeID targetType 
 	assert( toSource || toTarget );
 
 	bool valid = true;
+
+	// Both types should be raw or wrapped. We can't support mixed types.
+	if( srcType.is_wrapper() != targetType.is_wrapper() )
+		return Result::Error;
 
 	// If converter exist, we don't try normal conversion path.
 	if( m_useConverter && m_converter )

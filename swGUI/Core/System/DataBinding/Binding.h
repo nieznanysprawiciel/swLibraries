@@ -81,11 +81,13 @@ private:
 	@param[in] targetType Type of TargetProperty
 
 	Evaluation order:
+	- Check if types are all wrappers or raw. Can't mix these options.
 	- Check if converter can convert srcType to targetType. Next steps are performed only if converter is nullptr.
 	- Check if srcType is derived from targetType (in case of basic types it checks if are equal).
 	- Check if automatic conversion can be made.
 	
 	Evaluation order for @ref BindingMode::TwoWay:
+	- Check if types are all wrappers or raw. Can't mix these options.
 	- Check if converter can convert types fort and back. Next steps are performed only if converter is nullptr.
 	- Check if types are equal.
 	- Check if automatic conversion can be made.
