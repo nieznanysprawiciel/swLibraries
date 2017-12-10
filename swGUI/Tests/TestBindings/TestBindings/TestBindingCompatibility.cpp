@@ -174,7 +174,7 @@ TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_Converter
 }
 
 // ================================ //
-//
+// Properties can be bound if both are wrappers of the same type.
 TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_BothWrappers", "[GUI][BindingSystem]" )
 {
 	gui::Binding binding( nullptr, nullptr, Properties::EmptyProperty() );
@@ -199,6 +199,67 @@ TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_BothWrapp
 	{
 		binding.SetBindingMode( gui::BindingMode::TwoWay );
 		CHECK( CheckCompatibility( binding, sapiens, sapiens, zooVariant ).IsValid() );
+	}
+
+}
+
+// ================================ //
+// Properties can be bound if both aren't wrappers.
+TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_BothRawPtrs", "[GUI][BindingSystem]" )
+{
+	gui::Binding binding( nullptr, nullptr, Properties::EmptyProperty() );
+	
+	rttr::variant zooVariant = std::make_shared< Zoo >();
+	rttr::property sapiens = TypeID::get< Zoo >().get_property( "Director" );
+
+
+	SECTION( "ToTarget" )
+	{
+		binding.SetBindingMode( gui::BindingMode::OneWay );
+		CHECK( CheckCompatibility( binding, sapiens, sapiens, zooVariant ).IsValid() );
+	}
+
+	SECTION( "ToSource" )
+	{
+		binding.SetBindingMode( gui::BindingMode::OneWayToSource );
+		CHECK( CheckCompatibility( binding, sapiens, sapiens, zooVariant ).IsValid() );
+	}
+
+	SECTION( "TwoWay" )
+	{
+		binding.SetBindingMode( gui::BindingMode::TwoWay );
+		CHECK( CheckCompatibility( binding, sapiens, sapiens, zooVariant ).IsValid() );
+	}
+
+}
+
+// ================================ //
+// Mixed wrapped and non wrapped types can't be bound.
+TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_MixedRawPtrAndWrappedType", "[GUI][BindingSystem]" )
+{
+	gui::Binding binding( nullptr, nullptr, Properties::EmptyProperty() );
+	
+	rttr::variant zooVariant = std::make_shared< Zoo >();
+	rttr::property director = TypeID::get< Zoo >().get_property( "Director" );
+	rttr::property owner = TypeID::get< Zoo >().get_property( "Owner" );
+
+
+	SECTION( "ToTarget" )
+	{
+		binding.SetBindingMode( gui::BindingMode::OneWay );
+		CHECK_FALSE( CheckCompatibility( binding, director, owner, zooVariant ).IsValid() );
+	}
+
+	SECTION( "ToSource" )
+	{
+		binding.SetBindingMode( gui::BindingMode::OneWayToSource );
+		CHECK_FALSE( CheckCompatibility( binding, director, owner, zooVariant ).IsValid() );
+	}
+
+	SECTION( "TwoWay" )
+	{
+		binding.SetBindingMode( gui::BindingMode::TwoWay );
+		CHECK_FALSE( CheckCompatibility( binding, director, owner, zooVariant ).IsValid() );
 	}
 
 }
