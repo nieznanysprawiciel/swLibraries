@@ -5,10 +5,14 @@
 @copyright File is part of Sleeping Wombat Engine.
 */
 
+#include "Exception.h"
+
 #include <exception>
 #include <string>
 #include <memory>
+#include <type_traits>
 #include <assert.h>
+
 
 
 
@@ -33,7 +37,7 @@ class Nullable
 {
 public:
 
-	typedef std::shared_ptr< std::exception > ErrorType;
+	typedef ExceptionPtr ErrorType;
 
 protected:
     union
@@ -53,6 +57,9 @@ public:
 							Nullable			( const std::string& error );
                             Nullable			( const Nullable< ContentType > & that );
                             ~Nullable			();
+
+	template< typename ExceptionType >
+							Nullable			( std::shared_ptr< ExceptionType > error );
 
     bool                    IsValid             ();
     std::string             GetErrorReason      ();
@@ -83,7 +90,7 @@ class Nullable< void >
 {
 public:
 
-	typedef std::shared_ptr< std::exception > ErrorType;
+	typedef ExceptionPtr ErrorType;
 
 private:
 
@@ -97,6 +104,8 @@ public:
                             Nullable			( const ErrorType& error );
 							Nullable			( const std::string& error );
 
+	template< typename ExceptionType >
+							Nullable			( std::shared_ptr< ExceptionType > error );
 
     bool                    IsValid             ();
     std::string             GetErrorReason      ();
@@ -142,7 +151,7 @@ inline Nullable< ContentType >::Nullable			( const ErrorType & error )
 //
 template< typename ContentType >
 inline Nullable< ContentType >::Nullable			( const std::string& error )
-	: m_isValid( false ), Error( std::make_exception_ptr( std::make_shared< std::runtime_error >( error ) ) )
+	: m_isValid( false ), Error( std::static_pointer_cast< Exception >( std::make_shared< RuntimeException >( error ) ) )
 {}
 
 // ================================ //
@@ -155,6 +164,16 @@ inline Nullable< ContentType >::Nullable			( const Nullable< ContentType > & tha
         new( &Content ) ContentType( that.Content ); 
     else 
         new( &Error ) ErrorType( that.Error ); 
+}
+
+// ================================ //
+//
+template< typename ContentType >
+template< typename ExceptionType >
+inline Nullable< ContentType >::Nullable			( std::shared_ptr< ExceptionType > error )
+	: m_isValid( false ), Error( std::static_pointer_cast< Exception >( error ) )
+{
+	static_assert( std::is_base_of< typename ErrorType::element_type, ExceptionType >::value, "ExceptionType should be derived from ErrorType" );
 }
 
 // ================================ //
@@ -181,7 +200,7 @@ inline bool						Nullable< ContentType >::IsValid()
 template< typename ContentType >
 inline std::string				Nullable< ContentType >::GetErrorReason  () 
 { 
-    return Error->what(); 
+    return Error->ErrorMessage(); 
 }
 
 // ================================ //
@@ -311,8 +330,17 @@ inline Nullable< void >::Nullable			( const ErrorType & error )
 
 // ================================ //
 //
+template< typename ExceptionType >
+inline Nullable< void >::Nullable			( std::shared_ptr< ExceptionType > error )
+	: m_isValid( false ), Error( std::static_pointer_cast< Exception >( error ) )
+{
+	static_assert( std::is_base_of< typename ErrorType::element_type, ExceptionType >::value, "ExceptionType should be derived from ErrorType" );
+}
+
+// ================================ //
+//
 inline Nullable< void >::Nullable			( const std::string& error )
-	: m_isValid( false ), Error( std::make_shared< std::runtime_error >( error ) )
+	: m_isValid( false ), Error( std::static_pointer_cast< Exception >( std::make_shared< RuntimeException >( error ) ) )
 {}
 
 // ================================ //
@@ -333,7 +361,7 @@ inline bool						Nullable< void >::IsValid()
 //
 inline std::string				Nullable< void >::GetErrorReason  () 
 { 
-    return Error->what(); 
+    return Error->ErrorMessage(); 
 }
 
 // ================================ //

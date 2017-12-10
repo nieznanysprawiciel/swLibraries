@@ -33,6 +33,7 @@
     <ClInclude Include="..\..\..\Common\Config\ConfigHelper.h" />
     <ClInclude Include="..\..\..\Common\Converters.h" />
     <ClInclude Include="..\..\..\Common\EngineObject.h" />
+    <ClInclude Include="..\..\..\Common\Exceptions\Exception.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Nullable.h" />
     <ClInclude Include="..\..\..\Common\Logging\Logger.h" />
     <ClInclude Include="..\..\..\Common\MemoryChunk.h" />
