@@ -91,6 +91,10 @@ Nullable< void >	Binding::CheckCompatibility			()
 //
 Nullable< void >	Binding::CheckCompatibility			( const rttr::property& targetProperty, const rttr::property& srcProperty, const rttr::variant& srcObject )
 {
+	// Reset values.
+	m_bindObject = false;
+	m_validConversion = false;
+
 	// This shouldn't happen.
 	if( !targetProperty.is_valid() )
 		return "[Binding] Target property is invalid. This indicates error in code.";
@@ -113,6 +117,8 @@ Nullable< void >	Binding::CheckCompatibility			( const rttr::property& targetPro
 
 	if( !ValidateBinding( srcType, dstType ).IsValid() )
 		return std::make_shared< InvalidBindingException >( srcType, dstType );
+
+	m_validConversion = true;
 
 	return Result::Success;
 }
