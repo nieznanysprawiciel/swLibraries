@@ -1,7 +1,7 @@
 #pragma once
 
-#include "swGUI/Tests/TestBindings/Classes/Mammals/Mammal.h"
-#include "swGUI/Tests/TestBindings/Classes/Components/PhysicalProperties.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/Animals/Mammals/Mammal.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/Animals/Components/PhysicalProperties.h"
 
 
 

@@ -7,23 +7,11 @@
     <Filter Include="TestExpressions">
       <UniqueIdentifier>{d023e6ee-0804-4dd1-b9ea-2b0470984636}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes">
-      <UniqueIdentifier>{084fa910-e556-4f5a-b999-ebdd881af70c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Mammals">
-      <UniqueIdentifier>{42aeed21-f22e-4d24-ade2-300ba6870b36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Components">
-      <UniqueIdentifier>{091b4647-6869-4d03-bfe7-6073820da93c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestBindings\main.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestBindings\TestExpressions\TestDefaultBindingExpression.cpp">
       <Filter>TestExpressions</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Tests\TestBindings\Classes\Registration.cpp">
-      <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\Tests\TestBindings\TestExpressions\TestPathEvaluation.cpp">
       <Filter>TestExpressions</Filter>
@@ -40,25 +28,5 @@
     <ClCompile Include="..\..\..\..\Tests\TestBindings\TestBindings\TestBindingCompatibility.cpp">
       <Filter>TestBindings</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Animal.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Mammals\Mammal.h">
-      <Filter>Classes\Mammals</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Mammals\Dog.h">
-      <Filter>Classes\Mammals</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Components\PhysicalProperties.h">
-      <Filter>Classes\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Mammals\HomoSapiens.h">
-      <Filter>Classes\Mammals</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Zoo.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

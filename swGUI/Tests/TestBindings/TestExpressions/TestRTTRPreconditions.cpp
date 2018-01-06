@@ -2,7 +2,7 @@
 
 #include "swCommonLib/Common/RTTR.h"
 
-#include "swGUI/Tests/TestBindings/Classes/Zoo.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/Animals/Zoo.h"
 
 
 

@@ -2,7 +2,7 @@
 
 #include "swCommonLib/Common/RTTR.h"
 
-#include "swGUI/Tests/TestBindings/Classes/Mammals/HomoSapiens.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/Animals/Mammals/HomoSapiens.h"
 
 namespace sw
 {

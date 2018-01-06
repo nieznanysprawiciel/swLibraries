@@ -3,8 +3,8 @@
 #include "swGUI/Core/System/DataBinding/Binding.h"
 #include "swGUI/Core/System/DataBinding/Expressions/DefaultBindingExpression.h"
 
-#include "swGUI/Tests/TestBindings/Classes/Animal.h"
-#include "swGUI/Tests/TestBindings/Classes/Mammals/Dog.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/Animals/Animal.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/Animals/Mammals/Dog.h"
 
 #include "swGUI/TestFramework/Utils/ClassesUI/SubclassTestElement.h"
 

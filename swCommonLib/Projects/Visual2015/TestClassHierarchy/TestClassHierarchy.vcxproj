@@ -23,6 +23,17 @@
       <Project>{59fa8028-2346-4246-854f-14dcfab6ab56}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Animal.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Components\PhysicalProperties.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\Dog.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\HomoSapiens.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\Mammal.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Zoo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Registration.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{33DB1307-8EDB-4ABD-B861-39A58D37B489}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
