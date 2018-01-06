@@ -348,7 +348,7 @@ bool			SerializationCore::DeserializeBasicTypes			( IDeserializer* deser, const 
 /**@brief Deserializuje typy DirectXMath.
 
 @return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
-bool	SerializationCore::DeserializeVectorTypes( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
+bool	SerializationCore::DeserializeVectorTypes				( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
 
@@ -367,7 +367,7 @@ bool	SerializationCore::DeserializeVectorTypes( IDeserializer* deser, const rttr
 /**@brief Deserializuje std::string i std::wstring.
 
 @return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
-bool	SerializationCore::DeserializeStringTypes( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
+bool	SerializationCore::DeserializeStringTypes				( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
 
@@ -384,7 +384,7 @@ bool	SerializationCore::DeserializeStringTypes( IDeserializer* deser, const rttr
 /**@brief Deserializes enum properties from string.
 
 @return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
-bool	SerializationCore::DeserializeEnumTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
+bool	SerializationCore::DeserializeEnumTypes					( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
 
@@ -407,7 +407,7 @@ bool	SerializationCore::DeserializeEnumTypes	( IDeserializer* deser, const rttr:
 /**@brief Deserializes arrays.
 
 @return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
-bool	SerializationCore::DeserializeArrayTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
+bool	SerializationCore::DeserializeArrayTypes				( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
 {
 	TypeID propertyType = SerializationCore::GetWrappedType( prop.get_type() );
 	if( !propertyType.is_array() )
@@ -517,14 +517,17 @@ bool	SerializationCore::DeserializeObjectTypes	( IDeserializer* deser, const rtt
 	return true;
 }
 
-
-std::string SerializationCore::WstringToUTF( const std::wstring & str )
+// ================================ //
+//
+std::string			SerializationCore::WstringToUTF		( const std::wstring& str )
 {
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
 	return myconv.to_bytes( str );
 }
 
-std::wstring SerializationCore::UTFToWstring( const std::string & str )
+// ================================ //
+//
+std::wstring		SerializationCore::UTFToWstring		( const std::string& str )
 {
 	std::wstring_convert< std::codecvt_utf8< wchar_t > > myconv;
 	return myconv.from_bytes( str );
