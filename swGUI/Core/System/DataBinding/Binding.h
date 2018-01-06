@@ -59,6 +59,8 @@ public:
 
 
 	Nullable< void >	UpdateBinding	( const rttr::variant& target, const rttr::variant& dataContext );
+	Nullable< void >	SetValue		( const rttr::variant& target, const rttr::variant& value );
+	rttr::variant		GetValue		( const rttr::variant& target );
 
 private:
 

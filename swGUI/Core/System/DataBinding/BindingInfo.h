@@ -28,6 +28,7 @@ typedef std::vector< BindingInfoPtr > BindingsVec;
 struct BindingsInfo
 {
 	BindingPtr				PropertyBinding;
+	rttr::variant			TargetObject;		///< Object owning this BindingsInfo.
 	BindingsVec				BoundProperties;	///< All properties receiving values from this one.
 };
 

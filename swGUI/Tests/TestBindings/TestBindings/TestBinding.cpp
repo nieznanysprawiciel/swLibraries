@@ -55,3 +55,9 @@ TEST_CASE( "Binding_UpdateBinding", "[GUI][BindingSystem]" )
 	CHECK( binding.GetSourceProperty().get_name() == "Length" );
 }
 
+// ================================ //
+//
+TEST_CASE( "Binding_GetValue", "[GUI][BindingSystem]" )
+{
+
+}

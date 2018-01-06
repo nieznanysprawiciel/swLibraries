@@ -33,7 +33,7 @@ Binding::Binding		( BindingExpressionPtr expression, const rttr::variant & targe
 
 // ================================ //
 //
-Nullable< void >		Binding::UpdateBinding		( const rttr::variant& target, const rttr::variant& dataContext )
+Nullable< void >		Binding::UpdateBinding			( const rttr::variant& target, const rttr::variant& dataContext )
 {
 	auto bindingSource = m_expression->EvaluateExpression( dataContext, target );
 	
@@ -50,7 +50,27 @@ Nullable< void >		Binding::UpdateBinding		( const rttr::variant& target, const r
 
 // ================================ //
 //
-void					Binding::SetConverter		( IValueConverter* converter )
+Nullable< void >		Binding::SetValue				( const rttr::variant& target, const rttr::variant& value )
+{
+	return Nullable<void>();
+}
+
+// ================================ //
+//
+rttr::variant			Binding::GetValue				( const rttr::variant& target )
+{
+	if( IsDirectionToTarget( m_mode ) )
+	{
+
+	}
+
+	return rttr::variant();
+}
+
+
+// ================================ //
+//
+void					Binding::SetConverter			( IValueConverter* converter )
 {
 	if( converter )
 	{
@@ -66,7 +86,7 @@ void					Binding::SetConverter		( IValueConverter* converter )
 
 // ================================ //
 //
-void					Binding::SetValidator		( IValueValidator* validator )
+void					Binding::SetValidator			( IValueValidator* validator )
 {
 	if( validator )
 	{
