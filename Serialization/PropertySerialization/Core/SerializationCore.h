@@ -107,6 +107,9 @@ public:
 
 	/**@brief Gets real type of the object that means most derived and wrapped type.*/
 	static TypeID						GetRealType			( const rttr::instance& object );
+
+	/**@brief Gets wrapped type. If type isn't wrapper it returns it unmodified.*/
+	static TypeID						GetWrappedType			( TypeID type );
 };
 
 

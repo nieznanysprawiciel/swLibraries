@@ -35,7 +35,7 @@ TEST_CASE( "GenericObject.Strings", "[Serialization]" )
 }
 
 // ================================ //
-// Serializes object derived from EngineObject with strings types.
+// Serializes object derived from EngineObject with array types.
 TEST_CASE( "GenericObject.Arrays", "[Serialization]" )
 {
 	ArrayContainer* expected = new ArrayContainer;

@@ -44,5 +44,5 @@ RTTR_REGISTRATION
 	rttr::registration::class_< std::vector< sw::StructWithSimpleTypes > >( "StructWithSimpleTypesVec" );
 
 	rttr::registration::class_< sw::ArrayContainer >( "ArrayContainer" )
-		.property( "Vector", &sw::ArrayContainer::StructsVec ) BIND_AS_REF;
+		.property( "StructsVec", &sw::ArrayContainer::StructsVec ) BIND_AS_REF;
 }

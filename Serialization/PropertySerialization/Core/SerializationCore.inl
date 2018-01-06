@@ -91,5 +91,12 @@ inline TypeID	SerializationCore::GetRealType				( const rttr::instance& object )
 	return objectType.is_wrapper() ? objectType.get_wrapped_type() : objectType;
 }
 
+// ================================ //
+//
+inline TypeID	SerializationCore::GetWrappedType			( TypeID type )
+{
+	return type.is_wrapper() ? type.get_wrapped_type() : type;
+}
+
 
 }	// sw

@@ -199,7 +199,7 @@ bool			SerializationCore::SerializeEnumTypes				( ISerializer* ser, const rttr::
 //
 bool			SerializationCore::SerializeArrayTypes				( ISerializer* ser, const rttr::instance& object, rttr::property& prop )
 {
-	TypeID propertyType = prop.get_type();
+	TypeID propertyType = SerializationCore::GetWrappedType( prop.get_type() );
 	if( !propertyType.is_array() )
 		return false;
 
@@ -295,8 +295,8 @@ void					SerializationCore::DefaultDeserializeImpl	( IDeserializer& deser, const
 		deserialized = deserialized || DeserializeVectorTypes( &deser, object, property );
 		deserialized = deserialized || DeserializeStringTypes( &deser, object, property );
 		deserialized = deserialized || DeserializeEnumTypes( &deser, object, property );
-		deserialized = deserialized || DeserializeObjectTypes( &deser, object, property );
 		deserialized = deserialized || DeserializeArrayTypes( &deser, object, property );
+		deserialized = deserialized || DeserializeObjectTypes( &deser, object, property );
 	}
 }
 
@@ -409,7 +409,7 @@ bool	SerializationCore::DeserializeEnumTypes	( IDeserializer* deser, const rttr:
 @return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
 bool	SerializationCore::DeserializeArrayTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
 {
-	TypeID propertyType = prop.get_type();
+	TypeID propertyType = SerializationCore::GetWrappedType( prop.get_type() );
 	if( !propertyType.is_array() )
 		return false;
 
