@@ -36,7 +36,7 @@ TEST_CASE( "GenericObject.Strings", "[Serialization]" )
 
 // ================================ //
 // Serializes object derived from EngineObject with array types.
-TEST_CASE( "GenericObject.Arrays", "[Serialization]" )
+TEST_CASE( "GenericObject.Arrays.PlainStructs", "[Serialization]" )
 {
 	ArrayContainer* expected = new ArrayContainer;
 	ArrayContainer* actual = new ArrayContainer;
@@ -50,5 +50,6 @@ TEST_CASE( "GenericObject.Arrays", "[Serialization]" )
 
 	CHECK( actual->StructsVec == expected->StructsVec );
 }
+
 
 

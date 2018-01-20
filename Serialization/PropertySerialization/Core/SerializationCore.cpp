@@ -107,35 +107,42 @@ void					SerializationCore::SerializePropertiesVec	( ISerializer* ser, const rtt
 //
 bool				SerializationCore::SerializeBasicTypes			( ISerializer* ser, const rttr::instance& object, rttr::property& prop )
 {
-	auto propertyType = prop.get_type();
+	return SerializeBasicTypes( ser, prop.get_name(), prop.get_value( object ) );
+}
+
+// ================================ //
+//
+bool				SerializationCore::SerializeBasicTypes			( ISerializer* ser, rttr::string_view name, const rttr::variant& propertyValue )
+{
+	auto propertyType = propertyValue.get_type();
 
 	if( !propertyType.is_arithmetic() )
 		return false;
 
 	if( propertyType == rttr::type::get< float >() )
-		SerializeProperty< float >( ser, prop, object );
+		SerializeProperty< float >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< bool >() )
-		SerializeProperty< bool >( ser, prop, object );
+		SerializeProperty< bool >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< int32 >() )
-		SerializeProperty< int32 >( ser, prop, object );
+		SerializeProperty< int32 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< uint32 >() )
-		SerializeProperty< uint32 >( ser, prop, object );
+		SerializeProperty< uint32 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< int16 >() )
-		SerializeProperty< int16 >( ser, prop, object );
+		SerializeProperty< int16 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< uint16 >() )
-		SerializeProperty< uint16 >( ser, prop, object );
+		SerializeProperty< uint16 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< int8 >() )
-		SerializeProperty< int8 >( ser, prop, object );
+		SerializeProperty< int8 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< uint8 >() )
-		SerializeProperty< uint8 >( ser, prop, object );
+		SerializeProperty< uint8 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< int64 >() )
-		SerializeProperty< int64 >( ser, prop, object );
+		SerializeProperty< int64 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< uint64 >() )
-		SerializeProperty< uint64 >( ser, prop, object );
+		SerializeProperty< uint64 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< double >() )
-		SerializeProperty< double >( ser, prop, object );
+		SerializeProperty< double >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< char >() )
-		SerializeProperty< char >( ser, prop, object );
+		SerializeProperty< char >( ser, name, propertyValue );
 	else
 		return false;
 
@@ -271,7 +278,6 @@ bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr
 
 	return serialized;
 }
-
 
 // ================================ //
 //
@@ -647,6 +653,16 @@ static void		SerializationCore::SerializeProperty< char >			( ISerializer* ser, 
 	char character = GetPropertyValue< char >( prop, object );
 	ser->SetAttribute( prop.get_name().to_string(), std::string( 1, character ) );
 }
+
+// ================================ //
+//
+template<>
+static void		SerializationCore::SerializeProperty< char >			( ISerializer* ser, rttr::string_view name, const rttr::variant& propertyValue )
+{
+	char character = propertyValue.get_value< char >();
+	ser->SetAttribute( name.to_string(), std::string( 1, character ) );
+}
+
 
 //====================================================================================//
 //				DeserializeProperty template specialization

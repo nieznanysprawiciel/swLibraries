@@ -65,6 +65,14 @@ void			SerializationCore::SerializeProperty		( ISerializer* ser, rttr::property 
 	ser->SetAttribute( prop.get_name().to_string(), GetPropertyValue< PropertyType >( prop, object ) );
 }
 
+// ================================ //
+//
+template< typename PropertyType >
+inline void		SerializationCore::SerializeProperty		( ISerializer* ser, rttr::string_view name, const rttr::variant& propertyValue )
+{
+	ser->SetAttribute( name.to_string(), propertyValue.get_value< PropertyType >() );
+}
+
 
 /**@brief Ustawia wartoœæ podanej w³aœciwoœci.*/
 template< typename PropertyType >

@@ -52,6 +52,8 @@ public:
 	static bool				SerializeEnumTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
 	static bool				SerializeArrayTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
 	static bool				SerializeObjectTypes	( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
+
+	static bool				SerializeBasicTypes		( ISerializer* ser, rttr::string_view name, const rttr::variant& propertyValue );
 	///@}
 
 
@@ -79,6 +81,8 @@ public:
 	template< typename PropertyType >
 	static void				SerializeProperty	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 
+	template< typename PropertyType >
+	static void				SerializeProperty	( ISerializer* ser, rttr::string_view name, const rttr::variant& propertyValue );
 
 
 	template<>	static void				SerializeProperty< EngineObject* >			( ISerializer* ser, rttr::property prop, const rttr::instance& object );
@@ -88,6 +92,8 @@ public:
 	template<>	static void				SerializeProperty< DirectX::XMFLOAT4* >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				SerializeProperty< std::wstring >			( ISerializer* ser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				SerializeProperty< char >					( ISerializer* ser, rttr::property prop, const rttr::instance& object );
+
+	template<>	static void				SerializeProperty< char >					( ISerializer* ser, rttr::string_view name, const rttr::variant& propertyValue );
 
 
 	template< typename PropertyType >
