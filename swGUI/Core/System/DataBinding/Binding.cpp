@@ -24,6 +24,7 @@ Binding::Binding		( BindingExpressionPtr expression, const rttr::variant & targe
 	: m_expression( expression )
 	, m_sourceProperty( Properties::EmptyProperty() )
 	, m_targetProperty( targetProperty )
+	, m_targetObject( target )
 	, m_mode( BindingMode::OneWay )
 	, m_updateTrigger( UpdateSourceTrigger::Default )
 {
@@ -33,9 +34,9 @@ Binding::Binding		( BindingExpressionPtr expression, const rttr::variant & targe
 
 // ================================ //
 //
-ReturnResult			Binding::UpdateBinding			( const rttr::variant& target, const rttr::variant& dataContext )
+ReturnResult			Binding::UpdateBinding			( const rttr::variant& dataContext )
 {
-	auto bindingSource = m_expression->EvaluateExpression( dataContext, target );
+	auto bindingSource = m_expression->EvaluateExpression( dataContext, m_targetObject );
 	
 	if( bindingSource.IsValid() )
 	{
@@ -50,21 +51,34 @@ ReturnResult			Binding::UpdateBinding			( const rttr::variant& target, const rtt
 
 // ================================ //
 //
-ReturnResult			Binding::SetValue				( const rttr::variant& target, const rttr::variant& value )
+void					Binding::PropagateToSource		( const rttr::variant& value )
 {
-	return Nullable<void>();
+	m_sourceProperty.set_value( m_sourceObject, value );
 }
 
 // ================================ //
 //
-rttr::variant			Binding::GetValue				( const rttr::variant& target )
+void					Binding::PropagateToTarget		( const rttr::variant& value )
+{}
+
+// ================================ //
+//
+void					Binding::PropagateToSource		()
 {
-	if( IsDirectionToTarget( m_mode ) )
-	{
+	rttr::variant value = GetValue();
+	PropagateToSource( value );
+}
 
-	}
+// ================================ //
+//
+void					Binding::PropagateToTarget		()
+{}
 
-	return rttr::variant();
+// ================================ //
+//
+rttr::variant			Binding::GetValue				()
+{
+	return m_targetProperty.get_value( m_targetObject );
 }
 
 

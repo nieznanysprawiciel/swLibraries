@@ -43,7 +43,7 @@ TEST_CASE( "Binding_UpdateBinding", "[GUI][BindingSystem]" )
 	gui::DefaultBindingExpressionPtr expression = std::make_shared< gui::DefaultBindingExpression >( "PhysicalProperties.Length" );
 	gui::Binding binding( expression, root.get(), TypeID::get< SubclassTestElement >().get_property( "Number" ) );
 
-	REQUIRE( binding.UpdateBinding( root.get(), dog.get() ).IsValid() );
+	REQUIRE( binding.UpdateBinding( dog.get() ).IsValid() );
 
 	CHECK( binding.GetSourceObject().is_valid() );
 	CHECK( binding.GetSourceProperty().is_valid() );
@@ -56,8 +56,25 @@ TEST_CASE( "Binding_UpdateBinding", "[GUI][BindingSystem]" )
 }
 
 // ================================ //
-//
-TEST_CASE( "Binding_GetValue", "[GUI][BindingSystem]" )
+// Propagetes value to bound property.
+TEST_CASE( "Binding_PropagateToSource", "[GUI][BindingSystem]" )
 {
+	std::unique_ptr< Dog > dog = std::unique_ptr< Dog >( new Dog );
+	std::unique_ptr< SubclassTestElement > root = std::make_unique< SubclassTestElement >();
 
+	gui::DefaultBindingExpressionPtr expression = std::make_shared< gui::DefaultBindingExpression >( "PhysicalProperties.Length" );
+	gui::Binding binding( expression, root.get(), TypeID::get< SubclassTestElement >().get_property( "Number" ) );
+	binding.SetBindingMode( gui::BindingMode::OneWayToSource );
+
+	REQUIRE( binding.UpdateBinding( dog.get() ).IsValid() );
+
+	root->SetNumber( 543 );
+	binding.PropagateToSource();
+
+	CHECK( dog->m_physicalProperties.Length == 543 );
+
+	root->SetNumber( 554222 );
+	binding.PropagateToSource();
+
+	CHECK( dog->m_physicalProperties.Length == 554222 );
 }

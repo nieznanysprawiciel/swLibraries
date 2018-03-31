@@ -15,6 +15,6 @@ private:
 
 public:
 
-
+	void			SetNumber	( uint32 num ) { m_number = num; }
 };
 

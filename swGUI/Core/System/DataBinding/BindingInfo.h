@@ -34,7 +34,6 @@ Other properties can treat this property as source. All bound properties are lis
 struct BindingsInfo
 {
 	BindingPtr				PropertyBinding;
-	rttr::variant			TargetObject;		///< Object owning this BindingsInfo.
 	BindingsVec				BoundProperties;	///< All properties receiving values from this one.
 };
 

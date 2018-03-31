@@ -39,6 +39,7 @@ protected:
 	rttr::property			m_sourceProperty;
 	rttr::variant			m_sourceObject;
 	rttr::property			m_targetProperty;
+	rttr::variant			m_targetObject;
 
 	BindingMode				m_mode;
 	UpdateSourceTrigger		m_updateTrigger;
@@ -56,12 +57,23 @@ protected:
 
 public:
 
-	explicit			Binding			( BindingExpressionPtr expression, const rttr::variant& target, const rttr::property& targetProperty );
+	explicit			Binding				( BindingExpressionPtr expression, const rttr::variant& target, const rttr::property& targetProperty );
 
 
-	ReturnResult		UpdateBinding	( const rttr::variant& target, const rttr::variant& dataContext );
-	ReturnResult		SetValue		( const rttr::variant& target, const rttr::variant& value );
-	rttr::variant		GetValue		( const rttr::variant& target );
+	/**@brief Updates source object nd property based on BindingExpression.*/
+	ReturnResult		UpdateBinding		( const rttr::variant& dataContext );
+
+	/**@brief Propagates value from parameter to Source property.
+	This function doesn't check Target property value*/
+	void				PropagateToSource	( const rttr::variant& value );
+	void				PropagateToTarget	( const rttr::variant& value );
+
+	/**@brief Propagates value from parameter to Source property.
+	This function gets value from Target property.*/
+	void				PropagateToSource	();
+	void				PropagateToTarget	();
+
+	rttr::variant		GetValue			();
 
 private:
 
