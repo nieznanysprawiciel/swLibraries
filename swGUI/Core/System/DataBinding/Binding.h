@@ -7,6 +7,7 @@
 
 
 #include "swCommonLib/Common/RTTR.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
 
 #include "BindingMode.h"
 
@@ -58,8 +59,8 @@ public:
 	explicit			Binding			( BindingExpressionPtr expression, const rttr::variant& target, const rttr::property& targetProperty );
 
 
-	Nullable< void >	UpdateBinding	( const rttr::variant& target, const rttr::variant& dataContext );
-	Nullable< void >	SetValue		( const rttr::variant& target, const rttr::variant& value );
+	ReturnResult		UpdateBinding	( const rttr::variant& target, const rttr::variant& dataContext );
+	ReturnResult		SetValue		( const rttr::variant& target, const rttr::variant& value );
 	rttr::variant		GetValue		( const rttr::variant& target );
 
 private:
@@ -70,12 +71,12 @@ private:
 
 	/**@brief Checks if properties are compatibile.
 	Function calls CheckCompatibility and passes @ref Binding members to it.*/
-	Nullable< void >	CheckCompatibility		();
+	ReturnResult		CheckCompatibility		();
 
 	/**@brief Checks if properties are compatibile.
 	Function determines if bound properties can be really bound by calling ValidateBinding. Then it sets internal flags which will be used
 	during property value evaluation. This should precompute all posible things to optimise future evaluations time.*/
-	Nullable< void >	CheckCompatibility		( const rttr::property& targetProperty, const rttr::property& srcProperty, const rttr::variant& srcObject );
+	ReturnResult		CheckCompatibility		( const rttr::property& targetProperty, const rttr::property& srcProperty, const rttr::variant& srcObject );
 
 	/**@brief Validates binding between properties.
 	
@@ -95,7 +96,7 @@ private:
 	- Check if automatic conversion can be made.
 
 	@Note If this Validation fails, binding will return default value for these properties binding.*/
-	Nullable< void >	ValidateBinding			( TypeID srcType, TypeID targetType );
+	ReturnResult		ValidateBinding			( TypeID srcType, TypeID targetType );
 
 	bool				ValidateConverter		( TypeID srcType, TypeID targetType );
 	bool				ValidateConverterBack	( TypeID srcType, TypeID targetType );

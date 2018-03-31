@@ -33,7 +33,7 @@ Binding::Binding		( BindingExpressionPtr expression, const rttr::variant & targe
 
 // ================================ //
 //
-Nullable< void >		Binding::UpdateBinding			( const rttr::variant& target, const rttr::variant& dataContext )
+ReturnResult			Binding::UpdateBinding			( const rttr::variant& target, const rttr::variant& dataContext )
 {
 	auto bindingSource = m_expression->EvaluateExpression( dataContext, target );
 	
@@ -50,7 +50,7 @@ Nullable< void >		Binding::UpdateBinding			( const rttr::variant& target, const 
 
 // ================================ //
 //
-Nullable< void >		Binding::SetValue				( const rttr::variant& target, const rttr::variant& value )
+ReturnResult			Binding::SetValue				( const rttr::variant& target, const rttr::variant& value )
 {
 	return Nullable<void>();
 }
@@ -102,14 +102,14 @@ void					Binding::SetValidator			( IValueValidator* validator )
 
 // ================================ //
 //
-Nullable< void >	Binding::CheckCompatibility			()
+ReturnResult		Binding::CheckCompatibility			()
 {
 	return CheckCompatibility( m_targetProperty, m_sourceProperty, m_sourceObject );
 }
 
 // ================================ //
 //
-Nullable< void >	Binding::CheckCompatibility			( const rttr::property& targetProperty, const rttr::property& srcProperty, const rttr::variant& srcObject )
+ReturnResult		Binding::CheckCompatibility			( const rttr::property& targetProperty, const rttr::property& srcProperty, const rttr::variant& srcObject )
 {
 	// Reset values.
 	m_bindObject = false;
@@ -154,7 +154,7 @@ bool				Binding::IsDirectionToTarget		( BindingMode mode )
 
 // ================================ //
 //
-Nullable< void >	Binding::ValidateBinding			( TypeID srcType, TypeID targetType )
+ReturnResult		Binding::ValidateBinding			( TypeID srcType, TypeID targetType )
 {
 	bool toSource = IsDirectionToSource( m_mode );
 	bool toTarget = IsDirectionToTarget( m_mode );
