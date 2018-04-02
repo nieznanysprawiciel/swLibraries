@@ -17,7 +17,7 @@ namespace sw {
 namespace gui
 {
 
-struct BindingInfo;
+class BindingInfo;
 DEFINE_PTR_TYPE( BindingInfo )
 
 typedef std::vector< BindingInfoPtr > BindingsVec;
@@ -26,15 +26,25 @@ typedef std::vector< BindingInfoPtr > BindingsVec;
 /**@brief Holds information about all bindings to property.
 
 This class describes bindings of single property. Target property can be bound to only one source property.
-That's why we have one PropertyBinding field, which binds target to source.
+That's why we have one m_propertyBinding field, which binds target to source.
 
-Other properties can treat this property as source. All bound properties are listed in BoundProperties vector.
+Other properties can treat this property as source. All bound properties are listed in m_boundProperties vector.
 
 @ingroup DataBindingSystem*/
-struct BindingsInfo
+class BindingInfo
 {
-	BindingPtr				PropertyBinding;
-	BindingsVec				BoundProperties;	///< All properties receiving values from this one.
+public:
+
+	BindingPtr				m_propertyBinding;
+	BindingsVec				m_boundProperties;	///< All properties receiving values from this one.
+
+
+public:
+
+	explicit			BindingInfo			( const BindingPtr & binding );
+
+	void				PropagateToSource	();
+	void				PropagateToTarget	();
 };
 
 

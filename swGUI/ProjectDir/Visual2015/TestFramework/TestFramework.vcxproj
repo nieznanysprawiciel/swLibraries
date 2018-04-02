@@ -28,6 +28,7 @@
     <ClCompile Include="..\..\..\TestFramework\Testers\Bindings\TesterBinding.cpp" />
     <ClCompile Include="..\..\..\TestFramework\Testers\Window\HostWindowTester.cpp" />
     <ClCompile Include="..\..\..\TestFramework\TestFramework.cpp" />
+    <ClCompile Include="..\..\..\TestFramework\Utils\ClassesUI\DependencyPropsClass.cpp" />
     <ClCompile Include="..\..\..\TestFramework\Utils\ClassesUI\TestUIElementClass.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -36,6 +37,7 @@
     <ClInclude Include="..\..\..\TestFramework\Testers\Bindings\TesterBinding.h" />
     <ClInclude Include="..\..\..\TestFramework\Testers\Window\HostWindowTester.h" />
     <ClInclude Include="..\..\..\TestFramework\TestFramework.h" />
+    <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\DependencyPropsClass.h" />
     <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\SubclassTestElement.h" />
     <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\TestUIElementClass.h" />
   </ItemGroup>

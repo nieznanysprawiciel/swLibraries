@@ -7,6 +7,12 @@
 
 #include "swCommonLib/Common/EngineObject.h"
 
+#include "BindingInfo.h"
+#include "Binding.h"
+#include "BindingsList.h"
+
+#include "DependencyProperty.h"
+
 
 /**@defgroup DataBindingSystem Data Binding
 
@@ -19,7 +25,7 @@ namespace gui
 
 /**@brief Support for data binding.
 
-It should correpsond WPF DependencyObject.
+It should correspond to WPF DependencyObject.
 
 @ingroup DataBindingSystem
 @ingroup ControlsFramework*/
@@ -31,7 +37,7 @@ private:
 protected:
 
 	rttr::variant		m_dataContext;		///< Context for binding. @todo Consider using std::shared_ptr.
-
+	BindingsList		m_bindingsList;
 
 public:
 	explicit		DependencyObject	();
@@ -39,6 +45,25 @@ public:
 
 
 	const rttr::variant&		GetDataContext	() const { return m_dataContext; }
+	virtual void				SetDataContext	( const rttr::variant& dataContext );
+
+	ReturnResult				AddBinding		( BindingPtr binding );
+
+public:
+
+	template< typename ClassType, typename PropertyType >
+	using FieldMemberPtr = PropertyType ( ClassType::* );
+
+	template< typename ClassType, typename PropertyType >
+	void			SetValue			( const DependencyProperty& prop, PropertyType value, FieldMemberPtr< ClassType, PropertyType > fieldPtr );
+
+private:
+
+	template< typename ClassType, typename PropertyType >
+	PropertyType	GetValue			( FieldMemberPtr< ClassType, PropertyType > fieldPtr ) const;
+
+	template< typename ClassType, typename PropertyType >
+	void			SetValue			( FieldMemberPtr< ClassType, PropertyType > fieldPtr, PropertyType value );
 };
 
 
@@ -46,3 +71,4 @@ public:
 }	// gui
 }	// sw
 
+#include "DependencyObject.inl"

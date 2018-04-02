@@ -30,6 +30,26 @@ DependencyObject::DependencyObject()
 	: m_dataContext( nullptr )
 { }
 
+// ================================ //
+//
+void			DependencyObject::SetDataContext		( const rttr::variant& dataContext )
+{
+	// Context propagation to children should be implemented in override in derived class.
+	m_dataContext = dataContext;
+}
+
+// ================================ //
+//
+ReturnResult	DependencyObject::AddBinding			( BindingPtr binding )
+{
+	auto result = binding->UpdateBinding( m_dataContext );
+	
+	if( result.IsValid() )
+		return m_bindingsList.AddBinding( binding );
+	else
+		return result;
+}
+
 
 
 

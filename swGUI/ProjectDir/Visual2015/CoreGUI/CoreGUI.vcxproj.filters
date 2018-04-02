@@ -222,6 +222,12 @@
     <ClInclude Include="..\..\..\Core\System\DataBinding\Exceptions\InvalidBindingException.h">
       <Filter>Core\System\DataBinding\Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\DataBinding\BindingsList.h">
+      <Filter>Core\System\DataBinding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\DataBinding\DependencyProperty.h">
+      <Filter>Core\System\DataBinding</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\Controls\IControl.cpp">
@@ -308,10 +314,22 @@
     <ClCompile Include="..\..\..\Core\System\DataBinding\Binding.cpp">
       <Filter>Core\System\DataBinding</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\DataBinding\DependencyProperty.cpp">
+      <Filter>Core\System\DataBinding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\DataBinding\BindingsList.cpp">
+      <Filter>Core\System\DataBinding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\DataBinding\BindingInfo.cpp">
+      <Filter>Core\System\DataBinding</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl">
       <Filter>Core\System\Events</Filter>
+    </None>
+    <None Include="..\..\..\Core\System\DataBinding\DependencyObject.inl">
+      <Filter>Core\System\DataBinding</Filter>
     </None>
   </ItemGroup>
 </Project>

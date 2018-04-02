@@ -39,6 +39,9 @@
     <ClCompile Include="..\..\..\TestFramework\Testers\Bindings\TesterBinding.cpp">
       <Filter>TestFramework\Accessors\Bindings</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\TestFramework\Utils\ClassesUI\DependencyPropsClass.cpp">
+      <Filter>TestFramework\Utils\ClassesUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\TestFramework\stdafx.h">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\TestFramework\Testers\Bindings\TesterBinding.h">
       <Filter>TestFramework\Accessors\Bindings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\DependencyPropsClass.h">
+      <Filter>TestFramework\Utils\ClassesUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

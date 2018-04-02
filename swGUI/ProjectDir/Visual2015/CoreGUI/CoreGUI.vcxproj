@@ -161,7 +161,9 @@
     <ClInclude Include="..\..\..\Core\System\DataBinding\Binding.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\BindingInfo.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\BindingMode.h" />
+    <ClInclude Include="..\..\..\Core\System\DataBinding\BindingsList.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\Converters\IValueConverter.h" />
+    <ClInclude Include="..\..\..\Core\System\DataBinding\DependencyProperty.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\DependencyObject.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\Exceptions\InvalidBindingException.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\Expressions\AncestorBindingExpression.h" />
@@ -201,7 +203,10 @@
     <ClCompile Include="..\..\..\Core\Controls\IControl.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\Binding.cpp" />
+    <ClCompile Include="..\..\..\Core\System\DataBinding\BindingInfo.cpp" />
+    <ClCompile Include="..\..\..\Core\System\DataBinding\BindingsList.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\DependencyObject.cpp" />
+    <ClCompile Include="..\..\..\Core\System\DataBinding\DependencyProperty.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\Exceptions\InvalidBindingException.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\Expressions\AncestorBindingExpression.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\Expressions\BindingExpression.cpp" />
@@ -228,6 +233,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\Core\System\DataBinding\DependencyObject.inl" />
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
