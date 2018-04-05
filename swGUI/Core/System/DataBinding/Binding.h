@@ -78,7 +78,8 @@ public:
 	void				PropagateToSource	();
 	void				PropagateToTarget	();
 
-	rttr::variant		GetValue			();
+	rttr::variant		GetValue			() const;
+	rttr::variant		GetSourceValue		() const;
 
 public:
 

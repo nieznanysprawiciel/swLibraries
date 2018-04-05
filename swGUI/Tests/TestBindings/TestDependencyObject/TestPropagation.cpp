@@ -49,3 +49,46 @@ TEST_CASE( "Binding_Propagation_ToSource_WrongDirection", "[GUI][BindingSystem]"
 	CHECK( dog->m_physicalProperties.Length == 3 );
 }
 
+// ================================ //
+// Propagation to target should work if binding has the same direction.
+TEST_CASE( "Binding_Propagation_ToTarget_CompatibilDirection", "[GUI][BindingSystem]" )
+{
+	std::unique_ptr< Dog > dog = std::unique_ptr< Dog >( new Dog );
+	std::unique_ptr< gui::DependencyPropsClass > root = std::make_unique< gui::DependencyPropsClass >();
+
+	root->SetDataContext( dog.get() );
+
+	auto binding = gui::Binding::Create( "NumberItems", root.get(), "PhysicalProperties.Length", gui::BindingMode::OneWay );
+
+	REQUIRE( root->AddBinding( binding ).IsValid() );
+
+	// Clear NumberItems value.
+	root->SetNumberItems( 333 );
+
+	dog->m_physicalProperties.Length = 541;
+	binding->PropagateToTarget();
+
+	CHECK( root->GetNumberItems() == 541 );
+}
+
+// ================================ //
+// Propagation to target should do nothing if binding is set in oposite direction.
+TEST_CASE( "Binding_Propagation_ToTarget_WrongDirection", "[GUI][BindingSystem]" )
+{
+	std::unique_ptr< Dog > dog = std::unique_ptr< Dog >( new Dog );
+	std::unique_ptr< gui::DependencyPropsClass > root = std::make_unique< gui::DependencyPropsClass >();
+
+	root->SetDataContext( dog.get() );
+
+	auto binding = gui::Binding::Create( "NumberItems", root.get(), "PhysicalProperties.Length", gui::BindingMode::OneWayToSource );
+
+	REQUIRE( root->AddBinding( binding ).IsValid() );
+
+	// Clear NumberItems value.
+	root->SetNumberItems( 333 );
+
+	dog->m_physicalProperties.Length = 541;
+	binding->PropagateToTarget();
+
+	CHECK( root->GetNumberItems() == 333 );
+}

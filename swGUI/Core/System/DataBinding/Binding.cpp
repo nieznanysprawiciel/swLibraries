@@ -62,7 +62,10 @@ void					Binding::PropagateToSource		( const rttr::variant& value )
 // ================================ //
 //
 void					Binding::PropagateToTarget		( const rttr::variant& value )
-{}
+{
+	if( IsDirectionToTarget( m_mode ) )
+		m_targetProperty.set_value( m_targetObject, value );
+}
 
 // ================================ //
 //
@@ -75,11 +78,21 @@ void					Binding::PropagateToSource		()
 // ================================ //
 //
 void					Binding::PropagateToTarget		()
-{}
+{
+	rttr::variant value = GetSourceValue();
+	PropagateToTarget( value );
+}
 
 // ================================ //
 //
-rttr::variant			Binding::GetValue				()
+rttr::variant			Binding::GetSourceValue			() const
+{
+	return m_sourceProperty.get_value( m_sourceObject );
+}
+
+// ================================ //
+//
+rttr::variant			Binding::GetValue				() const
 {
 	return m_targetProperty.get_value( m_targetObject );
 }
