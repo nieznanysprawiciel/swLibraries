@@ -16,6 +16,14 @@ struct PhysicalProperties
 	float			Weight;
 	uint32			Length;
 	uint32			Height;
+
+// ================================ //
+//
+	PhysicalProperties()
+		: Weight( 0 )
+		, Length( 0 )
+		, Height( 0 )
+	{}
 };
 
 

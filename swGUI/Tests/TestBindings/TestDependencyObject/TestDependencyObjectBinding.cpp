@@ -23,8 +23,7 @@ TEST_CASE( "Binding_DependencyObject_BindSingleProperty", "[GUI][BindingSystem]"
 
 	root->SetDataContext( dog.get() );
 
-	gui::DefaultBindingExpressionPtr expression = std::make_shared< gui::DefaultBindingExpression >( "PhysicalProperties.Length" );
-	auto binding = std::make_shared< gui::Binding >( expression, root.get(), TypeID::get< gui::DependencyPropsClass >().get_property( "NumberItems" ) );
+	auto binding = gui::Binding::Create( "NumberItems", root.get(), "PhysicalProperties.Length", gui::BindingMode::OneWayToSource );
 
 	REQUIRE( root->AddBinding( binding ).IsValid() );
 
@@ -37,4 +36,38 @@ TEST_CASE( "Binding_DependencyObject_BindSingleProperty", "[GUI][BindingSystem]"
 	root->SetNumberItems( 33551 );
 	CHECK( dog->m_physicalProperties.Length == 33551 );
 }
+
+// ================================ //
+// 
+TEST_CASE( "Binding_DependencyObject_MultipleBindings", "[GUI][BindingSystem]" )
+{
+	std::unique_ptr< Dog > dog = std::unique_ptr< Dog >( new Dog );
+	std::unique_ptr< gui::DependencyPropsClass > root = std::make_unique< gui::DependencyPropsClass >();
+	std::unique_ptr< gui::DependencyPropsClass > child1 = std::make_unique< gui::DependencyPropsClass >();
+	std::unique_ptr< gui::DependencyPropsClass > child2 = std::make_unique< gui::DependencyPropsClass >();
+
+	root->SetDataContext( dog.get() );
+	child1->SetDataContext( root.get() );
+	child2->SetDataContext( root.get() );
+
+	auto binding1 = gui::Binding::Create( "NumberItems", root.get(), "PhysicalProperties.Height", gui::BindingMode::OneWayToSource );
+	REQUIRE( root->AddBinding( binding1 ).IsValid() );
+
+	auto binding2 = gui::Binding::Create( "NumberItems", child1.get(), "NumberItems", gui::BindingMode::OneWay );
+	REQUIRE( child1->AddBinding( binding2 ).IsValid() );
+
+	auto binding3 = gui::Binding::Create( "NumberItems", child2.get(), "NumberItems", gui::BindingMode::OneWay );
+	REQUIRE( child2->AddBinding( binding3 ).IsValid() );
+
+	root->SetNumberItems( 333 );
+	CHECK( dog->m_physicalProperties.Height == 333 );
+	CHECK( child1->GetNumberItems() == 333 );
+	CHECK( child2->GetNumberItems() == 333 );
+
+	root->SetNumberItems( 33551 );
+	CHECK( dog->m_physicalProperties.Height == 33551 );
+	CHECK( child1->GetNumberItems() == 33551 );
+	CHECK( child2->GetNumberItems() == 33551 );
+}
+
 

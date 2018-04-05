@@ -9,6 +9,8 @@
 
 #include "swCommonLib/Common/Properties/Properties.h"
 
+#include "swGUI/Core/System/DataBinding/Expressions/DefaultBindingExpression.h"
+
 #include "Exceptions/InvalidBindingException.h"
 
 
@@ -20,7 +22,7 @@ namespace gui
 
 // ================================ //
 //
-Binding::Binding		( BindingExpressionPtr expression, const rttr::variant & target, const rttr::property & targetProperty )
+Binding::Binding		( const rttr::property& targetProperty, const rttr::variant& target, BindingExpressionPtr expression )
 	: m_expression( expression )
 	, m_sourceProperty( Properties::EmptyProperty() )
 	, m_targetProperty( targetProperty )
@@ -53,7 +55,8 @@ ReturnResult			Binding::UpdateBinding			( const rttr::variant& dataContext )
 //
 void					Binding::PropagateToSource		( const rttr::variant& value )
 {
-	m_sourceProperty.set_value( m_sourceObject, value );
+	if( IsDirectionToSource( m_mode ) )
+		m_sourceProperty.set_value( m_sourceObject, value );
 }
 
 // ================================ //
@@ -236,6 +239,49 @@ bool				Binding::ValidateAutoConversion		( TypeID srcType, TypeID targetType )
 	return srcType.is_arithmetic() && targetType.is_arithmetic();
 }
 
+//====================================================================================//
+//			Creation functions	
+//====================================================================================//
+
+
+// ================================ //
+//
+BindingPtr			Binding::Create						( const rttr::property& targetProperty, const rttr::variant& target, BindingExpressionPtr expression )
+{
+	return std::make_shared< gui::Binding >( targetProperty, target, expression );
+}
+
+// ================================ //
+//
+BindingPtr			Binding::Create						( const rttr::property& targetProperty, const rttr::variant& target, BindingExpressionPtr expression, BindingMode mode )
+{
+	auto binding = Create( targetProperty, target, expression );
+	binding->SetBindingMode( mode );
+
+	return binding;
+}
+
+// ================================ //
+//
+BindingPtr			Binding::Create						( const std::string& property, const rttr::variant& target, const std::string& expression )
+{
+	gui::DefaultBindingExpressionPtr defaultExpression = std::make_shared< gui::DefaultBindingExpression >( expression );
+
+	TypeID type = Properties::GetRealType( target );
+	rttr::property prop = type.get_property( property );
+
+	return Create( prop, target, defaultExpression );
+}
+
+// ================================ //
+//
+BindingPtr			Binding::Create						( const std::string& property, const rttr::variant& target, const std::string& expression, BindingMode mode )
+{
+	auto binding = Create( property, target, expression );
+	binding->SetBindingMode( mode );
+
+	return binding;
+}
 
 
 

@@ -25,7 +25,7 @@ using namespace sw;
 //
 TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility", "[GUI][BindingSystem]" )
 {
-	gui::Binding binding( nullptr, nullptr, Properties::EmptyProperty() );
+	gui::Binding binding( Properties::EmptyProperty(), nullptr, nullptr );
 
 	SECTION( "EqualTypes_OneWayMode" )
 	{
@@ -111,7 +111,7 @@ TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility", "[GUI][
 // Checks bound types compatibility with converter set.
 TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_Converter", "[GUI][BindingSystem]" )
 {
-	gui::Binding binding( nullptr, nullptr, Properties::EmptyProperty() );
+	gui::Binding binding( Properties::EmptyProperty(), nullptr, nullptr );
 	std::unique_ptr< gui::MockConverter > converter = std::make_unique< gui::MockConverter >();
 
 	SetConverter( binding, converter.get() );
@@ -177,7 +177,7 @@ TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_Converter
 // Properties can be bound if both are wrappers of the same type.
 TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_BothWrappers", "[GUI][BindingSystem]" )
 {
-	gui::Binding binding( nullptr, nullptr, Properties::EmptyProperty() );
+	gui::Binding binding( Properties::EmptyProperty(), nullptr, nullptr );
 	
 	rttr::variant zooVariant = std::make_shared< Zoo >();
 	rttr::property sapiens = TypeID::get< Zoo >().get_property( "Owner" );
@@ -207,7 +207,7 @@ TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_BothWrapp
 // Properties can be bound if both aren't wrappers.
 TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_BothRawPtrs", "[GUI][BindingSystem]" )
 {
-	gui::Binding binding( nullptr, nullptr, Properties::EmptyProperty() );
+	gui::Binding binding( Properties::EmptyProperty(), nullptr, nullptr );
 	
 	rttr::variant zooVariant = std::make_shared< Zoo >();
 	rttr::property sapiens = TypeID::get< Zoo >().get_property( "Director" );
@@ -237,7 +237,7 @@ TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_BothRawPt
 // Mixed wrapped and non wrapped types can't be bound.
 TEST_CASE_METHOD( gui::CLASS_TESTER( Binding ), "Binding_Compatibility_MixedRawPtrAndWrappedType", "[GUI][BindingSystem]" )
 {
-	gui::Binding binding( nullptr, nullptr, Properties::EmptyProperty() );
+	gui::Binding binding( Properties::EmptyProperty(), nullptr, nullptr );
 	
 	rttr::variant zooVariant = std::make_shared< Zoo >();
 	rttr::property director = TypeID::get< Zoo >().get_property( "Director" );

@@ -34,5 +34,8 @@
     <ClCompile Include="..\..\..\..\Tests\TestBindings\TestDependencyObject\TestDependencyObjectBinding.cpp">
       <Filter>TestDependencyObject</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestBindings\TestDependencyObject\TestPropagation.cpp">
+      <Filter>TestDependencyObject</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -25,10 +25,15 @@ namespace sw {
 namespace gui
 {
 
+class Binding;
+DEFINE_PTR_TYPE( Binding )
+
+
 
 /**@brief Holds information about single binding.
 
 @todo Consider supporting asynchronous binding.
+@todo Consider using this object as unique pointer instead of shared pointer.
 
 @ingroup DataBindingSystem*/
 class Binding
@@ -57,7 +62,7 @@ protected:
 
 public:
 
-	explicit			Binding				( BindingExpressionPtr expression, const rttr::variant& target, const rttr::property& targetProperty );
+	explicit			Binding				( const rttr::property& targetProperty, const rttr::variant& target, BindingExpressionPtr expression );
 
 
 	/**@brief Updates source object nd property based on BindingExpression.*/
@@ -74,6 +79,24 @@ public:
 	void				PropagateToTarget	();
 
 	rttr::variant		GetValue			();
+
+public:
+
+	///@name Creation functions
+	///@{
+	static BindingPtr	Create				( const rttr::property& targetProperty, const rttr::variant& target, BindingExpressionPtr expression );
+	static BindingPtr	Create				( const rttr::property& targetProperty, const rttr::variant& target, BindingExpressionPtr expression, BindingMode mode );
+	
+	/**@brief Creates binding.
+	@param[in] expression Function uses path from expression parameter to create DefaultBindingExpression.
+	@param[in] target Target object whose property will be bound.
+	@param[in] property Function gets TypeID from target and searches it's properties to find name passed in this parameter.*/
+	static BindingPtr	Create				( const std::string& property, const rttr::variant& target, const std::string& expression );
+	static BindingPtr	Create				( const std::string& property, const rttr::variant& target, const std::string& expression, BindingMode mode );
+
+	
+	
+	///@}
 
 private:
 
@@ -136,7 +159,6 @@ public:
 	void					SetUpdateTrigger		( UpdateSourceTrigger updateTrigger ) { m_updateTrigger = updateTrigger; }
 };
 
-DEFINE_PTR_TYPE( Binding )
 
 
 }	// gui
