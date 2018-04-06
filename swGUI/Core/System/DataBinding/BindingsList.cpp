@@ -1,7 +1,9 @@
 #include "BindingsList.h"
 
 #include "BindingInfo.h"
+#include "DependencyObject.h"
 
+#include "swCommonLib/Common/Properties/Properties.h"
 
 namespace sw {
 namespace gui
@@ -23,7 +25,7 @@ BindingInfoPtr			BindingsList::FindBinding		( const rttr::property& property )
 {
 	for( auto& bindingInfo : m_bindings )
 	{
-		if( bindingInfo->m_propertyBinding->GetTargetProperty() == property )
+		if( bindingInfo->GetProperty() == property )
 			return bindingInfo;
 	}
 
@@ -42,6 +44,40 @@ ReturnResult			BindingsList::AddBinding		( BindingPtr binding )
 
 	auto bindingInfo = std::make_shared< BindingInfo >( binding );
 	m_bindings.push_back( bindingInfo );
+
+	AddLinkToSource( bindingInfo );
+
+	return Result::Success;
+}
+
+// ================================ //
+//
+void					BindingsList::AddBindingLink		( const BindingInfoPtr& binding )
+{
+	auto sourcePropInfo = FindBinding( binding->GetProperty() );
+	
+	// If BindingInfo object didn't exist, we create new one with empty binding.
+	if( sourcePropInfo == nullptr )
+		sourcePropInfo = std::make_shared< BindingInfo >( binding->GetProperty() );
+
+	sourcePropInfo->AddBindingLink( binding );
+	m_bindings.push_back( sourcePropInfo );
+}
+
+// ================================ //
+//
+ReturnResult			BindingsList::AddLinkToSource		( const BindingInfoPtr& binding )
+{
+	auto object = binding->m_binding->GetSourceObject();
+
+	auto objectType = object.get_type();
+	auto type = objectType.is_wrapper() ? objectType.get_wrapped_type() : objectType;
+
+	if( type.is_derived_from< DependencyObject >() )
+	{
+		auto dependencyObject = objectType.is_wrapper() ? object.get_wrapped_value< DependencyObject* >() : object.get_value< DependencyObject* >();
+		dependencyObject->AddBindingLink( binding );
+	}
 
 	return Result::Success;
 }

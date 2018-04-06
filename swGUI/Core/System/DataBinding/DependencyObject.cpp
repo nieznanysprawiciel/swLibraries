@@ -50,6 +50,13 @@ ReturnResult	DependencyObject::AddBinding			( BindingPtr binding )
 		return result;
 }
 
+// ================================ //
+//
+void			DependencyObject::AddBindingLink		( const BindingInfoPtr& bindingInfo )
+{
+	m_bindingsList.AddBindingLink( bindingInfo );
+}
+
 
 
 

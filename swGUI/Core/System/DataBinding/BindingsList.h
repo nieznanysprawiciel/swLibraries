@@ -36,6 +36,12 @@ public:
 	BindingInfoPtr			FindBinding		( const DependencyProperty& dependencyProperty );
 	BindingInfoPtr			FindBinding		( const rttr::property& property );
 	ReturnResult			AddBinding		( BindingPtr binding );
+
+	void					AddBindingLink	( const BindingInfoPtr& binding );
+
+private:
+
+	ReturnResult			AddLinkToSource	( const BindingInfoPtr& binding );
 };
 
 

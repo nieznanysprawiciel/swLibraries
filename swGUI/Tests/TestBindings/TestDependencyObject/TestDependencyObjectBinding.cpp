@@ -70,4 +70,19 @@ TEST_CASE( "Binding_DependencyObject_MultipleBindings", "[GUI][BindingSystem]" )
 	CHECK( child2->GetNumberItems() == 33551 );
 }
 
+// ================================ //
+// Bind to property, that has no binding. I this case system must create link between these to properties.
+TEST_CASE( "Binding_DependencyObject_BindToPropertyWithoutBinding", "[GUI][BindingSystem]" )
+{
+	std::unique_ptr< gui::DependencyPropsClass > root = std::make_unique< gui::DependencyPropsClass >();
+	std::unique_ptr< gui::DependencyPropsClass > child = std::make_unique< gui::DependencyPropsClass >();
 
+	root->SetDataContext( child.get() );
+
+	// ContainerName property of "child" object has no bindings. We set propagation direction to root.
+	auto binding = gui::Binding::Create( "ContainerName", root.get(), "ContainerName", gui::BindingMode::OneWay );
+	REQUIRE( root->AddBinding( binding ).IsValid() );
+
+	child->SetContainerName( "Newly set value" );
+	CHECK( root->GetContainerName() == "Newly set value" );
+}

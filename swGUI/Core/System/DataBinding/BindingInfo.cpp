@@ -10,8 +10,15 @@ namespace gui
 
 // ================================ //
 //
-BindingInfo::BindingInfo		( const BindingPtr & binding )
-	: m_propertyBinding( binding )
+BindingInfo::BindingInfo		( const BindingPtr& binding )
+	: m_binding( binding )
+	, m_property( binding->GetTargetProperty() )
+{}
+
+// ================================ //
+//
+BindingInfo::BindingInfo		( const rttr::property& property )
+	: m_property( property )
 {}
 
 
@@ -19,7 +26,8 @@ BindingInfo::BindingInfo		( const BindingPtr & binding )
 //
 void			BindingInfo::PropagateToSource		()
 {
-	m_propertyBinding->PropagateToSource();
+	if( m_binding )
+		m_binding->PropagateToSource();
 
 	for( auto& binding : m_boundProperties )
 	{
@@ -32,7 +40,20 @@ void			BindingInfo::PropagateToSource		()
 //
 void			BindingInfo::PropagateToTarget		()
 {
-	assert( !"Implement me" );
+	if( m_binding )
+		m_binding->PropagateToTarget();
+
+	for( auto& binding : m_boundProperties )
+	{
+		binding->PropagateToSource();
+	}
+}
+
+// ================================ //
+//
+void			BindingInfo::AddBindingLink			( const BindingInfoPtr& info )
+{
+	m_boundProperties.push_back( info );
 }
 
 

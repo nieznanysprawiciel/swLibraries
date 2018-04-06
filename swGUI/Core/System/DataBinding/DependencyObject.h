@@ -40,6 +40,7 @@ protected:
 	BindingsList		m_bindingsList;
 
 public:
+
 	explicit		DependencyObject	();
 	virtual			~DependencyObject	() = default;
 
@@ -48,6 +49,12 @@ public:
 	virtual void				SetDataContext	( const rttr::variant& dataContext );
 
 	ReturnResult				AddBinding		( BindingPtr binding );
+
+public:
+
+	/**@brief If other property binds to this object, it should add binding link.
+	@todo This function should be private only for use by binding system.*/
+	void						AddBindingLink	( const BindingInfoPtr& bindingInfo );
 
 public:
 
