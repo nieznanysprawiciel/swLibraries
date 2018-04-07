@@ -118,4 +118,27 @@ TEST_CASE( "Binding_DependencyObject_CircularDependencies", "[GUI][BindingSystem
 	CHECK( child4->GetNumberItems() == 675 );
 }
 
+// ================================ //
+// Test TwoWay binding mode. Setting value shouldn't cause dead locks.
+TEST_CASE( "Binding_DependencyObject_TwoWayBinding", "[GUI][BindingSystem]" )
+{
+	std::unique_ptr< gui::DependencyPropsClass > root = std::make_unique< gui::DependencyPropsClass >();
+	std::unique_ptr< gui::DependencyPropsClass > child = std::make_unique< gui::DependencyPropsClass >();
+
+	root->SetDataContext( child.get() );
+
+	auto binding = gui::Binding::Create( "ContainerName", root.get(), "ContainerName", gui::BindingMode::TwoWay );
+	REQUIRE( root->AddBinding( binding ).IsValid() );
+
+	// To target direction.
+	CHECK_NOTHROW( child->SetContainerName( "Newly set value" ) );
+	CHECK( root->GetContainerName() == "Newly set value" );
+	CHECK( child->GetContainerName() == "Newly set value" );
+
+	// To source direction.
+	CHECK_NOTHROW( root->SetContainerName( "Value number 2" ) );
+	CHECK( root->GetContainerName() == "Value number 2" );
+	CHECK( child->GetContainerName() == "Value number 2" );
+}
+
 
