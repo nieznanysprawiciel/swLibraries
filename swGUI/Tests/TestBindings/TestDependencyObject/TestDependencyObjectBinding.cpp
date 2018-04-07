@@ -109,7 +109,7 @@ TEST_CASE( "Binding_DependencyObject_CircularDependencies", "[GUI][BindingSystem
 	REQUIRE( child3->AddBinding( gui::Binding::Create( "NumberItems", child3.get(), "NumberItems", gui::BindingMode::OneWay ) ).IsValid() );
 	REQUIRE( child4->AddBinding( gui::Binding::Create( "NumberItems", child4.get(), "NumberItems", gui::BindingMode::OneWay ) ).IsValid() );
 
-	root->SetNumberItems( 675 );
+	CHECK_NOTHROW( root->SetNumberItems( 675 ) );
 
 	CHECK( root->GetNumberItems() == 675 );
 	CHECK( child1->GetNumberItems() == 675 );
