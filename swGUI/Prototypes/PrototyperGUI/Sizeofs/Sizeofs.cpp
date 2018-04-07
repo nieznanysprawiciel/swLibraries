@@ -59,7 +59,7 @@ void			PrintSizeofs()
 	std::cout << std::endl << "GUI Internal objects:" << std::endl;
 	std::cout << std::setw( NameSize ) << "Objects name"  << "Sizeof" << std::endl;
 
-	PrintSizeofType< sw::gui::BindingsInfo >( std::cout );
+	PrintSizeofType< sw::gui::BindingInfo >( std::cout );
 	PrintSizeofType< sw::gui::Binding >( std::cout );
 	PrintSizeofType< sw::gui::BindingExpression >( std::cout );
 	

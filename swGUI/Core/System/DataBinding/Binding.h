@@ -71,12 +71,12 @@ public:
 	/**@brief Propagates value from parameter to Source property.
 	This function doesn't check Target property value*/
 	void				PropagateToSource	( const rttr::variant& value );
-	void				PropagateToTarget	( const rttr::variant& value );
+	bool				PropagateToTarget	( const rttr::variant& value );
 
 	/**@brief Propagates value from parameter to Source property.
 	This function gets value from Target property.*/
 	void				PropagateToSource	();
-	void				PropagateToTarget	();
+	bool				PropagateToTarget	();
 
 	rttr::variant		GetValue			() const;
 	rttr::variant		GetSourceValue		() const;

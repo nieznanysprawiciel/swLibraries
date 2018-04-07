@@ -41,11 +41,15 @@ void			BindingInfo::PropagateToSource		()
 void			BindingInfo::PropagateToTarget		()
 {
 	if( m_binding )
-		m_binding->PropagateToTarget();
-
-	for( auto& binding : m_boundProperties )
 	{
-		binding->PropagateToSource();
+		// Note: Propagate value further only if this property changed.
+		if( m_binding->PropagateToTarget() )
+		{
+			for( auto& binding : m_boundProperties )
+			{
+				binding->PropagateToSource();
+			}
+		}
 	}
 }
 
@@ -54,6 +58,14 @@ void			BindingInfo::PropagateToTarget		()
 void			BindingInfo::AddBindingLink			( const BindingInfoPtr& info )
 {
 	m_boundProperties.push_back( info );
+}
+
+// ================================ //
+//
+void			BindingInfo::SetBinding				( const BindingPtr& binding )
+{
+	assert( m_binding == nullptr );
+	m_binding = binding;
 }
 
 

@@ -86,3 +86,36 @@ TEST_CASE( "Binding_DependencyObject_BindToPropertyWithoutBinding", "[GUI][Bindi
 	child->SetContainerName( "Newly set value" );
 	CHECK( root->GetContainerName() == "Newly set value" );
 }
+
+// ================================ //
+// Circular dependancies shouldn't cause dead lock.
+TEST_CASE( "Binding_DependencyObject_CircularDependencies", "[GUI][BindingSystem]" )
+{
+	std::unique_ptr< gui::DependencyPropsClass > root = std::make_unique< gui::DependencyPropsClass >();
+	std::unique_ptr< gui::DependencyPropsClass > child1 = std::make_unique< gui::DependencyPropsClass >();
+	std::unique_ptr< gui::DependencyPropsClass > child2 = std::make_unique< gui::DependencyPropsClass >();
+	std::unique_ptr< gui::DependencyPropsClass > child3 = std::make_unique< gui::DependencyPropsClass >();
+	std::unique_ptr< gui::DependencyPropsClass > child4 = std::make_unique< gui::DependencyPropsClass >();
+
+	root->SetDataContext( child1.get() );
+	child1->SetDataContext( child2.get() );
+	child2->SetDataContext( child3.get() );
+	child3->SetDataContext( child4.get() );
+	child4->SetDataContext( root.get() );
+
+	REQUIRE( root->AddBinding( gui::Binding::Create( "NumberItems", root.get(), "NumberItems", gui::BindingMode::OneWay ) ).IsValid() );
+	REQUIRE( child1->AddBinding( gui::Binding::Create( "NumberItems", child1.get(), "NumberItems", gui::BindingMode::OneWay ) ).IsValid() );
+	REQUIRE( child2->AddBinding( gui::Binding::Create( "NumberItems", child2.get(), "NumberItems", gui::BindingMode::OneWay ) ).IsValid() );
+	REQUIRE( child3->AddBinding( gui::Binding::Create( "NumberItems", child3.get(), "NumberItems", gui::BindingMode::OneWay ) ).IsValid() );
+	REQUIRE( child4->AddBinding( gui::Binding::Create( "NumberItems", child4.get(), "NumberItems", gui::BindingMode::OneWay ) ).IsValid() );
+
+	root->SetNumberItems( 675 );
+
+	CHECK( root->GetNumberItems() == 675 );
+	CHECK( child1->GetNumberItems() == 675 );
+	CHECK( child2->GetNumberItems() == 675 );
+	CHECK( child3->GetNumberItems() == 675 );
+	CHECK( child4->GetNumberItems() == 675 );
+}
+
+

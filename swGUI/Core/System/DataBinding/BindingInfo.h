@@ -52,9 +52,12 @@ public:
 
 	void				AddBindingLink		( const BindingInfoPtr& info );
 
+	void				SetBinding			( const BindingPtr& binding );
+
 public:
 
 	rttr::property		GetProperty			() const { return m_property; }
+	BindingPtr			GetBinding			() const { return m_binding; }
 };
 
 

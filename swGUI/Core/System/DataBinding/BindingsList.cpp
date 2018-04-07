@@ -36,14 +36,24 @@ BindingInfoPtr			BindingsList::FindBinding		( const rttr::property& property )
 //
 ReturnResult			BindingsList::AddBinding		( BindingPtr binding )
 {
-	if( FindBinding( binding->GetTargetProperty() ) )
+	auto bindingInfo = FindBinding( binding->GetTargetProperty() );
+	if( bindingInfo )
 	{
-		/// @todo Better error message.
-		return std::string( "Property [" ) + binding->GetTargetProperty().get_name() + "] is already bound to property.";
+		if( bindingInfo->GetBinding() != nullptr )
+		{
+			/// @todo Better error message.
+			return std::string( "Property [" ) + binding->GetTargetProperty().get_name() + "] is already bound to property.";
+		}
+		else
+		{
+			bindingInfo->SetBinding( binding );
+		}
 	}
-
-	auto bindingInfo = std::make_shared< BindingInfo >( binding );
-	m_bindings.push_back( bindingInfo );
+	else
+	{
+		bindingInfo = std::make_shared< BindingInfo >( binding );
+		m_bindings.push_back( bindingInfo );
+	}
 
 	AddLinkToSource( bindingInfo );
 
