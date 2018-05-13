@@ -4,6 +4,9 @@
 
 #include "swCommonLib/Common/RTTR.h"
 
+// Serialization
+#include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
+
 // Test classes
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/StructWithSimpleTypes.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/StringContainer.h"
