@@ -31,6 +31,8 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\Mammal.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Zoo.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\ArrayContainer.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\StaticArrayContainer.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\StaticArrayContainer_Readonly.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\BaseObject.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\StringContainer.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\StructWithSimpleTypes.h" />

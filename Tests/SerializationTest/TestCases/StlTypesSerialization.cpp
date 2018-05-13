@@ -34,22 +34,6 @@ TEST_CASE( "GenericObject.Strings", "[Serialization]" )
 	CHECK( actual->Content == expected->Content );
 }
 
-// ================================ //
-// Serializes object derived from EngineObject with array types.
-TEST_CASE( "GenericObject.Arrays.PlainStructs", "[Serialization]" )
-{
-	ArrayContainer* expected = new ArrayContainer;
-	ArrayContainer* actual = new ArrayContainer;
-	actual->ArraysSet2();
-
-	sw::Serialization serial;
-	sw::Serialization deserial;
-
-	REQUIRE( serial.Serialize( "Serialization/GenericObject.Arrays.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/GenericObject.Arrays.xml", actual ) );
-
-	CHECK( actual->StructsVec == expected->StructsVec );
-}
 
 
 

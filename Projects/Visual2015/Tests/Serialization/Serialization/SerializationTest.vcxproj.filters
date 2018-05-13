@@ -22,6 +22,9 @@
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\PrecompiledHeader\stdafx.cpp">
       <Filter>PrecompiledHeader</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\ArraySerialization.cpp">
+      <Filter>TestCases</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\PrecompiledHeader\stdafx.h">

@@ -48,6 +48,12 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\ArrayContainer.h">
       <Filter>SerializationPrimitives\Arrays</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\StaticArrayContainer.h">
+      <Filter>SerializationPrimitives\Arrays</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\StaticArrayContainer_Readonly.h">
+      <Filter>SerializationPrimitives\Arrays</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Registration.cpp">

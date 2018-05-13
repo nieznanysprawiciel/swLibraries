@@ -32,6 +32,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\ArraySerialization.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\EngineObjectSerialization.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\BasicTypesSerialization.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\StlTypesSerialization.cpp" />

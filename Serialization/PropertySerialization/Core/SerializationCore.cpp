@@ -469,7 +469,7 @@ bool	SerializationCore::DeserializeArrayTypes				( IDeserializer* deser, const r
 			}
 			else
 			{
-				auto element = arrayView.get_value_as_ref( idx ).extract_wrapped_value();
+				auto element = arrayView.get_value_as_ref( idx );
 
 				// Non generic objects use default deserialization.
 				DefaultDeserializeImpl( *deser, element, arrayElementType );
@@ -479,6 +479,13 @@ bool	SerializationCore::DeserializeArrayTypes				( IDeserializer* deser, const r
 		} while( deser->NextElement() );
 	}
 
+	if( !arrayView.is_dynamic() && !propertyType.is_pointer() )
+	{
+		// Static arrays should be decalred as readonly properties bound by reference.
+		// If they are not bound by reference, variant makes copy of array and we must set this
+		// copy to real field in class.
+		prop.set_value( object, arrayVariant );
+	}
 
 	deser->Exit();
 
