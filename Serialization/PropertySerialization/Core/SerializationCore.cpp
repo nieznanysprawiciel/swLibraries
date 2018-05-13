@@ -211,7 +211,7 @@ bool			SerializationCore::SerializeArrayTypes				( ISerializer* ser, const rttr:
 		return false;
 
 	auto arrayVariant = prop.get_value( object );
-	auto arrayView = arrayVariant.create_array_view();
+	auto arrayView = arrayVariant.create_sequential_view();
 
 	assert( arrayView.is_valid() );
 	assert( arrayView.get_rank() == 1 );
@@ -228,15 +228,11 @@ bool			SerializationCore::SerializeArrayTypes				( ISerializer* ser, const rttr:
 	if( arrayView.is_dynamic() )
 		ser->SetAttribute( "ArraySize", arrayView.get_size() );
 
-	for( int i = 0; i < arrayView.get_size(); ++i )
+	for( auto& element : arrayView )
 	{
-		auto element = arrayView.get_value_as_ref( i ).extract_wrapped_value();
-
 		// Process generic objects. We must get real object type.
 		if( element.get_type().is_pointer() )
 		{
-			element = arrayView.get_value( i );
-
 			EngineObject* engineObject = element.get_value< EngineObject* >();
 			engineObject->Serialize( *ser );
 		}
@@ -420,7 +416,7 @@ bool	SerializationCore::DeserializeArrayTypes				( IDeserializer* deser, const r
 		return false;
 
 	auto arrayVariant = prop.get_value( object );
-	auto arrayView = arrayVariant.create_array_view();
+	auto arrayView = arrayVariant.create_sequential_view();
 
 	assert( arrayView.is_valid() );
 	assert( arrayView.get_rank() == 1 );
@@ -442,7 +438,10 @@ bool	SerializationCore::DeserializeArrayTypes				( IDeserializer* deser, const r
 			arrayView.set_size( arraySize );
 	}
 
+
 	int idx = 0;
+	auto element = arrayView.begin();
+
 	if( deser->FirstElement() )
 	{
 		do
@@ -469,13 +468,13 @@ bool	SerializationCore::DeserializeArrayTypes				( IDeserializer* deser, const r
 			}
 			else
 			{
-				auto element = arrayView.get_value_as_ref( idx );
 
 				// Non generic objects use default deserialization.
 				DefaultDeserializeImpl( *deser, element, arrayElementType );
 			}
 
 			idx++;
+			element++;
 		} while( deser->NextElement() );
 	}
 

@@ -10,12 +10,21 @@
     <UnitTestRTTRSourceDir>$(SourceDir)$(UnitTestRTTRName)\</UnitTestRTTRSourceDir>
     <UnitTestRTTRFileName>$(UnitTestRTTRName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)</UnitTestRTTRFileName>
     <UnitTestRTTRBuildDir>$(BuildDir)$(UnitTestRTTRName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</UnitTestRTTRBuildDir>
+  
+    <PluginPostfix Condition="'$(Configuration)'=='Debug'">_d</PluginPostfix>
+  
   </PropertyGroup>
   
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SourceDir)External/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    
+    <PostBuildEvent>
+      <Command>copy $(LibDir)PluginTestRTTR\PluginTestRTTR_$(Configuration)_$(PlatformShortName)_$(PlatformToolset).dll $(OutDir)unit_test_plugin$(PluginPostfix).dll
+%(Command)</Command>
+      <Message>Copy PluginTestRTTR.dll to output directory.</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   
   <PropertyGroup>
@@ -24,4 +33,6 @@
     <OutDir>$(UnitTestRTTRLibDir)</OutDir>
   </PropertyGroup>
   
+
+    
 </Project>

@@ -31,8 +31,11 @@
     <Filter Include="UnitTest\variant">
       <UniqueIdentifier>{1722d04f-8927-4857-b3cb-ede0fb207758}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UnitTest\variant_array_view">
-      <UniqueIdentifier>{1722d04f-8927-4857-b3cb-ede0fb207758}</UniqueIdentifier>
+    <Filter Include="UnitTest\variant_sequential_view">
+      <UniqueIdentifier>{d6164619-d77d-43e4-83f5-9e9e68a18cd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTest\variant_associative_view">
+      <UniqueIdentifier>{976aefa1-cf48-4475-ab39-edf2e0f668dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -198,11 +201,29 @@
     <ClCompile Include="..\..\..\..\Reflection\src\unit_tests\variant\variant_misc_test.cpp">
       <Filter>UnitTest\variant</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Reflection\src\unit_tests\variant_array_view\variant_array_view_test.cpp">
-      <Filter>UnitTest\variant_array_view</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\Reflection\src\unit_tests\main.cpp">
       <Filter>UnitTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Reflection\src\unit_tests\misc\library_test.cpp">
+      <Filter>UnitTest\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Reflection\src\unit_tests\variant\variant_cast_test.cpp">
+      <Filter>UnitTest\variant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Reflection\src\unit_tests\variant\variant_cmp_greater_or_equal.cpp">
+      <Filter>UnitTest\variant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Reflection\src\unit_tests\variant\variant_cmp_greater_test.cpp">
+      <Filter>UnitTest\variant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Reflection\src\unit_tests\variant\variant_cmp_less_or_equal.cpp">
+      <Filter>UnitTest\variant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Reflection\src\unit_tests\variant_sequential_view\variant_sequential_view_test.cpp">
+      <Filter>UnitTest\variant_sequential_view</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Reflection\src\unit_tests\variant_associative_view\variant_associative_view_test.cpp">
+      <Filter>UnitTest\variant_associative_view</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
