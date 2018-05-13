@@ -13,6 +13,9 @@
     <Filter Include="SerializationPrimitives">
       <UniqueIdentifier>{671a77af-04b3-4c1c-906b-26da265f44b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SerializationPrimitives\Arrays">
+      <UniqueIdentifier>{949d23ab-8bb4-4c50-9f88-49ada3f91054}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Animal.h">
@@ -33,9 +36,6 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\Mammal.h">
       <Filter>Animals\Mammals</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\ArrayContainer.h">
-      <Filter>SerializationPrimitives</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\BaseObject.h">
       <Filter>SerializationPrimitives</Filter>
     </ClInclude>
@@ -44,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\StructWithSimpleTypes.h">
       <Filter>SerializationPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\ArrayContainer.h">
+      <Filter>SerializationPrimitives\Arrays</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
