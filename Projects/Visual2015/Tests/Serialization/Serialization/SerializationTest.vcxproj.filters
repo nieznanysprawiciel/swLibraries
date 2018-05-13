@@ -4,6 +4,9 @@
     <Filter Include="TestCases">
       <UniqueIdentifier>{01fe24d8-d556-4ae8-b05f-862330eadb8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PrecompiledHeader">
+      <UniqueIdentifier>{6e2f18aa-ac8b-4667-99a8-f2ed86f0b3e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\main.cpp" />
@@ -16,5 +19,13 @@
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\BasicTypesSerialization.cpp">
       <Filter>TestCases</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\PrecompiledHeader\stdafx.cpp">
+      <Filter>PrecompiledHeader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\PrecompiledHeader\stdafx.h">
+      <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
