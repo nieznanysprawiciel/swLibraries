@@ -9,8 +9,8 @@
 
 #include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
 
-#include "swCommonLib/Tests/SerializationTest/TestClasses/StringContainer.h"
-#include "swCommonLib/Tests/SerializationTest/TestClasses/ArrayContainer.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/StringContainer.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/ArrayContainer.h"
 
 
 using namespace sw;

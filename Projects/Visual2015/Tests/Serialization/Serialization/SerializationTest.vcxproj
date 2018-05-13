@@ -24,13 +24,6 @@
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\EngineObjectSerialization.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\BasicTypesSerialization.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\StlTypesSerialization.cpp" />
-    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\PropertyRegistration.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\ArrayContainer.h" />
-    <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\BaseObject.h" />
-    <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\StringContainer.h" />
-    <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\TestClasses\StructWithSimpleTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Serialization\Serialization.vcxproj">
@@ -38,6 +31,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\SerializerXML\SerializerXML.vcxproj">
       <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\TestClassHierarchy\TestClassHierarchy.vcxproj">
+      <Project>{33db1307-8edb-4abd-b861-39a58d37b489}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

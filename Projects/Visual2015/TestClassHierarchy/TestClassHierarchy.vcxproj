@@ -30,9 +30,14 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\HomoSapiens.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\Mammal.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Zoo.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\ArrayContainer.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\BaseObject.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\StringContainer.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\StructWithSimpleTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Registration.cpp" />
+    <ClCompile Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\PropertyRegistration.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{33DB1307-8EDB-4ABD-B861-39A58D37B489}</ProjectGuid>

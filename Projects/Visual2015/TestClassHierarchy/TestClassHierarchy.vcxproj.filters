@@ -10,6 +10,9 @@
     <Filter Include="Animals\Components">
       <UniqueIdentifier>{47277cf2-f850-45f0-99c1-a11bda75fa26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SerializationPrimitives">
+      <UniqueIdentifier>{671a77af-04b3-4c1c-906b-26da265f44b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Animal.h">
@@ -30,10 +33,25 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\Mammal.h">
       <Filter>Animals\Mammals</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\ArrayContainer.h">
+      <Filter>SerializationPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\BaseObject.h">
+      <Filter>SerializationPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\StringContainer.h">
+      <Filter>SerializationPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\StructWithSimpleTypes.h">
+      <Filter>SerializationPrimitives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Registration.cpp">
       <Filter>Animals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\PropertyRegistration.cpp">
+      <Filter>SerializationPrimitives</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

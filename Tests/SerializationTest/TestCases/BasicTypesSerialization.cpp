@@ -9,7 +9,7 @@
 
 #include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
 
-#include "swCommonLib/Tests/SerializationTest/TestClasses/StructWithSimpleTypes.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/StructWithSimpleTypes.h"
 
 
 using namespace sw;
