@@ -207,7 +207,7 @@ bool			SerializationCore::SerializeEnumTypes				( ISerializer* ser, const rttr::
 bool			SerializationCore::SerializeArrayTypes				( ISerializer* ser, const rttr::instance& object, rttr::property& prop )
 {
 	TypeID propertyType = SerializationCore::GetWrappedType( prop.get_type() );
-	if( !propertyType.is_array() )
+	if( !propertyType.is_sequential_container() )
 		return false;
 
 	auto arrayVariant = prop.get_value( object );
@@ -412,7 +412,7 @@ bool	SerializationCore::DeserializeEnumTypes					( IDeserializer* deser, const r
 bool	SerializationCore::DeserializeArrayTypes				( IDeserializer* deser, const rttr::instance& object, rttr::property& prop )
 {
 	TypeID propertyType = SerializationCore::GetWrappedType( prop.get_type() );
-	if( !propertyType.is_array() )
+	if( !propertyType.is_sequential_container() )
 		return false;
 
 	auto arrayVariant = prop.get_value( object );
@@ -470,7 +470,7 @@ bool	SerializationCore::DeserializeArrayTypes				( IDeserializer* deser, const r
 			{
 
 				// Non generic objects use default deserialization.
-				DefaultDeserializeImpl( *deser, element, arrayElementType );
+				DefaultDeserializeImpl( *deser, *element, arrayElementType );
 			}
 
 			idx++;
