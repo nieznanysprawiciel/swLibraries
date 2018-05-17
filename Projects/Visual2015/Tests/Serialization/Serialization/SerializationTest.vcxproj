@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\..\Paths.props" />
   <ItemGroup Label="ProjectConfigurations">
@@ -35,6 +35,7 @@
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\ArraySerialization.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\EngineObjectSerialization.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\BasicTypesSerialization.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\EnumSerialization.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\StlTypesSerialization.cpp" />
   </ItemGroup>
   <ItemGroup>

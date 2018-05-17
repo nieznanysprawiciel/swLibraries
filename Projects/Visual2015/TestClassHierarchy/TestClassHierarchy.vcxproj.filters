@@ -16,6 +16,9 @@
     <Filter Include="SerializationPrimitives\Arrays">
       <UniqueIdentifier>{949d23ab-8bb4-4c50-9f88-49ada3f91054}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SerializationPrimitives\Enums">
+      <UniqueIdentifier>{3b313ec1-bebc-4c3e-b30d-54b68362d11b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Animal.h">
@@ -53,6 +56,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\StaticArrayContainer_Readonly.h">
       <Filter>SerializationPrimitives\Arrays</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Enums\TriStateEnum.h">
+      <Filter>SerializationPrimitives\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Enums\TriStateObject.h">
+      <Filter>SerializationPrimitives\Enums</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
