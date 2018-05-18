@@ -37,6 +37,7 @@
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\BasicTypesSerialization.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\EnumSerialization.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\StlTypesSerialization.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\StructsSerialization.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Serialization\Serialization.vcxproj">

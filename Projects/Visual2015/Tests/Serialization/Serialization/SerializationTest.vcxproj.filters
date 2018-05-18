@@ -28,6 +28,9 @@
     <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\EnumSerialization.cpp">
       <Filter>TestCases</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\StructsSerialization.cpp">
+      <Filter>TestCases</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\PrecompiledHeader\stdafx.h">

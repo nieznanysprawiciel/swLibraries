@@ -35,6 +35,7 @@ public:
 
 
 	static bool				ShouldSave				( const rttr::property& prop, MetaDataType saveFlag );
+	static bool				IsPolymorphicType		( TypeID type );
 	
 	static void				DefaultSerialize		( ISerializer& ser, const EngineObject* object );
 	static void				DefaultDeserialize		( IDeserializer& deser, EngineObject* object );

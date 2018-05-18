@@ -64,6 +64,13 @@ bool					SerializationCore::ShouldSave				( const rttr::property& prop, MetaData
 }
 
 // ================================ //
+/// We support only polymorphic types derived from EngineObject.
+bool					SerializationCore::IsPolymorphicType		( TypeID type )
+{
+	return type.is_derived_from< EngineObject >();
+}
+
+// ================================ //
 //
 void					SerializationCore::DefaultSerialize			( ISerializer& ser, const EngineObject* object )
 {
@@ -501,7 +508,7 @@ bool	SerializationCore::DeserializeObjectTypes	( IDeserializer* deser, const rtt
 	if( !propertyType.get_raw_type().is_class() )
 		return false;
 
-	if( propertyType.is_derived_from< EngineObject >() )
+	if( IsPolymorphicType( propertyType ) )
 	{
 		// Retrieve dynamic type of object from deserializer and create new object.
 		assert( !"Implement me" );

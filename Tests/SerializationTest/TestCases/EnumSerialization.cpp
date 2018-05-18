@@ -15,7 +15,7 @@ using namespace sw;
 
 
 // ================================ //
-// Serializes object with structure bound as pointer.
+// Serializes object with enumeration.
 TEST_CASE( "Struct.Enum", "[Serialization]" )
 {
 	TriStateObject expected;
