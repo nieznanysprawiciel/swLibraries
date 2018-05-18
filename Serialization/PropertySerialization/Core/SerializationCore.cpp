@@ -263,6 +263,9 @@ bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr
 	if( propertyType.is_wrapper() )
 		propertyType = propertyType.get_wrapped_type();
 
+	if( !propertyType.get_raw_type().is_class() )
+		return false;
+
 	// Here can be serialized:
 	// - structs
 	// - structs pointers and references
@@ -274,10 +277,8 @@ bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr
 
 	if( propertyType.is_derived_from< EngineObject >() )
 		SerializeProperty< EngineObject* >( &ser, prop, object );
-	else if( propertyType.is_pointer() )
-		SerializeProperty< void* >( &ser, prop, object );
 	else
-		serialized = false;
+		SerializeProperty< void* >( &ser, prop, object );
 
 	return serialized;
 }
@@ -585,27 +586,20 @@ void			SerializationCore::SerializeProperty< EngineObject* >( ISerializer* ser, 
 	}
 }
 
-/**@brief Specjalizacja dla wszystkich obiektów, które nie dziedzicz¹ po EngineObject.
-
-Musz¹ to byæ struktury bez hierarchii dziedziczenia, poniewa¿ nie mo¿na ustaliæ ich dynamicznego typu.*/
+/**@brief Specialization for all not polymorphic objects.*/
 template<>
 void			SerializationCore::SerializeProperty< void* >( ISerializer* ser, rttr::property prop, const rttr::instance& object )
 {
-	void* engineObj = GetPropertyValue< void* >( prop, object );
-	if( engineObj )
-	{
-		ser->EnterObject( prop.get_name().to_string() );
+	rttr::variant structObject = prop.get_value( object );
 
-		rttr::variant objVariant( engineObj );
-		TypeID realType = prop.get_type();
-		objVariant.unsafe_convert_void( realType );
+	ser->EnterObject( prop.get_name().to_string() );
 
-		auto& properties = GetTypeFilteredProperties( realType, ser->GetContext< SerializationContext >() );
+	TypeID realType = GetWrappedType( prop.get_type() ).get_raw_type();
 
-		SerializePropertiesVec( ser, objVariant, properties );
+	auto& properties = GetTypeFilteredProperties( realType, ser->GetContext< SerializationContext >() );
+	SerializePropertiesVec( ser, structObject, properties );
 
-		ser->Exit();	//	prop.get_name()
-	}
+	ser->Exit();	//	prop.get_name()
 }
 
 /**@brief Specjalizacja dla DirectX::XMFLOAT3.*/
@@ -710,7 +704,7 @@ void				SerializationCore::DeserializeProperty< void* >				( IDeserializer* dese
 {
 	if( deser->EnterObject( prop.get_name().to_string() ) )
 	{
-		TypeID propertyType = prop.get_type();
+		TypeID propertyType = GetWrappedType( prop.get_type() );
 		auto deserObject = prop.get_value( object );
 
 		DefaultDeserializeImpl( *deser, deserObject, propertyType );
