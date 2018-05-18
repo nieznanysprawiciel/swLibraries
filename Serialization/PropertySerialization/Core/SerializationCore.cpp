@@ -88,14 +88,27 @@ void					SerializationCore::DefaultSerializeImpl		( ISerializer& deser, const rt
 
 	deser.EnterObject( wrappedType.get_raw_type().get_name().to_string() );
 
-	SerializePropertiesVec( &deser, object, properties );
+	SerializePropertiesVec( deser, object, properties );
 
 	deser.Exit();	// objectType.get_name()
 }
 
 // ================================ //
 //
-void					SerializationCore::SerializePropertiesVec	( ISerializer* ser, const rttr::instance& object, std::vector< rttr::property >& properties )
+void					SerializationCore::SerializePolymorphic		( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
+{
+	EngineObject* engineObj = GetPropertyValue< EngineObject* >( prop, object );
+	if( engineObj )
+	{
+		ser.EnterObject( prop.get_name().to_string() );
+		engineObj->Serialize( ser );
+		ser.Exit();	//	prop.get_name()
+	}
+}
+
+// ================================ //
+//
+void					SerializationCore::SerializePropertiesVec	( ISerializer& ser, const rttr::instance& object, std::vector< rttr::property >& properties )
 {
 	for( auto& property : properties )
 	{
@@ -105,21 +118,21 @@ void					SerializationCore::SerializePropertiesVec	( ISerializer* ser, const rtt
 		serialized = serialized || SerializeStringTypes( ser, object, property );
 		serialized = serialized || SerializeEnumTypes( ser, object, property );
 		serialized = serialized || SerializeArrayTypes( ser, object, property );
-		serialized = serialized || SerializeObjectTypes( *ser, object, property );
+		serialized = serialized || SerializeObjectTypes( ser, object, property );
 	}
 }
 
 
 // ================================ //
 //
-bool				SerializationCore::SerializeBasicTypes			( ISerializer* ser, const rttr::instance& object, rttr::property& prop )
+bool				SerializationCore::SerializeBasicTypes			( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
 {
 	return SerializeBasicTypes( ser, prop.get_name(), prop.get_value( object ) );
 }
 
 // ================================ //
 //
-bool				SerializationCore::SerializeBasicTypes			( ISerializer* ser, rttr::string_view name, const rttr::variant& propertyValue )
+bool				SerializationCore::SerializeBasicTypes			( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue )
 {
 	auto propertyType = propertyValue.get_type();
 
@@ -127,29 +140,29 @@ bool				SerializationCore::SerializeBasicTypes			( ISerializer* ser, rttr::strin
 		return false;
 
 	if( propertyType == rttr::type::get< float >() )
-		SerializeProperty< float >( ser, name, propertyValue );
+		SerializeProperty< float >( &ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< bool >() )
-		SerializeProperty< bool >( ser, name, propertyValue );
+		SerializeProperty< bool >( &ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< int32 >() )
-		SerializeProperty< int32 >( ser, name, propertyValue );
+		SerializeProperty< int32 >( &ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< uint32 >() )
-		SerializeProperty< uint32 >( ser, name, propertyValue );
+		SerializeProperty< uint32 >( &ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< int16 >() )
-		SerializeProperty< int16 >( ser, name, propertyValue );
+		SerializeProperty< int16 >( &ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< uint16 >() )
-		SerializeProperty< uint16 >( ser, name, propertyValue );
+		SerializeProperty< uint16 >( &ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< int8 >() )
-		SerializeProperty< int8 >( ser, name, propertyValue );
+		SerializeProperty< int8 >( &ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< uint8 >() )
-		SerializeProperty< uint8 >( ser, name, propertyValue );
+		SerializeProperty< uint8 >( &ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< int64 >() )
-		SerializeProperty< int64 >( ser, name, propertyValue );
+		SerializeProperty< int64 >( &ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< uint64 >() )
-		SerializeProperty< uint64 >( ser, name, propertyValue );
+		SerializeProperty< uint64 >( &ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< double >() )
-		SerializeProperty< double >( ser, name, propertyValue );
+		SerializeProperty< double >( &ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< char >() )
-		SerializeProperty< char >( ser, name, propertyValue );
+		SerializeProperty< char >( &ser, name, propertyValue );
 	else
 		return false;
 
@@ -158,16 +171,16 @@ bool				SerializationCore::SerializeBasicTypes			( ISerializer* ser, rttr::strin
 
 // ================================ //
 //
-bool			SerializationCore::SerializeVectorTypes				( ISerializer* ser, const rttr::instance& object, rttr::property& prop )
+bool			SerializationCore::SerializeVectorTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
 
 	if( propertyType == rttr::type::get< DirectX::XMFLOAT2* >() )
-		SerializeProperty< DirectX::XMFLOAT2* >( ser, prop, object );
+		SerializeProperty< DirectX::XMFLOAT2* >( &ser, prop, object );
 	else if( propertyType == rttr::type::get< DirectX::XMFLOAT3* >() )
-		SerializeProperty< DirectX::XMFLOAT3* >( ser, prop, object );
+		SerializeProperty< DirectX::XMFLOAT3* >( &ser, prop, object );
 	else if( propertyType == rttr::type::get< DirectX::XMFLOAT4* >() )
-		SerializeProperty< DirectX::XMFLOAT4* >( ser, prop, object );
+		SerializeProperty< DirectX::XMFLOAT4* >( &ser, prop, object );
 	else
 		return false;
 
@@ -176,14 +189,14 @@ bool			SerializationCore::SerializeVectorTypes				( ISerializer* ser, const rttr
 
 // ================================ //
 //
-bool			SerializationCore::SerializeStringTypes				( ISerializer* ser, const rttr::instance& object, rttr::property& prop )
+bool			SerializationCore::SerializeStringTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
 
 	if( propertyType == rttr::type::get< std::string >() )
-		SerializeProperty< std::string >( ser, prop, object );
+		SerializeProperty< std::string >( &ser, prop, object );
 	else if( propertyType == rttr::type::get< std::wstring >() )
-		SerializeProperty< std::wstring >( ser, prop, object );
+		SerializeProperty< std::wstring >( &ser, prop, object );
 	else
 		return false;
 
@@ -192,7 +205,7 @@ bool			SerializationCore::SerializeStringTypes				( ISerializer* ser, const rttr
 
 // ================================ //
 //
-bool			SerializationCore::SerializeEnumTypes				( ISerializer* ser, const rttr::instance& object, rttr::property& prop )
+bool			SerializationCore::SerializeEnumTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
 
@@ -204,14 +217,14 @@ bool			SerializationCore::SerializeEnumTypes				( ISerializer* ser, const rttr::
 
 	rttr::enumeration enumVal = propertyType.get_enumeration();
 
-	ser->SetAttribute( prop.get_name().to_string(), enumVal.value_to_name( prop.get_value( object ) ).to_string() );
+	ser.SetAttribute( prop.get_name().to_string(), enumVal.value_to_name( prop.get_value( object ) ).to_string() );
 
 	return true;
 }
 
 // ================================ //
 //
-bool			SerializationCore::SerializeArrayTypes				( ISerializer* ser, const rttr::instance& object, rttr::property& prop )
+bool			SerializationCore::SerializeArrayTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
 {
 	TypeID propertyType = SerializationCore::GetWrappedType( prop.get_type() );
 	if( !propertyType.is_sequential_container() )
@@ -230,10 +243,10 @@ bool			SerializationCore::SerializeArrayTypes				( ISerializer* ser, const rttr:
 	if( !arrayElementType.is_class() && !arrayElementType.get_raw_type().is_class() )
 		return true;
 
-	ser->EnterArray( prop.get_name().to_string() );
+	ser.EnterArray( prop.get_name().to_string() );
 
 	if( arrayView.is_dynamic() )
-		ser->SetAttribute( "ArraySize", arrayView.get_size() );
+		ser.SetAttribute( "ArraySize", arrayView.get_size() );
 
 	for( auto& element : arrayView )
 	{
@@ -241,16 +254,16 @@ bool			SerializationCore::SerializeArrayTypes				( ISerializer* ser, const rttr:
 		if( element.get_type().is_pointer() )
 		{
 			EngineObject* engineObject = element.get_value< EngineObject* >();
-			engineObject->Serialize( *ser );
+			engineObject->Serialize( ser );
 		}
 		else
 		{
 			// Non generic objects use default serialization.
-			DefaultSerializeImpl( *ser, element, arrayElementType );
+			DefaultSerializeImpl( ser, element, arrayElementType );
 		}
 	}
 
-	ser->Exit();
+	ser.Exit();
 
 	return false;
 }
@@ -275,8 +288,8 @@ bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr
 
 	bool serialized = true;
 
-	if( propertyType.is_derived_from< EngineObject >() )
-		SerializeProperty< EngineObject* >( &ser, prop, object );
+	if( IsPolymorphicType( propertyType ) )
+		SerializePolymorphic( ser, object, prop );
 	else
 		SerializeProperty< void* >( &ser, prop, object );
 
@@ -573,7 +586,9 @@ template	void	SerializationCore::SerializeProperty< uint64 >	( ISerializer* ser,
 
 /**@brief Template specialization for classes derived from @ref EngineObject.
 
-Function serializes property name as first. Then EngineObject::Serialize method is invoked.*/
+Function serializes property name as first. Then EngineObject::Serialize method is invoked.
+
+@deprecated Use SerializePolymorphic instead.*/
 template<>
 void			SerializationCore::SerializeProperty< EngineObject* >( ISerializer* ser, rttr::property prop, const rttr::instance& object )
 {
@@ -597,7 +612,7 @@ void			SerializationCore::SerializeProperty< void* >( ISerializer* ser, rttr::pr
 	TypeID realType = GetWrappedType( prop.get_type() ).get_raw_type();
 
 	auto& properties = GetTypeFilteredProperties( realType, ser->GetContext< SerializationContext >() );
-	SerializePropertiesVec( ser, structObject, properties );
+	SerializePropertiesVec( *ser, structObject, properties );
 
 	ser->Exit();	//	prop.get_name()
 }

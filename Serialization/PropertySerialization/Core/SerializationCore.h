@@ -47,18 +47,18 @@ public:
 	///@{
 
 	/**@brief Serialize basic arithemtic types and bool.*/
-	static bool				SerializeBasicTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
-	static bool				SerializeVectorTypes	( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
-	static bool				SerializeStringTypes	( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
-	static bool				SerializeEnumTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
-	static bool				SerializeArrayTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
+	static bool				SerializeBasicTypes		( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
+	static bool				SerializeVectorTypes	( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
+	static bool				SerializeStringTypes	( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
+	static bool				SerializeEnumTypes		( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
+	static bool				SerializeArrayTypes		( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
 	static bool				SerializeObjectTypes	( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
 
-	static bool				SerializeBasicTypes		( ISerializer* ser, rttr::string_view name, const rttr::variant& propertyValue );
+	static bool				SerializeBasicTypes		( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue );
 	///@}
 
-
-	static void				SerializePropertiesVec	( ISerializer* ser, const rttr::instance& object, std::vector< rttr::property >& properties );
+	static void				SerializePolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
+	static void				SerializePropertiesVec	( ISerializer& ser, const rttr::instance& object, std::vector< rttr::property >& properties );
 
 	///@name Types deserialization
 	///@{
