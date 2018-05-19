@@ -532,15 +532,13 @@ bool	SerializationCore::DeserializeObjectTypes	( IDeserializer& deser, const rtt
 	}
 	else
 	{
-		// We must find out whether type is a structure or pointer to structure.
-		// Checking type.is_pointer() tell us nothing, because every structure must be bound as pointer.
-		// Better get value of property from class and check if it is nullptr.
+		// We must handle cases, when structure is nullptr. First we must create new object and then deserialize it.
 		auto structVal = prop.get_value( object );
 		if( structVal == nullptr )
 		{
-			// We could construct object, but maybe it would be better, if objects have created it in constructor.
-			// @todo Think if we should create structure in deserialization if it is nullptr.
-			rttr::variant newStruct = rawType.create();
+			TypeID typeToCreate = GetWrappedType( propertyType ).get_raw_type();
+			rttr::variant newStruct = typeToCreate.create();
+
 			if( prop.set_value( object, newStruct ) )
 			{
 				DeserializeNotPolymorphic( deser, object, prop );
