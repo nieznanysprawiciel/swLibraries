@@ -517,9 +517,10 @@ bool	SerializationCore::DeserializeArrayTypes				( IDeserializer& deser, const r
 @return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
 bool	SerializationCore::DeserializeObjectTypes	( IDeserializer& deser, const rttr::instance& object, rttr::property& prop )
 {
-	auto propertyType = prop.get_type();
+	TypeID propertyType = prop.get_type();
+	TypeID rawType = propertyType.get_raw_type();
 
-	if( !propertyType.get_raw_type().is_class() )
+	if( !rawType.is_class() )
 		return false;
 
 	if( IsPolymorphicType( propertyType ) )
@@ -539,6 +540,13 @@ bool	SerializationCore::DeserializeObjectTypes	( IDeserializer& deser, const rtt
 		{
 			// We could construct object, but maybe it would be better, if objects have created it in constructor.
 			// @todo Think if we should create structure in deserialization if it is nullptr.
+			rttr::variant newStruct = rawType.create();
+			if( prop.set_value( object, newStruct ) )
+			{
+				DeserializeNotPolymorphic( deser, object, prop );
+				return true;
+			}
+
 			return true;	// Tell outside world, that it doesn't need to look for other function to deal with this property.
 		}
 		else

@@ -94,7 +94,7 @@ TEST_CASE( "Struct.PointerToStruct", "[Serialization]" )
 
 // ================================ //
 // Serializes object with structure pointer. Deserialized object has nullptr an must create structure by itself.
-TEST_CASE( "Struct.PointerToStruct.Nullptr", "[Serialization]" )
+TEST_CASE( "Struct.PointerToStruct.Create", "[Serialization]" )
 {
 	StructPtrContainer expected;
 	StructPtrContainer actual;
@@ -104,8 +104,8 @@ TEST_CASE( "Struct.PointerToStruct.Nullptr", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Struct.PointerToStruct.Nullptr.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Struct.PointerToStruct.Nullptr.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Struct.PointerToStruct.Create.xml", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.PointerToStruct.Create.xml", actual ) );
 
 	REQUIRE( actual.SimpleStruct != nullptr );
 	CHECK( *( actual.SimpleStruct ) == *( expected.SimpleStruct ) );
