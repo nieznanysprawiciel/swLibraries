@@ -78,6 +78,12 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructPtrContainer.h">
       <Filter>SerializationPrimitives\Structs</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructWithSimpleTypesShared.h">
+      <Filter>SerializationPrimitives\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructSharedPtrContainer.h">
+      <Filter>SerializationPrimitives\Structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Registration.cpp">

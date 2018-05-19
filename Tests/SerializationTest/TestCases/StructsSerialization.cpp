@@ -14,6 +14,7 @@
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructAsPtrContainer.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructAsCopyContainer.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructPtrContainer.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructSharedPtrContainer.h"
 
 using namespace sw;
 
@@ -110,3 +111,43 @@ TEST_CASE( "Struct.PointerToStruct.Create", "[Serialization]" )
 	REQUIRE( actual.SimpleStruct != nullptr );
 	CHECK( *( actual.SimpleStruct ) == *( expected.SimpleStruct ) );
 }
+
+// ================================ //
+// Serializes object with structure shared pointer.
+TEST_CASE( "Struct.SharedPointerToStruct", "[Serialization]" )
+{
+	StructSharedPtrContainer expected;
+	StructSharedPtrContainer actual;
+	expected.SimpleStruct->FillWithDataset3();
+	actual.SimpleStruct->FillWithDataset2();
+
+	sw::Serialization serial;
+	sw::Serialization deserial;
+
+	REQUIRE( serial.Serialize( "Serialization/Struct.SharedPointerToStruct.xml", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.SharedPointerToStruct.xml", actual ) );
+
+	REQUIRE( actual.SimpleStruct != nullptr );
+	CHECK( *( actual.SimpleStruct ) == *( expected.SimpleStruct ) );
+}
+
+// ================================ //
+// Serializes object with structure shared pointer.
+TEST_CASE( "Struct.SharedPointerToStruct.Create", "[Serialization]" )
+{
+	StructSharedPtrContainer expected;
+	StructSharedPtrContainer actual;
+	expected.SimpleStruct->FillWithDataset3();
+	actual.Replace( nullptr );
+
+	sw::Serialization serial;
+	sw::Serialization deserial;
+
+	REQUIRE( serial.Serialize( "Serialization/Struct.SharedPointerToStruct.Create.xml", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.SharedPointerToStruct.Create.xml", actual ) );
+
+	REQUIRE( actual.SimpleStruct != nullptr );
+	CHECK( *( actual.SimpleStruct ) == *( expected.SimpleStruct ) );
+}
+
+
