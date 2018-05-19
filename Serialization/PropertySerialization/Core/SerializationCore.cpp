@@ -556,12 +556,19 @@ void				SerializationCore::DeserializeNotPolymorphic	( IDeserializer& deser, con
 {
 	if( deser.EnterObject( prop.get_name().to_string() ) )
 	{
-		TypeID propertyType = GetWrappedType( prop.get_type() );
+		TypeID propertyType = prop.get_type();
+		TypeID wrappedType = GetWrappedType( propertyType );
 		auto deserObject = prop.get_value( object );
 
-		DefaultDeserializeImpl( deser, deserObject, propertyType );
+		DefaultDeserializeImpl( deser, deserObject, wrappedType );
 
 		deser.Exit();	//	prop.get_name()
+
+		if( !propertyType.is_wrapper() && !propertyType.is_pointer() )
+		{
+			// This means that structure was copied. We must set property value to this copy.
+			prop.set_value( object, deserObject );
+		}
 	}
 	// Error handling ??
 }
