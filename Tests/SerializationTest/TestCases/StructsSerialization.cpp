@@ -12,6 +12,7 @@
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructAsRefContainer.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructAsPtrContainer.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructAsCopyContainer.h"
 
 using namespace sw;
 
@@ -49,6 +50,25 @@ TEST_CASE( "Struct.BindAsPointer", "[Serialization]" )
 
 	REQUIRE( serial.Serialize( "Serialization/Struct.BindAsPointer.xml", expected ) );
 	REQUIRE( deserial.Deserialize( "Serialization/Struct.BindAsPointer.xml", actual ) );
+
+	CHECK( actual.SimpleStruct == expected.SimpleStruct );
+}
+
+// ================================ //
+// Serializes object with structure that is not bound as pointer neither as reference.
+// This should cause that structure will be copied.
+TEST_CASE( "Struct.BindAsCopy", "[Serialization]" )
+{
+	StructAsCopyContainer expected;
+	StructAsCopyContainer actual;
+	expected.SimpleStruct.FillWithDataset3();
+	actual.SimpleStruct.FillWithDataset2();
+
+	sw::Serialization serial;
+	sw::Serialization deserial;
+
+	REQUIRE( serial.Serialize( "Serialization/Struct.BindAsCopy.xml", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.BindAsCopy.xml", actual ) );
 
 	CHECK( actual.SimpleStruct == expected.SimpleStruct );
 }
