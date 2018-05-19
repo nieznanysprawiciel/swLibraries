@@ -60,17 +60,17 @@ PropertyType	SerializationCore::GetPropertyValue			( rttr::property prop, const 
 
 @todo Mo¿na zoptymalizowaæ pobieranie nazwy z w³aœciwoœci i ograniczyæ alokacjê stringów.*/
 template< typename PropertyType >
-void			SerializationCore::SerializeProperty		( ISerializer* ser, rttr::property prop, const rttr::instance& object )
+void			SerializationCore::SerializeProperty		( ISerializer& ser, rttr::property prop, const rttr::instance& object )
 {
-	ser->SetAttribute( prop.get_name().to_string(), GetPropertyValue< PropertyType >( prop, object ) );
+	ser.SetAttribute( prop.get_name().to_string(), GetPropertyValue< PropertyType >( prop, object ) );
 }
 
 // ================================ //
 //
 template< typename PropertyType >
-inline void		SerializationCore::SerializeProperty		( ISerializer* ser, rttr::string_view name, const rttr::variant& propertyValue )
+inline void		SerializationCore::SerializeProperty		( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue )
 {
-	ser->SetAttribute( name.to_string(), propertyValue.get_value< PropertyType >() );
+	ser.SetAttribute( name.to_string(), propertyValue.get_value< PropertyType >() );
 }
 
 

@@ -83,21 +83,21 @@ public:
 	static PropertyType		GetPropertyValue	( rttr::property prop, const rttr::instance& object );
 
 	template< typename PropertyType >
-	static void				SerializeProperty	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
+	static void				SerializeProperty	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
 
 	template< typename PropertyType >
-	static void				SerializeProperty	( ISerializer* ser, rttr::string_view name, const rttr::variant& propertyValue );
+	static void				SerializeProperty	( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue );
 
 
-	template<>	static void				SerializeProperty< EngineObject* >			( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				SerializeProperty< void* >					( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				SerializeProperty< DirectX::XMFLOAT2* >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				SerializeProperty< DirectX::XMFLOAT3* >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				SerializeProperty< DirectX::XMFLOAT4* >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				SerializeProperty< std::wstring >			( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				SerializeProperty< char >					( ISerializer* ser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				SerializeProperty< EngineObject* >			( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				SerializeProperty< void* >					( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				SerializeProperty< DirectX::XMFLOAT2* >		( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				SerializeProperty< DirectX::XMFLOAT3* >		( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				SerializeProperty< DirectX::XMFLOAT4* >		( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				SerializeProperty< std::wstring >			( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				SerializeProperty< char >					( ISerializer& ser, rttr::property prop, const rttr::instance& object );
 
-	template<>	static void				SerializeProperty< char >					( ISerializer* ser, rttr::string_view name, const rttr::variant& propertyValue );
+	template<>	static void				SerializeProperty< char >					( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue );
 
 
 	template< typename PropertyType >

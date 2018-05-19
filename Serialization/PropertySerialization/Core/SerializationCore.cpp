@@ -140,29 +140,29 @@ bool				SerializationCore::SerializeBasicTypes			( ISerializer& ser, rttr::strin
 		return false;
 
 	if( propertyType == rttr::type::get< float >() )
-		SerializeProperty< float >( &ser, name, propertyValue );
+		SerializeProperty< float >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< bool >() )
-		SerializeProperty< bool >( &ser, name, propertyValue );
+		SerializeProperty< bool >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< int32 >() )
-		SerializeProperty< int32 >( &ser, name, propertyValue );
+		SerializeProperty< int32 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< uint32 >() )
-		SerializeProperty< uint32 >( &ser, name, propertyValue );
+		SerializeProperty< uint32 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< int16 >() )
-		SerializeProperty< int16 >( &ser, name, propertyValue );
+		SerializeProperty< int16 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< uint16 >() )
-		SerializeProperty< uint16 >( &ser, name, propertyValue );
+		SerializeProperty< uint16 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< int8 >() )
-		SerializeProperty< int8 >( &ser, name, propertyValue );
+		SerializeProperty< int8 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< uint8 >() )
-		SerializeProperty< uint8 >( &ser, name, propertyValue );
+		SerializeProperty< uint8 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< int64 >() )
-		SerializeProperty< int64 >( &ser, name, propertyValue );
+		SerializeProperty< int64 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< uint64 >() )
-		SerializeProperty< uint64 >( &ser, name, propertyValue );
+		SerializeProperty< uint64 >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< double >() )
-		SerializeProperty< double >( &ser, name, propertyValue );
+		SerializeProperty< double >( ser, name, propertyValue );
 	else if( propertyType == rttr::type::get< char >() )
-		SerializeProperty< char >( &ser, name, propertyValue );
+		SerializeProperty< char >( ser, name, propertyValue );
 	else
 		return false;
 
@@ -176,11 +176,11 @@ bool			SerializationCore::SerializeVectorTypes				( ISerializer& ser, const rttr
 	auto propertyType = prop.get_type();
 
 	if( propertyType == rttr::type::get< DirectX::XMFLOAT2* >() )
-		SerializeProperty< DirectX::XMFLOAT2* >( &ser, prop, object );
+		SerializeProperty< DirectX::XMFLOAT2* >( ser, prop, object );
 	else if( propertyType == rttr::type::get< DirectX::XMFLOAT3* >() )
-		SerializeProperty< DirectX::XMFLOAT3* >( &ser, prop, object );
+		SerializeProperty< DirectX::XMFLOAT3* >( ser, prop, object );
 	else if( propertyType == rttr::type::get< DirectX::XMFLOAT4* >() )
-		SerializeProperty< DirectX::XMFLOAT4* >( &ser, prop, object );
+		SerializeProperty< DirectX::XMFLOAT4* >( ser, prop, object );
 	else
 		return false;
 
@@ -194,9 +194,9 @@ bool			SerializationCore::SerializeStringTypes				( ISerializer& ser, const rttr
 	auto propertyType = prop.get_type();
 
 	if( propertyType == rttr::type::get< std::string >() )
-		SerializeProperty< std::string >( &ser, prop, object );
+		SerializeProperty< std::string >( ser, prop, object );
 	else if( propertyType == rttr::type::get< std::wstring >() )
-		SerializeProperty< std::wstring >( &ser, prop, object );
+		SerializeProperty< std::wstring >( ser, prop, object );
 	else
 		return false;
 
@@ -291,7 +291,7 @@ bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr
 	if( IsPolymorphicType( propertyType ) )
 		SerializePolymorphic( ser, object, prop );
 	else
-		SerializeProperty< void* >( &ser, prop, object );
+		SerializeProperty< void* >( ser, prop, object );
 
 	return serialized;
 }
@@ -586,19 +586,19 @@ std::wstring		SerializationCore::UTFToWstring		( const std::string& str )
 //				SerializeProperty template specialization
 //====================================================================================//
 
-template	void	SerializationCore::SerializeProperty< unsigned int >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-template	void	SerializationCore::SerializeProperty< float >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-template	void	SerializationCore::SerializeProperty< double >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-template	void	SerializationCore::SerializeProperty< int >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-template	void	SerializationCore::SerializeProperty< bool >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-template	void	SerializationCore::SerializeProperty< int8 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-template	void	SerializationCore::SerializeProperty< uint8 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-template	void	SerializationCore::SerializeProperty< int16 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-template	void	SerializationCore::SerializeProperty< uint16 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-template	void	SerializationCore::SerializeProperty< int32 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-template	void	SerializationCore::SerializeProperty< uint32 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-template	void	SerializationCore::SerializeProperty< int64 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-template	void	SerializationCore::SerializeProperty< uint64 >	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::SerializeProperty< unsigned int >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::SerializeProperty< float >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::SerializeProperty< double >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::SerializeProperty< int >		( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::SerializeProperty< bool >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::SerializeProperty< int8 >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::SerializeProperty< uint8 >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::SerializeProperty< int16 >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::SerializeProperty< uint16 >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::SerializeProperty< int32 >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::SerializeProperty< uint32 >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::SerializeProperty< int64 >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+template	void	SerializationCore::SerializeProperty< uint64 >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
 
 /**@brief Template specialization for classes derived from @ref EngineObject.
 
@@ -606,100 +606,100 @@ Function serializes property name as first. Then EngineObject::Serialize method 
 
 @deprecated Use SerializePolymorphic instead.*/
 template<>
-void			SerializationCore::SerializeProperty< EngineObject* >( ISerializer* ser, rttr::property prop, const rttr::instance& object )
+void			SerializationCore::SerializeProperty< EngineObject* >( ISerializer& ser, rttr::property prop, const rttr::instance& object )
 {
 	EngineObject* engineObj = GetPropertyValue< EngineObject* >( prop, object );
 	if( engineObj )
 	{
-		ser->EnterObject( prop.get_name().to_string() );
-		engineObj->Serialize( *ser );
-		ser->Exit();	//	prop.get_name()
+		ser.EnterObject( prop.get_name().to_string() );
+		engineObj->Serialize( ser );
+		ser.Exit();	//	prop.get_name()
 	}
 }
 
 /**@brief Specialization for all not polymorphic objects.
 @deprecated Use DeserializeNotPolymorphic instead.*/
 template<>
-void			SerializationCore::SerializeProperty< void* >( ISerializer* ser, rttr::property prop, const rttr::instance& object )
+void			SerializationCore::SerializeProperty< void* >( ISerializer& ser, rttr::property prop, const rttr::instance& object )
 {
 	rttr::variant structObject = prop.get_value( object );
 
-	ser->EnterObject( prop.get_name().to_string() );
+	ser.EnterObject( prop.get_name().to_string() );
 
 	TypeID realType = GetWrappedType( prop.get_type() ).get_raw_type();
 
-	auto& properties = GetTypeFilteredProperties( realType, ser->GetContext< SerializationContext >() );
-	SerializePropertiesVec( *ser, structObject, properties );
+	auto& properties = GetTypeFilteredProperties( realType, ser.GetContext< SerializationContext >() );
+	SerializePropertiesVec( ser, structObject, properties );
 
-	ser->Exit();	//	prop.get_name()
+	ser.Exit();	//	prop.get_name()
 }
 
 /**@brief Specjalizacja dla DirectX::XMFLOAT3.*/
 template<>
-void			SerializationCore::SerializeProperty< DirectX::XMFLOAT3* >	( ISerializer* ser, rttr::property prop, const rttr::instance& object )
+void			SerializationCore::SerializeProperty< DirectX::XMFLOAT3* >	( ISerializer& ser, rttr::property prop, const rttr::instance& object )
 {
 	DirectX::XMFLOAT3* xmFloat = GetPropertyValue< DirectX::XMFLOAT3* >( prop, object );
-	ser->EnterObject( prop.get_name().to_string() );
+	ser.EnterObject( prop.get_name().to_string() );
 
-	ser->SetAttribute( "X", xmFloat->x );
-	ser->SetAttribute( "Y", xmFloat->y );
-	ser->SetAttribute( "Z", xmFloat->z );
+	ser.SetAttribute( "X", xmFloat->x );
+	ser.SetAttribute( "Y", xmFloat->y );
+	ser.SetAttribute( "Z", xmFloat->z );
 
-	ser->Exit();	// prop.get_name()
+	ser.Exit();	// prop.get_name()
 }
 
 /**@brief Specjalizacja dla DirectX::XMFLOAT2.*/
 template<>
-void			SerializationCore::SerializeProperty< DirectX::XMFLOAT2* >	( ISerializer* ser, rttr::property prop, const rttr::instance& object )
+void			SerializationCore::SerializeProperty< DirectX::XMFLOAT2* >	( ISerializer& ser, rttr::property prop, const rttr::instance& object )
 {
 	DirectX::XMFLOAT2* xmFloat = GetPropertyValue< DirectX::XMFLOAT2* >( prop, object );
-	ser->EnterObject( prop.get_name().to_string() );
+	ser.EnterObject( prop.get_name().to_string() );
 
-	ser->SetAttribute( "X", xmFloat->x );
-	ser->SetAttribute( "Y", xmFloat->y );
+	ser.SetAttribute( "X", xmFloat->x );
+	ser.SetAttribute( "Y", xmFloat->y );
 
-	ser->Exit();	// prop.get_name()
+	ser.Exit();	// prop.get_name()
 }
 
 /**@brief Specjalizacja dla DirectX::XMFLOAT4.*/
 template<>
-void			SerializationCore::SerializeProperty< DirectX::XMFLOAT4* >	( ISerializer* ser, rttr::property prop, const rttr::instance& object )
+void			SerializationCore::SerializeProperty< DirectX::XMFLOAT4* >	( ISerializer& ser, rttr::property prop, const rttr::instance& object )
 {
 	DirectX::XMFLOAT4* xmFloat = GetPropertyValue< DirectX::XMFLOAT4* >( prop, object );
-	ser->EnterObject( prop.get_name().to_string() );
+	ser.EnterObject( prop.get_name().to_string() );
 
-	ser->SetAttribute( "X", xmFloat->x );
-	ser->SetAttribute( "Y", xmFloat->y );
-	ser->SetAttribute( "Z", xmFloat->z );
-	ser->SetAttribute( "W", xmFloat->w );
+	ser.SetAttribute( "X", xmFloat->x );
+	ser.SetAttribute( "Y", xmFloat->y );
+	ser.SetAttribute( "Z", xmFloat->z );
+	ser.SetAttribute( "W", xmFloat->w );
 
-	ser->Exit();	// prop.get_name()
+	ser.Exit();	// prop.get_name()
 }
 
 /**@brief Specjalizacja dla std::wstring.*/
 template<>
-void			SerializationCore::SerializeProperty< std::wstring >	( ISerializer* ser, rttr::property prop, const rttr::instance& object )
+void			SerializationCore::SerializeProperty< std::wstring >	( ISerializer& ser, rttr::property prop, const rttr::instance& object )
 {
 	std::wstring str = GetPropertyValue< std::wstring >( prop, object );
-	ser->SetAttribute( prop.get_name().to_string(), WstringToUTF( str ) );
+	ser.SetAttribute( prop.get_name().to_string(), WstringToUTF( str ) );
 }
 
 // ================================ //
 //
 template<>
-static void		SerializationCore::SerializeProperty< char >			( ISerializer* ser, rttr::property prop, const rttr::instance& object )
+static void		SerializationCore::SerializeProperty< char >			( ISerializer& ser, rttr::property prop, const rttr::instance& object )
 {
 	char character = GetPropertyValue< char >( prop, object );
-	ser->SetAttribute( prop.get_name().to_string(), std::string( 1, character ) );
+	ser.SetAttribute( prop.get_name().to_string(), std::string( 1, character ) );
 }
 
 // ================================ //
 //
 template<>
-static void		SerializationCore::SerializeProperty< char >			( ISerializer* ser, rttr::string_view name, const rttr::variant& propertyValue )
+static void		SerializationCore::SerializeProperty< char >			( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue )
 {
 	char character = propertyValue.get_value< char >();
-	ser->SetAttribute( name.to_string(), std::string( 1, character ) );
+	ser.SetAttribute( name.to_string(), std::string( 1, character ) );
 }
 
 
