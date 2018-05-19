@@ -13,6 +13,7 @@
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructAsRefContainer.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructAsPtrContainer.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructAsCopyContainer.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructPtrContainer.h"
 
 using namespace sw;
 
@@ -71,4 +72,41 @@ TEST_CASE( "Struct.BindAsCopy", "[Serialization]" )
 	REQUIRE( deserial.Deserialize( "Serialization/Struct.BindAsCopy.xml", actual ) );
 
 	CHECK( actual.SimpleStruct == expected.SimpleStruct );
+}
+
+// ================================ //
+// Serializes object with structure pointer.
+TEST_CASE( "Struct.PointerToStruct", "[Serialization]" )
+{
+	StructPtrContainer expected;
+	StructPtrContainer actual;
+	expected.SimpleStruct->FillWithDataset3();
+	actual.SimpleStruct->FillWithDataset2();
+
+	sw::Serialization serial;
+	sw::Serialization deserial;
+
+	REQUIRE( serial.Serialize( "Serialization/Struct.PointerToStruct.xml", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.PointerToStruct.xml", actual ) );
+
+	CHECK( *( actual.SimpleStruct ) == *( expected.SimpleStruct ) );
+}
+
+// ================================ //
+// Serializes object with structure pointer. Deserialized object has nullptr an must create structure by itself.
+TEST_CASE( "Struct.PointerToStruct.Nullptr", "[Serialization]" )
+{
+	StructPtrContainer expected;
+	StructPtrContainer actual;
+	expected.SimpleStruct->FillWithDataset3();
+	actual.Replace( nullptr );
+
+	sw::Serialization serial;
+	sw::Serialization deserial;
+
+	REQUIRE( serial.Serialize( "Serialization/Struct.PointerToStruct.Nullptr.xml", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.PointerToStruct.Nullptr.xml", actual ) );
+
+	REQUIRE( actual.SimpleStruct != nullptr );
+	CHECK( *( actual.SimpleStruct ) == *( expected.SimpleStruct ) );
 }

@@ -40,6 +40,7 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructAsCopyContainer.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructAsPtrContainer.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructAsRefContainer.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructPtrContainer.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\StructWithSimpleTypes.h" />
   </ItemGroup>
   <ItemGroup>
