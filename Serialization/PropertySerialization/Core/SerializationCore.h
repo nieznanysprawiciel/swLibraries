@@ -73,6 +73,7 @@ public:
 
 	///@}
 
+	static void				DeserializePolymorphic		( IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
 	static void				DeserializeNotPolymorphic	( IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
 
 

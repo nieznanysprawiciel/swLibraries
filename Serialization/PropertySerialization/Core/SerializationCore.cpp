@@ -526,8 +526,7 @@ bool	SerializationCore::DeserializeObjectTypes	( IDeserializer& deser, const rtt
 	if( IsPolymorphicType( propertyType ) )
 	{
 		// Retrieve dynamic type of object from deserializer and create new object.
-		assert( !"Implement me" );
-
+		DeserializePolymorphic( deser, object, prop );
 		return true;
 	}
 	else
@@ -554,6 +553,13 @@ bool	SerializationCore::DeserializeObjectTypes	( IDeserializer& deser, const rtt
 	}
 
 	return true;
+}
+
+// ================================ //
+//
+void				SerializationCore::DeserializePolymorphic		( IDeserializer& deser, const rttr::instance& object, rttr::property& prop )
+{
+
 }
 
 // ================================ //

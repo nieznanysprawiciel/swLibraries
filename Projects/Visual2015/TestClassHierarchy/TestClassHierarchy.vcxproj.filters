@@ -22,6 +22,9 @@
     <Filter Include="SerializationPrimitives\Structs">
       <UniqueIdentifier>{d23f2972-24b0-41aa-8375-62e338273a08}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SerializationPrimitives\Polymorphic">
+      <UniqueIdentifier>{c574e7d7-e4ef-4b44-94cf-3f240b74c1e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Animal.h">
@@ -83,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructSharedPtrContainer.h">
       <Filter>SerializationPrimitives\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Polymorphic\PolymorphicObjectContainer.h">
+      <Filter>SerializationPrimitives\Polymorphic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
