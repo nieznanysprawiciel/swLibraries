@@ -51,37 +51,37 @@ public:
 
 	const char*		GetName			();
 
-	bool			EnterObject		( const std::string& name );
-	bool			EnterArray		( const std::string& name );
-	bool			EnterObject		( const char* name );
-	bool			EnterArray		( const char* name );
-	void			Exit			();
+	bool			EnterObject		( const std::string& name ) const;
+	bool			EnterArray		( const std::string& name ) const;
+	bool			EnterObject		( const char* name ) const;
+	bool			EnterArray		( const char* name ) const;
+	void			Exit			() const;
 
-	bool			FirstElement	();
-	bool			NextElement		();
-	bool			PrevElement		();
-	bool			LastElement		();
+	bool			FirstElement	() const;
+	bool			NextElement		() const;
+	bool			PrevElement		() const;
+	bool			LastElement		() const;
 
-	std::string		GetAttribute		( const std::string& name, std::string& defaultValue );
-	const char*		GetAttribute		( const std::string& name, const char* defaultValue );
-	uint32			GetAttribute		( const std::string& name, uint32 defaultValue );
-	uint64			GetAttribute		( const std::string& name, uint64 defaultValue );
-	int32			GetAttribute		( const std::string& name, int32 defaultValue );
-	int64			GetAttribute		( const std::string& name, int64 defaultValue );
-	bool			GetAttribute		( const std::string& name, bool defaultValue );
-	double			GetAttribute		( const std::string& name, double defaultValue );
+	std::string		GetAttribute		( const std::string& name, std::string& defaultValue ) const;
+	const char*		GetAttribute		( const std::string& name, const char* defaultValue ) const;
+	uint32			GetAttribute		( const std::string& name, uint32 defaultValue ) const;
+	uint64			GetAttribute		( const std::string& name, uint64 defaultValue ) const;
+	int32			GetAttribute		( const std::string& name, int32 defaultValue ) const;
+	int64			GetAttribute		( const std::string& name, int64 defaultValue ) const;
+	bool			GetAttribute		( const std::string& name, bool defaultValue ) const;
+	double			GetAttribute		( const std::string& name, double defaultValue ) const;
 
-	std::string		GetAttribute		( const char* name, std::string& defaultValue );
-	const char*		GetAttribute		( const char* name, const char* defaultValue );
-	uint32			GetAttribute		( const char* name, uint32 defaultValue );
-	uint64			GetAttribute		( const char* name, uint64 defaultValue );
-	int32			GetAttribute		( const char* name, int32 defaultValue );
-	int64			GetAttribute		( const char* name, int64 defaultValue );
-	bool			GetAttribute		( const char* name, bool defaultValue );
-	double			GetAttribute		( const char* name, double defaultValue );
+	std::string		GetAttribute		( const char* name, std::string& defaultValue ) const;
+	const char*		GetAttribute		( const char* name, const char* defaultValue ) const;
+	uint32			GetAttribute		( const char* name, uint32 defaultValue ) const;
+	uint64			GetAttribute		( const char* name, uint64 defaultValue ) const;
+	int32			GetAttribute		( const char* name, int32 defaultValue ) const;
+	int64			GetAttribute		( const char* name, int64 defaultValue ) const;
+	bool			GetAttribute		( const char* name, bool defaultValue ) const;
+	double			GetAttribute		( const char* name, double defaultValue ) const;
 
 
-	std::string		GetError			();
+	std::string		GetError			() const;
 
 public:
 
@@ -89,7 +89,7 @@ public:
 	
 	Funkcja sprawdza typ kontekstu jedynie w trybie debug (assert).*/
 	template< typename ContextType >
-	inline ContextType*			GetContext	()
+	inline ContextType*			GetContext	() const
 	{
 		assert( context != nullptr );
 		

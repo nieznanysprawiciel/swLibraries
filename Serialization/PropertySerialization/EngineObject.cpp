@@ -27,14 +27,14 @@ namespace sw
 //
 void		EngineObject::Serialize			( ISerializer& ser ) const
 {
-	//Serialization::DefaultSerialize( ser, this );
+	SerializationCore::DefaultSerialize( ser, this );
 }
 
 // ================================ //
 //
 void		EngineObject::Deserialize		( const IDeserializer& deser )
 {
-	//Serialization::DefaultDeserialize( deser, this );
+	SerializationCore::DefaultDeserialize( deser, this );
 }
 
 }	// sw

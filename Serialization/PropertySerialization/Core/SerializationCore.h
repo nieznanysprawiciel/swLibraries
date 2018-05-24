@@ -38,10 +38,10 @@ public:
 	static bool				IsPolymorphicType		( TypeID type );
 	
 	static void				DefaultSerialize		( ISerializer& ser, const EngineObject* object );
-	static void				DefaultDeserialize		( IDeserializer& deser, EngineObject* object );
+	static void				DefaultDeserialize		( const IDeserializer& deser, EngineObject* object );
 
 	static void				DefaultSerializeImpl	( ISerializer& ser, const rttr::instance& object, rttr::type dynamicType );
-	static void				DefaultDeserializeImpl	( IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType );
+	static void				DefaultDeserializeImpl	( const IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType );
 
 	///@name Types serialization
 	///@{
@@ -64,17 +64,17 @@ public:
 	///@{
 
 	/**@brief Deserialize basic arithemtic types and bool.*/
-	static bool				DeserializeBasicTypes	( IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeVectorTypes	( IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeStringTypes	( IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeEnumTypes	( IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeArrayTypes	( IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeObjectTypes	( IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
+	static bool				DeserializeBasicTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
+	static bool				DeserializeVectorTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
+	static bool				DeserializeStringTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
+	static bool				DeserializeEnumTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
+	static bool				DeserializeArrayTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
+	static bool				DeserializeObjectTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
 
 	///@}
 
-	static void				DeserializePolymorphic		( IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
-	static void				DeserializeNotPolymorphic	( IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
+	static void				DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
+	static void				DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
 
 
 	static std::string		WstringToUTF		( const std::wstring& str );
@@ -105,16 +105,16 @@ public:
 	static void				SetPropertyValue	( rttr::property prop, const rttr::instance& object, PropertyType value );
 
 	template< typename PropertyType >
-	static void				DeserializeProperty	( IDeserializer& deser, rttr::property prop, const rttr::instance& object );
+	static void				DeserializeProperty	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
 
 
-	template<>	static void				DeserializeProperty< EngineObject* >		( IDeserializer& deser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				DeserializeProperty< void* >				( IDeserializer& deser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				DeserializeProperty< DirectX::XMFLOAT2* >	( IDeserializer& deser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				DeserializeProperty< DirectX::XMFLOAT3* >	( IDeserializer& deser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				DeserializeProperty< DirectX::XMFLOAT4* >	( IDeserializer& deser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				DeserializeProperty< std::wstring >			( IDeserializer& deser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				DeserializeProperty< char >					( IDeserializer& deser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				DeserializeProperty< EngineObject* >		( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				DeserializeProperty< void* >				( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				DeserializeProperty< DirectX::XMFLOAT2* >	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				DeserializeProperty< DirectX::XMFLOAT3* >	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				DeserializeProperty< DirectX::XMFLOAT4* >	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				DeserializeProperty< std::wstring >			( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
+	template<>	static void				DeserializeProperty< char >					( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
 
 	/**@brief Gets real type of the object that means most derived and wrapped type.*/
 	static TypeID						GetRealType			( const rttr::instance& object );
