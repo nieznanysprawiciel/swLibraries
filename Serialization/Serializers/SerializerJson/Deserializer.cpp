@@ -116,7 +116,7 @@ bool			IDeserializer::LoadFromString	( const std::string& contentString )
 //====================================================================================//
 
 
-const char*		IDeserializer::GetName			()
+const char*		IDeserializer::GetName			() const
 {
 	assert( impl->valuesStack.size() >= 2 );
 

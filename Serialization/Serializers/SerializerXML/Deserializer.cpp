@@ -132,7 +132,7 @@ bool			IDeserializer::LoadFromString	( const std::string& contentString )
 //====================================================================================//
 
 /**@brief Zwraca nazwê wêz³a, w którym znajduje siê serializator.*/
-const char*		IDeserializer::GetName			()
+const char*		IDeserializer::GetName			() const
 {
 	return impl->valuesStack.top()->name();
 }

@@ -559,7 +559,26 @@ bool	SerializationCore::DeserializeObjectTypes				( const IDeserializer& deser, 
 //
 void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop )
 {
+	if( deser.EnterObject( prop.get_name().to_string() ) )
+	{
+		if( deser.FirstElement() )
+		{
+			auto className = deser.GetName();
 
+
+
+			if( deser.NextElement() )
+			{
+				// Warning: Property shouldn't have multiple objects.
+			}
+		}
+		else
+		{
+			// Set object to nullptr.
+
+		}
+	}
+	// Error handling ??
 }
 
 // ================================ //

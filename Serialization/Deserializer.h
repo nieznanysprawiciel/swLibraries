@@ -49,7 +49,7 @@ public:
 	bool			LoadFromFile	( const std::string& fileName, ParsingMode mode );
 	bool			LoadFromString	( const std::string& contentString );
 
-	const char*		GetName			();
+	const char*		GetName			() const;
 
 	bool			EnterObject		( const std::string& name ) const;
 	bool			EnterArray		( const std::string& name ) const;
