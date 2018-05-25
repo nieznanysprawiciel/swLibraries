@@ -20,9 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Serialization\Deserializer.h" />
+    <ClInclude Include="..\..\..\Serialization\FilePosition.h" />
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\Core\Exceptions\SerializationException.h" />
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.h" />
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineObject.h" />
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineSerializationContext.h" />
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\FilePosition.h" />
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\Serialization.h" />
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\SerializationContext.h" />
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\stdafx.h" />
@@ -30,9 +33,11 @@
     <ClInclude Include="..\..\..\Serialization\Serializer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Serialization\PropertySerialization\Core\Exceptions\SerializationException.cpp" />
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.cpp" />
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\EngineObject.cpp" />
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\Serialization.cpp" />
+    <ClCompile Include="..\..\..\Serialization\PropertySerialization\SerializationContext.cpp" />
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\stdafx.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">swCommonLib\Serialization\PropertySerialization\stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">swCommonLib\Serialization\PropertySerialization\stdafx.h</PrecompiledHeaderFile>

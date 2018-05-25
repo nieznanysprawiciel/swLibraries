@@ -21,8 +21,9 @@
 struct DeserializerImpl
 {
 	rapidjson::Document				root;
-	std::stack<rapidjson::Value*>	valuesStack;
+	std::stack< rapidjson::Value* >	valuesStack;
 	char*							fileContent;
+	ParsingMode						mode;
 
 	DeserializerImpl()
 	{	fileContent = nullptr;	}
@@ -88,7 +89,10 @@ bool			IDeserializer::LoadFromFile		( const std::string& fileName, ParsingMode m
 
 	// Parsujemy w zale¿noœci od wybranego trybu
 	if( mode == ParsingMode::ParseInsitu )
+	{
 		impl->root.ParseInsitu( impl->fileContent );
+		impl->mode = ParsingMode::ParseInsitu;
+	}
 	else // ParsingMode::AllocStrings
 	{
 		// W tym trybie wszystkie stringi s¹ alokowane.
@@ -96,6 +100,7 @@ bool			IDeserializer::LoadFromFile		( const std::string& fileName, ParsingMode m
 		impl->root.Parse( impl->fileContent );
 		delete[] impl->fileContent;
 		impl->fileContent = nullptr;
+		impl->mode = ParsingMode::AllocStrings;
 	}
 	
 	if( impl->root.HasParseError() )
@@ -666,10 +671,10 @@ double			IDeserializer::GetAttribute		( const char* name, double defaultValue ) 
 }
 
 //====================================================================================//
-//			Obs³uga b³êdów	
+//			Error handling
 //====================================================================================//
 
-/**@brief Zwraca string zawieraj¹cy b³¹d parsowania, je¿eli by³.
+/**@brief Returns parsing error if it occured.
 
 Aby siê dowiedzieæ czy parsowanie powiod³o siê, sprawdŸ wartoœæ zwracan¹ przez
 funkcje @ref LoadFromString lub @ref LoadFromFile.*/
@@ -681,4 +686,58 @@ std::string		IDeserializer::GetError			() const
 	std::string errorMessage = "Error: " + std::string( GetStringFromCode( code ) ) + " Offset: " + std::to_string( lineNum );
 	return std::move( errorMessage );
 }
+
+
+// ================================ //
+//
+sw::FilePosition					ComputeJsonPosition     ( const char* fileBegin, const char* nodeFirstChar )
+{
+    sw::FilePosition pos;
+    pos.Line = 1;
+    pos.CharPosition = 0;
+
+    const char* jsonPosition = fileBegin;
+    const char* processedLineBegin = jsonPosition;
+
+    while( jsonPosition < nodeFirstChar )
+    {
+        if( *jsonPosition == '\n' )
+        {
+            pos.Line++;
+            processedLineBegin = jsonPosition + 1;
+        }
+
+        jsonPosition++;
+    }
+
+    // Note: numerate position from 1.
+    pos.CharPosition = nodeFirstChar - processedLineBegin + 1;
+
+    return pos;
+}
+
+// ================================ //
+//
+sw::FilePosition					IDeserializer::CurrentLineNumber      () const
+{
+	// Note: this will only work in insitu parsing mode.
+	///@todo Think how to do this in AllocStrings mode.
+	if( impl->mode == ParsingMode::ParseInsitu )
+	{
+		auto& curNode = impl->valuesStack.top();
+		const char* fileFirstChar = impl->fileContent;
+		const char* nodeFirstChar = GetName();
+
+		return ComputeJsonPosition( fileFirstChar, nodeFirstChar );
+	}
+	else
+	{
+		sw::FilePosition pos;
+		pos.Line = 0;
+		pos.CharPosition = 0;
+
+		return pos;
+	}
+}
+
 

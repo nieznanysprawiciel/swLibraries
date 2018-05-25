@@ -544,10 +544,10 @@ double			IDeserializer::GetAttribute		( const char* name, double defaultValue ) 
 }
 
 //====================================================================================//
-//			Obs³uga b³êdów	
+//			Error handling
 //====================================================================================//
 
-/**@brief Zwraca string zawieraj¹cy b³¹d parsowania, je¿eli by³.
+/**@brief Returns parsing error if it occured.
 
 Aby siê dowiedzieæ czy parsowanie powiod³o siê, sprawdŸ wartoœæ zwracan¹ przez
 funkcje @ref LoadFromString lub @ref LoadFromFile.*/
@@ -556,5 +556,44 @@ std::string		IDeserializer::GetError			() const
 	return impl->errorString;
 }
 
+
+// ================================ //
+//
+sw::FilePosition					ComputeXmlPosition     ( const char* fileBegin, const char* nodeFirstChar )
+{
+    sw::FilePosition pos;
+    pos.Line = 1;
+    pos.CharPosition = 0;
+
+    const char* xmlPosition = fileBegin;
+    const char* processedLineBegin = xmlPosition;
+
+    while( xmlPosition < nodeFirstChar )
+    {
+        if( *xmlPosition == '\n' )
+        {
+            pos.Line++;
+            processedLineBegin = xmlPosition + 1;
+        }
+
+        xmlPosition++;
+    }
+
+    // Note: numerate position from 1.
+    pos.CharPosition = nodeFirstChar - processedLineBegin + 1;
+
+    return pos;
+}
+
+// ================================ //
+//
+sw::FilePosition					IDeserializer::CurrentLineNumber      () const
+{
+    auto& curNode = impl->valuesStack.top();
+	const char* fileFirstChar = impl->fileContent;
+	const char* nodeFirstChar = curNode->name();
+
+    return ComputeXmlPosition( fileFirstChar, nodeFirstChar );
+}
 
 

@@ -13,6 +13,9 @@
     <Filter Include="PropertySerialization\Core">
       <UniqueIdentifier>{41de06a4-49ec-4d34-bcac-f0da2a91a02c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PropertySerialization\Core\Exceptions">
+      <UniqueIdentifier>{b2ef6960-3232-4a30-8850-0b989d0e736f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineSerializationContext.h">
@@ -42,6 +45,15 @@
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineObject.h">
       <Filter>PropertySerialization</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\FilePosition.h">
+      <Filter>PropertySerialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\FilePosition.h">
+      <Filter>Serializer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\Core\Exceptions\SerializationException.h">
+      <Filter>PropertySerialization\Core\Exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\Serialization.cpp">
@@ -55,6 +67,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\EngineObject.cpp">
       <Filter>PropertySerialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Serialization\PropertySerialization\SerializationContext.cpp">
+      <Filter>PropertySerialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Serialization\PropertySerialization\Core\Exceptions\SerializationException.cpp">
+      <Filter>PropertySerialization\Core\Exceptions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

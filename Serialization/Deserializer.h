@@ -7,6 +7,7 @@
 
 #include "swCommonLib/Common/TypesDefinitions.h"
 #include "swCommonLib/Serialization/ISerializationContext.h"
+#include "swCommonLib/Serialization/FilePosition.h"
 
 #include <string>
 #include <memory>
@@ -81,7 +82,8 @@ public:
 	double			GetAttribute		( const char* name, double defaultValue ) const;
 
 
-	std::string		GetError			() const;
+	std::string			GetError			() const;
+	sw::FilePosition    CurrentLineNumber   () const;
 
 public:
 
