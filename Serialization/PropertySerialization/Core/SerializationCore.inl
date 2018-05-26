@@ -93,7 +93,7 @@ void			SerializationCore::DeserializeProperty		( const IDeserializer& deser, rtt
 
 // ================================ //
 //
-inline TypeID	SerializationCore::GetRealType				( const rttr::instance& object )
+inline TypeID						SerializationCore::GetRealType				( const rttr::instance& object )
 {
 	auto objectType = object.get_derived_type();
 	return objectType.is_wrapper() ? objectType.get_wrapped_type() : objectType;
@@ -101,16 +101,23 @@ inline TypeID	SerializationCore::GetRealType				( const rttr::instance& object )
 
 // ================================ //
 //
-inline TypeID	SerializationCore::GetWrappedType			( TypeID type )
+inline TypeID						SerializationCore::GetWrappedType			( TypeID type )
 {
 	return type.is_wrapper() ? type.get_wrapped_type() : type;
 }
 
 // ================================ //
 //
-inline TypeID	SerializationCore::GetRawWrappedType		( TypeID type )
+inline TypeID						SerializationCore::GetRawWrappedType		( TypeID type )
 {
 	return GetWrappedType( type ).get_raw_type();
+}
+
+// ================================ //
+//
+inline SerializationContext*		SerializationCore::Context		( const IDeserializer& deser )
+{
+	return deser.GetContext< SerializationContext >();
 }
 
 

@@ -17,7 +17,7 @@ using namespace sw;
 
 
 // ================================ //
-// Serializes object with structure bound as reference.
+// Serializes polymorphic object with base class set.
 TEST_CASE( "Polymorphic.BaseObject", "[Serialization]" )
 {
 	PolymorphicObjectContainer expected;
@@ -37,7 +37,7 @@ TEST_CASE( "Polymorphic.BaseObject", "[Serialization]" )
 
 
 // ================================ //
-// Serializes object with structure bound as reference.
+// Serializes polymorphic object with derived class set.
 TEST_CASE( "Polymorphic.DerivedObject", "[Serialization]" )
 {
 	PolymorphicObjectContainer expected;

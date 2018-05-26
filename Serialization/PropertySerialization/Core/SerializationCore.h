@@ -75,6 +75,8 @@ public:
 
 	static void				DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
 	static void				DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
+	
+	static rttr::variant	CreateAndSetObjectProperty	( SerializationContext* context, const rttr::instance& object, rttr::property& prop, TypeID dynamicType );
 	static rttr::variant	CreateInstance				( TypeID type );
 
 
@@ -125,6 +127,9 @@ public:
 
 	/**@brief First extracts wrapped type and then returns raw type.*/
 	static TypeID						GetRawWrappedType		( TypeID type );
+
+	/**@brief Returns SerialziationContext from deserializer.*/
+	static SerializationContext*		Context					( const IDeserializer& deser );
 };
 
 

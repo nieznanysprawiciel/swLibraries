@@ -535,9 +535,9 @@ bool	SerializationCore::DeserializeObjectTypes				( const IDeserializer& deser, 
 		auto structVal = prop.get_value( object );
 		if( structVal == nullptr )
 		{
-			rttr::variant newStruct = CreateInstance( propertyType );
+			rttr::variant newStruct = CreateAndSetObjectProperty( Context( deser ), object, prop, propertyType );
 
-			if( prop.set_value( object, newStruct ) )
+			if( newStruct.is_valid() )
 			{
 				DeserializeNotPolymorphic( deser, object, prop );
 				return true;
@@ -562,21 +562,25 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 	{
 		if( deser.FirstElement() )
 		{
-			auto className = deser.GetName();
-			TypeID classDynamicType = TypeID::get_by_name( className );
-			rttr::variant newClass = CreateInstance( classDynamicType );
-
-			newClass.convert( prop.get_type() );
-
-			if( prop.set_value( object, newClass ) )
+			// Create new object only if property is set to nullptr.
+			auto classVal = prop.get_value( object );
+			if( classVal == nullptr )
 			{
-				DefaultDeserializeImpl( deser, newClass, GetRawWrappedType( classDynamicType ) );
-			}
+				auto className = deser.GetName();
+				TypeID classDynamicType = TypeID::get_by_name( className );
 
-			if( deser.NextElement() )
-			{
-				// Warning: Property shouldn't have multiple objects.
-				Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] has multiple polymorphic objects defined. Deserializing only first." );
+				rttr::variant newClass = CreateAndSetObjectProperty( Context( deser ), object, prop, classDynamicType );
+
+				if( newClass.is_valid() )
+				{
+					DefaultDeserializeImpl( deser, newClass, GetRawWrappedType( classDynamicType ) );
+				}
+
+				if( deser.NextElement() )
+				{
+					// Warning: Property shouldn't have multiple objects.
+					Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] has multiple polymorphic objects defined. Deserializing only first." );
+				}
 			}
 
 			deser.Exit();	// FirstElement
@@ -613,6 +617,22 @@ void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& dese
 		}
 	}
 	// Error handling ??
+}
+
+// ================================ //
+//
+rttr::variant		SerializationCore::CreateAndSetObjectProperty	( SerializationContext* context, const rttr::instance& object, rttr::property& prop, TypeID dynamicType )
+{
+	rttr::variant newClass = CreateInstance( dynamicType );
+
+	newClass.convert( prop.get_type() );
+
+	if( prop.set_value( object, newClass ) )
+		return newClass;
+
+	// Error handling
+
+	return rttr::variant();
 }
 
 // ================================ //
