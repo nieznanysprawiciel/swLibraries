@@ -18,6 +18,26 @@ using namespace sw;
 
 // ================================ //
 // Serializes object with structure bound as reference.
+TEST_CASE( "Polymorphic.BaseObject", "[Serialization]" )
+{
+	PolymorphicObjectContainer expected;
+	PolymorphicObjectContainer actual;
+	expected.ObjectPtr = new BaseObject();
+
+	sw::Serialization serial;
+	sw::Serialization deserial;
+
+	REQUIRE( serial.Serialize( "Serialization/Polymorphic.BaseObject.xml", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.BaseObject.xml", actual ) );
+
+	CHECK( actual.ObjectPtr->GetType() == TypeID::get< BaseObject >() );
+	CHECK( actual.ObjectPtr->GetType() == expected.ObjectPtr->GetType() );
+}
+
+
+
+// ================================ //
+// Serializes object with structure bound as reference.
 TEST_CASE( "Polymorphic.DerivedObject", "[Serialization]" )
 {
 	PolymorphicObjectContainer expected;
