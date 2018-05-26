@@ -75,6 +75,7 @@ public:
 
 	static void				DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
 	static void				DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
+	static rttr::variant	CreateInstance				( TypeID type );
 
 
 	static std::string		WstringToUTF		( const std::wstring& str );
@@ -121,6 +122,9 @@ public:
 
 	/**@brief Gets wrapped type. If type isn't wrapper it returns it unmodified.*/
 	static TypeID						GetWrappedType			( TypeID type );
+
+	/**@brief First extracts wrapped type and then returns raw type.*/
+	static TypeID						GetRawWrappedType		( TypeID type );
 };
 
 

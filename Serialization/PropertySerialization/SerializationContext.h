@@ -69,7 +69,7 @@ DEFINE_PTR_TYPE( SerializationContext )
 template< typename WarningType >
 inline void                 SerializationContext::AddWarning	( const std::string& message, FilePosition filePos )
 {
-    AddWarning( std::make_shared< WarningType >( message, filePos, m_fileName ) );
+    AddWarning( std::make_shared< WarningType >( message, filePos ) );
 }
 
 // ***********************
@@ -77,7 +77,7 @@ inline void                 SerializationContext::AddWarning	( const std::string
 template< typename WarningType >
 inline void                 Warn                                ( const IDeserializer& deser, const std::string& message )
 {
-	static_assert( std::is_base_of< SerializationException, WarningType >::value );
+	static_assert( std::is_base_of< SerializationException, WarningType >::value, "WariningType should be derived from SerializationException." );
 
     auto ctx = deser.GetContext< SerializationContext >();
     if( ctx )

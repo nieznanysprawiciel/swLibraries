@@ -106,5 +106,12 @@ inline TypeID	SerializationCore::GetWrappedType			( TypeID type )
 	return type.is_wrapper() ? type.get_wrapped_type() : type;
 }
 
+// ================================ //
+//
+inline TypeID	SerializationCore::GetRawWrappedType		( TypeID type )
+{
+	return GetWrappedType( type ).get_raw_type();
+}
+
 
 }	// sw

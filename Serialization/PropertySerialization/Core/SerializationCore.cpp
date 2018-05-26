@@ -535,8 +535,7 @@ bool	SerializationCore::DeserializeObjectTypes				( const IDeserializer& deser, 
 		auto structVal = prop.get_value( object );
 		if( structVal == nullptr )
 		{
-			TypeID typeToCreate = GetWrappedType( propertyType ).get_raw_type();
-			rttr::variant newStruct = typeToCreate.create();
+			rttr::variant newStruct = CreateInstance( propertyType );
 
 			if( prop.set_value( object, newStruct ) )
 			{
@@ -564,19 +563,31 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 		if( deser.FirstElement() )
 		{
 			auto className = deser.GetName();
+			TypeID classDynamicType = TypeID::get_by_name( className );
+			rttr::variant newClass = CreateInstance( classDynamicType );
 
+			newClass.convert( prop.get_type() );
 
+			if( prop.set_value( object, newClass ) )
+			{
+				DefaultDeserializeImpl( deser, newClass, GetRawWrappedType( classDynamicType ) );
+			}
 
 			if( deser.NextElement() )
 			{
 				// Warning: Property shouldn't have multiple objects.
+				Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] has multiple polymorphic objects defined. Deserializing only first." );
 			}
+
+			deser.Exit();	// FirstElement
 		}
 		else
 		{
 			// Set object to nullptr.
 
 		}
+
+		deser.Exit();	// prop.get_name
 	}
 	// Error handling ??
 }
@@ -602,6 +613,14 @@ void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& dese
 		}
 	}
 	// Error handling ??
+}
+
+// ================================ //
+//
+rttr::variant		SerializationCore::CreateInstance	( TypeID type )
+{
+	TypeID typeToCreate = GetRawWrappedType( type );
+	return typeToCreate.create();
 }
 
 // ================================ //
@@ -664,7 +683,7 @@ void			SerializationCore::SerializeProperty< void* >( ISerializer& ser, rttr::pr
 
 	ser.EnterObject( prop.get_name().to_string() );
 
-	TypeID realType = GetWrappedType( prop.get_type() ).get_raw_type();
+	TypeID realType = GetRawWrappedType( prop.get_type() );
 
 	auto& properties = GetTypeFilteredProperties( realType, ser.GetContext< SerializationContext >() );
 	SerializePropertiesVec( ser, structObject, properties );

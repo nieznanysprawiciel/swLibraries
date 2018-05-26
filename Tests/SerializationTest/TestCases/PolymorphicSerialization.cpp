@@ -30,7 +30,7 @@ TEST_CASE( "Polymorphic.DerivedObject", "[Serialization]" )
 	REQUIRE( serial.Serialize( "Serialization/Polymorphic.DerivedObject.xml", expected ) );
 	REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.DerivedObject.xml", actual ) );
 
-	CHECK( TypeID::get( actual.ObjectPtr ) == TypeID::get< DerivedObject >() );
-	CHECK( TypeID::get( actual.ObjectPtr ) == TypeID::get( expected.ObjectPtr ) );
+	CHECK( actual.ObjectPtr->GetType() == TypeID::get< DerivedObject >() );
+	CHECK( actual.ObjectPtr->GetType() == expected.ObjectPtr->GetType() );
 }
 
