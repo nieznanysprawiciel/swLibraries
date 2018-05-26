@@ -535,7 +535,7 @@ bool	SerializationCore::DeserializeObjectTypes				( const IDeserializer& deser, 
 		auto structVal = prop.get_value( object );
 		if( structVal == nullptr )
 		{
-			rttr::variant newStruct = CreateAndSetObjectProperty( Context( deser ), object, prop, propertyType );
+			rttr::variant newStruct = CreateAndSetObjectProperty( deser, object, prop, propertyType );
 
 			if( newStruct.is_valid() )
 			{
@@ -569,7 +569,7 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 				auto className = deser.GetName();
 				TypeID classDynamicType = TypeID::get_by_name( className );
 
-				rttr::variant newClass = CreateAndSetObjectProperty( Context( deser ), object, prop, classDynamicType );
+				rttr::variant newClass = CreateAndSetObjectProperty( deser, object, prop, classDynamicType );
 
 				if( newClass.is_valid() )
 				{
@@ -581,6 +581,11 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 					// Warning: Property shouldn't have multiple objects.
 					Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] has multiple polymorphic objects defined. Deserializing only first." );
 				}
+			}
+			else
+			{
+				Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] can't be deserialized. Not nullptr object already exists."
+												+ " Note: This behavior can change in future versions.");
 			}
 
 			deser.Exit();	// FirstElement
@@ -633,16 +638,32 @@ void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& dese
 
 // ================================ //
 //
-rttr::variant		SerializationCore::CreateAndSetObjectProperty	( SerializationContext* context, const rttr::instance& object, rttr::property& prop, TypeID dynamicType )
+rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop, TypeID dynamicType )
 {
 	rttr::variant newClass = CreateInstance( dynamicType );
 
-	newClass.convert( prop.get_type() );
-
-	if( prop.set_value( object, newClass ) )
+	if( newClass.convert( prop.get_type() ) &&
+		prop.set_value( object, newClass ) )
+	{
 		return newClass;
+	}
 
-	// Error handling
+	// Error diagnostic. Determine why setting object failed and set warning in context.
+	TypeID propertyType = prop.get_type();
+
+	TypeID wrappedPropType = GetRawWrappedType( propertyType );
+	TypeID wrappedClassType = GetRawWrappedType( dynamicType );
+
+	if( !wrappedClassType.is_derived_from( wrappedPropType ) )
+	{
+		std::string errorMessage = "Property type [" + wrappedPropType.get_name().to_string()
+								+ "] is not base class of created object type ["
+								+ wrappedClassType.get_name().to_string() + "].";
+
+		Warn< SerializationException >( deser, errorMessage );
+	}
+
+
 
 	return rttr::variant();
 }

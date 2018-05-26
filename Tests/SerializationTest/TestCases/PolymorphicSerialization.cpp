@@ -54,3 +54,31 @@ TEST_CASE( "Polymorphic.DerivedObject", "[Serialization]" )
 	CHECK( actual.ObjectPtr->GetType() == expected.ObjectPtr->GetType() );
 }
 
+
+// ================================ //
+// Deserialized xml with class not derived from BaseObject as expected.
+// Deserialization shouldn't set any object.
+TEST_CASE( "Polymorphic.NotRelatedClasses", "[Serialization]" )
+{
+	PolymorphicObjectContainer actual;
+	sw::Serialization deserial;
+
+	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotRelatedClasses.xml", actual ) );
+	CHECK( actual.ObjectPtr == nullptr );
+}
+
+// ================================ //
+// Object pointer is set to not nullptr value.
+// In this case serialization doesn't change object.
+TEST_CASE( "Polymorphic.NotNullptrObject", "[Serialization]" )
+{
+	PolymorphicObjectContainer actual;
+	sw::Serialization deserial;
+
+	auto prevObject = new DerivedObject();
+	actual.ObjectPtr = prevObject;
+
+	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotRelatedClasses.xml", actual ) );
+	CHECK( actual.ObjectPtr == prevObject );
+}
+

@@ -76,7 +76,7 @@ public:
 	static void				DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
 	static void				DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
 	
-	static rttr::variant	CreateAndSetObjectProperty	( SerializationContext* context, const rttr::instance& object, rttr::property& prop, TypeID dynamicType );
+	static rttr::variant	CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop, TypeID dynamicType );
 	static rttr::variant	CreateInstance				( TypeID type );
 
 
