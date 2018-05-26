@@ -123,3 +123,17 @@ TEST_CASE( "Polymorphic.NotNullptrObject.ClassWithDifferentType", "[Serializatio
 	CHECK( actual.ObjectPtr != prevObject );
 	CHECK( actual.ObjectPtr != nullptr );
 }
+
+// ================================ //
+// ObjectPtr is set to not nullptr object. Deserialization requires nullptr.
+TEST_CASE( "Polymorphic.NotNullptrObject.NullptrInXml", "[Serialization]" )
+{
+	PolymorphicObjectContainer actual;
+	sw::Serialization deserial;
+
+	auto prevObject = new DerivedObject();
+	actual.ObjectPtr = prevObject;
+
+	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotNullptrObject.NullptrInXml.xml", actual ) );
+	CHECK( actual.ObjectPtr == nullptr );
+}

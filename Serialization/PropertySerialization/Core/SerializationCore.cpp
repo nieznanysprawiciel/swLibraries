@@ -560,12 +560,12 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 {
 	if( deser.EnterObject( prop.get_name().to_string() ) )
 	{
+		// Create new object only if property is set to nullptr.
+		auto prevClassVal = prop.get_value( object );
+		TypeID prevClassType = GetRawWrappedType( rttr::instance( prevClassVal ).get_derived_type() );
+
 		if( deser.FirstElement() )
 		{
-			// Create new object only if property is set to nullptr.
-			auto prevClassVal = prop.get_value( object );
-			TypeID prevClassType = GetRawWrappedType( rttr::instance( prevClassVal ).get_derived_type() );
-
 			// Check what type of object we should create.
 			auto className = deser.GetName();
 			TypeID classDynamicType = TypeID::get_by_name( className );
@@ -610,8 +610,9 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 		}
 		else
 		{
-			// Set object to nullptr.
-
+			// Destroy object and set nullptr.
+			DestroyObject( prevClassVal );
+			prop.set_value( object, nullptr );
 		}
 
 		deser.Exit();	// prop.get_name
