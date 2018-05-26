@@ -107,3 +107,19 @@ TEST_CASE( "Polymorphic.NotNullptrObject.ClassWithSameType", "[Serialization]" )
 	CHECK( static_cast< DerivedObject* >( actual.ObjectPtr )->m_simpleStruct2 == reference );
 }
 
+// ================================ //
+// ObjectPtr is set to not nullptr object of different type as should be deserialized.
+// Deserialization creates new object.
+TEST_CASE( "Polymorphic.NotNullptrObject.ClassWithDifferentType", "[Serialization]" )
+{
+	PolymorphicObjectContainer actual;
+	sw::Serialization deserial;
+
+	auto prevObject = new DerivedObject();
+	actual.ObjectPtr = prevObject;
+
+	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotNullptrObject.ClassWithDifferentType.xml", actual ) );
+	
+	CHECK( actual.ObjectPtr != prevObject );
+	CHECK( actual.ObjectPtr != nullptr );
+}

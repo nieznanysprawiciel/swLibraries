@@ -571,25 +571,26 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 			TypeID classDynamicType = TypeID::get_by_name( className );
 
 			if( prevClassVal != nullptr
-				&& prevClassType != classDynamicType )
-			{
-				// Destroy object and set nullptr.
-				DestroyObject( prevClassVal );
-				prop.set_value( object, nullptr );
-
-				Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string()
-												+ "], value of type [" + prevClassType.get_name().to_string()
-												+ "] already existed but was destroyed. Object of type ["
-												+ classDynamicType.get_name().to_string() + "] needed." );
-			}
-			else if( prevClassVal != nullptr
-					 && prevClassType == classDynamicType )
+				&& prevClassType == classDynamicType )
 			{
 				// Object with the same type already exists under this property. We need only to deserialize it.
 				DefaultDeserializeImpl( deser, prevClassVal, prevClassType );
 			}
 			else
 			{
+				if( prevClassVal != nullptr
+					&& prevClassType != classDynamicType )
+				{
+					// Destroy object and set nullptr.
+					DestroyObject( prevClassVal );
+					prop.set_value( object, nullptr );
+
+					Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string()
+													+ "], value of type [" + prevClassType.get_name().to_string()
+													+ "] already existed but was destroyed. Object of type ["
+													+ classDynamicType.get_name().to_string() + "] needed." );
+				}
+
 				// Property has nullptr value. Create new object and deserialize it's content.
 				rttr::variant newClass = CreateAndSetObjectProperty( deser, object, prop, classDynamicType );
 
