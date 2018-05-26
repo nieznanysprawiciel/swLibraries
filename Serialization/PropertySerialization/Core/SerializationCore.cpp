@@ -593,7 +593,11 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 
 		deser.Exit();	// prop.get_name
 	}
-	// Error handling ??
+	else
+	{
+		///@todo This warning should be conditional depending on flag in SerializationContext.
+		Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] not found in file. Value remained unchanged." );
+	}
 }
 
 // ================================ //
@@ -608,15 +612,23 @@ void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& dese
 
 		DefaultDeserializeImpl( deser, deserObject, wrappedType );
 
-		deser.Exit();	//	prop.get_name()
-
 		if( !propertyType.is_wrapper() && !propertyType.is_pointer() )
 		{
 			// This means that structure was copied. We must set property value to this copy.
 			prop.set_value( object, deserObject );
+
+			///@todo This warning should be conditional depending on flag in SerializationContext.
+			Warn< SerializationException >( deser, "Performance Warning. Property [" + prop.get_name().to_string()
+											+ "] value have been copied, while deserializing. Bind property as pointer or as reference to avoid copying." );
 		}
+
+		deser.Exit();	//	prop.get_name()
 	}
-	// Error handling ??
+	else
+	{
+		///@todo This warning should be conditional depending on flag in SerializationContext.
+		Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] not found in file. Value remained unchanged." );
+	}
 }
 
 // ================================ //
