@@ -130,6 +130,9 @@ public:
 
 	/**@brief Returns SerialziationContext from deserializer.*/
 	static SerializationContext*		Context					( const IDeserializer& deser );
+
+	/**@brief Destroy object in variant.*/
+	static void							DestroyObject			( rttr::variant& object );
 };
 
 

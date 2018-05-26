@@ -115,9 +115,19 @@ inline TypeID						SerializationCore::GetRawWrappedType		( TypeID type )
 
 // ================================ //
 //
-inline SerializationContext*		SerializationCore::Context		( const IDeserializer& deser )
+inline SerializationContext*		SerializationCore::Context					( const IDeserializer& deser )
 {
 	return deser.GetContext< SerializationContext >();
+}
+
+// ================================ //
+//
+inline void							SerializationCore::DestroyObject			( rttr::variant& object )
+{
+	TypeID typeToDestroy = GetRawWrappedType( object.get_type() );
+
+	auto result = typeToDestroy.destroy( object );
+	assert( result );	// I don't know if it is posible but better to know, when it happens.
 }
 
 

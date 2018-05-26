@@ -563,29 +563,46 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 		if( deser.FirstElement() )
 		{
 			// Create new object only if property is set to nullptr.
-			auto classVal = prop.get_value( object );
-			if( classVal == nullptr )
-			{
-				auto className = deser.GetName();
-				TypeID classDynamicType = TypeID::get_by_name( className );
+			auto prevClassVal = prop.get_value( object );
+			TypeID prevClassType = GetRawWrappedType( rttr::instance( prevClassVal ).get_derived_type() );
 
+			// Check what type of object we should create.
+			auto className = deser.GetName();
+			TypeID classDynamicType = TypeID::get_by_name( className );
+
+			if( prevClassVal != nullptr
+				&& prevClassType != classDynamicType )
+			{
+				// Destroy object and set nullptr.
+				DestroyObject( prevClassVal );
+				prop.set_value( object, nullptr );
+
+				Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string()
+												+ "], value of type [" + prevClassType.get_name().to_string()
+												+ "] already existed but was destroyed. Object of type ["
+												+ classDynamicType.get_name().to_string() + "] needed." );
+			}
+			else if( prevClassVal != nullptr
+					 && prevClassType == classDynamicType )
+			{
+				// Object with the same type already exists under this property. We need only to deserialize it.
+				DefaultDeserializeImpl( deser, prevClassVal, prevClassType );
+			}
+			else
+			{
+				// Property has nullptr value. Create new object and deserialize it's content.
 				rttr::variant newClass = CreateAndSetObjectProperty( deser, object, prop, classDynamicType );
 
 				if( newClass.is_valid() )
 				{
 					DefaultDeserializeImpl( deser, newClass, GetRawWrappedType( classDynamicType ) );
 				}
-
-				if( deser.NextElement() )
-				{
-					// Warning: Property shouldn't have multiple objects.
-					Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] has multiple polymorphic objects defined. Deserializing only first." );
-				}
 			}
-			else
+
+			if( deser.NextElement() )
 			{
-				Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] can't be deserialized. Not nullptr object already exists."
-												+ " Note: This behavior can change in future versions.");
+				// Warning: Property shouldn't have multiple objects.
+				Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] has multiple polymorphic objects defined. Deserializing only first." );
 			}
 
 			deser.Exit();	// FirstElement
@@ -649,7 +666,14 @@ rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializ
 	}
 
 	// Error diagnostic. Determine why setting object failed and set warning in context.
+	// RTTR should do this internally in covert and set_property functions, so we can delay
+	// checks to handle error cases.
 	TypeID propertyType = prop.get_type();
+	TypeID createdType = newClass.get_type();
+
+	// We created object so we must destroy it. Otherwise it could lead to memory leaks especially
+	// in case of raw pointers. Shared pointers in variants should be destroyed automatic after scope end.
+	DestroyObject( newClass );
 
 	TypeID wrappedPropType = GetRawWrappedType( propertyType );
 	TypeID wrappedClassType = GetRawWrappedType( dynamicType );

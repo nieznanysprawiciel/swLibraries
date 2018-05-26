@@ -68,8 +68,8 @@ TEST_CASE( "Polymorphic.NotRelatedClasses", "[Serialization]" )
 }
 
 // ================================ //
-// Object pointer is set to not nullptr value.
-// In this case serialization doesn't change object.
+// ObjectPtr is set to not nullptr value.
+// In this case serialization destroys object and sets property to nullptr.
 TEST_CASE( "Polymorphic.NotNullptrObject", "[Serialization]" )
 {
 	PolymorphicObjectContainer actual;
@@ -79,6 +79,31 @@ TEST_CASE( "Polymorphic.NotNullptrObject", "[Serialization]" )
 	actual.ObjectPtr = prevObject;
 
 	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotRelatedClasses.xml", actual ) );
+	CHECK( actual.ObjectPtr == nullptr );
+}
+
+// ================================ //
+// ObjectPtr is set to not nullptr object of the same type as should be deserialized.
+// Deserialziation shouldn't destroy object.
+TEST_CASE( "Polymorphic.NotNullptrObject.ClassWithSameType", "[Serialization]" )
+{
+	PolymorphicObjectContainer actual;
+	sw::Serialization deserial;
+
+	auto prevObject = new DerivedObject();
+	actual.ObjectPtr = prevObject;
+
+	// Override internal structs values.
+	prevObject->m_simpleStruct1.FillWithDataset4();
+	prevObject->m_simpleStruct2.FillWithDataset4();
+
+	StructWithSimpleTypes reference;
+	reference.FillWithDataset1();
+
+	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotNullptrObject.ClassWithSameType.xml", actual ) );
 	CHECK( actual.ObjectPtr == prevObject );
+
+	CHECK( actual.ObjectPtr->m_simpleStruct1 == reference );
+	CHECK( static_cast< DerivedObject* >( actual.ObjectPtr )->m_simpleStruct2 == reference );
 }
 
