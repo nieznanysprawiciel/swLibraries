@@ -137,3 +137,15 @@ TEST_CASE( "Polymorphic.NotNullptrObject.NullptrInXml", "[Serialization]" )
 	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotNullptrObject.NullptrInXml.xml", actual ) );
 	CHECK( actual.ObjectPtr == nullptr );
 }
+
+// ================================ //
+// Deserialized class constructor creates shared pointer.
+// This is invalid situation, because we can't extract pointer from wrapper.
+TEST_CASE( "Polymorphic.SharedPtrContructor", "[Serialization]" )
+{
+	PolymorphicObjectContainer actual;
+	sw::Serialization deserial;
+
+	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.SharedPtrContructor.xml", actual ) );
+	CHECK( actual.ObjectPtr == nullptr );
+}

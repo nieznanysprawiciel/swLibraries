@@ -505,6 +505,10 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 		// If they are not bound by reference, variant makes copy of array and we must set this
 		// copy to real field in class.
 		prop.set_value( object, arrayVariant );
+
+		///@todo This warning should be conditional depending on flag in SerializationContext.
+		Warn< SerializationException >( deser, "Performance Warning. Property [" + prop.get_name().to_string()
+										+ "] value have been copied, while deserializing. Bind property as pointer or as reference to avoid copying." );
 	}
 
 	deser.Exit();
@@ -661,17 +665,23 @@ rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializ
 {
 	rttr::variant newClass = CreateInstance( dynamicType );
 
-	if( newClass.convert( prop.get_type() ) &&
-		prop.set_value( object, newClass ) )
+	TypeID propertyType = prop.get_type();
+	TypeID createdType = newClass.get_type();
+
+	if( !( propertyType.is_wrapper() && !createdType.is_wrapper() ) &&
+		!( !propertyType.is_wrapper() && createdType.is_wrapper() ) )
 	{
-		return newClass;
+		if( newClass.convert( prop.get_type() ) &&
+			prop.set_value( object, newClass ) )
+		{
+			return newClass;
+		}
 	}
 
 	// Error diagnostic. Determine why setting object failed and set warning in context.
 	// RTTR should do this internally in covert and set_property functions, so we can delay
-	// checks to handle error cases.
-	TypeID propertyType = prop.get_type();
-	TypeID createdType = newClass.get_type();
+	// some checks to handle error cases.
+
 
 	// We created object so we must destroy it. Otherwise it could lead to memory leaks especially
 	// in case of raw pointers. Shared pointers in variants should be destroyed automatic after scope end.
@@ -689,6 +699,30 @@ rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializ
 		Warn< SerializationException >( deser, errorMessage );
 	}
 
+	// Wrapped and raw pointer mismatch.
+
+	if( propertyType.is_wrapper() && !createdType.is_wrapper() )
+	{
+		/// @todo When created type is raw pointer and property is wrapped type, we could handle this case
+		/// by creating wrapper from pointer. Consider this in future. Many problems could apear, when it comes to
+		/// ownership of memory and so on.
+
+	}
+	else if( !propertyType.is_wrapper() && createdType.is_wrapper() )
+	{
+		// If propertyType is raw pointer and createdType is wrapper we can't do anything with this.
+		// There's no way in rttr to steal wrapped value from shared_ptr.
+		/// @todo We must take into considerations other wrapper types which not necessary take ownership of
+		/// object. To do this we must be able to determine wrapper template type and have some traits connected
+		/// to ownership. Think about it in future.
+		std::string errorMessage = "Property [" + prop.get_name().to_string()
+									+ "] setting error. Wrapper and raw pointer mismatch between property of type ["
+									+ propertyType.get_name().to_string()
+									+ "] and created class of type ["
+									+ createdType.get_name().to_string() + "].";
+
+		Warn< SerializationException >( deser, errorMessage );
+	}
 
 
 	return rttr::variant();

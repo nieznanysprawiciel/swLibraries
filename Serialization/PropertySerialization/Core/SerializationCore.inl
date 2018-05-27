@@ -124,10 +124,17 @@ inline SerializationContext*		SerializationCore::Context					( const IDeserializ
 //
 inline void							SerializationCore::DestroyObject			( rttr::variant& object )
 {
-	TypeID typeToDestroy = GetRawWrappedType( object.get_type() );
+	if( object.is_valid() )
+	{
+		TypeID typeToDestroy = object.get_type();
 
-	auto result = typeToDestroy.destroy( object );
-	assert( result );	// I don't know if it is posible but better to know, when it happens.
+		// What if wrappers don't own objects ?
+		if( !typeToDestroy.is_wrapper() )
+		{
+			auto result = typeToDestroy.destroy( object );
+			assert( result );	// I don't know if it is posible but better to know, when it happens.
+		}
+	}
 }
 
 
