@@ -9,8 +9,8 @@
 
 #include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
 
-#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/StructWithSimpleTypes.h"
-#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/BaseObject.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructWithSimpleTypes.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Polymorphic/BaseObject.h"
 
 
 using namespace sw;

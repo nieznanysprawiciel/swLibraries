@@ -45,13 +45,7 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\Mammal.h">
       <Filter>Animals\Mammals</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\BaseObject.h">
-      <Filter>SerializationPrimitives</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\StringContainer.h">
-      <Filter>SerializationPrimitives</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\StructWithSimpleTypes.h">
       <Filter>SerializationPrimitives</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\ArrayContainer.h">
@@ -89,6 +83,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Polymorphic\PolymorphicObjectContainer.h">
       <Filter>SerializationPrimitives\Polymorphic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Polymorphic\BaseObject.h">
+      <Filter>SerializationPrimitives\Polymorphic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructWithSimpleTypes.h">
+      <Filter>SerializationPrimitives\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\LinkLibrary.h">
+      <Filter>SerializationPrimitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

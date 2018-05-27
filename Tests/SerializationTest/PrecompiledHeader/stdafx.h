@@ -8,9 +8,9 @@
 #include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
 
 // Test classes
-#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/StructWithSimpleTypes.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructWithSimpleTypes.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/StringContainer.h"
-#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/BaseObject.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Polymorphic/BaseObject.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Arrays/ArrayContainer.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructAsRefContainer.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructAsPtrContainer.h"
