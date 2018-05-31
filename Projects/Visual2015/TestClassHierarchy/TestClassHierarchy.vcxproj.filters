@@ -96,6 +96,9 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Polymorphic\SharedObject.h">
       <Filter>SerializationPrimitives\Polymorphic</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Polymorphic\PolymorphicSharedPtrContainer.h">
+      <Filter>SerializationPrimitives\Polymorphic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Registration.cpp">

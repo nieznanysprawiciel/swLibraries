@@ -11,6 +11,7 @@
 #include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Polymorphic/PolymorphicObjectContainer.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Polymorphic/PolymorphicSharedPtrContainer.h"
 
 
 using namespace sw;
@@ -149,3 +150,23 @@ TEST_CASE( "Polymorphic.SharedPtrContructor", "[Serialization]" )
 	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.SharedPtrContructor.xml", actual ) );
 	CHECK( actual.ObjectPtr == nullptr );
 }
+
+// ================================ //
+// Deserialize polymorphic object stored in class as shared_ptr.
+TEST_CASE( "Polymorphic.BaseObject.SharedPtr", "[Serialization]" )
+{
+	PolymorphicSharedPtrContainer expected;
+	PolymorphicSharedPtrContainer actual;
+	expected.ObjectPtr = std::make_shared< SharedObject >();
+
+	sw::Serialization serial;
+	sw::Serialization deserial;
+
+	REQUIRE( serial.Serialize( "Serialization/Polymorphic.BaseObject.SharedPtr.xml", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.BaseObject.SharedPtr.xml", actual ) );
+
+	CHECK( actual.ObjectPtr->GetType() == TypeID::get< SharedObject >() );
+	CHECK( actual.ObjectPtr->GetType() == expected.ObjectPtr->GetType() );
+}
+
+

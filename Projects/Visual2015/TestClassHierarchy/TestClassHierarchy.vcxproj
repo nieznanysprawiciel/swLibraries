@@ -38,6 +38,7 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\LinkLibrary.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Polymorphic\BaseObject.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Polymorphic\PolymorphicObjectContainer.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Polymorphic\PolymorphicSharedPtrContainer.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Polymorphic\SharedObject.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\StringContainer.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructAsCopyContainer.h" />

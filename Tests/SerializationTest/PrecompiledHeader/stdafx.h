@@ -19,4 +19,5 @@
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructSharedPtrContainer.h"
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Polymorphic/PolymorphicObjectContainer.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Polymorphic/PolymorphicSharedPtrContainer.h"
 
