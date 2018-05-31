@@ -13,10 +13,6 @@
 #include <memory>
 
 
-/**@defgroup Serialization Serialization
-@ingroup CommonLibrary
-@brief Automatic serialization library based on rttr properties.*/
-
 
 
 struct SerializerImpl;
