@@ -19,7 +19,7 @@ using namespace sw;
 
 // ================================ //
 // Serializes polymorphic object with base class set.
-TEST_CASE( "Polymorphic.BaseObject", "[Serialization]" )
+TEST_CASE( "Polymorphic.BaseClass", "[Serialization]" )
 {
 	PolymorphicObjectContainer expected;
 	PolymorphicObjectContainer actual;
@@ -28,8 +28,8 @@ TEST_CASE( "Polymorphic.BaseObject", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Polymorphic.BaseObject.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.BaseObject.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Polymorphic.BaseClass.xml", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.BaseClass.xml", actual ) );
 
 	CHECK( actual.ObjectPtr->GetType() == TypeID::get< BaseObject >() );
 	CHECK( actual.ObjectPtr->GetType() == expected.ObjectPtr->GetType() );
@@ -153,7 +153,7 @@ TEST_CASE( "Polymorphic.SharedPtrContructor", "[Serialization]" )
 
 // ================================ //
 // Deserialize polymorphic object stored in class as shared_ptr.
-TEST_CASE( "Polymorphic.BaseObject.SharedPtr", "[Serialization]" )
+TEST_CASE( "Polymorphic.BaseClass.SharedPtr", "[Serialization]" )
 {
 	PolymorphicSharedPtrContainer expected;
 	PolymorphicSharedPtrContainer actual;
@@ -162,11 +162,24 @@ TEST_CASE( "Polymorphic.BaseObject.SharedPtr", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Polymorphic.BaseObject.SharedPtr.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.BaseObject.SharedPtr.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Polymorphic.BaseClass.SharedPtr.xml", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.BaseClass.SharedPtr.xml", actual ) );
 
 	CHECK( actual.ObjectPtr->GetType() == TypeID::get< SharedObject >() );
 	CHECK( actual.ObjectPtr->GetType() == expected.ObjectPtr->GetType() );
+}
+
+// ================================ //
+// Deserializes polymorphic object stored in class as shared_ptr. Creation constructs
+// raw pointer object. Assingment should fail, object remains nullptr.
+TEST_CASE( "Polymorphic.PointerConstructor", "[Serialization]" )
+{
+	PolymorphicSharedPtrContainer actual;
+
+	sw::Serialization deserial;
+
+	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.PointerConstructor.xml", actual ) );
+	CHECK( actual.ObjectPtr == nullptr );
 }
 
 

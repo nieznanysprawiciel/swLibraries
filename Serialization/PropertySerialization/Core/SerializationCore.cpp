@@ -67,7 +67,7 @@ bool					SerializationCore::ShouldSave				( const rttr::property& prop, MetaData
 /// We support only polymorphic types derived from EngineObject.
 bool					SerializationCore::IsPolymorphicType		( TypeID type )
 {
-	return type.is_derived_from< EngineObject >();
+	return GetRawWrappedType( type ).is_derived_from< EngineObject >();
 }
 
 // ================================ //
@@ -706,7 +706,13 @@ rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializ
 		/// @todo When created type is raw pointer and property is wrapped type, we could handle this case
 		/// by creating wrapper from pointer. Consider this in future. Many problems could apear, when it comes to
 		/// ownership of memory and so on.
+		std::string errorMessage = "Property [" + prop.get_name().to_string()
+									+ "] setting error. Wrapper and raw pointer mismatch between property of type ["
+									+ propertyType.get_name().to_string()
+									+ "] and created class of type ["
+									+ createdType.get_name().to_string() + "].";
 
+		Warn< SerializationException >( deser, errorMessage );
 	}
 	else if( !propertyType.is_wrapper() && createdType.is_wrapper() )
 	{
