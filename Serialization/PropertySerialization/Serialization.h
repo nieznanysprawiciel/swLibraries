@@ -81,6 +81,8 @@ future versions:
 	- Setting objects for Properties with mixed wrapped and raw pointer types.
 	- Handling wrappers that don't take ownership of pointers (especially destroying these types).
 - Implementing hooks for overriding serialization/deserialization for specified types.
+- Make JSON and XML serializers virtual and move to sw namespace.
+- Add more tests checking invalid conditions.
 - Better documentation ;)
 
 @see @ref Serialization*/
