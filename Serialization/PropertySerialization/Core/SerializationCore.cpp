@@ -729,6 +729,18 @@ rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializ
 
 		Warn< SerializationException >( deser, errorMessage );
 	}
+	else if( propertyType.is_wrapper() && createdType.is_wrapper() && propertyType != createdType )
+	{
+		// Classes types are the same, but wrappers are different.
+
+		std::string errorMessage = "Property [" + prop.get_name().to_string()
+									+ "] setting error. Wrappers mismatch between property of type ["
+									+ propertyType.get_name().to_string()
+									+ "] and created class of type ["
+									+ createdType.get_name().to_string() + "].";
+
+		Warn< SerializationException >( deser, errorMessage );
+	}
 
 
 	return rttr::variant();
