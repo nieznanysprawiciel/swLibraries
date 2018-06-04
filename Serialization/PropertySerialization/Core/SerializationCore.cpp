@@ -265,7 +265,7 @@ bool			SerializationCore::SerializeArrayTypes				( ISerializer& ser, const rttr:
 
 	ser.Exit();
 
-	return false;
+	return true;
 }
 
 // ================================ //
