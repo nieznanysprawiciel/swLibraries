@@ -742,6 +742,14 @@ rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializ
 		Warn< SerializationException >( deser, errorMessage );
 	}
 
+	if( !GetRawWrappedType( createdType ).get_constructor().is_valid() )
+	{
+		std::string errorMessage = "Can't construct object of type ["
+									+ createdType.get_name().to_string()
+									+ "]. Zero arguments constructor wasn't declared in rttr for this class.";
+
+		Warn< SerializationException >( deser, errorMessage );
+	}
 
 	return rttr::variant();
 }
