@@ -72,25 +72,25 @@ TEST_CASE( "Arrays.Static.PlainStructs", "[Serialization]" )
 	CHECK( actual->Compare( *expected ) );
 }
 
-// ================================ //
-// Serializes array with polymorphic type pointer.
-TEST_CASE( "Arrays.Vector.Polymorphic.Pointer", "[Serialization]" )
-{
-	ArrayPolymorphicContainer* expected = new ArrayPolymorphicContainer;
-	ArrayPolymorphicContainer* actual = new ArrayPolymorphicContainer;
-	expected->ArraysSet1();
-	// actual should be empty.
-
-	sw::Serialization serial;
-	sw::Serialization deserial;
-
-	REQUIRE( serial.Serialize( "Serialization/Arrays.Vector.Polymorphic.Pointer.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Vector.Polymorphic.Pointer.xml", actual ) );
-
-	REQUIRE( actual->PolymorphicsVec.size() == 3 );
-
-	CHECK( actual->PolymorphicsVec[ 0 ]->GetType() == expected->PolymorphicsVec[ 0 ]->GetType() );
-	CHECK( actual->PolymorphicsVec[ 1 ]->GetType() == expected->PolymorphicsVec[ 1 ]->GetType() );
-	CHECK( actual->PolymorphicsVec[ 2 ]->GetType() == expected->PolymorphicsVec[ 2 ]->GetType() );
-}
+//// ================================ //
+//// Serializes array with polymorphic type pointer.
+//TEST_CASE( "Arrays.Vector.Polymorphic.Pointer", "[Serialization]" )
+//{
+//	ArrayPolymorphicContainer* expected = new ArrayPolymorphicContainer;
+//	ArrayPolymorphicContainer* actual = new ArrayPolymorphicContainer;
+//	expected->ArraysSet1();
+//	// actual should be empty.
+//
+//	sw::Serialization serial;
+//	sw::Serialization deserial;
+//
+//	REQUIRE( serial.Serialize( "Serialization/Arrays.Vector.Polymorphic.Pointer.xml", expected ) );
+//	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Vector.Polymorphic.Pointer.xml", actual ) );
+//
+//	REQUIRE( actual->PolymorphicsVec.size() == 3 );
+//
+//	CHECK( actual->PolymorphicsVec[ 0 ]->GetType() == expected->PolymorphicsVec[ 0 ]->GetType() );
+//	CHECK( actual->PolymorphicsVec[ 1 ]->GetType() == expected->PolymorphicsVec[ 1 ]->GetType() );
+//	CHECK( actual->PolymorphicsVec[ 2 ]->GetType() == expected->PolymorphicsVec[ 2 ]->GetType() );
+//}
 

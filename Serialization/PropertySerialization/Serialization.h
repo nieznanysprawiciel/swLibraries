@@ -74,7 +74,7 @@ future versions:
 - Deserialization of polymorphic types not derived from sw::EngineObject.
 - Arrays habdling:
 	- Serialization/deserialization of arrays nested in arrays (array ranks).
-	- Arrays with basic types (ints, floats and so on).
+	- Arrays with basic types (ints, floats, strings and so on).
 	- Arrays with polymorphic types that need creation.
 - Serialization/deserialization of associative containers from stl.
 - Better handling of wrapped types:
