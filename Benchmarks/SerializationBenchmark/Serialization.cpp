@@ -1,7 +1,7 @@
 #include "benchmark/benchmark.h"
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Node.h"
-#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/StringContainer.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Polymorphic/BaseObject.h"
 
 #include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
 #include "swCommonLib/Serialization/PropertySerialization/SerializationContext.h"
@@ -13,7 +13,7 @@
 static void		SerializeAndSaveFile	( benchmark::State& state )
 {
 	sw::Node root;
-	root.GenerateTree( 10000, 20, TypeID::get< sw::StringContainer >() );
+	root.GenerateTree( 100000, 20, TypeID::get< sw::BaseObject >() );
 
 	for( auto _ : state )
 	{
@@ -32,7 +32,7 @@ BENCHMARK( SerializeAndSaveFile )->Unit( benchmark::TimeUnit::kMillisecond )->Re
 static void		SerializeInternal	( benchmark::State& state )
 {
 	sw::Node root;
-	root.GenerateTree( 10000, 20, TypeID::get< sw::StringContainer >() );
+	root.GenerateTree( 100000, 20, TypeID::get< sw::BaseObject >() );
 
 	for( auto _ : state )
 	{
