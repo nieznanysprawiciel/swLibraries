@@ -102,6 +102,9 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Node.h">
       <Filter>SerializationPrimitives</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\ArrayPolymorphicContainer.h">
+      <Filter>SerializationPrimitives\Arrays</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Registration.cpp">

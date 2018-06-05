@@ -482,7 +482,7 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 			// Process generic objects. We must get real object type.
 			if( arrayElementType.is_pointer() )
 			{
-				assert( !"Implement me" );
+				//assert( !"Implement me" );
 
 				//EngineObject* engineObject = element.get_value< EngineObject* >();
 				//engineObject->Deserialize( deser );
