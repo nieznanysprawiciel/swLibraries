@@ -141,7 +141,7 @@ int		SerializeToFile		()
 	serializer.Exit();	// FirstObject
 
 
-	if( !serializer.SaveFile( writeFileName, WritingMode::Readable ) )
+	if( !serializer.SaveFile( readFileName, WritingMode::Readable ) )
 #ifdef TEST_JSON
 		OutputDebugString( L"Error: Saving \"SerializerTest/serialWrite.json\" failed!\n" );
 #elif TEST_XML

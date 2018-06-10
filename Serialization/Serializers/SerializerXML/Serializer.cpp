@@ -217,9 +217,9 @@ void ISerializer::SetAttribute( const std::string& name, bool value )
 @param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
 void ISerializer::SetAttribute( const std::string& name, double value )
 {
-#define MAX_DOUBLE_SIGNS ( 3 + DBL_MANT_DIG - DBL_MIN_EXP )
+#define MAX_DOUBLE_SIGNS 52
 	char numericString[ MAX_DOUBLE_SIGNS ];
-	Size valueLength = sprintf_s( numericString, "%Lf", value );
+	Size valueLength = std::snprintf( numericString, MAX_DOUBLE_SIGNS, "%.19f", value );
 
 	SetAttributeHelper( impl, name.c_str(), name.length(), numericString, valueLength );
 }
