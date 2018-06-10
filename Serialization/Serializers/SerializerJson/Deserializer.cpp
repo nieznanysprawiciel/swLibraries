@@ -29,6 +29,39 @@ struct DeserializerImpl
 	{	fileContent = nullptr;	}
 };
 
+
+// ================================ //
+//
+struct NameValue
+{
+	rapidjson::Value*		Name;
+	rapidjson::Value*		Value;
+};
+
+// ================================ //
+//
+NameValue		PopTopNodes		( DeserializerImpl* impl )
+{
+	NameValue result;
+
+	result.Value = impl->valuesStack.top();
+	impl->valuesStack.pop();
+
+	result.Name = impl->valuesStack.top();
+	impl->valuesStack.pop();
+
+	return result;
+}
+
+// ================================ //
+//
+void			RestoreTopNodes	( DeserializerImpl* impl, const NameValue& nameValue )
+{
+	impl->valuesStack.push( nameValue.Name );
+	impl->valuesStack.push( nameValue.Value );
+}
+
+
 // ================================ //
 //
 IDeserializer::IDeserializer()
@@ -254,11 +287,10 @@ bool IDeserializer::FirstElement() const
 }
 
 /**@brief Przechodzi do nastêpnego elementu w tablicy lub w obiekcie.*/
-bool IDeserializer::NextElement() const
+bool			IDeserializer::NextElement			() const
 {
 	rapidjson::Value::ValueIterator value = impl->valuesStack.top();
-	impl->valuesStack.pop();	// Value
-	impl->valuesStack.pop();	// Name
+	auto topNodes = PopTopNodes( impl );
 	auto valueParent = impl->valuesStack.top();		// Parent
 
 	if( valueParent->IsArray() )
@@ -266,7 +298,10 @@ bool IDeserializer::NextElement() const
 		++value;
 		// Sprawdzamy czy nie dotarliœmy do koñca - wersja dla tablic.
 		if( value == valueParent->End() )
+		{
+			RestoreTopNodes( impl, topNodes );
 			return false;
+		}
 
 		PushArrayObjectName( impl, value );
 		impl->valuesStack.push( value );
@@ -284,7 +319,10 @@ bool IDeserializer::NextElement() const
 		}
 
 		if( iter == valueParent->MemberEnd() )
+		{
+			RestoreTopNodes( impl, topNodes );
 			return false;
+		}
 
 		while( ++iter != valueParent->MemberEnd() )
 		{
@@ -307,20 +345,22 @@ bool IDeserializer::NextElement() const
 }
 
 /**@brief Przechodzi do poprzedniego elementu w tablicy lub w obiekcie.*/
-bool IDeserializer::PrevElement() const
+bool			IDeserializer::PrevElement			() const
 {
 	assert( impl->valuesStack.size() >= 3 );
 
 	rapidjson::Value::ValueIterator value = impl->valuesStack.top();
-	impl->valuesStack.pop();	// Value
-	impl->valuesStack.pop();	// Name
+	auto topNodes = PopTopNodes( impl );
 	auto valueParent = impl->valuesStack.top();
 
 	if( valueParent->IsArray() )
 	{
 		// Sprawdzamy czy nie jesteœmy na pocz¹tku - wersja dla tablic.
 		if( value == valueParent->Begin() )
+		{
+			RestoreTopNodes( impl, topNodes );
 			return false;
+		}
 
 		--value;
 
@@ -341,7 +381,10 @@ bool IDeserializer::PrevElement() const
 		}
 
 		if( iter == valueParent->MemberBegin() )
+		{
+			RestoreTopNodes( impl, topNodes );
 			return false;
+		}
 
 		--iter;
 		do
@@ -370,7 +413,7 @@ Je¿eli wêze³, w którym jesteœmy, nie ma ¿adnych dzieci, pozostajemy w nim
 i stan serializatora nie zmienia siê.
 
 @return Zwaca false, je¿eli nie ma ¿adnego obiektu w tablicy (lub obiekcie).*/
-bool IDeserializer::LastElement() const
+bool			IDeserializer::LastElement			() const
 {
 	auto value = impl->valuesStack.top();
 	if( value->IsArray() && !value->Empty() )

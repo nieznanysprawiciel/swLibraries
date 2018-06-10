@@ -155,6 +155,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\main.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\SerializationMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

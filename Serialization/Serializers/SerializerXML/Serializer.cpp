@@ -219,7 +219,7 @@ void ISerializer::SetAttribute( const std::string& name, double value )
 {
 #define MAX_DOUBLE_SIGNS ( 3 + DBL_MANT_DIG - DBL_MIN_EXP )
 	char numericString[ MAX_DOUBLE_SIGNS ];
-	Size valueLength = sprintf_s( numericString, "%lf", value );
+	Size valueLength = sprintf_s( numericString, "%Lf", value );
 
 	SetAttributeHelper( impl, name.c_str(), name.length(), numericString, valueLength );
 }

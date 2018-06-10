@@ -223,18 +223,18 @@ bool			IDeserializer::FirstElement() const
 	return true;
 }
 
-/**@brief Przechodzi do nastêpnego elementu w tablicy lub w obiekcie.
+/**@brief Goes to next element in current object.
 
-@return Zwraca false, je¿eli nie istnieje ju¿ kolejny element, do którego mo¿na przejœæ.*/
+@return Returns false if there're no elements left..*/
 bool			IDeserializer::NextElement() const
 {
 	auto value = impl->valuesStack.top();
-	impl->valuesStack.pop();
-	
-	auto nextValue = value->next_sibling( nullptr );		// Wstawienie nullptra oznacza wybranie kolejnego node'a w kolejnoœci.
+		
+	auto nextValue = value->next_sibling( nullptr );		// Nullptr means taking next element in order.
 	if( nextValue == nullptr )
 		return false;
 
+	impl->valuesStack.pop();
 	impl->valuesStack.push( nextValue );
 	return true;
 }
@@ -243,12 +243,12 @@ bool			IDeserializer::NextElement() const
 bool			IDeserializer::PrevElement() const
 {
 	auto value = impl->valuesStack.top();
-	impl->valuesStack.pop();
 	
-	auto prevValue = value->previous_sibling( nullptr );		// Wstawienie nullptra oznacza wybranie kolejnego node'a w kolejnoœci.
+	auto prevValue = value->previous_sibling( nullptr );	// Nullptr means taking next element in order.
 	if( prevValue == nullptr )
 		return false;
 
+	impl->valuesStack.pop();
 	impl->valuesStack.push( prevValue );
 	return true;
 }

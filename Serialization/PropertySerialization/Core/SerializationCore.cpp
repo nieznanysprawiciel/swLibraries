@@ -269,8 +269,14 @@ bool			SerializationCore::SerializeArrayTypes				( ISerializer& ser, const rttr:
 		// Process generic objects. Default serialization writes object type.
 		for( auto& element : arrayView )
 		{
-			EngineObject* engineObject = element.get_value< EngineObject* >();
+			auto value = element.extract_wrapped_value();
+			value.convert( TypeID::get< EngineObject* >() );
+			EngineObject* engineObject = value.get_value< EngineObject* >();
 
+			// We serialize "Element" because some serializers like json don't
+			// have named elements in arrays and we would lose type information.
+			// This is not the case in not polymorphic serialization where type 
+			// information from property is enough to deserialize array.
 			ser.EnterObject( "Element" );
 			engineObject->Serialize( ser );
 			ser.Exit();
@@ -495,12 +501,33 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 			}
 
 			// Process generic objects. We must get real object type.
-			if( arrayElementType.is_pointer() )
+			if( IsPolymorphicType( arrayElementType ) )
 			{
-				//assert( !"Implement me" );
+				// We are in "Element" and we enter node named as type to create.
+				if( deser.FirstElement() )
+				{
+					// Check what type of object we should create.
+					auto className = deser.GetName();
+					TypeID classDynamicType = TypeID::get_by_name( className );
 
-				//EngineObject* engineObject = element.get_value< EngineObject* >();
-				//engineObject->Deserialize( deser );
+					rttr::variant newClass = CreateInstance( classDynamicType );
+					
+					if( newClass.convert( TypeID( arrayElementType ) ) ) 
+					{
+						arrayView.set_value( idx, newClass );
+
+						if( deser.NextElement() )
+							Warn< SerializationException >( deser, "Array element has multiple polymorphic objects defined. Deserializing only first." );
+					}
+					else
+					{
+						Warn< SerializationException >( deser, "Type [" + newClass.get_type().get_name().to_string()
+														+ "] can't be converted to array element type ["
+														+ arrayElementType.get_name().to_string() + "]." );
+					}
+
+					deser.Exit();
+				}
 			}
 			else
 			{
@@ -528,7 +555,7 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 
 	deser.Exit();
 
-	return false;
+	return true;
 }
 
 /**@brief Deserializes structures and generic objects.

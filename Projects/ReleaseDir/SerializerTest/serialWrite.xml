@@ -1,5 +1,5 @@
 <FirstObject Map="LightmapGen1" Path="/LightmapGen1.map" Load="true">
-	<Data NumberUnits="1266643" PositionOffset="0.412467" Visible="true" Key="218588284382834538"/>
+	<Data NumberUnits="1266643" PositionOffset="0.412466762" Visible="true" Key="218588284382834538"/>
 	<Actors>
 		<Actor Name="TIE Fighter 0">
 			<Position X="12" Y="12" Z="12"/>
@@ -44,7 +44,7 @@
 	</Passes>
 	<Data1 Map="LightmapGen1" Path="/LightmapGen1.map" Load="true"/>
 	<Data2 Asset1="TIE Fighter model" Asset2="Nebulon B" Asset3="Death Star" Asset4="Calamarian Cruiser" Asset5="Star Destroyer"/>
-	<Data3 NumberUnits="4294967295" UnitsModifier="-2147483648" PositionOffset="0.412467" Visible="true" Key="-9223372036854775808" KeyHash="18446744073709551615"/>
+	<Data3 NumberUnits="4294967295" UnitsModifier="-2147483648" PositionOffset="0.412466762" Visible="true" Key="-9223372036854775808" KeyHash="18446744073709551615"/>
 	<ActorEnemies>
 		<ActorEnemy Name="X-wing 0">
 			<Position X="15" Y="124" Z="97"/>
