@@ -162,7 +162,7 @@ const char*		IDeserializer::GetName			() const
 	impl->valuesStack.pop();
 
 	auto name = impl->valuesStack.top();
-	impl->valuesStack.push( value );		// Wrzucamy spowrotem 
+	impl->valuesStack.push( value );		// Restore value.
 
 	assert( name->IsString() );
 
@@ -234,17 +234,15 @@ void			IDeserializer::Exit			() const
 	assert( !impl->valuesStack.empty() );
 
 	assert( impl->valuesStack.top()->IsArray() || impl->valuesStack.top()->IsObject() );
-	impl->valuesStack.pop();	// Zdejmujemy tablicê lub obiekt.
-
-	assert( impl->valuesStack.top()->IsString() );
-	impl->valuesStack.pop();	// Zdejmujemy nazwê tablicy.
+	impl->valuesStack.pop();		// Pop array or object.
+	impl->valuesStack.pop();		// Pop object or array name. Note that objects in arrays don't have names, so here lies mock object.
 }
 
 //=========================================================//
 //				
 //=========================================================//
 
-void PushArrayObjectName( DeserializerImpl* impl, rapidjson::Value* object )
+void			PushArrayObjectName					( DeserializerImpl* impl, rapidjson::Value* object )
 {
 	auto name = object->FindMember( "Name" );
 	if( name != object->MemberEnd() )
@@ -260,12 +258,13 @@ Je¿eli wêze³, w którym jesteœmy, nie ma ¿adnych dzieci, pozostajemy w nim
 i stan serializatora nie zmienia siê.
 
 @return Zwaca false, je¿eli nie ma ¿adnego obiektu w tablicy (lub obiekcie).*/
-bool IDeserializer::FirstElement() const
+bool			IDeserializer::FirstElement			() const
 {
 	auto value = impl->valuesStack.top();
-	if( value->IsArray() && !value->Empty() )
+	if( value->IsArray() && value->Size() > 1 )
 	{
 		rapidjson::Value::ValueIterator firstElement = value->Begin();
+		firstElement++;		// First element is always Array attributes object, so we iterate to next element.
 
 		PushArrayObjectName( impl, firstElement );
 		impl->valuesStack.push( firstElement );
@@ -355,8 +354,11 @@ bool			IDeserializer::PrevElement			() const
 
 	if( valueParent->IsArray() )
 	{
-		// Sprawdzamy czy nie jesteœmy na pocz¹tku - wersja dla tablic.
-		if( value == valueParent->Begin() )
+		// Check if we reached begin of array.
+		rapidjson::Value::ValueIterator arrayBegin = valueParent->Begin();
+		arrayBegin++;		// First element is always Array attributes object, so we iterate to next element.
+
+		if( value == arrayBegin )
 		{
 			RestoreTopNodes( impl, topNodes );
 			return false;
@@ -416,7 +418,7 @@ i stan serializatora nie zmienia siê.
 bool			IDeserializer::LastElement			() const
 {
 	auto value = impl->valuesStack.top();
-	if( value->IsArray() && !value->Empty() )
+	if( value->IsArray() && value->Size() > 1 )
 	{
 		rapidjson::Value::ValueIterator lastElement = value->End();
 		lastElement--;
@@ -534,11 +536,29 @@ inline Type		GetAttribTemplate( DeserializerImpl* impl, const char* name, Type& 
 {
 	rapidjson::Value* currentObject = impl->valuesStack.top();	// Obiekt, w którym szukamy atrybutów
 
-	auto iterator = currentObject->FindMember( name );
-	if( iterator == currentObject->MemberEnd() || !Is< Type >( iterator ) )
-		return defaultValue;
+	if( currentObject->IsObject() )
+	{
+		auto iterator = currentObject->FindMember( name );
+		if( iterator == currentObject->MemberEnd() || !Is< Type >( iterator ) )
+			return defaultValue;
 
-	return Get< Type >( iterator );
+		return Get< Type >( iterator );
+	}
+	else if( currentObject->IsArray() )
+	{
+		///@todo Add error handling.
+		assert( currentObject->Size() >= 1 );
+
+		rapidjson::Value::ValueIterator firstElement = currentObject->Begin();
+
+		auto iterator = firstElement->FindMember( name );
+		if( iterator == firstElement->MemberEnd() || !Is< Type >( iterator ) )
+			return defaultValue;
+
+		return Get< Type >( iterator );
+	}
+
+	return defaultValue;
 }
 
 }	// anonymous
@@ -754,7 +774,7 @@ sw::FilePosition					ComputeJsonPosition     ( const char* fileBegin, const char
     }
 
     // Note: numerate position from 1.
-    pos.CharPosition = nodeFirstChar - processedLineBegin + 1;
+    pos.CharPosition = nodeFirstChar - processedLineBegin + 2;
 
     return pos;
 }

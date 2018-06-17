@@ -249,6 +249,30 @@ TEST_CASE( "Deserialization.Array.BackwardIteration", "[Serializers]" )
 
 }
 
+// ================================ //
+//
+TEST_CASE( "Serialization.Array.ArrayAttribute", "[Serializers]" )
+{
+	ISerializer ser( std::make_unique< ISerializationContext >() );
+
+	ser.EnterObject( "FirstObject" );
+	ser.EnterArray( "Array" );
+	ser.SetAttribute( "ArraySize", 13 );
+	ser.EnterObject( "Object1" );
+
+	ser.SaveFile( "SerializerTest/Serialization.Array.ArrayAttribute.serialized", WritingMode::Readable );
+
+	IDeserializer deser;
+	REQUIRE( deser.LoadFromFile( "SerializerTest/Serialization.Array.ArrayAttribute.serialized", ParsingMode::ParseInsitu ) );
+	REQUIRE( deser.EnterObject( "FirstObject" ) );
+	REQUIRE( deser.EnterArray( "Array" ) );
+
+	CHECK( deser.GetAttribute( "ArraySize", 0 ) == 13 );
+	
+	// Serializer should Enter Object1 without problems.
+	CHECK( deser.FirstElement() );
+}
+
 
 
 int main_bla()

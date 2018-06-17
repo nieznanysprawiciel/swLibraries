@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\json\LineNumber_json.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\main.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\SerializationMain.cpp" />
   </ItemGroup>

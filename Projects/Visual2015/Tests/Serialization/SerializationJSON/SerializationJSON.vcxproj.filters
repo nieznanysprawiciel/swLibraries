@@ -3,5 +3,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\SerializationMain.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\main.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\json\LineNumber_json.cpp">
+      <Filter>json</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="json">
+      <UniqueIdentifier>{a880723f-73d9-4ff0-a3b8-2317d05578f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

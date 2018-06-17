@@ -31,8 +31,24 @@ struct SerializerImpl
 namespace
 {
 
-/// Helper
-inline void SetAttributeHelper( SerializerImpl* impl, const std::string& name, rapidjson::Value& value )
+// ================================ //
+//
+inline void				AddArrayAttribute			( SerializerImpl* impl, rapidjson::Value&& valueName, rapidjson::Value&& attribute )
+{
+	// This should be array.
+	rapidjson::Value& currentObject = impl->valuesStack.top();
+	assert( currentObject.IsArray() );
+
+	// First element of array should be object storing array attribute.
+	rapidjson::Value::ValueIterator firstElement = currentObject.Begin();
+	assert( firstElement->IsObject() );
+
+	firstElement->AddMember( std::move( valueName ), std::move( attribute ), impl->root.GetAllocator() );
+}
+
+// ================================ //
+//
+inline void				SetAttributeHelper			( SerializerImpl* impl, const std::string& name, rapidjson::Value& value )
 {
 	rapidjson::Value& currentObject = impl->valuesStack.top();	// Obiekt, do którego przyczepiamy atrybut.
 	rapidjson::Value valueName;
@@ -41,10 +57,15 @@ inline void SetAttributeHelper( SerializerImpl* impl, const std::string& name, r
 	if( currentObject.IsObject() )
 		currentObject.AddMember( std::move( valueName ), std::move( value ), impl->root.GetAllocator() );
 	else
-		currentObject.PushBack( std::move( value ), impl->root.GetAllocator() );
+	{
+		// Handle arrays.
+		AddArrayAttribute( impl, std::move( valueName ), std::move( value ) );
+	}
 }
 
-inline void WriteToStreamBuffer( rapidjson::StringBuffer& buffer, rapidjson::Document& document, WritingMode mode )
+// ================================ //
+//
+inline void				WriteToStreamBuffer			( rapidjson::StringBuffer& buffer, rapidjson::Document& document, WritingMode mode )
 {
 	if( mode == WritingMode::Sparing )
 	{
@@ -80,7 +101,7 @@ ISerializer::~ISerializer()
 zagnie¿d¿enia node'ów.
 
 @param[in] mode Formatowanie stringa.*/
-std::string	ISerializer::SaveString( WritingMode mode )
+std::string		ISerializer::SaveString				( WritingMode mode )
 {
 	while( impl->valuesStack.size() > 1 )
 		this->Exit();
@@ -104,7 +125,7 @@ Je¿eli funkcja zwróci³a false, to serializator nadal jest na tym samym poziomie.
 
 @param[in] fileName Nazwa pliku docelowego.
 @return Zwraca true, je¿eli zapisywanie powiedzie siê.*/
-bool ISerializer::SaveFile( const std::string& fileName, WritingMode mode )
+bool			ISerializer::SaveFile				( const std::string& fileName, WritingMode mode )
 {
 	std::ofstream file;
 	file.open( fileName );
@@ -128,10 +149,10 @@ bool ISerializer::SaveFile( const std::string& fileName, WritingMode mode )
 	return false;
 }
 
-/**@brief Tworzy obiekt o podanej nazwie.
+/**@brief Creates object of provided name.
 
-@param[in] name Nazwa obiektu.*/
-void ISerializer::EnterObject( const std::string& name )
+@param[in] name Object name.*/
+void			ISerializer::EnterObject			( const std::string& name )
 {
 	rapidjson::Value newObject( rapidjson::kObjectType );
 
@@ -148,7 +169,7 @@ void ISerializer::EnterObject( const std::string& name )
 
 /**@brief Koniec tworzenia obiektu.
 EnterObject i ExitObject powinny byæ stosowane parami.*/
-void ISerializer::Exit()
+void			ISerializer::Exit					()
 {
 	rapidjson::Value& objectValue = impl->valuesStack.top();		// Obiekt, którego konstruowanie skonczyliœmy.
 	impl->valuesStack.pop();
@@ -165,7 +186,7 @@ void ISerializer::Exit()
 /**@brief Tworzy tablicê o podanej nazwie.
 
 @param[in] name Nazwa tablicy.*/
-void ISerializer::EnterArray( const std::string& name )
+void			ISerializer::EnterArray				( const std::string& name )
 {
 	rapidjson::Value newArray( rapidjson::kArrayType );
 
@@ -175,7 +196,11 @@ void ISerializer::EnterArray( const std::string& name )
 	if( impl->valuesStack.top().IsObject() )
 		newName.SetString( name.c_str(), (rapidjson::SizeType)name.length(), impl->root.GetAllocator() );
 
-	// Wrzucamy nazwê jako pierwsz¹, a potem sam obiekt.
+	// Add array info object to store array attributes.
+	rapidjson::Value arrayInfoObject( rapidjson::kObjectType );
+	newArray.PushBack( std::move( arrayInfoObject ), impl->root.GetAllocator() );
+
+	// First goes name and then object.
 	impl->valuesStack.push( std::move( newName ) );
 	impl->valuesStack.push( std::move( newArray ) );
 }
@@ -184,7 +209,7 @@ void ISerializer::EnterArray( const std::string& name )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-void ISerializer::SetAttribute( const std::string& name, const std::string& value )
+void			ISerializer::SetAttribute			( const std::string& name, const std::string& value )
 {
 	rapidjson::Value& currentObject = impl->valuesStack.top();	// Obiekt, do którego przyczepiamy atrybut.
 	rapidjson::Value newObject;
@@ -195,14 +220,14 @@ void ISerializer::SetAttribute( const std::string& name, const std::string& valu
 	if( currentObject.IsObject() )
 		currentObject.AddMember( std::move( valueName ), std::move( newObject ), impl->root.GetAllocator() );
 	else
-		currentObject.PushBack( std::move( newObject ), impl->root.GetAllocator() );
+		AddArrayAttribute( impl, std::move( valueName ), std::move( newObject ) );
 }
 
 /**@brief Ustawia parê ( nazwa, wartoœæ ) w aktualnym obiekcie.
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-void ISerializer::SetAttribute( const std::string& name, const char* value )
+void			ISerializer::SetAttribute			( const std::string& name, const char* value )
 {
 	rapidjson::Value& currentObject = impl->valuesStack.top();	// Obiekt, do którego przyczepiamy atrybut.
 	rapidjson::Value newObject;
@@ -213,7 +238,7 @@ void ISerializer::SetAttribute( const std::string& name, const char* value )
 	if( currentObject.IsObject() )
 		currentObject.AddMember( std::move( valueName ), std::move( newObject ), impl->root.GetAllocator() );
 	else
-		currentObject.PushBack( std::move( newObject ), impl->root.GetAllocator() );
+		AddArrayAttribute( impl, std::move( valueName ), std::move( newObject ) );
 }
 
 
@@ -221,7 +246,7 @@ void ISerializer::SetAttribute( const std::string& name, const char* value )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-void ISerializer::SetAttribute( const std::string& name, uint32 value )
+void			ISerializer::SetAttribute			( const std::string& name, uint32 value )
 {
 	rapidjson::Value newObject;
 	newObject.SetUint( value );
@@ -232,7 +257,7 @@ void ISerializer::SetAttribute( const std::string& name, uint32 value )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-void ISerializer::SetAttribute( const std::string& name, uint64 value )
+void			ISerializer::SetAttribute			( const std::string& name, uint64 value )
 {
 	rapidjson::Value newObject;
 	newObject.SetUint64( value );
@@ -243,7 +268,7 @@ void ISerializer::SetAttribute( const std::string& name, uint64 value )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-void ISerializer::SetAttribute( const std::string& name, int32 value )
+void			ISerializer::SetAttribute			( const std::string& name, int32 value )
 {
 	rapidjson::Value newObject;
 	newObject.SetInt( value );
@@ -254,7 +279,7 @@ void ISerializer::SetAttribute( const std::string& name, int32 value )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-void ISerializer::SetAttribute( const std::string& name, int64 value )
+void			ISerializer::SetAttribute			( const std::string& name, int64 value )
 {
 	rapidjson::Value newObject;
 	newObject.SetInt64( value );
@@ -265,7 +290,7 @@ void ISerializer::SetAttribute( const std::string& name, int64 value )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-void ISerializer::SetAttribute( const std::string& name, bool value )
+void			ISerializer::SetAttribute			( const std::string& name, bool value )
 {
 	rapidjson::Value newObject;
 	newObject.SetBool( value );
@@ -276,7 +301,7 @@ void ISerializer::SetAttribute( const std::string& name, bool value )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-void ISerializer::SetAttribute( const std::string& name, double value )
+void			ISerializer::SetAttribute			( const std::string& name, double value )
 {
 	rapidjson::Value newObject;
 	newObject.SetDouble( value );

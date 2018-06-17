@@ -3,5 +3,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\SerializationMain.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\main.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\xml\LineNumber_xml.cpp">
+      <Filter>xml</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="xml">
+      <UniqueIdentifier>{31c3c3d1-4d0b-4eee-bf91-0a2fbe6e7f14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
