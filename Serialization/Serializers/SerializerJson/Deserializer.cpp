@@ -162,9 +162,16 @@ const char*		IDeserializer::GetName			() const
 	impl->valuesStack.pop();
 
 	auto name = impl->valuesStack.top();
+	impl->valuesStack.pop();
+
+	bool isArray = impl->valuesStack.top()->IsArray();
+
+	impl->valuesStack.push( name );			// Restore name.
 	impl->valuesStack.push( value );		// Restore value.
 
-	assert( name->IsString() );
+	// Objects in array don't have names.
+	if( isArray )
+		return "";
 
 	return name->GetString();
 }

@@ -6,6 +6,9 @@
     <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\json\LineNumber_json.cpp">
       <Filter>json</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\json\GetName_json.cpp">
+      <Filter>json</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="json">
