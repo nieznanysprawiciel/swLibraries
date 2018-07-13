@@ -144,6 +144,8 @@ bool			IDeserializer::LoadFromFile		( const std::string& fileName, ParsingMode m
 	return true;
 }
 
+// ================================ //
+//
 bool			IDeserializer::LoadFromString	( const std::string& contentString )
 {
 	return false;
@@ -154,6 +156,8 @@ bool			IDeserializer::LoadFromString	( const std::string& contentString )
 //====================================================================================//
 
 
+// ================================ //
+//
 const char*		IDeserializer::GetName			() const
 {
 	assert( impl->valuesStack.size() >= 2 );
@@ -760,6 +764,78 @@ std::string		IDeserializer::GetError			() const
 
 // ================================ //
 //
+bool								IsInsideArray			( DeserializerImpl* impl )
+{
+	auto value = impl->valuesStack.top();	// Value
+	impl->valuesStack.pop();
+
+	auto name = impl->valuesStack.top();
+	impl->valuesStack.pop();
+
+	bool isArray = impl->valuesStack.top()->IsArray();
+
+	impl->valuesStack.push( name );			// Restore name.
+	impl->valuesStack.push( value );		// Restore value.
+
+	return isArray;
+}
+
+// ================================ //
+//
+const char*							FindArrayBegin			( DeserializerImpl* impl )
+{
+	// This function doesn't support nested arrays.
+	auto objectValue = impl->valuesStack.top();	// Value
+	impl->valuesStack.pop();
+
+	auto objectName = impl->valuesStack.top();
+	impl->valuesStack.pop();
+
+	auto arrayValue = impl->valuesStack.top();
+	impl->valuesStack.pop();
+
+	assert( arrayValue->IsArray() );
+
+	auto arrayName = impl->valuesStack.top();
+
+	impl->valuesStack.push( arrayValue );			// Restore array name.
+	impl->valuesStack.push( objectName );			// Restore object name.
+	impl->valuesStack.push( objectValue );			// Restore object value.
+	
+	return arrayName->GetString();
+}
+
+// ================================ //
+//
+Size								FindIndexInArray		( DeserializerImpl* impl )
+{
+	auto objectValue = impl->valuesStack.top();	// Value
+	impl->valuesStack.pop();
+
+	auto objectName = impl->valuesStack.top();
+	impl->valuesStack.pop();
+
+	auto arrayValue = impl->valuesStack.top();
+
+	rapidjson::Value::ValueIterator element = arrayValue->Begin();
+
+	Size arrayIdx = 0;
+	while( element != objectValue && element != arrayValue->End() )
+	{
+		element++;
+		arrayIdx++;
+	}
+
+	// Restore previous state.
+	impl->valuesStack.push( objectName );			// Restore object name.
+	impl->valuesStack.push( objectValue );			// Restore object value.
+
+	return arrayIdx;
+}
+
+
+// ================================ //
+//
 sw::FilePosition					ComputeJsonPosition     ( const char* fileBegin, const char* nodeFirstChar )
 {
     sw::FilePosition pos;
@@ -788,17 +864,86 @@ sw::FilePosition					ComputeJsonPosition     ( const char* fileBegin, const char
 
 // ================================ //
 //
+sw::FilePosition					ComputeJsonPosition		( const char* arrayBegin, Size arrayIdx )
+{
+    sw::FilePosition pos;
+    pos.Line = 0;
+    pos.CharPosition = 0;
+
+    const char* jsonPosition = arrayBegin;
+    const char* processedLineBegin = jsonPosition;
+
+	// Find opening bracket of current array.
+	while( *jsonPosition != '[' )
+		jsonPosition++;
+
+	int32 nesting = 1;		// Nesting 1 means that we are still in processed array.
+	uint32 currentArrayIdx = 0;
+
+    while( nesting >= 1  )
+    {
+		if( *jsonPosition == '\n' )
+		{
+			pos.Line++;
+			processedLineBegin = jsonPosition + 1;
+		}
+		else if( *jsonPosition == '{' )
+		{
+			nesting++;
+
+			// Check if we found opening of object under expected array index.
+			if( nesting == 2 )
+			{
+				if( currentArrayIdx == arrayIdx )
+				{
+					pos.CharPosition = jsonPosition - processedLineBegin + 1;
+					return pos;
+				}
+
+				currentArrayIdx++;
+			}
+		}
+		else if( *jsonPosition == '}' )
+			nesting--;
+
+        jsonPosition++;
+    }
+
+	// If we are here, that means that we haven't found object under arrayIdx.
+	// We can return begin of array.
+	return pos;
+}
+
+// ================================ //
+//
 sw::FilePosition					IDeserializer::CurrentLineNumber      () const
 {
 	// Note: this will only work in insitu parsing mode.
 	///@todo Think how to do this in AllocStrings mode.
 	if( impl->mode == ParsingMode::ParseInsitu )
 	{
-		auto& curNode = impl->valuesStack.top();
-		const char* fileFirstChar = impl->fileContent;
-		const char* nodeFirstChar = GetName();
+		if( IsInsideArray( impl ) )
+		{
+			const char* fileFirstChar = impl->fileContent;
+			const char* arrayFirstChar = FindArrayBegin( impl );
 
-		return ComputeJsonPosition( fileFirstChar, nodeFirstChar );
+			// Compute number of lines to the beginning of array.
+			auto arrayPosition = ComputeJsonPosition( fileFirstChar, arrayFirstChar );
+
+			// Compute number of lines to object in array.
+			Size objectArrayIdx = FindIndexInArray( impl );
+			auto posInArray = ComputeJsonPosition( arrayFirstChar, objectArrayIdx );
+
+			posInArray.Line += arrayPosition.Line;
+			return posInArray;
+		}
+		else
+		{
+			const char* fileFirstChar = impl->fileContent;
+			const char* nodeFirstChar = GetName();
+
+			return ComputeJsonPosition( fileFirstChar, nodeFirstChar );
+		}
 	}
 	else
 	{
