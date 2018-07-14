@@ -279,13 +279,23 @@ bool			IDeserializer::FirstElement			() const
 
 		PushArrayObjectName( impl, firstElement );
 		impl->valuesStack.push( firstElement );
+		return true;
 	}
 	else if( value->IsObject() )
 	{
 		auto firstElement = value->MemberBegin();
+		while( firstElement != value->MemberEnd() )
+		{
+			// We enter only objects and arrays. Filter out attributes.
+			if( firstElement->value.IsObject() || firstElement->value.IsArray() )
+			{
+				impl->valuesStack.push( &firstElement->name );
+				impl->valuesStack.push( &firstElement->value );
+				return true;
+			}
 
-		impl->valuesStack.push( &firstElement->name );
-		impl->valuesStack.push( &firstElement->value );
+			firstElement++;
+		}
 	}
 	else
 	{
@@ -293,7 +303,7 @@ bool			IDeserializer::FirstElement			() const
 		return false;
 	}
 
-	return true;
+	return false;
 }
 
 /**@brief Przechodzi do nastêpnego elementu w tablicy lub w obiekcie.*/
@@ -336,7 +346,7 @@ bool			IDeserializer::NextElement			() const
 
 		while( ++iter != valueParent->MemberEnd() )
 		{
-			// Trzeba odfiltrowaæ atrybuty.
+			// We enter only objects and arrays. Filter out attributes.
 			if( iter->value.IsObject() || iter->value.IsArray() )
 			{
 				impl->valuesStack.push( &iter->name );
@@ -348,9 +358,11 @@ bool			IDeserializer::NextElement			() const
 	else
 	{
 		assert( !"Wrong rapidjson::Value type" );
+		RestoreTopNodes( impl, topNodes );
 		return false;
 	}
 
+	RestoreTopNodes( impl, topNodes );
 	return false;
 }
 
@@ -383,7 +395,7 @@ bool			IDeserializer::PrevElement			() const
 	}
 	else if( valueParent->IsObject() )
 	{
-		// Sprawdzamy czy nie jesteœmy na pocz¹tku - wersja dla obiektów.
+		// Check if we aren't on the beginning of members - version for objects.
 		rapidjson::Value::MemberIterator iter = valueParent->MemberEnd();
 		--iter;
 		while( iter != valueParent->MemberBegin() )
@@ -402,22 +414,27 @@ bool			IDeserializer::PrevElement			() const
 		--iter;
 		do
 		{
-			// Trzeba odfiltrowaæ atrybuty.
+			// We enter only objects and arrays. Filter out attributes.
 			if( iter->value.IsObject() || iter->value.IsArray() )
 			{
 				impl->valuesStack.push( &iter->name );
 				impl->valuesStack.push( &iter->value );
 				return true;
 			}
+
+			--iter;
+
 		} while( iter != valueParent->MemberBegin() );
 	}
 	else
 	{
 		assert( !"Wrong rapidjson::Value type" );
+		RestoreTopNodes( impl, topNodes );
 		return false;
 	}
 
-	return true;
+	RestoreTopNodes( impl, topNodes );
+	return false;
 }
 
 /**@brief Wchodzi do ostatniego elementu tablicy lub obiektu.

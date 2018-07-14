@@ -274,6 +274,92 @@ TEST_CASE( "Serialization.Array.ArrayAttribute", "[Serializers]" )
 }
 
 
+// ================================ //
+// Iterates over elements in object. Iteration should enter all objects and arrays.
+TEST_CASE( "Deserialization.Object.ForwardIteration", "[Serializers]" )
+{
+	IDeserializer deser;
+	REQUIRE( deser.LoadFromFile( readFileName, ParsingMode::ParseInsitu ) );
+
+	REQUIRE( deser.EnterObject( "FirstObject" ) );
+		REQUIRE( deser.FirstElement() );	// Data
+
+		CHECK( deser.GetName() == std::string( "Data" ) );
+		
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "Actors" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "Assets" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "Passes" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "Data1" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "Data2" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "Data3" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "ActorEnemies" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "ButtonContainer" ) );
+
+		// No elements left.
+		REQUIRE( !deser.NextElement() );
+
+		deser.Exit();	// Data
+	deser.Exit();	// FirstObject
+}
+
+// ================================ //
+// Iterates over elements in object. Iteration should enter all objects and arrays.
+TEST_CASE( "Deserialization.Object.BackwardIteration", "[Serializers]" )
+{
+	IDeserializer deser;
+	REQUIRE( deser.LoadFromFile( readFileName, ParsingMode::ParseInsitu ) );
+
+	REQUIRE( deser.EnterObject( "FirstObject" ) );
+		REQUIRE( deser.LastElement() );	// Data
+
+		CHECK( deser.GetName() == std::string( "ButtonContainer" ) );
+		
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "ActorEnemies" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Data3" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Data2" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Data1" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Passes" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Assets" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Actors" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Data" ) );
+
+		// No elements left.
+		REQUIRE( !deser.PrevElement() );
+
+		deser.Exit();	// ButtonContainer
+	deser.Exit();	// FirstObject
+}
+
 
 int main_bla()
 {
