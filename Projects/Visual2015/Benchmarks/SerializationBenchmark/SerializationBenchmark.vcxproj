@@ -139,6 +139,7 @@
     <OutDir>$(BenchmarkBuildDir)</OutDir>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Benchmarks\SerializationBenchmark\Deserialization.cpp" />
     <ClCompile Include="..\..\..\..\Benchmarks\SerializationBenchmark\main.cpp" />
     <ClCompile Include="..\..\..\..\Benchmarks\SerializationBenchmark\Serialization.cpp" />
   </ItemGroup>

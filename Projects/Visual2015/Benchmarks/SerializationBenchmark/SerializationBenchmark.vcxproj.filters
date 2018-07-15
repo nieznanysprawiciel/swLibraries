@@ -3,5 +3,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Benchmarks\SerializationBenchmark\main.cpp" />
     <ClCompile Include="..\..\..\..\Benchmarks\SerializationBenchmark\Serialization.cpp" />
+    <ClCompile Include="..\..\..\..\Benchmarks\SerializationBenchmark\Deserialization.cpp" />
   </ItemGroup>
 </Project>
