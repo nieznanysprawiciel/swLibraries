@@ -561,7 +561,11 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 
 		return true;
 	}
-	//else Warn about lack of property in file.
+	else
+	{
+		///@todo This warning should be conditional depending on flag in SerializationContext.
+		Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] not found in file. Value remained unchanged." );
+	}
 
 	return false;
 }
