@@ -94,3 +94,19 @@ TEST_CASE( "Arrays.Vector.Polymorphic.Pointer", "[Serialization]" )
 	CHECK( actual->PolymorphicsVec[ 2 ]->GetType() == expected->PolymorphicsVec[ 2 ]->GetType() );
 }
 
+
+// ================================ //
+// Serialized file contains more elements then array can hold. The same problem occures
+// when dynamic array is declared as readonly property.
+// Deserialization creates as many elements as it can and ignores rests (with warning).
+TEST_CASE( "Arrays.Static.PlainStructs.ToManyElements", "[Serialization]" )
+{
+	StaticArrayContainer* expected = new StaticArrayContainer;
+	StaticArrayContainer* actual = new StaticArrayContainer;
+	actual->ArraysSet2();
+
+	sw::Serialization deserial;
+	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Arrays.Static.PlainStructs.ToManyElements.xml", actual ) );
+
+	CHECK( actual->Compare( *expected ) );
+}
