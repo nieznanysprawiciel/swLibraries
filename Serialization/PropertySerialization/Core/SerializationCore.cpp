@@ -476,7 +476,7 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 	{
 		// Array size is should be only hint for deserialization.
 		auto arraySize = deser.GetAttribute( "ArraySize", 0 );
-		if( arraySize != 0 )
+		if( arraySize != 0 && !prop.is_readonly() )
 			arrayView.set_size( arraySize );
 	}
 
@@ -491,12 +491,14 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 			// Resize array if it's posible.
 			if( arrayView.get_size() <= idx )
 			{
-				if( arrayView.is_dynamic() )
+				if( arrayView.is_dynamic() && !prop.is_readonly() )
 					arrayView.set_size( idx + 1 );	// Performance penalty. Resizing vector each time by one element.
 				else
 				{
-					assert( !"Trying to insert to static array more elements then exists." );
-					/// @todo Error handling.
+					Warn< SerializationException >( deser, "Trying to insert to readonly array of type: [" + propertyType.get_name().to_string()
+													+ "] more elements then array's capacity. Rest of elements will be ignored." );
+													 
+					break;
 				}
 			}
 
