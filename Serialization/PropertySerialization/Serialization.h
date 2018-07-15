@@ -75,7 +75,6 @@ future versions:
 - Arrays habdling:
 	- Serialization/deserialization of arrays nested in arrays (array ranks).
 	- Arrays with basic types (ints, floats, strings and so on).
-	- Arrays with polymorphic types that need creation.
 - Serialization/deserialization of associative containers from stl.
 - Better handling of wrapped types:
 	- Setting objects for Properties with mixed wrapped and raw pointer types.
