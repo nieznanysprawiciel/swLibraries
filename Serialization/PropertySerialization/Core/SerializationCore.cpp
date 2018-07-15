@@ -470,94 +470,100 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 	if( !arrayElementType.is_class() && !arrayElementType.get_raw_type().is_class() )
 		return true;
 
-	deser.EnterArray( prop.get_name().to_string() );
-
-	if( arrayView.is_dynamic() )
+	if( deser.EnterArray( prop.get_name().to_string() ) )
 	{
-		// Array size is should be only hint for deserialization.
-		auto arraySize = deser.GetAttribute( "ArraySize", 0 );
-		if( arraySize != 0 && !prop.is_readonly() )
-			arrayView.set_size( arraySize );
-	}
-
-
-	int idx = 0;
-	auto element = arrayView.begin();
-
-	if( deser.FirstElement() )
-	{
-		do
+		if( arrayView.is_dynamic() )
 		{
-			// Resize array if it's posible.
-			if( arrayView.get_size() <= idx )
+			// Array size is should be only hint for deserialization.
+			auto arraySize = deser.GetAttribute( "ArraySize", 0 );
+			if( arraySize != 0 && !prop.is_readonly() )
+				arrayView.set_size( arraySize );
+		}
+
+
+		int idx = 0;
+		auto element = arrayView.begin();
+
+		if( deser.FirstElement() )
+		{
+			do
 			{
-				if( arrayView.is_dynamic() && !prop.is_readonly() )
-					arrayView.set_size( idx + 1 );	// Performance penalty. Resizing vector each time by one element.
-				else
+				// Resize array if it's posible.
+				if( arrayView.get_size() <= idx )
 				{
-					Warn< SerializationException >( deser, "Trying to insert to readonly array of type: [" + propertyType.get_name().to_string()
-													+ "] more elements then array's capacity. Rest of elements will be ignored." );
-													 
-					break;
-				}
-			}
-
-			// Process generic objects. We must get real object type.
-			if( IsPolymorphicType( arrayElementType ) )
-			{
-				// We are in "Element" and we enter node named as type to create.
-				if( deser.FirstElement() )
-				{
-					// Check what type of object we should create.
-					auto className = deser.GetName();
-					TypeID classDynamicType = TypeID::get_by_name( className );
-
-					rttr::variant newClass = CreateInstance( classDynamicType );
-					
-					if( newClass.convert( TypeID( arrayElementType ) ) ) 
-					{
-						arrayView.set_value( idx, newClass );
-
-						if( deser.NextElement() )
-							Warn< SerializationException >( deser, "Array element has multiple polymorphic objects defined. Deserializing only first." );
-					}
+					if( arrayView.is_dynamic() && !prop.is_readonly() )
+						arrayView.set_size( idx + 1 );	// Performance penalty. Resizing vector each time by one element.
 					else
 					{
-						Warn< SerializationException >( deser, "Type [" + newClass.get_type().get_name().to_string()
-														+ "] can't be converted to array element type ["
-														+ arrayElementType.get_name().to_string() + "]." );
+						Warn< SerializationException >( deser, "Trying to insert to readonly array of type: [" + propertyType.get_name().to_string()
+														+ "] more elements then array's capacity. Rest of elements will be ignored." );
+
+						break;
 					}
-
-					deser.Exit();
 				}
-			}
-			else
-			{
 
-				// Non generic objects use default deserialization.
-				DefaultDeserializeImpl( deser, *element, arrayElementType );
-			}
+				// Process generic objects. We must get real object type.
+				if( IsPolymorphicType( arrayElementType ) )
+				{
+					// We are in "Element" and we enter node named as type to create.
+					if( deser.FirstElement() )
+					{
+						// Check what type of object we should create.
+						auto className = deser.GetName();
+						TypeID classDynamicType = TypeID::get_by_name( className );
 
-			idx++;
-			element++;
-		} while( deser.NextElement() );
+						rttr::variant newClass = CreateInstance( classDynamicType );
+
+						if( newClass.convert( TypeID( arrayElementType ) ) )
+						{
+							arrayView.set_value( idx, newClass );
+
+							if( deser.NextElement() )
+								Warn< SerializationException >( deser, "Array element has multiple polymorphic objects defined. Deserializing only first." );
+						}
+						else
+						{
+							Warn< SerializationException >( deser, "Type [" + newClass.get_type().get_name().to_string()
+															+ "] can't be converted to array element type ["
+															+ arrayElementType.get_name().to_string() + "]." );
+						}
+
+						deser.Exit();
+					}
+				}
+				else
+				{
+
+					// Non generic objects use default deserialization.
+					DefaultDeserializeImpl( deser, *element, arrayElementType );
+				}
+
+				idx++;
+				element++;
+			} while( deser.NextElement() );
+
+			deser.Exit();
+		}
+
+		if( !arrayView.is_dynamic() && !propertyType.is_pointer() )
+		{
+			// Static arrays should be declared as readonly properties bound by reference.
+			// If they are not bound by reference, variant makes copy of array and we must set this
+			// copy to real field in class.
+			prop.set_value( object, arrayVariant );
+
+			///@todo This warning should be conditional depending on flag in SerializationContext.
+			Warn< SerializationException >( deser, "Performance Warning. Property [" + prop.get_name().to_string()
+											+ "] value have been copied, while deserializing. Bind property as pointer or as reference to avoid copying." );
+		}
+
+		deser.Exit();
+
+		return true;
 	}
+	//else Warn about lack of property in file.
 
-	if( !arrayView.is_dynamic() && !propertyType.is_pointer() )
-	{
-		// Static arrays should be declared as readonly properties bound by reference.
-		// If they are not bound by reference, variant makes copy of array and we must set this
-		// copy to real field in class.
-		prop.set_value( object, arrayVariant );
-
-		///@todo This warning should be conditional depending on flag in SerializationContext.
-		Warn< SerializationException >( deser, "Performance Warning. Property [" + prop.get_name().to_string()
-										+ "] value have been copied, while deserializing. Bind property as pointer or as reference to avoid copying." );
-	}
-
-	deser.Exit();
-
-	return true;
+	return false;
 }
 
 /**@brief Deserializes structures and generic objects.
