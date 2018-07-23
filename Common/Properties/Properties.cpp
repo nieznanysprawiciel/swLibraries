@@ -73,7 +73,7 @@ std::pair< rttr::variant, rttr::property >		Properties::GetProperty		( EngineObj
 std::pair< rttr::variant, rttr::property >		Properties::GetProperty		( rttr::variant object, const std::string& propertyPath, Size offset, char separator )
 {
 	if( propertyPath.empty() )
-		return std::make_pair( object, TypeID::get< rttr::detail::invalid_type >().get_property( "" ) );
+		return std::make_pair( object, EmptyProperty() );
 
 	TypeID realType = GetRealType( object );
 
@@ -124,10 +124,12 @@ rttr::property			Properties::EmptyProperty()
 
 /**@brief Gets real type of object.
 If class inherited EngineObject, we can check it's real type.*/
-TypeID					Properties::GetRealType		( rttr::variant& object )
+TypeID					Properties::GetRealType		( const rttr::variant& object )
 {
 	rttr::instance realObject = object;
-	return realObject.get_derived_type();
+	auto type = realObject.get_derived_type();
+
+	return type.is_wrapper() ? type.get_wrapped_type().get_raw_type() : type.get_raw_type();
 }
 
 /**@brief Gets real type of object.

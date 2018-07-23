@@ -19,62 +19,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Common\Converters.cpp" />
-    <ClCompile Include="..\..\..\Common\EngineObject.cpp" />
-    <ClCompile Include="..\..\..\Common\Multithreading\Semaphore.cpp" />
-    <ClCompile Include="..\..\..\Common\Multithreading\ThreadsBarrier.cpp" />
-    <ClCompile Include="..\..\..\Common\Multithreading\ThreadsLatch.cpp" />
-    <ClCompile Include="..\..\..\Common\Properties\Properties.cpp" />
-    <ClCompile Include="..\..\..\System\Dir.cpp" />
-    <ClCompile Include="..\..\..\System\File.cpp" />
-    <ClCompile Include="..\..\..\System\Filesystem\filesystem\path.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\Common\Config\ConfigHelper.h" />
-    <ClInclude Include="..\..\..\Common\Converters.h" />
-    <ClInclude Include="..\..\..\Common\EngineObject.h" />
-    <ClInclude Include="..\..\..\Common\Exceptions\Exception.h" />
-    <ClInclude Include="..\..\..\Common\Exceptions\Nullable.h" />
-    <ClInclude Include="..\..\..\Common\Logging\Logger.h" />
-    <ClInclude Include="..\..\..\Common\MemoryChunk.h" />
-    <ClInclude Include="..\..\..\Common\MemoryLeaks.h" />
-    <ClInclude Include="..\..\..\Common\Multithreading\QueueMT.h" />
-    <ClInclude Include="..\..\..\Common\Multithreading\ReaderWriterLock.h" />
-    <ClInclude Include="..\..\..\Common\Multithreading\Semaphore.h" />
-    <ClInclude Include="..\..\..\Common\Multithreading\SpinLock.h" />
-    <ClInclude Include="..\..\..\Common\Multithreading\SpinLockedQueue.h" />
-    <ClInclude Include="..\..\..\Common\Multithreading\ThreadsBarrier.h" />
-    <ClInclude Include="..\..\..\Common\Multithreading\ThreadsLatch.h" />
-    <ClInclude Include="..\..\..\Common\Multithreading\UniqueLock.h" />
-    <ClInclude Include="..\..\..\Common\Nullable.h" />
-    <ClInclude Include="..\..\..\Common\ObjectDeleter.h" />
-    <ClInclude Include="..\..\..\Common\Properties\Containers\ICollection.h" />
-    <ClInclude Include="..\..\..\Common\Properties\IEnableProperty.h" />
-    <ClInclude Include="..\..\..\Common\Properties\Properties.h" />
-    <ClInclude Include="..\..\..\Common\Properties\Property.h" />
-    <ClInclude Include="..\..\..\Common\RTTR.h" />
-    <ClInclude Include="..\..\..\Common\Traits.h" />
-    <ClInclude Include="..\..\..\Common\TypesDefinitions.h" />
-    <ClInclude Include="..\..\..\Common\UPtr.h" />
-    <ClInclude Include="..\..\..\System\Dir.h" />
-    <ClInclude Include="..\..\..\System\File.h" />
-    <ClInclude Include="..\..\..\System\Filesystem\filesystem\fwd.h" />
-    <ClInclude Include="..\..\..\System\Filesystem\filesystem\path.h" />
-    <ClInclude Include="..\..\..\System\Filesystem\filesystem\resolver.h" />
-    <ClInclude Include="..\..\..\System\Path.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Reflection\Reflection.vcxproj">
       <Project>{59fa8028-2346-4246-854f-14dcfab6ab56}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Serialization\Serialization.vcxproj">
-      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Animal.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Components\PhysicalProperties.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\Dog.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\HomoSapiens.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\Mammal.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Zoo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Registration.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{9ABCBAB4-05B4-47C5-B5D8-F201559FD096}</ProjectGuid>
+    <ProjectGuid>{33DB1307-8EDB-4ABD-B861-39A58D37B489}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>CommonBase</RootNamespace>
+    <RootNamespace>TestClassHierarchy</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -111,19 +74,19 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="CommonBaseConfig.props" />
+    <Import Project="TestClassHierarchyConfig.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="CommonBaseConfig.props" />
+    <Import Project="TestClassHierarchyConfig.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="CommonBaseConfig.props" />
+    <Import Project="TestClassHierarchyConfig.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="CommonBaseConfig.props" />
+    <Import Project="TestClassHierarchyConfig.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />

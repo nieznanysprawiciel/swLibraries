@@ -5,14 +5,28 @@
 @copyright File is part of Sleeping Wombat Engine.
 */
 
+#include "Exception.h"
+
 #include <exception>
 #include <string>
 #include <memory>
+#include <type_traits>
+#include <assert.h>
+
+
 
 
 namespace sw
 {
 
+
+/**@brief Enumeration for nullable for creating valid and invalid object.
+@ingroup Helpers*/
+enum class Result : uint8
+{
+	Error,
+	Success
+};
 
 
 
@@ -23,7 +37,7 @@ class Nullable
 {
 public:
 
-	typedef std::exception_ptr ErrorType;
+	typedef ExceptionPtr ErrorType;
 
 protected:
     union
@@ -43,6 +57,9 @@ public:
 							Nullable			( const std::string& error );
                             Nullable			( const Nullable< ContentType > & that );
                             ~Nullable			();
+
+	template< typename ExceptionType >
+							Nullable			( std::shared_ptr< ExceptionType > error );
 
     bool                    IsValid             ();
     std::string             GetErrorReason      ();
@@ -64,6 +81,40 @@ public:
     static Nullable			FromError           ( const std::string& reason );
     static Nullable			FromError           ();
 };
+
+
+/**@brief Alexandrescu Expected type for error handling.
+@ingroup Helpers*/
+template<>
+class Nullable< void >
+{
+public:
+
+	typedef ExceptionPtr ErrorType;
+
+private:
+
+	ErrorType			Error;
+	bool				m_isValid;
+
+public:
+
+	explicit                Nullable			();
+			                Nullable			( Result result );
+                            Nullable			( const ErrorType& error );
+							Nullable			( const std::string& error );
+
+	template< typename ExceptionType >
+							Nullable			( std::shared_ptr< ExceptionType > error );
+
+    bool                    IsValid             ();
+    std::string             GetErrorReason      ();
+    ErrorType				GetError            ();
+
+};
+
+
+typedef Nullable< void > ReturnResult;
 
 
 // ========================================================================= //
@@ -103,7 +154,7 @@ inline Nullable< ContentType >::Nullable			( const ErrorType & error )
 //
 template< typename ContentType >
 inline Nullable< ContentType >::Nullable			( const std::string& error )
-	: m_isValid( false ), Error( std::make_shared< std::runtime_error >( error ) )
+	: m_isValid( false ), Error( std::static_pointer_cast< Exception >( std::make_shared< RuntimeException >( error ) ) )
 {}
 
 // ================================ //
@@ -116,6 +167,16 @@ inline Nullable< ContentType >::Nullable			( const Nullable< ContentType > & tha
         new( &Content ) ContentType( that.Content ); 
     else 
         new( &Error ) ErrorType( that.Error ); 
+}
+
+// ================================ //
+//
+template< typename ContentType >
+template< typename ExceptionType >
+inline Nullable< ContentType >::Nullable			( std::shared_ptr< ExceptionType > error )
+	: m_isValid( false ), Error( std::static_pointer_cast< Exception >( error ) )
+{
+	static_assert( std::is_base_of< typename ErrorType::element_type, ExceptionType >::value, "ExceptionType should be derived from ErrorType" );
 }
 
 // ================================ //
@@ -142,7 +203,7 @@ inline bool						Nullable< ContentType >::IsValid()
 template< typename ContentType >
 inline std::string				Nullable< ContentType >::GetErrorReason  () 
 { 
-    return Error->what(); 
+    return Error->ErrorMessage(); 
 }
 
 // ================================ //
@@ -207,7 +268,7 @@ template< typename ContentType >
 inline ContentType &			Nullable< ContentType >::Get          () 
 { 
 	if( !m_isValid )
-		std::rethrow_exception( Error );
+		throw Error;
     return Content; 
 }
 
@@ -249,6 +310,70 @@ template< typename ContentType >
 inline Nullable< ContentType >     Nullable< ContentType >::FromError       () 
 { 
     return Nullable< ContentType >(); 
+}
+
+
+//====================================================================================//
+//			Specialization for void	
+//====================================================================================//
+
+
+// ================================ //
+//
+inline Nullable< void >::Nullable			() 
+    : m_isValid( false )
+    , Error( nullptr ) 
+{}
+
+// ================================ //
+//
+inline Nullable< void >::Nullable			( const ErrorType & error ) 
+    : m_isValid( false ), Error( error )
+{}
+
+// ================================ //
+//
+template< typename ExceptionType >
+inline Nullable< void >::Nullable			( std::shared_ptr< ExceptionType > error )
+	: m_isValid( false ), Error( std::static_pointer_cast< Exception >( error ) )
+{
+	static_assert( std::is_base_of< typename ErrorType::element_type, ExceptionType >::value, "ExceptionType should be derived from ErrorType" );
+}
+
+// ================================ //
+//
+inline Nullable< void >::Nullable			( const std::string& error )
+	: m_isValid( false ), Error( std::static_pointer_cast< Exception >( std::make_shared< RuntimeException >( error ) ) )
+{}
+
+// ================================ //
+//
+inline Nullable< void >::Nullable			( Result result )
+	: m_isValid( result == Result::Success ), Error( nullptr )
+{}
+
+
+// ================================ //
+//
+inline bool						Nullable< void >::IsValid() 
+{
+    return m_isValid;
+}
+
+// ================================ //
+//
+inline std::string				Nullable< void >::GetErrorReason  () 
+{ 
+    return Error->ErrorMessage(); 
+}
+
+// ================================ //
+//
+inline typename Nullable< void >::ErrorType		Nullable< void >::GetError ()
+{
+    if( m_isValid )
+        assert( false ); // FIXME: error handling(?)
+    return Error;
 }
 
 }	// sw
