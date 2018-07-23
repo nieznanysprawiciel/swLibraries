@@ -150,13 +150,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Tests\PrototyperGUI\Application.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\PrototyperGUI\main.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\PrototyperGUI\Sizeofs\Sizeofs.cpp" />
+    <ClCompile Include="..\..\..\..\Prototypes\PrototyperGUI\Application.cpp" />
+    <ClCompile Include="..\..\..\..\Prototypes\PrototyperGUI\main.cpp" />
+    <ClCompile Include="..\..\..\..\Prototypes\PrototyperGUI\Sizeofs\Sizeofs.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Tests\PrototyperGUI\Application.h" />
-    <ClInclude Include="..\..\..\..\Tests\PrototyperGUI\Sizeofs\Sizeofs.h" />
+    <ClInclude Include="..\..\..\..\Prototypes\PrototyperGUI\Application.h" />
+    <ClInclude Include="..\..\..\..\Prototypes\PrototyperGUI\Sizeofs\Sizeofs.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\SerializerXML\SerializerXML.vcxproj">

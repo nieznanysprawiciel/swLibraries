@@ -1,3 +1,4 @@
+#include "swGUI/TestFramework/stdafx.h"
 #include "HostWindowTester.h"
 
 

@@ -47,14 +47,11 @@ private:
 
 protected:
 public:
+
 	explicit		HostWindow	( INativeWindow* nativeWindow, input::IInput* input, ResourceManager* resourceManager, IGraphicAPIInitializer* graphicApi );
 	virtual			~HostWindow	();
 
 
-	Size				GetMemorySize		();
-
-
-	EngineObject*&		DataContext			();
 	void				RemoveControl		( UIElement* control );
 
 	void				RegisterControlName	( const UIElement* control, const std::string& name );
@@ -68,6 +65,10 @@ public:
 	input::IInput*						GetInput			();
 
 	virtual HostWindow*					GetHost				() const override;
+
+public:
+
+	Size				GetMemorySize		();
 
 public:
 	///@name GUI system interaction

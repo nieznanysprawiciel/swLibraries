@@ -51,6 +51,7 @@ void			PrintSizeofs()
 	std::cout << std::setw( NameSize ) << "Objects name"  << "Sizeof" << std::endl;
 
 	PrintSizeofType< sw::gui::IControl >( std::cout );
+	PrintSizeofType< sw::gui::DependencyObject >( std::cout );
 	PrintSizeofType< sw::gui::Visual >( std::cout );
 	PrintSizeofType< sw::gui::UIElement >( std::cout );
 
@@ -58,7 +59,7 @@ void			PrintSizeofs()
 	std::cout << std::endl << "GUI Internal objects:" << std::endl;
 	std::cout << std::setw( NameSize ) << "Objects name"  << "Sizeof" << std::endl;
 
-	PrintSizeofType< sw::gui::BindingsInfo >( std::cout );
+	PrintSizeofType< sw::gui::BindingInfo >( std::cout );
 	PrintSizeofType< sw::gui::Binding >( std::cout );
 	PrintSizeofType< sw::gui::BindingExpression >( std::cout );
 	

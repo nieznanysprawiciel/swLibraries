@@ -77,14 +77,6 @@ Size				HostWindow::GetMemorySize		()
 	return size;
 }
 
-/**@brief Pozwala ustawiæ i pobraæ DataContext.
-
-DataContext zostanie przepropagowany do wszystkich kontrolek w hierarchii.*/
-EngineObject*&		HostWindow::DataContext			()
-{
-	return m_dataContext;
-}
-
 /**@brief Removes control from GUI system.*/
 void				HostWindow::RemoveControl		( UIElement* control )
 {

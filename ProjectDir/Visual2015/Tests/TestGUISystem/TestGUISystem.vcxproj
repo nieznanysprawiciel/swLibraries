@@ -168,18 +168,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Tests\TestGUISystem\Classes\TestUIElementClass.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestGUISystem\FrameworkHelpers\HostWindowTester.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\main.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestEventRouting.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestHostWindowFocus.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestKeyEvents.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestMouseEvents.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestRegistration.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\Tests\TestGUISystem\Classes\TestUIElementClass.h" />
-    <ClInclude Include="..\..\..\..\Tests\TestGUISystem\FrameworkHelpers\HostWindowTester.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

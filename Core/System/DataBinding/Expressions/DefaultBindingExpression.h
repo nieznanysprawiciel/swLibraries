@@ -30,10 +30,6 @@ public:
 	virtual Nullable< BindingTarget >	EvaluateExpression		( const rttr::variant & dataContext, const rttr::variant & propertyOwner ) const override;
 	virtual BindingExpressionType		GetExpressionType		() const override;
 
-public:
-
-	static Nullable< BindingTarget >	EvaluateRelativeProperty	( const rttr::variant & dataContext, const std::string & path );
-
 };
 
 DEFINE_PTR_TYPE( DefaultBindingExpression )

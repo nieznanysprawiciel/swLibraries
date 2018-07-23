@@ -80,7 +80,9 @@ protected:
 	EventHandlers			m_eventHandlers;		///< Managing delegates.
 
 public:
+
 	explicit		UIElement	() = default;
+	explicit		UIElement	( UIElement* parent );
 	virtual			~UIElement	() = default;
 
 

@@ -20,8 +20,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Tests\TestBindings\Classes\Registration.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestBindings\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestBindings\TestBindings\TestBinding.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestBindings\TestBindings\TestBindingCompatibility.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestBindings\TestDependencyObject\TestDependencyObjectBinding.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestBindings\TestDependencyObject\TestPropagation.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestBindings\TestExpressions\TestAncestorBindingExpression.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestBindings\TestExpressions\TestDefaultBindingExpression.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestBindings\TestExpressions\TestPathEvaluation.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestBindings\TestExpressions\TestRTTRPreconditions.cpp" />
@@ -39,14 +43,15 @@
     <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\SerializerXML\SerializerXML.vcxproj">
       <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\TestClassHierarchy\TestClassHierarchy.vcxproj">
+      <Project>{33db1307-8edb-4abd-b861-39a58d37b489}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\CoreGUI\CoreGUI.vcxproj">
       <Project>{c6dab3ee-e9a7-47fc-9b33-a8f4250c219b}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Animal.h" />
-    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Mammals\Dog.h" />
-    <ClInclude Include="..\..\..\..\Tests\TestBindings\Classes\Mammals\Mammal.h" />
+    <ProjectReference Include="..\..\TestFramework\TestFramework.vcxproj">
+      <Project>{187f6b99-c04b-4093-9cdf-13d8fc994817}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{22C79F18-F938-4A9E-A4B0-B77E8F87429D}</ProjectGuid>
