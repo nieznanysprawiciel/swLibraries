@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<RepositoryCustomSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AutoRefresh>true</AutoRefresh>
+  <AutoRefreshRemotes>true</AutoRefreshRemotes>
+  <DraftCommitMsg />
+  <IncomingSavedCount>0</IncomingSavedCount>
+  <LastCheckedRemotes>2018-07-23T19:19:02.8726094+02:00</LastCheckedRemotes>
+  <LastUsedView>Log</LastUsedView>
+  <LogBranchFilterIndex>0</LogBranchFilterIndex>
+  <OutgoingSavedCount>0</OutgoingSavedCount>
+  <SidebarExpandedItems>
+    <string>File Status</string>
+    <string>Branches</string>
+    <string>Subtrees</string>
+  </SidebarExpandedItems>
+  <SidebarWidth>210</SidebarWidth>
+  <SubtreeLinks>
+    <SubtreeLink>
+      <SourcePathUrl>git@github.com:nieznanysprawiciel/swCommonLib.git</SourcePathUrl>
+      <Prefix>swCommonLib</Prefix>
+      <Refspec>swLibraries-Development</Refspec>
+    </SubtreeLink>
+    <SubtreeLink>
+      <SourcePathUrl>git@github.com:nieznanysprawiciel/swGraphicAPI.git</SourcePathUrl>
+      <Prefix>swGraphicAPI</Prefix>
+      <Refspec>swLibraries-Development</Refspec>
+    </SubtreeLink>
+    <SubtreeLink>
+      <SourcePathUrl>git@github.com:nieznanysprawiciel/swInputLibrary.git</SourcePathUrl>
+      <Prefix>swInputLibrary</Prefix>
+      <Refspec>swLibraries-Development</Refspec>
+    </SubtreeLink>
+    <SubtreeLink>
+      <SourcePathUrl>git@github.com:nieznanysprawiciel/swGUI.git</SourcePathUrl>
+      <Prefix>swGUI</Prefix>
+      <Refspec>swLibraries-Development</Refspec>
+    </SubtreeLink>
+  </SubtreeLinks>
+</RepositoryCustomSettings>
