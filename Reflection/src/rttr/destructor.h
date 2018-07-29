@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -85,6 +85,15 @@ class RTTR_API destructor
          * \return True if this destructor is valid, otherwise false.
          */
         explicit operator bool() const RTTR_NOEXCEPT;
+
+        /*!
+         * Returns the class that declares this destructor.
+         *
+         * \remark When this destructor is not valid, this function will return an invalid type object (see \ref type::is_valid).
+         *
+         * \return \ref type "Type" of the declaring class/struct for this destructor.
+         */
+        type get_declaring_type() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns the rttr::type for which this destructor can delete objects.

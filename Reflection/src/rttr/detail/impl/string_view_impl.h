@@ -1,7 +1,7 @@
 
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -677,7 +677,7 @@ namespace detail
 {
 
 template <>
-class hash<string_view>
+struct hash<string_view>
 {
 public:
     size_t operator()(const string_view& text) const
@@ -696,7 +696,7 @@ public:
 namespace std
 {
     template<typename CharT, typename Traits>
-    class hash<rttr::basic_string_view<CharT, Traits>>
+    struct hash<rttr::basic_string_view<CharT, Traits>>
     {
     public:
         size_t operator()(const rttr::basic_string_view<CharT, Traits>& value) const

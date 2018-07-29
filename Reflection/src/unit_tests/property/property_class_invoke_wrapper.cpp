@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -39,6 +39,7 @@ using namespace std;
 
 struct property_wrapper_test_base
 {
+    virtual ~property_wrapper_test_base() {}
     int p1;
 
     RTTR_ENABLE();

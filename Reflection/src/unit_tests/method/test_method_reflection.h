@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -54,6 +54,8 @@ struct method_test
     int method_5(int, double)       { method_5_overloaded_called = true; return 42; }   // overloaded method
     int method_5(int, double) const { return 23; }   // second overloaded method, with const
 
+    void method_4(std::string& text) const { }   // overloaded method, with const
+
     void method_with_ptr(int* ptr)   { method_with_ptr_called = true; }
 
     void method_fun_ptr_arg(void(*func_ptr)(int)) { method_func_ptr_arg_called = true; m_func_ptr = func_ptr; }
@@ -61,6 +63,12 @@ struct method_test
     bool set_func_via_variant(const rttr::variant& var)
     {
         return (var == 23) ? true : false;
+    }
+
+    int func_with_noexcept(int value) const volatile RTTR_NOEXCEPT
+    {
+        method_with_noexpcet_called = true;
+        return 42;
     }
 
     double dummy_data = 12;
@@ -82,6 +90,7 @@ struct method_test
     bool method_func_ptr_arg_called = false;
     bool method_with_ptr_called     = false;
     void(*m_func_ptr)(int)          = nullptr;
+    mutable bool method_with_noexpcet_called= false;
 
     RTTR_ENABLE()
 };

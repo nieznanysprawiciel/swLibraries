@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -51,20 +51,15 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, return_as_copy, set_valu
         bool is_readonly()  const RTTR_NOEXCEPT                 { return false; }
         bool is_static()    const RTTR_NOEXCEPT                 { return true; }
         type get_type()     const RTTR_NOEXCEPT                 { return type::get<C>(); }
-        bool is_array()     const RTTR_NOEXCEPT                 { return detail::is_array<C>::value; }
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
         bool set_value(instance& object, argument& arg) const
         {
             if (arg.is_type<C>())
-            {
-                return property_accessor<C>::set_value(*m_accessor, arg);
-            }
+                return property_accessor<C>::set_value(*m_accessor, arg.get_value<C>());
             else
-            {
                 return false;
-            }
         }
 
         variant get_value(instance& object) const
@@ -98,7 +93,6 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, return_as_copy, read_onl
         bool is_readonly()  const RTTR_NOEXCEPT                 { return true; }
         bool is_static()    const RTTR_NOEXCEPT                 { return true; }
         type get_type()     const RTTR_NOEXCEPT                 { return type::get<C>(); }
-        bool is_array()     const RTTR_NOEXCEPT                 { return detail::is_array<C>::value; }
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
@@ -140,7 +134,6 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, return_as_ptr, set_as_pt
         bool is_readonly()  const RTTR_NOEXCEPT                 { return false; }
         bool is_static()    const RTTR_NOEXCEPT                 { return false; }
         type get_type()     const RTTR_NOEXCEPT                 { return type::get<C*>(); }
-        bool is_array()     const RTTR_NOEXCEPT                 { return detail::is_array<C>::value; }
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
@@ -188,7 +181,6 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, return_as_ptr, read_only
         bool is_readonly()  const RTTR_NOEXCEPT                 { return true; }
         bool is_static()    const RTTR_NOEXCEPT                 { return true; }
         type get_type()     const RTTR_NOEXCEPT                 { return type::get<typename std::add_const<C>::type*>(); }
-        bool is_array()     const RTTR_NOEXCEPT                 { return detail::is_array<C>::value; }
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
@@ -230,20 +222,15 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, get_as_ref_wrapper, set_
         bool is_readonly()  const RTTR_NOEXCEPT                 { return false; }
         bool is_static()    const RTTR_NOEXCEPT                 { return false; }
         type get_type()     const RTTR_NOEXCEPT                 { return type::get< std::reference_wrapper<C> >(); }
-        bool is_array()     const RTTR_NOEXCEPT                 { return detail::is_array<C>::value; }
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
         bool set_value(instance& object, argument& arg) const
         {
             if (arg.is_type<std::reference_wrapper<C>>())
-            {
-                return property_accessor<std::reference_wrapper<C>>::set_value(*m_accessor, arg);
-            }
+                return property_accessor<C>::set_value(*m_accessor, arg.get_value<std::reference_wrapper<C>>().get());
             else
-            {
                 return false;
-            }
         }
 
         variant get_value(instance& object) const
@@ -277,7 +264,6 @@ class property_wrapper<object_ptr, C*, void, Acc_Level, get_as_ref_wrapper, read
         bool is_readonly()  const RTTR_NOEXCEPT                 { return true; }
         bool is_static()    const RTTR_NOEXCEPT                 { return true; }
         type get_type()     const RTTR_NOEXCEPT                 { return type::get< std::reference_wrapper< add_const_t<C>> >(); }
-        bool is_array()     const RTTR_NOEXCEPT                 { return detail::is_array<C>::value; }
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 

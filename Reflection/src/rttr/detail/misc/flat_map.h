@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -165,13 +165,13 @@ class flat_map
 #   if _LIBCPP_VERSION <= 3700
 #       define RTTR_NO_CXX11_CONST_EREASE_SUPPORT_IN_STL 1
 #   endif
-#elif (RTTR_COMPILER == RTTR_COMPILER_GNUC && RTTR_COMP_VER < 4900)
+#elif (RTTR_COMPILER == RTTR_COMPILER_GNUC && RTTR_COMP_VER < 490)
 #   define RTTR_NO_CXX11_CONST_EREASE_SUPPORT_IN_STL 1
 #endif
 
 // older versions of gcc stl, have no support for const_iterator in std::vector<T>::erase(const_iterator)
 #if RTTR_NO_CXX11_CONST_EREASE_SUPPORT_IN_STL
-        void erase(const Key& key)
+        bool erase(const Key& key)
         {
             iterator_key itr = find_key(key);
             if (itr != m_key_list.end())
@@ -181,12 +181,14 @@ class flat_map
                 {
                     m_key_list.erase(itr);
                     m_value_list.erase(value_itr);
+                    return true;
                 }
             }
 
+            return false;
         }
 #else
-        void erase(const Key& key)
+        bool erase(const Key& key)
         {
             const_iterator_key itr = find_key_const(key);
             if (itr != m_key_list.end())
@@ -196,9 +198,11 @@ class flat_map
                 {
                     m_key_list.erase(itr);
                     m_value_list.erase(value_itr);
+                    return true;
                 }
             }
 
+            return false;
         }
 #endif
 

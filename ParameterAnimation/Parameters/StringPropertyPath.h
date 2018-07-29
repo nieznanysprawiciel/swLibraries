@@ -18,12 +18,12 @@ private:
 protected:
 public:
 	explicit		StringPropertyPath	();
-	explicit		StringPropertyPath	( EngineObject* object, const std::string& propertyPath );
+	explicit		StringPropertyPath	( Object* object, const std::string& propertyPath );
 					~StringPropertyPath	() = default;
 
 
-	KeyType			GetValue		( EngineObject* object );
-	void			SetValue		( EngineObject* object, KeyType& value );
+	KeyType			GetValue		( Object* object );
+	void			SetValue		( Object* object, KeyType& value );
 };
 
 
@@ -42,28 +42,28 @@ inline		StringPropertyPath< KeyType >::StringPropertyPath()
 // ================================ //
 //
 template< typename KeyType >
-inline		StringPropertyPath<	KeyType >::StringPropertyPath( EngineObject* object, const std::string& propertyPath )
+inline		StringPropertyPath<	KeyType >::StringPropertyPath( Object* object, const std::string& propertyPath )
 	:	m_path( propertyPath )
 {}
 
 // ================================ //
 //
 template< typename KeyType >
-inline KeyType		StringPropertyPath< KeyType >::GetValue		( EngineObject* object )
+inline KeyType		StringPropertyPath< KeyType >::GetValue		( Object* object )
 {
 	auto finalPair = Properties::GetProperty( object, m_path );
 	auto& owner = finalPair.first;
 	auto& prop = finalPair.second;
 
-	return Serialization::GetPropertyValue< KeyType >( prop, owner );
+	return sw::SerializationCore::GetPropertyValue< KeyType >( prop, owner );
 }
 
 template< typename KeyType >
-inline void			StringPropertyPath< KeyType >::SetValue		( EngineObject* object, KeyType& value )
+inline void			StringPropertyPath< KeyType >::SetValue		( Object* object, KeyType& value )
 {
 	auto finalPair = Properties::GetProperty( object, m_path );
 	auto& owner = finalPair.first;
 	auto& prop = finalPair.second;
 
-	Serialization::SetPropertyValue( prop, owner, value );
+	sw::SerializationCore::SetPropertyValue( prop, owner, value );
 }

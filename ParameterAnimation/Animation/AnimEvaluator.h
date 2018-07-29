@@ -5,7 +5,7 @@
 @copyright File is part of graphic engine SWEngine.
 */
 
-#include "swCommonLib/Common/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 
 #include "swCommonLib/ParameterAnimation/KeySet.h"
 #include "swCommonLib/ParameterAnimation/Timelines/TimelineBase.h"
@@ -35,11 +35,11 @@ protected:
 public:
 	/// Constructor for serialization only.
 	explicit		AnimEvaluator	() = default;
-	explicit		AnimEvaluator	( EngineObject* object, const std::string& propertyPath );
+	explicit		AnimEvaluator	( Object* object, const std::string& propertyPath );
 					~AnimEvaluator	() = default;
 
 
-	void				Evaluate	( EngineObject* object, TimeType time );
+	void				Evaluate	( Object* object, TimeType time );
 
 	/**@brief Adds key and sets default interpolator.
 	@return False if key already exists.*/
@@ -77,7 +77,7 @@ public:
 // ================================ //
 //
 template< typename KeyType, typename AddressType >
-inline				AnimEvaluator< KeyType, AddressType >::AnimEvaluator( EngineObject* object, const std::string& propertyPath )
+inline				AnimEvaluator< KeyType, AddressType >::AnimEvaluator( Object* object, const std::string& propertyPath )
 	:	m_param( object, propertyPath )
 {
 	//static_assert( std::is_member_function_pointer< &AddressType::GetValue >::value, "Template parameter AddressType must implement GetValue function." );
@@ -91,7 +91,7 @@ inline				AnimEvaluator< KeyType, AddressType >::AnimEvaluator( EngineObject* ob
 // ================================ //
 //
 template< typename KeyType, typename AddressType >
-inline void			AnimEvaluator< KeyType, AddressType >::Evaluate		( EngineObject* object, TimeType time )
+inline void			AnimEvaluator< KeyType, AddressType >::Evaluate		( Object* object, TimeType time )
 {
 	KeyType value = m_keySet.Evaluate( time );
 	m_param.SetValue( object, value );

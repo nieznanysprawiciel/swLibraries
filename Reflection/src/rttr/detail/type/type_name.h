@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -48,11 +48,16 @@ namespace detail                                                            \
 
 #if RTTR_COMPILER == RTTR_COMPILER_MSVC
     // sizeof("const char *__cdecl rttr::detail::f<"), sizeof(">(void)")
+#ifdef RTTR_NO_CXX11_NOEXCEPT
     RTTR_REGISTRATION_FUNC_EXTRACT_VARIABLES(36, 7)
+#else
+    RTTR_REGISTRATION_FUNC_EXTRACT_VARIABLES(36, 16)  // with " noexcept"
+#endif
+
 #elif RTTR_COMPILER == RTTR_COMPILER_GNUC
     // sizeof("const char* rttr::detail::f() [with T = "), sizeof("]")
     RTTR_REGISTRATION_FUNC_EXTRACT_VARIABLES(40, 1)
-#elif RTTR_COMPILER == RTTR_COMPILER_CLANG
+#elif RTTR_COMPILER == RTTR_COMPILER_CLANG || RTTR_COMPILER == RTTR_COMPILER_APPLECLANG
     // sizeof("const char* rttr::detail::f() [T = "), sizeof("]")
     RTTR_REGISTRATION_FUNC_EXTRACT_VARIABLES(35, 1)
 #else
@@ -68,7 +73,7 @@ namespace detail
 
 /////////////////////////////////////////////////////////////////////////////////
 
-RTTR_INLINE static const char* extract_type_signature(const char* signature) RTTR_NOEXCEPT
+RTTR_LOCAL RTTR_INLINE const char* extract_type_signature(const char* signature) RTTR_NOEXCEPT
 {
 //    static_assert(N > skip_size_at_begin + skip_size_at_end, "RTTR is misconfigured for your compiler.")
     return &signature[rttr::detail::skip_size_at_begin];
@@ -77,14 +82,14 @@ RTTR_INLINE static const char* extract_type_signature(const char* signature) RTT
 /////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-RTTR_INLINE static const char* f() RTTR_NOEXCEPT
+RTTR_LOCAL RTTR_INLINE const char* f() RTTR_NOEXCEPT
 {
     return extract_type_signature(
     #if RTTR_COMPILER == RTTR_COMPILER_MSVC
                                                             __FUNCSIG__
     #elif RTTR_COMPILER == RTTR_COMPILER_GNUC
                                                             __PRETTY_FUNCTION__
-    #elif RTTR_COMPILER == RTTR_COMPILER_CLANG
+    #elif RTTR_COMPILER == RTTR_COMPILER_CLANG || RTTR_COMPILER == RTTR_COMPILER_APPLECLANG
                                                             __PRETTY_FUNCTION__
     #else
         #error "Don't know how the extract type signatur for this compiler! Abort! Abort!"
@@ -94,7 +99,7 @@ RTTR_INLINE static const char* f() RTTR_NOEXCEPT
 
 /////////////////////////////////////////////////////////////////////////////////
 
-RTTR_INLINE static std::size_t get_size(const char* s) RTTR_NOEXCEPT
+RTTR_LOCAL RTTR_INLINE std::size_t get_size(const char* s) RTTR_NOEXCEPT
 {
     return ( std::char_traits<char>::length(s) - rttr::detail::skip_size_at_end);
 }
@@ -102,7 +107,7 @@ RTTR_INLINE static std::size_t get_size(const char* s) RTTR_NOEXCEPT
 /////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-RTTR_INLINE static string_view get_type_name() RTTR_NOEXCEPT
+RTTR_LOCAL RTTR_INLINE string_view get_type_name() RTTR_NOEXCEPT
 {
     return string_view(f<T>(), get_size(f<T>()));
 }

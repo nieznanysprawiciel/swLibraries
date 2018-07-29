@@ -9,7 +9,8 @@
 
 
 
-
+// ================================ //
+//
 struct DeserializerImpl
 {
 	rapidxml::xml_document<>				root;
@@ -22,19 +23,24 @@ struct DeserializerImpl
 };
 
 
-
+// ================================ //
+//
 IDeserializer::IDeserializer()
 	:	context( nullptr )
 {
 	impl = new DeserializerImpl;
 }
 
-IDeserializer::IDeserializer( std::unique_ptr< SerializationContext > serContext )
-	: context( std::move( serContext ) )
+// ================================ //
+//
+IDeserializer::IDeserializer( ISerializationContextPtr serContext )
+	: context( serContext )
 {
 	impl = new DeserializerImpl;
 }
 
+// ================================ //
+//
 IDeserializer::~IDeserializer()
 {	
 	delete[] impl->fileContent;
@@ -126,7 +132,7 @@ bool			IDeserializer::LoadFromString	( const std::string& contentString )
 //====================================================================================//
 
 /**@brief Zwraca nazwê wêz³a, w którym znajduje siê serializator.*/
-const char*		IDeserializer::GetName			()
+const char*		IDeserializer::GetName			() const
 {
 	return impl->valuesStack.top()->name();
 }
@@ -136,7 +142,7 @@ const char*		IDeserializer::GetName			()
 
 @param[in] name Nazwa obiektu.
 @return Zwraca false, je¿eli obiekt o danej nazwie nie istnieje.*/
-bool			IDeserializer::EnterObject		( const std::string& name )
+bool			IDeserializer::EnterObject		( const std::string& name ) const
 {
 	return EnterObject( name.c_str() );
 }
@@ -145,7 +151,7 @@ bool			IDeserializer::EnterObject		( const std::string& name )
 
 @param[in] name Nazwa obiektu.
 @return Zwraca false, je¿eli obiekt o danej nazwie nie istnieje.*/
-bool			IDeserializer::EnterObject		( const char* name )
+bool			IDeserializer::EnterObject		( const char* name ) const
 {
 	assert( !impl->valuesStack.empty() );
 	auto value = impl->valuesStack.top();
@@ -164,7 +170,7 @@ bool			IDeserializer::EnterObject		( const char* name )
 
 @param[in] name Nazwa tablicy.
 @return Zwraca false, je¿eli tablica o danej nazwie nie istnieje.*/
-bool			IDeserializer::EnterArray		( const std::string& name )
+bool			IDeserializer::EnterArray		( const std::string& name ) const
 {
 	return EnterArray( name.c_str() );
 }
@@ -173,7 +179,7 @@ bool			IDeserializer::EnterArray		( const std::string& name )
 
 @param[in] name Nazwa tablicy.
 @return Zwraca false, je¿eli tablica o danej nazwie nie istnieje.*/
-bool			IDeserializer::EnterArray		( const char* name )
+bool			IDeserializer::EnterArray		( const char* name ) const
 {
 	assert( !impl->valuesStack.empty() );
 	auto value = impl->valuesStack.top();
@@ -189,7 +195,7 @@ bool			IDeserializer::EnterArray		( const char* name )
 }
 
 /**@brief */
-void			IDeserializer::Exit			()
+void			IDeserializer::Exit			() const
 {
 	auto value = impl->valuesStack.top();
 	impl->valuesStack.pop();
@@ -205,7 +211,7 @@ Je¿eli wêze³, w którym jesteœmy, nie ma ¿adnych dzieci, pozostajemy w nim
 i stan serializatora nie zmienia siê.
 
 @return Zwaca false, je¿eli nie ma ¿adnego obiektu w tablicy (lub obiekcie).*/
-bool IDeserializer::FirstElement()
+bool			IDeserializer::FirstElement() const
 {
 	auto value = impl->valuesStack.top();
 	
@@ -220,7 +226,7 @@ bool IDeserializer::FirstElement()
 /**@brief Przechodzi do nastêpnego elementu w tablicy lub w obiekcie.
 
 @return Zwraca false, je¿eli nie istnieje ju¿ kolejny element, do którego mo¿na przejœæ.*/
-bool IDeserializer::NextElement()
+bool			IDeserializer::NextElement() const
 {
 	auto value = impl->valuesStack.top();
 	impl->valuesStack.pop();
@@ -234,7 +240,7 @@ bool IDeserializer::NextElement()
 }
 
 /**@brief Przechodzi do poprzedniego elementu w tablicy lub w obiekcie.*/
-bool IDeserializer::PrevElement()
+bool			IDeserializer::PrevElement() const
 {
 	auto value = impl->valuesStack.top();
 	impl->valuesStack.pop();
@@ -253,7 +259,7 @@ Je¿eli wêze³, w którym jesteœmy, nie ma ¿adnych dzieci, pozostajemy w nim
 i stan serializatora nie zmienia siê.
 
 @return Zwaca false, je¿eli nie ma ¿adnego obiektu w tablicy (lub obiekcie).*/
-bool IDeserializer::LastElement()
+bool			IDeserializer::LastElement() const
 {
 	auto value = impl->valuesStack.top();
 	
@@ -389,7 +395,7 @@ inline Type		GetAttribTemplate( DeserializerImpl* impl, const char* name, Type& 
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-std::string IDeserializer::GetAttribute( const std::string& name, std::string& defaultValue )
+std::string				IDeserializer::GetAttribute			( const std::string& name, std::string& defaultValue ) const
 {
 	return GetAttribTemplate( impl, name.c_str(), defaultValue );
 }
@@ -400,7 +406,7 @@ std::string IDeserializer::GetAttribute( const std::string& name, std::string& d
 
 @param[in] name Nazwa atrybutu
 @param[in] defaultValue Je¿eli element o podanej nazwie nie istnieje, zostanie zwrócona wartoœæ domyœlna.*/
-const char* IDeserializer::GetAttribute( const std::string& name, const char* defaultValue )
+const char*				IDeserializer::GetAttribute			( const std::string& name, const char* defaultValue ) const
 {
 	return GetAttribTemplate( impl, name.c_str(), defaultValue );
 }
@@ -410,7 +416,7 @@ const char* IDeserializer::GetAttribute( const std::string& name, const char* de
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-uint32 IDeserializer::GetAttribute( const std::string& name, uint32 defaultValue )
+uint32					IDeserializer::GetAttribute			( const std::string& name, uint32 defaultValue ) const
 {
 	return GetAttribTemplate( impl, name.c_str(), defaultValue );
 }
@@ -419,7 +425,7 @@ uint32 IDeserializer::GetAttribute( const std::string& name, uint32 defaultValue
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-uint64 IDeserializer::GetAttribute( const std::string& name, uint64 defaultValue )
+uint64					IDeserializer::GetAttribute			( const std::string& name, uint64 defaultValue ) const
 {
 	return GetAttribTemplate( impl, name.c_str(), defaultValue );
 }
@@ -428,7 +434,7 @@ uint64 IDeserializer::GetAttribute( const std::string& name, uint64 defaultValue
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-int32 IDeserializer::GetAttribute( const std::string& name, int32 defaultValue )
+int32					IDeserializer::GetAttribute			( const std::string& name, int32 defaultValue ) const
 {
 	return GetAttribTemplate( impl, name.c_str(), defaultValue );
 }
@@ -437,7 +443,7 @@ int32 IDeserializer::GetAttribute( const std::string& name, int32 defaultValue )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-int64 IDeserializer::GetAttribute( const std::string& name, int64 defaultValue )
+int64					IDeserializer::GetAttribute			( const std::string& name, int64 defaultValue ) const
 {
 	return GetAttribTemplate( impl, name.c_str(), defaultValue );
 }
@@ -446,7 +452,7 @@ int64 IDeserializer::GetAttribute( const std::string& name, int64 defaultValue )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-bool IDeserializer::GetAttribute( const std::string& name, bool defaultValue )
+bool					IDeserializer::GetAttribute			( const std::string& name, bool defaultValue ) const
 {
 	return GetAttribTemplate( impl, name.c_str(), defaultValue );
 }
@@ -455,7 +461,7 @@ bool IDeserializer::GetAttribute( const std::string& name, bool defaultValue )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-double IDeserializer::GetAttribute( const std::string& name, double defaultValue )
+double					IDeserializer::GetAttribute			( const std::string& name, double defaultValue ) const
 {
 	return GetAttribTemplate( impl, name.c_str(), defaultValue );
 }
@@ -469,7 +475,7 @@ double IDeserializer::GetAttribute( const std::string& name, double defaultValue
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-std::string		IDeserializer::GetAttribute		( const char* name, std::string& defaultValue )
+std::string		IDeserializer::GetAttribute		( const char* name, std::string& defaultValue ) const
 {
 	return GetAttribTemplate( impl, name, defaultValue );
 }
@@ -478,7 +484,7 @@ std::string		IDeserializer::GetAttribute		( const char* name, std::string& defau
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-const char*		IDeserializer::GetAttribute		( const char* name, const char* defaultValue )
+const char*		IDeserializer::GetAttribute		( const char* name, const char* defaultValue ) const
 {
 	return GetAttribTemplate( impl, name, defaultValue );
 }
@@ -487,7 +493,7 @@ const char*		IDeserializer::GetAttribute		( const char* name, const char* defaul
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-uint32			IDeserializer::GetAttribute		( const char* name, uint32 defaultValue )
+uint32			IDeserializer::GetAttribute		( const char* name, uint32 defaultValue ) const
 {
 	return GetAttribTemplate( impl, name, defaultValue );
 }
@@ -496,7 +502,7 @@ uint32			IDeserializer::GetAttribute		( const char* name, uint32 defaultValue )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-uint64			IDeserializer::GetAttribute		( const char* name, uint64 defaultValue )
+uint64			IDeserializer::GetAttribute		( const char* name, uint64 defaultValue ) const
 {
 	return GetAttribTemplate( impl, name, defaultValue );
 }
@@ -505,7 +511,7 @@ uint64			IDeserializer::GetAttribute		( const char* name, uint64 defaultValue )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-int32			IDeserializer::GetAttribute		( const char* name, int32 defaultValue )
+int32			IDeserializer::GetAttribute		( const char* name, int32 defaultValue ) const
 {
 	return GetAttribTemplate( impl, name, defaultValue );
 }
@@ -514,7 +520,7 @@ int32			IDeserializer::GetAttribute		( const char* name, int32 defaultValue )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-int64			IDeserializer::GetAttribute		( const char* name, int64 defaultValue )
+int64			IDeserializer::GetAttribute		( const char* name, int64 defaultValue ) const
 {
 	return GetAttribTemplate( impl, name, defaultValue );
 }
@@ -523,7 +529,7 @@ int64			IDeserializer::GetAttribute		( const char* name, int64 defaultValue )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-bool			IDeserializer::GetAttribute		( const char* name, bool defaultValue )
+bool			IDeserializer::GetAttribute		( const char* name, bool defaultValue ) const
 {
 	return GetAttribTemplate( impl, name, defaultValue );
 }
@@ -532,23 +538,62 @@ bool			IDeserializer::GetAttribute		( const char* name, bool defaultValue )
 
 @param[in] name Nazwa ustawianej zmiennej.
 @param[in] defaultValue Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
-double			IDeserializer::GetAttribute		( const char* name, double defaultValue )
+double			IDeserializer::GetAttribute		( const char* name, double defaultValue ) const
 {
 	return GetAttribTemplate( impl, name, defaultValue );
 }
 
 //====================================================================================//
-//			Obs³uga b³êdów	
+//			Error handling
 //====================================================================================//
 
-/**@brief Zwraca string zawieraj¹cy b³¹d parsowania, je¿eli by³.
+/**@brief Returns parsing error if it occured.
 
 Aby siê dowiedzieæ czy parsowanie powiod³o siê, sprawdŸ wartoœæ zwracan¹ przez
 funkcje @ref LoadFromString lub @ref LoadFromFile.*/
-std::string IDeserializer::GetError()
+std::string		IDeserializer::GetError			() const
 {
 	return impl->errorString;
 }
 
+
+// ================================ //
+//
+sw::FilePosition					ComputeXmlPosition     ( const char* fileBegin, const char* nodeFirstChar )
+{
+    sw::FilePosition pos;
+    pos.Line = 1;
+    pos.CharPosition = 0;
+
+    const char* xmlPosition = fileBegin;
+    const char* processedLineBegin = xmlPosition;
+
+    while( xmlPosition < nodeFirstChar )
+    {
+        if( *xmlPosition == '\n' )
+        {
+            pos.Line++;
+            processedLineBegin = xmlPosition + 1;
+        }
+
+        xmlPosition++;
+    }
+
+    // Note: numerate position from 1.
+    pos.CharPosition = nodeFirstChar - processedLineBegin + 1;
+
+    return pos;
+}
+
+// ================================ //
+//
+sw::FilePosition					IDeserializer::CurrentLineNumber      () const
+{
+    auto& curNode = impl->valuesStack.top();
+	const char* fileFirstChar = impl->fileContent;
+	const char* nodeFirstChar = curNode->name();
+
+    return ComputeXmlPosition( fileFirstChar, nodeFirstChar );
+}
 
 

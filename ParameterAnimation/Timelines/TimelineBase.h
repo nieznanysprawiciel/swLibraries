@@ -5,7 +5,7 @@
 @copyright File is part of graphic engine SWEngine.
 */
 
-#include "swCommonLib/Common/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 #include "swCommonLib/ParameterAnimation/Timelines/TimelineTypes.h"
 
 #include <memory>
@@ -23,7 +23,7 @@ DEFINE_WPTR_TYPE( TimelineBase );
 /**@brief Base class for timelines.
 
 @ingroup Timelines*/
-class TimelineBase : public EngineObject
+class TimelineBase : public Object
 {
 private:
 protected:

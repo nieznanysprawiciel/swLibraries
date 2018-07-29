@@ -16,9 +16,13 @@ build/
 [Oo]bj/
 BuildDir/
 LibDir/
-Project/Documentation/
-Project/Documentation/
+Projects/Documentation/
 
+Projects/ReleaseDir/*
+!Projects/ReleaseDir/Serialization/
+
+Projects/ReleaseDir/Serialization/*
+!Projects/ReleaseDir/Serialization/TestInput/
 
 # Generated documentation
 Documentation/

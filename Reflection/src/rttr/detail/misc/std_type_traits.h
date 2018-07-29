@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -248,9 +248,12 @@ using decay_t = typename std::decay<T>::type;
 template<typename T>
 using add_const_t = typename std::add_const<T>::type;
 
+template<typename T>
+using add_lvalue_reference_t = typename std::add_lvalue_reference<T>::type;
+
 /////////////////////////////////////////////////////////////////////////////////////
 
 } // end namespace detail
 } // end namespace rttr
 
-#endif // RTTR_MISC_TYPE_TRAITS_H_
+#endif // RTTR_STD_TYPE_TRAITS_H_

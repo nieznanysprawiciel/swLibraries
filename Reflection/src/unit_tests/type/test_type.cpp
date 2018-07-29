@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -271,12 +271,23 @@ TEST_CASE("type - get_base_classes()", "[type]")
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+TEST_CASE("type - is_base_of()", "[type]")
+{
+    auto t_base = type::get<ClassSingleBase>();
+    auto t_derived = type::get<ClassSingle6A>();
+
+    CHECK(t_base.is_base_of(t_derived)          == true);
+    CHECK(t_base.is_base_of<ClassSingle6A>()    == true);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 TEST_CASE("type - is_derived_from()", "[type]")
 {
     DiamondBottom d;
 
-    REQUIRE(type::get(d).is_derived_from(type::get<DiamondTop>()) == true); // dynamic
-    REQUIRE(type::get(d).is_derived_from<DiamondTop>() == true); // static
+    REQUIRE(type::get(d).is_derived_from(type::get<DiamondTop>())   == true); // dynamic
+    REQUIRE(type::get(d).is_derived_from<DiamondTop>()              == true); // static
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -398,6 +409,7 @@ TEST_CASE("Test rttr::type - Check is_array", "[type]")
     CHECK(type::get<int[10]>().is_array()        == true);
     CHECK(type::get<char[10]>().is_array()       == true);
 
+    CHECK(type::get<char(*)[10]>().is_array()    == false);
     CHECK(type::get<int>().is_array()            == false);
     CHECK(type::get<float>().is_array()          == false);
     CHECK(type::get<int*>().is_array()           == false);
@@ -430,6 +442,23 @@ TEST_CASE("Test rttr::type - is_associative_container", "[type]")
     CHECK(type::get<char>().is_associative_container()           == false);
     CHECK(type::get<bool>().is_associative_container()           == false);
     CHECK(type::get<ClassSingle6A>().is_associative_container()  == false);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+TEST_CASE("Test rttr::type - is_sequential_container", "[type]")
+{
+    CHECK(type::get<std::vector<int>>().is_sequential_container()       == true);
+
+    CHECK(type::get<int>().is_sequential_container()            == false);
+    CHECK(type::get<float>().is_sequential_container()          == false);
+    CHECK(type::get<int*>().is_sequential_container()           == false);
+    CHECK(type::get<float*>().is_sequential_container()         == false);
+    CHECK(type::get<double>().is_sequential_container()         == false);
+    CHECK(type::get<char>().is_sequential_container()           == false);
+    CHECK(type::get<bool>().is_sequential_container()           == false);
+    CHECK(type::get<ClassSingle6A>().is_sequential_container()  == false);
+    CHECK((type::get<std::map<int, std::string>>().is_sequential_container()  == false));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -530,7 +559,7 @@ TEST_CASE("Test rttr::type - get_template_arguments()", "[type]")
         CHECK((type::get<my_class_template<int, bool, char>>().get_template_arguments().size() == 3));
     }
 
-    SECTION("invvalid test")
+    SECTION("invalid test")
     {
         CHECK(type::get<int>().get_template_arguments().size()                == 0);
         CHECK(type::get<ClassSingleBase>().get_template_arguments().size()    == 0);
@@ -565,6 +594,13 @@ TEST_CASE("Test rttr::type - Check custom wrapper type", "[type]")
     CHECK(type::get<custom_wrapper<int>>().get_wrapped_type()          == type::get<int>());
 
     CHECK(type::get<custom_wrapper<const int>>().get_wrapped_type()    == type::get<int>());
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+TEST_CASE("Test rttr::type - get_types()", "[type]")
+{
+    CHECK(type::get_types().size() > 1);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

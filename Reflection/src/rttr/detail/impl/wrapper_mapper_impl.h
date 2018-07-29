@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -56,6 +56,21 @@ struct wrapper_mapper<std::shared_ptr<T>>
     static RTTR_INLINE type create(const wrapped_type& t)
     {
         return type(t);
+    }
+
+    template<typename U>
+    static std::shared_ptr<U> convert(const type& source, bool& ok)
+    {
+        if (auto p = rttr_cast<typename std::shared_ptr<U>::element_type*>(source.get()))
+        {
+            ok = true;
+            return std::shared_ptr<U>(source, p);
+        }
+        else
+        {
+            ok = false;
+            return std::shared_ptr<U>();
+        }
     }
 };
 

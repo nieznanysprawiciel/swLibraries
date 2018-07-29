@@ -21,7 +21,7 @@ rttr::property			GetPropertyInternal	( TypeID ownerType, Size startOffset, Size 
 
 // ================================ //
 //
-std::vector< rttr::property >					Properties::GetPropertyPath	( EngineObject* object, const std::string& propertyPath, char separator )
+std::vector< rttr::property >					Properties::GetPropertyPath	( Object* object, const std::string& propertyPath, char separator )
 {
 	return GetPropertyPath( object, propertyPath, 0, separator );
 }
@@ -63,7 +63,7 @@ std::vector< rttr::property >					Properties::GetPropertyPath	( rttr::variant ob
 
 // ================================ //
 //
-std::pair< rttr::variant, rttr::property >		Properties::GetProperty		( EngineObject* object, const std::string& propertyPath, char separator )
+std::pair< rttr::variant, rttr::property >		Properties::GetProperty		( Object* object, const std::string& propertyPath, char separator )
 {
 	return GetProperty( rttr::variant( object ), propertyPath, 0, separator );
 }
@@ -99,7 +99,7 @@ std::pair< rttr::variant, rttr::property >		Properties::GetProperty		( rttr::var
 
 // ================================ //
 //
-std::pair< rttr::variant, rttr::property >		Properties::GetProperty		( EngineObject* object, const std::vector< rttr::property >& propertyPath )
+std::pair< rttr::variant, rttr::property >		Properties::GetProperty		( Object* object, const std::vector< rttr::property >& propertyPath )
 {
 	rttr::variant owner = object;
 
@@ -133,8 +133,8 @@ TypeID					Properties::GetRealType		( const rttr::variant& object )
 }
 
 /**@brief Gets real type of object.
-If class inherited EngineObject, we can check it's real type.*/
-TypeID					Properties::GetRealType		( EngineObject* object )
+If class inherited Object, we can check it's real type.*/
+TypeID					Properties::GetRealType		( Object* object )
 {
 	return object->GetType();
 }

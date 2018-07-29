@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -30,6 +30,13 @@
 #include <rttr/type>
 
 using namespace rttr;
+
+struct type_with_equal_operator
+{
+    int i;
+
+    bool operator ==(const type_with_equal_operator& other) const { return (i == other.i); }
+};
 
 struct type_with_no_equal_operator
 {
@@ -196,8 +203,8 @@ TEST_CASE("variant::operator==() - raw arrays", "[variant]")
 {
     SECTION("int - pos.")
     {
-        int array[2][5] = {{1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}};
-        int arrays[2][5] = {{1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}};
+        int array[2][5]     = {{1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}};
+        int arrays[2][5]    = {{1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}};
         variant a = array;
         variant b = arrays;
 
@@ -207,8 +214,8 @@ TEST_CASE("variant::operator==() - raw arrays", "[variant]")
 
     SECTION("int - neg.")
     {
-        int array[2][5] = {{1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}};
-        int arrays[2][5] = {{1, 2, 3, 4, 5}, {1, 2, 3, 0, 5}};
+        int array[2][5]     = {{1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}};
+        int arrays[2][5]    = {{1, 2, 3, 4, 5}, {1, 2, 3, 0, 5}};
         variant a = array;
         variant b = arrays;
 
@@ -218,8 +225,8 @@ TEST_CASE("variant::operator==() - raw arrays", "[variant]")
 
     SECTION("type_with_no_equal_operator")
     {
-        type_with_no_equal_operator array[5] = {1, 2, 3, 4, 5};
-        type_with_no_equal_operator arrays[5] = {1, 2, 3, 4, 5};
+        type_with_no_equal_operator array[5]    = {{1}, {2}, {3}, {4}, {5}};
+        type_with_no_equal_operator arrays[5]   = {{1}, {2}, {3}, {4}, {5}};
         variant a = array;
         variant b = arrays;
 
@@ -227,12 +234,57 @@ TEST_CASE("variant::operator==() - raw arrays", "[variant]")
         CHECK((a != b) == true);
     }
 
+    SECTION("type_with_equal_operator")
+    {
+        type_with_equal_operator array_a[5]     = {{1}, {2}, {3}, {4}, {5}};
+        type_with_equal_operator array_b[5]     = {{1}, {2}, {3}, {4}, {5}};
+        type_with_equal_operator array_c[5]     = {{1}, {2}, {0}, {4}, {5}};
+        type_with_equal_operator array_d[6]     = {{1}, {2}, {3}, {4}, {5}, {6} };
+        variant a = array_a;
+        variant b = array_b;
+        variant c = array_c;
+        variant d = array_d;
+
+        CHECK((a == b) == true);
+        CHECK((a != b) == false);
+
+        CHECK((a == c) == false);
+        CHECK((a == d) == false);
+    }
+
     SECTION("type_with_no_equal_operator")
     {
-        type_with_no_equal_operator array[5] = {1, 2, 3, 4, 5};
-        type_with_no_equal_operator arrays[5] = {1, 2, 3, 0, 5};
+        type_with_no_equal_operator array[5]    = {{1}, {2}, {3}, {4}, {5}};
+        type_with_no_equal_operator arrays[5]   = {{1}, {2}, {3}, {0}, {5}};
         variant a = array;
         variant b = arrays;
+
+        CHECK((a == b) == false);
+        CHECK((a != b) == true);
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+TEST_CASE("variant::operator==() - custom type with equal operator", "[variant]")
+{
+    SECTION("equal - type_with_equal_operator")
+    {
+        type_with_equal_operator value_1 = { 1 };
+        type_with_equal_operator value_2 = { 1 };
+        variant a = value_1;
+        variant b = value_2;
+
+        CHECK((a == b) == true);
+        CHECK((a != b) == false);
+    }
+
+    SECTION("not equal - type_with_equal_operator")
+    {
+        type_with_equal_operator value_1 = { 1 };
+        type_with_equal_operator value_2 = { 2 };
+        variant a = value_1;
+        variant b = value_2;
 
         CHECK((a == b) == false);
         CHECK((a != b) == true);
@@ -286,7 +338,6 @@ static std::string convert_to_string(const point& p, bool& ok)
 TEST_CASE("variant::operator==() - custom", "[variant]")
 {
     type::register_converter_func(convert_to_string);
-    type::register_equal_comparator<point>();
 
     SECTION("equal")
     {

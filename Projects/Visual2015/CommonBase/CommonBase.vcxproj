@@ -20,10 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Common\Converters.cpp" />
-    <ClCompile Include="..\..\..\Common\EngineObject.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\Semaphore.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\ThreadsBarrier.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\ThreadsLatch.cpp" />
+    <ClCompile Include="..\..\..\Common\Object.cpp" />
     <ClCompile Include="..\..\..\Common\Properties\Properties.cpp" />
     <ClCompile Include="..\..\..\System\Dir.cpp" />
     <ClCompile Include="..\..\..\System\File.cpp" />
@@ -32,7 +32,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Common\Config\ConfigHelper.h" />
     <ClInclude Include="..\..\..\Common\Converters.h" />
-    <ClInclude Include="..\..\..\Common\EngineObject.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Exception.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Nullable.h" />
     <ClInclude Include="..\..\..\Common\Logging\Logger.h" />
@@ -47,6 +46,7 @@
     <ClInclude Include="..\..\..\Common\Multithreading\ThreadsLatch.h" />
     <ClInclude Include="..\..\..\Common\Multithreading\UniqueLock.h" />
     <ClInclude Include="..\..\..\Common\Nullable.h" />
+    <ClInclude Include="..\..\..\Common\Object.h" />
     <ClInclude Include="..\..\..\Common\ObjectDeleter.h" />
     <ClInclude Include="..\..\..\Common\Properties\Containers\ICollection.h" />
     <ClInclude Include="..\..\..\Common\Properties\IEnableProperty.h" />
@@ -66,9 +66,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Reflection\Reflection.vcxproj">
       <Project>{59fa8028-2346-4246-854f-14dcfab6ab56}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Serialization\Serialization.vcxproj">
-      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

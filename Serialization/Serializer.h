@@ -6,27 +6,23 @@
 */
 
 #include "swCommonLib/Common/TypesDefinitions.h"
-#include "swCommonLib/Serialization/SerializationContext.h"
+#include "swCommonLib/Serialization/ISerializationContext.h"
 
 #include <string>
 #include <assert.h>
 #include <memory>
 
 
-/**@defgroup Serialization Serialization
-@ingroup CommonLibrary
-@brief Automatic serialization library based on rttr properties.*/
-
 
 
 struct SerializerImpl;
 
-/**@brief Tryb Zapisywania JSONa.
+/**@brief Writing to file mode.
 @ingroup Serialization*/
-enum class WritingMode
+enum class WritingMode : uint8
 {
-	Sparing,				///< Tryb oszczêdny bez spacji i tabulacji.
-	Readable				///< Tryb przeznaczony do czytania przez ludzi.
+	Sparing,				///< Mode without spaces and tabulations.
+	Readable				///< Mode for reading by people.
 };
 
 /**@brief Serializers interface.
@@ -36,10 +32,10 @@ class ISerializer
 {
 private:
 	SerializerImpl*								impl;
-	std::unique_ptr< SerializationContext >		context;
+	ISerializationContextPtr					context;
 protected:
 public:
-	explicit	ISerializer		( std::unique_ptr< SerializationContext > serContext );
+	explicit	ISerializer		( ISerializationContextPtr serContext );
 	virtual		~ISerializer	();
 
 	void		EnterObject		( const std::string& name );
@@ -65,7 +61,7 @@ public:
 
 	/**@brief Returns serialization context.
 
-	Check documentation for @ref SerializationContext for more information.
+	Check documentation for @ref ISerializationContext for more information.
 
 	Context type is checked only in debug mode (asserts).*/
 	template< typename ContextType >

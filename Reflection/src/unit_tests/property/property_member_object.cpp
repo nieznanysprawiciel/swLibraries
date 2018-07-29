@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -26,7 +26,7 @@
 *************************************************************************************/
 
 #include <rttr/registration>
-
+#include <rttr/registration_friend>
 #include <iostream>
 #include <memory>
 #include <functional>
@@ -44,7 +44,13 @@ struct property_member_obj_test
     property_member_obj_test()
     : _p1(0), _p3(1000, 42)
     {
+#if RTTR_COMPILER == RTTR_COMPILER_MSVC  && RTTR_COMP_VER <= 1800
+        const int tmp_array[4][4] = { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0} };
+        using array_t = rttr::detail::remove_const_t<rttr::detail::remove_reference_t<decltype(tmp_array)>>;
+        rttr::detail::copy_array(const_cast<array_t&>(tmp_array), _p11);
+#endif
     }
+
 
 
     int                 _p1;
@@ -55,21 +61,22 @@ struct property_member_obj_test
     const variant       _p8 = 23;
     int*                _p9 = nullptr;
     int*                _p10 = &_p1;
+#if RTTR_COMPILER == RTTR_COMPILER_MSVC  && RTTR_COMP_VER <= 1800
+    int                 _p11[4][4];
+#else
+    int                 _p11[4][4] = { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0} };
+#endif
 
 
+private:
+    property_member_obj_test& operator=(const property_member_obj_test& obj);
 
-    RTTR_REGISTRATION_FRIEND;
+    RTTR_REGISTRATION_FRIEND
 };
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // init static variables and some global functions added as properties to the test class
-
-
-
-static void my_callback(int)
-{
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -102,6 +109,7 @@ RTTR_REGISTRATION
         .property_readonly("p8", &property_member_obj_test::_p8)
         .property("p9", &property_member_obj_test::_p9)
         .property_readonly("p10", &property_member_obj_test::_p10)
+        .property("p11", &property_member_obj_test::_p11)
         ;
 }
 
@@ -119,8 +127,8 @@ TEST_CASE("property - class object", "[property]")
     // metadata
     CHECK(prop.is_readonly() == false);
     CHECK(prop.is_static() == false);
-    CHECK(prop.is_array() == false);
     CHECK(prop.get_type() == type::get<int>());
+    CHECK(prop.get_declaring_type() == type::get<property_member_obj_test>());
     CHECK(prop.get_access_level() == rttr::access_levels::public_access);
     CHECK(prop.get_metadata("Description") == "Some Text");
 
@@ -147,7 +155,6 @@ TEST_CASE("property - class object - read only", "[property]")
     // metadata
     CHECK(prop.is_readonly() == true);
     CHECK(prop.is_static() == false);
-    CHECK(prop.is_array() == false);
     CHECK(prop.get_type() == type::get<int>());
     CHECK(prop.get_access_level() == rttr::access_levels::public_access);
     CHECK(prop.get_metadata("Description") == "Some Text");
@@ -174,7 +181,7 @@ TEST_CASE("property - class object - bind as ptr", "[property]")
     // metadata
     CHECK(prop.is_readonly() == false);
     CHECK(prop.is_static() == false);
-    CHECK(prop.is_array() == true);
+    CHECK(prop.get_type().get_raw_type().is_sequential_container() == true);
     CHECK(prop.get_type() == type::get<std::vector<int>*>());
     CHECK(prop.get_access_level() == rttr::access_levels::public_access);
     CHECK(prop.get_metadata("Description") == "Some Text");
@@ -208,7 +215,7 @@ TEST_CASE("property - class object - read only - bind as ptr", "[property]")
     // metadata
     CHECK(prop.is_readonly() == true);
     CHECK(prop.is_static() == false);
-    CHECK(prop.is_array() == true);
+    CHECK(prop.get_type().get_raw_type().is_sequential_container() == true);
     CHECK(prop.get_type() == type::get<const std::vector<int>*>());
     CHECK(prop.get_access_level() == rttr::access_levels::public_access);
     CHECK(prop.get_metadata("Description") == "Some Text");
@@ -242,7 +249,7 @@ TEST_CASE("property - class object - as_reference_wrapper", "[property]")
     // metadata
     CHECK(prop.is_readonly() == false);
     CHECK(prop.is_static() == false);
-    CHECK(prop.is_array() == true);
+    CHECK(prop.get_type().get_wrapped_type().is_sequential_container() == true);
     CHECK(prop.get_type() == type::get<std::reference_wrapper<std::vector<int>>>());
     CHECK(prop.get_type().is_wrapper() == true);
     CHECK(prop.get_access_level() == rttr::access_levels::public_access);
@@ -257,10 +264,10 @@ TEST_CASE("property - class object - as_reference_wrapper", "[property]")
     // check array size
     variant var = prop.get_value(obj);
     CHECK(var.get_type().is_wrapper() == true);
-    CHECK(var.get_type().get_wrapped_type().is_array() == true);
-    auto array_view = var.create_array_view();
-    CHECK(array_view.get_size() == 1000);
-    CHECK(array_view.set_value(20, 42) == true);
+    CHECK(var.get_type().get_wrapped_type().is_sequential_container() == true);
+    auto view = var.create_sequential_view();
+    CHECK(view.get_size() == 1000);
+    CHECK(view.set_value(20, 42) == true);
 
     std::vector<int> some_vec(1, 12);
     CHECK(prop.set_value(obj, std::ref(some_vec)) == true);
@@ -285,7 +292,7 @@ TEST_CASE("property - class object - read only - as_reference_wrapper", "[proper
     // metadata
     CHECK(prop.is_readonly() == true);
     CHECK(prop.is_static() == false);
-    CHECK(prop.is_array() == true);
+    CHECK(prop.get_type().get_wrapped_type().is_sequential_container() == true);
     CHECK(prop.get_type() == type::get<std::reference_wrapper<const std::vector<int>>>());
     CHECK(prop.get_type().is_wrapper() == true);
     CHECK(prop.get_access_level() == rttr::access_levels::public_access);
@@ -300,10 +307,11 @@ TEST_CASE("property - class object - read only - as_reference_wrapper", "[proper
     // check array size
     variant var = prop.get_value(obj);
     CHECK(var.get_type().is_wrapper() == true);
-    CHECK(var.get_type().get_wrapped_type().is_array() == true);
-    auto array_view = var.create_array_view();
-    CHECK(array_view.get_size() == 50);
-    CHECK(array_view.set_value(20, 42) == false);
+    CHECK(var.get_type().get_wrapped_type().is_sequential_container() == true);
+    CHECK(var.is_sequential_container() == true);
+    auto view = var.create_sequential_view();
+    CHECK(view.get_size() == 50);
+    CHECK(view.set_value(20, 42) == false);
 
     std::vector<int> some_vec(1, 12);
     CHECK(prop.set_value(obj, std::cref(some_vec)) == false);
@@ -384,6 +392,28 @@ TEST_CASE("property - raw pointer as property", "[property]")
         CHECK(var.get_type() == type::get<int*>());
         CHECK(obj._p10 == var.get_value<int*>());
     }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+TEST_CASE("property - array property", "[property]")
+{
+    property_member_obj_test obj;
+    type t = type::get(obj);
+    auto prop = t.get_property("p11");
+    REQUIRE(prop.is_valid() == true);
+
+    auto var = prop.get_value(obj);
+    auto view = var.create_sequential_view();
+    CHECK(view.get_rank() == 2);
+    int line[4] = { 1, 2, 3, 4 };
+
+    CHECK(view.set_value(1, line) == true);
+    CHECK(view.set_value(2, line) == true);
+
+    CHECK(prop.set_value(obj, var) == true);
+    CHECK(var == obj._p11);
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

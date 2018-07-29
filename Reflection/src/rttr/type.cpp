@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -59,23 +59,16 @@ using namespace std;
 
 namespace rttr
 {
-namespace
-{
 
 /////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
-template<typename T>
-static array_range<T> get_items_for_type(const type& t,
-                                         const std::vector<T>& vec)
+type::type() RTTR_NOEXCEPT
+:   m_type_data(detail::get_invalid_type_data())
 {
-    return array_range<T>(vec.data(), vec.size(),
-                          detail::default_predicate<T>([t](const T& item) { return (item.get_declaring_type() == t); }) );
 }
 
-} // end anonymous namespace
-
-/////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 
 bool type::is_derived_from(const type& other) const RTTR_NOEXCEPT
@@ -178,7 +171,7 @@ array_range<type> type::get_derived_classes() const RTTR_NOEXCEPT
 
 array_range<type> type::get_types() RTTR_NOEXCEPT
 {
-    auto& type_list = detail::type_register_private::get_type_storage();
+    auto& type_list = detail::type_register_private::get_instance().get_type_storage();
     return array_range<type>(&type_list[1], type_list.size() - 1);
 }
 
@@ -362,7 +355,7 @@ array_range<method> type::get_methods(filter_items filter) const RTTR_NOEXCEPT
 
 property type::get_global_property(string_view name) RTTR_NOEXCEPT
 {
-    auto& prop_list = detail::type_register_private::get_global_property_storage();
+    auto& prop_list = detail::type_register_private::get_instance().get_global_property_storage();
     const auto ret = prop_list.find(name);
     if (ret != prop_list.end())
         return *ret;
@@ -374,7 +367,7 @@ property type::get_global_property(string_view name) RTTR_NOEXCEPT
 
 method type::get_global_method(string_view name) RTTR_NOEXCEPT
 {
-    auto& meth_list = detail::type_register_private::get_global_method_storage();
+    auto& meth_list = detail::type_register_private::get_instance().get_global_method_storage();
     const auto ret = meth_list.find(name);
     if (ret != meth_list.end())
         return *ret;
@@ -386,7 +379,7 @@ method type::get_global_method(string_view name) RTTR_NOEXCEPT
 
 method type::get_global_method(string_view name, const std::vector<type>& type_list) RTTR_NOEXCEPT
 {
-    auto& meth_list = detail::type_register_private::get_global_method_storage();
+    auto& meth_list = detail::type_register_private::get_instance().get_global_method_storage();
     auto itr = meth_list.find(name);
     while (itr != meth_list.end())
     {
@@ -407,7 +400,7 @@ method type::get_global_method(string_view name, const std::vector<type>& type_l
 
 array_range<method> type::get_global_methods() RTTR_NOEXCEPT
 {
-    auto& vec = detail::type_register_private::get_global_method_storage().value_data();
+    auto& vec = detail::type_register_private::get_instance().get_global_methods();
     return array_range<method>(vec.data(), vec.size());
 }
 
@@ -415,7 +408,7 @@ array_range<method> type::get_global_methods() RTTR_NOEXCEPT
 
 array_range<property> type::get_global_properties() RTTR_NOEXCEPT
 {
-    auto& vec = detail::type_register_private::get_global_property_storage().value_data();
+    auto& vec = detail::type_register_private::get_instance().get_global_properties();
     return array_range<property>(vec.data(), vec.size());
 }
 
@@ -423,7 +416,10 @@ array_range<property> type::get_global_properties() RTTR_NOEXCEPT
 
 enumeration type::get_enumeration() const RTTR_NOEXCEPT
 {
-    return detail::type_register_private::get_enumeration(*this);
+    if (m_type_data->enum_wrapper)
+        return detail::create_item<enumeration>(m_type_data->enum_wrapper);
+    else
+        return detail::create_invalid_item<enumeration>();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -447,7 +443,7 @@ variant type::invoke(string_view name, instance obj, std::vector<argument> args)
 
 variant type::invoke(string_view name, std::vector<argument> args)
 {
-    auto& meth_list = detail::type_register_private::get_global_method_storage();
+    auto& meth_list = detail::type_register_private::get_instance().get_global_method_storage();
     auto itr = meth_list.find(name);
     while (itr != meth_list.end())
     {
@@ -470,7 +466,7 @@ variant type::invoke(string_view name, std::vector<argument> args)
 
 type type::get_by_name(string_view name) RTTR_NOEXCEPT
 {
-    auto& custom_name_to_id = detail::type_register_private::get_custom_name_to_id();
+    auto& custom_name_to_id = detail::type_register_private::get_instance().get_custom_name_to_id();
     auto ret = custom_name_to_id.find(name);
     if (ret != custom_name_to_id.end())
         return (*ret);
@@ -482,7 +478,21 @@ type type::get_by_name(string_view name) RTTR_NOEXCEPT
 
 const detail::type_converter_base* type::get_type_converter(const type& target_type) const RTTR_NOEXCEPT
 {
-    return detail::type_register_private::get_converter(*this, target_type);
+    return detail::type_register_private::get_instance().get_converter(*this, target_type);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+const detail::type_comparator_base* type::get_equal_comparator() const RTTR_NOEXCEPT
+{
+    return detail::type_register_private::get_instance().get_equal_comparator(*this);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+const detail::type_comparator_base* type::get_less_than_comparator() const RTTR_NOEXCEPT
+{
+    return detail::type_register_private::get_instance().get_less_than_comparator(*this);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

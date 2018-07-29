@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -43,6 +43,14 @@ struct type_with_less_than_operator
     int i;
 
     bool operator<(const type_with_less_than_operator& rhs) const { return (i < rhs.i); }
+};
+
+template<typename T>
+struct template_type_with_less_than_operator
+{
+    T i;
+
+    bool operator<(const template_type_with_less_than_operator<T>& rhs) const { return (i < rhs.i); }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -179,6 +187,19 @@ TEST_CASE("variant::operator<() - double", "[variant]")
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+TEST_CASE("variant::operator<() - Non-template type", "[variant]")
+{
+    SECTION("lower < bigger")
+    {
+        variant a = type_with_less_than_operator{ 23 };
+        variant b = type_with_less_than_operator{ 42 };
+
+        CHECK((a < b) == true);
+        CHECK((b < a) == false);
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 TEST_CASE("variant::operator<() - template type - comparator registered", "[variant]")
 {
@@ -259,8 +280,8 @@ TEST_CASE("variant::operator<() - raw arrays", "[variant]")
 {
     SECTION("int - pos.")
     {
-        int array[2][5] = {{1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}};
-        int arrays[2][5] = {{1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}};
+        int array[2][5]     = {{1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}};
+        int arrays[2][5]    = {{1, 2, 3, 4, 5}, {1, 2, 3, 4, 5}};
         variant a = array;
         variant b = arrays;
 
@@ -270,8 +291,8 @@ TEST_CASE("variant::operator<() - raw arrays", "[variant]")
 
     SECTION("int - neg.")
     {
-        int array[2][5] = {{1, 2, 3, 4, 5}, {1, 2, 3, 0, 5}};
-        int arrays[2][5] = {{1, 2, 3, 4, 5}, {1, 2, 3, 5, 5}};
+        int array[2][5]     = {{1, 2, 3, 4, 5}, {1, 2, 3, 0, 5}};
+        int arrays[2][5]    = {{1, 2, 3, 4, 5}, {1, 2, 3, 5, 5}};
 
         variant a = array;
         variant b = arrays;
@@ -282,8 +303,8 @@ TEST_CASE("variant::operator<() - raw arrays", "[variant]")
 
     SECTION("type with no less than operator")
     {
-        type_with_no_less_than_operator array[5] = {1, 2, 3, 4, 5};
-        type_with_no_less_than_operator arrays[5] = {1, 2, 3, 4, 5};
+        type_with_no_less_than_operator array[5]    = {{1}, {2}, {3}, {0}, {5}};
+        type_with_no_less_than_operator arrays[5]   = {{1}, {2}, {3}, {4}, {5}};
         variant a = array;
         variant b = arrays;
 
@@ -292,22 +313,43 @@ TEST_CASE("variant::operator<() - raw arrays", "[variant]")
 
     SECTION("register less than operator - raw array")
     {
-        type_with_less_than_operator array[5] = {1, 2, 3, 0, 5};
-        type_with_less_than_operator arrays[5] = {1, 2, 3, 4, 5};
+        type_with_less_than_operator array[5]   = {{1}, {2}, {3}, {0}, {5}};
+        type_with_less_than_operator arrays[5]  = {{1}, {2}, {3}, {4}, {5}};
         variant a = array;
         variant b = arrays;
-
-        CHECK((a < b) == false);
-
-        type::register_less_than_comparator<type_with_less_than_operator>();
 
         CHECK((a < b) == true);
     }
 
+    SECTION("register less than operator - raw array with template type")
+    {
+        {
+            template_type_with_less_than_operator<int> array[5] = { { 1 }, { 2 }, { 3 }, { 0 }, { 5 } };
+            template_type_with_less_than_operator<int> arrays[5] = { { 1 }, { 2 }, { 3 }, { 4 }, { 5 } };
+            variant a = array;
+            variant b = arrays;
+
+            CHECK((a < b) == false);
+
+            type::register_less_than_comparator<template_type_with_less_than_operator<int>>();
+
+            CHECK((a < b) == true);
+        }
+
+        {
+            template_type_with_less_than_operator<int> array[5] = { { 1 }, { 2 }, { 3 }, { 5 }, { 5 } };
+            template_type_with_less_than_operator<int> arrays[5] = { { 1 }, { 2 }, { 3 }, { 4 }, { 5 } };
+            variant a = array;
+            variant b = arrays;
+
+            CHECK((a < b) == false);
+        }
+    }
+
     SECTION("register less than operator - std::array")
     {
-        std::array<int, 5> array_a = {1, 2, 0, 4, 5};
-        std::array<int, 5> array_b = {1, 2, 3, 4, 5};
+        std::array<int, 5> array_a = { {1, 2, 0, 4, 5} };
+        std::array<int, 5> array_b = { {1, 2, 3, 4, 5} };
 
         variant a = array_a;
         variant b = array_b;

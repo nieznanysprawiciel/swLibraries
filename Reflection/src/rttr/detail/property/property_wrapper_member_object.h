@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -52,7 +52,6 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, return_as_co
         bool is_readonly()  const RTTR_NOEXCEPT                 { return false; }
         bool is_static()    const RTTR_NOEXCEPT                 { return false; }
         type get_type()     const RTTR_NOEXCEPT                 { return type::get<A>(); }
-        bool is_array()     const RTTR_NOEXCEPT                 { return detail::is_array<A>::value; }
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
@@ -60,7 +59,7 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, return_as_co
         {
             C* ptr = object.try_convert<C>();
             if (ptr && arg.is_type<A>())
-                return property_accessor<A>::set_value((ptr->*m_acc), arg);
+                return property_accessor<A>::set_value((ptr->*m_acc), arg.get_value<A>());
             else
                 return false;
         }
@@ -102,7 +101,6 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, return_as_co
         bool is_readonly()  const RTTR_NOEXCEPT                 { return true; }
         bool is_static()    const RTTR_NOEXCEPT                 { return false; }
         type get_type()     const RTTR_NOEXCEPT                 { return type::get<A>(); }
-        bool is_array()     const RTTR_NOEXCEPT                 { return detail::is_array<A>::value; }
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
@@ -149,7 +147,6 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, return_as_pt
         bool is_readonly()  const RTTR_NOEXCEPT                 { return false; }
         bool is_static()    const RTTR_NOEXCEPT                 { return false; }
         type get_type()     const RTTR_NOEXCEPT                 { return type::get<A*>(); }
-        bool is_array()     const RTTR_NOEXCEPT                 { return detail::is_array<A>::value; }
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
@@ -158,8 +155,7 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, return_as_pt
             C* ptr = object.try_convert<C>();
             if (ptr && arg.is_type<A*>())
             {
-                (ptr->*m_acc) = *arg.get_value<A*>();
-                return true;
+                return property_accessor<A>::set_value((ptr->*m_acc), *arg.get_value<A*>());
             }
             else
             {
@@ -204,7 +200,6 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, return_as_pt
         bool is_readonly()  const RTTR_NOEXCEPT                 { return true; }
         bool is_static()    const RTTR_NOEXCEPT                 { return false; }
         type get_type()     const RTTR_NOEXCEPT                 { return type::get<typename std::add_const<A>::type*>(); }
-        bool is_array()     const RTTR_NOEXCEPT                 { return detail::is_array<A>::value; }
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
@@ -251,7 +246,6 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, get_as_ref_w
         bool is_readonly()  const RTTR_NOEXCEPT                 { return false; }
         bool is_static()    const RTTR_NOEXCEPT                 { return false; }
         type get_type()     const RTTR_NOEXCEPT                 { return type::get<std::reference_wrapper<A>>(); }
-        bool is_array()     const RTTR_NOEXCEPT                 { return detail::is_array<A>::value; }
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 
@@ -259,13 +253,9 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, get_as_ref_w
         {
             C* ptr = object.try_convert<C>();
             if (ptr && arg.is_type<std::reference_wrapper<A>>())
-            {
-                return property_accessor<std::reference_wrapper<A>>::set_value((ptr->*m_acc), arg);
-            }
+                return property_accessor<A>::set_value((ptr->*m_acc), arg.get_value<std::reference_wrapper<A>>().get());
             else
-            {
                 return false;
-            }
         }
 
         variant get_value(instance& object) const
@@ -305,7 +295,6 @@ class property_wrapper<member_object_ptr, A(C::*), void, Acc_Level, get_as_ref_w
         bool is_readonly()  const RTTR_NOEXCEPT                 { return true; }
         bool is_static()    const RTTR_NOEXCEPT                 { return false; }
         type get_type()     const RTTR_NOEXCEPT                 { return type::get< std::reference_wrapper<add_const_t<A>> >(); }
-        bool is_array()     const RTTR_NOEXCEPT                 { return detail::is_array<A>::value; }
 
         variant get_metadata(const variant& key) const { return metadata_handler<Metadata_Count>::get_metadata(key); }
 

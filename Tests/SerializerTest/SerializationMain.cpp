@@ -28,7 +28,7 @@
 
 int main()
 {
-	ISerializer serializer( std::make_unique< SerializationContext >() );
+	ISerializer serializer( std::make_unique< ISerializationContext >() );
 
 	serializer.SetAttribute( "FreeValue", "value" );	// Nie pojawi siê w XMLu.
 	serializer.EnterObject( "FirstObject" );

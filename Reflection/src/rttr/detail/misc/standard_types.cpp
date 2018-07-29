@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -31,6 +31,7 @@
 #include <map>
 #include <list>
 #include <set>
+#include <string>
 
 // explicit instantiation of std::string needed, otherwise we get a linker error with clang on osx
 // thats a bug in libc++, because of interaction with __attribute__ ((__visibility__("hidden"), __always_inline__)) in std::string
@@ -61,10 +62,12 @@ RTTR_REGISTRATION
     RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS(double)
     RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS(long double)
     RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS(std::string)
-    type::get<std::vector<bool>>();
-    type::get<std::vector<int>>();
-    type::get<std::vector<float>>();
-    type::get<std::vector<double>>();
+
+    registration::class_<std::vector<bool>>("std::vector<bool>");
+    registration::class_<std::vector<int>>("std::vector<int>");
+    registration::class_<std::vector<float>>("std::vector<float>");
+    registration::class_<std::vector<double>>("std::vector<double>");
+
 
     registration::class_<std::string>("std::string")
                 .constructor<>()
@@ -73,20 +76,5 @@ RTTR_REGISTRATION
                 .constructor<const char*>()
                 .constructor<const char*, unsigned int>()
                 .constructor<unsigned int, char>()
-                .method("length",       &std::string::length)
-                .method("size",         &std::string::size)
-                .method("empty",        &std::string::empty)
-#if RTTR_COMPILER == RTTR_COMPILER_MSVC && RTTR_ARCH_TYPE == RTTR_ARCH_32
-                .method("at",           static_cast<char&(std::string::*)(std::size_t)>(&std::string::at))
-                .method("at",           static_cast<const char&(std::string::*)(std::size_t) const>(&std::string::at))
-                .method("operator[]",   static_cast<char&(std::string::*)(std::size_t)>(&std::string::operator[]))
-                .method("operator[]",   static_cast<const char&(std::string::*)(std::size_t) const>(&std::string::operator[]))
-#else
-                .method("at",           rttr::select_const(&std::string::at))
-                .method("at",           rttr::select_non_const(&std::string::at))
-                .method("operator[]",   rttr::select_overload<char&(size_t)>(&std::string::operator[]))
-                .method("operator[]",   rttr::select_non_const(&std::string::operator[]))
-#endif
-                .method("data",         &std::string::data)
-                .method("c_str",        &std::string::c_str);
+                ;
 }

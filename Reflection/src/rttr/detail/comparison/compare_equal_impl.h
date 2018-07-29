@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -48,28 +48,29 @@ namespace detail
  *         otherwise this function will return false.
  */
 template<typename T>
-RTTR_INLINE typename std::enable_if<is_comparable_type<T>::value && !std::is_array<T>::value, bool>::type
-compare_equal(const T& lhs, const T& rhs)
+RTTR_INLINE typename std::enable_if<is_equal_comparable<T>::value && !std::is_array<T>::value, bool>::type
+compare_equal(const T& lhs, const T& rhs, bool& ok)
 {
+    ok = true;
     return (lhs == rhs);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-RTTR_INLINE typename std::enable_if<!is_comparable_type<T>::value && !std::is_array<T>::value, bool>::type
-compare_equal(const T& lhs, const T& rhs)
+RTTR_INLINE typename std::enable_if<!is_equal_comparable<T>::value && !std::is_array<T>::value, bool>::type
+compare_equal(const T& lhs, const T& rhs, bool& ok)
 {
-    return compare_types_equal(&lhs, &rhs, type::get<T>());
+    return compare_types_equal(&lhs, &rhs, type::get<T>(), ok);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-RTTR_INLINE typename std::enable_if<!is_comparable_type<T>::value && std::is_array<T>::value, bool>::type
-compare_equal(const T& lhs, const T& rhs)
+RTTR_INLINE typename std::enable_if<!is_equal_comparable<T>::value && std::is_array<T>::value, bool>::type
+compare_equal(const T& lhs, const T& rhs, bool& ok)
 {
-    return compare_array_equal(lhs, rhs);
+    return compare_array_equal(lhs, rhs, ok);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

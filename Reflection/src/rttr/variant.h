@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -42,8 +42,8 @@
 namespace rttr
 {
 
-class variant_array_view;
 class variant_associative_view;
+class variant_sequential_view;
 class type;
 class variant;
 class argument;
@@ -51,6 +51,11 @@ class instance;
 
 namespace detail
 {
+    template<class T>
+    RTTR_INLINE T* unsafe_variant_cast(variant* operand) RTTR_NOEXCEPT;
+    template<class T>
+    RTTR_INLINE const T* unsafe_variant_cast(const variant* operand) RTTR_NOEXCEPT;
+
     struct data_address_container;
     template<typename T>
     struct empty_type_converter;
@@ -62,8 +67,7 @@ namespace detail
     enum class variant_policy_operation : uint8_t;
 
     template<typename T, typename Decayed = decay_except_array_t<T>>
-    using decay_variant_t = enable_if_t<!std::is_same<Decayed, variant>::value &&
-                                        !std::is_same<Decayed, variant_array_view>::value, Decayed>;
+    using decay_variant_t = enable_if_t<!std::is_same<Decayed, variant>::value, Decayed>;
 
     using variant_policy_func = bool (*)(variant_policy_operation, const variant_data&, argument_wrapper);
 }
@@ -254,6 +258,8 @@ class RTTR_API variant
          *         you need to register the comparison operator to the type system with \ref type::register_comparators<T>().
          *         The reason for that is, template types might define the `==` operator, but not the contained template type.
          *
+         * \note Comparability might not be available for the type stored in this variant or in \p other.
+         *
          * \see \ref variant::operator!=(const variant&) const "operator!="
          *
          * \return A boolean with value `true`, that indicates both variant's are equal, otherwise `false`.
@@ -266,6 +272,8 @@ class RTTR_API variant
          * \remark In order to use this function with template types, like `std::tuple<int, std::string>`,
          *         you need to register the comparison operator to the type system with \ref type::register_comparators<T>().
          *         The reason for that is, template types might define the `!=` operator, but not the contained template type.
+         *
+         * \note Comparability might not be available for the type stored in this variant or in \p other.
          *
          * \see \ref variant::operator==(const variant&) const "operator=="
          *
@@ -283,11 +291,58 @@ class RTTR_API variant
          *         you need to register the comparison operator to the type system with \ref type::register_comparators<T>().
          *         The reason for that is, template types might define the `<` operator, but not the contained template type.
          *
+         * \note Comparability might not be available for the type stored in this variant or in \p other.
+         *
          * \see \ref variant::operator>(const variant&) const "operator\>"
          *
          * \return A boolean with value `true`, that indicates that this variant is *less than* \p other, otherwise `false`.
          */
         RTTR_INLINE bool operator<(const variant& other) const;
+
+
+        /*!
+         * \brief Compares this variant with \p other and returns `true` if this is *less* or *equal* than \p other, otherwise returns `false`.
+         *
+         * The variant uses the *less than* and equality operator of the containing \ref get_type() "type"
+         * to get the result of the comparision.
+         *
+         * \note Comparability might not be available for the type stored in this variant or in \p other.
+         *
+         * \see \ref variant::operator<(const variant&) const "operator\<",
+         *      \ref variant::operator==(const variant&) const "operator\=="
+         *
+         * \return A boolean with value `true`, that indicates that this variant is *less* or *equal* than \p other, otherwise `false`.
+         */
+        RTTR_INLINE bool operator<=(const variant& other) const;
+
+        /*!
+         * \brief Compares this variant with \p other and returns `true` if this is *greater* or *equal* then \p other, otherwise returns `false`.
+         *
+         * The variant uses the *greater than* and equality operator of the containing \ref get_type() "type"
+         * to get the result of the comparision.
+         *
+         * \note Comparability might not be available for the type stored in this variant or in \p other.
+         *
+         * \see \ref variant::operator>(const variant&) const "operator\>",
+         *      \ref variant::operator==(const variant&) const "operator\=="
+         *
+         * \return A boolean with value `true`, that indicates that this variant is *greater* or *equal* than \p other, otherwise `false`.
+         */
+        RTTR_INLINE bool operator>=(const variant& other) const;
+
+        /*!
+         * \brief Compares this variant with \p other and returns `true` if this is *greater than* \p other, otherwise returns `false`.
+         *
+         * The variant uses the *less than* and equality operator of the containing \ref get_type() "type"
+         * to get the result of the comparision.
+         *
+         * \note Comparability might not be available for the type stored in this variant or in \p other.
+         *
+         * \see \ref variant::operator<(const variant&) const "operator\<"
+         *
+         * \return A boolean with value `true`, that indicates that this variant is *greater than* \p other, otherwise `false`.
+         */
+        RTTR_INLINE bool operator>(const variant& other) const;
 
         /*!
          * \brief When the variant contains a value, then this function will clear the content.
@@ -341,21 +396,46 @@ class RTTR_API variant
         explicit operator bool() const;
 
         /*!
-         * \brief When the \ref variant::get_type "type" or its \ref type::get_raw_type() "raw type"
-         *        or the \ref type::get_wrapped_type() "wrapped type" is an \ref type::is_array() "array",
-         *        then this function will return true, otherwise false.
-         *
-         * \return True if the containing value is an array; otherwise false.
-         */
-        bool is_array() const;
-
-        /*!
          * \brief Returns true, when for the underlying or the \ref type::get_wrapped_type() "wrapped type"
          *        an associative_mapper exists.
          *
          * \return True if the containing value is an associative container; otherwise false.
          */
         bool is_associative_container() const;
+
+        /*!
+         * \brief Returns true, when for the underlying or the \ref type::get_wrapped_type() "wrapped type"
+         *        an sequential_mapper exists.
+         *
+         * \return True if the containing value is an sequentail container; otherwise false.
+         */
+        bool is_sequential_container() const;
+
+        /*!
+         * \brief Returns a reference to the containing value as type \p T.
+         *
+         * \code{.cpp}
+         *  struct custom_type
+         *  {
+         *     //...
+         *  };
+         *
+         *  variant var = custom_type{};
+         *  if (var.is_type<custom_type>())                         // yields to true
+         *      custom_type& value = var.get_value<custom_type>();  // extracts the value by reference
+         * \endcode
+         *
+         * \remark Only call this method when it is possible to return the containing value as the given type \p T.
+         *         Use therefore the method \ref is_type().
+         *         Otherwise the call leads to undefined behaviour.
+         *         Also make sure you don't clean this variant, when you still hold a reference to the containing value.
+         *
+         * \see is_type(), variant_cast<T>
+         *
+         * \return A reference to the stored value.
+         */
+        template<typename T>
+        T& get_value();
 
         /*!
          * \brief Returns a reference to the containing value as type \p T.
@@ -376,7 +456,7 @@ class RTTR_API variant
          *         Otherwise the call leads to undefined behaviour.
          *         Also make sure you don't clean this variant, when you still hold a reference to the containing value.
          *
-         * \see is_type()
+         * \see is_type(), variant_cast<T>
          *
          * \return A reference to the stored value.
          */
@@ -548,31 +628,6 @@ class RTTR_API variant
         bool convert(T& value) const;
 
         /*!
-         * \brief Creates a \ref variant_array_view from the containing value,
-         *        when the \ref variant::get_type "type" or its \ref type::get_raw_type() "raw type"
-         *        or the \ref type::get_wrapped_type() "wrapped type" is an \ref type::is_array() "array".
-         *        Otherwise a default constructed variant_array_view will be returned.
-         *        For shorten this check, use the function \ref is_array().
-         *
-         * A typical example is the following:
-         *
-         * \code{.cpp}
-         *   int obj_array[100];
-         *   variant var = obj_array;                           // copies the content of obj_array into var
-         *   variant_array_view view = var.create_array_view(); // creates a view of the hold array in the variant (data is not copied!)
-         *   std::size_t x = view.get_size();                   // return number of elements x = 100
-         *   view.set_value(0, 42);                             // set the first index to the value 42
-         * \endcode
-         *
-         * \remark This function will return an \ref variant_array_view::is_valid() "invalid" object, when the \ref variant::get_type "type" is no array.
-         *
-         * \return A variant_array_view object.
-         *
-         * \see can_convert(), convert()
-         */
-        variant_array_view create_array_view() const;
-
-        /*!
          * \brief Creates a \ref variant_associative_view from the containing value,
          *        when the \ref variant::get_type "type" or its \ref type::get_raw_type() "raw type"
          *        or the \ref type::get_wrapped_type() "wrapped type" is an \ref type::is_associative_container() "associative container".
@@ -604,6 +659,37 @@ class RTTR_API variant
          * \see can_convert(), convert()
          */
         variant_associative_view create_associative_view() const;
+
+        /*!
+         * \brief Creates a \ref variant_sequential_view from the containing value,
+         *        when the \ref variant::get_type "type" or its \ref type::get_raw_type() "raw type"
+         *        or the \ref type::get_wrapped_type() "wrapped type" is an \ref type::is_sequential_container() "sequential container".
+         *        Otherwise a default constructed variant_sequential_view will be returned.
+         *
+         * A typical example is the following:
+         *
+         * \code{.cpp}
+         *  std::vector<int> my_vec = { 1, 2, 3, 4, 5};
+         *  variant var = my_vec; // copies data into variant
+         *  if (var.is_sequential_container())
+         *  {
+         *      variant_sequential_view view = var.create_sequential_view();  // performs no copy of the underlying vector
+         *      std::cout << view.get_size() << std::endl;  // prints: '5'
+         *      for (const auto& item : view) // iterates over all elements of the std::vector<T>
+         *      {
+         *          // remark that the value is stored inside a 'std::reference_wrapper', however there is an automatic conversion for wrapper classes implemented.
+         *          std::cout << "data: " << item.to_string() << " ";
+         *      }
+         *  }
+         * \endcode
+         *
+         * \remark This function will return an \ref variant_sequential_view::is_valid() "invalid" object, when the \ref variant::get_type "type" is no sequential container.
+         *
+         * \return A variant_sequential_view object.
+         *
+         * \see can_convert(), convert()
+         */
+        variant_sequential_view create_sequential_view() const;
 
         /*!
          * \brief Returns the variant as a `bool` if this variant is of \ref is_type() "type" `bool`.
@@ -938,16 +1024,20 @@ class RTTR_API variant
         /*!
          * \brief Compares the containing and the given variant \p other for equality.
          *
+         * \param ok \p ok is set to `true` if the value could be compared; otherwise \p ok is set to `false`.
+         *
          * \return A boolean with value `true`, that indicates both variant's are equal, otherwise `false`.
          */
-        bool compare_equal(const variant& other) const;
+        bool compare_equal(const variant& other, bool& ok) const;
 
         /*!
          * \brief Compares the containing and the given variant \p other for less than.
          *
+         * \param ok \p ok is set to `true` if the value could be compared; otherwise \p ok is set to `false`.
+         *
          * \return A boolean with value `true`, that indicates this variant is less than the \p other, otherwise `false`.
          */
-        bool compare_less(const variant& other) const;
+        bool compare_less(const variant& other, bool& ok) const;
 
         /*!
          * \brief A function to check whether the contained pointer type is a `nullptr` or not.
@@ -966,13 +1056,107 @@ class RTTR_API variant
         template<typename T, typename Tp, typename Converter>
         friend struct detail::variant_data_base_policy;
         friend struct detail::variant_data_policy_nullptr_t;
-        friend RTTR_API bool detail::variant_compare_less(const variant&, const type&, const variant&, const type&);
+        friend RTTR_API bool detail::variant_compare_less(const variant&, const type&, const variant&, const type&, bool& ok);
+        template<class T>
+        friend RTTR_INLINE T* detail::unsafe_variant_cast(variant* operand) RTTR_NOEXCEPT;
+
 
         detail::variant_data            m_data;
         detail::variant_policy_func     m_policy;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+/*!
+ * \brief Returns a reference to the containing value as type \p T.
+ *
+ * \code{.cpp}
+ *
+ *  variant var = std::string("hello world");
+ *  std:string& value_ref = variant_cast<std::string&>(var);  // extracts the value by reference
+ *  std:string value = variant_cast<std::string>(var);        // copies the value
+ *
+ * \endcode
+ *
+ * \remark Extracting a value type, which is not stored in the variant, leads to undefined behaviour.
+ *         No exception or error code will be returned!
+ */
+template<class T>
+T variant_cast(const variant& operand);
+
+/*!
+ * \brief Returns a reference to the containing value as type \p T.
+ *
+ * \code{.cpp}
+ *
+ *  variant var = std::string("hello world");
+ *  std::string& value_ref = variant_cast<std::string&>(var);  // extracts the value by reference
+ *  std::string value = variant_cast<std::string>(var);        // copies the value
+ *
+ * \endcode
+ *
+ * \remark Extracting a value type, which is not stored in the variant, leads to undefined behaviour.
+ *         No exception or error code will be returned!
+ */
+template<class T>
+T variant_cast(variant& operand);
+
+/*!
+ * \brief Move the containing value from the variant into a type \p T.
+ *
+ * \code{.cpp}
+ *
+ *  variant var = std::string("hello world");
+ *  std::string& a = variant_cast<std::string&>(var);
+ *  std::string b = variant_cast<std::string>(std::move(var)); // move the value to 'b'
+ *  std::cout << "a: " << a << std::endl; // is now empty (nothing to print)
+ *  std::cout << "b: " << b << std::endl; // prints "hello world"
+ *
+ * \endcode
+ *
+ * \remark Extracting a value type, which is not stored in the variant, leads to undefined behaviour.
+ *         No exception or error code will be returned!
+ */
+template<class T>
+T variant_cast(variant&& operand);
+
+/*!
+ * \brief Returns a pointer to the containing value with type \p T.
+ *        When the containing value is of type \p T, a valid pointer to the type will be returned.
+ *        Otherwise a `nullptr` is returned.
+ *
+ * \code{.cpp}
+ *
+ *  variant var = std::string("hello world");
+ *  std:string* a = variant_cast<std::string>(&var);  // performs an internal type check and returns the value by reference
+ *  int* b        = variant_cast<int>(&var);
+ *  std::cout << "a valid: " << a != nullptr << std::endl;  // prints "1"
+ *  std::cout << "b valid: " << b != nullptr << std::endl;  // prints "0"
+ * \endcode
+ *
+ * \return A valid pointer, when the containing type is of type \p T; otherwise a `nullptr`.
+ */
+template<class T>
+const T* variant_cast(const variant* operand) RTTR_NOEXCEPT;
+
+/*!
+ * \brief Returns a pointer to the containing value with type \p T.
+ *        When the containing value is of type \p T, a valid pointer to the type will be returned.
+ *        Otherwise a `nullptr` is returned.
+ *
+ * \code{.cpp}
+ *
+ *  variant var = std::string("hello world");
+ *  std:string* a = variant_cast<std::string>(&var);  // performs an internal type check and returns the value by reference
+ *  int* b        = variant_cast<int>(&var);
+ *  std::cout << "a valid: " << a != nullptr << std::endl;  // prints "1"
+ *  std::cout << "b valid: " << b != nullptr << std::endl;  // prints "0"
+ * \endcode
+ *
+ * \return A valid pointer, when the containing type is of type \p T; otherwise a `nullptr`.
+ */
+template<class T>
+T* variant_cast(variant* operand) RTTR_NOEXCEPT;
 
 } // end namespace rttr
 

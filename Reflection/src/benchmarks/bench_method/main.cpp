@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -29,7 +29,7 @@ extern void bench_method();
 extern void bench_invoke_method();
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int main(int argc, char** argv)
+int main(int /* argc */, char** /* argv */)
 {
     bench_method();
     bench_invoke_method();

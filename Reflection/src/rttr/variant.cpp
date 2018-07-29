@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -28,8 +28,8 @@
 #include "rttr/variant.h"
 
 #include "rttr/detail/variant/variant_data_policy.h"
-#include "rttr/variant_array_view.h"
 #include "rttr/variant_associative_view.h"
+#include "rttr/variant_sequential_view.h"
 #include "rttr/argument.h"
 
 #include <algorithm>
@@ -122,16 +122,17 @@ variant& variant::operator=(variant&& other)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool variant::compare_equal(const variant& other) const
+bool variant::compare_equal(const variant& other, bool& ok) const
 {
-    return m_policy(detail::variant_policy_operation::COMPARE_EQUAL, m_data, std::tie(*this, other));
+    ok = false;
+    return m_policy(detail::variant_policy_operation::COMPARE_EQUAL, m_data, std::tie(*this, other, ok));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool variant::compare_less(const variant& other) const
+bool variant::compare_less(const variant& other, bool& ok) const
 {
-    return m_policy(detail::variant_policy_operation::COMPARE_LESS, m_data,  std::tie(*this, other));
+    return m_policy(detail::variant_policy_operation::COMPARE_LESS, m_data,  std::tie(*this, other, ok));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -158,16 +159,16 @@ variant::operator bool() const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool variant::is_array() const
+bool variant::is_associative_container() const
 {
-    return m_policy(detail::variant_policy_operation::IS_ARRAY, m_data, detail::argument_wrapper());
+    return m_policy(detail::variant_policy_operation::IS_ASSOCIATIVE_CONTAINER, m_data, detail::argument_wrapper());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool variant::is_associative_container() const
+bool variant::is_sequential_container() const
 {
-    return m_policy(detail::variant_policy_operation::IS_ASSOCIATIVE_CONTAINER, m_data, detail::argument_wrapper());
+    return m_policy(detail::variant_policy_operation::IS_SEQUENTIAL_CONTAINER, m_data, detail::argument_wrapper());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -199,19 +200,19 @@ variant variant::create_wrapped_value(const type& wrapped_type) const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant_array_view variant::create_array_view() const
+variant_associative_view variant::create_associative_view() const
 {
-    variant_array_view result;
-    m_policy(detail::variant_policy_operation::TO_ARRAY, m_data, result.m_array_wrapper);
+    variant_associative_view result;
+    m_policy(detail::variant_policy_operation::CREATE_ASSOCIATIV_VIEW, m_data, result.m_view);
     return result;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-variant_associative_view variant::create_associative_view() const
+variant_sequential_view variant::create_sequential_view() const
 {
-    variant_associative_view result;
-    m_policy(detail::variant_policy_operation::CREATE_ASSOCIATIV_VIEW, m_data, result.m_view);
+    variant_sequential_view result;
+    m_policy(detail::variant_policy_operation::CREATE_SEQUENTIAL_VIEW, m_data, result.m_view);
     return result;
 }
 
@@ -230,7 +231,7 @@ bool variant::can_convert(const type& target_type) const
 
     if (source_type.get_pointer_dimension() == 1 && target_type.get_pointer_dimension() == 1)
     {
-        if (void * ptr = type::apply_offset(get_raw_ptr(), source_type, target_type))
+        if (type::apply_offset(get_raw_ptr(), source_type, target_type))
             return true;
     }
 
@@ -298,79 +299,79 @@ bool variant::convert(const type& target_type, variant& target_var) const
         if (target_type == type::get<bool>())
         {
             bool value;
-            if ((ok = try_basic_type_conversion(value)))
+            if ((ok = try_basic_type_conversion(value)) == true)
                 target_var = value;
         }
         else if (target_type == type::get<char>())
         {
             char value;
-            if ((ok = try_basic_type_conversion(value)))
+            if ((ok = try_basic_type_conversion(value)) == true)
                 target_var = value;
         }
         else if (target_type == type::get<int8_t>())
         {
             int8_t value;
-            if ((ok = try_basic_type_conversion(value)))
+            if ((ok = try_basic_type_conversion(value)) == true)
                 target_var = value;
         }
         else if (target_type == type::get<int16_t>())
         {
             int16_t value;
-            if ((ok = try_basic_type_conversion(value)))
+            if ((ok = try_basic_type_conversion(value)) == true)
                 target_var = value;
         }
         else if (target_type == type::get<int32_t>())
         {
             int32_t value;
-            if ((ok = try_basic_type_conversion(value)))
+            if ((ok = try_basic_type_conversion(value)) == true)
                 target_var = value;
         }
         else if (target_type == type::get<int64_t>())
         {
             int64_t value;
-            if ((ok = try_basic_type_conversion(value)))
+            if ((ok = try_basic_type_conversion(value)) == true)
                 target_var = value;
         }
         else if (target_type == type::get<uint8_t>())
         {
             uint8_t value;
-            if ((ok = try_basic_type_conversion(value)))
+            if ((ok = try_basic_type_conversion(value)) == true)
                 target_var = value;
         }
         else if (target_type == type::get<uint16_t>())
         {
             uint16_t value;
-            if ((ok = try_basic_type_conversion(value)))
+            if ((ok = try_basic_type_conversion(value)) == true)
                 target_var = value;
         }
         else if (target_type == type::get<uint32_t>())
         {
             uint32_t value;
-            if ((ok = try_basic_type_conversion(value)))
+            if ((ok = try_basic_type_conversion(value)) == true)
                 target_var = value;
         }
         else if (target_type == type::get<uint64_t>())
         {
             uint64_t value;
-            if ((ok = try_basic_type_conversion(value)))
+            if ((ok = try_basic_type_conversion(value)) == true)
                 target_var = value;
         }
         else if (target_type == type::get<float>())
         {
             float value;
-            if ((ok = try_basic_type_conversion(value)))
+            if ((ok = try_basic_type_conversion(value)) == true)
                 target_var = value;
         }
         else if (target_type == type::get<double>())
         {
             double value;
-            if ((ok = try_basic_type_conversion(value)))
+            if ((ok = try_basic_type_conversion(value)) == true)
                 target_var = value;
         }
         else if (target_type == string_type)
         {
             std::string value;
-            if ((ok = try_basic_type_conversion(value)))
+            if ((ok = try_basic_type_conversion(value)) == true)
                 target_var = std::move(value);
         }
     }
@@ -379,7 +380,7 @@ bool variant::convert(const type& target_type, variant& target_var) const
     {
         variant var = target_type;
         auto wrapper = std::ref(var);
-        if ((ok = try_basic_type_conversion(wrapper)))
+        if ((ok = try_basic_type_conversion(wrapper)) == true)
             target_var = std::move(var);
     }
     else

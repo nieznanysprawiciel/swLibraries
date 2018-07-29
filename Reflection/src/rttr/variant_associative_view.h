@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -51,7 +51,7 @@ namespace rttr
  * without having access to the type declaration of the type or it's elements.
  *
  * A \ref variant_associative_view can be created directly from a \ref variant with its member function \ref variant::create_associative_view() "create_associative_view()".
- * \remark The instance of an variant_associative_view is always valid till the referenced \ref variant is valid, otherwise accessing a variant_associative_view
+ * \remark The instance of an variant_associative_view is always valid as long as the referenced \ref variant is valid, otherwise accessing a variant_associative_view
  *         is undefined behaviour.
  *
  * Meta Information
@@ -169,6 +169,18 @@ class RTTR_API variant_associative_view
          * \return \ref type "Type" from the value of the associative container.
          */
         type get_value_type() const RTTR_NOEXCEPT;
+
+        /*!
+         * \brief Returns `true`, when this associative container stores only keys.
+         *        When also value are stored, it will return `false`.
+         *
+         * For example an `std::set` has no values, it's a key-only associative container. Then this method returns `true`.
+         * An `std::map<K,V>` on the other hand contains keys and values. So this method will then return `false`.
+         * A simple convenience method instead of calling: `get_value_type().is_valid() == false;`
+         *
+         * \return `true`, when this associative container stores only keys; otherwise `false`.
+         */
+        bool is_key_only_type() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Checks if the container has no elements.
@@ -350,7 +362,7 @@ class RTTR_API variant_associative_view
                  *        in the container and returns an iterator to the new current item.
                  *
                  * \remark Calling this function on and iterator with value variant_associative_view::end()
-                 *         leads to undefinied behaviour.
+                 *         leads to undefined behaviour.
                  */
                 const_iterator &operator++();
 
@@ -365,7 +377,7 @@ class RTTR_API variant_associative_view
                  *        an iterator to the new current item.
                  *
                  * \remark Calling this function on and iterator with value variant_associative_view::begin()
-                 *         leads to undefinied behaviour.
+                 *         leads to undefined behaviour.
                  */
                 const_iterator &operator--();
 

@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -88,6 +88,14 @@ namespace detail
     template<typename R, typename... Args>
     struct is_functor<R (&)(Args...)> : std::true_type {};
 
+#ifndef RTTR_NO_CXX17_NOEXCEPT_FUNC_TYPE
+    template<typename R, typename... Args>
+    struct is_functor<R (*)(Args...) noexcept> : std::true_type {};
+
+    template<typename R, typename... Args>
+    struct is_functor<R (&)(Args...) noexcept> : std::true_type {};
+#endif
+
     /////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////
 
@@ -120,6 +128,26 @@ namespace detail
 
     template<typename R, typename C, typename... Args>
     struct function_traits<R (C::*)(Args...) const volatile> : function_traits<R (Args...)> {using class_type = C; };
+
+#ifndef RTTR_NO_CXX17_NOEXCEPT_FUNC_TYPE
+    template<typename R, typename... Args>
+    struct function_traits<R (*)(Args...) noexcept> : function_traits<R (Args...)> { };
+
+    template<typename R, typename... Args>
+    struct function_traits<R (&)(Args...) noexcept> : function_traits<R (Args...)> { };
+
+    template<typename R, typename C, typename... Args>
+    struct function_traits<R (C::*)(Args...) noexcept> : function_traits<R (Args...)> { using class_type = C; };
+
+    template<typename R, typename C, typename... Args>
+    struct function_traits<R (C::*)(Args...) const noexcept> : function_traits<R (Args...)> { using class_type = C; };
+
+    template<typename R, typename C, typename... Args>
+    struct function_traits<R (C::*)(Args...) volatile noexcept> : function_traits<R (Args...)> { using class_type = C; };
+
+    template<typename R, typename C, typename... Args>
+    struct function_traits<R (C::*)(Args...) const volatile noexcept> : function_traits<R (Args...)> {using class_type = C; };
+#endif
 
     template<typename T>
     struct function_traits<std::function<T>> : function_traits<T> {};

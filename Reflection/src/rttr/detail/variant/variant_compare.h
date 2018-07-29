@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -41,11 +41,11 @@ namespace detail
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_API bool variant_compare_equal(const variant& lhs, const type& lhs_type, const variant& rhs, const type& rhs_type);
+RTTR_API bool variant_compare_equal(const variant& lhs, const type& lhs_type, const variant& rhs, const type& rhs_type, bool& ok);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-RTTR_API bool variant_compare_less(const variant& lhs, const type& lhs_type, const variant& rhs, const type& rhs_type);
+RTTR_API bool variant_compare_less(const variant& lhs, const type& lhs_type, const variant& rhs, const type& rhs_type, bool& ok);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

@@ -1,14 +1,14 @@
 #pragma once
 
 #include "swCommonLib/Common/RTTR.h"
-#include "swCommonLib/Serialization/SerializationContext.h"
+#include "swCommonLib/Serialization/ISerializationContext.h"
 
 #include <map>
 #include <vector>
 
 
 
-struct EngineSerializationContext : public SerializationContext
+struct EngineSerializationContext : public ISerializationContext
 {
 	typedef std::map< rttr::type, std::vector< rttr::property > > TypePropertyMap;
 public:

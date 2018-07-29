@@ -16,6 +16,7 @@
 #include "swCommonLib/Reflection/src/rttr/enumeration.h"
 #include "swCommonLib/Reflection/src/rttr/registration.h"
 #include "swCommonLib/Reflection/src/rttr/wrapper_mapper.h"
+#include "swCommonLib/Reflection/src/rttr/registration_friend.h"
 
 
 
@@ -46,17 +47,17 @@ http://www.rttr.org/
 
 
 Przy tworzeniu w³asnych klas nale¿y dodawaæ do nich metainformacje, aby edytor móg³ je poprawnie wyœwietliæ.
-Wszystkie klasy powinny mieæ na samym szczycie hierarchi dziedziczenia obiekt EngineObject.
-Je¿eli dziedziczy siê po jakiejœ silnikowej klasie aktora, to EngineObject w tej hierarchi na pewno siê znajduje.
+Wszystkie klasy powinny mieæ na samym szczycie hierarchi dziedziczenia obiekt Object.
+Je¿eli dziedziczy siê po jakiejœ silnikowej klasie aktora, to Object w tej hierarchi na pewno siê znajduje.
 
 Pamiêtaæ o tym nale¿y tylko wtedy, gdy tworzy siê jak¹œ strukturê lub klasê, która bêdzie polem w klasie aktora.
-Aby edytor móg³ wyœwietlaæ propertisy takiej zagnie¿d¿onej klasy trzeba jawnie odziedziczyæ po EngineObject.
+Aby edytor móg³ wyœwietlaæ propertisy takiej zagnie¿d¿onej klasy trzeba jawnie odziedziczyæ po Object.
 
-Nale¿y mieæ na uwadze, ¿e klasa EngineObject deklaruje metody virtualne biblioteki RTTR, w zwi¹zku z czym wszystkie
+Nale¿y mieæ na uwadze, ¿e klasa Object deklaruje metody virtualne biblioteki RTTR, w zwi¹zku z czym wszystkie
 klasy dziedzicz¹ce bêd¹ mia³y dodatkowe pole ze wskaŸnikiem na vtable, co zwiêkszy rozmiar takiej struktury. Z tego powodu
 lepiej jest, gdy aktorzy nie maj¹ p³ask¹ strukturê i takich zagnie¿d¿onych strutkur siê nie u¿ywa, ale nikt nie zabrania.
 
-@todo W obecnej wersji silnika wymaganie posiadania EngineObject w hierarchii nie jest ju¿ konieczne z punktu widzenia edytora.
+@todo W obecnej wersji silnika wymaganie posiadania Object w hierarchii nie jest ju¿ konieczne z punktu widzenia edytora.
 W kolejnych wersjach trzeba zmieniæ mechanizmy serializacji, ¿eby potrafi³y zapisywaæ równie¿ takie struktury.
 
 @subsection DeklaringRTTRTypes Deklarowanie typów obiektów
@@ -85,9 +86,9 @@ hierarchiê dziedziczenia w ka¿dej z klas. Robi siê to w nastêpuj¹cy sposób:
 
 @code
 // Plik .h
-class StaticActor : public EngineObject
+class StaticActor : public Object
 {
-	RTTR_ENABLE( EngineObject )
+	RTTR_ENABLE( Object )
 	//...
 };
 @endcode
@@ -122,7 +123,7 @@ Podobnie sprawa ma siê ze strutkurami wewn¹trz klasy np:
 
 @code
 
-struct Nested : public EngineObject
+struct Nested : public Object
 {
 	int variable1;
 	int variable2;
@@ -172,9 +173,9 @@ na zewn¹trz klasy. Aby móc je zadeklarowaæ nale¿y dodaæ makro RTTR_REGISTRATION_
 
 @code
 
-class StaticActor : public EngineObject
+class StaticActor : public Object
 {
-	RTTR_ENABLE( EngineObject )
+	RTTR_ENABLE( Object )
 	RTTR_REGISTRATION_FRIEND
 	//...
 };

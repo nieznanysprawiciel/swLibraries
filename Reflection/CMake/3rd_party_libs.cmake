@@ -1,6 +1,6 @@
 ####################################################################################
 #                                                                                  #
-#  Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     #
+#  Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           #
 #                                                                                  #
 #  This file is part of RTTR (Run Time Type Reflection)                            #
 #  License: MIT License                                                            #
@@ -34,23 +34,30 @@ MESSAGE(STATUS ${LIBRARY_OUTPUT_DIRECTORY})
 MESSAGE(STATUS "Finding 3rd party libs...")
 MESSAGE(STATUS "===========================")
 
-if (MSVC)
-    # there is a the moment a problem with finding multiple versions of boost,
-    # i.e. the static AND the static runtime version; that is not possible atm.
-    # Because of that, the benchmarks cannot be build with the static runtime lib option enabled
-    set(Boost_USE_STATIC_LIBS       ON)
-    set(Boost_USE_STATIC_RUNTIME    OFF)
-    set(BOOST_ALL_DYN_LINK          OFF)
+if (BUILD_BENCHMARKS)
+    if (MSVC)
+        # there is a the moment a problem with finding multiple versions of boost,
+        # i.e. the static AND the static runtime version; that is not possible atm.
+        # Because of that, the benchmarks cannot be build with the static runtime lib option enabled
+        set(Boost_USE_STATIC_LIBS       ON)
+        set(Boost_USE_STATIC_RUNTIME    OFF)
+        set(BOOST_ALL_DYN_LINK          OFF)
 
-    find_package(Boost COMPONENTS chrono system)
-else()
-    find_package(Boost)
+        find_package(Boost COMPONENTS chrono system)
+    else()
+        find_package(Boost)
+    endif()
+    
+    find_package(Threads REQUIRED)
 endif()
 
-find_package(Threads REQUIRED)
-
 set(RAPID_JSON_DIR ${RTTR_3RD_PARTY_DIR}/rapidjson-1.1.0)
-set(CATCH_DIR ${RTTR_3RD_PARTY_DIR}/catch-1.8.2)
 set(NONIUS_DIR ${RTTR_3RD_PARTY_DIR}/nonius-1.1.2)
+
+# Prepare "Catch" library for other executables
+set(CATCH_INCLUDE_DIR ${RTTR_3RD_PARTY_DIR}/catch-1.12.0)
+add_library(Catch INTERFACE)
+add_library(Catch2::Catch ALIAS Catch)
+target_include_directories(Catch INTERFACE ${CATCH_INCLUDE_DIR})
 
 MESSAGE(STATUS "Finished finding 3rd party libs!")
