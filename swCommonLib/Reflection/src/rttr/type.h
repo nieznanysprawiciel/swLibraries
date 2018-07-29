@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -63,20 +63,23 @@ struct type_converter_base;
 class type_register;
 class type_register_private;
 
-template<typename T, typename Enable = void>
-struct type_getter;
-
 static type get_invalid_type() RTTR_NOEXCEPT;
 struct invalid_type{};
 struct type_data;
 class destructor_wrapper_base;
 class property_wrapper_base;
+RTTR_LOCAL RTTR_INLINE type create_type(type_data*) RTTR_NOEXCEPT;
 
 template<typename T>
-type_data& get_type_data() RTTR_NOEXCEPT;
+RTTR_LOCAL std::unique_ptr<type_data> make_type_data();
 
 template<typename T, typename Tp, typename Converter>
 struct variant_data_base_policy;
+
+struct type_comparator_base;
+
+RTTR_API bool compare_types_less_than(const void*, const void*, const type&, int&);
+RTTR_API bool compare_types_equal(const void*, const void*, const type&, bool&);
 } // end namespace detail
 
 /*!
@@ -167,7 +170,7 @@ struct variant_data_base_policy;
 class RTTR_API type
 {
     public:
-        typedef uint16_t type_id;
+        typedef uintptr_t type_id;
 
         /*!
          * \brief Assigns a type to another one.
@@ -243,7 +246,7 @@ class RTTR_API type
          *
          * \return The type name.
          */
-        RTTR_FORCE_INLINE string_view get_name() const RTTR_NOEXCEPT;
+        RTTR_INLINE string_view get_name() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns true if this type is valid, that means the type holds valid data to a type.
@@ -267,7 +270,7 @@ class RTTR_API type
          *
          * \return The corresponding raw type object.
          */
-        RTTR_FORCE_INLINE type get_raw_type() const RTTR_NOEXCEPT;
+        RTTR_INLINE type get_raw_type() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a type object which represent the wrapped type.
@@ -289,7 +292,7 @@ class RTTR_API type
          *
          * \return The type object of the wrapped type.
          */
-        RTTR_FORCE_INLINE type get_wrapped_type() const RTTR_NOEXCEPT;
+        RTTR_INLINE type get_wrapped_type() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a type object for the given template type \a T.
@@ -297,7 +300,7 @@ class RTTR_API type
          * \return type for the template type \a T.
          */
         template<typename T>
-        static type get() RTTR_NOEXCEPT;
+        RTTR_LOCAL static type get() RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a type object for the given instance \a object.
@@ -310,7 +313,7 @@ class RTTR_API type
          * \return type for an \a object of type \a T.
          */
         template<typename T>
-        static type get(T&& object) RTTR_NOEXCEPT;
+        RTTR_LOCAL static type get(T&& object) RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns the type object with the given name \p name.
@@ -338,14 +341,14 @@ class RTTR_API type
          *
          * \return The size of the type in bytes.
          */
-        RTTR_FORCE_INLINE std::size_t get_sizeof() const RTTR_NOEXCEPT;
+        RTTR_INLINE std::size_t get_sizeof() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns true whether the given type is class; that is not an atomic type or a method.
          *
          * \return True if the type is a class, otherwise false.
          */
-        RTTR_FORCE_INLINE bool is_class() const RTTR_NOEXCEPT;
+        RTTR_INLINE bool is_class() const RTTR_NOEXCEPT;
 
          /*!
          * \brief Returns true whether the given type is an instantiation of a class template.
@@ -365,7 +368,7 @@ class RTTR_API type
          *
          * \see get_template_arguments()
          */
-        RTTR_FORCE_INLINE bool is_template_instantiation() const RTTR_NOEXCEPT;
+        RTTR_INLINE bool is_template_instantiation() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns a list of type objects that represents the template arguments.
@@ -395,7 +398,7 @@ class RTTR_API type
          *
          * \return True if the type is an enumeration, otherwise false.
          */
-        RTTR_FORCE_INLINE bool is_enumeration() const RTTR_NOEXCEPT;
+        RTTR_INLINE bool is_enumeration() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns the enumerator if this type is an enum type;
@@ -424,16 +427,24 @@ class RTTR_API type
          * \return True if the type is an wrapper, otherwise false.
          *
          */
-        RTTR_FORCE_INLINE bool is_wrapper() const RTTR_NOEXCEPT;
+        RTTR_INLINE bool is_wrapper() const RTTR_NOEXCEPT;
 
         /*!
-         * \brief Returns true whether the given type represents an array.
+         * \brief Returns `true` whether the given type represents an array.
+         *        An array is always also a sequential container.
+         *        The check will return `true` only for raw C-Style arrays:
+         * \code{.cpp}
          *
-         * \return True if the type is an array, otherwise false.
+         *  type::get<int[10]>().is_array();            // true
+         *  type::get<int>().is_array();                // false
+         *  type::get<std::array<int,10>>().is_array(); // false
+         * \endcode
          *
-         * \see \ref array_mapper "array_mapper<T>"
+         * \return `true` if the type is an array, otherwise `false`.
+         *
+         * \see is_sequential_container()
          */
-        RTTR_FORCE_INLINE bool is_array() const RTTR_NOEXCEPT;
+        RTTR_INLINE bool is_array() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns true whether the given type represents an
@@ -443,7 +454,17 @@ class RTTR_API type
          *
          * \see \ref associative_container_mapper "associative_container_mapper<T>"
          */
-        RTTR_FORCE_INLINE bool is_associative_container() const RTTR_NOEXCEPT;
+        RTTR_INLINE bool is_associative_container() const RTTR_NOEXCEPT;
+
+        /*!
+         * \brief Returns true whether the given type represents an
+         *        <a target="_blank" href=https://en.wikipedia.org/wiki/Sequence_container_(C%2B%2B)>sequence container</a>.
+         *
+         * \return True if the type is an sequential container, otherwise false.
+         *
+         * \see \ref sequential_container_mapper "sequential_container_mapper<T>"
+         */
+        RTTR_INLINE bool is_sequential_container() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns true whether the given type represents a pointer.
@@ -451,7 +472,7 @@ class RTTR_API type
          *
          * \return True if the type is a pointer, otherwise false.
          */
-        RTTR_FORCE_INLINE bool is_pointer() const RTTR_NOEXCEPT;
+        RTTR_INLINE bool is_pointer() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns true whether the given type represents an arithmetic type.
@@ -460,7 +481,7 @@ class RTTR_API type
          *
          * \return True if the type is a arithmetic type, otherwise false.
          */
-        RTTR_FORCE_INLINE bool is_arithmetic() const RTTR_NOEXCEPT;
+        RTTR_INLINE bool is_arithmetic() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns true whether the given type represents a pointer to a function
@@ -468,7 +489,7 @@ class RTTR_API type
          *
          * \return True if the type is a function pointer, otherwise false.
          */
-        RTTR_FORCE_INLINE bool is_function_pointer() const RTTR_NOEXCEPT;
+        RTTR_INLINE bool is_function_pointer() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns true whether the given type represents a pointer to a member object.
@@ -476,7 +497,7 @@ class RTTR_API type
          *
          * \return True if the type is a member object pointer, otherwise false.
          */
-        RTTR_FORCE_INLINE bool is_member_object_pointer() const RTTR_NOEXCEPT;
+        RTTR_INLINE bool is_member_object_pointer() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns true whether the given type represents a pointer to a member function.
@@ -484,7 +505,7 @@ class RTTR_API type
          *
          * \return True if the type is a member function pointer type, otherwise false.
          */
-        RTTR_FORCE_INLINE bool is_member_function_pointer() const RTTR_NOEXCEPT;
+        RTTR_INLINE bool is_member_function_pointer() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns true if this type is derived from the given type \p other, otherwise false.
@@ -968,6 +989,33 @@ class RTTR_API type
         static void register_converter_func(F func);
 
         /*!
+         * \brief Register for all base classes of the giving type \p T
+         *        wrapper converter functions.
+         *        The converters are registered in both directions respectively.
+         *        From derived to base class and vice versa.
+         *
+         *
+         * See following example code:
+         *  \code{.cpp}
+         *   struct base { virtual ~base() {}; RTTR_ENABLE() };
+         *   struct derived : base { virtual ~derived() {}; RTTR_ENABLE(base) };
+         *
+         *   variant var = std::make_shared<derived>();
+         *   var.convert(type::get<std::shared_ptr<base>>());    // yields to `false`
+         *
+         *   // register the conversion functions
+         *   type::register_wrapper_converter_for_base_classes<std::shared_ptr<derived>>();
+         *
+         *   var.convert(type::get<std::shared_ptr<base>>());    // yields to `true`, derived to base conversion
+         *   var.convert(type::get<std::shared_ptr<derived>>()); // yields to `true`, base to derived conversion
+         *  \endcode
+         *
+         * \see variant::convert(), \ref wrapper_mapper "wrapper_mapper<T>"
+         */
+        template<typename T>
+        static void register_wrapper_converter_for_base_classes();
+
+        /*!
          * \brief Register comparison operators for template type \p T.
          *        This requires a valid `operator==` and `operator<` for type \p T.
          *
@@ -1054,14 +1102,14 @@ class RTTR_API type
         /*!
          * Constructs an empty and invalid type object.
          */
-        RTTR_INLINE type() RTTR_NOEXCEPT;
+        type() RTTR_NOEXCEPT;
 
         /*!
          * \brief Constructs a valid type object.
          *
          * \param id The unique id of the data type.
          */
-        RTTR_INLINE type(detail::type_data* data) RTTR_NOEXCEPT;
+        RTTR_INLINE explicit type(detail::type_data* data) RTTR_NOEXCEPT;
 
         /*!
          * \brief This function try to convert the given pointer \p ptr from the type \p source_type
@@ -1083,10 +1131,29 @@ class RTTR_API type
         /*!
          * \brief When for the current type instance a converter function to type \p target_type was registered,
          *        then this function returns a valid pointer to a type_converter_base object.
-         *        Otherwise this function returns a nullptr.
+         *        Otherwise this function returns a `nullptr`.
          *
+         * \see register_converter_func()
          */
         const detail::type_converter_base* get_type_converter(const type& target_type) const RTTR_NOEXCEPT;
+
+        /*!
+         * \brief When for the current type instance a equal comparator function was registered,
+         *        then this function returns a valid pointer to a `type_comparator_base` object.
+         *        Otherwise this function returns a `nullptr`.
+         *
+         * \see register_equal_comparator()
+         */
+        const detail::type_comparator_base* get_equal_comparator() const RTTR_NOEXCEPT;
+
+        /*!
+         * \brief When for the current type instance a less-than comparator function was registered,
+         *        then this function returns a valid pointer to a `type_comparator_base` object.
+         *        Otherwise this function returns a `nullptr`.
+         *
+         * \see register_less_than_comparator()
+         */
+        const detail::type_comparator_base* get_less_than_comparator() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns the level of indirection for this this type. A.k.a pointer count.
@@ -1094,7 +1161,7 @@ class RTTR_API type
          *
          * \return The pointer dimension.
          */
-        RTTR_FORCE_INLINE std::size_t get_pointer_dimension() const RTTR_NOEXCEPT;
+        RTTR_INLINE std::size_t get_pointer_dimension() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns the raw type of an array
@@ -1103,14 +1170,14 @@ class RTTR_API type
          *
          * \return The raw array type.
          */
-        RTTR_FORCE_INLINE type get_raw_array_type() const RTTR_NOEXCEPT;
+        RTTR_INLINE type get_raw_array_type() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Returns the compiler depended name of the type.
          *
          * \return The full type name.
          */
-        RTTR_FORCE_INLINE string_view get_full_name() const RTTR_NOEXCEPT;
+        RTTR_INLINE string_view get_full_name() const RTTR_NOEXCEPT;
 
         /*!
          * \brief Creates a wrapped value from the given argument \p arg and moves it into the
@@ -1124,24 +1191,26 @@ class RTTR_API type
         /////////////////////////////////////////////////////////////////////////////////
 
         //! Creates a variant from the given argument data.
-        RTTR_FORCE_INLINE variant create_variant(const argument& data) const;
+        RTTR_INLINE variant create_variant(const argument& data) const;
 
         friend class variant;
         template<typename Target_Type, typename Source_Type>
         friend Target_Type rttr_cast(Source_Type object) RTTR_NOEXCEPT;
 
-        template<typename T, typename Enable>
-        friend struct detail::type_getter;
         friend class instance;
         friend class detail::type_register;
-        friend type detail::get_invalid_type() RTTR_NOEXCEPT;
         friend class detail::type_register_private;
 
+        friend type detail::create_type(detail::type_data*) RTTR_NOEXCEPT;
+
         template<typename T>
-        friend detail::type_data& detail::get_type_data() RTTR_NOEXCEPT;
+        friend std::unique_ptr<detail::type_data> detail::make_type_data();
 
         template<typename T, typename Tp, typename Converter>
         friend struct detail::variant_data_base_policy;
+
+        friend RTTR_API bool detail::compare_types_less_than(const void*, const void*, const type&, int&);
+        friend RTTR_API bool detail::compare_types_equal(const void*, const void*, const type&, bool&);
 
     private:
         detail::type_data* m_type_data;

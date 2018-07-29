@@ -7,7 +7,7 @@
 //====================================================================================//
 
 template< typename KeyType, typename AddressType >
-inline		AnimationImpl< KeyType, AddressType >::AnimationImpl( EngineObject* object, const std::string& propertyPath )
+inline		AnimationImpl< KeyType, AddressType >::AnimationImpl( Object* object, const std::string& propertyPath )
 	:	Evaluator( object, propertyPath )
 {}
 
@@ -20,7 +20,7 @@ inline		AnimationImpl< KeyType, AddressType >::AnimationImpl( EngineObject* obje
 // ================================ //
 //
 template< typename KeyType, typename AddressType >
-inline void			AnimationImpl< KeyType, AddressType >::Animate		( EngineObject* object, TimelineBase* timeline )
+inline void			AnimationImpl< KeyType, AddressType >::Animate		( Object* object, TimelineBase* timeline )
 {
 	AnimationImpl< KeyType, AddressType >::Animate( object, timeline->GetTime() );
 }
@@ -28,7 +28,7 @@ inline void			AnimationImpl< KeyType, AddressType >::Animate		( EngineObject* ob
 // ================================ //
 //
 template< typename KeyType, typename AddressType >
-inline void			AnimationImpl< KeyType, AddressType >::Animate		( EngineObject* object, TimeType time )
+inline void			AnimationImpl< KeyType, AddressType >::Animate		( Object* object, TimeType time )
 {
 	Evaluator.Evaluate( object, time );
 }

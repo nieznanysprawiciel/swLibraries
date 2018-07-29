@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -78,7 +78,6 @@ TEST_CASE("Test property shortcuts to set/get property", "[property]")
     {
         // derived obj
         type_prop_invoke_test obj;
-        type_prop_invoke_test_base& base = obj;
 
         variant var = type::get(obj).get_property_value("p2", obj);
         REQUIRE(var.is_type<std::string>() == true);

@@ -21,16 +21,10 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Reflection\src\rttr\access_levels.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\argument.h" />
-    <ClInclude Include="..\..\..\Reflection\src\rttr\array_mapper.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\array_range.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\associative_mapper.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\constructor.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\destructor.h" />
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\array\array_accessor.h" />
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\array\array_accessor_impl.h" />
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\array\array_mapper_impl.h" />
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\array\array_wrapper.h" />
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\array\array_wrapper_base.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\base\core_prerequisites.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\base\pch.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\base\version.h" />
@@ -60,11 +54,14 @@
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\filter\filter_item_funcs.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\impl\argument_impl.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\impl\array_range_impl.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\impl\associative_mapper_impl.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\impl\enum_flags_impl.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\impl\instance_impl.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\impl\rttr_cast_impl.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\impl\sequential_mapper_impl.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\impl\string_view_impl.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\impl\wrapper_mapper_impl.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\library\library_p.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\metadata\metadata.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\metadata\metadata_handler.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\method\method_accessor.h" />
@@ -78,10 +75,16 @@
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\flat_map.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\flat_multimap.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\function_traits.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\iterator_wrapper.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\misc_type_traits.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\register_wrapper_mapper_conversion.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\sequential_container_type_traits.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\std_type_traits.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\template_type_trait.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\template_type_trait_impl.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\utility.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\parameter_info\parameter_infos.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\parameter_info\parameter_infos_compare.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\parameter_info\parameter_info_wrapper.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\parameter_info\parameter_info_wrapper_base.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\parameter_info\parameter_names.h" />
@@ -97,8 +100,11 @@
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\property\property_wrapper_object.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\registration\bind_impl.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\registration\bind_types.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\registration\register_base_class_from_accessor.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\registration\registration_executer.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\registration\registration_impl.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\registration\registration_manager.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\registration\registration_state_saver.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\type\accessor_type.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\type\base_classes.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\type\get_create_variant_func.h" />
@@ -116,26 +122,31 @@
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant\variant_data_converter.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant\variant_data_policy.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant\variant_impl.h" />
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_array_view\variant_array_view_creator.h" />
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_array_view\variant_array_view_creator_impl.h" />
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_array_view\variant_array_view_impl.h" />
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_array_view\variant_array_view_traits.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_associative_view\variant_associative_view_creator.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_associative_view\variant_associative_view_creator_impl.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_associative_view\variant_associative_view_private.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_sequential_view\variant_sequential_view_creator.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_sequential_view\variant_sequential_view_creator_impl.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_sequential_view\variant_sequential_view_private.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\enumeration.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\enum_flags.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\filter_item.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\instance.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\library.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\method.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\parameter_info.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\policy.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\property.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\registration.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\registration_friend.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\rttr_cast.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\rttr_enable.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\sequential_mapper.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\string_view.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\type.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\variant.h" />
-    <ClInclude Include="..\..\..\Reflection\src\rttr\variant_array_view.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\variant_associative_view.h" />
+    <ClInclude Include="..\..\..\Reflection\src\rttr\variant_sequential_view.h" />
     <ClInclude Include="..\..\..\Reflection\src\rttr\wrapper_mapper.h" />
   </ItemGroup>
   <ItemGroup>
@@ -148,14 +159,19 @@
     <ClCompile Include="..\..\..\Reflection\src\rttr\detail\destructor\destructor_wrapper_base.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\detail\enumeration\enumeration_helper.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\detail\enumeration\enumeration_wrapper_base.cpp" />
+    <ClCompile Include="..\..\..\Reflection\src\rttr\detail\library\library_unix.cpp" />
+    <ClCompile Include="..\..\..\Reflection\src\rttr\detail\library\library_win.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\detail\method\method_wrapper_base.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\detail\misc\standard_types.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\detail\parameter_info\parameter_info_wrapper_base.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\detail\property\property_wrapper_base.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\detail\registration\registration_executer.cpp" />
+    <ClCompile Include="..\..\..\Reflection\src\rttr\detail\registration\registration_state_saver.cpp" />
+    <ClCompile Include="..\..\..\Reflection\src\rttr\detail\type\type_data.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\detail\type\type_register.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\detail\variant\variant_compare.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\enumeration.cpp" />
+    <ClCompile Include="..\..\..\Reflection\src\rttr\library.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\method.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\parameter_info.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\policy.cpp" />
@@ -163,10 +179,12 @@
     <ClCompile Include="..\..\..\Reflection\src\rttr\registration.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\type.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\variant.cpp" />
-    <ClCompile Include="..\..\..\Reflection\src\rttr\variant_array_view.cpp" />
     <ClCompile Include="..\..\..\Reflection\src\rttr\variant_associative_view.cpp" />
+    <ClCompile Include="..\..\..\Reflection\src\rttr\variant_sequential_view.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\Reflection\src\rttr\registration" />
+    <None Include="..\..\..\Reflection\src\rttr\registration_friend" />
     <None Include="..\..\..\Reflection\src\rttr\rttr.cmake" />
   </ItemGroup>
   <ItemGroup>

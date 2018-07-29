@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -87,14 +87,22 @@ TEST_CASE("variant::to_uint16() - from char", "[variant]")
         CHECK(var.get_value<uint16_t>() == 65);
     }
 
-    SECTION("invalid conversion negative")
+RTTR_BEGIN_DISABLE_CONDITIONAL_EXPR_WARNING
+
+    if (std::numeric_limits<char>::is_signed)
     {
-        variant var = char(-60);
-        bool ok = false;
-        CHECK(var.to_uint16(&ok) == 0);
-        CHECK(ok == false);
-        CHECK(var.convert(type::get<uint16_t>()) == false);
+        SECTION("invalid conversion negative")
+        {
+            variant var = char(-60);
+            bool ok = false;
+            CHECK(var.to_uint16(&ok) == 0);
+            CHECK(ok == false);
+            CHECK(var.convert(type::get<uint16_t>()) == false);
+        }
     }
+
+RTTR_END_DISABLE_CONDITIONAL_EXPR_WARNING
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

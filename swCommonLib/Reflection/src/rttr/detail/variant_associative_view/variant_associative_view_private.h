@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -95,96 +95,96 @@ class RTTR_LOCAL variant_associative_view_private
         {
         }
 
-        RTTR_FORCE_INLINE variant_associative_view_private(const variant_associative_view_private& other) = default;
+        RTTR_INLINE variant_associative_view_private(const variant_associative_view_private& other) = default;
 
-        RTTR_FORCE_INLINE ~variant_associative_view_private()
+        RTTR_INLINE ~variant_associative_view_private()
         {
 
         }
 
-        RTTR_FORCE_INLINE type get_type() const RTTR_NOEXCEPT
+        RTTR_INLINE type get_type() const RTTR_NOEXCEPT
         {
             return m_type;
         }
 
-        RTTR_FORCE_INLINE type get_key_type() const RTTR_NOEXCEPT
+        RTTR_INLINE type get_key_type() const RTTR_NOEXCEPT
         {
             return m_key_type;
         }
 
-        RTTR_FORCE_INLINE type get_value_type() const RTTR_NOEXCEPT
+        RTTR_INLINE type get_value_type() const RTTR_NOEXCEPT
         {
             return m_value_type;
         }
 
-        RTTR_FORCE_INLINE void copy(iterator_data& itr_tgt, const iterator_data& itr_src) const
+        RTTR_INLINE void copy(iterator_data& itr_tgt, const iterator_data& itr_src) const
         {
             m_create_func(itr_tgt, itr_src);
         }
 
-        RTTR_FORCE_INLINE void destroy(iterator_data& itr) const
+        RTTR_INLINE void destroy(iterator_data& itr) const
         {
             m_delete_func(itr);
         }
 
-        RTTR_FORCE_INLINE void begin(iterator_data& itr) const
+        RTTR_INLINE void begin(iterator_data& itr) const
         {
             m_begin_func(m_container, itr);
         }
 
-        RTTR_FORCE_INLINE void end(iterator_data& itr) const
+        RTTR_INLINE void end(iterator_data& itr) const
         {
             m_end_func(m_container, itr);
         }
 
-        RTTR_FORCE_INLINE bool is_empty() const RTTR_NOEXCEPT
+        RTTR_INLINE bool is_empty() const RTTR_NOEXCEPT
         {
             return m_get_is_empty_func(m_container);
         }
 
-        RTTR_FORCE_INLINE std::size_t get_size() const RTTR_NOEXCEPT
+        RTTR_INLINE std::size_t get_size() const RTTR_NOEXCEPT
         {
             return m_get_size_func(m_container);
         }
 
-        RTTR_FORCE_INLINE bool equal(const iterator_data& lhs_itr, const iterator_data& rhs_itr) const RTTR_NOEXCEPT
+        RTTR_INLINE bool equal(const iterator_data& lhs_itr, const iterator_data& rhs_itr) const RTTR_NOEXCEPT
         {
             return m_equal_func(lhs_itr, rhs_itr);
         }
 
-        RTTR_FORCE_INLINE const variant get_key(const iterator_data& itr) const
+        RTTR_INLINE const variant get_key(const iterator_data& itr) const
         {
             return m_get_key_func(itr);
         }
 
-        RTTR_FORCE_INLINE const variant get_value(const iterator_data& itr) const
+        RTTR_INLINE const variant get_value(const iterator_data& itr) const
         {
             return m_get_value_func(itr);
         }
 
-        RTTR_FORCE_INLINE const std::pair<variant, variant> get_key_value(const iterator_data& itr) const
+        RTTR_INLINE const std::pair<variant, variant> get_key_value(const iterator_data& itr) const
         {
             return {m_get_key_func(itr), m_get_value_func(itr)};
         }
 
 
-        RTTR_FORCE_INLINE void advance(iterator_data& itr, std::ptrdiff_t index) const
+        RTTR_INLINE void advance(iterator_data& itr, std::ptrdiff_t index) const
         {
             m_advance_func(itr, index);
         }
 
-        RTTR_FORCE_INLINE void find(iterator_data& itr, argument& key)
+        RTTR_INLINE void find(iterator_data& itr, argument& key)
         {
             m_find_func(m_container, itr, key);
         }
 
-        RTTR_FORCE_INLINE void equal_range(argument& key,
+        RTTR_INLINE void equal_range(argument& key,
                                      iterator_data& itr_begin, detail::iterator_data& itr_end)
         {
             m_equal_range_func(m_container, key, itr_begin, itr_end);
         }
 
-        RTTR_FORCE_INLINE void clear()
+        RTTR_INLINE void clear()
         {
             m_clear_func(m_container);
         }
@@ -250,4 +250,4 @@ class RTTR_LOCAL variant_associative_view_private
 } // end namespace detail
 } // end namespace rttr
 
-#endif // RTTR_VARIANT_ASSOCIATIVE_VIEW_P_H_
+#endif // RTTR_VARIANT_ASSOCIATIVE_VIEW_PRIVATE_H_

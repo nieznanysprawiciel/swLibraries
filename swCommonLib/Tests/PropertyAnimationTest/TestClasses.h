@@ -40,9 +40,9 @@ enum Methods
 
 
 /**@brief */
-class TestAnim : public EngineObject
+class TestAnim : public Object
 {
-	RTTR_ENABLE( EngineObject );
+	RTTR_ENABLE( Object );
 	RTTR_REGISTRATION_FRIEND;
 public:
 	float			m_energy;
@@ -65,9 +65,9 @@ public:
 };
 
 
-class TestInterpolators : public EngineObject
+class TestInterpolators : public Object
 {
-	RTTR_ENABLE( EngineObject );
+	RTTR_ENABLE( Object );
 	RTTR_REGISTRATION_FRIEND;
 public:
 

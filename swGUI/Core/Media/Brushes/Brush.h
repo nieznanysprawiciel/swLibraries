@@ -6,7 +6,7 @@
 */
 
 
-#include "swCommonLib/Common/EngineObject.h"
+#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
 
 
 /**@defgroup Brushes Brushes

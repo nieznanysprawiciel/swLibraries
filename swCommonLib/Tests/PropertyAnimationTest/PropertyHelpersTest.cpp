@@ -45,7 +45,7 @@ TEST_CASE( "Property helpers" )
 
 		/// Note: Behavior changed from previous version.
 		//CHECK( object.get_type() == TypeID::get< TestAnim* >() );
-		CHECK( object.get_type() == TypeID::get< EngineObject* >() );
+		CHECK( object.get_type() == TypeID::get< Object* >() );
 		CHECK( property.get_type() == TypeID::get< float >() );
 		CHECK( property.get_declaring_type() == TypeID::get< TestAnim >() );
 

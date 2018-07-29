@@ -6,7 +6,7 @@
 */
 
 #include "swCommonLib/Common/RTTR.h"
-#include "swCommonLib/Common/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 
 #include "swCommonLib/Common/Properties/Properties.h"
 #include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
@@ -24,12 +24,12 @@ protected:
 public:
 	/// Constructor for serialization.
 	explicit		DirectProperty	();
-	explicit		DirectProperty	( EngineObject* object, const std::string& propertyPath );
+	explicit		DirectProperty	( Object* object, const std::string& propertyPath );
 					~DirectProperty	() = default;
 
 
-	KeyType			GetValue		( EngineObject* object );
-	void			SetValue		( EngineObject* object, KeyType& value );
+	KeyType			GetValue		( Object* object );
+	void			SetValue		( Object* object, KeyType& value );
 };
 
 //====================================================================================//
@@ -48,7 +48,7 @@ inline			DirectProperty< KeyType >::DirectProperty()
 // ================================ //
 //
 template< typename KeyType >
-inline			DirectProperty< KeyType >::DirectProperty	( EngineObject* object, const std::string& propertyPath )
+inline			DirectProperty< KeyType >::DirectProperty	( Object* object, const std::string& propertyPath )
 	:	m_property( Properties::EmptyProperty() )
 	,	m_object( nullptr )
 {
@@ -60,16 +60,16 @@ inline			DirectProperty< KeyType >::DirectProperty	( EngineObject* object, const
 // ================================ //
 //
 template< typename KeyType >
-inline KeyType		DirectProperty< KeyType >::GetValue		( EngineObject* )
+inline KeyType		DirectProperty< KeyType >::GetValue		( Object* )
 {
-	return Serialization::GetPropertyValue< KeyType >( m_property, m_object );
+	return sw::SerializationCore::GetPropertyValue< KeyType >( m_property, m_object );
 }
 
 // ================================ //
 //
 template< typename KeyType >
-inline void			DirectProperty< KeyType >::SetValue		( EngineObject* object, KeyType& value )
+inline void			DirectProperty< KeyType >::SetValue		( Object* object, KeyType& value )
 {
-	Serialization::SetPropertyValue( m_property, m_object, value );
+	sw::SerializationCore::SetPropertyValue( m_property, m_object, value );
 }
 

@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -39,11 +39,15 @@ namespace detail
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool compare_types_equal(const void* lhs, const void* rhs, const type& t)
+bool compare_types_equal(const void* lhs, const void* rhs, const type& t, bool& ok)
 {
-    if (auto cmp_f = type_register_private::get_equal_comparator(t))
+    if (auto cmp_f = t.get_equal_comparator())
+    {
+        ok = true;
         return cmp_f->cmp(lhs, rhs);
+    }
 
+    ok = false;
     return false;
 }
 

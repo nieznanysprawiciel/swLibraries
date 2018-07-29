@@ -26,7 +26,7 @@ public:
 	virtual			~IAnimation() = default;
 
 
-	virtual void			Animate	( EngineObject* object, TimelineBase* timeline )		= 0;
-	virtual void			Animate	( EngineObject* object, TimeType time )					= 0;
+	virtual void			Animate	( Object* object, TimelineBase* timeline )		= 0;
+	virtual void			Animate	( Object* object, TimeType time )					= 0;
 };
 

@@ -1,6 +1,6 @@
 ####################################################################################
 #                                                                                  #
-#  Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     #
+#  Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           #
 #                                                                                  #
 #  This file is part of RTTR (Run Time Type Reflection)                            #
 #  License: MIT License                                                            #
@@ -31,9 +31,9 @@
 # the build configuration options are initialized.                                 #
 ####################################################################################
 
-cmake_minimum_required (VERSION 2.8.12)
+cmake_minimum_required (VERSION 3.0)
 
-project ("rttr")
+project ("rttr" LANGUAGES CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 
@@ -52,8 +52,8 @@ option(BUILD_UNIT_TESTS "Build the unit tests of RTTR" ON)
 option(BUILD_STATIC "Build RTTR as static library" OFF)
 option(BUILD_WITH_STATIC_RUNTIME_LIBS "Link against the static runtime libraries" OFF)
 option(BUILD_WITH_RTTI "Enable build with C++ runtime type information for compilation" ON)
-option(BUILD_BENCHMARKS "Enable this to build the benchmarks" ON)
-option(BUILD_EXAMPLES "Enable this to build the examples" ON)
+option(BUILD_BENCHMARKS "Enable this to build the benchmarks" OFF)
+option(BUILD_EXAMPLES "Enable this to build the examples" On)
 option(BUILD_DOCUMENTATION "Enable this to build the documentation" ON)
 option(BUILD_INSTALLER "Enable this to build the installer" ON)
 option(BUILD_PACKAGE "Enable this to build the installer" ON)
@@ -84,9 +84,4 @@ add_subdirectory(src)
 # and the documentation
 if (BUILD_DOCUMENTATION)
     add_subdirectory(doc)
-endif()
-
-# here we specify the installation directory
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX ${RTTR_INSTALL_DIR} CACHE PATH  "RTTR install prefix" FORCE)
 endif()

@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -35,6 +35,8 @@
 
 using namespace rttr;
 using namespace std;
+
+RTTR_BEGIN_DISABLE_DEPRECATED_WARNING
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -358,7 +360,7 @@ TEST_CASE("variant_array_view::get_size", "[variant_array_view]")
 
     SECTION("get_size_variadic")
     {
-        int vec[6][5][4][3] = {0};
+        int vec[6][5][4][3] = {};
 
         variant var = vec;
         variant_array_view array = var.create_array_view();
@@ -609,7 +611,7 @@ TEST_CASE("variant_array_view::set_value", "[variant_array_view]")
 
     SECTION("3D")
     {
-        int obj[3][3][3] = { 0 };
+        int obj[3][3][3] = {};
         variant var = &obj;
         variant_array_view array = var.create_array_view();
 
@@ -627,7 +629,7 @@ TEST_CASE("variant_array_view::set_value", "[variant_array_view]")
 
     SECTION("variadic")
     {
-        int obj[3][3][3][3] = { 0 };
+        int obj[3][3][3][3] = {};
         variant var = &obj;
         variant_array_view array = var.create_array_view();
 
@@ -903,6 +905,7 @@ TEST_CASE("variant_array_view::misc", "[variant_array_view]")
         REQUIRE(var_arr.get_size() == 3);
 
         var_arr.set_value(0, false);
+
         CHECK(var_arr.get_value(0).get_value<bool>() == false);
         CHECK(var_arr.get_value(1).get_value<bool>() == false);
         CHECK(var_arr.get_value(2).get_value<bool>() == false);
@@ -933,5 +936,7 @@ TEST_CASE("variant_array_view::misc", "[variant_array_view]")
         REQUIRE(ret.get_value<int>()    == 23);
     }
 }
+
+RTTR_END_DISABLE_DEPRECATED_WARNING
 
 /////////////////////////////////////////////////////////////////////////////////////////

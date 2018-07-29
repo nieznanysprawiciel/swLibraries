@@ -33,9 +33,6 @@
     <ClCompile Include="..\..\..\Common\Converters.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Common\EngineObject.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Common\Properties\Properties.cpp">
       <Filter>Common\Properties</Filter>
     </ClCompile>
@@ -57,12 +54,12 @@
     <ClCompile Include="..\..\..\System\Filesystem\filesystem\path.cpp">
       <Filter>System\Filesystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Common\Object.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Common\Converters.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Common\EngineObject.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Common\MemoryChunk.h">
@@ -154,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Exceptions\Exception.h">
       <Filter>Common\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Object.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -99,12 +99,15 @@ RTTR_REGISTRATION
         .method("method_1", &method_test::method_1)
         .method("method_2", &method_test::method_2)
         .method("method_3", &method_test::method_3)
-        .method("method_4", &method_test::method_4)
 #if RTTR_COMPILER == RTTR_COMPILER_MSVC && RTTR_ARCH_TYPE == RTTR_ARCH_32
+        .method("method_4", static_cast<void(method_test::*)(std::string&)>(&method_test::method_4))
+        .method("method_4", static_cast<void(method_test::*)(std::string&) const>(&method_test::method_4))
         .method("method_5", static_cast<int(method_test::*)(double*)>(&method_test::method_5))
         .method("method_5", static_cast<int(method_test::*)(int, double)>(&method_test::method_5))
         .method("method_5", static_cast<int(method_test::*)(int, double) const>(&method_test::method_5))
 #else
+        .method("method_4", select_non_const(&method_test::method_4))
+        .method("method_4", select_const(&method_test::method_4))
         .method("method_5", select_overload<int(double*)>(&method_test::method_5))
         .method("method_5", select_overload<int(int, double)>(&method_test::method_5))
         .method("method_5", select_const(&method_test::method_5))
@@ -134,6 +137,7 @@ RTTR_REGISTRATION
         .method("method_fun_ptr_arg", &method_test::method_fun_ptr_arg)
         .method("method_with_ptr", &method_test::method_with_ptr)
         .method("variant_func", &method_test::set_func_via_variant)
+        .method("func_with_noexcept", &method_test::func_with_noexcept)
         ;
 
     registration::class_<method_test_derived>("method_test_derived")
@@ -156,7 +160,11 @@ RTTR_REGISTRATION
         .method("get_global_string_void", &get_global_string)
         (
             policy::meth::discard_return
-        );
+        )
+        ;
+
+    // register same method again, should not register anything
+    registration::method("get_global_string_void", &get_global_string);
 
     // the class 'derive_registered' has a base class 'base_not_registered'
     // which is not registered explictely via rttr, however the base-derived relationship
@@ -197,6 +205,7 @@ TEST_CASE("Test method", "[method]")
     REQUIRE(obj.method_1_called == true);
     REQUIRE(meth.get_name() == "method_1");
     REQUIRE(meth.get_parameter_infos().empty() == true);
+    REQUIRE(meth.get_declaring_type().is_valid() == true);
 
     ////////////////////////////////////////
     t_meth.get_method("method_2").invoke(inst);
@@ -302,7 +311,7 @@ TEST_CASE("Test method", "[method]")
     // check up_cast, cross cast and middle in the hierarchy cast through invoke
     method_test_final final_obj;
     type t_final = type::get(final_obj);
-    REQUIRE(t_final.get_methods().size() == 21); // +1 overloaded
+    REQUIRE(t_final.get_methods().size() == 22); // +1 overloaded
     // test the up cast
     t_final.get_method("method_3").invoke(final_obj, 1000);
     REQUIRE(final_obj.method_3_called == true);
@@ -335,6 +344,7 @@ TEST_CASE("global methods", "[method]")
 {
     free_function_called = false;
     method global_meth_1 = type::get_global_method("free_function", {type::get<bool>()});
+    REQUIRE(global_meth_1.get_declaring_type().is_valid() == false);
     REQUIRE(bool(global_meth_1) == true);
     REQUIRE(global_meth_1.get_parameter_infos().begin()->get_type() == type::get<bool>());
     variant success = global_meth_1.invoke(instance());
@@ -405,13 +415,13 @@ TEST_CASE("Test method signature", "[method]")
 {
     const auto meth_range = type::get<method_test_final>().get_methods();
     std::vector<method> methods(meth_range.cbegin(), meth_range.cend());
-    REQUIRE(methods.size() == 21);
+    REQUIRE(methods.size() == 22);
 
     REQUIRE(methods[0].get_signature() ==  "method_1( )");
     REQUIRE(methods[3].get_signature() ==  std::string("method_4( ") + type::get<std::string>().get_name() + " & )");
     REQUIRE(methods[4].get_signature() ==  "method_5( double* )");
     REQUIRE(methods[5].get_signature() ==  "method_5( int, double )");
-    REQUIRE(methods[20].get_signature() == "method_13( )");
+    REQUIRE(methods[21].get_signature() == "method_13( )");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -530,6 +540,20 @@ TEST_CASE("method - invoke with variant as argument", "[method]")
 
     CHECK(ret.is_valid()    == true);
     CHECK(ret.to_bool()     == true);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+TEST_CASE("method - invoke func with noexcept in signature", "[method]")
+{
+    method meth = type::get<method_test>().get_method("func_with_noexcept");
+    method_test obj;
+
+    auto ret = meth.invoke(obj, 23);
+
+    CHECK(ret.is_valid() == true);
+    CHECK(ret.to_int()   == 42);
+    CHECK(obj.method_with_noexpcet_called == true);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

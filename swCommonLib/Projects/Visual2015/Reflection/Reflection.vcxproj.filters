@@ -10,9 +10,6 @@
     <Filter Include="ReflectionCode\rttr\detail">
       <UniqueIdentifier>{8a05b54b-be62-4fdc-af63-b89d75b2dd2b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ReflectionCode\rttr\detail\array">
-      <UniqueIdentifier>{4e452b4f-9553-4423-bb77-a81013014bbb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ReflectionCode\rttr\detail\base">
       <UniqueIdentifier>{e2f8cf84-e411-4776-a510-aa4304d1384e}</UniqueIdentifier>
     </Filter>
@@ -61,9 +58,6 @@
     <Filter Include="ReflectionCode\rttr\detail\variant">
       <UniqueIdentifier>{fe0a78f5-4081-43cc-9c0f-f6bcaebd349d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ReflectionCode\rttr\detail\variant_array_view">
-      <UniqueIdentifier>{40ee1ae7-ae07-4d27-8c37-a8eac4ba99a6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{ff29a58f-8d26-4a8f-8d90-9a88d38db484}</UniqueIdentifier>
     </Filter>
@@ -73,15 +67,21 @@
     <Filter Include="ReflectionCode\rttr\detail\filter">
       <UniqueIdentifier>{01004497-5c76-4139-bc9a-8af36eba2e56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ReflectionCode\rttr\detail\library">
+      <UniqueIdentifier>{8f088419-3526-4f1e-9fc8-943c2681fc3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReflectionCode\rttr\detail\variant_associative_view">
+      <UniqueIdentifier>{164e47d1-7016-4a0a-8574-afdcfd812c9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ReflectionCode\rttr\detail\variant_sequential_view">
+      <UniqueIdentifier>{ad18195e-6a42-4a78-96fa-23ec2a6f624f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Reflection\src\rttr\access_levels.h">
       <Filter>ReflectionCode\rttr</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Reflection\src\rttr\argument.h">
-      <Filter>ReflectionCode\rttr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Reflection\src\rttr\array_mapper.h">
       <Filter>ReflectionCode\rttr</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Reflection\src\rttr\constructor.h">
@@ -123,26 +123,8 @@
     <ClInclude Include="..\..\..\Reflection\src\rttr\variant.h">
       <Filter>ReflectionCode\rttr</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Reflection\src\rttr\variant_array_view.h">
-      <Filter>ReflectionCode\rttr</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Reflection\src\rttr\wrapper_mapper.h">
       <Filter>ReflectionCode\rttr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\array\array_accessor.h">
-      <Filter>ReflectionCode\rttr\detail\array</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\array\array_accessor_impl.h">
-      <Filter>ReflectionCode\rttr\detail\array</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\array\array_mapper_impl.h">
-      <Filter>ReflectionCode\rttr\detail\array</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\array\array_wrapper.h">
-      <Filter>ReflectionCode\rttr\detail\array</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\array\array_wrapper_base.h">
-      <Filter>ReflectionCode\rttr\detail\array</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\base\core_prerequisites.h">
       <Filter>ReflectionCode\rttr\detail\base</Filter>
@@ -263,18 +245,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\registration\registration_impl.h">
       <Filter>ReflectionCode\rttr\detail\registration</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_array_view\variant_array_view_creator.h">
-      <Filter>ReflectionCode\rttr\detail\variant_array_view</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_array_view\variant_array_view_creator_impl.h">
-      <Filter>ReflectionCode\rttr\detail\variant_array_view</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_array_view\variant_array_view_impl.h">
-      <Filter>ReflectionCode\rttr\detail\variant_array_view</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_array_view\variant_array_view_traits.h">
-      <Filter>ReflectionCode\rttr\detail\variant_array_view</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Reflection\src\rttr\detail\base\version.h">
       <Filter>ReflectionCode\rttr\detail\base</Filter>
@@ -429,6 +399,72 @@
     <ClInclude Include="..\..\..\Reflection\src\rttr\variant_associative_view.h">
       <Filter>ReflectionCode\rttr</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\library.h">
+      <Filter>ReflectionCode\rttr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\registration_friend.h">
+      <Filter>ReflectionCode\rttr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\sequential_mapper.h">
+      <Filter>ReflectionCode\rttr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\variant_sequential_view.h">
+      <Filter>ReflectionCode\rttr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\impl\associative_mapper_impl.h">
+      <Filter>ReflectionCode\rttr\detail\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\impl\sequential_mapper_impl.h">
+      <Filter>ReflectionCode\rttr\detail\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\library\library_p.h">
+      <Filter>ReflectionCode\rttr\detail\library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\iterator_wrapper.h">
+      <Filter>ReflectionCode\rttr\detail\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\register_wrapper_mapper_conversion.h">
+      <Filter>ReflectionCode\rttr\detail\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\sequential_container_type_traits.h">
+      <Filter>ReflectionCode\rttr\detail\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\template_type_trait.h">
+      <Filter>ReflectionCode\rttr\detail\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\misc\template_type_trait_impl.h">
+      <Filter>ReflectionCode\rttr\detail\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\parameter_info\parameter_infos_compare.h">
+      <Filter>ReflectionCode\rttr\detail\parameter_info</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\registration\register_base_class_from_accessor.h">
+      <Filter>ReflectionCode\rttr\detail\registration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\registration\registration_manager.h">
+      <Filter>ReflectionCode\rttr\detail\registration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\registration\registration_state_saver.h">
+      <Filter>ReflectionCode\rttr\detail\registration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_associative_view\variant_associative_view_creator.h">
+      <Filter>ReflectionCode\rttr\detail\variant_associative_view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_associative_view\variant_associative_view_creator_impl.h">
+      <Filter>ReflectionCode\rttr\detail\variant_associative_view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_associative_view\variant_associative_view_private.h">
+      <Filter>ReflectionCode\rttr\detail\variant_associative_view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_sequential_view\variant_sequential_view_creator.h">
+      <Filter>ReflectionCode\rttr\detail\variant_sequential_view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_sequential_view\variant_sequential_view_creator_impl.h">
+      <Filter>ReflectionCode\rttr\detail\variant_sequential_view</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Reflection\src\rttr\detail\variant_sequential_view\variant_sequential_view_private.h">
+      <Filter>ReflectionCode\rttr\detail\variant_sequential_view</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Reflection\src\rttr\constructor.cpp">
@@ -459,9 +495,6 @@
       <Filter>ReflectionCode\rttr</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Reflection\src\rttr\variant.cpp">
-      <Filter>ReflectionCode\rttr</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Reflection\src\rttr\variant_array_view.cpp">
       <Filter>ReflectionCode\rttr</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Reflection\src\rttr\detail\constructor\constructor_wrapper_base.cpp">
@@ -509,9 +542,33 @@
     <ClCompile Include="..\..\..\Reflection\src\rttr\variant_associative_view.cpp">
       <Filter>ReflectionCode\rttr</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Reflection\src\rttr\library.cpp">
+      <Filter>ReflectionCode\rttr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Reflection\src\rttr\variant_sequential_view.cpp">
+      <Filter>ReflectionCode\rttr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Reflection\src\rttr\detail\library\library_unix.cpp">
+      <Filter>ReflectionCode\rttr\detail\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Reflection\src\rttr\detail\library\library_win.cpp">
+      <Filter>ReflectionCode\rttr\detail\library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Reflection\src\rttr\detail\registration\registration_state_saver.cpp">
+      <Filter>ReflectionCode\rttr\detail\registration</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Reflection\src\rttr\detail\type\type_data.cpp">
+      <Filter>ReflectionCode\rttr\detail\type</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Reflection\src\rttr\rttr.cmake">
+      <Filter>ReflectionCode\rttr</Filter>
+    </None>
+    <None Include="..\..\..\Reflection\src\rttr\registration">
+      <Filter>ReflectionCode\rttr</Filter>
+    </None>
+    <None Include="..\..\..\Reflection\src\rttr\registration_friend">
       <Filter>ReflectionCode\rttr</Filter>
     </None>
   </ItemGroup>

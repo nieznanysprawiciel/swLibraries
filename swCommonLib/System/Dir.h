@@ -5,8 +5,15 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
+#include "Path.h"
 
-/**@brief */
+
+
+namespace filesystem
+{
+
+
+/**@brief Directory manipulation.*/
 class Dir
 {
 private:
@@ -15,5 +22,9 @@ public:
 	explicit		Dir() = default;
 	~Dir() = default;
 
+
+	static bool			CreateDirectory		( const filesystem::Path& path );
 };
 
+
+}

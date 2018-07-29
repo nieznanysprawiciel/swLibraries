@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -36,7 +36,6 @@
 #include <catch/catch.hpp>
 
 using namespace rttr;
-using namespace std;
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -161,8 +160,6 @@ TEST_CASE("string_view - rbegin(), rend(), crbegin(), crend()", "[string_view]")
 {
     auto string_literal = "Hello World";
     string_view text = string_literal;
-    auto e = *text.rbegin();
-
 
     CHECK(*text.rbegin() == *"d");
     CHECK(text.rend() == string_view::reverse_iterator(string_literal));

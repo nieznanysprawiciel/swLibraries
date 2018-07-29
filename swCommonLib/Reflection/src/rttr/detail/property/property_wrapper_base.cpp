@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -107,13 +107,6 @@ type property_wrapper_base::get_type() const RTTR_NOEXCEPT
 variant property_wrapper_base::get_metadata(const variant& key) const
 {
     return variant();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-bool property_wrapper_base::is_array() const RTTR_NOEXCEPT
-{
-    return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

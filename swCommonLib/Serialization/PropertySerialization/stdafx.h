@@ -5,8 +5,15 @@
 
 #pragma once
 
-#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
+#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swCommonLib/Common/RTTR.h"
+#include "swCommonLib/Serialization/Serializer.h"
+#include "swCommonLib/Serialization/Deserializer.h"
+
+#include "swCommonLib/Serialization/PropertySerialization/EngineSerializationContext.h"
+
+#include "Core/SerializationCore.h"
 
 
 // TODO: reference additional headers your program requires here

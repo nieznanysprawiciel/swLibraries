@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -53,6 +53,7 @@ class RTTR_API destructor_wrapper_base
         virtual ~destructor_wrapper_base();
 
         virtual bool is_valid() const RTTR_NOEXCEPT;
+        virtual type get_declaring_type() const RTTR_NOEXCEPT;
         virtual type get_destructed_type() const RTTR_NOEXCEPT;
         virtual bool invoke(variant& obj) const RTTR_NOEXCEPT;
 };

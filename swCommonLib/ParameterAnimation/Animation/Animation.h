@@ -5,7 +5,7 @@
 @copyright File is part of graphic engine SWEngine.
 */
 
-#include "swCommonLib/Common/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 
 #include "IAnimation.h"
 #include "swCommonLib/ParameterAnimation/Animation/AnimEvaluator.h"
@@ -88,12 +88,12 @@ public:
 	AnimEvaluator< KeyType, AddressType >		Evaluator;
 
 public:
-					AnimationImpl	( EngineObject* object, const std::string& propertyPath );
+					AnimationImpl	( Object* object, const std::string& propertyPath );
 	virtual			~AnimationImpl	() = default;
 
 
-	virtual void	Animate			( EngineObject* object, TimelineBase* timeline )		override;
-	virtual void	Animate			( EngineObject* object, TimeType time )					override;
+	virtual void	Animate			( Object* object, TimelineBase* timeline )		override;
+	virtual void	Animate			( Object* object, TimeType time )					override;
 
 
 	/**@copydoc AnimationTyped::AddKey*/

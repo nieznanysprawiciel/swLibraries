@@ -6,7 +6,7 @@
 @brief Plik zawiera deklaracjê i definicjê klasy ResourceObject s³u¿¹c¹
 do zliczania odwo³añ do obiektu.*/
 
-#include "swCommonLib/Common/EngineObject.h"
+#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
 //#include <atomic>
 
 
@@ -27,9 +27,9 @@ Jest to wymagane do u³atwienia obs³ugi wielow¹tkowoœci. Inaczej mog³yby siê pokr
 @todo Zliczanie referencji w ResourceObject nie nadaje siê do wielow¹tkowoœci. Poprawiæ w odpowiednim momencie.
 */
 
-class ResourceObject	: public EngineObject
+class ResourceObject	: public sw::EngineObject
 {
-	RTTR_ENABLE( EngineObject );
+	RTTR_ENABLE( sw::EngineObject );
 	RTTR_REGISTRATION_FRIEND
 private:
 	unsigned int			m_objectReferences;	///< Liczba assetów, które sie odwo³uj¹. @todo To powinien byæ std::atomic_uint, ale wtedy nie kompiluje siê z CLRem.

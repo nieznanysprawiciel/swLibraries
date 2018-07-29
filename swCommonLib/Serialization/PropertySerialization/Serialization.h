@@ -1,6 +1,12 @@
 #pragma once
+/**
+@file Serialization.h
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
 
-#include "swCommonLib/Common/EngineObject.h"
+
+#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
 #include "swCommonLib/Common/RTTR.h"
 #include "swCommonLib/Serialization/Serializer.h"
 #include "swCommonLib/Serialization/Deserializer.h"
@@ -10,69 +16,136 @@
 #include <string>
 
 
+#include "swCommonLib/System/Path.h"
+#include "swCommonLib/System/Dir.h"
+
+#include "SerializationContext.h"
+#include "Core/SerializationCore.h"
+
+
+namespace sw
+{
+
+/**@defgroup Serialization Serialization
+@ingroup CommonLibrary
+@brief Automatic serialization library based on rttr properties.
+
+@see @ref Page_Serialization "Serialization Reference"*/
+
+
+
+/**@page Page_Serialization Serialization
+
+@section Serialization_General General
+
+Serialization library uses RTTR information to serialize classes. Remember to register
+your classes in RTTR before using these serialization functionalities.
+
+@section Serialization_ChoosingSerializer Choosing serializer
+
+Serializer can be chosen at link time. Add one of serializers projects (SerializerJSON or SerializerXML) as referenced project.
+This behavior may change in future version and serializers will be rewritten to implement common interface.
+
+@section Serialization_Usage Usage Examples
+
+@subsection Serialization_Usage_Serialization Serialization
+
+@code{.cpp}
+BaseObject object;
+sw::Serialization serial;
+
+bool success = serial.Serialize( "Serialization/GenericObject.xml", object );
+@endcode
+
+@subsection Serialization_Usage_Deserialization Deserialization
+
+@code{.cpp}
+BaseObject object;
+sw::Serialization deserial;
+
+bool success = deserial.Deserialize( "Serialization/GenericObject.xml", object );
+@endcode
+
+@section Serialization_FuturePlans Future plans
+
+Serialization library is still in development process. There're many things that should be covered in
+future versions:
+
+- Deserialization of polymorphic types not derived from sw::EngineObject.
+- Arrays habdling:
+	- Serialization/deserialization of arrays nested in arrays (array ranks).
+	- Arrays with basic types (ints, floats and so on).
+	- Arrays with polymorphic types that need creation.
+- Serialization/deserialization of associative containers from stl.
+- Better handling of wrapped types:
+	- Setting objects for Properties with mixed wrapped and raw pointer types.
+	- Handling wrappers that don't take ownership of pointers (especially destroying these types).
+- Implementing hooks for overriding serialization/deserialization for specified types.
+- Make JSON and XML serializers virtual and move to sw namespace.
+- Add more tests checking invalid conditions.
+- Better documentation ;)
+
+@see @ref Serialization*/
+
+
+
+/**@brief Main object which performs serialization and deserialization.
+
+@ingroup Serialization*/
 class Serialization
 {
+private:
+
+	SerializationContextPtr		m_context;
+
+protected:
 public:
 
-	static std::vector< rttr::property >&		GetTypeFilteredProperties	( rttr::type objType, EngineSerializationContext* context );
+	/**@brief Creates serialization object with default serialization context. If your serialization
+	needs custom context use other overload of this function.*/
+	explicit		Serialization		();
+
+	/**@brief Creates serialization object with custom context.*/
+	explicit		Serialization		( SerializationContextPtr ctx );
+
+	~Serialization		() = default;
 
 
-	static bool				ShouldSave				( const rttr::property& prop, MetaDataType saveFlag );
-	
-	static void				DefaultSerialize		( ISerializer* ser, const EngineObject* object );
-	static void				DefaultDeserialize		( IDeserializer* deser, EngineObject* object );
+	/**@brief Serialize to file.*/
+	bool			Serialize			( const filesystem::Path& filePath, const EngineObject* object );
 
-	static void				DefaultSerializeImpl	( ISerializer* ser, const rttr::instance& object, rttr::type dynamicType );
-	static void				DefaultDeserializeImpl	( IDeserializer* deser, const rttr::instance& object, rttr::type dynamicType );
+	/**@brief Serialize object to file.*/
+	template< typename Type >
+	bool			Serialize			( const filesystem::Path& filePath, const Type& object );
 
-	static bool				SerializeBasicTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
-	static bool				SerializeVectorTypes	( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
-	static bool				SerializeStringTypes	( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
-	static bool				SerializeEnumTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
-	static bool				SerializeArrayTypes		( ISerializer* ser, const rttr::instance& object, rttr::property& prop );
-	
-	static void				SerializePropertiesVec	( ISerializer* ser, const rttr::instance& object, std::vector< rttr::property >& properties );
+	/**@brief Serialize object to provided serializer.
+	This serialization doesn't write it's output anywhere.
 
-	static bool				DeserializeBasicTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeVectorTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeStringTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeEnumTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeArrayTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeObjectTypes	( IDeserializer* deser, const rttr::instance& object, rttr::property& prop );
+	@note Serializer must be initialized with context which is derived from SerializationContext.*/
+	template< typename Type >
+	bool			Serialize			( ISerializer& ser, const Type& object );
 
+	/**@brief Deserialize object from file.*/
+	template< typename Type >
+	bool			Deserialize			( const filesystem::Path& filePath, const Type& object );
 
-	static std::string		WstringToUTF		( const std::wstring& str );
-	static std::wstring		UTFToWstring		( const std::string& str );
+	/**@brief Deserialize object to provided serializer.
+	This deserialization doesn't write it's output anywhere.
 
-	template< typename PropertyType >
-	static PropertyType		GetPropertyValue	( rttr::property prop, const rttr::instance& object );
+	@note Deserializer must be initialized with context which is derived from SerializationContext.*/
+	template< typename Type >
+	bool			Deserialize			( IDeserializer& deser, Type& object );
 
-	template< typename PropertyType >
-	static void				SerializeProperty	( ISerializer* ser, rttr::property prop, const rttr::instance& object );
+private:
 
-
-
-	template<>	static void				SerializeProperty< EngineObject* >			( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				SerializeProperty< void* >					( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				SerializeProperty< DirectX::XMFLOAT2* >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				SerializeProperty< DirectX::XMFLOAT3* >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				SerializeProperty< DirectX::XMFLOAT4* >		( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				SerializeProperty< std::wstring >			( ISerializer* ser, rttr::property prop, const rttr::instance& object );
-
-
-	template< typename PropertyType >
-	static void				SetPropertyValue	( rttr::property prop, const rttr::instance& object, PropertyType value );
-
-	template< typename PropertyType >
-	static void				DeserializeProperty	( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
-
-
-	template<>	static void				DeserializeProperty< EngineObject* >		( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				DeserializeProperty< void* >				( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				DeserializeProperty< DirectX::XMFLOAT2* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				DeserializeProperty< DirectX::XMFLOAT3* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				DeserializeProperty< DirectX::XMFLOAT4* >	( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				DeserializeProperty< std::wstring >			( IDeserializer* deser, rttr::property prop, const rttr::instance& object );
+	void			InitializeContext	( SerializationContext* ctx );
 };
+
+
+
+
+
+}	// sw
+
 
 #include "Serialization.inl"

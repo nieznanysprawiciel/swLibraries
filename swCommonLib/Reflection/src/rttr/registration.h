@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -288,7 +288,7 @@ public:
      * \return A \ref bind object, in order to chain more calls.
      */
     template<typename A>
-    static bind<detail::prop, void, A, detail::public_access> property(string_view name, A acc);
+    static bind<detail::prop, detail::invalid_type, A, detail::public_access> property(string_view name, A acc);
 
     /*!
      * \brief Register a global read only property.
@@ -306,7 +306,7 @@ public:
      * \return A \ref bind object, in order to chain more calls.
      */
     template<typename A>
-    static bind<detail::prop_readonly, void, A, detail::public_access> property_readonly(string_view name, A acc);
+    static bind<detail::prop_readonly, detail::invalid_type, A, detail::public_access> property_readonly(string_view name, A acc);
 
     /*!
      * \brief Register a property to this class.
@@ -324,7 +324,7 @@ public:
      * \return A \ref bind object, in order to chain more calls.
      */
     template<typename A1, typename A2>
-    static bind<detail::prop, void, A1, A2, detail::public_access> property(string_view name, A1 getter, A2 setter);
+    static bind<detail::prop, detail::invalid_type, A1, A2, detail::public_access> property(string_view name, A1 getter, A2 setter);
 
     /*!
      * \brief Register a method to this class.
@@ -340,7 +340,7 @@ public:
      * \return A \ref bind object, in order to chain more calls.
      */
     template<typename F>
-    static bind<detail::meth, void, F, detail::public_access> method(string_view name, F f);
+    static bind<detail::meth, detail::invalid_type, F, detail::public_access> method(string_view name, F f);
 
     /*!
      * \brief Register a global enumeration of type \p Enum_Type
@@ -354,7 +354,7 @@ public:
      * \return A \ref bind object, in order to chain more calls.
      */
     template<typename Enum_Type>
-    static bind<detail::enum_, void, Enum_Type> enumeration(string_view name);
+    static bind<detail::enum_, detail::invalid_type, Enum_Type> enumeration(string_view name);
 
     /////////////////////////////////////////////////////////////////////////////////////
 
@@ -569,6 +569,19 @@ auto select_const(ReturnType (ClassType::*func)(Args...) const) -> decltype(func
     return func;
 }
 
+#ifndef RTTR_NO_CXX17_NOEXCEPT_FUNC_TYPE
+/*!
+ * \brief Overload with `noexcept` function type.
+ *
+ * \see select_const
+ */
+template<typename ClassType, typename ReturnType, typename... Args>
+auto select_const(ReturnType (ClassType::*func)(Args...) const noexcept) -> decltype(func)
+{
+    return func;
+}
+#endif
+
 /*!
  * \brief This is a helper function to register overloaded const member functions.
  *
@@ -610,6 +623,20 @@ auto select_non_const(ReturnType(ClassType::*func)(Args...)) -> decltype(func)
 {
     return func;
 }
+
+#ifndef RTTR_NO_CXX17_NOEXCEPT_FUNC_TYPE
+
+/*!
+ * \brief Overload with `noexcept` function type.
+ *
+ * \see select_const
+ */
+template<typename ClassType, typename ReturnType, typename... Args>
+auto select_non_const(ReturnType(ClassType::*func)(Args...) noexcept) -> decltype(func)
+{
+    return func;
+}
+#endif
 
 /*!
  * The \ref metadata function can be used to add additional meta data information during the
@@ -716,6 +743,30 @@ RTTR_INLINE detail::parameter_names<detail::decay_t<TArgs>...> parameter_names(T
  *
  */
 #define RTTR_REGISTRATION
+
+/*!
+ * \brief Use this macro to automatically register your reflection information inside a plugin to RTTR.
+ *
+ * Use it in following way:
+ * \code{.cpp}
+ *
+ *   int some_method() { return 42; }
+ *
+ *   RTTR_PLUGIN_REGISTRATION
+ *   {
+ *       rttr::registration::method("some_method", &some_method);
+ *   }
+ * \endcode
+ *
+ * Just place the macro in global scope in a cpp file.
+ *
+ * \remark It is not possible to place the macro multiple times in one cpp file.
+ *         When you compile your plugin with the `gcc` toolchain, make sure you use the compiler option: `-fno-gnu-unique`.
+ *         otherwise the unregistration will not work properly.
+ *
+ * \see library
+ */
+#define RTTR_PLUGIN_REGISTRATION
 
 /*!
  * \brief Place this macro inside a class, when you need to reflect properties,

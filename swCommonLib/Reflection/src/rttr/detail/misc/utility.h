@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -39,6 +39,10 @@
 #include <utility>
 #include <algorithm>
 #include <string>
+
+#ifdef RTTR_NO_CXX17_NOEXCEPT_FUNC_TYPE
+RTTR_BEGIN_DISABLE_EXCEPT_TYPE_WARNING
+#endif
 
 namespace rttr
 {
@@ -330,6 +334,7 @@ class reverse_wrapper
 {
     public:
         reverse_wrapper(T& container) : m_container(container) { }
+
         decltype(std::declval<T>().rbegin()) begin() { return m_container.rbegin(); }
         decltype(std::declval<T>().rend()) end() { return m_container.rend(); }
 
@@ -337,6 +342,8 @@ class reverse_wrapper
         decltype(std::declval<T>().crend()) end() const { return m_container.crend(); }
 
     private:
+        reverse_wrapper<T>& operator=(const reverse_wrapper<T>& other);
+
         T& m_container;
 };
 
@@ -501,10 +508,10 @@ RTTR_INLINE static std::size_t generate_hash(const char* text, std::size_t lengt
 /////////////////////////////////////////////////////////////////////////////////////////
 // custom has functor, to make sure that "std::string" and "rttr::string_view" uses the same hashing algorithm
 template <typename T>
-class hash;
+struct hash;
 
 template <>
-class hash<std::string>
+struct hash<std::string>
 {
 public:
     size_t operator()(const std::string& text) const
@@ -515,7 +522,36 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+template<typename T>
+inline enable_if_t<std::is_same<T, std::string>::value || std::is_same<T, std::wstring>::value, bool>
+starts_with(const T& big_str, const T& small_str)
+{
+    return (big_str.compare(0, small_str.size(), small_str) == 0);
+}
+
+template<typename T>
+inline enable_if_t<std::is_same<T, std::string>::value || std::is_same<T, std::wstring>::value, bool>
+ends_with(const T& big_str, const T& small_str)
+{
+    return (big_str.size() >= small_str.size() &&
+            big_str.compare(big_str.size() - small_str.size(), small_str.size(), small_str) == 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+/*!
+ * A simple identity function. Returns the same object, without doing anything.
+ */
+template<typename T>
+static RTTR_INLINE T& identity_func(T& func) { return func; }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 } // end namespace detail
 } // end namespace rttr
+
+#ifdef RTTR_NO_CXX17_NOEXCEPT_FUNC_TYPE
+RTTR_END_DISABLE_EXCEPT_TYPE_WARNING
+#endif
 
 #endif //RTTR_UTILITY_H_

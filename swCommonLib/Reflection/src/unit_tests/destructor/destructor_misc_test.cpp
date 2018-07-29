@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2017 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -81,6 +81,18 @@ TEST_CASE("destructor - compare operator", "[destructor]")
 
     CHECK(dtor1 == dtor1a);
     CHECK(dtor1 != dtor2);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+TEST_CASE("destructor::get_declaring_type()", "[destructor]")
+{
+    destructor dtor = type::get_by_name("dtor_misc_test").get_destructor();
+
+    destructor invalid_dtor = type::get_by_name("foobar").get_destructor();
+
+    CHECK(dtor.get_declaring_type() == type::get<dtor_misc_test>());
+    CHECK(invalid_dtor.get_declaring_type().is_valid() == false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "swCommonLib/Common/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 #include "swCommonLib/Common/RTTR.h"
 
 #include <vector>
@@ -12,19 +12,19 @@ class Properties
 private:
 public:
 
-	static std::vector< rttr::property >					GetPropertyPath	( EngineObject* object, const std::string& propertyPath, char separator = '/' );
+	static std::vector< rttr::property >					GetPropertyPath	( Object* object, const std::string& propertyPath, char separator = '/' );
 	static std::vector< rttr::property >					GetPropertyPath	( rttr::variant object, const std::string& propertyPath, Size offset = 0, char separator = '/' );
 
-	static std::pair< rttr::variant, rttr::property >		GetProperty		( EngineObject* object, const std::string& propertyPath, char separator = '/' );
+	static std::pair< rttr::variant, rttr::property >		GetProperty		( Object* object, const std::string& propertyPath, char separator = '/' );
 	static std::pair< rttr::variant, rttr::property >		GetProperty		( rttr::variant object, const std::string& propertyPath, Size offset = 0, char separator = '/' );
-	static std::pair< rttr::variant, rttr::property >		GetProperty		( EngineObject* object, const std::vector< rttr::property >& propertyPath );
+	static std::pair< rttr::variant, rttr::property >		GetProperty		( Object* object, const std::vector< rttr::property >& propertyPath );
 	
 	template< typename Type >
-	static Type						GetValue		( EngineObject* object, const std::vector< rttr::property >& propertyPath );
+	static Type						GetValue		( Object* object, const std::vector< rttr::property >& propertyPath );
 
 	static rttr::property			EmptyProperty	();
 	static TypeID					GetRealType		( const rttr::variant& object );
-	static TypeID					GetRealType		( EngineObject* object );
+	static TypeID					GetRealType		( Object* object );
 };
 
 //====================================================================================//
@@ -33,7 +33,7 @@ public:
 
 
 template< typename Type >
-inline Type			Properties::GetValue		( EngineObject* object, const std::vector< rttr::property >& propertyPath )
+inline Type			Properties::GetValue		( Object* object, const std::vector< rttr::property >& propertyPath )
 {
 	rttr::variant propertyVal = object;
 

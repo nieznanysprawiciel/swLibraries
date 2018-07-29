@@ -1,6 +1,6 @@
 #pragma once
 
-#include "swCommonLib/Common/EngineObject.h"
+#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
 #include "swGUI/Core/System/CommonTypes/CommonTypes.h"
 
 #include <string>
