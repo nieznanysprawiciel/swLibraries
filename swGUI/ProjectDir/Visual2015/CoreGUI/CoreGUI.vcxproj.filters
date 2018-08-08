@@ -58,6 +58,12 @@
     <Filter Include="Core\System\DataBinding\Exceptions">
       <UniqueIdentifier>{41d28770-ab16-45b2-9af4-2c576b0ea60b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Media\Geometry">
+      <UniqueIdentifier>{db4fc5c4-b25b-41cf-9cbf-123e464befda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\System\Rendering\Drawings">
+      <UniqueIdentifier>{8baf291e-1e78-4d49-b474-d8929982099a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\targetver.h">
@@ -227,6 +233,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Core\System\DataBinding\DependencyProperty.h">
       <Filter>Core\System\DataBinding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\Media\Geometry\Geometry.h">
+      <Filter>Core\Media\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\IDrawing.h">
+      <Filter>Core\System\Rendering\Drawings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\Drawing.h">
+      <Filter>Core\System\Rendering\Drawings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\DrawingGroup.h">
+      <Filter>Core\System\Rendering\Drawings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

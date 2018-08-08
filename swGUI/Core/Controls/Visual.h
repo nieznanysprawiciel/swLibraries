@@ -41,11 +41,11 @@ protected:
 
 public:
 	explicit		Visual		() = default;
-	~Visual		() = default;
+	virtual			~Visual		() = default;
 
-/**@brief Checks if point is within this object.
-@todo We must specify if point is in relative coordinates or absolut.*/
-	virtual bool			HitTest				( const Position& point )		= 0;
+	/**@brief Checks if point is within this object.
+	@todo We must specify if point is in relative coordinates or absolut.*/
+	virtual bool			HitTest				( const Point& point )			= 0;
 
 	/**@brief Control rendering behavior.*/
 	virtual void			OnRender			( DrawingContext& context )		= 0;
