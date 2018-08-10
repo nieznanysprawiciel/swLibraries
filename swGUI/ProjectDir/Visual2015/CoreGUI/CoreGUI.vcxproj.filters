@@ -246,6 +246,9 @@
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\DrawingGroup.h">
       <Filter>Core\System\Rendering\Drawings</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.h">
+      <Filter>Core\System\Rendering\Drawings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\Controls\IControl.cpp">

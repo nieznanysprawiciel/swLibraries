@@ -95,6 +95,7 @@ public:
 
 };
 
+DEFINE_PTR_TYPE( Geometry )
 
 
 }	// gui

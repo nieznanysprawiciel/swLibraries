@@ -43,7 +43,7 @@ struct GeometryRenderingData
 /**@brief Represents brush using graphic API structures.*/
 struct BrushRenderingData
 {
-	ResourcePtr< PixelShader >		PixelShader;		///< Vertex Shader.
+	ResourcePtr< PixelShader >		PixelShader;		///< Pixel Shader.
 	ResourcePtr< BufferObject >		BrushConstants;		///< Constant buffer bound to Pixel Shader.
 	ResourcePtr< TextureObject >	Texture;			///< Optional texture bound to Pixel Shader.
 };
@@ -72,6 +72,8 @@ public:
 
 
 };
+
+DEFINE_PTR_TYPE( Drawing )
 
 
 }	// gui

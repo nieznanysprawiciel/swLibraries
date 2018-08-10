@@ -10,15 +10,15 @@ namespace sw {
 namespace gui
 {
 
-/**@brief Class Restincts access to some functions only for chosen classes.*/
+/**@brief Class Restricts access to some functions only for chosen classes.*/
 class AccessKey
 {
 	friend class GUISystem;
 	friend class EventsSystem;
 private:
-	AccessKey() = default;					///<Tylko klasa zaprzyjaŸniona mo¿e stworzyæ obiekt.
-	AccessKey( const AccessKey& ) {}		///<Tylko klasa zaprzyjaŸniona mo¿e stworzyæ obiekt.
-	AccessKey( const AccessKey&& ) {}		///<Tylko klasa zaprzyjaŸniona mo¿e stworzyæ obiekt.
+	AccessKey() = default;					///< Only friend class can create object.
+	AccessKey( const AccessKey& ) {}		///< Only friend class can create object.
+	AccessKey( const AccessKey&& ) {}		///< Only friend class can create object.
 public:
 };
 

@@ -31,6 +31,8 @@ public:
 
 };
 
+DEFINE_PTR_TYPE( DrawingGroup )
+
 
 }	// gui
 }	// sw

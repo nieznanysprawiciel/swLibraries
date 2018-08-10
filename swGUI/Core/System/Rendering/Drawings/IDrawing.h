@@ -33,6 +33,7 @@ public:
 
 };
 
+DEFINE_PTR_TYPE( IDrawing )
 
 
 }	// gui
