@@ -9,5 +9,6 @@
     <ClCompile Include="..\..\..\..\Tests\MultithreadingTest\ThreadBarrierTest.cpp">
       <Filter>Threading</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\MultithreadingTest\main.cpp" />
   </ItemGroup>
 </Project>
