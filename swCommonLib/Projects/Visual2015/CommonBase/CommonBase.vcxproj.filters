@@ -28,6 +28,9 @@
     <Filter Include="Common\Exceptions">
       <UniqueIdentifier>{1d235bb2-b3b8-46d7-bc00-c5300c1fcb32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Buffers">
+      <UniqueIdentifier>{9e6aceb0-23e1-46a1-8b54-c5882da45a8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Common\Converters.cpp">
@@ -154,6 +157,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Object.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Buffers\BufferRaw.h">
+      <Filter>Common\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Buffers\BufferTyped.h">
+      <Filter>Common\Buffers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -95,6 +95,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PluginTestRTTR", "..\swComm
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HierarchicalChunkedFormat", "..\swCommonLib\Projects\Visual2015\HierarchicalChunkedFormat\HierarchicalChunkedFormat.vcxproj", "{50CF2C5D-4A13-4D16-8E65-441FE7155333}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestBuffers", "..\swCommonLib\Projects\Visual2015\Tests\BuffersTest\TestBuffers.vcxproj", "{A98B51A9-F36D-42FA-8119-162962EE2EC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -359,6 +361,14 @@ Global
 		{50CF2C5D-4A13-4D16-8E65-441FE7155333}.Release|x64.Build.0 = Release|x64
 		{50CF2C5D-4A13-4D16-8E65-441FE7155333}.Release|x86.ActiveCfg = Release|Win32
 		{50CF2C5D-4A13-4D16-8E65-441FE7155333}.Release|x86.Build.0 = Release|Win32
+		{A98B51A9-F36D-42FA-8119-162962EE2EC3}.Debug|x64.ActiveCfg = Debug|x64
+		{A98B51A9-F36D-42FA-8119-162962EE2EC3}.Debug|x64.Build.0 = Debug|x64
+		{A98B51A9-F36D-42FA-8119-162962EE2EC3}.Debug|x86.ActiveCfg = Debug|Win32
+		{A98B51A9-F36D-42FA-8119-162962EE2EC3}.Debug|x86.Build.0 = Debug|Win32
+		{A98B51A9-F36D-42FA-8119-162962EE2EC3}.Release|x64.ActiveCfg = Release|x64
+		{A98B51A9-F36D-42FA-8119-162962EE2EC3}.Release|x64.Build.0 = Release|x64
+		{A98B51A9-F36D-42FA-8119-162962EE2EC3}.Release|x86.ActiveCfg = Release|Win32
+		{A98B51A9-F36D-42FA-8119-162962EE2EC3}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -409,5 +419,6 @@ Global
 		{3F6348E2-4621-45C6-AD8D-91B8BE4C9072} = {8FF4A89C-7622-475B-8363-447D83D54111}
 		{D4C5BFBD-37C5-4254-8E12-EBF0323A9E3D} = {8FF4A89C-7622-475B-8363-447D83D54111}
 		{50CF2C5D-4A13-4D16-8E65-441FE7155333} = {0C4903FC-0FA2-45A8-AE6A-CE5D6B37D83F}
+		{A98B51A9-F36D-42FA-8119-162962EE2EC3} = {E2F170A3-BC55-4F92-B96C-A4F65CE8396E}
 	EndGlobalSection
 EndGlobal
