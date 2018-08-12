@@ -53,5 +53,6 @@ TEST_CASE( "Common.Buffers.BufferTyped.ToRawBuffer" )
 	CHECK( buffer2.GetRawData() == prevPtr );
 	CHECK( buffer2.GetSize() == 10 * sizeof( StructWithSimpleTypes ) );
 	CHECK( buffer2.ElementsCount() == 10 );
+	CHECK( buffer2[ 3 ] == example );
 }
 
