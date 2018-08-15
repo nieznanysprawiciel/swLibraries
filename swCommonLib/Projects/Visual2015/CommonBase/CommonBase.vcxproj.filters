@@ -164,5 +164,11 @@
     <ClInclude Include="..\..\..\Common\Buffers\BufferTyped.h">
       <Filter>Common\Buffers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Common\Buffers\StackBuffer.h">
+      <Filter>Common\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Buffers\BufferRange.h">
+      <Filter>Common\Buffers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

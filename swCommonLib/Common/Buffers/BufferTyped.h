@@ -43,6 +43,7 @@ public:
 	Size				ElementsCount	() const		{ return m_count; }
 	uint8*				GetRawData		()				{ return reinterpret_cast< uint8* >( m_data ); }
 	const uint8*		GetRawData		() const		{ return reinterpret_cast< const uint8* >( m_data ); }
+	bool				IsValid			() const		{ return m_data != nullptr; }
 
 public:
 

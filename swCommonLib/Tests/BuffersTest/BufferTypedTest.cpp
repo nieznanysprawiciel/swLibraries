@@ -40,19 +40,23 @@ TEST_CASE( "Common.Buffers.BufferTyped.ToRawBuffer" )
 	CHECK( buffer.GetRawData() == nullptr );
 	CHECK( buffer.GetSize() == 0 );
 	CHECK( buffer.ElementsCount() == 0 );
+	CHECK( buffer.IsValid() == false );
 
 	CHECK( rawBuffer.GetData() == prevPtr );
 	CHECK( rawBuffer.GetSize() == 10 * sizeof( StructWithSimpleTypes ) );
+	CHECK( rawBuffer.IsValid() == true );
 
 
 	BufferTyped< StructWithSimpleTypes > buffer2( std::move( rawBuffer ) );
 
 	CHECK( rawBuffer.GetData() == nullptr );
 	CHECK( rawBuffer.GetSize() == 0 );
+	CHECK( rawBuffer.IsValid() == false );
 
 	CHECK( buffer2.GetRawData() == prevPtr );
 	CHECK( buffer2.GetSize() == 10 * sizeof( StructWithSimpleTypes ) );
 	CHECK( buffer2.ElementsCount() == 10 );
+	CHECK( buffer2.IsValid() == true );
 	CHECK( buffer2[ 3 ] == example );
 }
 

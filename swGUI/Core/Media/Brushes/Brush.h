@@ -7,6 +7,8 @@
 
 
 #include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swCommonLib/Common/Buffers/BufferRange.h"
+
 
 
 /**@defgroup Brushes Brushes
@@ -46,7 +48,10 @@ public:
 	explicit		Brush		() = default;
 	virtual			~Brush		() = default;
 
-	//virtual	BufferPtr	BufferData			() = 0;
+	/**@brief Returns BufferRange of new content of constant buffer.
+	@note Brush object is still owner of returned memory and it shouldn't be freed after return from this function.
+	It is recommended to use @ref StackBuffer in Brush implementation.*/
+	virtual	BufferRange		BufferData			() = 0;
 
 	/**@brief Returns file name containing function used in Pixel Shader.
 	

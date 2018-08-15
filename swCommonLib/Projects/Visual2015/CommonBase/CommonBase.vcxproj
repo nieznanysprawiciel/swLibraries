@@ -30,8 +30,10 @@
     <ClCompile Include="..\..\..\System\Filesystem\filesystem\path.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Common\Buffers\BufferRange.h" />
     <ClInclude Include="..\..\..\Common\Buffers\BufferRaw.h" />
     <ClInclude Include="..\..\..\Common\Buffers\BufferTyped.h" />
+    <ClInclude Include="..\..\..\Common\Buffers\StackBuffer.h" />
     <ClInclude Include="..\..\..\Common\Config\ConfigHelper.h" />
     <ClInclude Include="..\..\..\Common\Converters.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Exception.h" />

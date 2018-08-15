@@ -50,7 +50,7 @@ public:
 	Size				GetSize			() const		{ return m_size; }
 	uint8*				GetData			()				{ return reinterpret_cast< uint8* >( m_data ); }
 	const uint8*		GetData			() const		{ return reinterpret_cast< const uint8* >( m_data ); }
-
+	bool				IsValid			() const		{ return m_data != nullptr; }
 
 public:
 

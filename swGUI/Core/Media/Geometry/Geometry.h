@@ -6,6 +6,10 @@
 */
 
 #include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swCommonLib/Common/Buffers/BufferRaw.h"
+#include "swCommonLib/Common/Buffers/BufferRange.h"
+
+#include "swGraphicAPI/Rendering/GraphicAPIConstants.h"
 
 #include "swGUI/Core/System/CommonTypes/CommonTypes.h"
 
@@ -18,6 +22,19 @@
 namespace sw {
 namespace gui
 {
+
+
+/**@brief Structure holding generated geometry.
+@ingroup Geometries*/
+struct GeometryData
+{
+	BufferRaw			VertexBuffer;
+	BufferRaw			IndexBuffer;
+	uint32				FillIdxEnd;
+	uint32				BorderIdxEnd;
+	PrimitiveTopology	Topology;
+	bool				ExtendedIB;			///< Index Buffer uses 4-bytes indicies.
+};
 
 
 /**@brief Class representing geometry.
@@ -67,8 +84,14 @@ public:
 
 	///@name Shapes generation API
 	///@{
-	//virtual	Verticies	Generate			() = 0;
-	//virtual	BufferPtr	BufferData			() = 0;
+
+	/**@brief Generates geometry with current parameters.*/
+	virtual	GeometryData	Generate			() = 0;
+	
+	/**@brief Returns BufferRange of new content of constant buffer.
+	@note Geometry object is still owner of returned memory and it shouldn't be freed after return from this function.
+	It is recommended to use @ref StackBuffer in Geometry implementation.*/
+	virtual	BufferRange		BufferData			() = 0;
 
 	/**@brief Returns file name containing function used in Vertex Shader.
 	
