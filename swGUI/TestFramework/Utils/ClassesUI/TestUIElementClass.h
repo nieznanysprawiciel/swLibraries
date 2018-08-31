@@ -66,9 +66,6 @@ public:
 		return false;
 	}
 
-	virtual void OnRender( sw::gui::DrawingContext & context ) override
-	{}
-
 	virtual sw::gui::Size2D Measure( sw::gui::Size2D availableSize ) override
 	{
 		return sw::gui::Size2D();
@@ -80,9 +77,9 @@ public:
 	virtual Size				GetNumChildren			() const override;
 	virtual UIElement *			GetUIChild				( Size idx ) const override;
 	virtual bool				AddChild				( sw::gui::UIElementOPtr && child ) override;
+	virtual const sw::gui::IDrawingPtr & QueryDrawing() const override;
 
 #pragma endregion
-
 
 
 

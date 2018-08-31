@@ -11,7 +11,7 @@
 #include "swGUI/Core/System/CommonTypes/CommonTypes.h"
 #include "swGUI/Core/System/CommonTypes/AccessKey.h"
 
-#include "swGUI/Core/System/Rendering/DrawingContext.h"
+#include "swGUI/Core/System/Rendering/Drawings/IDrawing.h"
 
 
 namespace sw {
@@ -34,7 +34,6 @@ class Visual : public DependencyObject
 private:
 
 	Position		m_position;		///< Control position. (@todo Relative to parent ???)
-	Size2D			m_actualSize;	///< Size of control used for rendering. This size will be set after for example layout arrangment will be aplied.
 
 protected:
 
@@ -45,11 +44,13 @@ public:
 
 	/**@brief Checks if point is within this object.
 	@todo We must specify if point is in relative coordinates or absolut.*/
-	virtual bool			HitTest				( const Point& point )			= 0;
+	virtual bool					HitTest				( const Point& point )			= 0;
 
-	/**@brief Control rendering behavior.*/
-	virtual void			OnRender			( DrawingContext& context )		= 0;
+public:
 
+	/**@brief Gets Drawing object for this control.
+	Drawing object gives Visual it's appearance.*/
+	virtual const IDrawingPtr&		QueryDrawing		() const						= 0;
 
 };
 

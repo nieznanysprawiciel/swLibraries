@@ -223,11 +223,6 @@ bool				HostWindow::HitTest				( const Position& point )
 
 // ================================ //
 //
-void				HostWindow::OnRender			( DrawingContext& context )
-{}
-
-// ================================ //
-//
 Size2D				HostWindow::Measure				( Size2D availableSize )
 {
 	return Size2D();
@@ -257,6 +252,11 @@ UIElement*			HostWindow::GetUIChild			( Size idx ) const
 bool				HostWindow::AddChild			( UIElementOPtr&& child )
 {
 	return false;
+}
+
+const IDrawingPtr&	HostWindow::QueryDrawing		() const
+{
+	return nullptr;
 }
 
 

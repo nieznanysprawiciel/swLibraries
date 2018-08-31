@@ -10,6 +10,9 @@
 #include "swGraphicAPI/Rendering/IRenderer.h"
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
 
+#include "swGUI/Core/Controls/Visual.h"
+#include "swGUI/Core/System/Rendering/Drawings/IDrawing.h"
+
 
 
 /**@defgroup RenderingSystem Rendering System
@@ -42,6 +45,19 @@ public:
 	You probably don't need it. Use only if you write graphic application which renders something by itself.
 	You are not owner of this object.*/
 	IRenderer*		GetRenderer			() const			{ return m_renderer.get(); }
+
+
+public:
+
+	///@name Rendering
+	///@{
+
+	void			Render				( const Visual* visual );
+	void			Render				( IDrawing* drawing );
+
+
+	///@}
+
 };
 
 DEFINE_OPTR_TYPE( RenderingSystem );

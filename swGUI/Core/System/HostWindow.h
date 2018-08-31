@@ -85,14 +85,13 @@ public:
 
 
 	// Inherited via UIElement
-	virtual bool		HitTest			( const Position& point )		override;
-	virtual void		OnRender		( DrawingContext& context )		override;
-	virtual Size2D		Measure			( Size2D availableSize )		override;
-	virtual void		Arrange			( Rect& finalRect )				override;
-	virtual Size		GetNumChildren	() const						override;
-	virtual UIElement*	GetUIChild		( Size idx ) const				override;
-	virtual bool		AddChild		( UIElementOPtr&& child )		override;
-
+	virtual bool					HitTest			( const Position& point )		override;
+	virtual Size2D					Measure			( Size2D availableSize )		override;
+	virtual void					Arrange			( Rect& finalRect )				override;
+	virtual Size					GetNumChildren	() const						override;
+	virtual UIElement*				GetUIChild		( Size idx ) const				override;
+	virtual bool					AddChild		( UIElementOPtr&& child )		override;
+	virtual const IDrawingPtr&		QueryDrawing	() const						override;
 
 };
 
