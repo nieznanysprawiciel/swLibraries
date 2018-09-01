@@ -7,6 +7,9 @@
 
 #include "swCommonLib/Common/Object.h"
 
+#include "swGraphicAPI/Rendering/IRenderer.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
+
 
 /**@defgroup Drawing Drawing
 @brief Rendering tree representation.
@@ -30,6 +33,11 @@ public:
 
 	explicit		IDrawing		() = default;
 	virtual			~IDrawing		() = 0 {}
+
+private:
+
+	virtual void			RebuildResources	( ResourceManager* resourceManager ) = 0;
+	virtual void			Render				( IRenderer* renderer ) = 0;
 
 };
 

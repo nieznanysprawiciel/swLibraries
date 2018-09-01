@@ -64,6 +64,9 @@
     <Filter Include="Core\System\Rendering\Drawings">
       <UniqueIdentifier>{8baf291e-1e78-4d49-b474-d8929982099a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Media\Geometry\Layouts">
+      <UniqueIdentifier>{f73c928c-ed4c-45ec-898c-19fc72a8d659}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\targetver.h">
@@ -249,6 +252,9 @@
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.h">
       <Filter>Core\System\Rendering\Drawings</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.h">
+      <Filter>Core\Media\Geometry\Layouts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\Controls\IControl.cpp">
@@ -344,6 +350,7 @@
     <ClCompile Include="..\..\..\Core\System\DataBinding\BindingInfo.cpp">
       <Filter>Core\System\DataBinding</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\Drawing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl">

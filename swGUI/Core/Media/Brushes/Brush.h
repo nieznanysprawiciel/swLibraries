@@ -25,7 +25,10 @@ namespace gui
 class Brush : public EngineObject
 {
 	RTTR_ENABLE( EngineObject );
-	RTTR_REGISTRATION_FRIEND
+	RTTR_REGISTRATION_FRIEND;
+
+	friend class Drawing;
+	friend class RenderingSystem;
 private:
 
 	bool			m_invalidateConstants : 1;
@@ -59,7 +62,22 @@ public:
 	virtual std::string		ShaderFunctionFile	() = 0;
 
 	/**@brief Name of texture to find in resources.*/
-	virtual std::string		TextureSource		() = 0;
+	virtual std::wstring	TextureSource		() = 0;
+
+private:
+
+	///@name RenderingSystem API
+	///@{
+
+	void			ShaderUpdated		();
+	void			TextureUpdated		();
+	void			ConstantsUpdated	();
+
+	bool			NeedShaderUpdate	() const { return m_invalidateShader; }
+	bool			NeedTextureUpdate	() const { return m_invalidateTexture; }
+	bool			NeedConstantsUpdate	() const { return m_invalidateConstants; }
+
+	///@}
 };
 
 DEFINE_PTR_TYPE( Brush )

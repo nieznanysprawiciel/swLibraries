@@ -154,6 +154,7 @@
     <ClInclude Include="..\..\..\Core\Media\Brushes\RadialGradient.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\SolidColorBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Geometry.h" />
+    <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.h" />
     <ClInclude Include="..\..\..\Core\Media\Media.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\AccessKey.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\CommonTypes.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="..\..\..\Core\System\HostLogic.cpp" />
     <ClCompile Include="..\..\..\Core\System\HostWindow.cpp" />
     <ClCompile Include="..\..\..\Core\System\Initializers.cpp" />
+    <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\Drawing.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\RenderingSystem.cpp" />
     <ClCompile Include="..\..\..\Core\System\Time\Clock.cpp" />
   </ItemGroup>

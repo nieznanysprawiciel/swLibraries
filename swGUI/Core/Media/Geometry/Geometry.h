@@ -43,6 +43,9 @@ Classes derived from Geometry can generate geometrical shapes, check mouse inter
 and provide VertexShader information for @ref RenderingSystem. Derive your own classes from this object
 to add new geometrical shapes to gui framework.
 
+Check in @ref Drawing class, what should be preferred vertex layout. If you need other layout, you should
+subclass Drawing class.
+
 @ingroup Geometries*/
 class Geometry : public EngineObject
 {
@@ -50,6 +53,7 @@ class Geometry : public EngineObject
 	RTTR_REGISTRATION_FRIEND
 
 	friend class RenderingSystem;
+	friend class Drawing;
 private:
 
 	bool			m_invalidateGeometry : 1;
@@ -105,17 +109,32 @@ public:
 	This way geometry can be generated once for multiple parameters of shape to avoid data transfers between
 	CPU and GPU. You should override @ref Geometry::GeometryName function, to return the same name, if Vertex
 	Buffer shouldn't be updated.*/
-	virtual std::string		ShaderFunctionFile	() = 0;
+	virtual std::wstring	ShaderFunctionFile	() = 0;
 
 	/**@brief Returns key used to store/find geometry buffers (VB and IB) in resources.
 	
 	This function should return name of buffer based on shape parameters. You can use the same
 	geometry for different parameters and modify it in Vertex Shader. If you want to use the same
 	buffer for different parameters ranges, return the same name from this function for these ranges.*/
-	virtual std::string		GeometryName		() = 0;
+	virtual std::wstring	GeometryName		() = 0;
 
 	///@}
 
+
+private:
+
+	///@name RenderingSystem API
+	///@{
+
+	void			ShaderUpdated		();
+	void			GeometryUpdated		();
+	void			ConstantsUpdated	();
+
+	bool			NeedShaderUpdate	() const { return m_invalidateShader; }
+	bool			NeedGeometryUpdate	() const { return m_invalidateGeometry; }
+	bool			NeedConstantsUpdate	() const { return m_invalidateConstants; }
+
+	///@}
 };
 
 DEFINE_PTR_TYPE( Geometry )

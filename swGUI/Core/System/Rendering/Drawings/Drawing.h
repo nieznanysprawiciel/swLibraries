@@ -16,6 +16,10 @@ namespace sw {
 namespace gui
 {
 
+class Brush;
+class Geometry;
+
+
 namespace impl
 {
 
@@ -68,8 +72,30 @@ private:
 	impl::BrushRenderingData		m_brushData;
 	impl::BrushRenderingData		m_penData;
 
-public:
+protected:
 
+	///@name Update rendering data.
+	/// Derived classes should use these API functions to set rendering state.
+	/// They shouldn't have direct access to rendering structures.
+	///@{
+	bool					UpdateBrushShader		( ResourceManager* rm, Brush* brush );
+	bool					UpdateBrushTexture		( ResourceManager* rm, Brush* brush );
+	bool					UpdateBrushConstants	( ResourceManager* rm, Brush* brush );
+
+	bool					UpdatePenShader			( ResourceManager* rm, Brush* pen );
+	bool					UpdatePenTexture		( ResourceManager* rm, Brush* pen );
+	bool					UpdatePenConstants		( ResourceManager* rm, Brush* pen );
+
+	bool					UpdateVertexShader		( ResourceManager* rm, Geometry* geometry );
+	bool					UpdateGeometry			( ResourceManager* rm, Geometry* geometry );
+	bool					UpdateGeometryConstants	( ResourceManager* rm, Geometry* geometry );
+
+	///@}
+
+private:
+
+	bool					UpdateShaderImpl		( ResourceManager* rm, Brush* brush, impl::BrushRenderingData& brushData );
+	bool					UpdateTextureImpl		( ResourceManager* rm, Brush* brush, impl::BrushRenderingData& brushData );
 
 };
 
