@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="TestRenderingSystem">
+      <UniqueIdentifier>{ecddcd99-8d2a-403c-aa74-0f1cf03cb64c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
