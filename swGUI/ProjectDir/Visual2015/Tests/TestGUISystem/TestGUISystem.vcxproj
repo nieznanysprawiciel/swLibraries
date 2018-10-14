@@ -173,6 +173,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestHostWindowFocus.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestKeyEvents.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestMouseEvents.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestPathsManager.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestRegistration.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

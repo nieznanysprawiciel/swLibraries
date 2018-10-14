@@ -160,6 +160,7 @@
     <ClInclude Include="..\..\..\Core\System\CommonTypes\CommonTypes.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\Thickness.h" />
     <ClInclude Include="..\..\..\Core\System\Config\GUISystemConfig.h" />
+    <ClInclude Include="..\..\..\Core\System\Config\PathsManager.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\Binding.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\BindingInfo.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\BindingMode.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\IControl.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
+    <ClCompile Include="..\..\..\Core\System\Config\PathsManager.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\Binding.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\BindingInfo.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\BindingsList.cpp" />

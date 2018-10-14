@@ -261,6 +261,9 @@
     <ClInclude Include="..\..\..\Core\System\Rendering\Shading\ShaderBuilder.h">
       <Filter>Core\System\Rendering\Shading</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Config\PathsManager.h">
+      <Filter>Core\System\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\Controls\IControl.cpp">
@@ -361,6 +364,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\Drawing.cpp">
       <Filter>Core\System\Rendering\Drawings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\Config\PathsManager.cpp">
+      <Filter>Core\System\Config</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

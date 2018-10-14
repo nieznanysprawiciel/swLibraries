@@ -22,5 +22,8 @@
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestMouseEvents.cpp">
       <Filter>TestGUISystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestPathsManager.cpp">
+      <Filter>TestGUISystem</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
