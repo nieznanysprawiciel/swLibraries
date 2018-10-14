@@ -24,7 +24,7 @@ class PathsManager
 private:
 protected:
 
-	std::map< std::wstring, filesystem::Path >		m_aliases;
+	std::map< std::string, filesystem::Path >		m_aliases;
 
 public:
 	explicit		PathsManager		() = default;
@@ -42,14 +42,14 @@ public:
 	/**@brief Adds new alias.
 	Alias must have valid format $(ALIAS_NAME). If alias already existed it won't be overwritten.
 	@return If user provides existing or invalid alias, function returns false.*/
-	ReturnResult			RegisterAlias		( const std::wstring& alias, const filesystem::Path& path );
+	ReturnResult			RegisterAlias		( const std::string& alias, const filesystem::Path& path );
 
 	///@}
 
 
 protected:
 
-	bool					IsValidAlias		( const std::wstring& alias ) const;
+	bool					IsValidAlias		( const std::string& alias ) const;
 };
 
 
