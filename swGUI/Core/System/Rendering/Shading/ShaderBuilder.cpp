@@ -16,7 +16,7 @@ namespace gui
 
 // ================================ //
 //
-std::string			ShaderBuilder::BuildShader		( const std::string& shaderTemplate, const std::string& shaderFunction )
+std::string			ShaderBuilder::BuildShader		( const std::string& shaderTemplate, const std::string& shaderFunction ) const
 {
 	// This version simply adds function at the beginning without checking content.
 	return shaderFunction + shaderTemplate;

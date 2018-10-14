@@ -20,7 +20,7 @@ private:
 
 public:
 
-	std::string			BuildShader		( const std::string& shaderTemplate, const std::string& shaderFunction );
+	std::string			BuildShader		( const std::string& shaderTemplate, const std::string& shaderFunction ) const;
 
 };
 
