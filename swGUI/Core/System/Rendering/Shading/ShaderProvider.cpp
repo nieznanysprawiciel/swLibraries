@@ -43,6 +43,8 @@ ResourcePtr< PixelShader >			ShaderProvider::GeneratePS			(	const filesystem::Pa
 {
 	auto shaderSource = BuildShaderSource( templatePath, brushFunPath );
 
+	assert( !"Implement me" );
+
 	return ResourcePtr< PixelShader >();
 }
 

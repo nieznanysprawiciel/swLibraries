@@ -13,9 +13,9 @@ namespace gui
 
 // ================================ //
 //
-bool			Drawing::UpdateBrushShader			( ResourceManager* rm, Brush* brush )
+bool			Drawing::UpdateBrushShader			( ShaderProvider* sp, Brush* brush )
 {
-	return UpdateShaderImpl( rm, brush, m_brushData );
+	return UpdateShaderImpl( sp, brush, m_brushData );
 }
 
 // ================================ //
@@ -34,9 +34,9 @@ bool			Drawing::UpdateBrushConstants		( ResourceManager* rm, Brush* brush )
 
 // ================================ //
 //
-bool			Drawing::UpdatePenShader			( ResourceManager* rm, Brush* pen )
+bool			Drawing::UpdatePenShader			( ShaderProvider* sp, Brush* pen )
 {
-	return UpdateShaderImpl( rm, pen, m_penData );
+	return UpdateShaderImpl( sp, pen, m_penData );
 }
 
 // ================================ //
@@ -55,7 +55,7 @@ bool			Drawing::UpdatePenConstants			( ResourceManager* rm, Brush* pen )
 
 // ================================ //
 //
-bool			Drawing::UpdateVertexShader			( ResourceManager* rm, Geometry* geometry )
+bool			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry )
 {
 	return false;
 }
@@ -113,13 +113,12 @@ bool			Drawing::UpdateGeometryConstants	( ResourceManager* rm, Geometry* geometr
 
 // ================================ //
 //
-bool			Drawing::UpdateShaderImpl			( ResourceManager* rm, Brush* brush, impl::BrushRenderingData& brushData )
+bool			Drawing::UpdateShaderImpl			( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData )
 {
 	if( brush->NeedShaderUpdate() )
 	{
-		assert( !"Implement me" );
-		///@todo Shader must be composited from template part and part defined by brush. Write mechanism to do this.
-		///@todo Think from where shaders should be loaded.
+		auto brushFunPath = brush->ShaderFunctionFile();
+		brushData.PixelShader = sp->GeneratePS( sp->GetBasicPSTemplate(), brushFunPath );
 
 		brush->ShaderUpdated();
 		return true;

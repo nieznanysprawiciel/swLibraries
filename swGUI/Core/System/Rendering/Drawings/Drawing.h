@@ -9,7 +9,7 @@
 #include "IDrawing.h"
 
 #include "swGraphicAPI/Resources/MeshResources.h"
-
+#include "swGUI/Core/System/Rendering/Shading/ShaderProvider.h"
 
 
 namespace sw {
@@ -78,15 +78,15 @@ protected:
 	/// Derived classes should use these API functions to set rendering state.
 	/// They shouldn't have direct access to rendering structures.
 	///@{
-	bool					UpdateBrushShader		( ResourceManager* rm, Brush* brush );
+	bool					UpdateBrushShader		( ShaderProvider* sp, Brush* brush );
 	bool					UpdateBrushTexture		( ResourceManager* rm, Brush* brush );
 	bool					UpdateBrushConstants	( ResourceManager* rm, Brush* brush );
 
-	bool					UpdatePenShader			( ResourceManager* rm, Brush* pen );
+	bool					UpdatePenShader			( ShaderProvider* sp, Brush* pen );
 	bool					UpdatePenTexture		( ResourceManager* rm, Brush* pen );
 	bool					UpdatePenConstants		( ResourceManager* rm, Brush* pen );
 
-	bool					UpdateVertexShader		( ResourceManager* rm, Geometry* geometry );
+	bool					UpdateVertexShader		( ShaderProvider* sp, Geometry* geometry );
 	bool					UpdateGeometry			( ResourceManager* rm, Geometry* geometry );
 	bool					UpdateGeometryConstants	( ResourceManager* rm, Geometry* geometry );
 
@@ -94,7 +94,7 @@ protected:
 
 private:
 
-	bool					UpdateShaderImpl		( ResourceManager* rm, Brush* brush, impl::BrushRenderingData& brushData );
+	bool					UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData );
 	bool					UpdateTextureImpl		( ResourceManager* rm, Brush* brush, impl::BrushRenderingData& brushData );
 
 };

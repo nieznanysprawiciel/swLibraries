@@ -24,10 +24,10 @@ class ShaderProvider
 {
 private:
 
-	ResourceManager*		m_resourceManager;
-	const PathsManager*		m_pathsManager;
+	mutable ResourceManager*	m_resourceManager;
+	const PathsManager*			m_pathsManager;
 
-	ShaderBuilder			m_shaderBuilder;
+	ShaderBuilder				m_shaderBuilder;
 
 protected:
 public:
