@@ -203,7 +203,9 @@ inline bool						Nullable< ContentType >::IsValid()
 template< typename ContentType >
 inline std::string				Nullable< ContentType >::GetErrorReason  () 
 { 
-    return Error->ErrorMessage(); 
+	if( Error )
+		return Error->ErrorMessage();
+	return "Unknown error";
 }
 
 // ================================ //
@@ -363,8 +365,10 @@ inline bool						Nullable< void >::IsValid()
 // ================================ //
 //
 inline std::string				Nullable< void >::GetErrorReason  () 
-{ 
-    return Error->ErrorMessage(); 
+{
+	if( Error )
+		return Error->ErrorMessage();
+	return "Unknown error";
 }
 
 // ================================ //
