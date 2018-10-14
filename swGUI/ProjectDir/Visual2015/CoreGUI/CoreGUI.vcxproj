@@ -194,6 +194,7 @@
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\IDrawing.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\RenderingSystem.h" />
+    <ClInclude Include="..\..\..\Core\System\Rendering\Shading\ShaderBuilder.h" />
     <ClInclude Include="..\..\..\Core\System\Time\Clock.h" />
     <ClInclude Include="..\..\..\Core\System\Time\FrameTime.h" />
     <ClInclude Include="..\..\..\Native\INativeGUI.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="..\..\..\Core\System\Initializers.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\Drawing.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\RenderingSystem.cpp" />
+    <ClCompile Include="..\..\..\Core\System\Rendering\Shading\ShaderBuilder.cpp" />
     <ClCompile Include="..\..\..\Core\System\Time\Clock.cpp" />
   </ItemGroup>
   <ItemGroup>
