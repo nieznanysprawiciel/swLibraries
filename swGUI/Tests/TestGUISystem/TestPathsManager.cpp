@@ -64,3 +64,20 @@ TEST_CASE( "GUI.PathsManager.Translate.NotExistingAlias", "[GUISystem][PathsMana
 	CHECK( path == "$(WORKING_DIR)/gooddir/goodfile.txt" );
 }
 
+// ================================ //
+// Create alias with path, that references other xisting alias.
+// Path should be resolved correctly.
+TEST_CASE( "GUI.PathsManager.Translate.AliasReferenceInAlias", "[GUISystem][PathsManager]" )
+{
+	sw::gui::PathsManager pathsManager;
+
+	sw::ReturnResult result = pathsManager.RegisterAlias( "$(TMP_DIR)", "C:\\blabla/tmp" );
+	REQUIRE( result.IsValid() == true );
+
+	result = pathsManager.RegisterAlias( "$(BLABLA_DIR)", "$(TMP_DIR)/blabla/not_tmp" );
+	REQUIRE( result.IsValid() == true );
+
+	auto path = pathsManager.Translate( "$(BLABLA_DIR)/gooddir/goodfile.txt" );
+	CHECK( path == "C:\\blabla/tmp//blabla/not_tmp/gooddir/goodfile.txt" );
+}
+

@@ -54,7 +54,7 @@ ReturnResult		PathsManager::RegisterAlias			( const std::string& alias, const fi
 		if( iter != m_aliases.end() )
 			return Result::Error;
 
-		m_aliases[ alias ] = path;
+		m_aliases[ alias ] = Translate( path );
 
 		return Result::Success;
 	}
