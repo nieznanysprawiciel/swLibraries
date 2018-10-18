@@ -87,14 +87,13 @@ std::string			filesystem::File::Load		( const Path& path )
 //
 bool				filesystem::File::Save		( const Path& path, const std::string& content )
 {
-	if( Dir::CreateDirectory( path ) )
+	Dir::CreateDirectory( path );
+
+	std::ofstream file( path.String() );
+	if( file.is_open() )
 	{
-		std::ofstream file( path.String() );
-		if( file.is_open() )
-		{
-			file << content;
-			return true;
-		}
+		file << content;
+		return true;
 	}
 
 	return false;
