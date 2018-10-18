@@ -2,6 +2,7 @@
 
 
 #include "INativeWindow.h"
+#include "INativeOS.h"
 #include "swCommonLib/External/FastDelegate/FastDelegate.h"
 
 #include "swInputLibrary/InputCore/IInput.h"
@@ -64,6 +65,9 @@ public:
 
 	/**@brief REquest native gui to close application.*/
 	virtual void					EndApplication	() = 0;
+
+	/**@brief Get underlying operating system object.*/
+	virtual INativeOS*				GetOS			() = 0;
 };
 
 

@@ -12,12 +12,18 @@
     <ClCompile Include="..\..\..\Native\MockNativeGUI\MockWindow.cpp">
       <Filter>Mock</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Native\MockNativeGUI\MockOS.cpp">
+      <Filter>Mock</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Native\MockNativeGUI\MockGUI.h">
       <Filter>Mock</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Native\MockNativeGUI\MockWindow.h">
+      <Filter>Mock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Native\MockNativeGUI\MockOS.h">
       <Filter>Mock</Filter>
     </ClInclude>
   </ItemGroup>

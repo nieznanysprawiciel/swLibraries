@@ -20,13 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Native\INativeGUI.h" />
+    <ClInclude Include="..\..\..\Native\INativeOS.h" />
     <ClInclude Include="..\..\..\Native\INativeWindow.h" />
     <ClInclude Include="..\..\..\Native\WinAPI\Win32ApiWindow.h" />
     <ClInclude Include="..\..\..\Native\WinAPI\WinAPIGUI.h" />
+    <ClInclude Include="..\..\..\Native\WinAPI\WindowsOS.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Native\WinAPI\Win32ApiWindow.cpp" />
     <ClCompile Include="..\..\..\Native\WinAPI\WinAPIGUI.cpp" />
+    <ClCompile Include="..\..\..\Native\WinAPI\WindowsOS.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\swInputLibrary\ProjectsDir\Visual2015\WinApiInputProxy\WinApiInputProxy.vcxproj">

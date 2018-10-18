@@ -7,6 +7,7 @@
 
 
 #include "swGUI/Native/INativeGUI.h"
+#include "MockOS.h"
 
 
 
@@ -26,7 +27,9 @@ namespace gui
 class MockGUI : public INativeGUI
 {
 private:
+
 	NativeGUIInitData				m_initData;
+	MockOS							m_os;
 
 protected:
 public:
@@ -41,6 +44,7 @@ public:
 	virtual sw::input::IInput*	UseNativeInput	( INativeWindow* nativeWindow, input::InputInitInfo& initInfo )		override;
 	virtual INativeWindow*		CreateWindow	( NativeWindowDescriptor& descriptor )								override;
 	virtual void				EndApplication	()																	override;
+	virtual INativeOS*			GetOS			()																	override;
 
 	static MockGUI*				Create			();
 
