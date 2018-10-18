@@ -25,11 +25,21 @@ TEST_CASE( "GUI.PathsManager.ShaderProvider.Requirements", "[GUISystem][Renderin
 // 
 TEST_CASE( "GUI.ShaderProvider.GeneratePS", "[GUISystem][RenderingSystem]" )
 {
-	// Initialize framework.
 	TestFramework framework( 0, nullptr );	framework.Init();
 	ShaderProvider sp( framework.GetResourceManager(), framework.GetPathsManager() );
 
 	auto shader = sp.GeneratePS( "WorkingDir-RenderingSystem/shaders/FakeTemplate.ps", "WorkingDir-RenderingSystem/shaders/FakeBrush.ps" );
+	CHECK( shader.Ptr() != nullptr );
+}
+
+// ================================ //
+// 
+TEST_CASE( "GUI.ShaderProvider.GenerateVS", "[GUISystem][RenderingSystem]" )
+{
+	TestFramework framework( 0, nullptr );	framework.Init();
+	ShaderProvider sp( framework.GetResourceManager(), framework.GetPathsManager() );
+
+	auto shader = sp.GenerateVS( "WorkingDir-RenderingSystem/shaders/FakeTemplate.vs", "WorkingDir-RenderingSystem/shaders/FakeGeom.vs" );
 	CHECK( shader.Ptr() != nullptr );
 }
 

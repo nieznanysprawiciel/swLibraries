@@ -57,6 +57,15 @@ bool			Drawing::UpdatePenConstants			( ResourceManager* rm, Brush* pen )
 //
 bool			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry )
 {
+	if( geometry->NeedShaderUpdate() )
+	{
+		auto brushFunPath = geometry->ShaderFunctionFile();
+		m_geometryData.VertexShader = sp->GenerateVS( sp->GetBasicPSTemplate(), brushFunPath );
+
+		geometry->ShaderUpdated();
+		return true;
+	}
+
 	return false;
 }
 
