@@ -31,6 +31,7 @@ GUISystem::GUISystem		( int argc, char** argv, INativeGUI* gui )
 	,	m_focusedWindow( nullptr )
 	,	m_resourceManager( nullptr )
 	,	m_renderingSystem( nullptr )
+	,	m_pathsManager( new PathsManager )
 {
 	m_instance = this;
 }
@@ -43,6 +44,7 @@ GUISystem::GUISystem		( int argc, char** argv, INativeGUI* gui, SetTestMode test
 	,	m_focusedWindow( nullptr )
 	,	m_resourceManager( nullptr )
 	,	m_renderingSystem( nullptr )
+	,	m_pathsManager( new PathsManager )
 {
 	m_instance = this;
 
@@ -166,6 +168,7 @@ bool				GUISystem::DefaultInitWithoutWindow	()
 	bool result = true;
 
 	result = result && DefaultInitResourceManager();
+	result = result && DefaultInitPathsManager();
 	result = result && DefaultInitGraphicAPI( false, true );
 	result = result && DefaultInitNativeGUI();
 	result = result && DefaultInitRenderingSystem();
@@ -245,6 +248,34 @@ bool				GUISystem::DefaultInitFirstWindow		( uint16 width, uint16 height, const 
 	else
 		m_focusedWindow->GetNativeWindow()->Hide();
 
+	return true;
+}
+
+// ================================ //
+//
+bool				GUISystem::DefaultInitPathsManager		()
+{
+	bool result = true;
+
+	result = result && DefaultInitCorePaths();
+	result = result && DefaultInitDependentPaths();
+
+	return result;
+}
+
+// ================================ //
+//
+bool				GUISystem::DefaultInitCorePaths			()
+{
+	m_pathsManager->RegisterAlias( "$(TMP)", m_nativeGUI->GetOS()->GetTempDir() );
+
+	return true;
+}
+
+// ================================ //
+//
+bool				GUISystem::DefaultInitDependentPaths	()
+{
 	return true;
 }
 

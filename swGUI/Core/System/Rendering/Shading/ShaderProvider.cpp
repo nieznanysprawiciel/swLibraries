@@ -9,6 +9,8 @@
 
 #include "swCommonLib/System/File.h"
 
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
+
 
 
 namespace sw {
@@ -42,10 +44,15 @@ ResourcePtr< PixelShader >			ShaderProvider::GeneratePS			(	const filesystem::Pa
 																			const filesystem::Path& brushFunPath ) const
 {
 	auto shaderSource = BuildShaderSource( templatePath, brushFunPath );
+	if( shaderSource.empty() )
+		return nullptr;
 
-	assert( !"Implement me" );
-
-	return ResourcePtr< PixelShader >();
+	// @todo Note that we could create shader from string, if ResourceManager API would support such things.
+	// This feature will come in next more generic version of ResourceManager. For now we must be satisfied with this solution.
+	filesystem::Path tmpShaderFile = m_pathsManager->Translate( "$(TMP)/shaders/" + templatePath.GetFileName() + "+" + brushFunPath.GetFileName() );
+	filesystem::File::Save( tmpShaderFile, shaderSource );
+	
+	return m_resourceManager->LoadPixelShader( tmpShaderFile.WString(), "main" );
 }
 
 // ================================ //

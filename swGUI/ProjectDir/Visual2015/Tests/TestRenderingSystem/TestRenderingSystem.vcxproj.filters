@@ -5,4 +5,10 @@
       <UniqueIdentifier>{ecddcd99-8d2a-403c-aa74-0f1cf03cb64c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem\TestShaderProvider.cpp">
+      <Filter>TestRenderingSystem</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>

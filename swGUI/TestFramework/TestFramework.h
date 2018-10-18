@@ -121,6 +121,12 @@ public:
 	/**@brief Get window that has currently focus. Can return nullptr.*/
 	HostWindow*					GetFocusWindow		() { return m_focusedWindow; }
 
+	/**@brief Returns ResourceManager.*/
+	ResourceManager*			GetResourceManager	() { return m_resourceManager; }
+
+	/**@brief Gets PathsManager instance used by GUISystem.*/
+	PathsManager*				GetPathsManager		() { return m_pathsManager.get(); }
+
 	/**@brief Calls main loop but returns after making full step.*/
 	bool						TesterMainStep		();
 

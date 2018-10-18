@@ -14,6 +14,7 @@
 #include "Events/EventsSystem.h"
 #include "swGUI/Core/System/Rendering/RenderingSystem.h"
 #include "swGUI/Core/System/Config/GUISystemConfig.h"
+#include "swGUI/Core/System/Config/PathsManager.h"
 #include "swGUI/Core/System/Time/Clock.h"
 
 #include "HostWindow.h"
@@ -271,6 +272,7 @@ protected:
 	INativeGUI*					m_nativeGUI;		///< Native window system used to display main application window.
 
 	ResourceManager*			m_resourceManager;	///< Resources.
+	PathsManagerOPtr			m_pathsManager;
 	RenderingSystemOPtr			m_renderingSystem;	///< All rendering connceted functionalities.
 
 	std::vector< HostWindow* >	m_windows;
@@ -301,6 +303,7 @@ protected:
 	///@}
 
 	///@name Default initialization functions
+	///@todo Use ReturnResult in initialization functions and return exceptions.
 	///@{
 	bool			DefaultInitWithoutWindow	();
 	bool			DefaultInit					( uint16 width, uint16 height, const std::string& windowTitle );
@@ -308,8 +311,12 @@ protected:
 	bool			DefaultInitGraphicAPI		( bool debug, bool singleThreaded );
 	bool			DefaultInitRenderingSystem	();
 	bool			DefaultInitFirstWindow		( uint16 width, uint16 height, const std::string& windowTitle, bool show );
+	bool			DefaultInitPathsManager		();
 	bool			DefaultInitResourceManager	();
 	bool			InitResourceManager			( ResourceManager* resourceManager );
+
+	bool			DefaultInitCorePaths		();
+	bool			DefaultInitDependentPaths	();
 
 	bool			ResourceManagerInitImpl		( ResourceManager* resourceManager );
 	///@}
