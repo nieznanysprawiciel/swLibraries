@@ -45,6 +45,18 @@ filesystem::Path	PathsManager::Translate				( const filesystem::Path& path ) con
 
 // ================================ //
 //
+Nullable< filesystem::Path >		PathsManager::FindAlias		( const std::string& alias ) const
+{
+	auto iter = m_aliases.find( alias );
+
+	if( iter == m_aliases.end() )
+		return std::make_shared< RuntimeException >( "Alias " + alias + " is not registered." );
+
+	return iter->second;
+}
+
+// ================================ //
+//
 ReturnResult		PathsManager::RegisterAlias			( const std::string& alias, const filesystem::Path& path )
 {
 	if( IsValidAlias( alias ) )

@@ -32,7 +32,8 @@ public:
 
 public:
 
-	filesystem::Path		Translate			( const filesystem::Path& path ) const;
+	filesystem::Path				Translate			( const filesystem::Path& path ) const;
+	Nullable< filesystem::Path >	FindAlias			( const std::string& alias ) const;
 
 public:
 
@@ -52,8 +53,9 @@ protected:
 	bool					IsValidAlias		( const std::string& alias ) const;
 };
 
-
-
+DEFINE_OPTR_TYPE( PathsManager )
+DEFINE_UPTR_TYPE( PathsManager )
+DEFINE_PTR_TYPE( PathsManager )
 
 
 }	// gui

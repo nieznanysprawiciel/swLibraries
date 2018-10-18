@@ -12,7 +12,9 @@ TEST_CASE( "GUI.PathsManager.AliasRegister.ValidAlias", "[GUISystem][PathsManage
 	sw::gui::PathsManager pathsManager;
 
 	sw::ReturnResult result = pathsManager.RegisterAlias( "$(BLABLA_DIR)", "C:\\blabla/blabla" );
+	
 	REQUIRE( result.IsValid() == true );
+	CHECK( pathsManager.FindAlias( "$(BLABLA_DIR)" ).IsValid() == true );
 }
 
 // ================================ //
@@ -22,7 +24,9 @@ TEST_CASE( "GUI.PathsManager.AliasRegister.InvalidAlias", "[GUISystem][PathsMana
 	sw::gui::PathsManager pathsManager;
 
 	sw::ReturnResult result = pathsManager.RegisterAlias( "BLABLA_DIR", "C:\\blabla/blabla" );
+	
 	REQUIRE( result.IsValid() == false );
+	CHECK( pathsManager.FindAlias( "$(BLABLA_DIR)" ).IsValid() == false );
 }
 
 // ================================ //
@@ -33,7 +37,9 @@ TEST_CASE( "GUI.PathsManager.AliasRegister.Existing", "[GUISystem][PathsManager]
 
 	pathsManager.RegisterAlias( "$(BLABLA_DIR)", "C:\\blabla/blabla" );
 	sw::ReturnResult result = pathsManager.RegisterAlias( "$(BLABLA_DIR)", "C:\\blabla/blabla" );
+	
 	REQUIRE( result.IsValid() == false );
+	CHECK( pathsManager.FindAlias( "$(BLABLA_DIR)" ).IsValid() == true );
 }
 
 
