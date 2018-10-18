@@ -268,6 +268,7 @@ bool				GUISystem::DefaultInitPathsManager		()
 bool				GUISystem::DefaultInitCorePaths			()
 {
 	m_pathsManager->RegisterAlias( "$(TMP)", m_nativeGUI->GetOS()->GetTempDir() );
+	m_pathsManager->RegisterAlias( "$(CoreGUI-Dir)", m_nativeGUI->GetOS()->GetApplicationDir() );
 
 	return true;
 }
@@ -276,6 +277,8 @@ bool				GUISystem::DefaultInitCorePaths			()
 //
 bool				GUISystem::DefaultInitDependentPaths	()
 {
+	m_pathsManager->RegisterAlias( "$(CoreGUI-Shader-Dir)", "$(CoreGUI-Dir)/shaders/" );
+	
 	return true;
 }
 

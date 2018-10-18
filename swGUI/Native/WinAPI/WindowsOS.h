@@ -25,6 +25,7 @@ public:
 public:
 
 	virtual filesystem::Path			GetTempDir			() const override;
+	virtual filesystem::Path			GetApplicationDir	() const override;
 
 };
 

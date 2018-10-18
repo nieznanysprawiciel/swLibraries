@@ -26,7 +26,8 @@ public:
 
 public:
 
-	virtual	filesystem::Path		GetTempDir		() const = 0;
+	virtual	filesystem::Path		GetTempDir			() const = 0;
+	virtual filesystem::Path		GetApplicationDir	() const = 0;
 
 };
 
