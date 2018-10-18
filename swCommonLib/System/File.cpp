@@ -6,6 +6,8 @@
 
 #include "File.h"
 
+#include "Dir.h"
+
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -72,11 +74,28 @@ bool		filesystem::File::Copy		( const Path& newPath )
 
 // ================================ //
 //
-std::string			filesystem::File::Load		( const Path& newPath )
+std::string			filesystem::File::Load		( const Path& path )
 {
-	std::ifstream file( newPath.String() );
+	std::ifstream file( path.String() );
 	std::stringstream buffer;
 	buffer << file.rdbuf();
 
 	return buffer.str();
+}
+
+// ================================ //
+//
+bool				filesystem::File::Save		( const Path& path, const std::string& content )
+{
+	if( Dir::CreateDirectory( path ) )
+	{
+		std::ofstream file( path.String() );
+		if( file.is_open() )
+		{
+			file << content;
+			return true;
+		}
+	}
+
+	return false;
 }

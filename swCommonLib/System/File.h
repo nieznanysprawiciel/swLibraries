@@ -41,7 +41,8 @@ public:
 
 public:
 
-	static std::string		Load		( const Path& newPath );
+	static std::string		Load		( const Path& path );
+	static bool				Save		( const Path& path, const std::string& content );
 };
 
 }	// filesystem
