@@ -59,6 +59,7 @@ private:
 	bool			m_invalidateGeometry : 1;
 	bool			m_invalidateConstants : 1;
 	bool			m_invalidateShader : 1;
+	bool			m_sharedBuffer : 1;
 
 protected:
 
@@ -118,6 +119,9 @@ public:
 	buffer for different parameters ranges, return the same name from this function for these ranges.*/
 	virtual std::wstring	GeometryName		() = 0;
 
+
+	/**@brief Returns key used to store/find contant buffer in resources.*/
+	virtual std::wstring	ConstantsName		() = 0;
 	///@}
 
 
@@ -133,6 +137,7 @@ private:
 	bool			NeedShaderUpdate	() const { return m_invalidateShader; }
 	bool			NeedGeometryUpdate	() const { return m_invalidateGeometry; }
 	bool			NeedConstantsUpdate	() const { return m_invalidateConstants; }
+	bool			UsesSharedBuffer	() const { return m_sharedBuffer; }
 
 	///@}
 };

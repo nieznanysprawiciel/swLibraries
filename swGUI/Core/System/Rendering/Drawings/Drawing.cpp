@@ -29,6 +29,21 @@ bool			Drawing::UpdateBrushTexture			( ResourceManager* rm, Brush* brush )
 //
 bool			Drawing::UpdateBrushConstants		( ResourceManager* rm, Brush* brush )
 {
+	if( !m_brushData.BrushConstants )
+	{
+		std::wstring name = brush->ConstantsName();
+
+		ResourcePtr< BufferObject > constantsBuffer = rm->GetConstantBuffer( name );
+		if( !constantsBuffer )
+		{
+			auto bufferRange = brush->BufferData();
+			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, bufferRange.DataSize );
+		}
+
+		m_brushData.BrushConstants = constantsBuffer;
+		return true;
+	}
+
 	return false;
 }
 
@@ -50,6 +65,21 @@ bool			Drawing::UpdatePenTexture			( ResourceManager* rm, Brush* pen )
 //
 bool			Drawing::UpdatePenConstants			( ResourceManager* rm, Brush* pen )
 {
+	if( !m_penData.BrushConstants )
+	{
+		std::wstring name = pen->ConstantsName();
+
+		ResourcePtr< BufferObject > constantsBuffer = rm->GetConstantBuffer( name );
+		if( !constantsBuffer )
+		{
+			auto bufferRange = pen->BufferData();
+			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, bufferRange.DataSize );
+		}
+
+		m_penData.BrushConstants = constantsBuffer;
+		return true;
+	}
+
 	return false;
 }
 
@@ -113,6 +143,21 @@ bool			Drawing::UpdateGeometry				( ResourceManager* rm, Geometry* geometry )
 //
 bool			Drawing::UpdateGeometryConstants	( ResourceManager* rm, Geometry* geometry )
 {
+	if( !m_geometryData.GeometryConstants )
+	{
+		std::wstring name = geometry->ConstantsName();
+
+		ResourcePtr< BufferObject > constantsBuffer = rm->GetConstantBuffer( name );
+		if( !constantsBuffer )
+		{
+			auto bufferRange = geometry->BufferData();
+			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, bufferRange.DataSize );
+		}
+
+		m_geometryData.GeometryConstants = constantsBuffer;
+		return true;
+	}
+
 	return false;
 }
 

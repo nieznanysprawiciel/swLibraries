@@ -64,6 +64,9 @@ public:
 	/**@brief Name of texture to find in resources.*/
 	virtual std::wstring	TextureSource		() = 0;
 
+	/**@brief Returns key used to store/find contant buffer in resources.*/
+	virtual std::wstring	ConstantsName		() = 0;
+
 private:
 
 	///@name RenderingSystem API
