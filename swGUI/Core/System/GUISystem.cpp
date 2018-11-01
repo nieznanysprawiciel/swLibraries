@@ -229,7 +229,7 @@ bool				GUISystem::DefaultInitRenderingSystem	()
 		return false;
 
 	IRendererOPtr renderer = std::unique_ptr< IRenderer >( m_graphicApi->CreateRenderer( RendererUsage::USE_AS_IMMEDIATE ) );
-	m_renderingSystem = std::unique_ptr< RenderingSystem >( new RenderingSystem( m_resourceManager, std::move( renderer ) ) );
+	m_renderingSystem = std::unique_ptr< RenderingSystem >( new RenderingSystem( m_resourceManager, m_pathsManager.get(), std::move( renderer ) ) );
 
 	return true;
 }

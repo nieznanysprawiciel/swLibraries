@@ -66,6 +66,8 @@ class Drawing : public IDrawing
 {
 	RTTR_ENABLE( IDrawing );
 	RTTR_REGISTRATION_FRIEND
+
+	FRIEND_CLASS_TESTER( Drawing )
 private:
 
 	impl::GeometryRenderingData		m_geometryData;
@@ -97,6 +99,11 @@ private:
 	bool					UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData );
 	bool					UpdateTextureImpl		( ResourceManager* rm, Brush* brush, impl::BrushRenderingData& brushData );
 
+
+public:
+
+	explicit				Drawing	();
+	virtual					~Drawing() = default;
 };
 
 DEFINE_PTR_TYPE( Drawing )

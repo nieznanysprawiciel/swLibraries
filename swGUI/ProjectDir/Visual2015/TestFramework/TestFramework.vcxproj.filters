@@ -22,6 +22,18 @@
     <Filter Include="TestFramework\Accessors\Bindings">
       <UniqueIdentifier>{85e23c9f-4732-4089-bb88-49fcf18ba7c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestFramework\Utils\Mocks">
+      <UniqueIdentifier>{05722974-2f26-42f4-9290-34c8d5f4f99a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFramework\Utils\Mocks\Media">
+      <UniqueIdentifier>{4c0c6d00-ad61-44d0-840e-b97730e7209f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFramework\Utils\Mocks\Rendering">
+      <UniqueIdentifier>{ed3281a1-a07f-4cc5-b174-d761c45d372b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFramework\Accessors\Rendering">
+      <UniqueIdentifier>{9705237a-c873-46d5-a527-3d5a73f01a07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\TestFramework\stdafx.cpp">
@@ -41,6 +53,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\TestFramework\Utils\ClassesUI\DependencyPropsClass.cpp">
       <Filter>TestFramework\Utils\ClassesUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\TestFramework\Utils\Mocks\Media\FakeBrush.cpp">
+      <Filter>TestFramework\Utils\Mocks\Media</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\TestFramework\Utils\Mocks\Rendering\FakeDrawing.cpp">
+      <Filter>TestFramework\Utils\Mocks\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +85,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\DependencyPropsClass.h">
       <Filter>TestFramework\Utils\ClassesUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestFramework\Utils\Mocks\Media\FakeBrush.h">
+      <Filter>TestFramework\Utils\Mocks\Media</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestFramework\Utils\Mocks\Rendering\FakeDrawing.h">
+      <Filter>TestFramework\Utils\Mocks\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestFramework\Testers\Rendering\DrawingTester.h">
+      <Filter>TestFramework\Accessors\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

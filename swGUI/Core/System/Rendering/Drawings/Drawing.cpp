@@ -10,6 +10,16 @@ namespace sw {
 namespace gui
 {
 
+// ================================ //
+//
+Drawing::Drawing()
+{
+	m_geometryData.BorderEnd = 0;
+	m_geometryData.ExtendedIB = false;
+	m_geometryData.FillEnd = 0;
+	m_geometryData.Topology = PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+}
+
 
 // ================================ //
 //
@@ -37,7 +47,7 @@ bool			Drawing::UpdateBrushConstants		( ResourceManager* rm, Brush* brush )
 		if( !constantsBuffer )
 		{
 			auto bufferRange = brush->BufferData();
-			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, bufferRange.DataSize );
+			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, (uint32)bufferRange.DataSize );
 		}
 
 		m_brushData.BrushConstants = constantsBuffer;
@@ -73,7 +83,7 @@ bool			Drawing::UpdatePenConstants			( ResourceManager* rm, Brush* pen )
 		if( !constantsBuffer )
 		{
 			auto bufferRange = pen->BufferData();
-			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, bufferRange.DataSize );
+			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, (uint32)bufferRange.DataSize );
 		}
 
 		m_penData.BrushConstants = constantsBuffer;
@@ -87,7 +97,7 @@ bool			Drawing::UpdatePenConstants			( ResourceManager* rm, Brush* pen )
 //
 bool			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry )
 {
-	if( geometry->NeedShaderUpdate() )
+	if( geometry->NeedsShaderUpdate() )
 	{
 		auto brushFunPath = geometry->ShaderFunctionFile();
 		m_geometryData.VertexShader = sp->GenerateVS( sp->GetBasicPSTemplate(), brushFunPath );
@@ -151,7 +161,7 @@ bool			Drawing::UpdateGeometryConstants	( ResourceManager* rm, Geometry* geometr
 		if( !constantsBuffer )
 		{
 			auto bufferRange = geometry->BufferData();
-			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, bufferRange.DataSize );
+			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, (uint32)bufferRange.DataSize );
 		}
 
 		m_geometryData.GeometryConstants = constantsBuffer;
@@ -169,7 +179,7 @@ bool			Drawing::UpdateGeometryConstants	( ResourceManager* rm, Geometry* geometr
 //
 bool			Drawing::UpdateShaderImpl			( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData )
 {
-	if( brush->NeedShaderUpdate() )
+	if( brush->NeedsShaderUpdate() )
 	{
 		auto brushFunPath = brush->ShaderFunctionFile();
 		brushData.PixelShader = sp->GeneratePS( sp->GetBasicPSTemplate(), brushFunPath );
@@ -185,7 +195,7 @@ bool			Drawing::UpdateShaderImpl			( ShaderProvider* sp, Brush* brush, impl::Bru
 //
 bool			Drawing::UpdateTextureImpl			( ResourceManager* rm, Brush* brush, impl::BrushRenderingData& brushData )
 {
-	if( brush->NeedTextureUpdate() )
+	if( brush->NeedsTextureUpdate() )
 	{
 		std::wstring textureSource = brush->TextureSource();
 
@@ -200,6 +210,8 @@ bool			Drawing::UpdateTextureImpl			( ResourceManager* rm, Brush* brush, impl::B
 
 	return false;
 }
+
+
 
 }	// gui
 }	// sw

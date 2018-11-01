@@ -130,6 +130,9 @@ public:
 	/**@brief Calls main loop but returns after making full step.*/
 	bool						TesterMainStep		();
 
+	/**@brief Returns internal RenderingSystem object.*/
+	RenderingSystem*			GetRenderingSystem	() { return m_renderingSystem.get(); }
+
 	using GUISystem::CreateNativeHostWindow;
 	///@}
 

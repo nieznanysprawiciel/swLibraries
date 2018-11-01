@@ -13,10 +13,12 @@ namespace gui
 {
 
 
-
-RenderingSystem::RenderingSystem			( ResourceManager* resourceManager, IRendererOPtr&& renderer )
+// ================================ //
+//
+RenderingSystem::RenderingSystem			( ResourceManager* resourceManager, PathsManager* pathsManager, IRendererOPtr&& renderer )
 	:	m_resourceManager( resourceManager )
 	,	m_renderer( std::move( renderer ) )
+	,	m_shaderProvider( resourceManager, pathsManager )
 {}
 
 

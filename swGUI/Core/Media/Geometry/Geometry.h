@@ -61,6 +61,10 @@ private:
 	bool			m_invalidateShader : 1;
 	bool			m_sharedBuffer : 1;
 
+public:
+
+	explicit		Geometry	( bool sharedBuffer );
+
 protected:
 
 	///@name Derived classes API
@@ -134,9 +138,9 @@ private:
 	void			GeometryUpdated		();
 	void			ConstantsUpdated	();
 
-	bool			NeedShaderUpdate	() const { return m_invalidateShader; }
+	bool			NeedsShaderUpdate	() const { return m_invalidateShader; }
 	bool			NeedGeometryUpdate	() const { return m_invalidateGeometry; }
-	bool			NeedConstantsUpdate	() const { return m_invalidateConstants; }
+	bool			NeedsConstantsUpdate	() const { return m_invalidateConstants; }
 	bool			UsesSharedBuffer	() const { return m_sharedBuffer; }
 
 	///@}

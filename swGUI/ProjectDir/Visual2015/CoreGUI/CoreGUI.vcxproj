@@ -211,6 +211,8 @@
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\IControl.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Brushes\Brush.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp" />
     <ClCompile Include="..\..\..\Core\System\Config\PathsManager.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\Binding.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\BindingInfo.cpp" />

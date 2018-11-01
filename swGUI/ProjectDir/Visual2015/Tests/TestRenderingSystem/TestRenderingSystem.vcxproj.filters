@@ -10,5 +10,8 @@
     <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem\TestShaderProvider.cpp">
       <Filter>TestRenderingSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem\TestDrawing.cpp">
+      <Filter>TestRenderingSystem</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@
 
 #include "swGraphicAPI/Rendering/IRenderer.h"
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
+#include "swGUI/Core/System/Rendering/Shading/ShaderProvider.h"
 
 
 /**@defgroup Drawing Drawing
@@ -36,7 +37,7 @@ public:
 
 private:
 
-	virtual void			RebuildResources	( ResourceManager* resourceManager ) = 0;
+	virtual void			RebuildResources	( ResourceManager* resourceManager, ShaderProvider* sp ) = 0;
 	virtual void			Render				( IRenderer* renderer ) = 0;
 
 };

@@ -374,6 +374,12 @@
     <ClCompile Include="..\..\..\Core\System\Rendering\Shading\ShaderProvider.cpp">
       <Filter>Core\System\Rendering\Shading</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Brushes\Brush.cpp">
+      <Filter>Core\Media\Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp">
+      <Filter>Core\Media\Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl">

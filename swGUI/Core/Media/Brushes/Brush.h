@@ -76,9 +76,11 @@ private:
 	void			TextureUpdated		();
 	void			ConstantsUpdated	();
 
-	bool			NeedShaderUpdate	() const { return m_invalidateShader; }
-	bool			NeedTextureUpdate	() const { return m_invalidateTexture; }
-	bool			NeedConstantsUpdate	() const { return m_invalidateConstants; }
+protected:
+
+	bool			NeedsShaderUpdate		() const { return m_invalidateShader; }
+	bool			NeedsTextureUpdate		() const { return m_invalidateTexture; }
+	bool			NeedsConstantsUpdate	() const { return m_invalidateConstants; }
 
 	///@}
 };
