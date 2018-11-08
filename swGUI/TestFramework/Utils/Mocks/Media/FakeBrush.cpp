@@ -37,7 +37,7 @@ std::string				FakeBrush::ShaderFunctionFile	()
 //
 std::wstring			FakeBrush::TextureSource		()
 {
-	return std::wstring();
+	return m_textureFile;
 }
 
 // ================================ //
@@ -53,6 +53,14 @@ void					FakeBrush::SetShaderFunction	( const std::string& shaderFun )
 {
 	m_shaderFun = shaderFun;
 	InvalidateShader();
+}
+
+// ================================ //
+//
+void					FakeBrush::SetTextureFile		( const std::wstring& tex )
+{
+	m_textureFile = tex;
+	InvalidateTexture();
 }
 
 

@@ -21,6 +21,7 @@ private:
 protected:
 
 	std::string			m_shaderFun;
+	std::wstring		m_textureFile;
 
 public:
 
@@ -44,6 +45,7 @@ public:
 public:
 
 	void							SetShaderFunction		( const std::string& shaderFun );
+	void							SetTextureFile			( const std::wstring& tex );
 };
 
 DEFINE_PTR_TYPE( FakeBrush )
