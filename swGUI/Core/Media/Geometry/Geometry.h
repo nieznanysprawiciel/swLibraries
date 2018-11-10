@@ -34,6 +34,17 @@ struct GeometryData
 	uint32				BorderIdxEnd;
 	PrimitiveTopology	Topology;
 	bool				ExtendedIB;			///< Index Buffer uses 4-bytes indicies.
+
+	// ================================ //
+	//
+	GeometryData( BufferRaw&& vertexBuffer, BufferRaw&& indexBuffer )
+		: VertexBuffer( std::move( vertexBuffer ) )
+		, IndexBuffer( std::move( indexBuffer ) )
+		, FillIdxEnd( 0 )
+		, BorderIdxEnd( 0 )
+		, Topology( PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST )
+		, ExtendedIB( false )
+	{}
 };
 
 
