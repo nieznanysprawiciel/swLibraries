@@ -18,8 +18,7 @@ namespace geom
 //
 template< typename VertexType, typename IndexType, typename PositionAcc >
 inline						Rectangle< VertexType, IndexType, PositionAcc >::Rectangle()
-	:	Z( 0 )
-	,	TopLeftX( 0 )
+	:	TopLeftX( 0 )
 	,	TopLeftY( 0 )
 	,	Width( 0 )
 	,	Height( 0 )
@@ -37,25 +36,27 @@ inline void					Rectangle< VertexType, IndexType, PositionAcc >::GenerateVertex	
 		{
 			PositionAcc::Position( vertex ).x = TopLeftX;
 			PositionAcc::Position( vertex ).y = TopLeftY;
+			break;
 		}
 		case 1:
 		{
-			PositionAcc::Position( vertex ).x = TopLeftX - Width;
+			PositionAcc::Position( vertex ).x = TopLeftX + Width;
 			PositionAcc::Position( vertex ).y = TopLeftY;
+			break;
 		}
 		case 2:
 		{
 			PositionAcc::Position( vertex ).x = TopLeftX;
 			PositionAcc::Position( vertex ).y = TopLeftY - Height;
+			break;
 		}
 		case 3:
 		{
-			PositionAcc::Position( vertex ).x = TopLeftX - Width;
+			PositionAcc::Position( vertex ).x = TopLeftX + Width;
 			PositionAcc::Position( vertex ).y = TopLeftY - Height;
+			break;
 		}
 	}
-
-	PositionAcc::Position( vertex ).z = Z;
 }
 
 // ================================ //

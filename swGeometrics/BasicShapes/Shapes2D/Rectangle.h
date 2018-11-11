@@ -26,7 +26,6 @@ public:
 	float				TopLeftY;
 	float				Width;
 	float				Height;
-	float				Z;
 
 public:
 

@@ -15,7 +15,7 @@ namespace geom
 template< typename VertexType >
 struct DefaultPositionAcc
 {
-	decltype( VertexType::Position )&		Position		( VertexType& vertex ) { return vertex.Position; }
+	static decltype( VertexType::Position )&		Position		( VertexType& vertex ) { return vertex.Position; }
 };
 
 

@@ -22,6 +22,20 @@ TEST_CASE( "Geometrics.Generation.GeneratorOnly", "[Geometrics]" )
 	rect.Height = 20;
 	rect.Width = 20;
 
+	auto geometry = Generate( rect );
+	
+	CHECK( geometry.Verticies.size() == 4 );
 
+	CHECK( geometry.Verticies[ 0 ].Position.x == 30 );
+	CHECK( geometry.Verticies[ 0 ].Position.y == 30 );
+
+	CHECK( geometry.Verticies[ 1 ].Position.x == 50 );
+	CHECK( geometry.Verticies[ 1 ].Position.y == 30 );
+
+	CHECK( geometry.Verticies[ 2 ].Position.x == 30 );
+	CHECK( geometry.Verticies[ 2 ].Position.y == 10 );
+
+	CHECK( geometry.Verticies[ 3 ].Position.x == 50 );
+	CHECK( geometry.Verticies[ 3 ].Position.y == 10 );
 }
 
