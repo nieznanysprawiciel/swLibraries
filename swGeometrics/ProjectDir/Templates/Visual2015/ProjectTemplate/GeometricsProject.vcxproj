@@ -18,25 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\GeometricsCore\Generators\Generator.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\Processors\Converter.inl">
-      <FileType>CppHeader</FileType>
-    </ClInclude>
-    <ClCompile Include="..\..\..\GeometricsCore\stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClInclude Include="..\..\..\GeometricsCore\Types\VertexLayouts\VertexShape2D.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\GeometricsCore\Processors\Converter.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\stdafx.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\targetver.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\Types\IndexedGeometry.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5476CBF5-F7F9-488F-B55C-B6331B82C54A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -77,19 +58,19 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="GeometricsCoreConfiguration.props" />
+    <Import Project="GeometricsProjectConfiguration.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="GeometricsCoreConfiguration.props" />
+    <Import Project="GeometricsProjectConfiguration.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="GeometricsCoreConfiguration.props" />
+    <Import Project="GeometricsProjectConfiguration.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="GeometricsCoreConfiguration.props" />
+    <Import Project="GeometricsProjectConfiguration.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />

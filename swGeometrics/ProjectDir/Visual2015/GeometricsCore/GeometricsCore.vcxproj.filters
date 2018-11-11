@@ -16,12 +16,6 @@
     <Filter Include="Geometric\Generators">
       <UniqueIdentifier>{a09e28af-b9b1-422c-9c31-e86aa3c7f730}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Geometric\Generators\Geometry">
-      <UniqueIdentifier>{8ff1b12c-74b0-4bbe-958d-8318075e78d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Geometric\Generators\Geometry\Shapes2D">
-      <UniqueIdentifier>{28815982-0fa0-42a4-9056-d74a35d2e9e2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Geometric\Types\VertexLayouts">
       <UniqueIdentifier>{043987b4-eee7-4665-8328-8740531e234b}</UniqueIdentifier>
     </Filter>
@@ -49,9 +43,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\GeometricsCore\Generators\Generator.h">
       <Filter>Geometric\Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\GeometricsCore\Generators\Geometry\Shapes2D\Rectangle.h">
-      <Filter>Geometric\Generators\Geometry\Shapes2D</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\GeometricsCore\Types\VertexLayouts\VertexShape2D.h">
       <Filter>Geometric\Types\VertexLayouts</Filter>

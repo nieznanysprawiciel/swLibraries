@@ -103,6 +103,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{455C7E38
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGenerationFramework", "..\swGeometrics\ProjectDir\Visual2015\Tests\TestGenerationFramework\TestGenerationFramework.vcxproj", "{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BasicShapes", "..\swGeometrics\ProjectDir\Visual2015\BasicShapes\BasicShapes.vcxproj", "{B70C60C2-29EB-4302-80EF-9D396749D545}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -391,6 +393,14 @@ Global
 		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}.Release|x64.Build.0 = Release|x64
 		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}.Release|x86.ActiveCfg = Release|Win32
 		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}.Release|x86.Build.0 = Release|Win32
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Debug|x64.ActiveCfg = Debug|x64
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Debug|x64.Build.0 = Debug|x64
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Debug|x86.ActiveCfg = Debug|Win32
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Debug|x86.Build.0 = Debug|Win32
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Release|x64.ActiveCfg = Release|x64
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Release|x64.Build.0 = Release|x64
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Release|x86.ActiveCfg = Release|Win32
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -445,5 +455,6 @@ Global
 		{B8F0F5DC-C259-47DC-9A53-57EBE58BDD2C} = {CAC5582E-F5A0-42EA-85DE-325A7C0651D8}
 		{455C7E38-6029-4647-97DC-FEC7B29C5841} = {21743F75-425A-4A73-A3B6-B0711A3D2DCE}
 		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E} = {455C7E38-6029-4647-97DC-FEC7B29C5841}
+		{B70C60C2-29EB-4302-80EF-9D396749D545} = {21743F75-425A-4A73-A3B6-B0711A3D2DCE}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="PrecompiledHeader">
+      <UniqueIdentifier>{e1d2a206-cabe-4c7b-88d5-5b509cc934e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shapes2D">
+      <UniqueIdentifier>{0cfa6d40-3ef8-43c4-9f01-fc8a09f83343}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\BasicShapes\stdafx.cpp">
+      <Filter>PrecompiledHeader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\BasicShapes\stdafx.h">
+      <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\BasicShapes\Shapes2D\Rectangle.h">
+      <Filter>Shapes2D</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
