@@ -62,9 +62,33 @@ inline void					Rectangle< VertexType, IndexType, PositionAcc >::GenerateVertex	
 // ================================ //
 //
 template< typename VertexType, typename IndexType, typename PositionAcc >
+template< class IndexBuffer >
+inline void					Rectangle< VertexType, IndexType, PositionAcc >::GenerateIndexBuffer	( IndexBuffer& idxBuffer, Size startIdx )
+{
+	idxBuffer[ startIdx + 0 ] = 0;
+	idxBuffer[ startIdx + 1 ] = 1;
+	idxBuffer[ startIdx + 2 ] = 2;
+
+	idxBuffer[ startIdx + 3 ] = 1;
+	idxBuffer[ startIdx + 4 ] = 3;
+	idxBuffer[ startIdx + 5 ] = 2;
+}
+
+
+// ================================ //
+//
+template< typename VertexType, typename IndexType, typename PositionAcc >
 inline Size					Rectangle< VertexType, IndexType, PositionAcc >::GetNumberVerticies		() const
 {
 	return 4;
+}
+
+// ================================ //
+//
+template< typename VertexType, typename IndexType, typename PositionAcc >
+inline Size					Rectangle< VertexType, IndexType, PositionAcc >::GetNumberIndicies		() const
+{
+	return 6;
 }
 
 

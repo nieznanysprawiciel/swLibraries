@@ -24,6 +24,7 @@ TEST_CASE( "Geometrics.Generation.GeneratorOnly", "[Geometrics]" )
 
 	auto geometry = Generate( rect );
 	
+	// Check vertex buffer.
 	CHECK( geometry.Verticies.size() == 4 );
 
 	CHECK( geometry.Verticies[ 0 ].Position.x == 30 );
@@ -37,5 +38,8 @@ TEST_CASE( "Geometrics.Generation.GeneratorOnly", "[Geometrics]" )
 
 	CHECK( geometry.Verticies[ 3 ].Position.x == 50 );
 	CHECK( geometry.Verticies[ 3 ].Position.y == 10 );
+
+	// Check index buffer
+	CHECK( geometry.Indicies.size() == 6 );
 }
 

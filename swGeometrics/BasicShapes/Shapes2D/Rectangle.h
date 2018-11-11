@@ -33,16 +33,18 @@ public:
 
 
 	inline void			GenerateVertex			( VertexType& vertex, Size vertexIdx );
-	//inline void			GenerateIndexBuffer		();
+	
+	template< class IndexBuffer >
+	inline void			GenerateIndexBuffer		( IndexBuffer& idxBuffer, Size startIdx );
 
 	inline Size			GetNumberVerticies		() const;
+	inline Size			GetNumberIndicies		() const;
 
 public:
 
 	typedef VertexType VertexFormat;
 	typedef IndexType IndexFormat;
 };
-
 
 
 

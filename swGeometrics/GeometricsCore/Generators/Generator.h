@@ -106,15 +106,18 @@ IndexedGeometry< typename Generator::VertexFormat, typename Generator::IndexForm
 					Generate					( Generator gen, Processors... processors )
 {
 	Size numVerticies = gen.GetNumberVerticies();
+	Size numIndicies = gen.GetNumberIndicies();
 
 	IndexedGeometry< typename Generator::VertexFormat, typename Generator::IndexFormat > geometry;
 	geometry.Verticies.resize( numVerticies );
-	//geometry.Indicies.resize( numIndicies );
+	geometry.Indicies.resize( numIndicies );
 	
 	for( Size idx = 0; idx < numVerticies; ++idx )
 	{
 		impl::GenerateSingleVertex( geometry.Verticies[ idx ], idx, gen, processors... );
 	}
+
+	gen.GenerateIndexBuffer( geometry.Indicies, 0 );
 
 	return geometry;
 }
