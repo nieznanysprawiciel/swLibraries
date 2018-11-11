@@ -21,4 +21,9 @@
       <Filter>Shapes2D</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\BasicShapes\Shapes2D\Rectangle.inl">
+      <Filter>Shapes2D</Filter>
+    </None>
+  </ItemGroup>
 </Project>

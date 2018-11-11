@@ -21,6 +21,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestGenerationFramework\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestGenerationFramework\TestGeneratorOnly.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BasicShapes\BasicShapes.vcxproj">
+      <Project>{b70c60c2-29eb-4302-80ef-9d396749d545}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GeometricsCore\GeometricsCore.vcxproj">
+      <Project>{5476cbf5-f7f9-488f-b55c-b6331b82c54a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}</ProjectGuid>

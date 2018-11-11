@@ -19,6 +19,9 @@
     <Filter Include="Geometric\Types\VertexLayouts">
       <UniqueIdentifier>{043987b4-eee7-4665-8328-8740531e234b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Geometric\Types\Accessors">
+      <UniqueIdentifier>{cc428eeb-df5c-42db-8e7c-803de0a95fe5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\GeometricsCore\stdafx.cpp">
@@ -46,6 +49,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\GeometricsCore\Types\VertexLayouts\VertexShape2D.h">
       <Filter>Geometric\Types\VertexLayouts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\GeometricsCore\Types\Accessors\Default.h">
+      <Filter>Geometric\Types\Accessors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\GeometricsCore\Types\IndexTypes.h">
+      <Filter>Geometric\Types</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

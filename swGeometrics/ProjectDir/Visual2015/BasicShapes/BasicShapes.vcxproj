@@ -35,6 +35,9 @@
       <Project>{5476cbf5-f7f9-488f-b55c-b6331b82c54a}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\BasicShapes\Shapes2D\Rectangle.inl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B70C60C2-29EB-4302-80EF-9D396749D545}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
