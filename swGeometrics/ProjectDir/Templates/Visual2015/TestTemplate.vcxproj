@@ -19,26 +19,10 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
-      <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\Reflection\Reflection.vcxproj">
-      <Project>{59fa8028-2346-4246-854f-14dcfab6ab56}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\Serialization\Serialization.vcxproj">
-      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\SerializerXML\SerializerXML.vcxproj">
-      <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\CoreGUI\CoreGUI.vcxproj">
-      <Project>{c6dab3ee-e9a7-47fc-9b33-a8f4250c219b}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{22C79F18-F938-4A9E-A4B0-B77E8F87429D}</ProjectGuid>
+    <ProjectGuid>{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <ProjectName>TestTemplate</ProjectName>
@@ -77,19 +61,15 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\LinkSleepingWombatGUI.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\LinkSleepingWombatGUI.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\LinkSleepingWombatGUI.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\LinkSleepingWombatGUI.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -166,10 +146,10 @@
   </ItemDefinitionGroup>
   <PropertyGroup Label="UserMacros">
     <TestName>$(ProjectName)</TestName>
-    <TestLibDir>$(LibDir)$(TestName)\</TestLibDir>
-    <TestSourceDir>$(SourceDir)$(TestName)\</TestSourceDir>
+    <TestLibDir>$(swGeometricsLibDir)$(TestName)\</TestLibDir>
+    <TestSourceDir>$(swGeometricsSourceDir)$(TestName)\</TestSourceDir>
     <TestFileName>$(TestName)</TestFileName>
-    <TestBuildDir>$(BuildDir)$(TestName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</TestBuildDir>
+    <TestBuildDir>$(swGeometricsBuildDir)$(TestName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</TestBuildDir>
   </PropertyGroup>
   <PropertyGroup>
     <IntDir>$(TestBuildDir)</IntDir>
