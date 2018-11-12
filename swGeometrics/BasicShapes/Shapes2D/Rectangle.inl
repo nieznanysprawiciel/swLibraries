@@ -34,26 +34,26 @@ inline void					Rectangle< VertexType, IndexType, PositionAcc >::GenerateVertex	
 	{
 		case 0:
 		{
-			PositionAcc::Position( vertex ).x = TopLeftX;
-			PositionAcc::Position( vertex ).y = TopLeftY;
+			PositionAcc::Get( vertex ).x = TopLeftX;
+			PositionAcc::Get( vertex ).y = TopLeftY;
 			break;
 		}
 		case 1:
 		{
-			PositionAcc::Position( vertex ).x = TopLeftX + Width;
-			PositionAcc::Position( vertex ).y = TopLeftY;
+			PositionAcc::Get( vertex ).x = TopLeftX + Width;
+			PositionAcc::Get( vertex ).y = TopLeftY;
 			break;
 		}
 		case 2:
 		{
-			PositionAcc::Position( vertex ).x = TopLeftX;
-			PositionAcc::Position( vertex ).y = TopLeftY - Height;
+			PositionAcc::Get( vertex ).x = TopLeftX;
+			PositionAcc::Get( vertex ).y = TopLeftY - Height;
 			break;
 		}
 		case 3:
 		{
-			PositionAcc::Position( vertex ).x = TopLeftX + Width;
-			PositionAcc::Position( vertex ).y = TopLeftY - Height;
+			PositionAcc::Get( vertex ).x = TopLeftX + Width;
+			PositionAcc::Get( vertex ).y = TopLeftY - Height;
 			break;
 		}
 	}

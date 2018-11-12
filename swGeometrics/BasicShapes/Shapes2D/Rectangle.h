@@ -6,7 +6,7 @@
 */
 
 #include "swCommonLib/Common/TypesDefinitions.h"
-#include "swGeometrics/GeometricsCore/Types/Accessors/Default.h"
+#include "swGeometrics/GeometricsCore/Types/Accessors/DefaultAccessors.h"
 
 
 namespace sw {

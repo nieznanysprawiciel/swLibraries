@@ -27,6 +27,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\BasicShapes\CoordsUV\PlanarUV.h" />
     <ClInclude Include="..\..\..\BasicShapes\Shapes2D\Rectangle.h" />
     <ClInclude Include="..\..\..\BasicShapes\stdafx.h" />
   </ItemGroup>

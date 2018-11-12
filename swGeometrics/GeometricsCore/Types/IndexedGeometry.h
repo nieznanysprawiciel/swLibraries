@@ -12,6 +12,7 @@ namespace geom
 {
 
 
+/**@brief Structure storing indexed geometry.*/
 template< typename VertexType, typename IndexType >
 struct IndexedGeometry
 {

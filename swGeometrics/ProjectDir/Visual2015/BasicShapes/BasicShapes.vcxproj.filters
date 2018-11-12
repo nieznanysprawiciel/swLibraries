@@ -7,6 +7,9 @@
     <Filter Include="Shapes2D">
       <UniqueIdentifier>{0cfa6d40-3ef8-43c4-9f01-fc8a09f83343}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CoordsUV">
+      <UniqueIdentifier>{196dc691-24bf-4287-9fc8-fdb9a12c04bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\BasicShapes\stdafx.cpp">
@@ -19,6 +22,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\BasicShapes\Shapes2D\Rectangle.h">
       <Filter>Shapes2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\BasicShapes\CoordsUV\PlanarUV.h">
+      <Filter>CoordsUV</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

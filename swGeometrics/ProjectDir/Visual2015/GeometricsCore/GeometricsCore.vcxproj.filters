@@ -50,11 +50,11 @@
     <ClInclude Include="..\..\..\GeometricsCore\Types\VertexLayouts\VertexShape2D.h">
       <Filter>Geometric\Types\VertexLayouts</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\GeometricsCore\Types\Accessors\Default.h">
-      <Filter>Geometric\Types\Accessors</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\GeometricsCore\Types\IndexTypes.h">
       <Filter>Geometric\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\GeometricsCore\Types\Accessors\DefaultAccessors.h">
+      <Filter>Geometric\Types\Accessors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
