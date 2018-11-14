@@ -26,9 +26,15 @@
     <ClInclude Include="..\..\..\BasicShapes\CoordsUV\PlanarUV.h">
       <Filter>CoordsUV</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\BasicShapes\Shapes2D\Circle.h">
+      <Filter>Shapes2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\BasicShapes\Shapes2D\Rectangle.inl">
+      <Filter>Shapes2D</Filter>
+    </None>
+    <None Include="..\..\..\BasicShapes\Shapes2D\Circle.inl">
       <Filter>Shapes2D</Filter>
     </None>
   </ItemGroup>
