@@ -45,7 +45,7 @@ bool		IsCircle		( const std::vector< VertexShape2D >& verticies, float radius )
 
 // ================================ //
 //
-TEST_CASE( "Geometrics.BasicShapes.Circle", "[Geometrics][BasicShapes]" )
+TEST_CASE( "Geometrics.BasicShapes.Circle.EvenTesselation", "[Geometrics][BasicShapes]" )
 {
 	Circle< VertexShape2D, Index16 > circle;
 	circle.Radius = 1.5f;
@@ -60,3 +60,19 @@ TEST_CASE( "Geometrics.BasicShapes.Circle", "[Geometrics][BasicShapes]" )
 	CHECK( isCircle == true );
 }
 
+// ================================ //
+//
+TEST_CASE( "Geometrics.BasicShapes.Circle.OddTesselation", "[Geometrics][BasicShapes]" )
+{
+	Circle< VertexShape2D, Index16 > circle;
+	circle.Radius = 2.5f;
+	circle.Tesselation = 31;
+
+	auto geometry = Generate( circle );
+
+	CHECK( geometry.Verticies.size() == 31 );
+	CHECK( geometry.Indicies.size() == 87 );
+
+	bool isCircle = IsCircle( geometry.Verticies, 2.5f );
+	CHECK( isCircle == true );
+}
