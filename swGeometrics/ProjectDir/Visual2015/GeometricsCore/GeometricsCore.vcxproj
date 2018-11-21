@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\GeometricsCore\Generators\Generator.h" />
+    <ClInclude Include="..\..\..\GeometricsCore\Generators\Validation.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Processors\Converter.inl">
       <FileType>CppHeader</FileType>
     </ClInclude>
@@ -31,6 +32,8 @@
     </ClCompile>
     <ClInclude Include="..\..\..\GeometricsCore\Types\Accessors\DefaultAccessors.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\IndexTypes.h" />
+    <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\GeneratorTraits.h" />
+    <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\ProcessorTraits.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\VertexLayouts\VertexShape2D.h" />
   </ItemGroup>
   <ItemGroup>

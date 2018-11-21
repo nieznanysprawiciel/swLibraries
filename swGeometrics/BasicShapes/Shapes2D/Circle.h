@@ -8,6 +8,7 @@
 
 #include "swCommonLib/Common/TypesDefinitions.h"
 #include "swGeometrics/GeometricsCore/Types/Accessors/DefaultAccessors.h"
+#include "swGeometrics/GeometricsCore/Types/Traits/GeneratorTraits.h"
 
 
 namespace sw {
@@ -18,7 +19,7 @@ namespace geom
 /**@brief Cricle generator.
 @ingroup Shapes2D*/
 template< typename VertexType, typename IndexType, typename PositionAcc = DefaultPositionAcc< VertexType > >
-class Circle
+class Circle : public GeneratorTraits< VertexType, IndexType >
 {
 private:
 public:
@@ -43,11 +44,6 @@ private:
 
 	template< class IndexBuffer >
 	inline void			AddTriangle				( IndexBuffer& idxBuffer, IndexType startIdx, IndexType vertIdx1, IndexType vertIdx2, IndexType vertIdx3 );
-
-public:
-
-	typedef VertexType VertexFormat;
-	typedef IndexType IndexFormat;
 };
 
 

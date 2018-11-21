@@ -7,6 +7,7 @@
 
 #include "swCommonLib/Common/TypesDefinitions.h"
 #include "swGeometrics/GeometricsCore/Types/Accessors/DefaultAccessors.h"
+#include "swGeometrics/GeometricsCore/Types/Traits/GeneratorTraits.h"
 
 
 namespace sw {
@@ -17,7 +18,7 @@ namespace geom
 /**@brief Rectangle generator.
 @ingroup Shapes2D*/
 template< typename VertexType, typename IndexType, typename PositionAcc = DefaultPositionAcc< VertexType > >
-class Rectangle
+class Rectangle : public GeneratorTraits< VertexType, IndexType >
 {
 private:
 public:
@@ -40,10 +41,6 @@ public:
 	inline Size			GetNumberVerticies		() const;
 	inline Size			GetNumberIndicies		() const;
 
-public:
-
-	typedef VertexType VertexFormat;
-	typedef IndexType IndexFormat;
 };
 
 

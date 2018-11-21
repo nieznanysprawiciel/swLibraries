@@ -25,6 +25,9 @@ TEST_CASE( "Geometrics.Generation.GeneratorAndProcessing", "[Geometrics]" )
 	rect.Height = 20;
 	rect.Width = 20;
 
+	bool isbase = std::is_base_of< GeneratorTraits< typename Rectangle< VertexShape2D, Index16 >::VertexFormat, typename Rectangle< VertexShape2D, Index16 >::IndexFormat >, Rectangle< VertexShape2D, Index16 > >::value;
+	//bool isGen = isGenerator< Rectangle< VertexShape2D, Index16 > >::value;
+
 	PlanarUV< VertexShape2D > planarUV;
 	planarUV.MinX = 30;
 	planarUV.MinY = 10;

@@ -7,6 +7,7 @@
 
 #include "swCommonLib/Common/TypesDefinitions.h"
 
+#include "swGeometrics/GeometricsCore/Types/Traits/ProcessorTraits.h"
 
 
 namespace sw {
@@ -16,7 +17,7 @@ namespace geom
 /**@brief Generated planar UV mapping.
 @ingroup Coordinates*/
 template< typename VertexType, typename PositionAcc = DefaultPositionAcc< VertexType >, typename UVAcc = DefaultUVAcc< VertexType > >
-class PlanarUV
+class PlanarUV : public ProcessorTraits< VertexType >
 {
 private:
 public:

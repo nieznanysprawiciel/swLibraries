@@ -76,3 +76,17 @@ TEST_CASE( "Geometrics.BasicShapes.Circle.OddTesselation", "[Geometrics][BasicSh
 	bool isCircle = IsCircle( geometry.Verticies, 2.5f );
 	CHECK( isCircle == true );
 }
+
+// ================================ //
+//
+TEST_CASE( "Geometrics.BasicShapes.Circle.ToLowTesselation", "[Geometrics][BasicShapes]" )
+{
+	Circle< VertexShape2D, Index16 > circle;
+	circle.Radius = 2.5f;
+	circle.Tesselation = 1;
+	//circle.Tesselation = 0;
+	//circle.Tesselation = 2;
+
+	//auto geometry = Generate( circle );
+}
+

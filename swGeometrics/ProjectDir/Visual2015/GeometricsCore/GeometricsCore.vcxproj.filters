@@ -22,6 +22,9 @@
     <Filter Include="Geometric\Types\Accessors">
       <UniqueIdentifier>{cc428eeb-df5c-42db-8e7c-803de0a95fe5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Geometric\Types\Traits">
+      <UniqueIdentifier>{fb9386c8-df63-4a64-bce5-fb04924b00a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\GeometricsCore\stdafx.cpp">
@@ -55,6 +58,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\GeometricsCore\Types\Accessors\DefaultAccessors.h">
       <Filter>Geometric\Types\Accessors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\GeometricsCore\Generators\Validation.h">
+      <Filter>Geometric\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\GeneratorTraits.h">
+      <Filter>Geometric\Types\Traits</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\ProcessorTraits.h">
+      <Filter>Geometric\Types\Traits</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
