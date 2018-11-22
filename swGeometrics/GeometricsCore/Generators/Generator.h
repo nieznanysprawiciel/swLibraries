@@ -6,6 +6,8 @@
 */
 
 #include "swCommonLib/Common/TypesDefinitions.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
+
 #include "swGeometrics/GeometricsCore/Types/IndexedGeometry.h"
 
 #include "swGeometrics/GeometricsCore/Generators/Validation.h"
@@ -107,7 +109,7 @@ template< typename Generator, typename... Processors >
 IndexedGeometry< typename Generator::VertexFormat, typename Generator::IndexFormat >
 					Generate					( Generator gen, Processors... processors )
 {
-	//ReturnResult result = Validate< typename Generator::VertexFormat, typename Generator::IndexFormat >( gen, processors... );
+	ReturnResult result = Validate< typename Generator::VertexFormat, typename Generator::IndexFormat >( gen, processors... );
 
 	Size numVerticies = gen.GetNumberVerticies();
 	Size numIndicies = gen.GetNumberIndicies();
