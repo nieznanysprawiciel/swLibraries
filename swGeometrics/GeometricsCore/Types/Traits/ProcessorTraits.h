@@ -14,11 +14,21 @@ namespace sw {
 namespace geom
 {
 
+namespace impl
+{
+
+// ================================ //
+//
+class EnableIsProcessor
+{};
+
+}	// impl
+
 
 // ================================ //
 //
 template< typename VertexType >
-class ProcessorTraits
+class ProcessorTraits : public impl::EnableIsProcessor
 {
 private:
 public:
@@ -28,19 +38,13 @@ public:
 };
 
 
-//// ================================ //
-////
-//template< typename Type, typename std::enable_if_t< !std::is_base_of< ProcessorTraits< typename Type::VertexType >, Type >::value, Type >::type* = nullptr > 
-//struct isProcessor
-//{	static const bool value = false;	};
+// ================================ //
 //
-//// ================================ //
-////
-//template< typename Type, typename std::enable_if_t< std::is_base_of< ProcessorTraits< typename Type::VertexType >, Type >::value, Type >::type* = nullptr > 
-//struct isProcessor
-//{	static const bool value = true;	};
-//
-
+template< typename Type >
+struct isProcessor
+{	
+	static const bool value = std::is_base_of< impl::EnableIsProcessor, Type >::value;
+};
 
 
 

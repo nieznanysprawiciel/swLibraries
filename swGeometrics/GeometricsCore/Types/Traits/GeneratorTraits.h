@@ -14,10 +14,21 @@ namespace geom
 {
 
 
+namespace impl
+{
+
+// ================================ //
+//
+class EnableIsGenerator
+{};
+
+}	// impl
+
+
 // ================================ //
 //
 template< typename VertexType, typename IndexType >
-class GeneratorTraits
+class GeneratorTraits : public impl::EnableIsGenerator
 {
 private:
 public:
@@ -30,15 +41,11 @@ public:
 
 // ================================ //
 //
-template< typename Type, typename std::enable_if< std::is_base_of< GeneratorTraits< typename Type::VertexFormat, typename Type::IndexFormat >, Type >::value, void >::type* beef = nullptr >
+template< typename Type >
 struct isGenerator
-{	static const bool value = true;	};
-
-// ================================ //
-//
-template< typename Type, typename std::enable_if< !std::is_base_of< GeneratorTraits< typename Type::VertexFormat, typename Type::IndexFormat >, Type >::value, void >::type* beef = nullptr > 
-struct isGenerator
-{	static const bool value = false;	};
+{	
+	static const bool value = std::is_base_of< impl::EnableIsGenerator, Type >::value;
+};
 
 
 

@@ -23,6 +23,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestGenerationFramework\main.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGenerationFramework\TestGeneratorOnly.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGenerationFramework\TestGeneratorWithProcessing.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestGenerationFramework\TestTraits.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BasicShapes\BasicShapes.vcxproj">
