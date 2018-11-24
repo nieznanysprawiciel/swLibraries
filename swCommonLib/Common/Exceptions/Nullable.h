@@ -69,11 +69,14 @@ public:
     bool						operator!=          ( const ContentType & that );
 	Nullable< ContentType >&	operator=			( const Nullable< ContentType > & that );
 
-    const ContentType &				Get			() const;
-    operator const ContentType &				() const;
+    const ContentType &				Get			() const&;
+    operator const ContentType &				() const&;
 
-	ContentType &					Get			();
-    operator ContentType &						();
+	ContentType &					Get			() &;
+    operator ContentType &						() &;
+
+	ContentType &&					Get			() &&;
+    operator ContentType &&						() &&;
 
 public:
 
@@ -257,7 +260,7 @@ Nullable< ContentType >&		Nullable< ContentType >::operator=		( const Nullable< 
 // ================================ //
 //
 template< typename ContentType >
-inline const ContentType &		Nullable< ContentType >::Get          () const
+inline const ContentType &		Nullable< ContentType >::Get          () const&
 { 
     if( !m_isValid ) 
         assert( false );  // FIXME: error handling(?)
@@ -267,7 +270,7 @@ inline const ContentType &		Nullable< ContentType >::Get          () const
 // ================================ //
 //
 template< typename ContentType >
-inline ContentType &			Nullable< ContentType >::Get          () 
+inline ContentType &			Nullable< ContentType >::Get          () &
 { 
 	if( !m_isValid )
 		throw Error;
@@ -277,7 +280,17 @@ inline ContentType &			Nullable< ContentType >::Get          ()
 // ================================ //
 //
 template< typename ContentType >
-inline Nullable< ContentType >::operator const ContentType &		() const
+inline ContentType &&			Nullable< ContentType >::Get          () &&
+{ 
+	if( !m_isValid )
+		throw Error;
+    return std::move( Content );
+}
+
+// ================================ //
+//
+template< typename ContentType >
+inline Nullable< ContentType >::operator const ContentType &		() const &
 { 
     return Get(); 
 }
@@ -285,7 +298,15 @@ inline Nullable< ContentType >::operator const ContentType &		() const
 // ================================ //
 //
 template< typename ContentType >
-inline Nullable< ContentType >::operator ContentType &				()
+inline Nullable< ContentType >::operator ContentType &				() &
+{ 
+    return Get(); 
+}
+
+// ================================ //
+//
+template< typename ContentType >
+inline Nullable< ContentType >::operator ContentType &&				() &&
 { 
     return Get(); 
 }
