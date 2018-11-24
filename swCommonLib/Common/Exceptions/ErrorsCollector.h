@@ -42,6 +42,7 @@ public:
 	inline void			Add						( ReturnResult result );
 	inline void			Add						( ExceptionPtr exception );
 	inline void			Add						( ExceptionsListPtr list );
+	inline void			Add						( const ErrorsCollector& collector );
 
 	inline				operator ReturnResult	();
 	inline ReturnResult Get						();
@@ -75,25 +76,28 @@ inline void			ErrorsCollector::Add			( ReturnResult result )
 //
 inline void			ErrorsCollector::Add			( ExceptionPtr newException )
 {
-	if( !m_exception )
+	if( newException )
 	{
-		m_exception = newException;
-	}
-	else if( m_multipleRaised )
-	{
-		ExceptionsListPtr list = std::static_pointer_cast< ExceptionsList >( m_exception );
-		list->AddException( newException );
-	}
-	else
-	{
-		// m_exception is single exception without nesting.
-		// Create list and add previous exception to it.
-		ExceptionsListPtr list = std::make_shared< ExceptionsList >();
-		list->AddException( m_exception );
-		list->AddException( newException );
+		if( !m_exception )
+		{
+			m_exception = newException;
+		}
+		else if( m_multipleRaised )
+		{
+			ExceptionsListPtr list = std::static_pointer_cast<ExceptionsList>( m_exception );
+			list->AddException( newException );
+		}
+		else
+		{
+			// m_exception is single exception without nesting.
+			// Create list and add previous exception to it.
+			ExceptionsListPtr list = std::make_shared< ExceptionsList >();
+			list->AddException( m_exception );
+			list->AddException( newException );
 
-		m_exception = list;
-		m_multipleRaised = true;
+			m_exception = list;
+			m_multipleRaised = true;
+		}
 	}
 }
 
@@ -101,12 +105,29 @@ inline void			ErrorsCollector::Add			( ExceptionPtr newException )
 //
 inline void			ErrorsCollector::Add			( ExceptionsListPtr list )
 {
-	auto& exceptionsVec = list->GetNestedExceptions();
+	if( list )
+	{
+		auto& exceptionsVec = list->GetNestedExceptions();
 
-	// Note: Sometimes we could use list from parameter and take ownership of it (for example if we don't have created list yet).
-	// We could consider this, but it is dangerous. Someone could modify this list from outside.
-	for( auto& newException : exceptionsVec )
-		Add( newException );
+		// Note: Sometimes we could use list from parameter and take ownership of it (for example if we don't have created list yet).
+		// We could consider this, but it is dangerous. Someone could modify this list from outside.
+		for( auto& newException : exceptionsVec )
+			Add( newException );
+	}
+}
+
+// ================================ //
+//
+inline void			ErrorsCollector::Add			( const ErrorsCollector& collector )
+{
+	if( &collector != this )
+	{
+		// ExceptionsList can be nullptr, but collector should survive this.
+		if( collector.IsList() )
+			Add( collector.GetExceptionsList() );
+		else if( collector.m_exception != nullptr )
+			Add( collector.m_exception );
+	}
 }
 
 // ================================ //

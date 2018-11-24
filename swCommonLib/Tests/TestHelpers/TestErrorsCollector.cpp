@@ -129,3 +129,39 @@ TEST_CASE( "Common.Helpers.Exceptions.ErrorsCollector.AddExceptionsListToExisitn
 	CHECK( collector.GetExceptionsList()->GetNestedExceptions().size() == 4 );
 }
 
+// ================================ //
+// 
+TEST_CASE( "Common.Helpers.Exceptions.ErrorsCollector.MergeCollectors" )
+{
+	ErrorsCollector collector1;
+	ErrorsCollector collector2;
+	
+	collector1.Add( FunctionWithException( true ) );
+	collector1.Add( FunctionWithException( true ) );
+	collector1.Add( FunctionWithException( true ) );
+
+	collector2.Add( FunctionWithException( true ) );
+	collector2.Add( FunctionWithException( true ) );
+
+	collector1.Add( collector2 );
+
+	CHECK( !static_cast< ReturnResult >( collector1 ).IsValid() );
+	CHECK( collector1.IsList() );
+	CHECK( collector1.GetExceptionsList() != nullptr );
+	CHECK( collector1.GetExceptionsList()->GetNestedExceptions().size() == 5 );
+}
+
+// ================================ //
+// If you add ErrorsCollector to itself it should do nothing.
+TEST_CASE( "Common.Helpers.Exceptions.ErrorsCollector.AddCollectorToItself" )
+{
+	ErrorsCollector collector;
+	collector.Add( FunctionWithException( true ) );
+	collector.Add( FunctionWithException( true ) );
+
+	collector.Add( collector );
+
+	CHECK( !static_cast< ReturnResult >( collector ).IsValid() );
+	CHECK( collector.GetExceptionsList()->GetNestedExceptions().size() == 2 );
+}
+
