@@ -8,6 +8,7 @@
 #include "Circle.h"
 
 #include "swCommonLib/Common/Converters.h"
+#include "swCommonLib/Common/Exceptions/ErrorsCollector.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -103,10 +104,15 @@ inline Size			Circle< VertexType, IndexType, PositionAcc >::GetNumberIndicies		(
 template< typename VertexType, typename IndexType, typename PositionAcc >
 inline ReturnResult Circle< VertexType, IndexType, PositionAcc >::ValidateParams		() const
 {
-	if( Tesselation <= 2 )
-		return "Invalid parameter [Tesselation=" + Convert::ToString( Tesselation ) + "] should be greater then 2.";
+	ErrorsCollector collector;
 
-	return Result::Success;
+	if( Tesselation <= 2 )
+		collector.Add( "[Circle] Invalid parameter [Tesselation=" + Convert::ToString( Tesselation ) + "] should be greater then 2." );
+
+	if( Radius <= 0.0f )
+		collector.Add( "[Circle] Invalid parameter [Radius=" + Convert::ToString( Radius ) + "] should be greater then 0." );
+
+	return collector;
 }
 
 

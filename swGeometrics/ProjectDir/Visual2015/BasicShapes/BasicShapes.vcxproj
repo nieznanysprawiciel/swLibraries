@@ -33,6 +33,9 @@
     <ClInclude Include="..\..\..\BasicShapes\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
+      <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\GeometricsCore\GeometricsCore.vcxproj">
       <Project>{5476cbf5-f7f9-488f-b55c-b6331b82c54a}</Project>
     </ProjectReference>

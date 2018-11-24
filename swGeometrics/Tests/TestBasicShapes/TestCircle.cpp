@@ -78,15 +78,31 @@ TEST_CASE( "Geometrics.BasicShapes.Circle.OddTesselation", "[Geometrics][BasicSh
 }
 
 // ================================ //
-//
+// Circle should have Tesselation parameter set at least to 3.
 TEST_CASE( "Geometrics.BasicShapes.Circle.ToLowTesselation", "[Geometrics][BasicShapes]" )
 {
 	Circle< VertexShape2D, Index16 > circle;
 	circle.Radius = 2.5f;
-	circle.Tesselation = 1;
-	//circle.Tesselation = 0;
-	//circle.Tesselation = 2;
+	circle.Tesselation = 0;
 
-	//auto geometry = Generate( circle );
+	CHECK( Generate( circle ).IsValid() == false );
+
+	circle.Tesselation = 1;
+	CHECK( Generate( circle ).IsValid() == false );
+
+	circle.Tesselation = 2;
+	CHECK( Generate( circle ).IsValid() == false );
+}
+
+
+// ================================ //
+// Radius should be greater then 0.
+TEST_CASE( "Geometrics.BasicShapes.Circle.NegativeRadius", "[Geometrics][BasicShapes]" )
+{
+	Circle< VertexShape2D, Index16 > circle;
+	circle.Radius = -2.5f;
+	circle.Tesselation = 10;
+
+	CHECK( Generate( circle ).IsValid() == false );
 }
 
