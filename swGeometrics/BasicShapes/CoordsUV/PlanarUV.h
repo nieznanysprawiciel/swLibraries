@@ -6,6 +6,8 @@
 */
 
 #include "swCommonLib/Common/TypesDefinitions.h"
+#include "swCommonLib/Common/Converters.h"
+#include "swCommonLib/Common/Exceptions/ErrorsCollector.h"
 
 #include "swGeometrics/GeometricsCore/Types/Traits/ProcessorTraits.h"
 
@@ -33,6 +35,8 @@ public:
 
 	inline void			GenerateVertex			( VertexType& vertex, Size vertexIdx );
 
+
+	ReturnResult		ValidateParams			() const;
 };
 
 
@@ -64,6 +68,22 @@ inline void					PlanarUV< VertexType, PositionAcc, UVAcc >::GenerateVertex			( V
 
 	vertexUV.x = ( vertexPos.x - MinX ) / xRange;
 	vertexUV.y = ( vertexPos.y - MinY ) / yRange;
+}
+
+// ================================ //
+//
+template< typename VertexType, typename PositionAcc, typename UVAcc >
+inline ReturnResult			PlanarUV< VertexType, PositionAcc, UVAcc >::ValidateParams			() const
+{
+	ErrorsCollector collector;
+
+	if( MinX >= MaxX )
+		collector.Add( "[PlanarUV] Invalid parameter [MaxX=" + Convert::ToString( MaxX ) + "] should be greater then [MinX=" + Convert::ToString( MinX ) + "]." );
+
+	if( MinY >= MaxY )
+		collector.Add( "[PlanarUV] Invalid parameter [MaxY=" + Convert::ToString( MaxY ) + "] should be greater then [MinY=" + Convert::ToString( MinY ) + "]." );
+
+	return collector;
 }
 
 }	// geom

@@ -7,6 +7,10 @@
 
 #include "Rectangle.h"
 
+#include "swCommonLib/Common/Exceptions/Exception.h"
+#include "swCommonLib/Common/Exceptions/ErrorsCollector.h"
+#include "swCommonLib/Common/Converters.h"
+
 
 
 namespace sw {
@@ -89,6 +93,22 @@ template< typename VertexType, typename IndexType, typename PositionAcc >
 inline Size					Rectangle< VertexType, IndexType, PositionAcc >::GetNumberIndicies		() const
 {
 	return 6;
+}
+
+// ================================ //
+//
+template< typename VertexType, typename IndexType, typename PositionAcc >
+inline ReturnResult			Rectangle< VertexType, IndexType, PositionAcc >::ValidateParams			() const
+{
+	ErrorsCollector collector;
+
+	if( Width <= 0.0f )
+		collector.Add( "[Rectangle] Invalid parameter [Width=" + Convert::ToString( Width ) + "] should be greater then 0.0f." );
+
+	if( Height <= 0.0f )
+		collector.Add( "[Rectangle] Invalid parameter [Height=" + Convert::ToString( Height ) + "] should be greater then 0.0f." );
+
+	return collector;
 }
 
 

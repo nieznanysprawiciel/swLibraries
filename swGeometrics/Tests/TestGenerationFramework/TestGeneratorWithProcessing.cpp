@@ -49,3 +49,41 @@ TEST_CASE( "Geometrics.Generation.GeneratorAndProcessing", "[Geometrics]" )
 	CHECK( geometry.Verticies[ 3 ].UV.y == 0.0f );
 }
 
+// ================================ //
+//
+TEST_CASE( "Geometrics.Generation.Validation.InvalidProcessor", "[Geometrics]" )
+{
+	Rectangle< VertexShape2D, Index16 > rect;
+	rect.TopLeftX = 30;
+	rect.TopLeftY = 30;
+	rect.Height = 20;
+	rect.Width = 20;
+
+	PlanarUV< VertexShape2D > planarUV;
+	planarUV.MinX = 30;
+	planarUV.MinY = 10;
+	planarUV.MaxX = 25;
+	planarUV.MaxY = 30;
+
+	CHECK( !Generate( rect, planarUV ).IsValid() );
+}
+
+// ================================ //
+//
+TEST_CASE( "Geometrics.Generation.Validation.InvalidGenerator", "[Geometrics]" )
+{
+	Rectangle< VertexShape2D, Index16 > rect;
+	rect.TopLeftX = 30;
+	rect.TopLeftY = 30;
+	rect.Height = -1;
+	rect.Width = 20;
+
+	PlanarUV< VertexShape2D > planarUV;
+	planarUV.MinX = 30;
+	planarUV.MinY = 10;
+	planarUV.MaxX = 50;
+	planarUV.MaxY = 30;
+
+	CHECK( !Generate( rect, planarUV ).IsValid() );
+}
+

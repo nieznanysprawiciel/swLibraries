@@ -6,6 +6,7 @@
 */
 
 #include "swCommonLib/Common/Exceptions/Nullable.h"
+#include "swCommonLib/Common/Exceptions/ErrorsCollector.h"
 
 #include "swGeometrics/GeometricsCore/Types/Traits/GeneratorTraits.h"
 #include "swGeometrics/GeometricsCore/Types/Traits/ProcessorTraits.h"
@@ -45,11 +46,23 @@ typename std::enable_if< isGenerator< Generator >::value, void >::type
 						CompileTimeValidation		( const Generator& gen, const Processors&... processors );
 
 
+
 // ================================ //
 //
 template< typename VertexType, typename IndexType, typename Generator, typename... Processors >
-ReturnResult			RuntimeValidation			( const Generator& gen, const Processors&... processors );
+typename std::enable_if< isGenerator< Generator >::value, ReturnResult >::type
+						RuntimeValidation			( const Generator& gen, const Processors&... processors );
 
+// ================================ //
+//
+template< typename VertexType, typename IndexType, typename Processor >
+ErrorsCollector			RuntimeValidation			( Processor processor );
+
+// ================================ //
+//
+template< typename VertexType, typename IndexType, typename Processor, typename... Processors >
+typename std::enable_if< isProcessor< Processor >::value, ErrorsCollector >::type
+						RuntimeValidation			( Processor processor, const Processors&... processors );
 
 }	// impl
 
@@ -114,15 +127,41 @@ typename std::enable_if< isGenerator< Generator >::value, void >::type
 // ================================ //
 //
 template< typename VertexType, typename IndexType, typename Generator, typename ...Processors >
-ReturnResult			RuntimeValidation					( const Generator& gen, const Processors&... processors )
+typename std::enable_if< isGenerator< Generator >::value, ReturnResult >::type
+						RuntimeValidation					( const Generator& gen, const Processors&... processors )
 {
+	ErrorsCollector collector;
+
 	if( gen.GetNumberVerticies() >= std::numeric_limits< IndexType >::max() )
-		return "Too many verticies for required IndexType.";
+		collector.Add( ReturnResult( "Too many verticies for required IndexType." ) );
 
+	collector.Add( gen.ValidateParams() );
+	collector.Add( RuntimeValidation< VertexType, IndexType >( processors... ) );
 
+	return collector;
+}
 
+// ================================ //
+//
+template< typename VertexType, typename IndexType, typename Processor >
+ErrorsCollector			RuntimeValidation					( Processor processor )
+{
+	ErrorsCollector collector;
+	collector.Add( processor.ValidateParams() );
 
-	return Result::Success;
+	return collector;
+}
+
+// ================================ //
+//
+template< typename VertexType, typename IndexType, typename Processor, typename ...Processors >
+typename std::enable_if< isProcessor< Processor >::value, ErrorsCollector >::type
+						RuntimeValidation					( Processor processor, const Processors&... processors )
+{
+	auto collector = RuntimeValidation< VertexType, IndexType >( processor );
+	collector.Add( RuntimeValidation< VertexType, IndexType >( processors... ) );
+
+	return collector;
 }
 
 }	// impl
