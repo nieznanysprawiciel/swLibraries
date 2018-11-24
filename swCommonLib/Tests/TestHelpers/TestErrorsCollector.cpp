@@ -89,3 +89,43 @@ TEST_CASE( "Common.Helpers.Exceptions.ErrorsCollector.3Exceptions" )
 	CHECK( collector.IsList() );
 	CHECK( collector.GetExceptionsList() != nullptr );
 }
+
+// ================================ //
+// 
+TEST_CASE( "Common.Helpers.Exceptions.ErrorsCollector.AddExceptionsList" )
+{
+	ErrorsCollector collector;
+	ExceptionsListPtr list = std::make_shared< ExceptionsList >();
+	
+	list->AddException( FunctionWithException( true ).GetError() );
+	list->AddException( FunctionWithException( true ).GetError() );
+	list->AddException( FunctionWithException( true ).GetError() );
+
+	collector.Add( list );
+
+	CHECK( !static_cast< ReturnResult >( collector ).IsValid() );
+	CHECK( collector.IsList() );
+	CHECK( collector.GetExceptionsList() != nullptr );
+}
+
+// ================================ //
+// 
+TEST_CASE( "Common.Helpers.Exceptions.ErrorsCollector.AddExceptionsListToExisitngExceptions" )
+{
+	ErrorsCollector collector;
+	ExceptionsListPtr list = std::make_shared< ExceptionsList >();
+	
+	collector.Add( FunctionWithException( true ) );
+
+	list->AddException( FunctionWithException( true ).GetError() );
+	list->AddException( FunctionWithException( true ).GetError() );
+	list->AddException( FunctionWithException( true ).GetError() );
+
+	collector.Add( list );
+
+	CHECK( !static_cast< ReturnResult >( collector ).IsValid() );
+	CHECK( collector.IsList() );
+	CHECK( collector.GetExceptionsList() != nullptr );
+	CHECK( collector.GetExceptionsList()->GetNestedExceptions().size() == 4 );
+}
+
