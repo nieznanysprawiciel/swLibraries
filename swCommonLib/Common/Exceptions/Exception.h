@@ -11,9 +11,12 @@
 namespace sw
 {
 
+/**@defgroup Exceptions
+@ingroup Helpers*/
+
 
 /**@brief Base exception class.
-@ingroup Helpers*/
+@ingroup Exceptions*/
 class Exception : public std::exception
 {
 private:
@@ -30,7 +33,7 @@ DEFINE_PTR_TYPE( Exception )
 
 
 /**@brief Base Sleeping Wombat exception class containing string error message.
-@ingroup Helpers*/
+@ingroup Exceptions*/
 class RuntimeException : public Exception
 {
 private:

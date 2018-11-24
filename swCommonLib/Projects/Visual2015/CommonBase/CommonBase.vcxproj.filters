@@ -60,6 +60,9 @@
     <ClCompile Include="..\..\..\Common\Object.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Common\Exceptions\ExceptionsList.cpp">
+      <Filter>Common\Exceptions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Common\Converters.h">
@@ -169,6 +172,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Buffers\BufferRange.h">
       <Filter>Common\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Exceptions\ExceptionsList.h">
+      <Filter>Common\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Exceptions\ErrorsCollector.h">
+      <Filter>Common\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

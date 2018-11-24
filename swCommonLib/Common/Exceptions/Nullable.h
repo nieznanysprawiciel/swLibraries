@@ -31,7 +31,7 @@ enum class Result : uint8
 
 
 /**@brief Alexandrescu Expected type for error handling.
-@ingroup Helpers*/
+@ingroup Exceptions*/
 template< typename ContentType >
 class Nullable
 {
@@ -87,7 +87,7 @@ public:
 
 
 /**@brief Alexandrescu Expected type for error handling.
-@ingroup Helpers*/
+@ingroup Exceptions*/
 template<>
 class Nullable< void >
 {

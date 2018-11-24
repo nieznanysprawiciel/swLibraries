@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreGUI", "ProjectDir\Visual2015\CoreGUI\CoreGUI.vcxproj", "{C6DAB3EE-E9A7-47FC-9B33-A8F4250C219B}"
 EndProject
@@ -106,6 +106,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BasicShapes", "..\swGeometrics\ProjectDir\Visual2015\BasicShapes\BasicShapes.vcxproj", "{B70C60C2-29EB-4302-80EF-9D396749D545}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestBasicShapes", "..\swGeometrics\ProjectDir\Visual2015\Tests\TestBasicShapes\TestBasicShapes.vcxproj", "{F31E3472-7145-4D89-AE5D-811D0BE7BF5B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestHelpers", "..\swCommonLib\Projects\Visual2015\Tests\TestHelpers\TestHelpers.vcxproj", "{624F99C1-AC42-46E5-8B05-B39EB1D4BE7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -411,6 +413,14 @@ Global
 		{F31E3472-7145-4D89-AE5D-811D0BE7BF5B}.Release|x64.Build.0 = Release|x64
 		{F31E3472-7145-4D89-AE5D-811D0BE7BF5B}.Release|x86.ActiveCfg = Release|Win32
 		{F31E3472-7145-4D89-AE5D-811D0BE7BF5B}.Release|x86.Build.0 = Release|Win32
+		{624F99C1-AC42-46E5-8B05-B39EB1D4BE7D}.Debug|x64.ActiveCfg = Debug|x64
+		{624F99C1-AC42-46E5-8B05-B39EB1D4BE7D}.Debug|x64.Build.0 = Debug|x64
+		{624F99C1-AC42-46E5-8B05-B39EB1D4BE7D}.Debug|x86.ActiveCfg = Debug|Win32
+		{624F99C1-AC42-46E5-8B05-B39EB1D4BE7D}.Debug|x86.Build.0 = Debug|Win32
+		{624F99C1-AC42-46E5-8B05-B39EB1D4BE7D}.Release|x64.ActiveCfg = Release|x64
+		{624F99C1-AC42-46E5-8B05-B39EB1D4BE7D}.Release|x64.Build.0 = Release|x64
+		{624F99C1-AC42-46E5-8B05-B39EB1D4BE7D}.Release|x86.ActiveCfg = Release|Win32
+		{624F99C1-AC42-46E5-8B05-B39EB1D4BE7D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -467,5 +477,9 @@ Global
 		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E} = {455C7E38-6029-4647-97DC-FEC7B29C5841}
 		{B70C60C2-29EB-4302-80EF-9D396749D545} = {21743F75-425A-4A73-A3B6-B0711A3D2DCE}
 		{F31E3472-7145-4D89-AE5D-811D0BE7BF5B} = {455C7E38-6029-4647-97DC-FEC7B29C5841}
+		{624F99C1-AC42-46E5-8B05-B39EB1D4BE7D} = {E2F170A3-BC55-4F92-B96C-A4F65CE8396E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A341301D-630D-4C6A-B843-1A50FC78565A}
 	EndGlobalSection
 EndGlobal
