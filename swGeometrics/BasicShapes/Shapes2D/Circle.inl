@@ -7,6 +7,8 @@
 
 #include "Circle.h"
 
+#include "swCommonLib/Common/Converters.h"
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -94,6 +96,17 @@ template< typename VertexType, typename IndexType, typename PositionAcc >
 inline Size			Circle< VertexType, IndexType, PositionAcc >::GetNumberIndicies		() const
 {
 	return 3 * ( Tesselation - 2 );
+}
+
+// ================================ //
+//
+template< typename VertexType, typename IndexType, typename PositionAcc >
+inline ReturnResult Circle< VertexType, IndexType, PositionAcc >::ValidateParams		() const
+{
+	if( Tesselation <= 2 )
+		return "Invalid parameter [Tesselation=" + Convert::ToString( Tesselation ) + "] should be greater then 2.";
+
+	return Result::Success;
 }
 
 

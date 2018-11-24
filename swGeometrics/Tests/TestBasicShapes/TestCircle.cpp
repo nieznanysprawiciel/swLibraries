@@ -51,7 +51,7 @@ TEST_CASE( "Geometrics.BasicShapes.Circle.EvenTesselation", "[Geometrics][BasicS
 	circle.Radius = 1.5f;
 	circle.Tesselation = 30;
 
-	auto geometry = Generate( circle );
+	auto geometry = Generate( circle ).Get();
 
 	CHECK( geometry.Verticies.size() == 30 );
 	CHECK( geometry.Indicies.size() == 84 );
@@ -68,7 +68,7 @@ TEST_CASE( "Geometrics.BasicShapes.Circle.OddTesselation", "[Geometrics][BasicSh
 	circle.Radius = 2.5f;
 	circle.Tesselation = 31;
 
-	auto geometry = Generate( circle );
+	auto geometry = Generate( circle ).Get();
 
 	CHECK( geometry.Verticies.size() == 31 );
 	CHECK( geometry.Indicies.size() == 87 );

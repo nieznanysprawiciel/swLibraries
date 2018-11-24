@@ -31,7 +31,7 @@ TEST_CASE( "Geometrics.Generation.GeneratorAndProcessing", "[Geometrics]" )
 	planarUV.MaxX = 50;
 	planarUV.MaxY = 30;
 
-	auto geometry = Generate( rect, planarUV );
+	auto geometry = Generate( rect, planarUV ).Get();
 
 	CHECK( geometry.Verticies.size() == 4 );
 	CHECK( geometry.Indicies.size() == 6 );

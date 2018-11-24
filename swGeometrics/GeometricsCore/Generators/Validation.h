@@ -116,6 +116,12 @@ typename std::enable_if< isGenerator< Generator >::value, void >::type
 template< typename VertexType, typename IndexType, typename Generator, typename ...Processors >
 ReturnResult			RuntimeValidation					( const Generator& gen, const Processors&... processors )
 {
+	if( gen.GetNumberVerticies() >= std::numeric_limits< IndexType >::max() )
+		return "Too many verticies for required IndexType.";
+
+
+
+
 	return Result::Success;
 }
 

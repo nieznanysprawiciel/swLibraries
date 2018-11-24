@@ -22,7 +22,7 @@ TEST_CASE( "Geometrics.Generation.GeneratorOnly", "[Geometrics]" )
 	rect.Height = 20;
 	rect.Width = 20;
 
-	auto geometry = Generate( rect );
+	auto geometry = Generate( rect ).Get();
 	
 	// Check vertex buffer.
 	CHECK( geometry.Verticies.size() == 4 );

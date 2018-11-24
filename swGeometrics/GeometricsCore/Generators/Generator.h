@@ -47,7 +47,7 @@ void				GenerateSingleVertex		( VertexType& vertex, Size vertexIdx, Generator ge
 // ================================ //
 //
 template< typename Generator, typename... Processors >
-IndexedGeometry< typename Generator::VertexFormat, typename Generator::IndexFormat >
+Nullable< IndexedGeometry< typename Generator::VertexFormat, typename Generator::IndexFormat > >
 					Generate					( Generator gen, Processors...processors );
 
 
@@ -106,26 +106,32 @@ void				GenerateSingleVertex		( VertexType& vertex, Size vertexIdx, Generator ge
 // ================================ //
 //
 template< typename Generator, typename... Processors >
-IndexedGeometry< typename Generator::VertexFormat, typename Generator::IndexFormat >
+Nullable< IndexedGeometry< typename Generator::VertexFormat, typename Generator::IndexFormat > >
 					Generate					( Generator gen, Processors... processors )
 {
 	ReturnResult result = Validate< typename Generator::VertexFormat, typename Generator::IndexFormat >( gen, processors... );
 
-	Size numVerticies = gen.GetNumberVerticies();
-	Size numIndicies = gen.GetNumberIndicies();
-
-	IndexedGeometry< typename Generator::VertexFormat, typename Generator::IndexFormat > geometry;
-	geometry.Verticies.resize( numVerticies );
-	geometry.Indicies.resize( numIndicies );
-	
-	for( Size idx = 0; idx < numVerticies; ++idx )
+	if( result.IsValid() )
 	{
-		impl::GenerateSingleVertex( geometry.Verticies[ idx ], idx, gen, processors... );
+
+		Size numVerticies = gen.GetNumberVerticies();
+		Size numIndicies = gen.GetNumberIndicies();
+
+		IndexedGeometry< typename Generator::VertexFormat, typename Generator::IndexFormat > geometry;
+		geometry.Verticies.resize( numVerticies );
+		geometry.Indicies.resize( numIndicies );
+
+		for( Size idx = 0; idx < numVerticies; ++idx )
+		{
+			impl::GenerateSingleVertex( geometry.Verticies[ idx ], idx, gen, processors... );
+		}
+
+		gen.GenerateIndexBuffer( geometry.Indicies, 0 );
+
+		return geometry;
 	}
-
-	gen.GenerateIndexBuffer( geometry.Indicies, 0 );
-
-	return geometry;
+	else
+		return result.GetError();
 }
 
 }	// geom

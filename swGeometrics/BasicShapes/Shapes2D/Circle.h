@@ -16,7 +16,7 @@ namespace geom
 {
 
 
-/**@brief Cricle generator.
+/**@brief Circle generator.
 @ingroup Shapes2D*/
 template< typename VertexType, typename IndexType, typename PositionAcc = DefaultPositionAcc< VertexType > >
 class Circle : public GeneratorTraits< VertexType, IndexType >
@@ -39,6 +39,8 @@ public:
 
 	inline Size			GetNumberVerticies		() const;
 	inline Size			GetNumberIndicies		() const;
+
+	ReturnResult		ValidateParams			() const;
 
 private:
 
