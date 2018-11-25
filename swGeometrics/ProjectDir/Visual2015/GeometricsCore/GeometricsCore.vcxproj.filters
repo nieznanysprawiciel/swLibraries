@@ -68,5 +68,8 @@
     <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\ProcessorTraits.h">
       <Filter>Geometric\Types\Traits</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\GeometricsCore\Types\IndexedGeometryBuffer.h">
+      <Filter>Geometric\Types</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

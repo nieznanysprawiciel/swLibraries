@@ -31,7 +31,7 @@ TEST_CASE( "Geometrics.Generation.GeneratorAndProcessing", "[Geometrics]" )
 	planarUV.MaxX = 50;
 	planarUV.MaxY = 30;
 
-	auto geometry = Generate( rect, planarUV ).Get();
+	auto geometry = Generate< IndexedGeometry< VertexShape2D, Index16 > >( rect, planarUV ).Get();
 
 	CHECK( geometry.Verticies.size() == 4 );
 	CHECK( geometry.Indicies.size() == 6 );
@@ -65,7 +65,7 @@ TEST_CASE( "Geometrics.Generation.Validation.InvalidProcessor", "[Geometrics]" )
 	planarUV.MaxX = 25;
 	planarUV.MaxY = 30;
 
-	CHECK( !Generate( rect, planarUV ).IsValid() );
+	CHECK( !Generate< IndexedGeometry< VertexShape2D, Index16 > >( rect, planarUV ).IsValid() );
 }
 
 // ================================ //
@@ -84,6 +84,6 @@ TEST_CASE( "Geometrics.Generation.Validation.InvalidGenerator", "[Geometrics]" )
 	planarUV.MaxX = 50;
 	planarUV.MaxY = 30;
 
-	CHECK( !Generate( rect, planarUV ).IsValid() );
+	CHECK( !Generate< IndexedGeometry< VertexShape2D, Index16 > >( rect, planarUV ).IsValid() );
 }
 

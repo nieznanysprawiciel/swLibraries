@@ -51,7 +51,7 @@ TEST_CASE( "Geometrics.BasicShapes.Circle.EvenTesselation", "[Geometrics][BasicS
 	circle.Radius = 1.5f;
 	circle.Tesselation = 30;
 
-	auto geometry = Generate( circle ).Get();
+	auto geometry = Generate< IndexedGeometry< VertexShape2D, Index16 > >( circle ).Get();
 
 	CHECK( geometry.Verticies.size() == 30 );
 	CHECK( geometry.Indicies.size() == 84 );
@@ -68,7 +68,7 @@ TEST_CASE( "Geometrics.BasicShapes.Circle.OddTesselation", "[Geometrics][BasicSh
 	circle.Radius = 2.5f;
 	circle.Tesselation = 31;
 
-	auto geometry = Generate( circle ).Get();
+	auto geometry = Generate< IndexedGeometry< VertexShape2D, Index16 > >( circle ).Get();
 
 	CHECK( geometry.Verticies.size() == 31 );
 	CHECK( geometry.Indicies.size() == 87 );
@@ -85,13 +85,13 @@ TEST_CASE( "Geometrics.BasicShapes.Circle.ToLowTesselation", "[Geometrics][Basic
 	circle.Radius = 2.5f;
 	circle.Tesselation = 0;
 
-	CHECK( Generate( circle ).IsValid() == false );
+	CHECK( Generate< IndexedGeometry< VertexShape2D, Index16 > >( circle ).IsValid() == false );
 
 	circle.Tesselation = 1;
-	CHECK( Generate( circle ).IsValid() == false );
+	CHECK( Generate< IndexedGeometry< VertexShape2D, Index16 > >( circle ).IsValid() == false );
 
 	circle.Tesselation = 2;
-	CHECK( Generate( circle ).IsValid() == false );
+	CHECK( Generate< IndexedGeometry< VertexShape2D, Index16 > >( circle ).IsValid() == false );
 }
 
 
@@ -103,6 +103,6 @@ TEST_CASE( "Geometrics.BasicShapes.Circle.NegativeRadius", "[Geometrics][BasicSh
 	circle.Radius = -2.5f;
 	circle.Tesselation = 10;
 
-	CHECK( Generate( circle ).IsValid() == false );
+	CHECK( Generate< IndexedGeometry< VertexShape2D, Index16 > >( circle ).IsValid() == false );
 }
 
