@@ -50,13 +50,13 @@ inline void					Rectangle< VertexType, IndexType, PositionAcc >::GenerateVertex	
 		}
 		case 2:
 		{
-			PositionAcc::Get( vertex ).x = TopLeftX;
+			PositionAcc::Get( vertex ).x = TopLeftX + Width;
 			PositionAcc::Get( vertex ).y = TopLeftY - Height;
 			break;
 		}
 		case 3:
 		{
-			PositionAcc::Get( vertex ).x = TopLeftX + Width;
+			PositionAcc::Get( vertex ).x = TopLeftX;
 			PositionAcc::Get( vertex ).y = TopLeftY - Height;
 			break;
 		}
