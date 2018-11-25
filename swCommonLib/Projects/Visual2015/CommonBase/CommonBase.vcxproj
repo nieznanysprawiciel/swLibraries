@@ -34,6 +34,7 @@
     <ClInclude Include="..\..\..\Common\Buffers\BufferRange.h" />
     <ClInclude Include="..\..\..\Common\Buffers\BufferRaw.h" />
     <ClInclude Include="..\..\..\Common\Buffers\BufferTyped.h" />
+    <ClInclude Include="..\..\..\Common\Buffers\IndexedGeometryBuffer.h" />
     <ClInclude Include="..\..\..\Common\Buffers\StackBuffer.h" />
     <ClInclude Include="..\..\..\Common\Config\ConfigHelper.h" />
     <ClInclude Include="..\..\..\Common\Converters.h" />

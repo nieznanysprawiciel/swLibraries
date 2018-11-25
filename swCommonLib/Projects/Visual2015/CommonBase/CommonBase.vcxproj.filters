@@ -179,5 +179,8 @@
     <ClInclude Include="..\..\..\Common\Exceptions\ErrorsCollector.h">
       <Filter>Common\Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Common\Buffers\IndexedGeometryBuffer.h">
+      <Filter>Common\Buffers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
