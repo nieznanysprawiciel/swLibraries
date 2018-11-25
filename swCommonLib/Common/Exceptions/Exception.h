@@ -27,6 +27,14 @@ public:
 
 	/**@brief Returns human readable exception message.*/
 	virtual std::string		ErrorMessage	() const = 0;
+
+
+	/**@brief Compatibility with std c++ exceptions.*/
+    virtual char const*		what			() const
+    {
+		static_cast< std::exception& >( *const_cast< Exception* >( this ) ) = std::exception( ErrorMessage().c_str() );
+		return std::exception::what();
+    }
 };
 
 DEFINE_PTR_TYPE( Exception )
