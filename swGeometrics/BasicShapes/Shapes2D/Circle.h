@@ -42,10 +42,6 @@ public:
 
 	ReturnResult		ValidateParams			() const;
 
-private:
-
-	template< class IndexBuffer >
-	inline void			AddTriangle				( IndexBuffer& idxBuffer, IndexType startIdx, IndexType vertIdx1, IndexType vertIdx2, IndexType vertIdx3 );
 };
 
 

@@ -29,12 +29,18 @@
     <ClInclude Include="..\..\..\BasicShapes\Shapes2D\Circle.h">
       <Filter>Shapes2D</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\BasicShapes\Shapes2D\RectangleWIthBorder.h">
+      <Filter>Shapes2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\BasicShapes\Shapes2D\Rectangle.inl">
       <Filter>Shapes2D</Filter>
     </None>
     <None Include="..\..\..\BasicShapes\Shapes2D\Circle.inl">
+      <Filter>Shapes2D</Filter>
+    </None>
+    <None Include="..\..\..\BasicShapes\Shapes2D\RectangleWithBorder.inl">
       <Filter>Shapes2D</Filter>
     </None>
   </ItemGroup>

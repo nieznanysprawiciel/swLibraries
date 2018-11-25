@@ -51,36 +51,23 @@ inline void			Circle< VertexType, IndexType, PositionAcc >::GenerateIndexBuffer	
 	IndexType leftIdx = numVerts - 1;	// Last vertex.
 
 	// Add top triangle without pair.
-	AddTriangle( idxBuffer, (IndexType)startIdx, 0, rightIdx, leftIdx );
-	startIdx += 3;
+	AddTriangleCW( idxBuffer, startIdx, 0, rightIdx, leftIdx );
 
 	// Add pairs of triangles from left to right side of circle.
 	while( leftIdx - rightIdx > 3 )
 	{
-		AddTriangle( idxBuffer, (IndexType)startIdx, leftIdx, rightIdx, leftIdx - 1 );
-		AddTriangle( idxBuffer, (IndexType)startIdx + 3, leftIdx - 1, rightIdx, rightIdx + 1 );
+		AddTriangleCW( idxBuffer, startIdx, leftIdx, rightIdx, leftIdx - 1 );
+		AddTriangleCW( idxBuffer, startIdx, leftIdx - 1, rightIdx, rightIdx + 1 );
 
 		rightIdx++;
 		leftIdx--;
-		startIdx += 6;
 	}
 
 	// If there's one vertex left, we need to add one triangle else. Note that if
 	// we have even number of verticies, two last verticies were already used to create two traingles
 	// in previous while loop.
 	if( leftIdx - rightIdx == 2 )
-		AddTriangle( idxBuffer, (IndexType)startIdx, leftIdx, rightIdx, leftIdx - 1 );
-}
-
-// ================================ //
-//
-template< typename VertexType, typename IndexType, typename PositionAcc >
-template< class IndexBuffer >
-inline void			Circle< VertexType, IndexType, PositionAcc >::AddTriangle			( IndexBuffer& idxBuffer, IndexType startIdx, IndexType vertIdx1, IndexType vertIdx2, IndexType vertIdx3 )
-{
-	idxBuffer[ startIdx ] = vertIdx1;
-	idxBuffer[ startIdx + 1 ] = vertIdx2;
-	idxBuffer[ startIdx + 2 ] = vertIdx3;
+		AddTriangleCW( idxBuffer, startIdx, leftIdx, rightIdx, leftIdx - 1 );
 }
 
 // ================================ //
