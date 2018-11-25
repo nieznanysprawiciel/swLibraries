@@ -42,12 +42,16 @@ void				GenerateSingleVertex		( VertexType& vertex, Size vertexIdx, Generator ge
 template< typename VertexType, typename Generator, typename... Processors >
 void				GenerateSingleVertex		( VertexType& vertex, Size vertexIdx, Generator gen, Processors...processors );
 
+
+template< typename GeometryType >
+GeometryType		CreateGeometry				( Size numVerticies, Size numIndicies );
+
 }	// impl
 
 // ================================ //
 //
-template< typename Generator, typename... Processors >
-Nullable< IndexedGeometry< typename Generator::VertexFormat, typename Generator::IndexFormat > >
+template< typename GeometryType, typename Generator, typename... Processors >
+Nullable< GeometryType >
 					Generate					( Generator gen, Processors...processors );
 
 
@@ -95,6 +99,14 @@ void				GenerateSingleVertex		( VertexType& vertex, Size vertexIdx, Generator ge
 	ProcessSingleVertex( vertex, vertexIdx, processors... );
 }
 
+// ================================ //
+//
+template< typename GeometryType >
+GeometryType		CreateGeometry				( Size numVerticies, Size numIndicies )
+{
+	return GeometryType( numVerticies, numIndicies );
+}
+
 
 }	// impl
 
@@ -105,21 +117,18 @@ void				GenerateSingleVertex		( VertexType& vertex, Size vertexIdx, Generator ge
 
 // ================================ //
 //
-template< typename Generator, typename... Processors >
-Nullable< IndexedGeometry< typename Generator::VertexFormat, typename Generator::IndexFormat > >
+template< typename GeometryType, typename Generator, typename... Processors >
+Nullable< GeometryType >
 					Generate					( Generator gen, Processors... processors )
 {
 	ReturnResult result = Validate< typename Generator::VertexFormat, typename Generator::IndexFormat >( gen, processors... );
 
 	if( result.IsValid() )
 	{
-
 		Size numVerticies = gen.GetNumberVerticies();
 		Size numIndicies = gen.GetNumberIndicies();
 
-		IndexedGeometry< typename Generator::VertexFormat, typename Generator::IndexFormat > geometry;
-		geometry.Verticies.resize( numVerticies );
-		geometry.Indicies.resize( numIndicies );
+		GeometryType geometry = impl::CreateGeometry< GeometryType >( numVerticies, numIndicies );
 
 		for( Size idx = 0; idx < numVerticies; ++idx )
 		{
