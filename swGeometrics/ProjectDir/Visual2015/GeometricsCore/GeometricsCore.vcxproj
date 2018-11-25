@@ -31,7 +31,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClInclude Include="..\..\..\GeometricsCore\Types\Accessors\DefaultAccessors.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\Types\IndexedGeometryBuffer.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\IndexTypes.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\GeneratorTraits.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\ProcessorTraits.h" />
