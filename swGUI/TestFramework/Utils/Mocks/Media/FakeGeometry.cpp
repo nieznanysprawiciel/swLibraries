@@ -62,9 +62,9 @@ BufferRange		FakeGeometry::BufferData	()
 
 // ================================ //
 //
-std::wstring	FakeGeometry::ShaderFunctionFile	()
+std::string		FakeGeometry::ShaderFunctionFile	()
 {
-	return std::wstring();
+	return m_shaderFun;
 }
 
 // ================================ //
@@ -87,6 +87,14 @@ void			FakeGeometry::ChangeGeometry		( const std::wstring& geomName )
 {
 	m_geomName = geomName;
 	InvalidateGeometry();
+}
+
+// ================================ //
+//
+void			FakeGeometry::SetShaderFunction		( const std::string& shaderFun )
+{
+	m_shaderFun = shaderFun;
+	InvalidateShader();
 }
 
 }	// gui

@@ -125,7 +125,7 @@ public:
 	This way geometry can be generated once for multiple parameters of shape to avoid data transfers between
 	CPU and GPU. You should override @ref Geometry::GeometryName function, to return the same name, if Vertex
 	Buffer shouldn't be updated.*/
-	virtual std::wstring	ShaderFunctionFile	() = 0;
+	virtual std::string		ShaderFunctionFile	() = 0;
 
 	/**@brief Returns key used to store/find geometry buffers (VB and IB) in resources.
 	

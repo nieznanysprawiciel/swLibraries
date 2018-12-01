@@ -100,7 +100,7 @@ bool			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry )
 	if( geometry->NeedsShaderUpdate() )
 	{
 		auto brushFunPath = geometry->ShaderFunctionFile();
-		m_geometryData.VertexShader = sp->GenerateVS( sp->GetBasicPSTemplate(), brushFunPath );
+		m_geometryData.VertexShader = sp->GenerateVS( sp->GetBasicVSTemplate(), brushFunPath );
 
 		geometry->ShaderUpdated();
 		return true;

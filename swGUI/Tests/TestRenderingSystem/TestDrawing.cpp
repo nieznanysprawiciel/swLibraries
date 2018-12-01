@@ -77,6 +77,36 @@ TEST_CASE( "GUI.Rendering.Drawing.Pen.UpdateShader", "[GUISystem][RenderingSyste
 	CHECK( pen->NeedsShaderUpdate() == false );										// Update function should reset update flag.
 }
 
+// ================================ //
+// Tests Drawing class shader update functions (interface for derived classes).
+// Shader should be loaded on first use and updated after flag NeedsShaderUpdate is set to true.
+TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateShader", "[GUISystem][RenderingSystem][Drawing]" )
+{
+	TestFramework framework( 0, nullptr );	framework.Init();
+	
+	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
+	FakeGeometryPtr geom = std::make_shared< FakeGeometry >( false );
+	
+	// Set first shader
+	geom->SetShaderFunction( "WorkingDir-RenderingSystem/shaders/FakeGeom.vs" );
+	drawing->UpdateVertexShader( framework.GetRenderingSystem()->GetShaderProvider(), geom.get() );
+
+	auto& renderingData = CLASS_TESTER( Drawing )::GetGeometryRenderingData( drawing.get() );
+
+	auto prevShader = renderingData.VertexShader;
+	CHECK( renderingData.VertexShader != nullptr );
+
+	// Change shader and check if ew shader was loaded.
+	geom->SetShaderFunction( "WorkingDir-RenderingSystem/shaders/FakeGeom2.vs" );
+	REQUIRE( geom->NeedsShaderUpdate() == true );										// Update request should be set.
+
+	drawing->UpdateVertexShader( framework.GetRenderingSystem()->GetShaderProvider(), geom.get() );
+	CHECK( renderingData.VertexShader != nullptr );										// Shader was loaded.
+	CHECK( renderingData.VertexShader != prevShader );									// Shader is different then previous shader.
+
+	CHECK( geom->NeedsShaderUpdate() == false );										// Update function should reset update flag.
+}
+
 
 //====================================================================================//
 //			Textures update	

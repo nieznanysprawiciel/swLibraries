@@ -21,6 +21,7 @@ private:
 protected:
 
 	std::wstring			m_geomName;
+	std::string				m_shaderFun;
 
 public:
 	explicit		FakeGeometry		( bool sharedBuffer );
@@ -35,7 +36,7 @@ public:
 	virtual GeometryData	Generate		() override;
 	virtual BufferRange		BufferData		() override;
 
-	virtual std::wstring	ShaderFunctionFile	() override;
+	virtual std::string		ShaderFunctionFile	() override;
 	virtual std::wstring	GeometryName		() override;
 	virtual std::wstring	ConstantsName		() override;
 
@@ -46,6 +47,7 @@ public:
 	using Geometry::NeedsGeometryUpdate;
 
 	void					ChangeGeometry		( const std::wstring& geomName );
+	void					SetShaderFunction	( const std::string& shaderFun );
 };
 
 DEFINE_PTR_TYPE( FakeGeometry )

@@ -38,7 +38,7 @@ public:
 public:
 
 	const filesystem::Path&			GetBasicPSTemplate		() const;
-
+	const filesystem::Path&			GetBasicVSTemplate		() const;
 
 public:
 

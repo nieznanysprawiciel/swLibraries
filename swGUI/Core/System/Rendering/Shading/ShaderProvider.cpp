@@ -21,6 +21,7 @@ namespace gui
 namespace impl
 {
 	const filesystem::Path		gBasicPSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Basic.ps";
+	const filesystem::Path		gBasicVSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Basic.vs";
 }
 
 
@@ -36,6 +37,13 @@ ShaderProvider::ShaderProvider		( ResourceManager* resManager, const PathsManage
 const filesystem::Path&				ShaderProvider::GetBasicPSTemplate		() const
 {
 	return impl::gBasicPSTemplatePath;
+}
+
+// ================================ //
+//
+const filesystem::Path&				ShaderProvider::GetBasicVSTemplate		() const
+{
+	return impl::gBasicVSTemplatePath;
 }
 
 // ================================ //
