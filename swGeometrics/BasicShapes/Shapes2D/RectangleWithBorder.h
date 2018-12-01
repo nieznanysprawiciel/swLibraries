@@ -1,35 +1,34 @@
 #pragma once
 /**
-@file Circle.h
+@file RectangleWithBorder.h
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
 
-#include "swCommonLib/Common/TypesDefinitions.h"
-#include "swGeometrics/GeometricsCore/Types/Accessors/DefaultAccessors.h"
-#include "swGeometrics/GeometricsCore/Types/Traits/GeneratorTraits.h"
+#include "swGeometrics/BasicShapes/Shapes2D/Rectangle.h"
 
 
 namespace sw {
 namespace geom
 {
 
-
-/**@brief Circle generator.
+/**@brief Rectangle with border for GUI.
 @ingroup Shapes2D*/
 template< typename VertexType, typename IndexType, typename PositionAcc = DefaultPositionAcc< VertexType > >
-class Circle : public GeneratorTraits< VertexType, IndexType >
+class RectangleWithBorder : public Rectangle< VertexType, PositionAcc >
 {
 private:
-public:
 
-	float				Radius;
-	uint32				Tesselation;
+	typedef Rectangle< VertexType, IndexType, PositionAcc > Parent;
 
 public:
 
-	inline explicit		Circle					();
+	float				StrokeThickness;
+
+public:
+
+	inline explicit		RectangleWithBorder		();
 
 
 	inline void			GenerateVertex			( VertexType& vertex, Size vertexIdx );
@@ -47,9 +46,6 @@ public:
 
 
 
-
 }	// geom
 }	// sw
 
-
-#include "Circle.inl"

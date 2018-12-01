@@ -30,6 +30,7 @@
     <ClInclude Include="..\..\..\BasicShapes\CoordsUV\PlanarUV.h" />
     <ClInclude Include="..\..\..\BasicShapes\Shapes2D\Circle.h" />
     <ClInclude Include="..\..\..\BasicShapes\Shapes2D\Rectangle.h" />
+    <ClInclude Include="..\..\..\BasicShapes\Shapes2D\RectangleWIthBorder.h" />
     <ClInclude Include="..\..\..\BasicShapes\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +44,7 @@
   <ItemGroup>
     <None Include="..\..\..\BasicShapes\Shapes2D\Circle.inl" />
     <None Include="..\..\..\BasicShapes\Shapes2D\Rectangle.inl" />
+    <None Include="..\..\..\BasicShapes\Shapes2D\RectangleWithBorder.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B70C60C2-29EB-4302-80EF-9D396749D545}</ProjectGuid>

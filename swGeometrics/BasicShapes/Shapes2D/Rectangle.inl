@@ -50,13 +50,13 @@ inline void					Rectangle< VertexType, IndexType, PositionAcc >::GenerateVertex	
 		}
 		case 2:
 		{
-			PositionAcc::Get( vertex ).x = TopLeftX;
+			PositionAcc::Get( vertex ).x = TopLeftX + Width;
 			PositionAcc::Get( vertex ).y = TopLeftY - Height;
 			break;
 		}
 		case 3:
 		{
-			PositionAcc::Get( vertex ).x = TopLeftX + Width;
+			PositionAcc::Get( vertex ).x = TopLeftX;
 			PositionAcc::Get( vertex ).y = TopLeftY - Height;
 			break;
 		}
@@ -69,13 +69,8 @@ template< typename VertexType, typename IndexType, typename PositionAcc >
 template< class IndexBuffer >
 inline void					Rectangle< VertexType, IndexType, PositionAcc >::GenerateIndexBuffer	( IndexBuffer& idxBuffer, Size startIdx )
 {
-	idxBuffer[ startIdx + 0 ] = 0;
-	idxBuffer[ startIdx + 1 ] = 1;
-	idxBuffer[ startIdx + 2 ] = 2;
-
-	idxBuffer[ startIdx + 3 ] = 1;
-	idxBuffer[ startIdx + 4 ] = 3;
-	idxBuffer[ startIdx + 5 ] = 2;
+	AddTriangleCW( idxBuffer, startIdx, 0, 1, 2 );
+	AddTriangleCW( idxBuffer, startIdx, 0, 2, 3 );
 }
 
 
