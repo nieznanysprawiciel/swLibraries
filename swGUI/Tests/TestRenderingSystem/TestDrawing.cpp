@@ -209,7 +209,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Pen.UpdateConstants", "[GUISystem][RenderingSy
 
 
 // ================================ //
-//
+// Test initialization and second update of geometry.
 TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateGeometry", "[GUISystem][RenderingSystem][Drawing]" )
 {
 	TestFramework framework( 0, nullptr );	framework.Init();
@@ -244,3 +244,32 @@ TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateGeometry", "[GUISystem][Renderi
 	CHECK( renderingData.IndexBuffer != ib );			// New buffers should be generated.
 	CHECK( geom->NeedsGeometryUpdate() == false );
 }
+
+// ================================ //
+// If new geometry has the same name as previously used, it should use this existing geometry.
+TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateGeometry.UseExisting", "[GUISystem][RenderingSystem][Drawing]" )
+{
+	TestFramework framework( 0, nullptr );	framework.Init();
+	
+	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
+	FakeGeometryPtr geom = std::make_shared< FakeGeometry >( false );
+
+	auto& renderingData = CLASS_TESTER( Drawing )::GetGeometryRenderingData( drawing.get() );
+	
+	geom->ChangeGeometry( L"Geometry1" );
+	drawing->UpdateGeometry( framework.GetResourceManager(), geom.get() );
+
+	auto vb = renderingData.VertexBuffer;
+	auto ib = renderingData.IndexBuffer;
+
+	geom->ChangeGeometry( L"Geometry2" );
+	drawing->UpdateGeometry( framework.GetResourceManager(), geom.get() );
+
+	// Use Geometry1 again.
+	geom->ChangeGeometry( L"Geometry1" );
+	drawing->UpdateGeometry( framework.GetResourceManager(), geom.get() );
+
+	CHECK( renderingData.VertexBuffer == vb );
+	CHECK( renderingData.IndexBuffer == ib );
+}
+
