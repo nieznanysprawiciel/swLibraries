@@ -54,14 +54,14 @@ void			Geometry::ShaderUpdated				()
 //
 void			Geometry::GeometryUpdated			()
 {
-	m_invalidateGeometry = true;
+	m_invalidateGeometry = false;
 }
 
 // ================================ //
 //
 void			Geometry::ConstantsUpdated			()
 {
-	m_invalidateConstants = true;
+	m_invalidateConstants = false;
 }
 
 

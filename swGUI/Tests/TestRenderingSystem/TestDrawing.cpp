@@ -7,6 +7,7 @@
 #include "swGUI/TestFramework/Testers/Rendering/DrawingTester.h"
 #include "swGUI/TestFramework/Utils/Mocks/Rendering/FakeDrawing.h"
 #include "swGUI/TestFramework/Utils/Mocks/Media/FakeBrush.h"
+#include "swGUI/TestFramework/Utils/Mocks/Media/FakeGeometry.h"
 
 using namespace sw;
 using namespace sw::gui;
@@ -172,3 +173,44 @@ TEST_CASE( "GUI.Rendering.Drawing.Pen.UpdateConstants", "[GUISystem][RenderingSy
 	CHECK( renderingData.BrushConstants != nullptr );
 }
 
+//====================================================================================//
+//			Geometry update	
+//====================================================================================//
+
+
+// ================================ //
+//
+TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateGeometry", "[GUISystem][RenderingSystem][Drawing]" )
+{
+	TestFramework framework( 0, nullptr );	framework.Init();
+	
+	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
+	FakeGeometryPtr geom = std::make_shared< FakeGeometry >( false );
+
+	auto& renderingData = CLASS_TESTER( Drawing )::GetGeometryRenderingData( drawing.get() );
+	REQUIRE( renderingData.VertexBuffer == nullptr );
+	REQUIRE( renderingData.IndexBuffer == nullptr );
+	REQUIRE( geom->NeedsGeometryUpdate() == true );
+	
+	// Initialization of geometry.
+	drawing->UpdateGeometry( framework.GetResourceManager(), geom.get() );
+
+	CHECK( renderingData.VertexBuffer != nullptr );
+	CHECK( renderingData.IndexBuffer != nullptr );
+	CHECK( geom->NeedsGeometryUpdate() == false );
+
+	// Change geometry and check if buffers were updated.
+	auto vb = renderingData.VertexBuffer;
+	auto ib = renderingData.IndexBuffer;
+
+	geom->ChangeGeometry( L"NewGeom" );
+	CHECK( geom->NeedsGeometryUpdate() == true );
+
+	drawing->UpdateGeometry( framework.GetResourceManager(), geom.get() );
+
+	CHECK( renderingData.VertexBuffer != nullptr );
+	CHECK( renderingData.IndexBuffer != nullptr );
+	CHECK( renderingData.VertexBuffer != vb );			// New buffers should be generated.
+	CHECK( renderingData.IndexBuffer != ib );			// New buffers should be generated.
+	CHECK( geom->NeedsGeometryUpdate() == false );
+}

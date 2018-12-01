@@ -140,7 +140,7 @@ public:
 	///@}
 
 
-private:
+protected:
 
 	///@name RenderingSystem API
 	///@{
@@ -150,8 +150,8 @@ private:
 	void			ConstantsUpdated	();
 
 	bool			NeedsShaderUpdate	() const { return m_invalidateShader; }
-	bool			NeedGeometryUpdate	() const { return m_invalidateGeometry; }
-	bool			NeedsConstantsUpdate	() const { return m_invalidateConstants; }
+	bool			NeedsGeometryUpdate	() const { return m_invalidateGeometry; }
+	bool			NeedsConstantsUpdate() const { return m_invalidateConstants; }
 	bool			UsesSharedBuffer	() const { return m_sharedBuffer; }
 
 	///@}

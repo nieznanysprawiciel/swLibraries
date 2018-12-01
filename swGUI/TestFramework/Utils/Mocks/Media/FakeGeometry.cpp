@@ -19,6 +19,14 @@ namespace gui
 
 // ================================ //
 //
+FakeGeometry::FakeGeometry( bool sharedBuffer )
+	:	Geometry( sharedBuffer )
+	,	m_geomName( L"InitGeom" )
+{}
+
+
+// ================================ //
+//
 bool			FakeGeometry::HitTest		( const Point& point )
 {
 	assert( !"Implement me" );
@@ -63,7 +71,7 @@ std::wstring	FakeGeometry::ShaderFunctionFile	()
 //
 std::wstring	FakeGeometry::GeometryName			()
 {
-	return std::wstring();
+	return m_geomName;
 }
 
 // ================================ //
@@ -71,6 +79,14 @@ std::wstring	FakeGeometry::GeometryName			()
 std::wstring	FakeGeometry::ConstantsName			()
 {
 	return std::wstring();
+}
+
+// ================================ //
+//
+void			FakeGeometry::ChangeGeometry		( const std::wstring& geomName )
+{
+	m_geomName = geomName;
+	InvalidateGeometry();
 }
 
 }	// gui

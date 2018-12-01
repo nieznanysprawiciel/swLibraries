@@ -113,7 +113,7 @@ bool			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry )
 //
 bool			Drawing::UpdateGeometry				( ResourceManager* rm, Geometry* geometry )
 {
-	if( geometry->NeedGeometryUpdate() )
+	if( geometry->NeedsGeometryUpdate() )
 	{
 		std::wstring name = geometry->GeometryName();
 

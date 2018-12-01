@@ -19,8 +19,11 @@ class FakeGeometry : public Geometry
 {
 private:
 protected:
+
+	std::wstring			m_geomName;
+
 public:
-	explicit		FakeGeometry		() = default;
+	explicit		FakeGeometry		( bool sharedBuffer );
 	virtual			~FakeGeometry		() = default;
 
 
@@ -36,9 +39,16 @@ public:
 	virtual std::wstring	GeometryName		() override;
 	virtual std::wstring	ConstantsName		() override;
 
+public:
+
+	using Geometry::NeedsShaderUpdate;
+	using Geometry::NeedsConstantsUpdate;
+	using Geometry::NeedsGeometryUpdate;
+
+	void					ChangeGeometry		( const std::wstring& geomName );
 };
 
-
+DEFINE_PTR_TYPE( FakeGeometry )
 
 
 

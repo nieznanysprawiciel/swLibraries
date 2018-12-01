@@ -60,7 +60,9 @@
     <ClCompile Include="..\..\..\TestFramework\Utils\Mocks\Rendering\FakeDrawing.cpp">
       <Filter>TestFramework\Utils\Mocks\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\TestFramework\Utils\Mocks\Media\FakeGeometry.cpp" />
+    <ClCompile Include="..\..\..\TestFramework\Utils\Mocks\Media\FakeGeometry.cpp">
+      <Filter>TestFramework\Utils\Mocks\Media</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\TestFramework\stdafx.h">
