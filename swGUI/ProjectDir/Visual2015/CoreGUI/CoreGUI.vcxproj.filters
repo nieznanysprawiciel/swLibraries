@@ -58,6 +58,9 @@
     <Filter Include="Core\System\DataBinding\Exceptions">
       <UniqueIdentifier>{41d28770-ab16-45b2-9af4-2c576b0ea60b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PrecompiledHeader">
+      <UniqueIdentifier>{ba60c9b6-d508-4d48-a8db-a8998ec20900}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\targetver.h">
@@ -228,6 +231,9 @@
     <ClInclude Include="..\..\..\Core\System\DataBinding\DependencyProperty.h">
       <Filter>Core\System\DataBinding</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\stdafx.h">
+      <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\Controls\IControl.cpp">
@@ -322,6 +328,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Core\System\DataBinding\BindingInfo.cpp">
       <Filter>Core\System\DataBinding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\stdafx.cpp">
+      <Filter>PrecompiledHeader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

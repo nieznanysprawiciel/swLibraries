@@ -1,3 +1,11 @@
+/**
+@file StackPanel.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+#include "swGUI/Core/stdafx.h"
+
+
 #include "StackPanel.h"
 
 
