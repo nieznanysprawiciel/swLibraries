@@ -70,6 +70,9 @@
     <Filter Include="Core\System\Rendering\Shading">
       <UniqueIdentifier>{32b76862-785d-460c-a007-f8106d85871b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PrecompiledHeader">
+      <UniqueIdentifier>{ba60c9b6-d508-4d48-a8db-a8998ec20900}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\targetver.h">
@@ -267,6 +270,9 @@
     <ClInclude Include="..\..\..\Core\System\Rendering\Shading\ShaderProvider.h">
       <Filter>Core\System\Rendering\Shading</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\stdafx.h">
+      <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\Controls\IControl.cpp">
@@ -379,6 +385,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp">
       <Filter>Core\Media\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\stdafx.cpp">
+      <Filter>PrecompiledHeader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

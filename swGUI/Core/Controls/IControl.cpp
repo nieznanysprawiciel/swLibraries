@@ -1,3 +1,6 @@
+#include "swGUI/Core/stdafx.h"
+
+
 #include "IControl.h"
 
 #include "swGUI/Core/Controls/TopLevelControl.h"

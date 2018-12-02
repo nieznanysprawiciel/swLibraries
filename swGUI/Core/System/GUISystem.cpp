@@ -1,3 +1,11 @@
+/**
+@file GUISystem.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+#include "swGUI/Core/stdafx.h"
+
+
 #include "GUISystem.h"
 
 #include "swInputLibrary/InputCore/KeyboardState.h"
