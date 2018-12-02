@@ -17,8 +17,8 @@ namespace gui
 
 // ================================ //
 //
-Brush::Brush		( EnableConstantBuffer enableCB )
-	:	m_useConstantBuffer( enableCB == EnableConstantBuffer::True )
+Brush::Brush		( ConstantBufferMode enableCB )
+	:	m_useConstantBuffer( enableCB == ConstantBufferMode::Enable )
 	,	m_invalidateConstants( false )
 	,	m_invalidateTexture( false )
 {

@@ -68,6 +68,13 @@ class Geometry : public EngineObject
 
 public:
 
+	enum class ConstantBufferMode
+	{
+		Disable,		///< Buffer will not be used.
+		UseShared,		///< Multiple Geometries will use single buffer. Update will happen every render.
+		UsePrivate		///< This instance will have it's own buffer. Buffer will be updated on demand.
+	};
+
 private:
 
 	bool			m_invalidateGeometry : 1;
@@ -78,7 +85,7 @@ private:
 
 public:
 
-	explicit		Geometry	( bool sharedBuffer );
+	explicit		Geometry	( ConstantBufferMode cbMode );
 
 protected:
 

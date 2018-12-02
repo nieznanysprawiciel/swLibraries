@@ -37,7 +37,7 @@ protected:
 	StackBuffer< Variables >	m_buffer;
 
 public:
-	explicit		FakeGeometry		( bool sharedBuffer );
+	explicit		FakeGeometry		( Geometry::ConstantBufferMode cbMode );
 	virtual			~FakeGeometry		() = default;
 
 

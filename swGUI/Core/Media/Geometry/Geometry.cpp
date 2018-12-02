@@ -20,8 +20,9 @@ namespace gui
 
 // ================================ //
 //
-Geometry::Geometry		( bool sharedBuffer )
-	:	m_sharedBuffer( sharedBuffer )
+Geometry::Geometry		( ConstantBufferMode cbMode )
+	:	m_sharedBuffer( cbMode == ConstantBufferMode::UseShared )
+	,	m_useConstantBuffer( cbMode != ConstantBufferMode::Disable )
 {}
 
 

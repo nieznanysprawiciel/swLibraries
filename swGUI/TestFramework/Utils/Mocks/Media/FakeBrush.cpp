@@ -16,7 +16,7 @@ namespace gui
 // ================================ //
 //
 FakeBrush::FakeBrush()
-	:	Brush( Brush::EnableConstantBuffer::True )
+	:	Brush( Brush::ConstantBufferMode::Enable )
 	,	m_shaderFun( "$(CoreGUI-Shader-Dir)/FakeBrush.ps" )
 {}
 

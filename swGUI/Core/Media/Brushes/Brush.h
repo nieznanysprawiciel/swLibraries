@@ -32,10 +32,10 @@ class Brush : public EngineObject
 
 public:
 
-	enum class EnableConstantBuffer
+	enum class ConstantBufferMode
 	{
-		True,
-		False
+		Enable,
+		Disable
 	};
 
 private:
@@ -58,7 +58,7 @@ protected:
 
 public:
 
-	explicit		Brush		( EnableConstantBuffer enableCB );
+	explicit		Brush		( ConstantBufferMode enableCB );
 	virtual			~Brush		() = default;
 
 	/**@brief Returns BufferRange of new content of constant buffer.

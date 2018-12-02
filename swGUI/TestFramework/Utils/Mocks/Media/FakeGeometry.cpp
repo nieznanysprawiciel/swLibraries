@@ -19,15 +19,15 @@ namespace gui
 
 // ================================ //
 //
-FakeGeometry::FakeGeometry( bool sharedBuffer )
-	:	Geometry( sharedBuffer )
+FakeGeometry::FakeGeometry( Geometry::ConstantBufferMode cbMode )
+	:	Geometry( cbMode )
 	,	m_geomName( L"InitGeom" )
 {
 	InvalidateShader();
 	InvalidateConstants();
 	InvalidateGeometry();
 
-	assert( !sharedBuffer );
+	assert( cbMode != Geometry::ConstantBufferMode::UseShared );
 }
 
 

@@ -85,7 +85,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateShader", "[GUISystem][Rendering
 	TestFramework framework( 0, nullptr );	framework.Init();
 	
 	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
-	FakeGeometryPtr geom = std::make_shared< FakeGeometry >( false );
+	FakeGeometryPtr geom = std::make_shared< FakeGeometry >( Geometry::ConstantBufferMode::Disable );
 	
 	// Set first shader
 	geom->SetShaderFunction( "WorkingDir-RenderingSystem/shaders/FakeGeom.vs" );
@@ -215,7 +215,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateGeometry", "[GUISystem][Renderi
 	TestFramework framework( 0, nullptr );	framework.Init();
 	
 	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
-	FakeGeometryPtr geom = std::make_shared< FakeGeometry >( false );
+	FakeGeometryPtr geom = std::make_shared< FakeGeometry >( Geometry::ConstantBufferMode::Disable );
 
 	auto& renderingData = CLASS_TESTER( Drawing )::GetGeometryRenderingData( drawing.get() );
 	REQUIRE( renderingData.VertexBuffer == nullptr );
@@ -252,7 +252,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateGeometry.UseExisting", "[GUISys
 	TestFramework framework( 0, nullptr );	framework.Init();
 	
 	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
-	FakeGeometryPtr geom = std::make_shared< FakeGeometry >( false );
+	FakeGeometryPtr geom = std::make_shared< FakeGeometry >( Geometry::ConstantBufferMode::Disable );
 
 	auto& renderingData = CLASS_TESTER( Drawing )::GetGeometryRenderingData( drawing.get() );
 	
