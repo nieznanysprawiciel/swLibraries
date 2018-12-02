@@ -22,7 +22,13 @@ namespace gui
 FakeGeometry::FakeGeometry( bool sharedBuffer )
 	:	Geometry( sharedBuffer )
 	,	m_geomName( L"InitGeom" )
-{}
+{
+	InvalidateShader();
+	InvalidateConstants();
+	InvalidateGeometry();
+
+	assert( !sharedBuffer );
+}
 
 
 // ================================ //
@@ -57,7 +63,7 @@ GeometryData	FakeGeometry::Generate		()
 //
 BufferRange		FakeGeometry::BufferData	()
 {
-	return BufferRange();
+	return m_buffer.GetView();
 }
 
 // ================================ //
@@ -78,7 +84,7 @@ std::wstring	FakeGeometry::GeometryName			()
 //
 std::wstring	FakeGeometry::ConstantsName			()
 {
-	return std::wstring();
+	return L"FakeGeometry";
 }
 
 // ================================ //
@@ -95,6 +101,22 @@ void			FakeGeometry::SetShaderFunction		( const std::string& shaderFun )
 {
 	m_shaderFun = shaderFun;
 	InvalidateShader();
+}
+
+// ================================ //
+//
+void			FakeGeometry::SetHeight				( float height )
+{
+	m_buffer.Height = height;
+	InvalidateConstants();
+}
+
+// ================================ //
+//
+void			FakeGeometry::SetWidth				( float width )
+{
+	m_buffer.Width = width;
+	InvalidateConstants();
 }
 
 }	// gui

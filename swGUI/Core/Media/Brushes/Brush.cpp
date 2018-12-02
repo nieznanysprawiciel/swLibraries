@@ -8,6 +8,17 @@ namespace gui
 
 // ================================ //
 //
+Brush::Brush		( EnableConstantBuffer enableCB )
+	:	m_useConstantBuffer( enableCB == EnableConstantBuffer::True )
+	,	m_invalidateConstants( false )
+	,	m_invalidateTexture( false )
+{
+	InvalidateShader();
+}
+
+
+// ================================ //
+//
 void			Brush::InvalidateConstants		()
 {
 	m_invalidateConstants = true;

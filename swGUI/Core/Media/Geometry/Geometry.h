@@ -65,11 +65,15 @@ class Geometry : public EngineObject
 
 	friend class RenderingSystem;
 	friend class Drawing;
+
+public:
+
 private:
 
 	bool			m_invalidateGeometry : 1;
 	bool			m_invalidateConstants : 1;
 	bool			m_invalidateShader : 1;
+	bool			m_useConstantBuffer : 1;
 	bool			m_sharedBuffer : 1;
 
 public:
@@ -152,7 +156,9 @@ protected:
 	bool			NeedsShaderUpdate	() const { return m_invalidateShader; }
 	bool			NeedsGeometryUpdate	() const { return m_invalidateGeometry; }
 	bool			NeedsConstantsUpdate() const { return m_invalidateConstants; }
+	
 	bool			UsesSharedBuffer	() const { return m_sharedBuffer; }
+	bool			UsesConstantBuffer	() const { return m_useConstantBuffer; }
 
 	///@}
 };

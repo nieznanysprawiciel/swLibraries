@@ -39,7 +39,7 @@ bool			Drawing::UpdateBrushTexture			( ResourceManager* rm, Brush* brush )
 //
 bool			Drawing::UpdateBrushConstants		( ResourceManager* rm, Brush* brush )
 {
-	if( !m_brushData.BrushConstants )
+	if( !m_brushData.BrushConstants && brush->UsesConstantBuffer() )
 	{
 		std::wstring name = brush->ConstantsName();
 
@@ -75,7 +75,7 @@ bool			Drawing::UpdatePenTexture			( ResourceManager* rm, Brush* pen )
 //
 bool			Drawing::UpdatePenConstants			( ResourceManager* rm, Brush* pen )
 {
-	if( !m_penData.BrushConstants )
+	if( !m_penData.BrushConstants && pen->UsesConstantBuffer() )
 	{
 		std::wstring name = pen->ConstantsName();
 
@@ -153,7 +153,7 @@ bool			Drawing::UpdateGeometry				( ResourceManager* rm, Geometry* geometry )
 //
 bool			Drawing::UpdateGeometryConstants	( ResourceManager* rm, Geometry* geometry )
 {
-	if( !m_geometryData.GeometryConstants )
+	if( !m_geometryData.GeometryConstants && geometry->UsesConstantBuffer() )
 	{
 		std::wstring name = geometry->ConstantsName();
 

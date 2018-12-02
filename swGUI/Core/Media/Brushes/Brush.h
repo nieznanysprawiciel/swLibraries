@@ -29,8 +29,18 @@ class Brush : public EngineObject
 
 	friend class Drawing;
 	friend class RenderingSystem;
+
+public:
+
+	enum class EnableConstantBuffer
+	{
+		True,
+		False
+	};
+
 private:
 
+	bool			m_useConstantBuffer : 1;
 	bool			m_invalidateConstants : 1;
 	bool			m_invalidateShader : 1;
 	bool			m_invalidateTexture : 1;
@@ -48,7 +58,7 @@ protected:
 
 public:
 
-	explicit		Brush		() = default;
+	explicit		Brush		( EnableConstantBuffer enableCB );
 	virtual			~Brush		() = default;
 
 	/**@brief Returns BufferRange of new content of constant buffer.
@@ -81,6 +91,8 @@ protected:
 	bool			NeedsShaderUpdate		() const { return m_invalidateShader; }
 	bool			NeedsTextureUpdate		() const { return m_invalidateTexture; }
 	bool			NeedsConstantsUpdate	() const { return m_invalidateConstants; }
+
+	bool			UsesConstantBuffer		() const { return m_useConstantBuffer; }
 
 	///@}
 };

@@ -7,6 +7,8 @@
 
 #include "swGUI/Core/Media/Geometry/Geometry.h"
 
+#include "swCommonLib/Common/Buffers/StackBuffer.h"
+
 
 namespace sw {
 namespace gui
@@ -14,14 +16,25 @@ namespace gui
 
 
 
+
 /**@brief Mock geometry for tests.*/
 class FakeGeometry : public Geometry
 {
+public:
+
+	struct Variables
+	{
+		float			Height;
+		float			Width;
+	};
+
 private:
 protected:
 
 	std::wstring			m_geomName;
 	std::string				m_shaderFun;
+
+	StackBuffer< Variables >	m_buffer;
 
 public:
 	explicit		FakeGeometry		( bool sharedBuffer );
@@ -48,6 +61,9 @@ public:
 
 	void					ChangeGeometry		( const std::wstring& geomName );
 	void					SetShaderFunction	( const std::string& shaderFun );
+
+	void					SetHeight			( float height );
+	void					SetWidth			( float width );
 };
 
 DEFINE_PTR_TYPE( FakeGeometry )
