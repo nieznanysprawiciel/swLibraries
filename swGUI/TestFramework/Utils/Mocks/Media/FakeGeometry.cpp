@@ -26,8 +26,6 @@ FakeGeometry::FakeGeometry( Geometry::ConstantBufferMode cbMode )
 	InvalidateShader();
 	InvalidateConstants();
 	InvalidateGeometry();
-
-	assert( cbMode != Geometry::ConstantBufferMode::UseShared );
 }
 
 

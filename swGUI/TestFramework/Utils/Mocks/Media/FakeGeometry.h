@@ -34,7 +34,7 @@ protected:
 	std::wstring			m_geomName;
 	std::string				m_shaderFun;
 
-	StackBuffer< Variables >	m_buffer;
+	StackBufferA< Variables >	m_buffer;
 
 public:
 	explicit		FakeGeometry		( Geometry::ConstantBufferMode cbMode );

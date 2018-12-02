@@ -203,6 +203,23 @@ TEST_CASE( "GUI.Rendering.Drawing.Pen.UpdateConstants", "[GUISystem][RenderingSy
 	CHECK( renderingData.BrushConstants != nullptr );
 }
 
+// ================================ //
+// 
+TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateConstants", "[GUISystem][RenderingSystem][Drawing]" )
+{
+	TestFramework framework( 0, nullptr );	framework.Init();
+
+	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
+	FakeGeometryPtr geom = std::make_shared< FakeGeometry >( Geometry::ConstantBufferMode::UseShared );
+
+	auto& renderingData = CLASS_TESTER( Drawing )::GetGeometryRenderingData( drawing.get() );
+	REQUIRE( renderingData.GeometryConstants == nullptr );
+
+	drawing->UpdateGeometryConstants( framework.GetResourceManager(), geom.get() );
+
+	CHECK( renderingData.GeometryConstants != nullptr );
+}
+
 //====================================================================================//
 //			Geometry update	
 //====================================================================================//
