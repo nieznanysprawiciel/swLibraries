@@ -14,7 +14,7 @@ class StackPanel : public IPanel
 private:
 protected:
 public:
-	StackPanel		( IControl* parent );
+	explicit	StackPanel		( UIElement* parent );
 	virtual		~StackPanel		();
 
 };

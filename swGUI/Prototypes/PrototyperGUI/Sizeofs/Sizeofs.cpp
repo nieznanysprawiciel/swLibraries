@@ -11,7 +11,6 @@
 
 
 #include "swGUI/Core/System/GUISystem.h"
-#include "swGUI/Core/Controls/IControl.h"
 #include "swGUI/Core/Controls/UIElement.h"
 #include "swGUI/Core/Controls/Visual.h"
 
@@ -50,7 +49,6 @@ void			PrintSizeofs()
 	std::cout << "GUI Elements:" << std::endl;
 	std::cout << std::setw( NameSize ) << "Objects name"  << "Sizeof" << std::endl;
 
-	PrintSizeofType< sw::gui::IControl >( std::cout );
 	PrintSizeofType< sw::gui::DependencyObject >( std::cout );
 	PrintSizeofType< sw::gui::Visual >( std::cout );
 	PrintSizeofType< sw::gui::UIElement >( std::cout );

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "swGUI/Core/Controls/IControl.h"
+#include "swGUI/Core/Controls/UIElement.h"
 
 
 
@@ -9,14 +9,14 @@ namespace gui
 {
 
 /**@brief */
-class IPanel : public IControl
+class IPanel : public UIElement
 {
-	RTTR_ENABLE( IControl )
-		RTTR_REGISTRATION_FRIEND
+	RTTR_ENABLE( UIElement )
+	RTTR_REGISTRATION_FRIEND
 private:
 protected:
 public:
-	IPanel		( IControl* parent );
+	IPanel		( UIElement* parent );
 	virtual			~IPanel		();
 
 };

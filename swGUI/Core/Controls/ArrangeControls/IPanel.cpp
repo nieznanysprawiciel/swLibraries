@@ -21,8 +21,8 @@ namespace gui
 {
 
 
-IPanel::IPanel( IControl* parent )
-	: IControl( parent )
+IPanel::IPanel( UIElement* parent )
+	: UIElement( parent )
 { }
 
 IPanel::~IPanel()

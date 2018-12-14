@@ -22,7 +22,7 @@ namespace gui
 {
 
 
-DockPanel::DockPanel( IControl* parent )
+DockPanel::DockPanel( UIElement* parent )
 	: IPanel( parent )
 { }
 

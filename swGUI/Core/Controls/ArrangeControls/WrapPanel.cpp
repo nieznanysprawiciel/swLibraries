@@ -22,7 +22,7 @@ namespace gui
 {
 
 
-WrapPanel::WrapPanel( IControl* parent )
+WrapPanel::WrapPanel( UIElement* parent )
 	: IPanel( parent )
 { }
 

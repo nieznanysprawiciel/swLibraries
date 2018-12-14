@@ -78,12 +78,6 @@
     <ClInclude Include="..\..\..\targetver.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Core\Controls\IControl.h">
-      <Filter>Core\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Core\Controls\TopLevelControl.h">
-      <Filter>Core\Controls</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Core\System\CommonTypes\Thickness.h">
       <Filter>Core\System\CommonTypes</Filter>
     </ClInclude>
@@ -275,9 +269,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Core\Controls\IControl.cpp">
-      <Filter>Core\Controls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Core\System\Events\IEventArgs.cpp">
       <Filter>Core\System\Events</Filter>
     </ClCompile>

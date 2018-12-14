@@ -21,7 +21,7 @@ namespace gui
 
 
 
-StackPanel::StackPanel( IControl* parent )
+StackPanel::StackPanel( UIElement* parent )
 	: IPanel( parent )
 { }
 

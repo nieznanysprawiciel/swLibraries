@@ -22,7 +22,7 @@ namespace gui
 {
 
 /**@brief */
-Grid::Grid( IControl* parent )
+Grid::Grid( UIElement* parent )
 	:IPanel( parent )
 { }
 
