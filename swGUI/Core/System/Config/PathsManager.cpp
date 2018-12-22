@@ -84,6 +84,30 @@ bool				PathsManager::IsValidAlias			( const std::string& alias ) const
 	return std::regex_match( alias, gAliasFormat );
 }
 
+
+//====================================================================================//
+//			API for TestFramework	
+//====================================================================================//
+
+// ================================ //
+//
+ReturnResult		PathsManager::OverrideAlias			( const std::string& alias, const filesystem::Path& path )
+{
+	if( IsValidAlias( alias ) )
+	{
+		auto iter = m_aliases.find( alias );
+
+		if( iter == m_aliases.end() )
+			return Result::Error;
+
+		m_aliases[ alias ] = Translate( path );
+
+		return Result::Success;
+	}
+
+	return Result::Error;
+}
+
 }	// gui
 }	// sw
 

@@ -363,6 +363,8 @@ public:
 	std::wstring&		GetName		() { return m_inputLayoutName; }
 };
 
+DEFINE_UPTR_TYPE( InputLayoutDescriptor )
+
 
 /**@brief Typ shadera.
 @ingroup Shaders*/

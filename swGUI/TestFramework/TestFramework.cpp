@@ -18,6 +18,14 @@ namespace sw {
 namespace gui
 {
 
+namespace impl
+{
+
+filesystem::Path		FindCoreGUISourcePath			( const filesystem::Path& binaryPath );
+
+}
+
+
 
 // ================================ //
 //
@@ -30,7 +38,12 @@ TestFramework::TestFramework		( int argc, char** argv )
 //
 bool					TestFramework::Initialize		()
 {
-	return DefaultInitWithoutWindow();
+	bool result = true;
+	
+	result = result && DefaultInitWithoutWindow();
+	result = result && OverridePaths();
+
+	return result;
 }
 
 // ================================ //
@@ -66,6 +79,41 @@ bool					TestFramework::TesterMainStep	()
 	return !MainLoopCore();
 }
 
+// ================================ //
+//
+bool					TestFramework::OverridePaths	()
+{
+	auto coreGUISourcePath = impl::FindCoreGUISourcePath( m_nativeGUI->GetOS()->GetApplicationDir() );
+
+	return m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" ).IsValid();
+}
+
+
+namespace impl
+{
+
+// ================================ //
+// CoreGUI path should have swGUI in path. We look for this string in binaryPath.
+filesystem::Path		FindCoreGUISourcePath			( const filesystem::Path& binaryPath )
+{
+	auto path = binaryPath;
+	auto fileName = path.GetFileName();
+
+	while( !fileName.empty() )
+	{
+		if( fileName == "swGUI" )
+		{
+			return path;
+		}
+
+		path = path.GetParent();
+		fileName = path.GetFileName();
+	}
+
+	return filesystem::Path();
+}
+
+}	// impl
 
 }	// gui
 }	// sw

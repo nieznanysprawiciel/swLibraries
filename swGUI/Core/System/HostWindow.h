@@ -7,7 +7,6 @@
 
 #include "HostLogic.h"
 #include "swGUI/Native/INativeWindow.h"
-#include "swGUI/Core/Controls/TopLevelControl.h"
 #include "swGUI/Core/System/Time/FrameTime.h"
 
 #include "swInputLibrary/InputCore/IInput.h"

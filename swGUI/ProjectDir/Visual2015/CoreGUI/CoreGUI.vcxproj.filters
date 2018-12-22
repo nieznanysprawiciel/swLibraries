@@ -267,6 +267,12 @@
     <ClInclude Include="..\..\..\Core\stdafx.h">
       <Filter>PrecompiledHeader</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\RenderingHelpers.h">
+      <Filter>Core\System\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\Layouts.h">
+      <Filter>Core\Media\Geometry\Layouts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\System\Events\IEventArgs.cpp">
@@ -379,6 +385,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Core\stdafx.cpp">
       <Filter>PrecompiledHeader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\Rendering\RenderingHelpers.cpp">
+      <Filter>Core\System\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.cpp">
+      <Filter>Core\Media\Geometry\Layouts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

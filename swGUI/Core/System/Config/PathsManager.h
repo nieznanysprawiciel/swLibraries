@@ -47,6 +47,12 @@ public:
 
 	///@}
 
+	///@name API for TestFramework. Don't use in normal applications.
+	///@{
+	ReturnResult			OverrideAlias		( const std::string& alias, const filesystem::Path& path );
+
+	///@}
+
 
 protected:
 

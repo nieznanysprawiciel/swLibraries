@@ -7,6 +7,8 @@
 
 #include <DirectXMath.h>
 
+#include "Layouts.h"
+
 
 namespace sw {
 namespace gui
@@ -21,6 +23,20 @@ struct VertexShape2D
 };
 
 
+// ================================ //
+//
+template<>
+InputLayoutDescriptorUPtr		CreateLayoutDescriptor< VertexShape2D >	();
+
+// ================================ //
+//
+template<>
+const std::wstring&				GetLayoutName< VertexShape2D >			();
+
+// ================================ //
+//
+template<>
+std::string						GetLayoutExampleShader< VertexShape2D >	();
 
 }	// gui
 }	// sw

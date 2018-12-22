@@ -13,6 +13,8 @@
 
 #include "swGUI/Core/Media/Geometry/Layouts/VertexShape2D.h"
 
+#include "swGUI/Core/System/Rendering/RenderingHelpers.h"
+
 
 namespace sw {
 namespace gui
@@ -179,6 +181,44 @@ bool			Drawing::UpdateGeometryConstants	( ResourceManager* rm, Geometry* geometr
 	return false;
 }
 
+// ================================ //
+//
+template< typename VertexStruct >
+ResourcePtr< ShaderInputLayout >		CreateLayout	( ResourceManager* rm, ShaderProvider* sp )
+{
+	auto layout = rm->GetLayout( GetLayoutName< VertexStruct >() );
+	if( !layout )
+	{
+		auto pm = sp->GetPathsManager();
+		auto exampleShaderPath = pm->Translate( GetLayoutExampleShader< VertexStruct >() );
+
+		rm->LoadVertexShader( exampleShaderPath.WString(), "main", &layout, CreateLayoutDescriptor< VertexStruct >().get() );
+
+		if( !layout )
+		{
+			// We should handle this error better.
+			assert( !"Creating layout failed. Chack if example shader exists." );
+			return nullptr;
+		}
+	}
+
+	return layout;
+}
+
+
+// ================================ //
+//
+bool			Drawing::CreateAndSetLayout			( ResourceManager* rm, ShaderProvider* sp, Geometry* geometry )
+{
+	if( !m_geometryData.Layout )
+	{
+		m_geometryData.Layout = CreateLayout< VertexShape2D >( rm, sp );
+		return true;
+	}
+
+	return false;
+}
+
 //====================================================================================//
 //			Implementation	
 //====================================================================================//
@@ -217,6 +257,115 @@ bool			Drawing::UpdateTextureImpl			( ResourceManager* rm, Brush* brush, impl::B
 	}
 
 	return false;
+}
+
+
+
+//====================================================================================//
+//			Rendering	
+//====================================================================================//
+
+
+// ================================ //
+//
+void			Drawing::UpdateBrushCBContent		( IRenderer* renderer, Brush* brush )
+{
+	UpdateCBContentImpl( renderer, brush, m_brushData );
+}
+
+// ================================ //
+//
+void			Drawing::UpdatePenCBContent			( IRenderer* renderer, Brush* pen )
+{
+	UpdateCBContentImpl( renderer, pen, m_penData );
+}
+
+// ================================ //
+//
+void			Drawing::UpdateGeometryCBContent	( IRenderer* renderer, Geometry* geom )
+{
+	if( geom->UsesConstantBuffer() &&
+		geom->UsesSharedBuffer() )
+	{
+		UpdateCBContentImpl( renderer, m_geometryData.GeometryConstants.Ptr(), geom->BufferData() );
+		geom->ConstantsUpdated();
+	}
+	else if( geom->UsesConstantBuffer() && 
+			!geom->UsesSharedBuffer() &&
+			 geom->NeedsConstantsUpdate() )
+	{
+		UpdateCBContentImpl( renderer, m_geometryData.GeometryConstants.Ptr(), geom->BufferData() );
+		geom->ConstantsUpdated();
+	}
+}
+
+// ================================ //
+//
+void			Drawing::RenderFill					( IRenderer* renderer )
+{
+	RenderImpl( renderer, m_geometryData, m_brushData, 0, m_geometryData.FillEnd );
+}
+
+// ================================ //
+//
+void			Drawing::RenderBorder				( IRenderer* renderer )
+{
+	RenderImpl( renderer, m_geometryData, m_brushData, m_geometryData.FillEnd, m_geometryData.BorderEnd );
+}
+
+// ================================ //
+//
+void			Drawing::UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::BrushRenderingData& brushData )
+{
+	if( brush->UsesConstantBuffer() )
+	{
+		if( brushData.BrushConstants.Ptr() != nullptr )
+			UpdateCBContentImpl( renderer, brushData.BrushConstants.Ptr(), brush->BufferData() );
+		
+		/// @todo Error handling
+	}
+}
+
+// ================================ //
+//
+void			Drawing::UpdateCBContentImpl		( IRenderer* renderer, BufferObject* buffer, BufferRange bufferData )
+{
+	UpdateBufferCommand cmd;
+	cmd.Buffer = buffer;
+	cmd.FillData = bufferData.DataPtr;
+	cmd.Size = (uint32)bufferData.DataSize;
+
+	renderer->UpdateBuffer( cmd );
+}
+
+// ================================ //
+//
+void			Drawing::RenderImpl					( IRenderer* renderer, impl::GeometryRenderingData& geom, impl::BrushRenderingData& brush, uint32 start, uint32 end )
+{
+	RenderingHelper helper( renderer );
+
+	SetShaderStateCommand setShaderCmd;
+	setShaderCmd.VertexShader = geom.VertexShader.Ptr();
+	setShaderCmd.PixelShader = brush.PixelShader.Ptr();
+	RenderingHelper::ClearTextureState( setShaderCmd );
+
+	helper.SetTexture( setShaderCmd, brush.Texture.Ptr(), 0, (uint8)ShaderType::PixelShader );
+	renderer->SetShaderState( setShaderCmd );
+
+	helper.BindBuffer( brush.BrushConstants.Ptr(), 0, (uint8)ShaderType::PixelShader );
+	helper.BindBuffer( geom.GeometryConstants.Ptr(), 1, (uint8)ShaderType::VertexShader );
+	
+	DrawCommand drawCmd;
+	drawCmd.VertexBuffer = geom.VertexBuffer.Ptr();
+	drawCmd.IndexBufer = geom.IndexBuffer.Ptr();
+	drawCmd.ExtendedIndex = geom.ExtendedIB;
+	drawCmd.Topology = geom.Topology;
+	drawCmd.Layout = geom.Layout.Ptr();
+	drawCmd.NumVertices = end - start;
+	drawCmd.BufferOffset = start;
+	drawCmd.BaseVertex = 0;
+
+	renderer->Draw( drawCmd );
 }
 
 

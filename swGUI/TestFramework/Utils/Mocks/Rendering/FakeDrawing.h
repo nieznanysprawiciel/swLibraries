@@ -36,6 +36,7 @@ public:
 	using Drawing::UpdateGeometry;
 	using Drawing::UpdateGeometryConstants;
 
+	using Drawing::CreateAndSetLayout;
 
 public:
 

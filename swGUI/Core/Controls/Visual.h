@@ -33,7 +33,7 @@ class Visual : public DependencyObject
 	RTTR_REGISTRATION_FRIEND;
 private:
 
-	Position		m_position;		///< Control position. (@todo Relative to parent ???)
+	Position		m_offset;		///< Control position relative to parent.
 
 protected:
 

@@ -142,6 +142,8 @@ private:
 	virtual bool	OnInitialized			() override { return true; };
 	virtual void	OnClosing				() override {};
 	virtual void	OnIdle					( const FrameTime& frameTime ) override {};
+
+	bool			OverridePaths			();
 };
 
 

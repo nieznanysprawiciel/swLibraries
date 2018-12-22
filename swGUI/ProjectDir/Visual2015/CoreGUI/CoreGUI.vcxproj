@@ -144,6 +144,7 @@
     <ClInclude Include="..\..\..\Core\Media\Brushes\RadialGradient.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\SolidColorBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Geometry.h" />
+    <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\Layouts.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.h" />
     <ClInclude Include="..\..\..\Core\Media\Media.h" />
     <ClInclude Include="..\..\..\Core\stdafx.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\Drawing.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\IDrawing.h" />
+    <ClInclude Include="..\..\..\Core\System\Rendering\RenderingHelpers.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\RenderingSystem.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\Shading\ShaderBuilder.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\Shading\ShaderProvider.h" />
@@ -203,6 +205,7 @@
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\Brush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.cpp" />
     <ClCompile Include="..\..\..\Core\System\Config\PathsManager.cpp" />
     <ClCompile Include="..\..\..\Core\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -230,6 +233,7 @@
     <ClCompile Include="..\..\..\Core\System\HostWindow.cpp" />
     <ClCompile Include="..\..\..\Core\System\Initializers.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\Drawing.cpp" />
+    <ClCompile Include="..\..\..\Core\System\Rendering\RenderingHelpers.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\RenderingSystem.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\Shading\ShaderBuilder.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\Shading\ShaderProvider.cpp" />

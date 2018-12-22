@@ -285,7 +285,8 @@ bool				GUISystem::DefaultInitCorePaths			()
 //
 bool				GUISystem::DefaultInitDependentPaths	()
 {
-	m_pathsManager->RegisterAlias( "$(CoreGUI-Shader-Dir)", "$(CoreGUI-Dir)/shaders/" );
+	/// @todo This should set hlsl or glsl directory depending on used graphic API.
+	m_pathsManager->RegisterAlias( "$(CoreGUI-Shader-Dir)", "$(CoreGUI-Dir)/Shaders/hlsl" );
 	
 	return true;
 }

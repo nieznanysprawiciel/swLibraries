@@ -45,6 +45,8 @@ public:
 	ResourcePtr< PixelShader >		GeneratePS				( const filesystem::Path& templatePath, const filesystem::Path& brushFunPath ) const;
 	ResourcePtr< VertexShader >		GenerateVS				( const filesystem::Path& templatePath, const filesystem::Path& geomFunPath ) const;
 
+	const PathsManager*				GetPathsManager			() const { return m_pathsManager; }
+
 private:
 
 	std::string						BuildShaderSource		( const filesystem::Path& templatePath, const filesystem::Path& brushFunPath ) const;
