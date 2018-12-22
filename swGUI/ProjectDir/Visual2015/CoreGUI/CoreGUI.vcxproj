@@ -245,6 +245,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\Core\Shaders\hlsl\Layouts\VertexShape2D.vs" />
     <None Include="..\..\..\Core\System\DataBinding\DependencyObject.inl" />
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl" />
   </ItemGroup>

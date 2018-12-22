@@ -73,6 +73,39 @@
     <Filter Include="PrecompiledHeader">
       <UniqueIdentifier>{ba60c9b6-d508-4d48-a8db-a8998ec20900}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Shaders">
+      <UniqueIdentifier>{d73518d0-001f-4e1e-a9c0-c822aa7fed90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\hlsl">
+      <UniqueIdentifier>{e8db285d-2db5-4b62-94e6-993281f867a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\glsl">
+      <UniqueIdentifier>{67a6279c-d17b-4565-9cd7-2c643c2bbe35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\hlsl\Layouts">
+      <UniqueIdentifier>{ff7532a1-cd2c-453c-be1c-9dfd593c6392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\hlsl\Templates">
+      <UniqueIdentifier>{c14d1afc-e81d-4558-8abd-b63abfcedefd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\hlsl\Brush">
+      <UniqueIdentifier>{ff91d408-d03d-4e41-ad18-3afef767d2ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\hlsl\Geometry">
+      <UniqueIdentifier>{61ef1b0a-72dc-49d1-b95f-6ec589a4f9d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\glsl\Layouts">
+      <UniqueIdentifier>{18d8d3f5-ab74-4c0a-a3c9-66169a128c72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\glsl\Templates">
+      <UniqueIdentifier>{3ee3c66e-b08d-4e8d-a9b5-7ceee775ef2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\glsl\Brush">
+      <UniqueIdentifier>{299966ba-25bc-48e2-a6f8-6351b009112f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\glsl\Geometry">
+      <UniqueIdentifier>{f04e2f1f-0b2a-43a6-8566-2f0a8d315c89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\targetver.h">
@@ -399,6 +432,9 @@
     </None>
     <None Include="..\..\..\Core\System\DataBinding\DependencyObject.inl">
       <Filter>Core\System\DataBinding</Filter>
+    </None>
+    <None Include="..\..\..\Core\Shaders\hlsl\Layouts\VertexShape2D.vs">
+      <Filter>Core\Shaders\hlsl\Layouts</Filter>
     </None>
   </ItemGroup>
 </Project>
