@@ -31,6 +31,29 @@ void				RenderingSystem::RenderTree			( HostWindow* host )
 
 }
 
+// ================================ //
+//
+void				RenderingSystem::InitializeGraphicState		( ResourceManager* rm )
+{
+	m_rasterizerState = rm->CreateRasterizerState( L"sw::gui::DefaultRasterizerState", RasterizerStateInfo() );
+
+	DepthStencilInfo depthDesc;
+	depthDesc.EnableDepthTest = false;		// Painter algorithm. We never check depth value and always write new pixel.
+	depthDesc.EnableStencilTest = false;
+
+	m_depthState = rm->CreateDepthStencilState( L"sw::gui::DefaultDepthState", depthDesc );
+
+	BlendingInfo blendDesc;
+	blendDesc.EnableBlending = true;
+	/// @todo We should set blend operation here.
+
+	m_transparentBlendState = rm->CreateBlendingState( L"sw::gui::TransparentBlendState", blendDesc );
+
+	blendDesc.EnableBlending = false;
+
+	m_opaqueBlendState = rm->CreateBlendingState( L"sw::gui::OpaqueBlendState", blendDesc );
+}
+
 
 }	// gui
 }	// sw

@@ -10,6 +10,10 @@
 #include "swGraphicAPI/Rendering/IRenderer.h"
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
 
+#include "swGraphicAPI/Resources/RasterizerState.h"
+#include "swGraphicAPI/Resources/DepthStencilState.h"
+#include "swGraphicAPI/Resources/BlendingState.h"
+
 #include "swGUI/Core/System/Rendering/Shading/ShaderProvider.h"
 #include "swGUI/Core/System/Config/PathsManager.h"
 
@@ -42,6 +46,15 @@ private:
 	ResourceManager*	m_resourceManager;
 	ShaderProvider		m_shaderProvider;
 
+private:
+
+	// Rendering state objects
+	ResourcePtr< RasterizerState >		m_rasterizerState;
+	ResourcePtr< DepthStencilState >	m_depthState;
+
+	ResourcePtr< BlendingState >		m_transparentBlendState;
+	ResourcePtr< BlendingState >		m_opaqueBlendState;
+
 protected:
 public:
 	explicit		RenderingSystem		( ResourceManager* resourceManager, PathsManager* pathsManager, IRendererOPtr&& renderer );
@@ -67,6 +80,9 @@ public:
 
 	///@}
 
+private:
+
+	void			InitializeGraphicState		( ResourceManager* rm );
 };
 
 DEFINE_OPTR_TYPE( RenderingSystem );
