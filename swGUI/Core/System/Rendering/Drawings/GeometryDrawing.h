@@ -31,6 +31,11 @@ private:
 
 public:
 
+	explicit				GeometryDrawing			( BrushPtr brush, BrushPtr pen, GeometryPtr geom );
+
+
+	virtual void			Render					( IRenderer* renderer ) override;
+	virtual void			RebuildResources		( ResourceManager* rm, ShaderProvider* sp );
 
 };
 

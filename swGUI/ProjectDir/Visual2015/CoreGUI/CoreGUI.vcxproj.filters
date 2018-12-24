@@ -425,6 +425,9 @@
     <ClCompile Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.cpp">
       <Filter>Core\Media\Geometry\Layouts</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.cpp">
+      <Filter>Core\System\Rendering\Drawings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl">

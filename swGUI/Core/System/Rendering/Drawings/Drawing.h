@@ -83,6 +83,8 @@ protected:
 	/// Derived classes should use these API functions to set rendering state.
 	/// They shouldn't have direct access to rendering structures.
 	///@{
+	bool					DefaultRebuildResources	( ResourceManager* rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry );
+
 	bool					UpdateBrushShader		( ShaderProvider* sp, Brush* brush );
 	bool					UpdateBrushTexture		( ResourceManager* rm, Brush* brush );
 	bool					UpdateBrushConstants	( ResourceManager* rm, Brush* brush );
@@ -110,7 +112,7 @@ protected:
 	/**@brief Updates Geometry costants buffer content. Should be called before rendering.
 	This function will update buffer conditionally, if it's necessary. 
 	*/
-	void					UpdateGeometryCBContent	( IRenderer* renderer, Geometry* pen );
+	void					UpdateGeometryCBContent	( IRenderer* renderer, Geometry* geom );
 
 	void					RenderFill				( IRenderer* renderer );
 	void					RenderBorder			( IRenderer* renderer );

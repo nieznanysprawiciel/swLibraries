@@ -30,6 +30,30 @@ Drawing::Drawing()
 	m_geometryData.Topology = PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 }
 
+// ================================ //
+//
+bool			Drawing::DefaultRebuildResources	( ResourceManager* rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry )
+{
+	bool result = true;
+
+	// Geometry updates
+	result = CreateAndSetLayout( rm, sp, geometry ) && result;
+	result = UpdateVertexShader( sp, geometry ) && result;
+	result = UpdateGeometry( rm, geometry ) && result;
+	result = UpdateGeometryConstants( rm, geometry ) && result;
+
+	// Brush updates
+	result = UpdateBrushShader( sp, brush ) && result;
+	result = UpdateBrushTexture( rm, brush ) && result;
+	result = UpdateBrushConstants( rm, brush ) && result;
+
+	// Pen updates
+	result = UpdatePenShader( sp, pen ) && result;
+	result = UpdatePenTexture( rm, pen ) && result;
+	result = UpdatePenConstants( rm, pen ) && result;
+
+	return result;
+}
 
 // ================================ //
 //

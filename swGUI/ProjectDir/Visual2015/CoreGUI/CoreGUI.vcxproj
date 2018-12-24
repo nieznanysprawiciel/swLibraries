@@ -233,6 +233,7 @@
     <ClCompile Include="..\..\..\Core\System\HostWindow.cpp" />
     <ClCompile Include="..\..\..\Core\System\Initializers.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\Drawing.cpp" />
+    <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\RenderingHelpers.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\RenderingSystem.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\Shading\ShaderBuilder.cpp" />
