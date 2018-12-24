@@ -1,0 +1,19 @@
+
+
+// ================================ //
+//
+struct OutputVS
+{
+	float4 Pos : POSITIONT;
+	float2 Tex : TEXCOORD;
+};
+
+
+// ================================ //
+//
+float4		main	( OutputVS input )
+{
+	float4 color = BrushFunction( input.Pos, input.Tex );
+
+	return color;
+}

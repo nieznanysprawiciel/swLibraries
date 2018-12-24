@@ -428,6 +428,9 @@
     <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.cpp">
       <Filter>Core\System\Rendering\Drawings</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Brushes\SolidColorBrush.cpp">
+      <Filter>Core\Media\Brushes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl">
@@ -439,5 +442,16 @@
     <None Include="..\..\..\Core\Shaders\hlsl\Layouts\VertexShape2D.vs">
       <Filter>Core\Shaders\hlsl\Layouts</Filter>
     </None>
+    <None Include="..\..\..\Core\Shaders\hlsl\Templates\Basic.ps">
+      <Filter>Core\Shaders\hlsl\Templates</Filter>
+    </None>
+    <None Include="..\..\..\Core\Shaders\hlsl\Templates\Basic.vs">
+      <Filter>Core\Shaders\hlsl\Templates</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\SolidColorBrush.psh">
+      <Filter>Core\Shaders\hlsl\Brush</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

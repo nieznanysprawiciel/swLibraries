@@ -28,6 +28,8 @@ namespace sw {
 namespace gui
 {
 
+class HostWindow;
+
 
 /**@brief GUI rendering system.
 
@@ -57,6 +59,7 @@ public:
 
 	///@name Rendering
 	///@{
+	void			RenderTree			( HostWindow* host );
 
 	void			Render				( const Visual* visual );
 	void			Render				( IDrawing* drawing );

@@ -23,6 +23,14 @@ RenderingSystem::RenderingSystem			( ResourceManager* resourceManager, PathsMana
 	,	m_shaderProvider( resourceManager, pathsManager )
 {}
 
+// ================================ //
+//
+void				RenderingSystem::RenderTree			( HostWindow* host )
+{
+
+
+}
+
 
 }	// gui
 }	// sw

@@ -21,8 +21,8 @@ namespace gui
 
 namespace impl
 {
-	const filesystem::Path		gBasicPSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Basic.ps";
-	const filesystem::Path		gBasicVSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Basic.vs";
+	const filesystem::Path		gBasicPSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Basic.psh";
+	const filesystem::Path		gBasicVSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Basic.vsh";
 }
 
 

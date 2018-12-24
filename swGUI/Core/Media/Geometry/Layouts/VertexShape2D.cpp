@@ -43,7 +43,7 @@ const std::wstring&				GetLayoutName< VertexShape2D >			()
 template<>
 std::string						GetLayoutExampleShader< VertexShape2D >	()
 {
-	return "$(CoreGUI-Shader-Dir)/Layouts/VertexShape2D.vs";
+	return "$(CoreGUI-Shader-Dir)/Layouts/VertexShape2D.vsh";
 }
 
 

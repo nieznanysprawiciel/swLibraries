@@ -1,0 +1,16 @@
+
+
+// ================================ //
+//
+cbuffer SolidColorBrushConsts : register( b1 )
+{
+	float4		Color;
+}
+
+// ================================ //
+//
+float4		BrushFunction		( float4 pos, float2 tex )
+{
+	return SolidColorBrushConsts.Color;
+}
+

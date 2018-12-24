@@ -27,6 +27,7 @@ static const std::string	EMPTY_STRING;
 typedef DirectX::XMFLOAT2	Position;
 typedef DirectX::XMFLOAT2	Size2D;
 typedef DirectX::XMFLOAT2	Point;
+typedef DirectX::XMFLOAT4	Color;
 
 
 /**@brief Rectangle structure.*/
