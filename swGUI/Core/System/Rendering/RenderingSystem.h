@@ -83,6 +83,12 @@ public:
 private:
 
 	void			InitializeGraphicState		( ResourceManager* rm );
+
+
+	void			SetRenderTarget				( IRenderer* renderer, HostWindow* visual );
+	
+	void			DrawVisual					( IRenderer* renderer, Visual* visual );
+	void			DrawVisualChildren			( IRenderer* renderer, Visual* visual );
 };
 
 DEFINE_OPTR_TYPE( RenderingSystem );

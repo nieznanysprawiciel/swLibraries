@@ -250,7 +250,7 @@ Size				HostWindow::GetNumChildren		() const
 
 // ================================ //
 //
-UIElement*			HostWindow::GetUIChild			( Size idx ) const
+Visual*				HostWindow::GetVisualChild		( Size idx ) const
 {
 	return nullptr;
 }

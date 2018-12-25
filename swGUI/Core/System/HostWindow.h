@@ -88,7 +88,7 @@ public:
 	virtual Size2D					Measure			( Size2D availableSize )		override;
 	virtual void					Arrange			( Rect& finalRect )				override;
 	virtual Size					GetNumChildren	() const						override;
-	virtual UIElement*				GetUIChild		( Size idx ) const				override;
+	virtual Visual*					GetVisualChild	( Size idx ) const				override;
 	virtual bool					AddChild		( UIElementOPtr&& child )		override;
 	virtual const IDrawingPtr&		QueryDrawing	() const						override;
 

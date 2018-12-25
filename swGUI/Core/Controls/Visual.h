@@ -46,6 +46,12 @@ public:
 	@todo We must specify if point is in relative coordinates or absolut.*/
 	virtual bool					HitTest				( const Point& point )			= 0;
 
+	/**@brief Get number of children in visual tree.*/
+	virtual Size					GetNumChildren		() const						= 0;
+	
+	/**@brief Gets child in visual tree.*/
+	virtual Visual*					GetVisualChild		( Size idx ) const				= 0;
+
 public:
 
 	/**@brief Gets Drawing object for this control.

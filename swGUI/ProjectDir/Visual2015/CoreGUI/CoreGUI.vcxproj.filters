@@ -439,19 +439,19 @@
     <None Include="..\..\..\Core\System\DataBinding\DependencyObject.inl">
       <Filter>Core\System\DataBinding</Filter>
     </None>
-    <None Include="..\..\..\Core\Shaders\hlsl\Layouts\VertexShape2D.vs">
-      <Filter>Core\Shaders\hlsl\Layouts</Filter>
-    </None>
-    <None Include="..\..\..\Core\Shaders\hlsl\Templates\Basic.ps">
-      <Filter>Core\Shaders\hlsl\Templates</Filter>
-    </None>
-    <None Include="..\..\..\Core\Shaders\hlsl\Templates\Basic.vs">
-      <Filter>Core\Shaders\hlsl\Templates</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\SolidColorBrush.psh">
       <Filter>Core\Shaders\hlsl\Brush</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Templates\Basic.vsh">
+      <Filter>Core\Shaders\hlsl\Templates</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Templates\Basic.psh">
+      <Filter>Core\Shaders\hlsl\Templates</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Layouts\VertexShape2D.vsh">
+      <Filter>Core\Shaders\hlsl\Layouts</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

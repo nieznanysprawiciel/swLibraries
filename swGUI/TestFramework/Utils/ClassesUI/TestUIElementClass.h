@@ -75,7 +75,7 @@ public:
 	{}
 
 	virtual Size				GetNumChildren			() const override;
-	virtual UIElement *			GetUIChild				( Size idx ) const override;
+	virtual UIElement *			GetVisualChild			( Size idx ) const override;
 	virtual bool				AddChild				( sw::gui::UIElementOPtr && child ) override;
 	virtual const sw::gui::IDrawingPtr & QueryDrawing() const override;
 

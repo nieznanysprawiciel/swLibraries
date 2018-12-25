@@ -97,11 +97,6 @@ public:
 
 	///@name Visual tree manipulation
 	///@{
-	/**@brief Get number of children in visual tree.*/
-	virtual Size			GetNumChildren		() const						= 0;
-	
-	/**@brief Gets child in visual tree.*/
-	virtual UIElement*		GetUIChild			( Size idx ) const				= 0;
 	
 	/**@brief Add child.
 	This function should set child parent to this pointer.

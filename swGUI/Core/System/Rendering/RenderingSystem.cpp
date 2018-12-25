@@ -7,6 +7,9 @@
 
 
 #include "RenderingSystem.h"
+#include "RenderingHelpers.h"
+
+#include "swGUI/Core/System/HostWindow.h"
 
 
 
@@ -27,8 +30,10 @@ RenderingSystem::RenderingSystem			( ResourceManager* resourceManager, PathsMana
 //
 void				RenderingSystem::RenderTree			( HostWindow* host )
 {
+	SetRenderTarget( m_renderer.get(), host );
 
-
+	DrawVisual( m_renderer.get(), host );
+	DrawVisualChildren( m_renderer.get(), host );
 }
 
 // ================================ //
@@ -52,6 +57,29 @@ void				RenderingSystem::InitializeGraphicState		( ResourceManager* rm )
 	blendDesc.EnableBlending = false;
 
 	m_opaqueBlendState = rm->CreateBlendingState( L"sw::gui::OpaqueBlendState", blendDesc );
+}
+
+
+// ================================ //
+//
+void				RenderingSystem::SetRenderTarget			( IRenderer* renderer, HostWindow* host )
+{
+	RenderingHelper helper( renderer );
+
+	helper.ClearRenderTargetAndDepth( host->GetRenderTarget().Ptr(), DirectX::XMFLOAT4( 0.0f, 0.0f, 0.0f, 0.0f ), 0.0f );
+	helper.SetRenderTarget( host->GetRenderTarget().Ptr(), m_rasterizerState.Ptr(), m_transparentBlendState.Ptr(), m_depthState.Ptr() );
+}
+
+// ================================ //
+//
+void				RenderingSystem::DrawVisual					( IRenderer* renderer, Visual* visual )
+{}
+
+// ================================ //
+//
+void				RenderingSystem::DrawVisualChildren			( IRenderer* renderer, Visual* visual )
+{
+	//visual->
 }
 
 
