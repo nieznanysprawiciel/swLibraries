@@ -187,6 +187,7 @@
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\IDrawing.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\RenderingHelpers.h" />
+    <ClInclude Include="..\..\..\Core\System\Rendering\RenderingParams.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\RenderingSystem.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\Shading\ShaderBuilder.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\Shading\ShaderProvider.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
+    <ClCompile Include="..\..\..\Core\Controls\Visual.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\Brush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\SolidColorBrush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp" />

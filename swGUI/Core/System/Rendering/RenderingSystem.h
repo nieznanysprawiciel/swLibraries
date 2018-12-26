@@ -19,6 +19,7 @@
 
 #include "swGUI/Core/Controls/Visual.h"
 #include "swGUI/Core/System/Rendering/Drawings/IDrawing.h"
+#include "RenderingParams.h"
 
 
 
@@ -40,6 +41,7 @@ class HostWindow;
 @ingroup RenderingSystem*/
 class RenderingSystem
 {
+	FRIEND_CLASS_TESTER( RenderingSystem );
 private:
 
 	IRendererOPtr		m_renderer;
@@ -80,6 +82,8 @@ public:
 
 	///@}
 
+	bool			InitializeRenderingSystem	();
+
 private:
 
 	void			InitializeGraphicState		( ResourceManager* rm );
@@ -87,8 +91,8 @@ private:
 
 	void			SetRenderTarget				( IRenderer* renderer, HostWindow* visual );
 	
-	void			DrawVisual					( IRenderer* renderer, Visual* visual );
-	void			DrawVisualChildren			( IRenderer* renderer, Visual* visual );
+	void			DrawVisual					( IRenderer* renderer, Visual* visual, const RenderingParams& params );
+	void			RenderTree					( IRenderer* renderer, Visual* visual, const RenderingParams& parentParams );
 };
 
 DEFINE_OPTR_TYPE( RenderingSystem );

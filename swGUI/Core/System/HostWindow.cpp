@@ -262,7 +262,9 @@ bool				HostWindow::AddChild			( UIElementOPtr&& child )
 	return false;
 }
 
-const IDrawingPtr&	HostWindow::QueryDrawing		() const
+// ================================ //
+//
+IDrawing*			HostWindow::QueryDrawing		() const
 {
 	return nullptr;
 }

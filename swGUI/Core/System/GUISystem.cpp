@@ -126,12 +126,18 @@ void				GUISystem::HandleEvents		( const FrameTime& frameTime )
 void				GUISystem::RenderGUI		( const FrameTime& frameTime )
 {
 	if( m_guiConfig.RedrawOnlyFocused && m_focusedWindow )
+	{
+		m_renderingSystem->RenderTree( m_focusedWindow );
 		m_focusedWindow->GetSwapChain()->Present( GetSyncInterval() );
+	}
 
 	if( !m_guiConfig.RedrawOnlyFocused )
 	{
 		for( auto window : m_windows )
+		{
+			m_renderingSystem->RenderTree( window );
 			window->GetSwapChain()->Present( GetSyncInterval() );
+		}
 	}
 }
 
@@ -239,7 +245,7 @@ bool				GUISystem::DefaultInitRenderingSystem	()
 	IRendererOPtr renderer = std::unique_ptr< IRenderer >( m_graphicApi->CreateRenderer( RendererUsage::USE_AS_IMMEDIATE ) );
 	m_renderingSystem = std::unique_ptr< RenderingSystem >( new RenderingSystem( m_resourceManager, m_pathsManager.get(), std::move( renderer ) ) );
 
-	return true;
+	return m_renderingSystem->InitializeRenderingSystem();
 }
 
 // ================================ //

@@ -102,7 +102,7 @@ bool			TestUIElementClass::AddChild( sw::gui::UIElementOPtr && child )
 
 // ================================ //
 //
-const sw::gui::IDrawingPtr&	TestUIElementClass::QueryDrawing() const
+sw::gui::IDrawing*		TestUIElementClass::QueryDrawing() const
 {
 	return nullptr;
 }

@@ -39,7 +39,8 @@ protected:
 
 
 public:
-	explicit		Visual		() = default;
+
+	explicit		Visual		();
 	virtual			~Visual		() = default;
 
 	/**@brief Checks if point is within this object.
@@ -56,8 +57,10 @@ public:
 
 	/**@brief Gets Drawing object for this control.
 	Drawing object gives Visual it's appearance.*/
-	virtual const IDrawingPtr&		QueryDrawing		() const						= 0;
+	virtual IDrawing*				QueryDrawing		() const						= 0;
 
+
+	Position						GetVisualOffset		() const { return m_offset; }
 };
 
 

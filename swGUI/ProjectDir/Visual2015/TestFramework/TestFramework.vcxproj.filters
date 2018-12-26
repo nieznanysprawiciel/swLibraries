@@ -101,5 +101,8 @@
     <ClInclude Include="..\..\..\TestFramework\Utils\Mocks\Media\FakeGeometry.h">
       <Filter>TestFramework\Utils\Mocks\Media</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\TestFramework\Testers\Rendering\RenderingSystemTester.h">
+      <Filter>TestFramework\Accessors\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

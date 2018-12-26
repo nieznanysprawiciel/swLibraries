@@ -306,6 +306,9 @@
     <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\Layouts.h">
       <Filter>Core\Media\Geometry\Layouts</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\RenderingParams.h">
+      <Filter>Core\System\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\System\Events\IEventArgs.cpp">
@@ -430,6 +433,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Core\Media\Brushes\SolidColorBrush.cpp">
       <Filter>Core\Media\Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Controls\Visual.cpp">
+      <Filter>Core\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

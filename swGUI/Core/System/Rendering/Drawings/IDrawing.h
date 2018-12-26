@@ -28,7 +28,9 @@ namespace gui
 class IDrawing : public Object
 {
 	RTTR_ENABLE( Object );
-	RTTR_REGISTRATION_FRIEND
+	RTTR_REGISTRATION_FRIEND;
+
+	friend class RenderingSystem;
 private:
 public:
 

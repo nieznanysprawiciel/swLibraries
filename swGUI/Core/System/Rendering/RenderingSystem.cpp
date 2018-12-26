@@ -32,8 +32,19 @@ void				RenderingSystem::RenderTree			( HostWindow* host )
 {
 	SetRenderTarget( m_renderer.get(), host );
 
-	DrawVisual( m_renderer.get(), host );
-	DrawVisualChildren( m_renderer.get(), host );
+	RenderingParams params;
+	params.ParentOffset.x = 0;
+	params.ParentOffset.y = 0;
+
+	RenderTree( m_renderer.get(), host, params );
+}
+
+// ================================ //
+//
+bool				RenderingSystem::InitializeRenderingSystem	()
+{
+	InitializeGraphicState( m_resourceManager );
+	return true;
 }
 
 // ================================ //
@@ -72,14 +83,34 @@ void				RenderingSystem::SetRenderTarget			( IRenderer* renderer, HostWindow* ho
 
 // ================================ //
 //
-void				RenderingSystem::DrawVisual					( IRenderer* renderer, Visual* visual )
-{}
+void				RenderingSystem::DrawVisual					( IRenderer* renderer, Visual* visual, const RenderingParams& params )
+{
+	IDrawing* drawing = visual->QueryDrawing();
+	if( drawing )
+	{
+		/// @todo RebuildResources can be done in different pass. But first we must think of better system
+		/// to notify that something needs changes.
+		drawing->RebuildResources( m_resourceManager, &m_shaderProvider );
+		drawing->Render( renderer );
+	}
+}
 
 // ================================ //
 //
-void				RenderingSystem::DrawVisualChildren			( IRenderer* renderer, Visual* visual )
+void				RenderingSystem::RenderTree					( IRenderer* renderer, Visual* visual, const RenderingParams& parentParams )
 {
-	//visual->
+	RenderingParams params;
+	params.ParentOffset.x = parentParams.ParentOffset.x + visual->GetVisualOffset().x;
+	params.ParentOffset.y = parentParams.ParentOffset.y + visual->GetVisualOffset().y;
+
+	DrawVisual( renderer, visual, params );
+
+	auto numChildren = visual->GetNumChildren();
+	for( Size i = 0; i < numChildren; i++ )
+	{
+		auto child = visual->GetVisualChild( i );
+		RenderTree( renderer, child, params );
+	}
 }
 
 

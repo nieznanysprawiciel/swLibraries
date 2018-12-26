@@ -90,7 +90,7 @@ public:
 	virtual Size					GetNumChildren	() const						override;
 	virtual Visual*					GetVisualChild	( Size idx ) const				override;
 	virtual bool					AddChild		( UIElementOPtr&& child )		override;
-	virtual const IDrawingPtr&		QueryDrawing	() const						override;
+	virtual IDrawing*				QueryDrawing	() const						override;
 
 };
 
