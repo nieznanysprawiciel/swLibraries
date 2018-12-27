@@ -455,6 +455,9 @@
     <ClCompile Include="..\..\..\Core\Media\Geometry\RectangleGeometry.cpp">
       <Filter>Core\Media\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Core\Controls\Shapes\Rectangle.cpp">
+      <Filter>Core\Controls\Shapes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl">

@@ -206,6 +206,7 @@
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\IPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.cpp" />
+    <ClCompile Include="..\..\..\Core\Controls\Shapes\Rectangle.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Shape.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Visual.cpp" />

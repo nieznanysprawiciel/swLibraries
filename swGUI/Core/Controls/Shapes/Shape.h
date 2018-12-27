@@ -55,6 +55,8 @@ public:
 
 	BrushPtr		GetFill				() const { return m_fill; }
 	BrushPtr		GetStroke			() const { return m_stroke; }
+	
+	GeometryPtr		GetGeometry			() const { return m_drawing->GetGeometry(); }
 
 protected:
 

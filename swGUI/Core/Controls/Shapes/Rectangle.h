@@ -22,10 +22,21 @@ class Rectangle : public Shape
 	RTTR_ENABLE( Shape );
 	RTTR_REGISTRATION_FRIEND;
 private:
+
+	float				m_width;				///< Remove in future. This should be implemented in ArrangeCore.
+	float				m_height;				///< Remove in future. This should be implemented in ArrangeCore.
+	float				m_strokeThickness;
+
 protected:
 public:
-	explicit		Rectangle		() = default;
+
+	explicit		Rectangle		();
 	virtual			~Rectangle		() = default;
+
+
+	void				SetWidth			( float width );
+	void				SetHeight			( float height );
+	void				SetThickness		( float thickness );
 
 };
 
