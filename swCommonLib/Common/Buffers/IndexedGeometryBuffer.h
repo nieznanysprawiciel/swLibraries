@@ -17,7 +17,8 @@ namespace geom
 /**@brief Structure for storing indexed geometry in memory buffer.
 Structure uses BufferTyped to store both index and vertex buffers.
 
-@todo In future buffers should support custom allocators.*/
+@todo In future buffers should support custom allocators.
+@todo Move to swGeometrics. Create new library for objects dependent on RTTR.*/
 template< typename VertexType, typename IndexType >
 struct IndexedGeometryBuffer
 {

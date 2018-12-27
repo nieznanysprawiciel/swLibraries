@@ -318,6 +318,9 @@
     <ClInclude Include="..\..\..\Core\Controls\Shapes\Shape.h">
       <Filter>Core\Controls\Shapes</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\Media\Geometry\RectangleGeometry.h">
+      <Filter>Core\Media\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\System\Events\IEventArgs.cpp">
@@ -449,6 +452,9 @@
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Shape.cpp">
       <Filter>Core\Controls\Shapes</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Geometry\RectangleGeometry.cpp">
+      <Filter>Core\Media\Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl">
@@ -470,6 +476,9 @@
     </FxCompile>
     <FxCompile Include="..\..\..\Core\Shaders\hlsl\Layouts\VertexShape2D.vsh">
       <Filter>Core\Shaders\hlsl\Layouts</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Geometry\ForwardAttributes.vsh">
+      <Filter>Core\Shaders\hlsl\Geometry</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

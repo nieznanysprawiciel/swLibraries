@@ -39,6 +39,9 @@ public:
 	inline Size			GetNumberVerticies		() const;
 	inline Size			GetNumberIndicies		() const;
 
+	inline Size			GetNumberFillIndicies	() const;
+	inline Size			GetNumberBorderIndicies	() const;
+
 	ReturnResult		ValidateParams			() const;
 
 };

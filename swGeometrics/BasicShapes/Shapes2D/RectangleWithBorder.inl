@@ -92,7 +92,23 @@ inline Size					RectangleWithBorder< VertexType, IndexType, PositionAcc >::GetNu
 template< typename VertexType, typename IndexType, typename PositionAcc >
 inline Size					RectangleWithBorder< VertexType, IndexType, PositionAcc >::GetNumberIndicies		() const
 {
-	return Parent::GetNumberIndicies() + 24;
+	return Parent::GetNumberIndicies() + GetNumberBorderIndicies();
+}
+
+// ================================ //
+//
+template< typename VertexType, typename IndexType, typename PositionAcc >
+inline Size					RectangleWithBorder< VertexType, IndexType, PositionAcc >::GetNumberFillIndicies		() const
+{
+	return Parent::GetNumberIndicies();
+}
+
+// ================================ //
+//
+template< typename VertexType, typename IndexType, typename PositionAcc >
+inline Size					RectangleWithBorder< VertexType, IndexType, PositionAcc	>::GetNumberBorderIndicies		() const
+{
+	return 24;
 }
 
 // ================================ //
