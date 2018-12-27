@@ -134,6 +134,8 @@
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\IPanel.h" />
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.h" />
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.h" />
+    <ClInclude Include="..\..\..\Core\Controls\Shapes\Rectangle.h" />
+    <ClInclude Include="..\..\..\Core\Controls\Shapes\Shape.h" />
     <ClInclude Include="..\..\..\Core\Controls\UIElement.h" />
     <ClInclude Include="..\..\..\Core\Controls\Visual.h" />
     <ClInclude Include="..\..\..\Core\Cultures\CultureInfo.h" />
@@ -203,6 +205,7 @@
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\IPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.cpp" />
+    <ClCompile Include="..\..\..\Core\Controls\Shapes\Shape.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Visual.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\Brush.cpp" />

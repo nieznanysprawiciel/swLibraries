@@ -24,6 +24,9 @@
 @ingroup GUICore*/
 
 
+/**@defgroup Controls Controls
+@ingroup GUICore*/
+
 
 namespace sw {
 namespace gui

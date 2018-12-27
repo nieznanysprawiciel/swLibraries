@@ -106,6 +106,9 @@
     <Filter Include="Core\Shaders\glsl\Geometry">
       <UniqueIdentifier>{f04e2f1f-0b2a-43a6-8566-2f0a8d315c89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Controls\Shapes">
+      <UniqueIdentifier>{b7199566-0673-43ab-9d50-9914c784bd14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\targetver.h">
@@ -309,6 +312,12 @@
     <ClInclude Include="..\..\..\Core\System\Rendering\RenderingParams.h">
       <Filter>Core\System\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\Controls\Shapes\Rectangle.h">
+      <Filter>Core\Controls\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\Controls\Shapes\Shape.h">
+      <Filter>Core\Controls\Shapes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\System\Events\IEventArgs.cpp">
@@ -436,6 +445,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Core\Controls\Visual.cpp">
       <Filter>Core\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Controls\Shapes\Shape.cpp">
+      <Filter>Core\Controls\Shapes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
