@@ -104,5 +104,8 @@
     <ClInclude Include="..\..\..\TestFramework\Testers\Rendering\RenderingSystemTester.h">
       <Filter>TestFramework\Accessors\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\TestShape.h">
+      <Filter>TestFramework\Utils\ClassesUI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

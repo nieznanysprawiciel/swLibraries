@@ -48,9 +48,30 @@ public:
 
 	virtual IDrawing*				QueryDrawing		() const;
 
+public:
+
+	void			SetFill				( BrushPtr brush );
+	void			SetStroke			( BrushPtr pen );
+
+	BrushPtr		GetFill				() const { return m_fill; }
+	BrushPtr		GetStroke			() const { return m_stroke; }
+
+protected:
+
+	void			SetGeometry			( GeometryPtr geom );
+
+public:
+
+	// Inherited via UIElement
+	virtual bool		HitTest					( const Point& point )		override;
+	virtual Size		GetNumChildren			()							const override;
+	virtual Visual*		GetVisualChild			( Size idx )				const override;
+	virtual Size2D		Measure					( Size2D availableSize )	override;
+	virtual void		Arrange					( Rect& finalRect )			override;
+	virtual bool		AddChild				( UIElementOPtr&& child )	override;
 };
 
-
+DEFINE_OPTR_TYPE( Shape )
 
 
 }	// gui

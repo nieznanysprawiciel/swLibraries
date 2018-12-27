@@ -37,6 +37,11 @@ public:
 	virtual void			Render					( IRenderer* renderer ) override;
 	virtual void			RebuildResources		( ResourceManager* rm, ShaderProvider* sp );
 
+public:
+
+	const BrushPtr&			GetBrush				() const { return m_brush; }
+	const BrushPtr&			GetPen					() const { return m_pen; }
+	const GeometryPtr&		GetGeometry				() const { return m_geometry; }
 };
 
 DEFINE_PTR_TYPE( GeometryDrawing )

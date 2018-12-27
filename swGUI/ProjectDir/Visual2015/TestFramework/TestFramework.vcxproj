@@ -44,6 +44,7 @@
     <ClInclude Include="..\..\..\TestFramework\TestFramework.h" />
     <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\DependencyPropsClass.h" />
     <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\SubclassTestElement.h" />
+    <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\TestShape.h" />
     <ClInclude Include="..\..\..\TestFramework\Utils\ClassesUI\TestUIElementClass.h" />
     <ClInclude Include="..\..\..\TestFramework\Utils\Mocks\Media\FakeBrush.h" />
     <ClInclude Include="..\..\..\TestFramework\Utils\Mocks\Media\FakeGeometry.h" />
