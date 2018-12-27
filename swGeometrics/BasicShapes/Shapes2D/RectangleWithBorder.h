@@ -16,7 +16,7 @@ namespace geom
 /**@brief Rectangle with border for GUI.
 @ingroup Shapes2D*/
 template< typename VertexType, typename IndexType, typename PositionAcc = DefaultPositionAcc< VertexType > >
-class RectangleWithBorder : public Rectangle< VertexType, PositionAcc >
+class RectangleWithBorder : public Rectangle< VertexType, IndexType, PositionAcc >
 {
 private:
 
