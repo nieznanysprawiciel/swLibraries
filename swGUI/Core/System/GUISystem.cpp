@@ -183,7 +183,7 @@ bool				GUISystem::DefaultInitWithoutWindow	()
 
 	result = result && DefaultInitResourceManager();
 	result = result && DefaultInitPathsManager();
-	result = result && DefaultInitGraphicAPI( false, true );
+	result = result && DefaultInitGraphicAPI( m_guiConfig.DebugGraphics, true );
 	result = result && DefaultInitNativeGUI();
 	result = result && DefaultInitRenderingSystem();
 
