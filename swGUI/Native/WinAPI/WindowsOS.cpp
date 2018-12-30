@@ -34,7 +34,8 @@ filesystem::Path			WindowsOS::GetApplicationDir	() const
 	if( bytes == 0 )
 		return "";
 
-	return lpTempPathBuffer;
+	filesystem::Path path = lpTempPathBuffer;
+	return path.GetParent();	// Get rid of filename.
 }
 
 
