@@ -68,6 +68,11 @@ TEST_CASE( "GUI.Rendering.GeometryDrawing.DrawingCreation", "[GUISystem][Renderi
 	// Setting Geometry should create Drawing.
 	shape->SetGeometry( geom );
 	CHECK( shape->QueryDrawing() != nullptr );
+
+	auto geomDrawing = static_cast< GeometryDrawing* >( shape->QueryDrawing() );
+	CHECK( geomDrawing->GetBrush() == brush );
+	CHECK( geomDrawing->GetPen() == pen );
+	CHECK( geomDrawing->GetGeometry() == geom );
 }
 
 
@@ -88,6 +93,12 @@ TEST_CASE( "GUI.Rendering.GeometryDrawing.DrawingUpdate.DifferentBrush", "[GUISy
 
 	CHECK( shape->QueryDrawing() != nullptr );
 	CHECK( shape->QueryDrawing() != prevDrawing );
+
+	auto geomDrawing = static_cast< GeometryDrawing* >( shape->QueryDrawing() );
+	CHECK( geomDrawing->GetBrush() == shape->GetFill() );
+	CHECK( geomDrawing->GetBrush() == newBrush );
+	CHECK( geomDrawing->GetPen() == shape->GetStroke() );
+	CHECK( geomDrawing->GetGeometry() == shape->GetGeometry() );
 }
 
 // ================================ //
@@ -121,6 +132,12 @@ TEST_CASE( "GUI.Rendering.GeometryDrawing.DrawingUpdate.DifferentPen", "[GUISyst
 
 	CHECK( shape->QueryDrawing() != nullptr );
 	CHECK( shape->QueryDrawing() != prevDrawing );
+
+	auto geomDrawing = static_cast< GeometryDrawing* >( shape->QueryDrawing() );
+	CHECK( geomDrawing->GetBrush() == shape->GetFill() );
+	CHECK( geomDrawing->GetPen() == shape->GetStroke() );
+	CHECK( geomDrawing->GetPen() == newPen );
+	CHECK( geomDrawing->GetGeometry() == shape->GetGeometry() );
 }
 
 // ================================ //
@@ -154,6 +171,12 @@ TEST_CASE( "GUI.Rendering.GeometryDrawing.DrawingUpdate.DifferentGeometry", "[GU
 
 	CHECK( shape->QueryDrawing() != nullptr );
 	CHECK( shape->QueryDrawing() != prevDrawing );
+
+	auto geomDrawing = static_cast< GeometryDrawing* >( shape->QueryDrawing() );
+	CHECK( geomDrawing->GetBrush() == shape->GetFill() );
+	CHECK( geomDrawing->GetPen() == shape->GetStroke() );
+	CHECK( geomDrawing->GetGeometry() == shape->GetGeometry() );
+	CHECK( geomDrawing->GetGeometry() == newGeom );
 }
 
 // ================================ //

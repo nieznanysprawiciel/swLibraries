@@ -54,7 +54,7 @@ void					Shape::SetStroke				( BrushPtr pen )
 	// Create new Drawing only if i previously existed. Drawing doesn't exist if Geometry is not set.
 	if( m_drawing && m_stroke != m_drawing->GetPen() )
 	{
-		m_drawing = std::make_shared< GeometryDrawing >( m_drawing->GetPen(), m_stroke, m_drawing->GetGeometry() );
+		m_drawing = std::make_shared< GeometryDrawing >( m_drawing->GetBrush(), m_stroke, m_drawing->GetGeometry() );
 	}
 }
 
