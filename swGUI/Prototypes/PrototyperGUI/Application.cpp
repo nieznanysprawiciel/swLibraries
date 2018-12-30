@@ -3,6 +3,8 @@
 #include "swGUI/Core/Controls/Shapes/Rectangle.h"
 #include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
 
+#include "swGUI/TestFramework/TestFramework.h"
+
 
 #include "Sizeofs/Sizeofs.h"
 
@@ -60,7 +62,21 @@ If you need specific gui initialization in your application override this functi
 You can set different GraphicApi or input api.*/
 bool		Application::Initialize()
 {
-	return DefaultInit( 1024, 768, "Window Tittle" );
+	bool result = true;
+	
+	result = result && DefaultInit( 1024, 768, "Window Tittle" );
+	result = result && OverridePaths();
+
+	return result;
+}
+
+// ================================ //
+//
+bool		Application::OverridePaths	()
+{
+	auto coreGUISourcePath = impl::FindCoreGUISourcePath( m_nativeGUI->GetOS()->GetApplicationDir() );
+
+	return m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" ).IsValid();
 }
 
 /**@brief Function is called when GUI initialization is completed.

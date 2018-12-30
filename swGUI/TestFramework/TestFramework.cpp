@@ -18,12 +18,6 @@ namespace sw {
 namespace gui
 {
 
-namespace impl
-{
-
-filesystem::Path		FindCoreGUISourcePath			( const filesystem::Path& binaryPath );
-
-}
 
 
 

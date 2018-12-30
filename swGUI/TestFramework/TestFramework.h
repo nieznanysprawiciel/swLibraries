@@ -86,6 +86,17 @@ namespace sw {
 namespace gui
 {
 
+namespace impl
+{
+
+// ================================ //
+//
+filesystem::Path		FindCoreGUISourcePath			( const filesystem::Path& binaryPath );
+
+}
+
+
+
 
 /**@brief Class used as application entry point in tests.
 
