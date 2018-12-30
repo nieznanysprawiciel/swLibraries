@@ -3,7 +3,7 @@
 #include "swGUI/Core/Controls/Shapes/Rectangle.h"
 #include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
 
-#include "swGUI/TestFramework/TestFramework.h"
+#include "PrototyperUtils.h"
 
 
 #include "Sizeofs/Sizeofs.h"
@@ -74,7 +74,7 @@ bool		Application::Initialize()
 //
 bool		Application::OverridePaths	()
 {
-	auto coreGUISourcePath = impl::FindCoreGUISourcePath( m_nativeGUI->GetOS()->GetApplicationDir() );
+	auto coreGUISourcePath = FindCoreGUISourcePath( m_nativeGUI->GetOS()->GetApplicationDir() );
 
 	return m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" ).IsValid();
 }

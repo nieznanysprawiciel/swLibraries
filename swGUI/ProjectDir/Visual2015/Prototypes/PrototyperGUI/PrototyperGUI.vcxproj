@@ -152,10 +152,12 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Prototypes\PrototyperGUI\Application.cpp" />
     <ClCompile Include="..\..\..\..\Prototypes\PrototyperGUI\main.cpp" />
+    <ClCompile Include="..\..\..\..\Prototypes\PrototyperGUI\PrototyperUtils.cpp" />
     <ClCompile Include="..\..\..\..\Prototypes\PrototyperGUI\Sizeofs\Sizeofs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Prototypes\PrototyperGUI\Application.h" />
+    <ClInclude Include="..\..\..\..\Prototypes\PrototyperGUI\PrototyperUtils.h" />
     <ClInclude Include="..\..\..\..\Prototypes\PrototyperGUI\Sizeofs\Sizeofs.h" />
   </ItemGroup>
   <ItemGroup>
@@ -167,9 +169,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\CoreGUI\CoreGUI.vcxproj">
       <Project>{c6dab3ee-e9a7-47fc-9b33-a8f4250c219b}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\TestFramework\TestFramework.vcxproj">
-      <Project>{187f6b99-c04b-4093-9cdf-13d8fc994817}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\Win32NativeGUI\Win32NativeGUI.vcxproj">
       <Project>{267292a0-c262-43e7-afb1-1f63439fd465}</Project>
