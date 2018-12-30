@@ -14,6 +14,8 @@
 #include "swGUI/Core/Controls/UIElement.h"
 #include "swGUI/Core/Controls/Visual.h"
 
+#include "swGUI/Core/Controls/Shapes/Rectangle.h"
+
 #include "swGUI/Core/System/DataBinding/BindingInfo.h"
 
 
@@ -52,6 +54,14 @@ void			PrintSizeofs()
 	PrintSizeofType< sw::gui::DependencyObject >( std::cout );
 	PrintSizeofType< sw::gui::Visual >( std::cout );
 	PrintSizeofType< sw::gui::UIElement >( std::cout );
+	PrintSizeofType< sw::gui::HostWindow >( std::cout );
+
+	std::cout << std::left;
+	std::cout << std::endl << "Controls:" << std::endl;
+	std::cout << std::setw( NameSize ) << "Objects name"  << "Sizeof" << std::endl;
+
+	PrintSizeofType< sw::gui::Shape >( std::cout );
+	PrintSizeofType< sw::gui::Rectangle >( std::cout );
 
 	std::cout << std::left;
 	std::cout << std::endl << "GUI Internal objects:" << std::endl;
