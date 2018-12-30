@@ -221,7 +221,7 @@ ResourcePtr< ShaderInputLayout >		CreateLayout	( ResourceManager* rm, ShaderProv
 		if( !layout )
 		{
 			// We should handle this error better.
-			assert( !"Creating layout failed. Chack if example shader exists." );
+			throw std::exception( "Drawing::CreateLayout - Creating layout failed. Chack if example shader exists." );
 			return nullptr;
 		}
 	}

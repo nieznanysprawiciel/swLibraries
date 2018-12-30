@@ -42,7 +42,34 @@ HostLogic::HostLogic	( HostWindow* hostWindow )
 // ================================ //
 //
 void					HostLogic::RemoveControl		( UIElement* control )
-{}
+{
+	throw std::exception( "sw::gui::HostLogic::RemoveControl - Implement me" );
+}
+
+// ================================ //
+//
+Size					HostLogic::GetNumChildren		() const
+{
+	return m_controlsTree.size();
+}
+
+// ================================ //
+//
+UIElement*				HostLogic::GetChild				( Size idx ) const
+{
+	if( idx < m_controlsTree.size() )
+		return m_controlsTree[ idx ].get();
+
+	return nullptr;
+}
+
+// ================================ //
+//
+bool					HostLogic::AddChild				( UIElementOPtr&& child )
+{
+	m_controlsTree.push_back( std::move( child ) );
+	return true;
+}
 
 // ================================ //
 //
@@ -216,7 +243,7 @@ Size					HostLogic::GetMemorySize()
 
 	//size += m_nativeWindow->MemorySize();
 
-	for( auto control : m_controlsTree )
+	for( auto& control : m_controlsTree )
 		size += control->MemorySize();
 
 	return size;

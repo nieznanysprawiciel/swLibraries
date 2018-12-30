@@ -87,11 +87,11 @@ public:
 	virtual bool					HitTest			( const Position& point )		override;
 	virtual Size2D					Measure			( Size2D availableSize )		override;
 	virtual void					Arrange			( Rect& finalRect )				override;
+	virtual IDrawing*				QueryDrawing	() const						override;
+
 	virtual Size					GetNumChildren	() const						override;
 	virtual Visual*					GetVisualChild	( Size idx ) const				override;
 	virtual bool					AddChild		( UIElementOPtr&& child )		override;
-	virtual IDrawing*				QueryDrawing	() const						override;
-
 };
 
 DEFINE_OPTR_TYPE( HostWindow );

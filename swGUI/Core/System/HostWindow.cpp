@@ -245,21 +245,21 @@ void				HostWindow::Arrange				( Rect & finalRect )
 //
 Size				HostWindow::GetNumChildren		() const
 {
-	return Size();
+	return m_hostLogic.GetNumChildren();
 }
 
 // ================================ //
 //
 Visual*				HostWindow::GetVisualChild		( Size idx ) const
 {
-	return nullptr;
+	return m_hostLogic.GetChild( idx );
 }
 
 // ================================ //
 //
 bool				HostWindow::AddChild			( UIElementOPtr&& child )
 {
-	return false;
+	return m_hostLogic.AddChild( std::move( child ) );
 }
 
 // ================================ //
