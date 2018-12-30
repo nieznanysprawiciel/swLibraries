@@ -33,8 +33,14 @@ public:
 
 	explicit			BufferTyped		( Size numElements );
 	explicit			BufferTyped		( BufferRaw&& rawBuffer );
+	explicit			BufferTyped		( const BufferTyped& buffer ) = delete;
+	explicit			BufferTyped		( BufferTyped&& buffer );
 
 						~BufferTyped	();
+
+
+	BufferTyped< ContentType, Alloc >&		operator=		( const BufferTyped& ) = delete;
+	BufferTyped< ContentType, Alloc >&		operator=		( BufferTyped&& );
 
 public:
 
@@ -101,6 +107,30 @@ inline		BufferTyped< ContentType, Alloc >::BufferTyped	( BufferRaw&& rawBuffer )
 
 	rawBuffer.m_data = nullptr;
 	rawBuffer.m_size = 0;
+}
+
+// ================================ //
+//
+template< typename ContentType, class Alloc >
+inline		BufferTyped< ContentType, Alloc >::BufferTyped	( BufferTyped< ContentType, Alloc >&& other )
+{
+	m_data = other.m_data;
+	m_count = other.ElementsCount();
+
+	other.m_data = nullptr;
+	other.m_count = 0;
+}
+
+// ================================ //
+//
+template< typename ContentType, class Alloc >
+inline BufferTyped< ContentType, Alloc >&			BufferTyped< ContentType, Alloc >::operator=( BufferTyped< ContentType, Alloc >&& other )
+{
+	m_data = other.m_data;
+	m_count = other.ElementsCount();
+
+	other.m_data = nullptr;
+	other.m_count = 0;
 }
 
 // ================================ //

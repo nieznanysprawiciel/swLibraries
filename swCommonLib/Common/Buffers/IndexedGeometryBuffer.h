@@ -33,6 +33,13 @@ struct IndexedGeometryBuffer
 		: Verticies( numVerticies )
 		, Indicies( numIndicies )
 	{}
+
+	// ================================ //
+	//
+	IndexedGeometryBuffer( IndexedGeometryBuffer&& geom )
+		: Verticies( std::move( geom.Verticies ) )
+		, Indicies( std::move( geom.Indicies ) )
+	{}
 };
 
 
