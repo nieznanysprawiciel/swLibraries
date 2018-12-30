@@ -51,9 +51,6 @@
     <ClInclude Include="..\..\..\TestFramework\Utils\Mocks\Rendering\FakeDrawing.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\swGraphicAPI\ProjectsDir\Visual2015\MockAPI\MockAPI.vcxproj">
-      <Project>{eeefab61-f404-4957-ac24-a3bf81c5e4ed}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\swInputLibrary\ProjectsDir\Visual2015\InputCore\InputCore.vcxproj">
       <Project>{ebc3abf4-e788-4242-a949-d366fc128b0e}</Project>
     </ProjectReference>

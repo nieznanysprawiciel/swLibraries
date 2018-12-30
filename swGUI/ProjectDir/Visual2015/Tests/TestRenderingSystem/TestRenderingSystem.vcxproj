@@ -35,8 +35,8 @@
     <ProjectReference Include="..\..\CoreGUI\CoreGUI.vcxproj">
       <Project>{c6dab3ee-e9a7-47fc-9b33-a8f4250c219b}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\TestFramework\TestFramework.vcxproj">
-      <Project>{187f6b99-c04b-4093-9cdf-13d8fc994817}</Project>
+    <ProjectReference Include="..\..\TestFramework\TestFramework.Mock.vcxproj">
+      <Project>{8ce60cec-c62a-4f54-bf0d-ceb247c39e21}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
