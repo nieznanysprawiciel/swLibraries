@@ -8,6 +8,7 @@
 #include "RectangleGeometry.h"
 
 #include "swGeometrics/BasicShapes/Shapes2D/RectangleWithBorder.h"
+#include "swGeometrics/BasicShapes/CoordsUV/PlanarUV.h"
 #include "swGeometrics/GeometricsCore/Generators/Generator.h"
 
 #include "swGUI/Core/Media/Geometry/Layouts/VertexShape2D.h"
@@ -81,7 +82,13 @@ GeometryData		RectangleGeometry::Generate			()
 	rect.Width = m_width;
 	rect.Height = m_height;
 
-	auto geometry = geom::Generate< geom::IndexedGeometryBuffer< VertexShape2D, Index16 > >( rect );
+	geom::PlanarUV< VertexShape2D > planarUV;
+	planarUV.MinX = 0.0f;
+	planarUV.MinY = 0.0f;
+	planarUV.MaxX = m_width;
+	planarUV.MaxY = m_height;
+
+	auto geometry = geom::Generate< geom::IndexedGeometryBuffer< VertexShape2D, Index16 > >( rect, planarUV );
 	/// @todo Error handling or logging.
 
 	GeometryData geomData( geometry.Get().Verticies.MoveToRawBuffer(), geometry.Get().Indicies.MoveToRawBuffer() );

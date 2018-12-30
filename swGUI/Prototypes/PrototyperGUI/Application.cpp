@@ -1,5 +1,8 @@
 #include "Application.h"
 
+#include "swGUI/Core/Controls/Shapes/Rectangle.h"
+#include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
+
 
 #include "Sizeofs/Sizeofs.h"
 
@@ -16,6 +19,32 @@ void		MouseMoveEventReceived			( UIElement* sender, MouseMoveEventArgs* e )
 	//			<< "] Position [" << e->WindowPosX << ", " << e->WindowPosY << "], Delta [" 
 	//			<< e->MouseDeltaX << ", " << e->MouseDeltaY << "]" << std::endl;
 }
+
+// ================================ //
+//
+void		AddRectangle					( HostWindow* host )
+{
+	RectangleOPtr rectangleControl = RectangleOPtr( new Rectangle() );
+	
+	auto brush = std::make_shared< SolidColorBrush >();
+	auto stroke = std::make_shared< SolidColorBrush >();
+
+	brush->SetColor( Color( 1.0, 0.0, 0.0, 1.0 ) );
+	stroke->SetColor( Color( 0.0, 1.0, 0.0, 1.0 ) );
+
+	rectangleControl->SetFill( brush );
+	rectangleControl->SetStroke( stroke );
+
+	rectangleControl->SetHeight( 30 );
+	rectangleControl->SetWidth( 100 );
+	rectangleControl->SetThickness( 2 );
+
+	rectangleControl->SetOffset( Position( 40, 40 ) );
+
+	host->AddChild( std::move( rectangleControl ) );
+}
+
+
 
 
 // ================================ //
@@ -46,6 +75,8 @@ bool		Application::OnInitialized()
 	HostWindow* window = CreateNativeHostWindow( 500, 500, "Additional window" );
 	window->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
 	m_windows[ 0 ]->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
+
+	AddRectangle( window );
 
 	return true;
 }

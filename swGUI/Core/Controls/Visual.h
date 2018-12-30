@@ -61,6 +61,10 @@ public:
 
 
 	Position						GetVisualOffset		() const { return m_offset; }
+
+public:
+	// Temporary
+	void							SetOffset			( Position pos ) { m_offset = pos; }
 };
 
 
