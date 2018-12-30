@@ -40,7 +40,7 @@ public:
 
 };
 
-
+DEFINE_OPTR_TYPE( Rectangle );
 
 }	// gui
 }	// sw

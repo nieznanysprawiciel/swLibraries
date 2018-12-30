@@ -42,7 +42,7 @@ public:
 	inline Size			GetNumberFillIndicies	() const;
 	inline Size			GetNumberBorderIndicies	() const;
 
-	ReturnResult		ValidateParams			() const;
+	inline ReturnResult	ValidateParams			() const;
 
 };
 
@@ -52,3 +52,4 @@ public:
 }	// geom
 }	// sw
 
+#include "RectangleWithBorder.inl"

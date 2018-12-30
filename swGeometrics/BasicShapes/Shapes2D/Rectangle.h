@@ -41,7 +41,7 @@ public:
 	inline Size			GetNumberVerticies		() const;
 	inline Size			GetNumberIndicies		() const;
 
-	ReturnResult		ValidateParams			() const;
+	inline ReturnResult	ValidateParams			() const;
 
 };
 
