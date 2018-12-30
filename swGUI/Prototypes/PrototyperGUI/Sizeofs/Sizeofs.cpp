@@ -42,10 +42,9 @@ void			PrintSizeofType		( std::ostream& stream )
 	stream << sizeof( Type ) << std::endl;
 }
 
-
 // ================================ //
 //
-void			PrintSizeofs()
+void			PrintGUIElementsSizeofs		()
 {
 	std::cout << std::left;
 	std::cout << "GUI Elements:" << std::endl;
@@ -56,23 +55,44 @@ void			PrintSizeofs()
 	PrintSizeofType< sw::gui::UIElement >( std::cout );
 	PrintSizeofType< sw::gui::HostWindow >( std::cout );
 
+	std::cout << std::endl;
+}
+
+// ================================ //
+//
+void			PrintControlsSizeofs		()
+{
 	std::cout << std::left;
-	std::cout << std::endl << "Controls:" << std::endl;
+	std::cout << "Controls:" << std::endl;
 	std::cout << std::setw( NameSize ) << "Objects name"  << "Sizeof" << std::endl;
 
 	PrintSizeofType< sw::gui::Shape >( std::cout );
 	PrintSizeofType< sw::gui::Rectangle >( std::cout );
 
+	std::cout << std::endl;
+}
+
+// ================================ //
+//
+void			PrintGUIInternalsSizeofs	()
+{
 	std::cout << std::left;
-	std::cout << std::endl << "GUI Internal objects:" << std::endl;
+	std::cout << "GUI Internal objects:" << std::endl;
 	std::cout << std::setw( NameSize ) << "Objects name"  << "Sizeof" << std::endl;
 
 	PrintSizeofType< sw::gui::BindingInfo >( std::cout );
 	PrintSizeofType< sw::gui::Binding >( std::cout );
 	PrintSizeofType< sw::gui::BindingExpression >( std::cout );
-	
 
-	std::cout << std::endl << "RTTR types:" << std::endl;
+	std::cout << std::endl;
+}
+
+// ================================ //
+//
+void			PrintRTTRTypesSizeofs		()
+{
+	std::cout << std::left;
+	std::cout << "RTTR types:" << std::endl;
 	std::cout << std::setw( NameSize ) << "Objects name" << "Sizeof" << std::endl;
 
 	PrintSizeofType< rttr::variant >( std::cout );
@@ -81,7 +101,15 @@ void			PrintSizeofs()
 	PrintSizeofType< rttr::type >( std::cout );
 	PrintSizeofType< rttr::method >( std::cout );
 
-	std::cout << std::endl << "Other:" << std::endl;
+	std::cout << std::endl;
+}
+
+// ================================ //
+//
+void			PrintOtherSizeofs			()
+{
+	std::cout << std::left;
+	std::cout << "Other:" << std::endl;
 	std::cout << std::setw( NameSize ) << "Objects name" << "Sizeof" << std::endl;
 	
 	PrintSizeofType< sw::input::DeviceEvent >( std::cout );
@@ -90,6 +118,18 @@ void			PrintSizeofs()
 	PrintSizeofType< sw::input::CursorEvent >( std::cout );
 	PrintSizeofType< sw::input::KeyEvent>( std::cout );
 
-
 	std::cout << std::setw( NameSize ) << "std::enable_shared_from_this additional size" << ( sizeof( VirtualEmptyClass ) - sizeof( VirtualEmptyClass* ) ) << std::endl;
+
+	std::cout << std::endl;
+}
+
+// ================================ //
+//
+void			PrintSizeofs				()
+{
+	PrintGUIElementsSizeofs();
+	PrintControlsSizeofs();
+	PrintGUIInternalsSizeofs();
+	PrintRTTRTypesSizeofs();
+	PrintOtherSizeofs();
 }
