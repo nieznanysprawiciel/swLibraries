@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="TestRenderingSystem.DX11">
+      <UniqueIdentifier>{b5f7d00d-8e25-43ef-ad45-9f8b0246c563}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem.DX11\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem.DX11\TestRenderingSystem.cpp">
+      <Filter>TestRenderingSystem.DX11</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
