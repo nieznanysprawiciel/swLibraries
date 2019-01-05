@@ -11,7 +11,7 @@ using namespace sw::gui;
 
 // ================================ //
 //
-TEST_CASE( "GUI.RenderingSystem.Initialization", "[GUISystem][RenderingSystem]" )
+TEST_CASE( "GUI.RenderingSystem.DX11.Initialization", "[GUISystem][RenderingSystem]" )
 {
 	TestFramework* framework = GetGlobalTestFramework();
 	auto renderingSystem = framework->GetRenderingSystem();

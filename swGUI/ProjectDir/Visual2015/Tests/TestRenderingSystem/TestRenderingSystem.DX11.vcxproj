@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem.DX11\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem.DX11\TestLayouts.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem.DX11\TestRenderingSystem.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
