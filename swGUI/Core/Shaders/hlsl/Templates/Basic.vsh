@@ -20,7 +20,7 @@ struct OutputVS
 //
 cbuffer RenderingSystemConsts : register(b0)
 {
-	float2		Offset;
+	float2		_RenderingSystemConsts_Offset;
 }
 
 
@@ -33,7 +33,7 @@ OutputVS		main	( InputVS input )
 	output.Pos = GeometryFunctionPos( input.Pos, input.Tex );
 	output.Tex = GeometryFunctionTex( input.Pos, input.Tex );
 
-	output.Pos.xy = output.Pos.xy + RenderingSystemConsts.Offset;
+	output.Pos.xy = output.Pos.xy + _RenderingSystemConsts_Offset;
 
-	return out;
+	return output;
 }

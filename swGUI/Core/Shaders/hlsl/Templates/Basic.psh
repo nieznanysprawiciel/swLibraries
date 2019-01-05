@@ -11,7 +11,7 @@ struct OutputVS
 
 // ================================ //
 //
-float4		main	( OutputVS input )
+float4		main	( OutputVS input ) : SV_Target
 {
 	float4 color = BrushFunction( input.Pos, input.Tex );
 
