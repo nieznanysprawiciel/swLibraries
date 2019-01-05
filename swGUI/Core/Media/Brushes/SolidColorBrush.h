@@ -51,6 +51,8 @@ public:
 	virtual std::wstring		ConstantsName		() override;
 };
 
+DEFINE_PTR_TYPE( SolidColorBrush );
+
 
 }	// gui
 }	// sw

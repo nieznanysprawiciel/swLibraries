@@ -13,5 +13,8 @@
     <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem.DX11\TestLayouts.cpp">
       <Filter>TestRenderingSystem.DX11</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem.DX11\TestBrushShaderCompilation.cpp">
+      <Filter>TestRenderingSystem.DX11</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
