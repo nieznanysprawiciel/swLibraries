@@ -58,6 +58,7 @@ private:
 	ResourcePtr< BlendingState >		m_opaqueBlendState;
 
 	ResourcePtr< BufferObject >			m_renderingSystemBuffer;
+	ResourcePtr< BufferObject >			m_visualBuffer;
 
 protected:
 public:

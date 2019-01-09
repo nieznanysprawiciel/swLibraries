@@ -377,7 +377,7 @@ void			Drawing::RenderImpl					( IRenderer* renderer, impl::GeometryRenderingDat
 	renderer->SetShaderState( setShaderCmd );
 
 	helper.BindBuffer( brush.BrushConstants.Ptr(), 0, (uint8)ShaderType::PixelShader );
-	helper.BindBuffer( geom.GeometryConstants.Ptr(), 1, (uint8)ShaderType::VertexShader );
+	helper.BindBuffer( geom.GeometryConstants.Ptr(), 2, (uint8)ShaderType::VertexShader );
 	
 	DrawCommand drawCmd;
 	drawCmd.VertexBuffer = geom.VertexBuffer.Ptr();

@@ -71,7 +71,8 @@ void				RenderingSystem::InitializeGraphicState		( ResourceManager* rm )
 
 	m_opaqueBlendState = rm->CreateBlendingState( L"sw::gui::OpaqueBlendState", blendDesc );
 
-	m_renderingSystemBuffer = rm->CreateConstantsBuffer( L"sw::gui::RenderingSystemConstants", nullptr, sizeof( StackBufferA< RenderingParams > ) );
+	m_renderingSystemBuffer = rm->CreateConstantsBuffer( L"sw::gui::RenderingSystemConstants", nullptr, sizeof( StackBufferA< RenderingSystemParams > ) );
+	m_visualBuffer = rm->CreateConstantsBuffer( L"sw::gui::VisualConstants", nullptr, sizeof( StackBufferA< RenderingParams > ) );
 }
 
 
@@ -80,6 +81,12 @@ void				RenderingSystem::InitializeGraphicState		( ResourceManager* rm )
 void				RenderingSystem::SetRenderTarget			( IRenderer* renderer, HostWindow* host )
 {
 	RenderingHelper helper( renderer );
+
+	StackBufferA< RenderingSystemParams > paramsBuffer;
+	paramsBuffer.ViewportSize = Size2D( host->GetNativeWindow()->GetClientWidth(), host->GetNativeWindow()->GetClientHeight() );
+
+	helper.UpdateBuffer( m_renderingSystemBuffer.Ptr(), paramsBuffer );
+	helper.BindBuffer( m_renderingSystemBuffer.Ptr(), 0, (uint8)ShaderType::VertexShader );
 
 	helper.ClearRenderTargetAndDepth( host->GetRenderTarget().Ptr(), DirectX::XMFLOAT4( 0.0f, 0.0f, 0.0f, 0.0f ), 0.0f );
 	helper.SetRenderTarget( host->GetRenderTarget().Ptr(), m_rasterizerState.Ptr(), m_transparentBlendState.Ptr(), m_depthState.Ptr() );
@@ -94,8 +101,8 @@ void				RenderingSystem::SetSystemConstants			( IRenderer* renderer, const Rende
 	StackBufferA< RenderingParams > paramsBuffer;
 	paramsBuffer.ParentOffset = params.ParentOffset;
 
-	helper.UpdateBuffer( m_renderingSystemBuffer.Ptr(), paramsBuffer );
-	helper.BindBuffer( m_renderingSystemBuffer.Ptr(), 0, (uint8)ShaderType::VertexShader );
+	helper.UpdateBuffer( m_visualBuffer.Ptr(), paramsBuffer );
+	helper.BindBuffer( m_visualBuffer.Ptr(), 1, (uint8)ShaderType::VertexShader );
 }
 
 // ================================ //

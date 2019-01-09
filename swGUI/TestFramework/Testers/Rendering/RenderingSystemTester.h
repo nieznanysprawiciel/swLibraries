@@ -24,6 +24,7 @@ public:
 	static BlendingState*							GetTransparentBlendingState	( RenderingSystem* system ) { return system->m_transparentBlendState.Ptr(); }
 	static BlendingState*							GetOpaqueBlendingState		( RenderingSystem* system ) { return system->m_opaqueBlendState.Ptr(); }
 	static BufferObject*							GetRenderingSystemConsts	( RenderingSystem* system ) { return system->m_renderingSystemBuffer.Ptr(); }
+	static BufferObject*							GetVisualConsts				( RenderingSystem* system ) { return system->m_visualBuffer.Ptr(); }
 
 };
 

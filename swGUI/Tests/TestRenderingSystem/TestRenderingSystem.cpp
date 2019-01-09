@@ -24,6 +24,7 @@ TEST_CASE( "GUI.RenderingSystem.Initialization", "[GUISystem][RenderingSystem]" 
 	CHECK( CLASS_TESTER( RenderingSystem )::GetTransparentBlendingState( renderingSystem ) != nullptr );
 	CHECK( CLASS_TESTER( RenderingSystem )::GetOpaqueBlendingState( renderingSystem ) != nullptr );
 	CHECK( CLASS_TESTER( RenderingSystem )::GetRenderingSystemConsts( renderingSystem ) != nullptr );
+	CHECK( CLASS_TESTER( RenderingSystem )::GetVisualConsts( renderingSystem ) != nullptr );
 }
 
 

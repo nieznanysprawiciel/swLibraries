@@ -21,7 +21,12 @@ struct RenderingParams
 
 };
 
-
+// ================================ //
+//
+struct RenderingSystemParams
+{
+	Size2D			ViewportSize;
+};
 
 }	// gui
 }	// sw
