@@ -92,7 +92,8 @@ bool		Application::OnInitialized()
 	window->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
 	m_windows[ 0 ]->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
 
-	AddRectangle( window );
+	//AddRectangle( window );
+	AddRectangle( m_windows[ 0 ] );
 
 	return true;
 }

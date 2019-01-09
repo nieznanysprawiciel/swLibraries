@@ -57,6 +57,8 @@ private:
 	ResourcePtr< BlendingState >		m_transparentBlendState;
 	ResourcePtr< BlendingState >		m_opaqueBlendState;
 
+	ResourcePtr< BufferObject >			m_renderingSystemBuffer;
+
 protected:
 public:
 	explicit		RenderingSystem		( ResourceManager* resourceManager, PathsManager* pathsManager, IRendererOPtr&& renderer );
@@ -90,7 +92,8 @@ private:
 
 
 	void			SetRenderTarget				( IRenderer* renderer, HostWindow* visual );
-	
+	void			SetSystemConstants			( IRenderer* renderer, const RenderingParams& params );
+
 	void			DrawVisual					( IRenderer* renderer, Visual* visual, const RenderingParams& params );
 	void			RenderTree					( IRenderer* renderer, Visual* visual, const RenderingParams& parentParams );
 };

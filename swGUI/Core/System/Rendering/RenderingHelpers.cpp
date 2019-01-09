@@ -42,7 +42,8 @@ void					RenderingHelper::SetRenderTarget				( RenderTargetObject* target,
 //
 void					RenderingHelper::BindBuffer						( BufferObject* buffer, uint8 slot, uint8 shaderFlag )
 {
-	BindBuffer( m_renderer, buffer, slot, shaderFlag );
+	if( buffer )
+		BindBuffer( m_renderer, buffer, slot, shaderFlag );
 }
 
 // ================================ //

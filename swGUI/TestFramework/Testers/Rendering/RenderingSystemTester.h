@@ -23,6 +23,7 @@ public:
 	static DepthStencilState*						GetDepthStencilState		( RenderingSystem* system ) { return system->m_depthState.Ptr(); }
 	static BlendingState*							GetTransparentBlendingState	( RenderingSystem* system ) { return system->m_transparentBlendState.Ptr(); }
 	static BlendingState*							GetOpaqueBlendingState		( RenderingSystem* system ) { return system->m_opaqueBlendState.Ptr(); }
+	static BufferObject*							GetRenderingSystemConsts	( RenderingSystem* system ) { return system->m_renderingSystemBuffer.Ptr(); }
 
 };
 

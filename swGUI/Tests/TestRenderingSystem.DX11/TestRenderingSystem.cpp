@@ -23,6 +23,7 @@ TEST_CASE( "GUI.RenderingSystem.DX11.Initialization", "[GUISystem][RenderingSyst
 	CHECK( CLASS_TESTER( RenderingSystem )::GetDepthStencilState( renderingSystem ) != nullptr );
 	CHECK( CLASS_TESTER( RenderingSystem )::GetTransparentBlendingState( renderingSystem ) != nullptr );
 	CHECK( CLASS_TESTER( RenderingSystem )::GetOpaqueBlendingState( renderingSystem ) != nullptr );
+	CHECK( CLASS_TESTER( RenderingSystem )::GetRenderingSystemConsts( renderingSystem ) != nullptr );
 }
 
 

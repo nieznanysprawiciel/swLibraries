@@ -9,6 +9,8 @@
 #include "RenderingSystem.h"
 #include "RenderingHelpers.h"
 
+#include "swCommonLib/Common/Buffers/StackBuffer.h"
+
 #include "swGUI/Core/System/HostWindow.h"
 
 
@@ -68,6 +70,8 @@ void				RenderingSystem::InitializeGraphicState		( ResourceManager* rm )
 	blendDesc.EnableBlending = false;
 
 	m_opaqueBlendState = rm->CreateBlendingState( L"sw::gui::OpaqueBlendState", blendDesc );
+
+	m_renderingSystemBuffer = rm->CreateConstantsBuffer( L"sw::gui::RenderingSystemConstants", nullptr, sizeof( StackBufferA< RenderingParams > ) );
 }
 
 
@@ -83,11 +87,26 @@ void				RenderingSystem::SetRenderTarget			( IRenderer* renderer, HostWindow* ho
 
 // ================================ //
 //
+void				RenderingSystem::SetSystemConstants			( IRenderer* renderer, const RenderingParams& params )
+{
+	RenderingHelper helper( renderer );
+
+	StackBufferA< RenderingParams > paramsBuffer;
+	paramsBuffer.ParentOffset = params.ParentOffset;
+
+	helper.UpdateBuffer( m_renderingSystemBuffer.Ptr(), paramsBuffer );
+	helper.BindBuffer( m_renderingSystemBuffer.Ptr(), 0, (uint8)ShaderType::VertexShader );
+}
+
+// ================================ //
+//
 void				RenderingSystem::DrawVisual					( IRenderer* renderer, Visual* visual, const RenderingParams& params )
 {
 	IDrawing* drawing = visual->QueryDrawing();
 	if( drawing )
 	{
+		SetSystemConstants( renderer, params );
+
 		/// @todo RebuildResources can be done in different pass. But first we must think of better system
 		/// to notify that something needs changes.
 		drawing->RebuildResources( m_resourceManager, &m_shaderProvider );

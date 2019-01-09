@@ -164,7 +164,7 @@ bool			Drawing::UpdateGeometry				( ResourceManager* rm, Geometry* geometry )
 			auto indexSize = data.ExtendedIB ? sizeof( Index32 ) : sizeof( Index16 );
 			auto vertexSize = sizeof( VertexShape2D );
 
-			vertexBuffer = rm->CreateVertexBuffer( name, data.IndexBuffer.GetData(), (uint32)vertexSize, uint32( data.VertexBuffer.GetSize() / indexSize ) );
+			vertexBuffer = rm->CreateVertexBuffer( name, data.VertexBuffer.GetData(), (uint32)vertexSize, uint32( data.VertexBuffer.GetSize() / indexSize ) );
 			indexBuffer = rm->CreateIndexBuffer( name, data.IndexBuffer.GetData(), (uint32)indexSize, uint32( data.IndexBuffer.GetSize() / indexSize ) );
 		}
 

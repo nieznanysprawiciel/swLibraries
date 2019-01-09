@@ -9,6 +9,8 @@
 #include "swGraphicAPI/Resources/MeshResources.h"
 #include "swGraphicAPI/Rendering/RenderCommands.h"
 
+#include "swCommonLib/Common/Buffers/StackBuffer.h"
+
 #include <DirectXMath.h>
 
 class IRenderer;
@@ -50,6 +52,10 @@ public:
 	template< typename BufferDataType >
 	inline void				UpdateBuffer				( BufferObject* buffer, BufferDataType& data );
 
+	/**@brief Updates buffer using StackBuffer.*/
+	template< typename BufferDataType >
+	inline void				UpdateBuffer				( BufferObject* buffer, StackBufferA< BufferDataType >& data );
+
 	/**@brief Binds buffer.*/
 	void					BindBuffer					( BufferObject* buffer, uint8 slot, uint8 shaderFlag );
 
@@ -71,6 +77,10 @@ public:
 	/**@brief Updates buffer with data.*/
 	template< typename BufferDataType >
 	static inline void			UpdateBuffer				( IRenderer* renderer, BufferObject* buffer, BufferDataType& data );
+
+	/**@brief Updates buffer using StackBuffer.*/
+	template< typename BufferDataType >
+	static inline void			UpdateBuffer				( IRenderer* renderer, BufferObject* buffer, StackBufferA< BufferDataType >& data );
 
 	/**@brief Binds buffer.*/
 	static void					BindBuffer					( IRenderer* renderer, BufferObject* buffer, uint8 slot, uint8 shaderFlag );
@@ -100,12 +110,33 @@ inline void			RenderingHelper::UpdateBuffer			( BufferObject* buffer, BufferData
 // ================================ //
 //
 template< typename BufferDataType >
+inline void			RenderingHelper::UpdateBuffer			( BufferObject* buffer, StackBufferA< BufferDataType >& data )
+{
+	UpdateBuffer< BufferDataType >( m_renderer, buffer, data );
+}
+
+// ================================ //
+//
+template< typename BufferDataType >
 inline void			RenderingHelper::UpdateBuffer			( IRenderer* renderer, BufferObject* buffer, BufferDataType& data )
 {
 	UpdateBufferCommand updateCommand;
 	updateCommand.Buffer = buffer;
 	updateCommand.FillData = (uint8*)&data;
 	updateCommand.Size = sizeof( BufferDataType );
+
+	renderer->UpdateBuffer( updateCommand );
+}
+
+// ================================ //
+//
+template< typename BufferDataType >
+inline void			RenderingHelper::UpdateBuffer			( IRenderer* renderer, BufferObject* buffer, StackBufferA< BufferDataType >& data )
+{
+	UpdateBufferCommand updateCommand;
+	updateCommand.Buffer = buffer;
+	updateCommand.FillData = data.GetData();
+	updateCommand.Size = (uint32)data.GetSize();
 
 	renderer->UpdateBuffer( updateCommand );
 }
