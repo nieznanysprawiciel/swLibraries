@@ -334,7 +334,7 @@ void			Drawing::RenderFill					( IRenderer* renderer )
 //
 void			Drawing::RenderBorder				( IRenderer* renderer )
 {
-	RenderImpl( renderer, m_geometryData, m_brushData, m_geometryData.FillEnd, m_geometryData.BorderEnd );
+	RenderImpl( renderer, m_geometryData, m_penData, m_geometryData.FillEnd, m_geometryData.BorderEnd );
 }
 
 // ================================ //

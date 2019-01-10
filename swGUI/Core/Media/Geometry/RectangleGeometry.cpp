@@ -81,6 +81,7 @@ GeometryData		RectangleGeometry::Generate			()
 	rect.TopLeftY = 0.0f;
 	rect.Width = m_width;
 	rect.Height = m_height;
+	rect.StrokeThickness = m_strokeThickness;
 
 	geom::PlanarUV< VertexShape2D > planarUV;
 	planarUV.MinX = 0.0f;

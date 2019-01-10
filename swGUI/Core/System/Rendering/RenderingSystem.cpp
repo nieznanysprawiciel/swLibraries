@@ -54,7 +54,7 @@ bool				RenderingSystem::InitializeRenderingSystem	()
 void				RenderingSystem::InitializeGraphicState		( ResourceManager* rm )
 {
 	RasterizerStateInfo rasterizerDesc;
-	rasterizerDesc.CullMode = CullMode::Back;
+	rasterizerDesc.CullMode = CullMode::None;
 	rasterizerDesc.IsClockwise = true;
 
 	m_rasterizerState = rm->CreateRasterizerState( L"sw::gui::DefaultRasterizerState", rasterizerDesc );
@@ -67,7 +67,12 @@ void				RenderingSystem::InitializeGraphicState		( ResourceManager* rm )
 
 	BlendingInfo blendDesc;
 	blendDesc.EnableBlending = true;
-	/// @todo We should set blend operation here.
+	blendDesc.ColorOperation = BlendOperation::Add;
+	blendDesc.AlphaOperation = BlendOperation::Add;
+	blendDesc.SrcColorBlend = BlendFactor::SrcAlpha;
+	blendDesc.DstColorBlend = BlendFactor::InverseSrcAlpha;
+	blendDesc.DstAlphaBlend = BlendFactor::One;
+	blendDesc.SrcAlphaBlend = BlendFactor::One;
 
 	m_transparentBlendState = rm->CreateBlendingState( L"sw::gui::TransparentBlendState", blendDesc );
 
