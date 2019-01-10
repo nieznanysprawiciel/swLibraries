@@ -2,7 +2,7 @@
 
 // ================================ //
 //
-cbuffer SolidColorBrushConsts : register( b1 )
+cbuffer SolidColorBrushConsts : register( b0 )
 {
 	float4		Color;
 }

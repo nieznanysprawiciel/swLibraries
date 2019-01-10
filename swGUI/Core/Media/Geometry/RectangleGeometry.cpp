@@ -84,9 +84,9 @@ GeometryData		RectangleGeometry::Generate			()
 
 	geom::PlanarUV< VertexShape2D > planarUV;
 	planarUV.MinX = 0.0f;
-	planarUV.MinY = 0.0f;
+	planarUV.MinY = -m_height;
 	planarUV.MaxX = m_width;
-	planarUV.MaxY = m_height;
+	planarUV.MaxY = 0.0f;
 
 	auto geometry = geom::Generate< geom::IndexedGeometryBuffer< VertexShape2D, Index16 > >( rect, planarUV );
 	/// @todo Error handling or logging.

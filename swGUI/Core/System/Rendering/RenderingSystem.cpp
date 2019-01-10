@@ -53,7 +53,11 @@ bool				RenderingSystem::InitializeRenderingSystem	()
 //
 void				RenderingSystem::InitializeGraphicState		( ResourceManager* rm )
 {
-	m_rasterizerState = rm->CreateRasterizerState( L"sw::gui::DefaultRasterizerState", RasterizerStateInfo() );
+	RasterizerStateInfo rasterizerDesc;
+	rasterizerDesc.CullMode = CullMode::Back;
+	rasterizerDesc.IsClockwise = true;
+
+	m_rasterizerState = rm->CreateRasterizerState( L"sw::gui::DefaultRasterizerState", rasterizerDesc );
 
 	DepthStencilInfo depthDesc;
 	depthDesc.EnableDepthTest = false;		// Painter algorithm. We never check depth value and always write new pixel.
@@ -88,7 +92,7 @@ void				RenderingSystem::SetRenderTarget			( IRenderer* renderer, HostWindow* ho
 	helper.UpdateBuffer( m_renderingSystemBuffer.Ptr(), paramsBuffer );
 	helper.BindBuffer( m_renderingSystemBuffer.Ptr(), 0, (uint8)ShaderType::VertexShader );
 
-	helper.ClearRenderTargetAndDepth( host->GetRenderTarget().Ptr(), DirectX::XMFLOAT4( 0.0f, 0.0f, 0.0f, 0.0f ), 0.0f );
+	helper.ClearRenderTargetAndDepth( host->GetRenderTarget().Ptr(), DirectX::XMFLOAT4( 0.0f, 0.0f, 0.0f, 0.0f ), 1.0f );
 	helper.SetRenderTarget( host->GetRenderTarget().Ptr(), m_rasterizerState.Ptr(), m_transparentBlendState.Ptr(), m_depthState.Ptr() );
 }
 
