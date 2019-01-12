@@ -21,6 +21,9 @@ namespace gui
 {
 
 /**@brief Brush base class.
+
+@todo Reimplement class to allow controls to share brushes.
+
 @ingroup Brushes*/
 class Brush : public EngineObject
 {

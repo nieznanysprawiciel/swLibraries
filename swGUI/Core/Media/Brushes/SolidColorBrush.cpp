@@ -19,6 +19,14 @@ SolidColorBrush::SolidColorBrush()
 	:	Brush( Brush::ConstantBufferMode::Enable )
 {}
 
+// ================================ //
+//
+SolidColorBrush::SolidColorBrush( const Color& color )
+	:	Brush( Brush::ConstantBufferMode::Enable )
+{
+	m_constants.Color = color;
+}
+
 
 // ================================ //
 //

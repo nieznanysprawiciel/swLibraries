@@ -38,6 +38,7 @@ protected:
 
 public:
 	explicit		SolidColorBrush		();
+	explicit		SolidColorBrush		( const Color& color );
 					~SolidColorBrush	() = default;
 
 	void			SetColor			( const Color& color )		{ m_constants.Color = color; }
