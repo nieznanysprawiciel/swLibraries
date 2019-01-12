@@ -24,26 +24,43 @@ void		MouseMoveEventReceived			( UIElement* sender, MouseMoveEventArgs* e )
 
 // ================================ //
 //
-void		AddRectangle					( HostWindow* host )
+void		AddRectangle					( HostWindow* host, BrushPtr brush, BrushPtr stroke, float width, float height, float broderThickness, Position pos )
 {
 	RectangleOPtr rectangleControl = RectangleOPtr( new Rectangle() );
-	
-	auto brush = std::make_shared< SolidColorBrush >();
-	auto stroke = std::make_shared< SolidColorBrush >();
-
-	brush->SetColor( Color( 1.0, 0.0, 0.0, 1.0 ) );
-	stroke->SetColor( Color( 0.0, 1.0, 0.0, 1.0 ) );
 
 	rectangleControl->SetFill( brush );
 	rectangleControl->SetStroke( stroke );
 
-	rectangleControl->SetHeight( 30 );
-	rectangleControl->SetWidth( 100 );
-	rectangleControl->SetThickness( 2 );
+	rectangleControl->SetHeight( height );
+	rectangleControl->SetWidth( width );
+	rectangleControl->SetThickness( broderThickness );
 
-	rectangleControl->SetOffset( Position( 40, 40 ) );
+	rectangleControl->SetOffset( pos );
 
 	host->AddChild( std::move( rectangleControl ) );
+}
+
+
+// ================================ //
+//
+void		AddRectangle					( HostWindow* host )
+{
+	RectangleOPtr rectangleControl = RectangleOPtr( new Rectangle() );
+	
+	auto brush = std::make_shared< SolidColorBrush >( Color( 1.0, 0.0, 0.0, 1.0 ) );
+	auto stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 1.0, 0.0, 1.0 ) );
+
+	AddRectangle( host, brush, stroke, 1024, 30, 2, Position( 0, 40 ) );
+
+	brush = std::make_shared< SolidColorBrush >( Color( 1.0, 0.0, 0.0, 1.0 ) );
+	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 1.0, 0.0, 1.0 ) );
+
+	AddRectangle( host, stroke, brush, 100, 30, 2, Position( 140, 80 ) );
+
+	brush = std::make_shared< SolidColorBrush >( Color( 1.0, 0.0, 0.0, 1.0 ) );
+	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 1.0, 0.0, 1.0 ) );
+
+	AddRectangle( host, stroke, brush, 100, 768, 2, Position( 400, 0 ) );
 }
 
 
