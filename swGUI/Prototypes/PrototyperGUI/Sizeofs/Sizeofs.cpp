@@ -18,6 +18,8 @@
 
 #include "swGUI/Core/System/DataBinding/BindingInfo.h"
 
+#include "swGUI/Core/Media/Media.h"
+
 
 
 class VirtualEmptyClass : std::enable_shared_from_this< VirtualEmptyClass >
@@ -68,6 +70,22 @@ void			PrintControlsSizeofs		()
 
 	PrintSizeofType< sw::gui::Shape >( std::cout );
 	PrintSizeofType< sw::gui::Rectangle >( std::cout );
+
+	std::cout << std::endl;
+}
+
+// ================================ //
+//
+void			PrintMediaSizeofs			()
+{
+	std::cout << std::left;
+	std::cout << "Media:" << std::endl;
+	std::cout << std::setw( NameSize ) << "Objects name"  << "Sizeof" << std::endl;
+
+	PrintSizeofType< sw::gui::Brush >( std::cout );
+	PrintSizeofType< sw::gui::SolidColorBrush >( std::cout );
+
+	PrintSizeofType< sw::gui::RectangleGeometry >( std::cout );
 
 	std::cout << std::endl;
 }
@@ -129,6 +147,7 @@ void			PrintSizeofs				()
 {
 	PrintGUIElementsSizeofs();
 	PrintControlsSizeofs();
+	PrintMediaSizeofs();
 	PrintGUIInternalsSizeofs();
 	PrintRTTRTypesSizeofs();
 	PrintOtherSizeofs();
