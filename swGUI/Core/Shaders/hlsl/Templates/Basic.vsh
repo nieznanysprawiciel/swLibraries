@@ -42,7 +42,7 @@ float4			TransformVertex		( float2 pos )
 	float2 offsetedPos = pos + offset;
 
 	// Rescale object from screen size to [-1.0, 1.0] range.
-	float2 halfViewportSize = _RenderingSystemConsts_ViewportSize;
+	float2 halfViewportSize = _RenderingSystemConsts_ViewportSize / 2.0f;
 
 	float4 vertex = { 0.0, 0.0, 0.5, 1.0 };
 	vertex.xy = offsetedPos / halfViewportSize;
