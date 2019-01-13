@@ -3,6 +3,7 @@
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
+#include "swGUI/Core/stdafx.h"
 
 
 #include "EventsSystem.h"

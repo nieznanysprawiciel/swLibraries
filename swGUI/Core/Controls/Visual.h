@@ -11,7 +11,7 @@
 #include "swGUI/Core/System/CommonTypes/CommonTypes.h"
 #include "swGUI/Core/System/CommonTypes/AccessKey.h"
 
-#include "swGUI/Core/System/Rendering/DrawingContext.h"
+#include "swGUI/Core/System/Rendering/Drawings/IDrawing.h"
 
 
 namespace sw {
@@ -33,24 +33,38 @@ class Visual : public DependencyObject
 	RTTR_REGISTRATION_FRIEND;
 private:
 
-	Position		m_position;		///< Control position. (@todo Relative to parent ???)
-	Size2D			m_actualSize;	///< Size of control used for rendering. This size will be set after for example layout arrangment will be aplied.
+	Position		m_offset;		///< Control position relative to parent.
 
 protected:
 
 
 public:
-	explicit		Visual		() = default;
-	~Visual		() = default;
 
-/**@brief Checks if point is within this object.
-@todo We must specify if point is in relative coordinates or absolut.*/
-	virtual bool			HitTest				( const Position& point )		= 0;
+	explicit		Visual		();
+	virtual			~Visual		() = default;
 
-	/**@brief Control rendering behavior.*/
-	virtual void			OnRender			( DrawingContext& context )		= 0;
+	/**@brief Checks if point is within this object.
+	@todo We must specify if point is in relative coordinates or absolut.*/
+	virtual bool					HitTest				( const Point& point )			= 0;
+
+	/**@brief Get number of children in visual tree.*/
+	virtual Size					GetNumChildren		() const						= 0;
+	
+	/**@brief Gets child in visual tree.*/
+	virtual Visual*					GetVisualChild		( Size idx ) const				= 0;
+
+public:
+
+	/**@brief Gets Drawing object for this control.
+	Drawing object gives Visual it's appearance.*/
+	virtual IDrawing*				QueryDrawing		() const						= 0;
 
 
+	Position						GetVisualOffset		() const { return m_offset; }
+
+public:
+	// Temporary
+	void							SetOffset			( Position pos ) { m_offset = pos; }
 };
 
 

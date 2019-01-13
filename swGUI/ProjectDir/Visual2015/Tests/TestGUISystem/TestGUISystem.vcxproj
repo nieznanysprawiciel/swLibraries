@@ -163,8 +163,8 @@
     <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\SerializerXML\SerializerXML.vcxproj">
       <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\TestFramework\TestFramework.vcxproj">
-      <Project>{187f6b99-c04b-4093-9cdf-13d8fc994817}</Project>
+    <ProjectReference Include="..\..\TestFramework\TestFramework.Mock.vcxproj">
+      <Project>{8ce60cec-c62a-4f54-bf0d-ceb247c39e21}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +173,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestHostWindowFocus.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestKeyEvents.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestMouseEvents.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestPathsManager.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestRegistration.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

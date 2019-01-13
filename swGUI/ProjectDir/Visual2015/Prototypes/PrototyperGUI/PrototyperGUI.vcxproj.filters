@@ -18,6 +18,9 @@
     <ClCompile Include="..\..\..\..\Prototypes\PrototyperGUI\Sizeofs\Sizeofs.cpp">
       <Filter>PrototyperGUI\Sizeofs</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Prototypes\PrototyperGUI\PrototyperUtils.cpp">
+      <Filter>PrototyperGUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Prototypes\PrototyperGUI\Application.h">
@@ -25,6 +28,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Prototypes\PrototyperGUI\Sizeofs\Sizeofs.h">
       <Filter>PrototyperGUI\Sizeofs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Prototypes\PrototyperGUI\PrototyperUtils.h">
+      <Filter>PrototyperGUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -143,6 +143,8 @@ const BlendingInfo&				DX11BlendingState::GetDescriptor()
 	return m_info;
 }
 
+// ================================ //
+//
 DX11BlendingState*				DX11BlendingState::Create		( const BlendingInfo & info )
 {
 	D3D11_BLEND_DESC desc;
@@ -156,7 +158,7 @@ DX11BlendingState*				DX11BlendingState::Create		( const BlendingInfo & info )
 	desc.RenderTarget[ 0 ].DestBlend = DX11ConstantsMapper::Get( info.DstColorBlend );
 
 	desc.RenderTarget[ 0 ].SrcBlendAlpha = DX11ConstantsMapper::Get( info.SrcAlphaBlend );
-	desc.RenderTarget[ 0 ].SrcBlendAlpha = DX11ConstantsMapper::Get( info.DstAlphaBlend );
+	desc.RenderTarget[ 0 ].DestBlendAlpha = DX11ConstantsMapper::Get( info.DstAlphaBlend );
 	desc.RenderTarget[ 0 ].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	ComPtr< ID3D11BlendState > state;

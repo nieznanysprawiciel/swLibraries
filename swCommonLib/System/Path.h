@@ -79,6 +79,13 @@ public:
 
 public:
 	//const experimental::path&		GetStdPath		() const;
+
+public:
+
+	///@note This function may change or disapear in future.
+	const std::vector< std::string >&		GetTokens			() const;
+
+	Path									ClipFromRoot		( int num ) const;
 };
 
 
@@ -273,6 +280,20 @@ inline Path				operator/( const Path& path1, const Path& path2 )
 	Path newPath = path1;
 	newPath /= path2;
 	return newPath;
+}
+
+// ================================ //
+//
+inline const std::vector< std::string >&		Path::GetTokens	() const
+{
+	return m_path.get_tokens();
+}
+
+// ================================ //
+//
+inline Path										Path::ClipFromRoot		( int num ) const
+{
+	return Path( m_path.clip_from_root( num ) );
 }
 
 ///**@brief Returns standard library path.

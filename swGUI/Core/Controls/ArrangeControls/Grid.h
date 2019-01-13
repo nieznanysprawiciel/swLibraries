@@ -15,7 +15,7 @@ class Grid : public IPanel
 private:
 protected:
 public:
-	Grid	( IControl* parent );
+	explicit	Grid	( UIElement* parent );
 	virtual		~Grid	();
 
 };

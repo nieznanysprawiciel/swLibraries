@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  
+  <ImportGroup Label="PropertySheets" >
+	<Import Project="../Paths.props" />
+  </ImportGroup>
+  
+  <PropertyGroup Label="UserMacros">
+    <BasicShapesName>BasicShapes</BasicShapesName>
+    <BasicShapesLibDir>$(swGeometricsLibDir)$(BasicShapesName)\</BasicShapesLibDir>
+    <BasicShapesSourceDir>$(swGeometricsSourceDir)$(BasicShapesName)\</BasicShapesSourceDir>
+    <BasicShapesFileName>$(BasicShapesName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)</BasicShapesFileName>
+    <BasicShapesBuildDir>$(swGeometricsBuildDir)$(BasicShapesName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</BasicShapesBuildDir>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <BuildMacro Include="BasicShapesName">
+      <Value>$(BasicShapesName)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BasicShapesLibDir">
+      <Value>$(BasicShapesLibDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BasicShapesSourceDir">
+      <Value>$(BasicShapesSourceDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BasicShapesFileName">
+      <Value>$(BasicShapesFileName)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BasicShapesBuildDir">
+      <Value>$(BasicShapesBuildDir)</Value>
+    </BuildMacro>
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <IntDir>$(BasicShapesBuildDir)</IntDir>
+    <TargetName>$(BasicShapesFileName)</TargetName>
+    <OutDir>$(BasicShapesLibDir)</OutDir>
+  </PropertyGroup>
+  
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(swGeometricsSourceInclude);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>__UNUSED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+		
+		<PrecompiledHeader>Use</PrecompiledHeader>
+		<PrecompiledHeaderFile>swGeometrics/BasicShapes/stdafx.h</PrecompiledHeaderFile>
+		
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+</Project>

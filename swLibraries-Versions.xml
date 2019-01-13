@@ -1,4 +1,41 @@
 <swLibraries-Releases>
+    <Release Version="0.12.0" Tag="Version-0.12.0" >
+        <swCommonLib Version="0.51.0" Tag="Version-0.51.0" >
+            <ChangeLog>
+                <Change>Added buffers implementation (BufferTyped, BufferRaw, StackBuffer, BufferRange)</Change>
+                <Change>Nullable returns "Unknown error", when no exception is set.</Change>
+                <Change>Nullable R-value Get implementation.</Change>
+                <Change>Added ExceptionList class and ErrorCollector to handle multple exceptions.</Change>
+                <Change>Saving string to file functionality (filesystem::File::Save).</Change>
+                <Change>Added IndexedGeometryBuffer implemented as RawBuffers.</Change>
+            </ChangeLog>
+        </swCommonLib>
+        <swGraphicAPI Version="0.52.0" Tag="Version-0.52.0" >
+            <ChangeLog>
+                <Change>Mock shaders creation will fail, if shader file doesn't exist.</Change>
+                <Change>Fix DX11 BlendingState creation - set DestBlendAlpha.</Change>
+            </ChangeLog>   
+        </swGraphicAPI>
+        <swInputLibrary Version="0.90.0" Tag="Version-0.90.0" />
+        <swGUI Version="0.11.0" Tag="Version-0.11.0" >
+            <ChangeLog>
+                <Change>Added rendering functionality (RenderingSystem, Visual, Drawing classes).</Change>
+                <Change>PathsManager introduced. GUI can register path aliases.</Change>
+                <Change>Rendering system template shaders for DirectX.</Change>
+                <Change>SolidColorBrush introduced.</Change>
+                <Change>Rectangle geometry and Rectangle control introduced.</Change>
+            </ChangeLog>            
+        </swGUI>
+        <swGeometrics Version="0.02.0" Tag="Version-0.02.0" >
+            <ChangeLog>
+                <Change>Geometry generation framework with processing introduced.</Change>
+                <Change>Compiletime and runtime validation mechanisms added.</Change>
+                <Change>Rectangle and circle generators implemented.</Change>
+                <Change>PlanarUV processor implemented.</Change>
+                <Change>RectangleWithBorder for GUI implemented. </Change>
+            </ChangeLog>        
+        </swGeometrics>
+    </Release>
     <Release Version="0.11.0" Tag="Version-0.11.0" >
         <swCommonLib Version="0.50.0" Tag="Version-0.50.0" />
         <swGraphicAPI Version="0.51.0" Tag="Version-0.51.0" >
@@ -10,11 +47,13 @@
         </swGraphicAPI>
         <swInputLibrary Version="0.90.0" Tag="Version-0.90.0" />
         <swGUI Version="0.10.0" Tag="Version-0.10.0" />
+        <swGeometrics Version="0.01.0" Tag="Version-0.01.0" >
     </Release>
     <Release Version="0.10.0" Tag="Version-0.10.0" >
         <swCommonLib Version="0.50.0" Tag="Version-0.50.0" />
         <swGraphicAPI Version="0.50.0" Tag="Version-0.50.0" />
         <swInputLibrary Version="0.90.0" Tag="Version-0.90.0" />
         <swGUI Version="0.10.0" Tag="Version-0.10.0" />
+        <swGeometrics Version="0.01.0" Tag="Version-0.01.0" >
     </Release>
 </swLibraries-Releases>

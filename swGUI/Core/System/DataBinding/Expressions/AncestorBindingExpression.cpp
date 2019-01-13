@@ -1,3 +1,11 @@
+/**
+@file AncestorBindingExpression.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+#include "swGUI/Core/stdafx.h"
+
+
 #include "AncestorBindingExpression.h"
 
 #include "swCommonLib/Common/Properties/Properties.h"

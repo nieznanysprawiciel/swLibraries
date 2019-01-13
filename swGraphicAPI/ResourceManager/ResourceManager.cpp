@@ -525,8 +525,10 @@ this must change. ResourceManager must be fully operational class. Otherwise GUI
 won't load textures.*/
 MemoryChunk ResourceManager::LoadTextureImpl( const filesystem::Path& filePath, TextureInfo& texInfo )
 {
-	assert( !"Implement me" );
-	return MemoryChunk();
+	MemoryChunk fakeChunk( 1024 );
+
+	//assert( !"Implement me" );
+	return fakeChunk;
 }
 
 

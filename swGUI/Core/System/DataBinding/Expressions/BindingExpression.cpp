@@ -1,3 +1,11 @@
+/**
+@file BindingExpression.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+#include "swGUI/Core/stdafx.h"
+
+
 #include "BindingExpression.h"
 
 #include "swCommonLib/Common/Properties/Properties.h"

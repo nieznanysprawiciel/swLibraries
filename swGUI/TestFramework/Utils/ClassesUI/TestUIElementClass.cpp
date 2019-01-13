@@ -78,7 +78,7 @@ Size			TestUIElementClass::GetNumChildren() const
 
 // ================================ //
 //
-UIElement *		TestUIElementClass::GetUIChild( Size idx ) const
+UIElement *		TestUIElementClass::GetVisualChild( Size idx ) const
 {
 	if( idx < m_children.size() )
 		return m_children[ idx ].get();
@@ -98,6 +98,13 @@ bool			TestUIElementClass::AddChild( sw::gui::UIElementOPtr && child )
 	childPtr->SetParent( this );
 
 	return true;
+}
+
+// ================================ //
+//
+sw::gui::IDrawing*		TestUIElementClass::QueryDrawing() const
+{
+	return nullptr;
 }
 
 

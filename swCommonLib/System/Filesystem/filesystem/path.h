@@ -212,6 +212,27 @@ protected:
     path_type m_type;
     std::vector<std::string> m_path;
     bool m_absolute;
+
+
+public:
+
+	/// Experimental
+	const std::vector< std::string >&		get_tokens	() const
+	{
+		return m_path;
+	}
+
+	path_impl								clip_from_root		( int num ) const
+	{
+        path_impl result;
+        result.m_absolute = num > 0 ? false : result.m_absolute;
+		result.m_type = m_type;
+
+        for (size_t i = num; i < m_path.size(); ++i)
+            result.m_path.push_back(m_path[i]);
+
+        return result;
+	}
 };
 
 bool create_directory( const path_impl& p );

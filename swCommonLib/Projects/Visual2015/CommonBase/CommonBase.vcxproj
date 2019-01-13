@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Common\Converters.cpp" />
+    <ClCompile Include="..\..\..\Common\Exceptions\ExceptionsList.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\Semaphore.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\ThreadsBarrier.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\ThreadsLatch.cpp" />
@@ -30,9 +31,16 @@
     <ClCompile Include="..\..\..\System\Filesystem\filesystem\path.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Common\Buffers\BufferRange.h" />
+    <ClInclude Include="..\..\..\Common\Buffers\BufferRaw.h" />
+    <ClInclude Include="..\..\..\Common\Buffers\BufferTyped.h" />
+    <ClInclude Include="..\..\..\Common\Buffers\IndexedGeometryBuffer.h" />
+    <ClInclude Include="..\..\..\Common\Buffers\StackBuffer.h" />
     <ClInclude Include="..\..\..\Common\Config\ConfigHelper.h" />
     <ClInclude Include="..\..\..\Common\Converters.h" />
+    <ClInclude Include="..\..\..\Common\Exceptions\ErrorsCollector.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Exception.h" />
+    <ClInclude Include="..\..\..\Common\Exceptions\ExceptionsList.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Nullable.h" />
     <ClInclude Include="..\..\..\Common\Logging\Logger.h" />
     <ClInclude Include="..\..\..\Common\MemoryChunk.h" />

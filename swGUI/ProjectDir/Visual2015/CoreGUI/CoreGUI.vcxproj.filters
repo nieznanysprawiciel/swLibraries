@@ -58,16 +58,61 @@
     <Filter Include="Core\System\DataBinding\Exceptions">
       <UniqueIdentifier>{41d28770-ab16-45b2-9af4-2c576b0ea60b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Media\Geometry">
+      <UniqueIdentifier>{db4fc5c4-b25b-41cf-9cbf-123e464befda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\System\Rendering\Drawings">
+      <UniqueIdentifier>{8baf291e-1e78-4d49-b474-d8929982099a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Media\Geometry\Layouts">
+      <UniqueIdentifier>{f73c928c-ed4c-45ec-898c-19fc72a8d659}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\System\Rendering\Shading">
+      <UniqueIdentifier>{32b76862-785d-460c-a007-f8106d85871b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PrecompiledHeader">
+      <UniqueIdentifier>{ba60c9b6-d508-4d48-a8db-a8998ec20900}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders">
+      <UniqueIdentifier>{d73518d0-001f-4e1e-a9c0-c822aa7fed90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\hlsl">
+      <UniqueIdentifier>{e8db285d-2db5-4b62-94e6-993281f867a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\glsl">
+      <UniqueIdentifier>{67a6279c-d17b-4565-9cd7-2c643c2bbe35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\hlsl\Layouts">
+      <UniqueIdentifier>{ff7532a1-cd2c-453c-be1c-9dfd593c6392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\hlsl\Templates">
+      <UniqueIdentifier>{c14d1afc-e81d-4558-8abd-b63abfcedefd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\hlsl\Brush">
+      <UniqueIdentifier>{ff91d408-d03d-4e41-ad18-3afef767d2ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\hlsl\Geometry">
+      <UniqueIdentifier>{61ef1b0a-72dc-49d1-b95f-6ec589a4f9d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\glsl\Layouts">
+      <UniqueIdentifier>{18d8d3f5-ab74-4c0a-a3c9-66169a128c72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\glsl\Templates">
+      <UniqueIdentifier>{3ee3c66e-b08d-4e8d-a9b5-7ceee775ef2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\glsl\Brush">
+      <UniqueIdentifier>{299966ba-25bc-48e2-a6f8-6351b009112f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders\glsl\Geometry">
+      <UniqueIdentifier>{f04e2f1f-0b2a-43a6-8566-2f0a8d315c89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Controls\Shapes">
+      <UniqueIdentifier>{b7199566-0673-43ab-9d50-9914c784bd14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\targetver.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Core\Controls\IControl.h">
-      <Filter>Core\Controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Core\Controls\TopLevelControl.h">
-      <Filter>Core\Controls</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Core\System\CommonTypes\Thickness.h">
       <Filter>Core\System\CommonTypes</Filter>
@@ -228,11 +273,56 @@
     <ClInclude Include="..\..\..\Core\System\DataBinding\DependencyProperty.h">
       <Filter>Core\System\DataBinding</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\Media\Geometry\Geometry.h">
+      <Filter>Core\Media\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\IDrawing.h">
+      <Filter>Core\System\Rendering\Drawings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\Drawing.h">
+      <Filter>Core\System\Rendering\Drawings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\DrawingGroup.h">
+      <Filter>Core\System\Rendering\Drawings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.h">
+      <Filter>Core\System\Rendering\Drawings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.h">
+      <Filter>Core\Media\Geometry\Layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\Shading\ShaderBuilder.h">
+      <Filter>Core\System\Rendering\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Config\PathsManager.h">
+      <Filter>Core\System\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\Shading\ShaderProvider.h">
+      <Filter>Core\System\Rendering\Shading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\stdafx.h">
+      <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\RenderingHelpers.h">
+      <Filter>Core\System\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\Layouts.h">
+      <Filter>Core\Media\Geometry\Layouts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\RenderingParams.h">
+      <Filter>Core\System\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\Controls\Shapes\Rectangle.h">
+      <Filter>Core\Controls\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\Controls\Shapes\Shape.h">
+      <Filter>Core\Controls\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\Media\Geometry\RectangleGeometry.h">
+      <Filter>Core\Media\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Core\Controls\IControl.cpp">
-      <Filter>Core\Controls</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Core\System\Events\IEventArgs.cpp">
       <Filter>Core\System\Events</Filter>
     </ClCompile>
@@ -323,6 +413,51 @@
     <ClCompile Include="..\..\..\Core\System\DataBinding\BindingInfo.cpp">
       <Filter>Core\System\DataBinding</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\Rendering\Shading\ShaderBuilder.cpp">
+      <Filter>Core\System\Rendering\Shading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\Drawing.cpp">
+      <Filter>Core\System\Rendering\Drawings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\Config\PathsManager.cpp">
+      <Filter>Core\System\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\Rendering\Shading\ShaderProvider.cpp">
+      <Filter>Core\System\Rendering\Shading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Brushes\Brush.cpp">
+      <Filter>Core\Media\Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp">
+      <Filter>Core\Media\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\stdafx.cpp">
+      <Filter>PrecompiledHeader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\Rendering\RenderingHelpers.cpp">
+      <Filter>Core\System\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.cpp">
+      <Filter>Core\Media\Geometry\Layouts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.cpp">
+      <Filter>Core\System\Rendering\Drawings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Brushes\SolidColorBrush.cpp">
+      <Filter>Core\Media\Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Controls\Visual.cpp">
+      <Filter>Core\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Controls\Shapes\Shape.cpp">
+      <Filter>Core\Controls\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Geometry\RectangleGeometry.cpp">
+      <Filter>Core\Media\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Controls\Shapes\Rectangle.cpp">
+      <Filter>Core\Controls\Shapes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl">
@@ -331,5 +466,22 @@
     <None Include="..\..\..\Core\System\DataBinding\DependencyObject.inl">
       <Filter>Core\System\DataBinding</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\SolidColorBrush.psh">
+      <Filter>Core\Shaders\hlsl\Brush</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Templates\Basic.vsh">
+      <Filter>Core\Shaders\hlsl\Templates</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Templates\Basic.psh">
+      <Filter>Core\Shaders\hlsl\Templates</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Layouts\VertexShape2D.vsh">
+      <Filter>Core\Shaders\hlsl\Layouts</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Geometry\ForwardAttributes.vsh">
+      <Filter>Core\Shaders\hlsl\Geometry</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

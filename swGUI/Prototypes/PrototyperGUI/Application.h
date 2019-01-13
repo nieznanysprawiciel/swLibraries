@@ -16,10 +16,13 @@ public:
 				~Application	() = default;
 
 protected:
+
 	virtual	bool	Initialize		() override;
 	virtual bool	OnInitialized	() override;
 	virtual void	OnClosing		() override;
 	virtual void	OnIdle			( const sw::gui::FrameTime& frameTime ) override;
+
+	bool			OverridePaths	();
 
 };
 

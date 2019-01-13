@@ -8,10 +8,11 @@
 #include <vector>
 
 namespace sw {
-namespace geometrics
+namespace geom
 {
 
 
+/**@brief Structure storing indexed geometry.*/
 template< typename VertexType, typename IndexType >
 struct IndexedGeometry
 {
@@ -20,9 +21,18 @@ struct IndexedGeometry
 
 	VertexVec	Verticies;
 	IndexVec	Indicies;
+
+
+	// ================================ //
+	//
+	explicit IndexedGeometry	( Size numVerticies, Size numIndicies )
+		: Verticies( numVerticies )
+		, Indicies( numIndicies )
+	{}
 };
 
 
-}	// geometrics
+
+}	// geom
 }	// sw
 

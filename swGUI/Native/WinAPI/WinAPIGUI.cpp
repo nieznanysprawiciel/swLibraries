@@ -224,6 +224,13 @@ void		WinAPIGUI::EndApplication			()
 	PostQuitMessage( 0 );
 }
 
+// ================================ //
+//
+INativeOS*	WinAPIGUI::GetOS()
+{
+	return &m_os;
+}
+
 
 /**@copydoc INativeGUI::MainLoop*/
 bool		WinAPIGUI::MainLoop                 ( bool blockingMode )

@@ -28,13 +28,13 @@ class HostLogic
 	friend class HostLogicTester;
 private:
 
-	std::vector< UIElement* >	m_controlsTree;		///< Top level controls. This vector holds entire tree.
+	std::vector< UIElementOPtr >	m_controlsTree;		///< Top level controls. This vector holds entire tree.
 
-	std::vector< UIElement* >	m_mousePath;		///< Controls hierarchy that have mouse over in this frame.
-	std::vector< UIElement* >	m_keyboardFocus;	///< Path of controls that have keyboard focus and all events are directed to them.
-	UIElement*					m_mouseCapture;		///< Element that captured mouse. Can be nullptr.
+	std::vector< UIElement* >		m_mousePath;		///< Controls hierarchy that have mouse over in this frame.
+	std::vector< UIElement* >		m_keyboardFocus;	///< Path of controls that have keyboard focus and all events are directed to them.
+	UIElement*						m_mouseCapture;		///< Element that captured mouse. Can be nullptr.
 
-	std::vector< UIElement* >	m_invalidated;		///< Controls which needs to be redrawn in this frame. @todo Move to different logic. Separate rearrangement and redraw.
+	std::vector< UIElement* >		m_invalidated;		///< Controls which needs to be redrawn in this frame. @todo Move to different logic. Separate rearrangement and redraw.
 	
 
 	///@name Controls info
@@ -42,6 +42,8 @@ private:
 
 	/// Map containing windows names. Most controls don't have name, so it's better to store
 	/// them separatly, to lower memory consumption.
+	///
+	/// @todo Implement names as DependencyProperty, when we use mechanism to optimise out unused properties.
 	std::map< const UIElement*, std::string >		m_controlsNames;
 
 	///@}
@@ -53,6 +55,10 @@ public:
 
 
 	void				RemoveControl		( UIElement* control );
+	Size				GetNumChildren		() const;
+	UIElement*			GetChild			( Size idx ) const;
+	bool				AddChild			( UIElementOPtr&& child );
+
 
 	void				RegisterControlName	( const UIElement* control, const std::string& name );
 	const std::string&	GetControlName		( const UIElement* control ) const;

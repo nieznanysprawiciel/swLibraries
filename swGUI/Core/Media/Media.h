@@ -14,4 +14,12 @@
 
 // You can place includes here in future.
 
+// Brushes
+#include "Brushes/SolidColorBrush.h"
+#include "Brushes/LinearGradient.h"
+#include "Brushes/RadialGradient.h"
+#include "Brushes/ImageBrush.h"
+
+// Geometry
+#include "Geometry/RectangleGeometry.h"
 
