@@ -57,6 +57,8 @@ public:
 	virtual void		SetShaderState			( const SetRenderStateExCommand& command )			= 0;
 
 	virtual void		CopyTexture				( const CopyTextureCommand& command )				= 0;
+
+	virtual void		FlushCommands			()													= 0;
 };
 
 

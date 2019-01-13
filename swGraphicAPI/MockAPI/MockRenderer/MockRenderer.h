@@ -71,6 +71,8 @@ public:
 
 	virtual void		CopyTexture				( const CopyTextureCommand& command )				override;
 
+	virtual void		FlushCommands			()													override;
+
 private:
 
 	bool                SetVertexBuffer         ( BufferObject* buffer, unsigned int offset );

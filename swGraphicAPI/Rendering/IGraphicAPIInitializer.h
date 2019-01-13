@@ -54,6 +54,7 @@ struct SwapChainInitData
 	{
 		WindowWidth = 1024;
 		WindowHeight = 768;
+		WindowHandle = nullptr;
 		FullScreen = false;
 		NumBuffers = 1;
 		SamplesCount = 1;
@@ -101,11 +102,11 @@ protected:
 public:
 	virtual ~IGraphicAPIInitializer() = default;
 
-	virtual IRenderer*		CreateRenderer			( RendererUsage usage )					= 0;
-	virtual SwapChain*		CreateSwapChain			( SwapChainInitData& swapChainData )	= 0;
-	virtual bool			InitAPI					( GraphicAPIInitData& initData )		= 0;
-	virtual void			ReleaseAPI				()										= 0;
-	virtual void*			GetRenderTargetHandle	( RenderTargetObject* renderTarget )	= 0;
+	virtual IRenderer*		CreateRenderer			( RendererUsage usage )						= 0;
+	virtual SwapChain*		CreateSwapChain			( const SwapChainInitData& swapChainData )	= 0;
+	virtual bool			InitAPI					( const GraphicAPIInitData& initData )		= 0;
+	virtual void			ReleaseAPI				()											= 0;
+	virtual void*			GetRenderTargetHandle	( RenderTargetObject* renderTarget )		= 0;
 
 	// Future
 	// virtual std::wstring	GetErrorString() = 0;

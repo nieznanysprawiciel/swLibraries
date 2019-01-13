@@ -13,16 +13,16 @@
 
 
 /**@defgroup DX11API
-@brief Implementacja renderera, initializera i obiektów zasobów w DirectX 11.
+@brief Implements renderer, initializer and resource objects in DirectX 11.
 @ingroup GraphicAPI
 */
 
 
-/**@brief Klasa implementuj¹ca IGraphicAPIInitializer w DirectX 11.
+/**@brief Class implements IGraphicAPIInitializer in DirectX 11.
 @ingroup DX11API
 
 Jako klasa pomocnicza do inicjalizacji jest u¿ywana klasa @ref DX11AuxiliaryObjects
-(dziedziczy po @ref DX11APIObjects).
+(inherits @ref DX11APIObjects).
 */
 class DX11Initializer : public IGraphicAPIInitializer, public DX11AuxiliaryObjects
 {
@@ -35,12 +35,16 @@ public:
 	~DX11Initializer() = default;
 
 	virtual IRenderer*		CreateRenderer			( RendererUsage usage ) override;
-	virtual SwapChain*		CreateSwapChain			( SwapChainInitData& swapChainData ) override;
-	virtual bool			InitAPI					( GraphicAPIInitData& initData ) override;
+	virtual SwapChain*		CreateSwapChain			( const SwapChainInitData& swapChainData ) override;
+	virtual bool			InitAPI					( const GraphicAPIInitData& initData ) override;
 	virtual void			ReleaseAPI				() override;
 	virtual void*			GetRenderTargetHandle	( RenderTargetObject* renderTarget ) override;
 
 private:
-	Nullable< bool >		InitDevices				( GraphicAPIInitData& initData );
+
+	Nullable< bool >		InitDevices				( const GraphicAPIInitData& initData );
+
+	SwapChain*				CreateWindowSwapChain		( const SwapChainInitData& swapChainData );
+	SwapChain*				CreateCompositionSwapChain	( const SwapChainInitData& swapChainData );
 };
 

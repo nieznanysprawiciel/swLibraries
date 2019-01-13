@@ -33,13 +33,13 @@ public:
 	~MockInitializer() = default;
 
 	virtual IRenderer*		CreateRenderer			( RendererUsage usage ) override;
-	virtual SwapChain*		CreateSwapChain			( SwapChainInitData& swapChainData ) override;
-	virtual bool			InitAPI					( GraphicAPIInitData& initData ) override;
+	virtual SwapChain*		CreateSwapChain			( const SwapChainInitData& swapChainData ) override;
+	virtual bool			InitAPI					( const GraphicAPIInitData& initData ) override;
 	virtual void			ReleaseAPI				() override;
 	virtual void*			GetRenderTargetHandle	( RenderTargetObject* renderTarget ) override;
 
 private:
-	Nullable< bool >		InitDevices				( GraphicAPIInitData& initData );
+	Nullable< bool >		InitDevices				( const GraphicAPIInitData& initData );
 };
 
 }	// sw
