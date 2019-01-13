@@ -122,6 +122,9 @@ void	MockRenderer::SetShaderState	( const SetRenderStateExCommand& command )
 void	MockRenderer::CopyTexture		( const CopyTextureCommand& command )
 {}
 
+void	MockRenderer::FlushCommands		()
+{}
+
 
 //====================================================================================//
 //			Internal Helpers	

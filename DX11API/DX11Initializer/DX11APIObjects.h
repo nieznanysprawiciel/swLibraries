@@ -11,8 +11,8 @@ inicjowania i przechowywania obiektów DirectXa.
 #include <string>
 
 #pragma warning( disable : 4005 )
-#include "d3dx11.h"
-#include "d3d11.h"
+//#include "d3dx11.h"
+#include <d3d11.h>
 #pragma warning( default : 4005 )
 
 
@@ -95,9 +95,7 @@ protected:
 	static ID3D11Texture2D*			z_buffer;				///<Tekstura z-bufora.
 
 	static ID3D11SamplerState*		default_sampler;		///<Obiekt domyœlnego samplera
-	static ID3D11InputLayout*		default_vertex_layout;	///<Layout formatu wierzcho³ka u¿ywanego dla meshy
-	static ID3D11VertexShader*		default_vertex_shader;	///<Obiekt domyœlnego vertex shadera
-	static ID3D11PixelShader*		default_pixel_shader;	///<Obiekt domyœlnego piksel shadera
+
 protected:	//public:	Inicjalizacje powinien zrobiæ obiekt, który dzidziczy po tej klasie, dlatego zmieni³em.
 	// Funkcje do ustawiania deskryptorów i innych parametrów
 	void set_swapchain_desc				( const DXGI_SWAP_CHAIN_DESC& swap_chain_desc );
@@ -119,29 +117,17 @@ protected:	//public:	Inicjalizacje powinien zrobiæ obiekt, który dzidziczy po te
 	static D3D11_SAMPLER_DESC					get_sampler_desc()			{ return _sampler_desc; }
 	static D3D11_RASTERIZER_DESC				get_rasterizer_desc()		{ return _rasterizer_desc; }
 
-	ID3D11VertexShader*		load_vertex_shader( const std::wstring& file_name, const std::string& shader_name, const char* shader_model );
-	ID3D11VertexShader*		load_vertex_shader( const std::wstring& file_name, const std::string& shader_name,
-											ID3D11InputLayout** layout, D3D11_INPUT_ELEMENT_DESC* layout_desc,
-											unsigned int array_size, const char* shader_model );
-	ID3D11PixelShader*		load_pixel_shader( const std::wstring& file_name, const std::string& shader_name, const char* shader_model );
-
 
 	// Funkcje inicjuj¹ce
 	DX11_INIT_RESULT InitDevicesAndSwapChain	( HWND window, bool fullscreen, bool single_thread = true );
 	DX11_INIT_RESULT init_viewport				();
 	DX11_INIT_RESULT init_z_buffer_and_render_target();
-	DX11_INIT_RESULT init_vertex_shader( const std::wstring& file_name, const std::string& shader_name );
-	DX11_INIT_RESULT init_pixel_shader( const std::wstring& file_name, const std::string& shader_name );
 	DX11_INIT_RESULT init_sampler();
 
 protected:
 	DX11APIObjects();
 	~DX11APIObjects() = default;
 
-	DX11_INIT_RESULT init_DX11( int width, int height, HWND window, bool fullscreen,
-								const std::wstring& pix_shader_file, const std::string& pix_shader_name,
-								const std::wstring& vert_shader_file, const std::string& vert_shader_name,
-								bool single_thread = true );
 	DX11_INIT_RESULT init_DX11( int width, int height, HWND window, bool fullscreen, bool single_thread = true );
 
 

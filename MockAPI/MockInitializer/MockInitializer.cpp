@@ -18,18 +18,19 @@ namespace sw
 {
 
 
-
+// ================================ //
+//
 MockInitializer::MockInitializer()
 {}
 
 /**@brief */
-IRenderer* MockInitializer::CreateRenderer( RendererUsage usage )
+IRenderer*			MockInitializer::CreateRenderer		( RendererUsage usage )
 {
 	return new MockRenderer( usage );
 }
 
 /**@brief */
-SwapChain* MockInitializer::CreateSwapChain( SwapChainInitData& swapChainData )
+SwapChain*			MockInitializer::CreateSwapChain	( const SwapChainInitData& swapChainData )
 {
 	MockRenderTarget* renderTargetObject = new MockRenderTarget( nullptr, nullptr, nullptr );
 	renderTargetObject->SetHeight( static_cast<uint16>( swapChainData.WindowHeight ) );
@@ -40,23 +41,23 @@ SwapChain* MockInitializer::CreateSwapChain( SwapChainInitData& swapChainData )
 }
 
 /**@brief */
-bool MockInitializer::InitAPI( GraphicAPIInitData& initData )
+bool				MockInitializer::InitAPI			( const GraphicAPIInitData& initData )
 {
 	return true;
 }
 
 /**@brief */
-void MockInitializer::ReleaseAPI()
+void				MockInitializer::ReleaseAPI			()
 {}
 
 /**@brief Not working. Use regular API.*/
-void* MockInitializer::GetRenderTargetHandle( RenderTargetObject* renderTarget )
+void*				MockInitializer::GetRenderTargetHandle	( RenderTargetObject* renderTarget )
 {
 	return nullptr;
 }
 
 /**@brief Creates only device and device context.*/
-Nullable< bool >	MockInitializer::InitDevices	( GraphicAPIInitData& initData )
+Nullable< bool >	MockInitializer::InitDevices		( const GraphicAPIInitData& initData )
 {
 	return true;
 }

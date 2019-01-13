@@ -13,6 +13,8 @@
 #include "DX11Resources/DX11SwapChain.h"
 #include "DX11ConstantsMapper.h"
 
+#include "DX11Utils.h"
+
 //#include <comdef.h>
 
 // ComPtr
@@ -22,59 +24,42 @@ using namespace Microsoft::WRL;
 
 #include "swCommonLib/Common/MemoryLeaks.h"
 
-
+// ================================ //
+//
 DX11Initializer::DX11Initializer()
 {
 	m_rasterizer = nullptr;
 	m_depthState = nullptr;
 }
 
-/**@brief Tworzy renderer zgodny z u¿ywanym API graficznym.
+/**@brief Creates renderer.
 
 @param[in] usage Specyfikuje czy u¿yæ opóŸnionego kontekstu renderowania czy natychmiastowego.
 @note Wszystkie renderery stworzone w aplikacji powinny byæ tego samego typu.*/
-IRenderer* DX11Initializer::CreateRenderer( RendererUsage usage )
+IRenderer*			DX11Initializer::CreateRenderer			( RendererUsage usage )
 {
 	return new DX11Renderer( usage );
 }
 
-/**@brief Tworzy nowy swap chain.*/
-SwapChain* DX11Initializer::CreateSwapChain( SwapChainInitData& swapChainData )
+/**@brief Creates new SwapChain.*/
+SwapChain*			DX11Initializer::CreateSwapChain		( const SwapChainInitData& swapChainData )
 {
 	HRESULT result;
-	_swap_chain_desc.BufferCount = swapChainData.NumBuffers;
-	_swap_chain_desc.BufferDesc.Format = DX11ConstantsMapper::Get( swapChainData.BackBufferFormat );
-	_swap_chain_desc.BufferDesc.Height = swapChainData.WindowHeight;
-	_swap_chain_desc.BufferDesc.Width = swapChainData.WindowWidth;
-	_swap_chain_desc.OutputWindow = (HWND)swapChainData.WindowHandle;
-	_swap_chain_desc.SampleDesc.Count = swapChainData.SamplesCount;
-	_swap_chain_desc.SampleDesc.Quality = swapChainData.SamplesQuality;
+	DXGI_SWAP_CHAIN_DESC desc = DX11Utils::CreateSwapChainDesc( swapChainData );
 
-
-	ComPtr< IDXGIDevice > dxgiDevice = nullptr;
-	result = device->QueryInterface( __uuidof( IDXGIDevice ), (void**)&dxgiDevice );
-	
-	assert( SUCCEEDED( result ) );
-	if( FAILED( result ) )	return nullptr;
-
-	ComPtr< IDXGIAdapter > dxgiAdapter = nullptr;
-	result = dxgiDevice->GetParent( __uuidof( IDXGIAdapter ), (void **)&dxgiAdapter );
-	
-	assert( SUCCEEDED( result ) );
-	if( FAILED( result ) )	return nullptr;
-
-	ComPtr< IDXGIFactory > dxgiFactory = nullptr;
-	result = dxgiAdapter->GetParent( __uuidof( IDXGIFactory ), (void **)&dxgiFactory );
-	
-	assert( SUCCEEDED( result ) );
-	if( FAILED( result ) )	return nullptr;
+	ComPtr< IDXGIFactory > dxgiFactory = DX11Utils::GetDXGIFactory();
+	if( !dxgiFactory )
+		return nullptr;
 
 // Swap chain
 	ComPtr< IDXGISwapChain > swapChain;
-	result = dxgiFactory->CreateSwapChain( device, &_swap_chain_desc, &swapChain );
-	assert( SUCCEEDED( result ) );
+	if( swapChainData.WindowHandle )
+		swapChain = DX11Utils::CreateWindowSwapChain( swapChainData );
+	else
+		swapChain = DX11Utils::CreateCompositionSwapChain( swapChainData );
 
-	if( FAILED( result ) )	return nullptr;
+	if( !swapChain )
+		return nullptr;
 
 // Render target
 	ComPtr< ID3D11Texture2D > backBuffer = nullptr;
@@ -118,11 +103,25 @@ SwapChain* DX11Initializer::CreateSwapChain( SwapChainInitData& swapChainData )
 	return newSwapChain;
 }
 
-/**@brief Inicjalizuje API graficzne.
+// ================================ //
+//
+SwapChain*			DX11Initializer::CreateWindowSwapChain		( const SwapChainInitData& swapChainData )
+{
+	return nullptr;
+}
+
+// ================================ //
+//
+SwapChain*			DX11Initializer::CreateCompositionSwapChain	( const SwapChainInitData& swapChainData )
+{
+	return nullptr;
+}
+
+/**@brief Initializes graphic API.
 
 @param[in] initData Dane u¿ywane do inicjalizacji.
 @return Zwraca true, je¿eli inicjalizacja siê uda.*/
-bool DX11Initializer::InitAPI( GraphicAPIInitData& initData )
+bool				DX11Initializer::InitAPI		( const GraphicAPIInitData& initData )
 {
 	set_depth_stencil_format( DX11ConstantsMapper::Get( initData.SwapChain.DepthStencilFormat ) );
 
@@ -184,7 +183,7 @@ bool DX11Initializer::InitAPI( GraphicAPIInitData& initData )
 }
 
 /**@brief Zwalnia stworzone obiekty DirectX 11.*/
-void DX11Initializer::ReleaseAPI()
+void				DX11Initializer::ReleaseAPI()
 {
 	if( m_rasterizer )
 		m_rasterizer->Release();
@@ -205,7 +204,7 @@ wskaŸnika na zasoby DirectXowe. Nie ma ¿adnego powodu, ¿eby jej u¿ywaæ w innych 
 @param[in] renderTarget RenderTarget, z którego ma zostaæ wziêtu wskaŸnik.
 @return Zwraca wskaŸnik na widok na bufor koloru render targetu lub nullptr,
 jezeli podano niepoprawny render target.*/
-void* DX11Initializer::GetRenderTargetHandle( RenderTargetObject* renderTarget )
+void*				DX11Initializer::GetRenderTargetHandle( RenderTargetObject* renderTarget )
 {
 	DX11RenderTarget* renderTargetDX11 = static_cast<DX11RenderTarget*>( renderTarget );
 
@@ -225,7 +224,7 @@ void* DX11Initializer::GetRenderTargetHandle( RenderTargetObject* renderTarget )
 }
 
 /**@brief Creates only device and device context.*/
-Nullable< bool >	DX11Initializer::InitDevices	( GraphicAPIInitData& initData )
+Nullable< bool >	DX11Initializer::InitDevices	( const GraphicAPIInitData& initData )
 {
 	UINT createDeviceFlags = 0;
 
@@ -251,3 +250,5 @@ Nullable< bool >	DX11Initializer::InitDevices	( GraphicAPIInitData& initData )
 
 	return true;
 }
+
+

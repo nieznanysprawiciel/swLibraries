@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <Import Project="..\Paths.props" />
-  <Import Project="IncludeDirectX11.props" />
   <PropertyGroup Label="UserMacros">
     <DX11APIName>DX11API</DX11APIName>
     <DX11APILibDir>$(LibDir)$(DX11APIName)\</DX11APILibDir>
