@@ -66,6 +66,8 @@ GUISystem::~GUISystem()
 	for( auto window : m_windows )
 		delete window;
 
+	m_renderingSystem.release();
+
 	m_graphicApi->ReleaseAPI();
 	delete m_resourceManager;
 	delete m_graphicApi;
