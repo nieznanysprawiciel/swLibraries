@@ -77,7 +77,7 @@ GeometryData		EllipseGeometry::Generate			()
 	ellipse.Width = m_width;
 	ellipse.Height = m_height;
 	ellipse.StrokeThickness = m_strokeThickness;
-	ellipse.Tesselation = 100;/// 2 * ( m_width + m_height );
+	ellipse.Tesselation = uint32( m_width + m_height ) / 4;			// Estimate tesselation based on ellipse size.
 
 	geom::PlanarUV< VertexShape2D > planarUV;
 	planarUV.MinX = 0.0f;
