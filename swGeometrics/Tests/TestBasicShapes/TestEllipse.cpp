@@ -27,7 +27,7 @@ bool		IsEllipse		( const std::vector< VertexShape2D >& verticies, float width, f
 	bool isCircle = true;
 	for( auto& vertex : verticies )
 	{
-		auto scaleToCircle = DirectX::XMFLOAT2( vertex.Position.x / width, vertex.Position.y / height );
+		auto scaleToCircle = DirectX::XMFLOAT2( 2.0f * vertex.Position.x / width, 2.0f * vertex.Position.y / height );
 		if( !IsOnCircle( scaleToCircle, 1.0f ) )
 			return false;
 	}
@@ -96,8 +96,8 @@ TEST_CASE( "Geometrics.BasicShapes.Ellipse.ToLowTesselation", "[Geometrics][Basi
 TEST_CASE( "Geometrics.BasicShapes.Ellipse.NegativeRadius", "[Geometrics][BasicShapes]" )
 {
 	Ellipse< VertexShape2D, Index16 > ellipse;
-	ellipse.Width = 2.5f;
-	ellipse.Height = 0.5f;
+	ellipse.Width = -2.5f;
+	ellipse.Height = -0.5f;
 	ellipse.Tesselation = 10;
 
 	CHECK( Generate< IndexedGeometry< VertexShape2D, Index16 > >( ellipse ).IsValid() == false );

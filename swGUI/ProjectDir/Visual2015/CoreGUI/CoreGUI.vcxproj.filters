@@ -321,6 +321,12 @@
     <ClInclude Include="..\..\..\Core\Media\Geometry\RectangleGeometry.h">
       <Filter>Core\Media\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\Media\Geometry\EllipseGeometry.h">
+      <Filter>Core\Media\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\Controls\Shapes\Ellipse.h">
+      <Filter>Core\Controls\Shapes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\System\Events\IEventArgs.cpp">
@@ -456,6 +462,12 @@
       <Filter>Core\Media\Geometry</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Rectangle.cpp">
+      <Filter>Core\Controls\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Geometry\EllipseGeometry.cpp">
+      <Filter>Core\Media\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Controls\Shapes\Ellipse.cpp">
       <Filter>Core\Controls\Shapes</Filter>
     </ClCompile>
   </ItemGroup>

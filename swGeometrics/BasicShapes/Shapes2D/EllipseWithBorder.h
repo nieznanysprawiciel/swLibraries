@@ -1,17 +1,11 @@
 #pragma once
 /**
-@file Ellipse.h
+@file EllipseWithBorder.h
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-
-
-#include "swCommonLib/Common/TypesDefinitions.h"
-#include "swGeometrics/GeometricsCore/Types/Accessors/DefaultAccessors.h"
-#include "swGeometrics/GeometricsCore/Types/Traits/GeneratorTraits.h"
-
-
+#include "Ellipse.h"
 
 
 namespace sw {
@@ -20,21 +14,23 @@ namespace geom
 
 
 
-/**@brief Ellipse generator.
+
+/**@brief Ellipse with border generator for GUI.
 @ingroup Shapes2D*/
 template< typename VertexType, typename IndexType, typename PositionAcc = DefaultPositionAcc< VertexType > >
-class Ellipse : public GeneratorTraits< VertexType, IndexType >
+class EllipseWithBorder : public Ellipse< VertexType, IndexType, PositionAcc >
 {
 private:
-public:
 
-	float				Width;
-	float				Height;
-	uint32				Tesselation;
+	typedef Ellipse< VertexType, IndexType, PositionAcc > Parent;
 
 public:
 
-	inline explicit		Ellipse					();
+	float				StrokeThickness;
+
+public:
+
+	inline explicit		EllipseWithBorder		();
 
 
 	inline void			GenerateVertex			( VertexType& vertex, Size vertexIdx );
@@ -45,16 +41,15 @@ public:
 	inline Size			GetNumberVerticies		() const;
 	inline Size			GetNumberIndicies		() const;
 
+	inline Size			GetNumberFillIndicies	() const;
+	inline Size			GetNumberBorderIndicies	() const;
+
 	inline ReturnResult	ValidateParams			() const;
 
-protected:
-
-	inline void			GenerateVertex			( VertexType& vertex, Size vertexIdx, float width, float height );
 };
-
 
 
 }	// geom
 }	// sw
 
-#include "Ellipse.inl"
+#include "EllipseWithBorder.inl"

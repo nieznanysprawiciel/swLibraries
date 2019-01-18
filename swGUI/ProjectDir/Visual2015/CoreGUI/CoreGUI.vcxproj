@@ -134,6 +134,7 @@
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\IPanel.h" />
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.h" />
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.h" />
+    <ClInclude Include="..\..\..\Core\Controls\Shapes\Ellipse.h" />
     <ClInclude Include="..\..\..\Core\Controls\Shapes\Rectangle.h" />
     <ClInclude Include="..\..\..\Core\Controls\Shapes\Shape.h" />
     <ClInclude Include="..\..\..\Core\Controls\UIElement.h" />
@@ -145,6 +146,7 @@
     <ClInclude Include="..\..\..\Core\Media\Brushes\LinearGradient.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\RadialGradient.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\SolidColorBrush.h" />
+    <ClInclude Include="..\..\..\Core\Media\Geometry\EllipseGeometry.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Geometry.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\Layouts.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.h" />
@@ -206,12 +208,14 @@
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\IPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.cpp" />
+    <ClCompile Include="..\..\..\Core\Controls\Shapes\Ellipse.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Rectangle.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Shape.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Visual.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\Brush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\SolidColorBrush.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Geometry\EllipseGeometry.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\RectangleGeometry.cpp" />

@@ -35,6 +35,9 @@
     <ClInclude Include="..\..\..\BasicShapes\Shapes2D\Ellipse.h">
       <Filter>Shapes2D</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\BasicShapes\Shapes2D\EllipseWithBorder.h">
+      <Filter>Shapes2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\BasicShapes\Shapes2D\Rectangle.inl">
@@ -47,6 +50,9 @@
       <Filter>Shapes2D</Filter>
     </None>
     <None Include="..\..\..\BasicShapes\Shapes2D\Ellipse.inl">
+      <Filter>Shapes2D</Filter>
+    </None>
+    <None Include="..\..\..\BasicShapes\Shapes2D\EllipseWithBorder.inl">
       <Filter>Shapes2D</Filter>
     </None>
   </ItemGroup>

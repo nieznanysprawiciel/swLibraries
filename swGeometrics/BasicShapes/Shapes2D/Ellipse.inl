@@ -33,12 +33,20 @@ inline				Ellipse< VertexType, IndexType, PositionAcc >::Ellipse		()
 template< typename VertexType, typename IndexType, typename PositionAcc >
 inline void			Ellipse< VertexType, IndexType, PositionAcc >::GenerateVertex		( VertexType& vertex, Size vertexIdx )
 {
+	GenerateVertex( vertex, vertexIdx, Width, Height );
+}
+
+// ================================ //
+//
+template< typename VertexType, typename IndexType, typename PositionAcc >
+inline void			Ellipse< VertexType, IndexType, PositionAcc >::GenerateVertex		( VertexType& vertex, Size vertexIdx, float width, float height )
+{
 	float angleDelta = float( 2 * M_PI / Tesselation );
 	float angle = angleDelta * vertexIdx;
 
 	auto& pos = PositionAcc::Get( vertex );
-	pos.x = Width * sinf( angle );
-	pos.y = Height * cosf( angle );
+	pos.x = width * sinf( angle ) / 2.0f;
+	pos.y = height * cosf( angle ) / 2.0f;
 }
 
 // ================================ //

@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include "swGUI/Core/Controls/Shapes/Rectangle.h"
+#include "swGUI/Core/Controls/Shapes/Ellipse.h"
 #include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
 
 #include "PrototyperUtils.h"
@@ -40,10 +41,28 @@ void		AddRectangle					( HostWindow* host, BrushPtr brush, BrushPtr stroke, floa
 	host->AddChild( std::move( rectangleControl ) );
 }
 
+// ================================ //
+//
+void		AddEllipse						( HostWindow* host, BrushPtr brush, BrushPtr stroke, float width, float height, float broderThickness, Position pos )
+{
+	EllipseOPtr ellipseControl = EllipseOPtr( new Ellipse() );
+
+	ellipseControl->SetFill( brush );
+	ellipseControl->SetStroke( stroke );
+
+	ellipseControl->SetHeight( height );
+	ellipseControl->SetWidth( width );
+	ellipseControl->SetThickness( broderThickness );
+
+	ellipseControl->SetOffset( pos );
+
+	host->AddChild( std::move( ellipseControl ) );
+}
+
 
 // ================================ //
 //
-void		AddRectangle					( HostWindow* host )
+void		AddControls						( HostWindow* host )
 {
 	RectangleOPtr rectangleControl = RectangleOPtr( new Rectangle() );
 	
@@ -61,6 +80,11 @@ void		AddRectangle					( HostWindow* host )
 	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 1.0, 0.0, 1.0 ) );
 
 	AddRectangle( host, stroke, brush, 100, 768, 2, Position( 400, 0 ) );
+
+	brush = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 1.0, 1.0 ) );
+	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
+
+	AddEllipse( host, stroke, brush, 100, 200, 8, Position( 200, 300 ) );
 }
 
 
@@ -109,8 +133,8 @@ bool		Application::OnInitialized()
 	window->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
 	m_windows[ 0 ]->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
 
-	//AddRectangle( window );
-	AddRectangle( m_windows[ 0 ] );
+	//AddControls( window );
+	AddControls( m_windows[ 0 ] );
 
 	return true;
 }
