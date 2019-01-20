@@ -79,10 +79,10 @@ inline ReturnResult			Translate2D< VertexType, PositionAcc >::ValidateParams			(
 {
 	ErrorsCollector collector;
 
-	if( isfinite( TranslateX ) )
+	if( !isfinite( TranslateX ) )
 		collector.Add( "[Translate2D] Invalid parameter [TranslateX=" + Convert::ToString( TranslateX ) + "].");
 
-	if( isfinite( TranslateY ) )
+	if( !isfinite( TranslateY ) )
 		collector.Add( "[Translate2D] Invalid parameter [TranslateY=" + Convert::ToString( TranslateY ) + "].");
 
 	return collector;
