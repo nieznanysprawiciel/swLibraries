@@ -10,6 +10,7 @@
 #include "swGeometrics/BasicShapes/Shapes2D/EllipseWithBorder.h"
 #include "swGeometrics/BasicShapes/CoordsUV/PlanarUV.h"
 #include "swGeometrics/GeometricsCore/Generators/Generator.h"
+#include "swGeometrics/GeometricsCore/Processors/Transform/Translate2D.h"
 
 #include "swGUI/Core/Media/Geometry/Layouts/VertexShape2D.h"
 #include "swCommonLib/Common/Buffers/IndexedGeometryBuffer.h"
@@ -85,7 +86,7 @@ GeometryData		EllipseGeometry::Generate			()
 	planarUV.MaxX = m_width;
 	planarUV.MaxY = 0.0f;
 
-	auto geometry = geom::Generate< geom::IndexedGeometryBuffer< VertexShape2D, Index16 > >( ellipse, planarUV );
+	auto geometry = geom::Generate< geom::IndexedGeometryBuffer< VertexShape2D, Index16 > >( ellipse, geom::Translate2D< VertexShape2D >( m_width / 2, -m_height / 2 ), planarUV );
 	/// @todo Error handling or logging.
 
 	GeometryData geomData( geometry.Get().Verticies.MoveToRawBuffer(), geometry.Get().Indicies.MoveToRawBuffer() );
