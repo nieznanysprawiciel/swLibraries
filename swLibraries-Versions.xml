@@ -1,4 +1,15 @@
 <swLibraries-Releases>
+    <Release Version="0.12.1" Tag="Version-0.12.1" >
+        <swCommonLib Version="0.51.0" Tag="Version-0.51.0" />
+        <swGraphicAPI Version="0.52.0" Tag="Version-0.52.0" />
+        <swInputLibrary Version="0.90.0" Tag="Version-0.90.0" />
+        <swGUI Version="0.11.0" Tag="Version-0.11.0" />
+        <swGeometrics Version="0.02.1" Tag="Version-0.02.1" >
+            <ChangeLog>
+                <Change>Fixed tests: GeneratorAndProcessing and GeneratorOnly after changes to Rectangle.</Change>
+            </ChangeLog>
+        </swGeometrics>
+    </Release>
     <Release Version="0.12.0" Tag="Version-0.12.0" >
         <swCommonLib Version="0.51.0" Tag="Version-0.51.0" >
             <ChangeLog>

@@ -42,10 +42,10 @@ TEST_CASE( "Geometrics.Generation.GeneratorAndProcessing", "[Geometrics]" )
 	CHECK( geometry.Verticies[ 1 ].UV.x == 1.0f );
 	CHECK( geometry.Verticies[ 1 ].UV.y == 1.0f );
 
-	CHECK( geometry.Verticies[ 2 ].UV.x == 0.0f );
+	CHECK( geometry.Verticies[ 2 ].UV.x == 1.0f );
 	CHECK( geometry.Verticies[ 2 ].UV.y == 0.0f );
 
-	CHECK( geometry.Verticies[ 3 ].UV.x == 1.0f );
+	CHECK( geometry.Verticies[ 3 ].UV.x == 0.0f );
 	CHECK( geometry.Verticies[ 3 ].UV.y == 0.0f );
 }
 
