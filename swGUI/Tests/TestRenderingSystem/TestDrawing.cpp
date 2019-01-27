@@ -220,6 +220,59 @@ TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateConstants", "[GUISystem][Render
 	CHECK( renderingData.GeometryConstants != nullptr );
 }
 
+// ================================ //
+// 
+TEST_CASE( "GUI.Rendering.Drawing.Brush.ChangeConstantsBuffer", "[GUISystem][RenderingSystem][Drawing]" )
+{
+	TestFramework framework( 0, nullptr );	framework.Init();
+	
+	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
+	FakeBrushPtr brush = std::make_shared< FakeBrush >();
+
+	auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
+	REQUIRE( renderingData.BrushConstants == nullptr );
+
+	drawing->UpdateBrushConstants( framework.GetResourceManager(), brush.get() );
+
+	auto prevBuff = renderingData.BrushConstants;
+	CHECK( prevBuff != nullptr );
+
+	brush->ChangeConstsBuffer( L"NewBuffer" );
+	CHECK( brush->NeedsBufferChange() == true );
+
+	drawing->UpdateBrushConstants( framework.GetResourceManager(), brush.get() );
+
+	CHECK( prevBuff != renderingData.BrushConstants );
+	CHECK( brush->NeedsBufferChange() == false );
+}
+
+// ================================ //
+// 
+TEST_CASE( "GUI.Rendering.Drawing.Pen.ChangeConstantsBuffer", "[GUISystem][RenderingSystem][Drawing]" )
+{
+	TestFramework framework( 0, nullptr );	framework.Init();
+	
+	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
+	FakeBrushPtr pen = std::make_shared< FakeBrush >();
+
+	auto& renderingData = CLASS_TESTER( Drawing )::GetPenRenderingData( drawing.get() );
+	REQUIRE( renderingData.BrushConstants == nullptr );
+
+	drawing->UpdatePenConstants( framework.GetResourceManager(), pen.get() );
+
+	auto prevBuff = renderingData.BrushConstants;
+	CHECK( prevBuff != nullptr );
+
+	pen->ChangeConstsBuffer( L"NewBuffer" );
+	CHECK( pen->NeedsBufferChange() == true );
+
+	drawing->UpdatePenConstants( framework.GetResourceManager(), pen.get() );
+
+	CHECK( prevBuff != renderingData.BrushConstants );
+	CHECK( pen->NeedsBufferChange() == false );
+}
+
+
 //====================================================================================//
 //			Geometry update	
 //====================================================================================//

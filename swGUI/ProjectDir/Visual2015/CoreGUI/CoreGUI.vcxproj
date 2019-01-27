@@ -143,8 +143,8 @@
     <ClInclude Include="..\..\..\Core\Media\Brushes\Brush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\GradientBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\ImageBrush.h" />
-    <ClInclude Include="..\..\..\Core\Media\Brushes\LinearGradient.h" />
-    <ClInclude Include="..\..\..\Core\Media\Brushes\RadialGradient.h" />
+    <ClInclude Include="..\..\..\Core\Media\Brushes\LinearGradientBrush.h" />
+    <ClInclude Include="..\..\..\Core\Media\Brushes\RadialGradientBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\SolidColorBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\EllipseGeometry.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Geometry.h" />
@@ -214,6 +214,7 @@
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Visual.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\Brush.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Brushes\GradientBrush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\SolidColorBrush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\EllipseGeometry.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp" />

@@ -198,12 +198,6 @@
     <ClInclude Include="..\..\..\Core\Media\Brushes\ImageBrush.h">
       <Filter>Core\Media\Brushes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Core\Media\Brushes\LinearGradient.h">
-      <Filter>Core\Media\Brushes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Core\Media\Brushes\RadialGradient.h">
-      <Filter>Core\Media\Brushes</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Core\System\Events\EventProxy.h">
       <Filter>Core\System\Events</Filter>
     </ClInclude>
@@ -326,6 +320,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Core\Controls\Shapes\Ellipse.h">
       <Filter>Core\Controls\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\Media\Brushes\LinearGradientBrush.h">
+      <Filter>Core\Media\Brushes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\Media\Brushes\RadialGradientBrush.h">
+      <Filter>Core\Media\Brushes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -469,6 +469,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Ellipse.cpp">
       <Filter>Core\Controls\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Brushes\GradientBrush.cpp">
+      <Filter>Core\Media\Brushes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

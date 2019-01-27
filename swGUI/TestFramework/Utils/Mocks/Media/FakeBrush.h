@@ -22,6 +22,7 @@ protected:
 
 	std::string			m_shaderFun;
 	std::wstring		m_textureFile;
+	std::wstring		m_cBuffer;
 
 public:
 
@@ -41,11 +42,13 @@ public:
 	using Brush::NeedsShaderUpdate;
 	using Brush::NeedsTextureUpdate;
 	using Brush::NeedsConstantsUpdate;
+	using Brush::NeedsBufferChange;
 
 public:
 
 	void							SetShaderFunction		( const std::string& shaderFun );
 	void							SetTextureFile			( const std::wstring& tex );
+	void							ChangeConstsBuffer		( const std::wstring& newBuffer );
 };
 
 DEFINE_PTR_TYPE( FakeBrush )

@@ -73,7 +73,8 @@ bool			Drawing::UpdateBrushTexture			( ResourceManager* rm, Brush* brush )
 //
 bool			Drawing::UpdateBrushConstants		( ResourceManager* rm, Brush* brush )
 {
-	if( !m_brushData.BrushConstants && brush->UsesConstantBuffer() )
+	if( ( !m_brushData.BrushConstants && brush->UsesConstantBuffer() ) 
+		|| brush->NeedsBufferChange() )
 	{
 		std::wstring name = brush->ConstantsName();
 
@@ -83,6 +84,9 @@ bool			Drawing::UpdateBrushConstants		( ResourceManager* rm, Brush* brush )
 			auto bufferRange = brush->BufferData();
 			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, (uint32)bufferRange.DataSize );
 		}
+
+		if( brush->NeedsBufferChange() )
+			brush->BufferChanged();
 
 		m_brushData.BrushConstants = constantsBuffer;
 		return true;
@@ -109,7 +113,8 @@ bool			Drawing::UpdatePenTexture			( ResourceManager* rm, Brush* pen )
 //
 bool			Drawing::UpdatePenConstants			( ResourceManager* rm, Brush* pen )
 {
-	if( !m_penData.BrushConstants && pen->UsesConstantBuffer() )
+	if( ( !m_penData.BrushConstants && pen->UsesConstantBuffer() )
+		|| pen->NeedsBufferChange() )
 	{
 		std::wstring name = pen->ConstantsName();
 
@@ -119,6 +124,9 @@ bool			Drawing::UpdatePenConstants			( ResourceManager* rm, Brush* pen )
 			auto bufferRange = pen->BufferData();
 			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, (uint32)bufferRange.DataSize );
 		}
+
+		if( pen->NeedsBufferChange() )
+			pen->BufferChanged();
 
 		m_penData.BrushConstants = constantsBuffer;
 		return true;
