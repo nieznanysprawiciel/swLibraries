@@ -1,0 +1,74 @@
+
+#define MAX_GRADIENTS_STOPS 127
+
+
+// ================================ //
+//
+struct GradientStop
+{
+	uint		Color;
+	float		Offset;
+};
+
+// ================================ //
+//
+cbuffer LinearGradientBrushConsts : register( b0 )
+{
+	float2				StartPoint;
+	float2				StopPoint;
+	uint				NumStops;
+	GradientStop		GradientStops[ MAX_GRADIENTS_STOPS ];
+}
+
+
+// ================================ //
+//
+float4		LoadIntColor		( uint color )
+{
+	float4 result;
+	result.x = color & 0xFF000000;
+	result.y = color & 0x00FF0000;
+	result.z = color & 0x0000FF00;
+	result.w = color & 0x000000FF;
+
+	return result;
+}
+
+// ================================ //
+//
+float4		ComputeColor		( float factor, GradientStop first, GradientStop second )
+{
+	float4 firstColor = LoadIntColor( first.Color );
+	float4 secondColor = LoadIntColor( second.Color );
+
+	return lerp( firstColor, secondColor, factor );
+}
+
+
+// ================================ //
+//
+float4		BrushFunction		( float4 pos, float2 tex )
+{
+	float2 gradientVec = StopPoint - StartPoint;
+	float2 pixelVec = tex - StartPoint;
+
+	float factor = dot( gradientVec, pixelVec ) / dot( gradientVec, gradientVec );
+
+	// Handle situation, when we are before first GradientStop.
+	if( factor < GradientStops[ 0 ].Offset )
+		return LoadIntColor( GradientStops[ 0 ].Color );
+
+	// Find pair of GradientStops. Our pixel shoudl be between them.
+	uint i = 0;
+	for( ; i < NumStops - 1; ++i )
+	{
+		if( factor > GradientStops[ i ].Offset )
+		{
+			return ComputeColor( factor, GradientStops[ i ], GradientStops[ i + 1 ] );
+		}
+	}
+
+	// Handle situation, when we are after last GradientStop.
+	return LoadIntColor( GradientStops[ NumStops - 1 ].Color );
+}
+

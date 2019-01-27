@@ -499,5 +499,8 @@
     <FxCompile Include="..\..\..\Core\Shaders\hlsl\Geometry\ForwardAttributes.vsh">
       <Filter>Core\Shaders\hlsl\Geometry</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\LinearGradientBrush.psh">
+      <Filter>Core\Shaders\hlsl\Brush</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

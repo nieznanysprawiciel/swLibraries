@@ -8,6 +8,7 @@
 
 // Include Brushes
 #include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
+#include "swGUI/Core/Media/Brushes/LinearGradientBrush.h"
 
 
 
@@ -40,4 +41,22 @@ TEST_CASE( "GUI.Rendering.DX11.Pen.ShaderCompilation.SolidColorBrush", "[GUISyst
 	INFO( "[SolidColorBrush] Pen Shader compilation failed." );
 	CHECK( renderingData.PixelShader != nullptr );
 }
+
+// ================================ //
+//
+TEST_CASE( "GUI.Rendering.DX11.Pen.ShaderCompilation.LinearGradientBrush", "[GUISystem][RenderingSystem][Drawing]" )
+{
+	TestFramework* framework = GetGlobalTestFramework();
+	
+	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
+	LinearGradientBrushPtr brush = std::make_shared< LinearGradientBrush >();
+
+	drawing->UpdateBrushShader( framework->GetRenderingSystem()->GetShaderProvider(), brush.get() );
+
+	auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
+
+	INFO( "[LinearGradientBrush] Brush Shader compilation failed." );
+	CHECK( renderingData.PixelShader != nullptr );
+}
+
 

@@ -21,7 +21,7 @@ namespace gui
 
 /**@brief Draws linear gradient on @ref Geometry.
 @ingroup Brushes*/
-class LinearGradient : public GradientBrush
+class LinearGradientBrush : public GradientBrush
 {
 	RTTR_ENABLE( GradientBrush );
 	RTTR_REGISTRATION_FRIEND;
@@ -39,8 +39,8 @@ protected:
 	StackBuffer< Constants >		m_constants;
 
 public:
-	explicit		LinearGradient		();
-	virtual			~LinearGradient		() = default;
+	explicit		LinearGradientBrush			();
+	virtual			~LinearGradientBrush		() = default;
 
 
 	virtual	BufferRange		BufferData			() override;
@@ -51,7 +51,7 @@ protected:
 	virtual Size				ConstantsSize		() const override;
 };
 
-DEFINE_PTR_TYPE( LinearGradient );
+DEFINE_PTR_TYPE( LinearGradientBrush );
 
 
 }	// gui

@@ -16,28 +16,28 @@ namespace gui
 
 // ================================ //
 //
-LinearGradient::LinearGradient()
-	:	GradientBrush( LinearGradient::ConstantsSize() )
+LinearGradientBrush::LinearGradientBrush()
+	:	GradientBrush( LinearGradientBrush::ConstantsSize() )
 {}
 
 
 // ================================ //
 //
-BufferRange			LinearGradient::BufferData			()
+BufferRange			LinearGradientBrush::BufferData			()
 {
 	return PrepareBuffer( m_constants.GetView() );
 }
 
 // ================================ //
 //
-std::string			LinearGradient::ShaderFunctionFile	()
+std::string			LinearGradientBrush::ShaderFunctionFile	()
 {
-	return std::string();
+	return "$(CoreGUI-Shader-Dir)/Brush/LinearGradientBrush.psh";
 }
 
 // ================================ //
 //
-Size				LinearGradient::ConstantsSize		() const
+Size				LinearGradientBrush::ConstantsSize		() const
 {
 	return sizeof( m_constants );
 }
