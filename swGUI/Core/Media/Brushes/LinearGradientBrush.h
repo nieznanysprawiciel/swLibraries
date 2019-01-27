@@ -39,10 +39,19 @@ protected:
 	StackBuffer< Constants >		m_constants;
 
 public:
-	explicit		LinearGradient		() = default;
+	explicit		LinearGradient		();
 	virtual			~LinearGradient		() = default;
 
+
+	virtual	BufferRange		BufferData			() override;
+	virtual std::string		ShaderFunctionFile	() override;
+
+protected:
+
+	virtual Size				ConstantsSize		() const override;
 };
+
+DEFINE_PTR_TYPE( LinearGradient );
 
 
 }	// gui

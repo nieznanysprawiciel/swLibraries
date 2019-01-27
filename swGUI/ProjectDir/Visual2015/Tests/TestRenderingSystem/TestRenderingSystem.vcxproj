@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem\TestBrush.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem\TestDrawing.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem\TestShape.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem\TestLayouts.cpp" />

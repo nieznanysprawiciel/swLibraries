@@ -20,6 +20,14 @@ namespace gui
 
 // ================================ //
 //
+GradientBrush::GradientBrush( Size constantsSize )
+	:	Brush( ConstantBufferMode::Enable )
+	,	m_buffer( BufferTyped< uint8 >( ExpectedBufferSize( constantsSize ) ).MoveToRawBuffer() )
+{}
+
+
+// ================================ //
+//
 void						GradientBrush::AddGradientStop		( GradientStop stop )
 {
 	m_gradientStops.push_back( stop );
@@ -43,7 +51,6 @@ void						GradientBrush::RemoveGradientStop	( Size idx )
 	if( m_buffer.GetSize() != ExpectedBufferSize() )
 		InvalidateConstants();
 }
-
 
 // ================================ //
 //
@@ -79,7 +86,14 @@ BufferRange					GradientBrush::PrepareBuffer		( BufferRange constants )
 //
 Size						GradientBrush::ExpectedBufferSize	() const
 {
-	auto neededSize = ConstantsSize() + GradientStopsSize();
+	return ExpectedBufferSize( GradientStopsSize() );
+}
+
+// ================================ //
+//
+Size						GradientBrush::ExpectedBufferSize	( Size constantsSize ) const
+{
+	auto neededSize = GradientStopsSize() + constantsSize;
 	neededSize = neededSize + neededSize % 16;
 
 	return neededSize;

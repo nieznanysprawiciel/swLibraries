@@ -473,6 +473,7 @@
     <ClCompile Include="..\..\..\Core\Media\Brushes\GradientBrush.cpp">
       <Filter>Core\Media\Brushes</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Brushes\LinearGradientBrush.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl">

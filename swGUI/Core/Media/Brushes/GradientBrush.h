@@ -24,6 +24,15 @@ struct GradientStop
 {
 	uint32		Color;
 	float		Offset;
+
+// ================================ //
+//
+	GradientStop() {}
+
+	GradientStop( uint32 color, float offset )
+		:	Color( color )
+		,	Offset( offset )
+	{}
 };
 
 
@@ -39,7 +48,7 @@ protected:
 	BufferRaw						m_buffer;
 
 public:
-	explicit		GradientBrush		() = default;
+	explicit		GradientBrush		( Size constantsSize );
 	virtual			~GradientBrush		() = default;
 
 
@@ -51,6 +60,8 @@ public:
 	void						AddGradientStop		( GradientStop stop );
 	void						RemoveGradientStop	( Size idx );
 
+	const std::vector< GradientStop >&		GetGradintStops		() const { return m_gradientStops; }
+
 protected:
 
 	BufferRange					PrepareBuffer		( BufferRange constants );
@@ -60,6 +71,7 @@ protected:
 private:
 
 	Size						ExpectedBufferSize	() const;
+	Size						ExpectedBufferSize	( Size constantsSize ) const;
 	Size						GradientStopsSize	() const;
 
 	void						ReallocateBuffer	( Size newSize );
