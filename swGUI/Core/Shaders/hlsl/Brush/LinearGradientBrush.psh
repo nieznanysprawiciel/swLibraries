@@ -40,6 +40,11 @@ float4		LoadIntColor		( uint color )
 //
 float4		ComputeColor		( float factor, GradientStop first, GradientStop second )
 {
+	float firstOffset = first.Offset;
+	float secondOffset = second.Offset;
+
+	factor = ( factor - firstOffset ) / ( secondOffset - firstOffset );
+
 	float4 firstColor = LoadIntColor( first.Color );
 	float4 secondColor = LoadIntColor( second.Color );
 

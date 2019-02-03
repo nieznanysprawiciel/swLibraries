@@ -92,7 +92,14 @@ void		AddControls						( HostWindow* host )
 	gradientBrush->AddGradientStop( GradientStop( 0xFF0000FF, 1.0f ) );
 	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
 
-	AddRectangle( host, gradientBrush, stroke, 100, 768, 2, Position( 700, 0 ) );
+	AddRectangle( host, gradientBrush, stroke, 40, 768, 2, Position( 600, 0 ) );
+
+	gradientBrush = std::make_shared< LinearGradientBrush >();
+	gradientBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.3f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFF0000FF, 0.7f ) );
+	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
+
+	AddRectangle( host, gradientBrush, stroke, 40, 768, 2, Position( 650, 0 ) );
 }
 
 
