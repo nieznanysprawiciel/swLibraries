@@ -3,6 +3,7 @@
 #include "swGUI/Core/Controls/Shapes/Rectangle.h"
 #include "swGUI/Core/Controls/Shapes/Ellipse.h"
 #include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
+#include "swGUI/Core/Media/Brushes/LinearGradientBrush.h"
 
 #include "PrototyperUtils.h"
 
@@ -85,6 +86,13 @@ void		AddControls						( HostWindow* host )
 	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
 
 	AddEllipse( host, stroke, brush, 100, 200, 8, Position( 200, 300 ) );
+
+	auto gradientBrush = std::make_shared< LinearGradientBrush >();
+	gradientBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFF0000FF, 1.0f ) );
+	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
+
+	AddRectangle( host, gradientBrush, stroke, 100, 768, 2, Position( 700, 0 ) );
 }
 
 
@@ -103,6 +111,8 @@ If you need specific gui initialization in your application override this functi
 You can set different GraphicApi or input api.*/
 bool		Application::Initialize()
 {
+	m_guiConfig.DebugGraphics = false;
+
 	bool result = true;
 	
 	result = result && DefaultInit( 1024, 768, "Window Tittle" );

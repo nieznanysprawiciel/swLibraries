@@ -103,8 +103,18 @@ Size						GradientBrush::ExpectedBufferSize	( Size constantsSize ) const
 //
 Size						GradientBrush::GradientStopsSize	() const
 {
+	auto gradientStopsAlign = sizeof( GradientStop ) % 16;
+
 	// Size of GradientStops array + size of number of array elements on the begining.
-	return sizeof( GradientStop ) * m_gradientStops.size() + sizeof( uint32 );
+	return ( sizeof( GradientStop ) + gradientStopsAlign ) * m_gradientStops.size() + NumStopsSize();
+}
+
+// ================================ //
+//
+Size						GradientBrush::NumStopsSize			() const
+{
+	// uint32 size + alignement.
+	return sizeof( uint32 ) + 12;
 }
 
 // ================================ //
@@ -129,9 +139,15 @@ void						GradientBrush::FillBufferContent	( BufferRange constants )
 	uint32 numGradientStops = (uint32)m_gradientStops.size();
 	memcpy( dataPtr, &numGradientStops, sizeof( uint32 ) );
 
-	dataPtr += sizeof( uint32 );
+	dataPtr += NumStopsSize();
 
-	memcpy( dataPtr, m_gradientStops.data(), m_gradientStops.size() * sizeof( GradientStop ) );
+	for( Size i = 0; i < m_gradientStops.size(); i++ )
+	{
+		auto gradientStopsAlign = sizeof( GradientStop ) % 16;
+
+		memcpy( dataPtr, &m_gradientStops[ i ], sizeof( GradientStop ) );
+		dataPtr += ( sizeof( GradientStop ) + gradientStopsAlign );
+	}
 }
 
 

@@ -18,7 +18,10 @@ namespace gui
 //
 LinearGradientBrush::LinearGradientBrush()
 	:	GradientBrush( LinearGradientBrush::ConstantsSize() )
-{}
+{
+	m_constants.GradientStart = Position( 0.5f, 0.0f );
+	m_constants.GradientEnd = Position( 0.5f, 1.0f );
+}
 
 
 // ================================ //

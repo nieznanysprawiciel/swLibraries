@@ -25,13 +25,15 @@ cbuffer LinearGradientBrushConsts : register( b0 )
 //
 float4		LoadIntColor		( uint color )
 {
-	float4 result;
-	result.x = color & 0xFF000000;
-	result.y = color & 0x00FF0000;
-	result.z = color & 0x0000FF00;
-	result.w = color & 0x000000FF;
+	// Color format 0xAARRGGBB
 
-	return result;
+	float4 result;
+	result.w = ( color & 0xFF000000 ) >> 24;
+	result.x = ( color & 0x00FF0000 ) >> 16;
+	result.y = ( color & 0x0000FF00 ) >> 8;
+	result.z = color & 0x000000FF;
+
+	return result / 255.0;
 }
 
 // ================================ //
@@ -59,12 +61,12 @@ float4		BrushFunction		( float4 pos, float2 tex )
 		return LoadIntColor( GradientStops[ 0 ].Color );
 
 	// Find pair of GradientStops. Our pixel shoudl be between them.
-	uint i = 0;
-	for( ; i < NumStops - 1; ++i )
+	uint i = 1;
+	for( ; i < NumStops; ++i )
 	{
-		if( factor > GradientStops[ i ].Offset )
+		if( factor < GradientStops[ i ].Offset )
 		{
-			return ComputeColor( factor, GradientStops[ i ], GradientStops[ i + 1 ] );
+			return ComputeColor( factor, GradientStops[ i - 1 ], GradientStops[ i ] );
 		}
 	}
 

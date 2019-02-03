@@ -73,6 +73,7 @@ private:
 	Size						ExpectedBufferSize	() const;
 	Size						ExpectedBufferSize	( Size constantsSize ) const;
 	Size						GradientStopsSize	() const;
+	Size						NumStopsSize		() const;
 
 	void						ReallocateBuffer	( Size newSize );
 	void						FillBufferContent	( BufferRange constants );
