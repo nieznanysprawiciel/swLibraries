@@ -25,7 +25,7 @@ InputLayoutDescriptorUPtr		CreateLayoutDescriptor< VertexShape2D >	()
 {
 	InputLayoutDescriptor* desc = ResourcesFactory::CreateInputLayoutDescriptor( GetLayoutName< VertexShape2D >() );
 	desc->AddRow( "POSITION", ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT, 0, 0, false, 0 );
-	desc->AddRow( "TEXCOORD", ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT, 0, 16, false, 0 );
+	desc->AddRow( "TEXCOORD", ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT, 0, 8, false, 0 );
 
 	return std::unique_ptr< InputLayoutDescriptor >( desc );
 }
