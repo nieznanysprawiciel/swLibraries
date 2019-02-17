@@ -100,6 +100,25 @@ void		AddControls						( HostWindow* host )
 	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
 
 	AddRectangle( host, gradientBrush, stroke, 40, 768, 2, Position( 650, 0 ) );
+
+	gradientBrush = std::make_shared< LinearGradientBrush >();
+	gradientBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFF00FF00, 0.4f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFF0000FF, 0.7f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFFFFFF00, 1.0f ) );
+	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
+
+	AddRectangle( host, gradientBrush, stroke, 40, 768, 2, Position( 700, 0 ) );
+
+	gradientBrush = std::make_shared< LinearGradientBrush >();
+	gradientBrush->SetGradientAxis( Point( 0.0f, 0.0f ), Point( 1.0f, 1.0f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFF00FF00, 0.4f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFF0000FF, 0.7f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFFFFFF00, 1.0f ) );
+	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
+
+	AddRectangle( host, gradientBrush, stroke, 120, 768, 2, Position( 750, 0 ) );
 }
 
 

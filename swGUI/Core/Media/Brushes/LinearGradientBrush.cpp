@@ -40,6 +40,16 @@ std::string			LinearGradientBrush::ShaderFunctionFile	()
 
 // ================================ //
 //
+void				LinearGradientBrush::SetGradientAxis	( Point start, Point end )
+{
+	m_constants.GradientStart = start;
+	m_constants.GradientEnd = end;
+
+	InvalidateConstants();
+}
+
+// ================================ //
+//
 Size				LinearGradientBrush::ConstantsSize		() const
 {
 	return sizeof( m_constants );

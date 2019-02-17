@@ -11,9 +11,22 @@ struct OutputVS
 
 // ================================ //
 //
+float2		TransformToDirectX			( float2 tex )
+{
+	float2 directxTex = tex;
+	directxTex.y = 1.0 - directxTex.y;
+
+	return directxTex;
+}
+
+
+// ================================ //
+//
 float4		main	( OutputVS input ) : SV_Target
 {
-	float4 color = BrushFunction( input.Pos, input.Tex );
+	float2 directxTex = TransformToDirectX( input.Tex );
+
+	float4 color = BrushFunction( input.Pos, directxTex );
 
 	return color;
 }

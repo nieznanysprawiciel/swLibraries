@@ -46,6 +46,8 @@ public:
 	virtual	BufferRange		BufferData			() override;
 	virtual std::string		ShaderFunctionFile	() override;
 
+	void					SetGradientAxis		( Point start, Point end );
+
 protected:
 
 	virtual Size				ConstantsSize		() const override;
