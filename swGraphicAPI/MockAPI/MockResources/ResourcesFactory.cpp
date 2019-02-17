@@ -113,6 +113,24 @@ PixelShader*		ResourcesFactory::CreatePixelShaderFromFile( const std::wstring& f
 	return shader;
 }
 
+/**@brief */
+GeometryShader*		ResourcesFactory::CreateGeometryShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel )
+{
+	return nullptr;
+}
+
+/**@brief */
+EvaluationShader*	ResourcesFactory::CreateEvaluationShaderFromFile	( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel )
+{
+	return nullptr;
+}
+
+/**@brief */
+ControlShader*		ResourcesFactory::CreateControlShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel )
+{
+	return nullptr;
+}
+
 /**@brief Tworzy obekt compute shadera.
 @param[in] fileName Nazwa pliku z kodem shadera.
 @param[in] shaderName Nazwa funkcji, od której ma siê rozpocz¹æ wykonanie programu shadera.

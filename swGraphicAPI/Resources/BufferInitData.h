@@ -1,4 +1,11 @@
 #pragma once
+/**
+@file BufferInitData.h
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
+
 
 #include "swCommonLib/Common/MemoryChunk.h"
 #include "swCommonLib/Common/RTTR.h"
@@ -6,10 +13,16 @@
 #include "swGraphicAPI/Rendering/GraphicAPIConstants.h"
 #include "swGraphicAPI/Resources/IBuffer.h"
 
+#include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreateInfo.h"
+
 #include <assert.h>
 
+
+class BufferObject;
+
+
 /**@brief Buffer initialization data.*/
-struct BufferInitData
+struct BufferInitData : public sw::IAssetCreateInfo
 {
 	const uint8*	Data;			///< Pointer must be valid only in time of creation.
 	uint32			NumElements;
@@ -17,6 +30,9 @@ struct BufferInitData
 	rttr::type		DataType;		///< [Optional] Type of single element in buffer.
 	ResourceUsage	Usage;
 
+
+// ================================ //
+//
 	BufferInitData()
 		:	DataType( rttr::type::get_by_name( "" ) )	// Set invalid type.
 	{
@@ -25,6 +41,11 @@ struct BufferInitData
 		ElementSize = 0;
 		Data = nullptr;
 	}
+
+	virtual TypeID		GetAssetType	() const override;
+
+public:
+	RTTR_ENABLE( sw::IAssetCreateInfo );
 };
 
 
@@ -32,6 +53,9 @@ struct BufferInitData
 struct ConstantBufferInitData : public BufferInitData
 {
 	BufferInfo		CreateBufferInfo() const;
+
+public:
+	RTTR_ENABLE( BufferInitData );
 };
 
 
@@ -48,6 +72,9 @@ struct VertexBufferInitData : public BufferInitData
 	}
 
 	BufferInfo		CreateBufferInfo() const;
+
+public:
+	RTTR_ENABLE( BufferInitData );
 };
 
 /**@brief  Index buffer initialization data.*/
@@ -63,6 +90,9 @@ struct IndexBufferInitData : public BufferInitData
 	}
 
 	BufferInfo		CreateBufferInfo() const;
+
+public:
+	RTTR_ENABLE( BufferInitData );
 };
 
 

@@ -67,7 +67,7 @@ MockTexture*	MockTexture::CreateFromMemory( const MemoryChunk& texData, TextureI
 }
 
 /**@brief */
-bool			MockTexture::UpdateData			( uint8* dataPtr, uint16 mipLevel, uint16 arrayIdx )
+bool			MockTexture::UpdateData		( uint8* dataPtr, uint16 mipLevel, uint16 arrayIdx )
 {
 	return true;
 }

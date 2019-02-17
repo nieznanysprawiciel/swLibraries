@@ -1,0 +1,35 @@
+
+
+// ================================ //
+//
+cbuffer SolidColorBrushConsts : register( b0 )
+{
+	float4		Color;
+}
+
+// ================================ //
+//
+float4		BrushFunction		( float4 pos, float2 tex )
+{
+	return Color;
+}
+
+
+
+// ================================ //
+//
+struct OutputVS
+{
+	linear			float4 Pos : SV_Position;
+	noperspective	float2 Tex : TEXCOORD;
+};
+
+
+// ================================ //
+//
+float4		main	( OutputVS input ) : SV_Target
+{
+	float4 color = BrushFunction( input.Pos, input.Tex );
+
+	return color;
+}

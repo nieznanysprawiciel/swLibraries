@@ -11,18 +11,23 @@
 #include <string>
 
 
-
+/**@brief Shader interface.*/
 class IShader	:	public ResourceObject
 {
 	RTTR_ENABLE( ResourceObject )
 private:
 protected:
-	std::string				m_shaderEntry;			///< Nazwa g³ownej funkcji shadera.
-	std::wstring			m_shaderFile;			///< Œcie¿ka do pliku z shaderem.
+
+	std::string				m_shaderEntry;			///< Name of main shader function;
+	std::wstring			m_shaderFile;			///< Shader file path.
+
 protected:
+
 	IShader() : ResourceObject( 0 ) {}
 	virtual ~IShader() = default;
+
 public:
+
 	const std::wstring&		GetShaderFile			() const		{ return m_shaderFile; }
 	const std::string&		GetShaderEntry			() const		{ return m_shaderEntry; }
 
