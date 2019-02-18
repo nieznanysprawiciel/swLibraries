@@ -40,7 +40,7 @@ public:
 
 	/**@brief Function for generic asset creation.
 	Internal implementation can steal content of IAssetCreateInfo.*/
-	Resource*			CreateAsset		( const filesystem::Path& assetName, TypeID assetType, IAssetCreateInfo&& createInfo );
+	Nullable< Resource* >	CreateAsset		( const filesystem::Path& assetName, TypeID assetType, IAssetCreateInfo&& createInfo );
 
 	/**@brief Registers asset creator.
 	Can't register creator when it existed.

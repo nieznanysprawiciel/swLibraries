@@ -18,7 +18,7 @@ namespace sw
 
 // ================================ //
 //
-Resource*				BufferCreator::Create		( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
+Nullable< Resource* >	BufferCreator::Create		( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
 {
 	TypeID type = createInfo.get_type();
 	if( type == TypeID::get< ConstantBufferInitData >() )
@@ -33,7 +33,7 @@ Resource*				BufferCreator::Create		( const filesystem::Path& assetName, IAssetC
 
 // ================================ //
 //
-Resource*				BufferCreator::LoadFromRaw	( const filesystem::Path& assetName, const BufferRaw& rawData )
+Nullable< Resource* >	BufferCreator::LoadFromRaw	( const filesystem::Path& assetName, const BufferRaw& rawData )
 {
 	assert( !"Buffer is not cacheable" );
 	return nullptr;

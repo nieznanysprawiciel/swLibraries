@@ -17,7 +17,7 @@ namespace sw
 
 // ================================ //
 //
-Resource*		LayoutCreator::Create			( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
+Nullable< Resource* >		LayoutCreator::Create			( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
 {
 	auto init = static_cast< InputLayoutDescriptor* >( &createInfo );
 
@@ -27,7 +27,7 @@ Resource*		LayoutCreator::Create			( const filesystem::Path& assetName, IAssetCr
 
 // ================================ //
 //
-Resource*		LayoutCreator::LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )
+Nullable< Resource* >		LayoutCreator::LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )
 {
 	assert( !"InputLayout is not cacheable" );
 	return nullptr;
@@ -35,7 +35,7 @@ Resource*		LayoutCreator::LoadFromRaw		( const filesystem::Path& assetName, cons
 
 // ================================ //
 //
-BufferRaw			LayoutCreator::SaveToRaw		( const IAssetCreateInfo& createInfo )
+BufferRaw					LayoutCreator::SaveToRaw		( const IAssetCreateInfo& createInfo )
 {
 	assert( !"InputLayout is not cacheable" );
 	return BufferTyped< uint8 >::CreateEmpty();
@@ -43,7 +43,7 @@ BufferRaw			LayoutCreator::SaveToRaw		( const IAssetCreateInfo& createInfo )
 
 // ================================ //
 //
-BufferRaw			LayoutCreator::SaveToRaw		( ResourcePtr< Resource > resource )
+BufferRaw					LayoutCreator::SaveToRaw		( ResourcePtr< Resource > resource )
 {
 	assert( !"InputLayout is not cacheable" );
 	return BufferTyped< uint8 >::CreateEmpty();
@@ -51,7 +51,7 @@ BufferRaw			LayoutCreator::SaveToRaw		( ResourcePtr< Resource > resource )
 
 // ================================ //
 //
-bool				LayoutCreator::SupportsResourceToRaw()
+bool						LayoutCreator::SupportsResourceToRaw()
 {
 	return false;
 }

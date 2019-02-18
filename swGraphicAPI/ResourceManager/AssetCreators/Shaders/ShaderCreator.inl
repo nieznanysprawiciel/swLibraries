@@ -20,7 +20,7 @@ namespace sw
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline Resource*		ShaderCreator< ShaderObjectType >::Create			( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
+inline Nullable< Resource* >		ShaderCreator< ShaderObjectType >::Create			( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
 {
 	auto & init = static_cast< ShaderInitData&& >( createInfo );
 
@@ -48,7 +48,7 @@ inline Resource*		ShaderCreator< ShaderObjectType >::Create			( const filesystem
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline Resource*		ShaderCreator< ShaderObjectType >::LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )
+inline Nullable< Resource* >		ShaderCreator< ShaderObjectType >::LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )
 {
 	assert( !"Buffer is not cacheable" );
 	return nullptr;
@@ -57,7 +57,7 @@ inline Resource*		ShaderCreator< ShaderObjectType >::LoadFromRaw		( const filesy
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline BufferRaw			ShaderCreator< ShaderObjectType >::SaveToRaw		( const IAssetCreateInfo& createInfo )
+inline BufferRaw					ShaderCreator< ShaderObjectType >::SaveToRaw		( const IAssetCreateInfo& createInfo )
 {
 	assert( !"Buffer is not cacheable" );
 	return BufferTyped< uint8 >::CreateEmpty();
@@ -66,7 +66,7 @@ inline BufferRaw			ShaderCreator< ShaderObjectType >::SaveToRaw		( const IAssetC
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline BufferRaw			ShaderCreator< ShaderObjectType >::SaveToRaw		( ResourcePtr< Resource > resource )
+inline BufferRaw					ShaderCreator< ShaderObjectType >::SaveToRaw		( ResourcePtr< Resource > resource )
 {
 	assert( !"Buffer is not cacheable" );
 	return BufferTyped< uint8 >::CreateEmpty();
@@ -75,7 +75,7 @@ inline BufferRaw			ShaderCreator< ShaderObjectType >::SaveToRaw		( ResourcePtr< 
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline bool					ShaderCreator< ShaderObjectType >::SupportsResourceToRaw()
+inline bool							ShaderCreator< ShaderObjectType >::SupportsResourceToRaw()
 {
 	return false;
 }

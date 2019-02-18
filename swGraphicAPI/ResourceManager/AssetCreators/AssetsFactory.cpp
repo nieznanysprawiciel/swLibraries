@@ -74,14 +74,14 @@ void			AssetsFactory::RegisterDefaults		()
 
 // ================================ //
 //
-Resource*			AssetsFactory::CreateAsset		( const filesystem::Path& assetName, TypeID assetType, IAssetCreateInfo&& createInfo )
+Nullable< Resource* >	AssetsFactory::CreateAsset		( const filesystem::Path& assetName, TypeID assetType, IAssetCreateInfo&& createInfo )
 {
 	assert( !"Implement me" );
 
 	// We need to implement caching mechanism here.
 
 	IAssetCreator* creator = FindCreator( assetType );
-	Resource* resource = creator->Create( assetName, std::move( createInfo ) );
+	auto resource = creator->Create( assetName, std::move( createInfo ) );
 
 	return resource;
 }
