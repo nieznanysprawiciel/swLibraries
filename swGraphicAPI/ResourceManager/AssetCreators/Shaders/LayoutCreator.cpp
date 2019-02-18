@@ -8,6 +8,8 @@
 
 #include "LayoutCreator.h"
 #include "swGraphicAPI/Resources/Shaders/LayoutInitData.h"
+#include "swCommonLib/Common/Buffers/BufferTyped.h"
+
 
 
 namespace sw
@@ -25,7 +27,7 @@ ResourceObject*		LayoutCreator::Create			( const filesystem::Path& assetName, IA
 
 // ================================ //
 //
-ResourceObject*		LayoutCreator::LoadFromRaw		( const filesystem::Path& assetName, const MemoryChunk& rawData )
+ResourceObject*		LayoutCreator::LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )
 {
 	assert( !"InputLayout is not cacheable" );
 	return nullptr;
@@ -33,18 +35,18 @@ ResourceObject*		LayoutCreator::LoadFromRaw		( const filesystem::Path& assetName
 
 // ================================ //
 //
-MemoryChunk			LayoutCreator::SaveToRaw		( const IAssetCreateInfo& createInfo )
+BufferRaw			LayoutCreator::SaveToRaw		( const IAssetCreateInfo& createInfo )
 {
 	assert( !"InputLayout is not cacheable" );
-	return MemoryChunk();
+	return BufferTyped< uint8 >::CreateEmpty();
 }
 
 // ================================ //
 //
-MemoryChunk			LayoutCreator::SaveToRaw		( ResourcePtr< ResourceObject > resource )
+BufferRaw			LayoutCreator::SaveToRaw		( ResourcePtr< ResourceObject > resource )
 {
 	assert( !"InputLayout is not cacheable" );
-	return MemoryChunk();
+	return BufferTyped< uint8 >::CreateEmpty();
 }
 
 // ================================ //

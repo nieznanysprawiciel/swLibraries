@@ -9,6 +9,7 @@
 #include "BufferCreator.h"
 #include "swGraphicAPI/Resources/MeshResources.h"
 #include "swCommonLib/Common/Converters.h"
+#include "swCommonLib/Common/Buffers/BufferTyped.h"
 
 
 
@@ -32,7 +33,7 @@ ResourceObject*				BufferCreator::Create		( const filesystem::Path& assetName, I
 
 // ================================ //
 //
-ResourceObject*				BufferCreator::LoadFromRaw	( const filesystem::Path& assetName, const MemoryChunk& rawData )
+ResourceObject*				BufferCreator::LoadFromRaw	( const filesystem::Path& assetName, const BufferRaw& rawData )
 {
 	assert( !"Buffer is not cacheable" );
 	return nullptr;
@@ -40,18 +41,18 @@ ResourceObject*				BufferCreator::LoadFromRaw	( const filesystem::Path& assetNam
 
 // ================================ //
 //
-MemoryChunk					BufferCreator::SaveToRaw	( const IAssetCreateInfo& createInfo )
+BufferRaw					BufferCreator::SaveToRaw	( const IAssetCreateInfo& createInfo )
 {
 	assert( !"Buffer is not cacheable" );
-	return MemoryChunk();
+	return BufferTyped< uint8 >::CreateEmpty();
 }
 
 // ================================ //
 //
-MemoryChunk					BufferCreator::SaveToRaw	( ResourcePtr< ResourceObject > resource )
+BufferRaw					BufferCreator::SaveToRaw	( ResourcePtr< ResourceObject > resource )
 {
 	assert( !"Buffer is not cacheable" );
-	return MemoryChunk();
+	return BufferTyped< uint8 >::CreateEmpty();
 }
 
 // ================================ //

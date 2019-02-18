@@ -9,6 +9,11 @@
 
 #include "swGraphicAPI/Resources/Shaders/ShaderInitData.h"
 
+#include "swCommonLib/Common/Buffers/BufferTyped.h"
+
+
+
+
 namespace sw
 {
 
@@ -43,7 +48,7 @@ inline ResourceObject*		ShaderCreator< ShaderObjectType >::Create			( const file
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline ResourceObject*		ShaderCreator< ShaderObjectType >::LoadFromRaw		( const filesystem::Path& assetName, const MemoryChunk& rawData )
+inline ResourceObject*		ShaderCreator< ShaderObjectType >::LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )
 {
 	assert( !"Buffer is not cacheable" );
 	return nullptr;
@@ -52,19 +57,19 @@ inline ResourceObject*		ShaderCreator< ShaderObjectType >::LoadFromRaw		( const 
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline MemoryChunk			ShaderCreator< ShaderObjectType >::SaveToRaw		( const IAssetCreateInfo& createInfo )
+inline BufferRaw			ShaderCreator< ShaderObjectType >::SaveToRaw		( const IAssetCreateInfo& createInfo )
 {
 	assert( !"Buffer is not cacheable" );
-	return MemoryChunk();
+	return BufferTyped< uint8 >::CreateEmpty();
 }
 
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline MemoryChunk			ShaderCreator< ShaderObjectType >::SaveToRaw		( ResourcePtr< ResourceObject > resource )
+inline BufferRaw			ShaderCreator< ShaderObjectType >::SaveToRaw		( ResourcePtr< ResourceObject > resource )
 {
 	assert( !"Buffer is not cacheable" );
-	return MemoryChunk();
+	return BufferTyped< uint8 >::CreateEmpty();
 }
 
 // ================================ //

@@ -7,7 +7,7 @@
 
 #include "swCommonLib/System/Path.h"
 #include "swCommonLib/Common/RTTR.h"
-#include "swCommonLib/Common/MemoryChunk.h"
+#include "swCommonLib/Common/Buffers/BufferRaw.h"
 
 #include "swGraphicAPI/Resources/ResourceObject.h"
 #include "swGraphicAPI/Resources/ResourcePtr.h"
@@ -44,16 +44,16 @@ public:
 
 	/**@brief Loads Asset from raw data format.
 	This function is used to read data from cache.*/
-	virtual ResourceObject*			LoadFromRaw		( const filesystem::Path& assetName, const MemoryChunk& rawData )			= 0;
+	virtual ResourceObject*			LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )				= 0;
 
 	/**@brief Creates raw data format MemoryChunk.
-	This function is used to create data that will be writtem to cache.*/
-	virtual MemoryChunk				SaveToRaw		( const IAssetCreateInfo& createInfo )										= 0;
+	This function is used to create data that will be written to cache.*/
+	virtual BufferRaw				SaveToRaw		( const IAssetCreateInfo& createInfo )										= 0;
 
 	/**@brief Saves resource in raw format.
 	Note: Not all resources must support this conversion. Many of them stores their data on GPU and shouldn't try
 	to read it.*/
-	virtual MemoryChunk				SaveToRaw		( ResourcePtr< ResourceObject > resource )									= 0;
+	virtual BufferRaw				SaveToRaw		( ResourcePtr< ResourceObject > resource )									= 0;
 
 	/**@brief You can check if this AssetCreator supports SaveToRaw function for resources.*/
 	virtual bool					SupportsResourceToRaw		()																= 0;
