@@ -23,11 +23,11 @@ bool											ShaderLoader::CanLoad		( const filesystem::Path& filePath, TypeID
 
 // ================================ //
 //
-std::vector< ResourcePtr< ResourceObject > >	ShaderLoader::Load			( const filesystem::Path& filePath, TypeID resourceType, IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )
+std::vector< ResourcePtr< Resource > >	ShaderLoader::Load			( const filesystem::Path& filePath, TypeID resourceType, IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )
 {
 	std::string fileContent = filesystem::File::Load( filePath );
 
-	return std::vector<ResourcePtr<ResourceObject>>();
+	return std::vector<ResourcePtr<Resource>>();
 }
 
 // ================================ //

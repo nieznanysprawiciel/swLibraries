@@ -31,7 +31,7 @@
 
 //definicje
 /** @def WRONG_ID
-B³êdny identyfikator assetu w klasie @ref ResourceObject.*/
+B³êdny identyfikator assetu w klasie @ref Resource.*/
 #define WRONG_ID						0
 
 /**@defgroup Resources Resources
@@ -48,7 +48,7 @@ Zasoby nigdy nie s¹ tworzone bezpoœrednio. Zamiast tego u¿ywa siê klasy @ref Res
 implementuje konkretne API graficzne.
 
 Poniewa¿ zasoby mog¹ byæ wspó³dzielone przez wiele obiektów w silniku, istnieje mechanizm zliczania
-odwo³añ do obiektów implementowany przez klasê @ref ResourceObject.*/
+odwo³añ do obiektów implementowany przez klasê @ref Resource.*/
 
 
 class BufferObject;
@@ -243,7 +243,7 @@ przekazywana z buforze sta³ych.
 
 Struktura zachowuje siê jak asset w zwi¹zku z czym mo¿e
 byæ wspó³dzielona przez wiele obiektów. Z tego wzglêdu nie mo¿na jej u¿yæ bezpoœrednio w ConstantPerMesh,
-poniewa¿ nie chcemy przekazywaæ do bufora sta³ych zmiennych odziedziczonych po ResourceObject.
+poniewa¿ nie chcemy przekazywaæ do bufora sta³ych zmiennych odziedziczonych po Resource.
 Zamiast tego trzeba tê strukture przepisaæ.
 
 Zwracam uwagê, ¿e tylko kana³ Diffuse jest wektorem 4 wymiarowym, w którym sk³adowa w jest odpowiedzialna
@@ -251,9 +251,9 @@ za przezroczystoœæ. Pozosta³e s¹ takie tylko dlatego, ¿e jest to domyœlny format
 w rejestrach karty graficznej i przyspiesza to operacjê kopiowania.
 @see ConstantPerFrame
 */
-struct MaterialObject : public ResourceObject
+struct MaterialObject : public Resource
 {
-	RTTR_ENABLE( ResourceObject );
+	RTTR_ENABLE( Resource );
 public:
 	friend ObjectDeleter<MaterialObject>;
 
@@ -263,7 +263,7 @@ public:
 	DirectX::XMFLOAT4		Emissive;
 	float					Power;
 
-	MaterialObject( unsigned int id = WRONG_ID ) : ResourceObject( id ){}
+	MaterialObject( unsigned int id = WRONG_ID ) : Resource( id ){}
 	MaterialObject( const MaterialObject* material );
 
 	void SetNullMaterial();

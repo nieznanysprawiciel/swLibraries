@@ -64,16 +64,16 @@ struct RasterizerStateInfo
 /**@brief Rasterizer state and depth stencil state.
 
 @ingroup PipelineState*/
-class RasterizerState : public ResourceObject
+class RasterizerState : public Resource
 {
-	RTTR_ENABLE( ResourceObject );
+	RTTR_ENABLE( Resource );
 	friend ObjectDeleter< RasterizerState >;
 private:
 protected:
 	virtual			~RasterizerState() = default;
 public:
 	explicit		RasterizerState()
-		:	ResourceObject( 0 )
+		:	Resource( 0 )
 	{}
 
 

@@ -7,12 +7,12 @@
 
 #include "ResourceObject.h"
 
-class IRenderTarget : public ResourceObject
+class IRenderTarget : public Resource
 {
-	RTTR_ENABLE( ResourceObject );
+	RTTR_ENABLE( Resource );
 private:
 protected:
-	IRenderTarget() : ResourceObject( 0 ) {}
+	IRenderTarget() : Resource( 0 ) {}
 	virtual ~IRenderTarget() = default;
 public:
 };

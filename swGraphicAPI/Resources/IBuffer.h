@@ -68,13 +68,13 @@ struct BufferInfo
 /**@brief Base class for buffers.
 @ingroup Buffers
 @ingroup Resources*/
-class IBuffer	:	public ResourceObject
+class IBuffer	:	public Resource
 {
-	RTTR_ENABLE( ResourceObject )
+	RTTR_ENABLE( Resource )
 private:
 
 protected:
-	IBuffer() : ResourceObject( 0 ) {}
+	IBuffer() : Resource( 0 ) {}
 	virtual ~IBuffer() = default;
 public:
 	virtual MemoryChunk			CopyData		() = 0;				///<Kopiuje dane z bufora i umieszcza je w zwracanym MemoryChunku.

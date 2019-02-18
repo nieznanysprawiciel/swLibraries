@@ -17,7 +17,7 @@ namespace sw
 
 // ================================ //
 //
-ResourceObject*		LayoutCreator::Create			( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
+Resource*		LayoutCreator::Create			( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
 {
 	auto init = static_cast< InputLayoutDescriptor* >( &createInfo );
 
@@ -27,7 +27,7 @@ ResourceObject*		LayoutCreator::Create			( const filesystem::Path& assetName, IA
 
 // ================================ //
 //
-ResourceObject*		LayoutCreator::LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )
+Resource*		LayoutCreator::LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )
 {
 	assert( !"InputLayout is not cacheable" );
 	return nullptr;
@@ -43,7 +43,7 @@ BufferRaw			LayoutCreator::SaveToRaw		( const IAssetCreateInfo& createInfo )
 
 // ================================ //
 //
-BufferRaw			LayoutCreator::SaveToRaw		( ResourcePtr< ResourceObject > resource )
+BufferRaw			LayoutCreator::SaveToRaw		( ResourcePtr< Resource > resource )
 {
 	assert( !"InputLayout is not cacheable" );
 	return BufferTyped< uint8 >::CreateEmpty();

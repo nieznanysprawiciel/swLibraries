@@ -24,7 +24,7 @@ public:
 
 
 	virtual bool											CanLoad			( const filesystem::Path& filePath, TypeID resourceType )														override;
-	virtual std::vector< ResourcePtr< ResourceObject > >	Load			( const filesystem::Path& filePath, TypeID resourceType, IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )	override;
+	virtual std::vector< ResourcePtr< Resource > >	Load			( const filesystem::Path& filePath, TypeID resourceType, IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )	override;
 	virtual bool											Prefetch		( const filesystem::Path& filePath, TypeID resourceType, IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )	override;
 
 };

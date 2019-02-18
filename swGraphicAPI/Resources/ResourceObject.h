@@ -1,6 +1,6 @@
 #pragma once
 /**
-@file ResourceObject.h
+@file Resource.h
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
@@ -10,7 +10,7 @@
 //#include <atomic>
 
 
-class ResourceObject;
+class Resource;
 
 typedef uint32 ResourceID;
 
@@ -42,9 +42,9 @@ public:
 Resource can be referenced from multiple actors or other assets. All references should remember to increment and decrement
 reference counter to avoid deletion. Use class ResourcePtr for this purpose.
 
-@todo Zliczanie referencji w ResourceObject nie nadaje siê do wielow¹tkowoœci. Poprawiæ w odpowiednim momencie.
+@todo Zliczanie referencji w Resource nie nadaje siê do wielow¹tkowoœci. Poprawiæ w odpowiednim momencie.
 */
-class ResourceObject	: public sw::EngineObject
+class Resource : public sw::EngineObject
 {
 	RTTR_ENABLE( sw::EngineObject );
 	RTTR_REGISTRATION_FRIEND
@@ -53,11 +53,11 @@ private:
 	ResourceID				m_uniqueId;			///< Unikalny identyfikator zasobu.
 
 protected:
-	virtual ~ResourceObject() = default;		///<Nie ka¿dy mo¿e skasowaæ obiekt
+	virtual ~Resource() = default;		///<Nie ka¿dy mo¿e skasowaæ obiekt
 
 public:
 	/**Ustawia zerow¹ liczbê odwo³añ.*/
-	ResourceObject( ResourceID id )
+	Resource( ResourceID id )
 	{
 		m_objectReferences = 0;
 		m_uniqueId = id;
@@ -70,7 +70,7 @@ public:
 	inline bool			CanDelete( unsigned int& objectRef );
 	inline bool			CanDelete();
 
-	inline void			Delete	( ResourceAccessKey< ResourceObject > ) { delete this; }
+	inline void			Delete	( ResourceAccessKey< Resource > ) { delete this; }
 
 	/**Funkcje s³u¿¹ce do zarz¹dzania odwo³aniami.
 	Nale¿y pilnowaæ, aby wszystkie funkcje, które modyfikuj¹ jakiekolwiek przypisania obiektów
@@ -95,7 +95,7 @@ public:
 
 
 //----------------------------------------------------------------------------------------------//
-//									ResourceObject											//
+//									Resource											//
 //----------------------------------------------------------------------------------------------//
 
 //==============================================================================================//
@@ -108,7 +108,7 @@ public:
 @param[out] other_ref W zmiennej zostanie umieszczona liczba referencji bezpoœrednich od obiektów.
 @return Zwraca wartoœæ logiczn¹ mówi¹c¹ czy asset nadaje siê do usuniêcia.
 */
-inline bool ResourceObject::CanDelete( unsigned int& objectRef )
+inline bool Resource::CanDelete( unsigned int& objectRef )
 {
 	objectRef = m_objectReferences;
 
@@ -121,7 +121,7 @@ inline bool ResourceObject::CanDelete( unsigned int& objectRef )
 
 @return Zwraca wartoœæ logiczn¹ mówi¹c¹ czy asset nadaje siê do usuniêcia.
 */
-inline bool ResourceObject::CanDelete()
+inline bool Resource::CanDelete()
 {
 	if( m_objectReferences == 0 )
 		return true;

@@ -69,9 +69,9 @@ struct BlendingInfo
 /**@brief 
 
 @ingroup PipelineState*/
-class BlendingState : public ResourceObject
+class BlendingState : public Resource
 {
-	RTTR_ENABLE( ResourceObject );
+	RTTR_ENABLE( Resource );
 	friend ObjectDeleter< BlendingState >;
 private:
 protected:
@@ -80,7 +80,7 @@ protected:
 
 public:
 	explicit		BlendingState()
-		:	ResourceObject( 0 )
+		:	Resource( 0 )
 	{}
 
 

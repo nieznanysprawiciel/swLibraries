@@ -29,7 +29,7 @@ nResourceManager::~nResourceManager()
 
 // ================================ //
 //
-ResourcePtr< ResourceObject >			nResourceManager::LoadGeneric				( const filesystem::Path& name, IAssetLoadInfo* desc, TypeID type )
+ResourcePtr< Resource >			nResourceManager::LoadGeneric				( const filesystem::Path& name, IAssetLoadInfo* desc, TypeID type )
 {
 	// Lock as Reader.
 	ReaderUniqueLock< ReaderWriterLock > lock( m_rwLock );
@@ -69,11 +69,11 @@ ResourcePtr< ResourceObject >			nResourceManager::LoadGeneric				( const filesys
 
 // ================================ //
 //
-ResourcePtr< ResourceObject >			nResourceManager::CreateGenericAsset		( const filesystem::Path& name, TypeID assetType, IAssetCreateInfo&& createInfo )
+ResourcePtr< Resource >			nResourceManager::CreateGenericAsset		( const filesystem::Path& name, TypeID assetType, IAssetCreateInfo&& createInfo )
 {
 
 
-	return ResourcePtr<ResourceObject>();
+	return ResourcePtr<Resource>();
 }
 
 
@@ -84,16 +84,16 @@ ResourcePtr< ResourceObject >			nResourceManager::CreateGenericAsset		( const fi
 
 // ================================ //
 //
-ResourcePtr< ResourceObject >			nResourceManager::FindResource				( const filesystem::Path& name, TypeID assetType )
+ResourcePtr< Resource >			nResourceManager::FindResource				( const filesystem::Path& name, TypeID assetType )
 {
 	auto containerIter = m_resources.find( assetType );
 	if( containerIter != m_resources.end() )
 	{
-		ResourceContainer< ResourceObject > & container = containerIter->second;
+		ResourceContainer< Resource > & container = containerIter->second;
 		return container.Get( name );
 	}
 
-	return ResourcePtr< ResourceObject >();
+	return ResourcePtr< Resource >();
 }
 
 // ================================ //
@@ -112,7 +112,7 @@ IAssetLoader*							nResourceManager::FindLoader				( const filesystem::Path& as
 
 // ================================ //
 //
-ResourcePtr< ResourceObject >			nResourceManager::FindRequestedAsset		( const filesystem::Path& assetName, TypeID assetType, const AssetsVec& loadedAssets )
+ResourcePtr< Resource >			nResourceManager::FindRequestedAsset		( const filesystem::Path& assetName, TypeID assetType, const AssetsVec& loadedAssets )
 {
 	std::string assetNameStr = assetName.String();
 
@@ -132,7 +132,7 @@ ResourcePtr< ResourceObject >			nResourceManager::FindRequestedAsset		( const fi
 
 // ================================ //
 //
-ResourcePtr< ResourceObject >			nResourceManager::LoadingImpl				( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID assetType )
+ResourcePtr< Resource >			nResourceManager::LoadingImpl				( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID assetType )
 {
 	auto resource = m_cacheManager.LoadFromCache( assetName, assetType );
 	if( !resource )

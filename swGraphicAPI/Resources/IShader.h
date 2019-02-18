@@ -12,9 +12,9 @@
 
 
 /**@brief Shader interface.*/
-class IShader	:	public ResourceObject
+class IShader	:	public Resource
 {
-	RTTR_ENABLE( ResourceObject )
+	RTTR_ENABLE( Resource )
 private:
 protected:
 
@@ -23,7 +23,7 @@ protected:
 
 protected:
 
-	IShader() : ResourceObject( 0 ) {}
+	IShader() : Resource( 0 ) {}
 	virtual ~IShader() = default;
 
 public:

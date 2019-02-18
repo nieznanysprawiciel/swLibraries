@@ -30,7 +30,7 @@ struct SwapChainDescriptor
 
 
 
-class SwapChain : public ResourceObject
+class SwapChain : public Resource
 {
 	RTTR_ENABLE()
 protected:
@@ -39,7 +39,7 @@ protected:
 
 protected:
 	SwapChain( RenderTargetObject* windowRT )
-		:	ResourceObject( WRONG_ID )
+		:	Resource( WRONG_ID )
 		,	m_renderTarget( windowRT )
 	{
 		assert( windowRT );
@@ -56,7 +56,7 @@ public:
 
 	ResourcePtr< RenderTargetObject >		GetRenderTarget	()		{ return m_renderTarget; }
 
-	// Inherited via ResourceObject
+	// Inherited via Resource
 	virtual std::string		GetResourceName	() const override		{ return "SwapChain: " + m_renderTarget->GetResourceName(); }
 };
 

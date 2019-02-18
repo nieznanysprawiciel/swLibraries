@@ -26,7 +26,7 @@ public:
 
 	/**@brief Loads asset from cache if it exists. Oterwise returns nullptr.
 	@todo Probably we should pass pointer to resource manager to allow asset creation.*/
-	ResourcePtr< ResourceObject >		LoadFromCache		( const filesystem::Path& assetName, TypeID assetType );
+	ResourcePtr< Resource >		LoadFromCache		( const filesystem::Path& assetName, TypeID assetType );
 
 private:
 

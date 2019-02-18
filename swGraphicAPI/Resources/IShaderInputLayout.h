@@ -10,12 +10,12 @@
 
 
 
-class IShaderInputLayout : public ResourceObject
+class IShaderInputLayout : public Resource
 {
-	RTTR_ENABLE( ResourceObject );
+	RTTR_ENABLE( Resource );
 private:
 protected:
-	IShaderInputLayout() : ResourceObject( 0 ) {}
+	IShaderInputLayout() : Resource( 0 ) {}
 	virtual ~IShaderInputLayout() = default;
 public:
 

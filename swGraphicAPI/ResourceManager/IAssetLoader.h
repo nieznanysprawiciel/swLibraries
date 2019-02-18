@@ -99,7 +99,7 @@ public:
 	@param[in] assetDesc Asset descriptor has all info needed to create and process asset internally.
 	@param[in] factory Pointer to interface for creating assets.
 	*/
-	virtual std::vector< ResourcePtr< ResourceObject > >		Load		( const filesystem::Path& filePath, TypeID resourceType, IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory ) = 0;
+	virtual std::vector< ResourcePtr< Resource > >		Load		( const filesystem::Path& filePath, TypeID resourceType, IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory ) = 0;
 
 	/**@brief Function used to prefetch and cache asset.
 	

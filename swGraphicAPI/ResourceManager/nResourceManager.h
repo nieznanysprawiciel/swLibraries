@@ -27,7 +27,7 @@ namespace sw
 {
 
 
-typedef std::vector< ResourcePtr< ResourceObject > > AssetsVec;
+typedef std::vector< ResourcePtr< Resource > > AssetsVec;
 
 
 /**@brief Future implementation of ResourceManager.
@@ -36,7 +36,7 @@ typedef std::vector< ResourcePtr< ResourceObject > > AssetsVec;
 @ingroup AssetsManagement*/
 class nResourceManager
 {
-	typedef std::map< TypeID, ResourceContainer< ResourceObject > > ResourcesMap;
+	typedef std::map< TypeID, ResourceContainer< Resource > > ResourcesMap;
 
 private:
 protected:
@@ -95,7 +95,7 @@ public:
 	ControlShader*					LoadControlShader			( const filesystem::Path& fileName, const std::string& shaderEntry );
 	EvaluationShader*				LoadEvaluationShader		( const filesystem::Path& fileName, const std::string& shaderEntry );
 
-	ResourcePtr< ResourceObject >	LoadGeneric					( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID type );
+	ResourcePtr< Resource >	LoadGeneric					( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID type );
 	///@}
 
 	///@name Resource creation
@@ -113,7 +113,7 @@ public:
 	ResourcePtr< RasterizerState >	CreateRasterizerState		( const filesystem::Path& name, const RasterizerStateInfo& info );
 	ResourcePtr< DepthStencilState >CreateDepthStencilState		( const filesystem::Path& name, const DepthStencilInfo& info );
 
-	ResourcePtr< ResourceObject >	CreateGenericAsset			( const filesystem::Path& name, TypeID assetType, IAssetCreateInfo&& createInfo );
+	ResourcePtr< Resource >	CreateGenericAsset			( const filesystem::Path& name, TypeID assetType, IAssetCreateInfo&& createInfo );
 	///@}
 
 	RenderTargetObject*				AddRenderTarget				( RenderTargetObject* renderTarget, const std::wstring& name );
@@ -135,11 +135,11 @@ public:
 
 protected:
 
-	ResourcePtr< ResourceObject >						FindResource		( const filesystem::Path& assetName, TypeID assetType );
-	ResourcePtr< ResourceObject >						FindRequestedAsset	( const filesystem::Path& assetName, TypeID assetType, const AssetsVec& loadedAssets );
+	ResourcePtr< Resource >						FindResource		( const filesystem::Path& assetName, TypeID assetType );
+	ResourcePtr< Resource >						FindRequestedAsset	( const filesystem::Path& assetName, TypeID assetType, const AssetsVec& loadedAssets );
 	IAssetLoader*										FindLoader			( const filesystem::Path& assetName, TypeID assetType );
 
-	ResourcePtr< ResourceObject >						LoadingImpl			( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID assetType );
+	ResourcePtr< Resource >						LoadingImpl			( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID assetType );
 };
 
 }	// sw

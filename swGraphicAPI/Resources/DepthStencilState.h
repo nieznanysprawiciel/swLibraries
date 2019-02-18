@@ -43,9 +43,9 @@ struct DepthStencilInfo
 
 /**@brief 
 @ingroup PipelineState*/
-class DepthStencilState : public ResourceObject
+class DepthStencilState : public Resource
 {
-	RTTR_ENABLE( ResourceObject );
+	RTTR_ENABLE( Resource );
 	friend ObjectDeleter< DepthStencilState >;
 private:
 protected:
@@ -54,7 +54,7 @@ protected:
 
 public:
 	explicit		DepthStencilState()
-		:	ResourceObject( 0 )
+		:	Resource( 0 )
 	{}
 
 	virtual const DepthStencilInfo&		GetDescriptor	() = 0;

@@ -230,13 +230,13 @@ RTTR_REGISTRATION
 //			Resources	
 //====================================================================================//
 
-	rttr::registration::class_< ResourceObject >( "ResourceObject" )
-		.property_readonly( "ID", &ResourceObject::m_uniqueId )
+	rttr::registration::class_< Resource >( "Resource" )
+		.property_readonly( "ID", &Resource::m_uniqueId )
 		( 
 			rttr::metadata( MetaDataType::AllowInSaveFile, false),
 			rttr::metadata( MetaDataType::Serialize, false )
 		)
-		.property_readonly( "References", &ResourceObject::m_objectReferences )
+		.property_readonly( "References", &Resource::m_objectReferences )
 		( 
 			rttr::metadata( MetaDataType::AllowInSaveFile, false),
 			rttr::metadata( MetaDataType::Serialize, false )
@@ -402,7 +402,7 @@ TypeID		BufferInitData::GetAssetType	() const
 //----------------------------------------------------------------------------------------------//
 
 MaterialObject::MaterialObject( const MaterialObject* material )
-: ResourceObject(WRONG_ID)
+: Resource(WRONG_ID)
 {
 	memcpy( this, material, sizeof(MaterialObject) );
 }

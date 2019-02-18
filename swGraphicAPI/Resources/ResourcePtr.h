@@ -3,7 +3,7 @@
 #include <type_traits>
 
 
-class ResourceObject;
+class Resource;
 
 
 /**@brief Wrapper for low level resources and high level assets.
@@ -23,13 +23,13 @@ private:
 public:
 	ResourcePtr()
 	{
-		static_assert( std::is_base_of< ResourceObject, ResourceType >::value, "Template parameter type must inherit from ResourceObject" );
+		static_assert( std::is_base_of< Resource, ResourceType >::value, "Template parameter type must inherit from Resource" );
 		m_resource = nullptr;
 	}
 
 	ResourcePtr( ResourceType* ptr )
 	{
-		static_assert( std::is_base_of< ResourceObject, ResourceType >::value, "Template parameter type must inherit from ResourceObject" );
+		static_assert( std::is_base_of< Resource, ResourceType >::value, "Template parameter type must inherit from Resource" );
 		m_resource = ptr;
 	}
 

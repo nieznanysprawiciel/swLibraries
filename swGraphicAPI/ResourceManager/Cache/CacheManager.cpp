@@ -24,9 +24,9 @@ CacheManager::CacheManager()
 
 // ================================ //
 //
-ResourcePtr< ResourceObject >		CacheManager::LoadFromCache		( const filesystem::Path& assetName, TypeID assetType )
+ResourcePtr< Resource >		CacheManager::LoadFromCache		( const filesystem::Path& assetName, TypeID assetType )
 {
-	return ResourcePtr< ResourceObject >();
+	return ResourcePtr< Resource >();
 }
 
 

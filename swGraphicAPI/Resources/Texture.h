@@ -125,16 +125,16 @@ private:
 @ingroup GraphicAPI
 
 This class is platform independent. Inherit it while implementing chosen graphic API.*/
-class TextureObject : public ResourceObject
+class TextureObject : public Resource
 {
-	RTTR_ENABLE( ResourceObject );
+	RTTR_ENABLE( Resource );
 	friend ObjectDeleter<TextureObject>;
 private:
 protected:
 	/// ¯eby unikn¹æ pomy³ki, obiekt mo¿e byœ kasowany tylko przez AssetsManager. Zapewnia to ObjectDeleter.
 	virtual ~TextureObject() = default;
 public:
-	TextureObject() : ResourceObject( 0 ) {}
+	TextureObject() : Resource( 0 ) {}
 
 	virtual const filesystem::Path&		GetFilePath		() const = 0;		///< Returns name of file, from which this object was created.
 

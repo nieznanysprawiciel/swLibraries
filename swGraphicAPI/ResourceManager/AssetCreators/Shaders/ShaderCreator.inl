@@ -20,7 +20,7 @@ namespace sw
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline ResourceObject*		ShaderCreator< ShaderObjectType >::Create			( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
+inline Resource*		ShaderCreator< ShaderObjectType >::Create			( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
 {
 	auto & init = static_cast< ShaderInitData&& >( createInfo );
 
@@ -48,7 +48,7 @@ inline ResourceObject*		ShaderCreator< ShaderObjectType >::Create			( const file
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline ResourceObject*		ShaderCreator< ShaderObjectType >::LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )
+inline Resource*		ShaderCreator< ShaderObjectType >::LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )
 {
 	assert( !"Buffer is not cacheable" );
 	return nullptr;
@@ -66,7 +66,7 @@ inline BufferRaw			ShaderCreator< ShaderObjectType >::SaveToRaw		( const IAssetC
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline BufferRaw			ShaderCreator< ShaderObjectType >::SaveToRaw		( ResourcePtr< ResourceObject > resource )
+inline BufferRaw			ShaderCreator< ShaderObjectType >::SaveToRaw		( ResourcePtr< Resource > resource )
 {
 	assert( !"Buffer is not cacheable" );
 	return BufferTyped< uint8 >::CreateEmpty();
