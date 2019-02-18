@@ -60,6 +60,9 @@ public:
 
 	/**@brief Creates raw buffer. Note that new buffer will be owner of memory and this object ends empty.*/
 	BufferRaw			MoveToRawBuffer	();
+
+public:
+	static BufferRaw	CreateEmpty		();
 };
 
 
@@ -174,6 +177,15 @@ inline BufferRaw			BufferTyped< ContentType, Alloc >::MoveToRawBuffer	()
 	m_count = 0;
 
 	return rawBuffer;
+}
+
+// ================================ //
+//
+template< typename ContentType, class Alloc >
+inline BufferRaw			BufferTyped< ContentType, Alloc >::CreateEmpty		()
+{
+	BufferTyped< ContentType > buffer( 0 );
+	return buffer.MoveToRawBuffer();
 }
 
 

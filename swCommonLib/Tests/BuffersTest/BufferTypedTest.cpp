@@ -60,3 +60,13 @@ TEST_CASE( "Common.Buffers.BufferTyped.ToRawBuffer" )
 	CHECK( buffer2[ 3 ] == example );
 }
 
+// ================================ //
+//
+TEST_CASE( "Common.Buffers.BufferTyped.CreateEmpty" )
+{
+	auto buffer = BufferTyped< StructWithSimpleTypes >::CreateEmpty();
+
+	CHECK( buffer.GetData() == nullptr );
+	CHECK( buffer.GetSize() == 0 );
+	CHECK( buffer.GetType() == TypeID::get< StructWithSimpleTypes >() );
+}
