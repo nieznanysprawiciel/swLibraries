@@ -118,7 +118,7 @@ void		IndependentAssetThread	( int threadNum )
 
 // ================================ //
 // Only one thread should enter loading at the same time. Rest should wait.
-TEST_CASE( "MultiThreadsLoading", "LoadBarrierTest" )
+TEST_CASE( "GraphicAPI.LoadBarrier.MultiThreadsLoading", "[GraphicAPI]" )
 {
 	std::thread threads[ numThreads ];
 
@@ -161,7 +161,7 @@ sw::LoadBarrier     gBarrier;
 // Load asset from single thread. Barrier should end in clean state without waiting assets on list.
 // Note that this checks state cleaning in situation, when there're no other threads what differs
 // from previous test case.
-TEST_CASE( "SingleAssetLoading", "LoadBarrierTest" )
+TEST_CASE( "GraphicAPI.LoadBarrier.SingleAssetLoading", "[GraphicAPI]" )
 {
     auto result = gBarrier.RequestAsset( assetFile );
 

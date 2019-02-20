@@ -59,15 +59,19 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\LinkReflection.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\LinkReflection.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\LinkReflection.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\LinkReflection.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -157,10 +161,20 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\LoadBarrierTest.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetsFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
       <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\Serialization\Serialization.vcxproj">
+      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\SerializerXML\SerializerXML.vcxproj">
+      <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MockAPI\MockAPI.vcxproj">
+      <Project>{eeefab61-f404-4957-ac24-a3bf81c5e4ed}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\ResourceManager\ResourceManager.vcxproj">
       <Project>{9f71f0da-1d72-4e96-93b7-5ac2c9cb6ede}</Project>

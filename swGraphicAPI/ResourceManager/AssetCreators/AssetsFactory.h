@@ -7,6 +7,8 @@
 
 #include "IAssetCreator.h"
 
+#include "swGraphicAPI/Resources/MeshResources.h"
+
 
 #include <vector>
 
@@ -15,6 +17,7 @@ namespace sw
 {
 
 class IAssetCache;
+class BufferObject;
 
 
 /**@brief Assets factory.

@@ -37,7 +37,7 @@ private:
 protected:
 public:
 	explicit		IAssetCreator		() = default;
-	virtual			~IAssetCreator		() = 0;
+	virtual			~IAssetCreator		() = 0 {};
 
 	/**@brief Main generic function for assets creation.
 	Implementation is allowed to move content of createInfo parameter.*/
@@ -56,10 +56,12 @@ public:
 	to read it.*/
 	virtual BufferRaw				SaveToRaw		( ResourcePtr< Resource > resource )										= 0;
 
-	/**@brief Checks if asset should be cached.*/
+	/**@brief Checks if asset should be cached.
+	If Asset is cacheable, creator must implement IAssetCreator::LoadFromRaw and of IAssetCreator::SaveToRaw functions.*/
 	virtual bool					IsCacheable		() const																	= 0;
 
-	/**@brief You can check if this AssetCreator supports SaveToRaw function for resources.*/
+	/**@brief You can check if this AssetCreator supports SaveToRaw function with resources in parameters. If
+	not, this class must implement SaveToRaw with IAssetCreateInfo in parameter.*/
 	virtual bool					SupportsResourceToRaw		() const														= 0;
 
 	/**@brief Gets type of asset which this creator creates.*/
