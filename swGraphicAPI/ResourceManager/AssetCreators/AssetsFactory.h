@@ -64,6 +64,9 @@ public:
 private:
 
 	IAssetCreator*			FindCreator				( TypeID assetType) const;
+
+	void					Cache					( IAssetCreator* creator, const IAssetCreateInfo& createInfo );
+	void					Cache					( IAssetCreator* creator, Resource* resource );
 };
 
 

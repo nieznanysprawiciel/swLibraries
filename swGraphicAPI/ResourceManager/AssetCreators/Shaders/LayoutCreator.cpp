@@ -51,7 +51,7 @@ BufferRaw					LayoutCreator::SaveToRaw		( ResourcePtr< Resource > resource )
 
 // ================================ //
 //
-bool						LayoutCreator::SupportsResourceToRaw()
+bool						LayoutCreator::SupportsResourceToRaw() const
 {
 	return false;
 }

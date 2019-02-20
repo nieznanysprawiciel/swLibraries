@@ -31,8 +31,9 @@ public:
 	virtual BufferRaw				SaveToRaw			( const IAssetCreateInfo& createInfo )										override;
 	virtual BufferRaw				SaveToRaw			( ResourcePtr< Resource > resource )										override;
 
-	virtual bool					SupportsResourceToRaw	() override;
-	virtual TypeID					GetAssetType			() override;
+	virtual bool					IsCacheable				() const override;
+	virtual bool					SupportsResourceToRaw	() const override;
+	virtual TypeID					GetAssetType			() const override;
 
 public:
 

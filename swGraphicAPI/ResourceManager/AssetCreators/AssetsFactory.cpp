@@ -76,12 +76,18 @@ void			AssetsFactory::RegisterDefaults		()
 //
 Nullable< Resource* >	AssetsFactory::CreateAsset		( const filesystem::Path& assetName, TypeID assetType, IAssetCreateInfo&& createInfo )
 {
-	assert( !"Implement me" );
-
-	// We need to implement caching mechanism here.
-
 	IAssetCreator* creator = FindCreator( assetType );
+
+	// We prefere to obtain buffer for cache from resource, but some resources resides on GPU
+	// and loading data back is too difficult. This is last moment, where we can take necessary data.
+	bool canConvertResourceToRaw = creator->SupportsResourceToRaw();
+	if( !canConvertResourceToRaw )
+		Cache( creator, createInfo );
+	
 	auto resource = creator->Create( assetName, std::move( createInfo ) );
+
+	if( canConvertResourceToRaw )
+		Cache( creator, resource );	
 
 	return resource;
 }
@@ -97,6 +103,26 @@ IAssetCreator*			AssetsFactory::FindCreator		( TypeID assetType ) const
 	}
 
 	return nullptr;
+}
+
+// ================================ //
+//
+void					AssetsFactory::Cache			( IAssetCreator* creator, const IAssetCreateInfo& createInfo )
+{
+	if( creator->IsCacheable() )
+	{
+		// Implement me
+	}
+}
+
+// ================================ //
+//
+void					AssetsFactory::Cache			( IAssetCreator* creator, Resource* resource )
+{
+	if( creator->IsCacheable() )
+	{
+		// Implement me
+	}
 }
 
 }	// sw

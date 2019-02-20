@@ -75,7 +75,15 @@ inline BufferRaw					ShaderCreator< ShaderObjectType >::SaveToRaw		( ResourcePtr
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline bool							ShaderCreator< ShaderObjectType >::SupportsResourceToRaw()
+inline bool							ShaderCreator< ShaderObjectType >::IsCacheable		() const
+{
+	return true;
+}
+
+// ================================ //
+//
+template< typename ShaderObjectType >
+inline bool							ShaderCreator< ShaderObjectType >::SupportsResourceToRaw() const
 {
 	return false;
 }
@@ -88,7 +96,7 @@ inline bool							ShaderCreator< ShaderObjectType >::SupportsResourceToRaw()
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline TypeID				ShaderCreator< ShaderObjectType >::GetAssetType()
+inline TypeID				ShaderCreator< ShaderObjectType >::GetAssetType				() const
 {
 	return TypeID::get< ShaderObjectType >();
 }

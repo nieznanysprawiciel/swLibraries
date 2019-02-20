@@ -56,11 +56,14 @@ public:
 	to read it.*/
 	virtual BufferRaw				SaveToRaw		( ResourcePtr< Resource > resource )										= 0;
 
+	/**@brief Checks if asset should be cached.*/
+	virtual bool					IsCacheable		() const																	= 0;
+
 	/**@brief You can check if this AssetCreator supports SaveToRaw function for resources.*/
-	virtual bool					SupportsResourceToRaw		()																= 0;
+	virtual bool					SupportsResourceToRaw		() const														= 0;
 
 	/**@brief Gets type of asset which this creator creates.*/
-	virtual TypeID					GetAssetType	()																			= 0;
+	virtual TypeID					GetAssetType	() const																	= 0;
 };
 
 DEFINE_PTR_TYPE( IAssetCreator );

@@ -57,14 +57,21 @@ BufferRaw					BufferCreator::SaveToRaw	( ResourcePtr< Resource > resource )
 
 // ================================ //
 //
-bool						BufferCreator::SupportsResourceToRaw()
+bool						BufferCreator::IsCacheable	() const
+{
+	return true;
+}
+
+// ================================ //
+//
+bool						BufferCreator::SupportsResourceToRaw() const
 {
 	return false;
 }
 
 // ================================ //
 //
-TypeID						BufferCreator::GetAssetType()
+TypeID						BufferCreator::GetAssetType	() const
 {
 	return TypeID::get< BufferObject >();
 }
