@@ -40,12 +40,12 @@ public:
 
 public:
 
-	inline VertexShader*					CreateVertexShader			( const filesystem::Path& fileName, const std::string& shaderEntry = "main" );
-	inline PixelShader*						CreatePixelShader			( const filesystem::Path& fileName, const std::string& shaderEntry = "main" );
-	inline GeometryShader*					CreateGeometryShader		( const filesystem::Path& fileName, const std::string& shaderEntry = "main" );
-	inline ControlShader*					CreateControlShader			( const filesystem::Path& fileName, const std::string& shaderEntry = "main" );
-	inline EvaluationShader*				CreateEvaluationShader		( const filesystem::Path& fileName, const std::string& shaderEntry = "main" );
-	inline ComputeShader*					CreateComputeShader			( const filesystem::Path& fileName, const std::string& shaderEntry = "main" );
+	inline Nullable< VertexShader* >				CreateVertexShader			( const filesystem::Path& fileName, const std::string& shaderEntry = "main" );
+	inline Nullable< PixelShader* >					CreatePixelShader			( const filesystem::Path& fileName, const std::string& shaderEntry = "main" );
+	inline Nullable< GeometryShader* >				CreateGeometryShader		( const filesystem::Path& fileName, const std::string& shaderEntry = "main" );
+	inline Nullable< ControlShader*	>				CreateControlShader			( const filesystem::Path& fileName, const std::string& shaderEntry = "main" );
+	inline Nullable< EvaluationShader* >			CreateEvaluationShader		( const filesystem::Path& fileName, const std::string& shaderEntry = "main" );
+	inline Nullable< ComputeShader* >				CreateComputeShader			( const filesystem::Path& fileName, const std::string& shaderEntry = "main" );
 
 };
 

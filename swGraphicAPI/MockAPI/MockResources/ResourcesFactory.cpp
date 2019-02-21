@@ -31,11 +31,28 @@ typedef sw::MockDepthStencilState	DepthStencilStateObject;
 typedef sw::MockRasterizerState		RasterizerStateObject;
 typedef sw::MockBlendingState		BlendingStateObject;
 
-/**@brief Tworzy teksturê z podanego deskryptora.*/
-TextureObject*			ResourcesFactory::CreateTextureFromMemory	( const MemoryChunk& texData, TextureInfo&& texInfo )
+
+
+// ================================ //
+//
+TextureObject*					ResourcesFactory::CreateTextureFromMemory		( const MemoryChunk& texData, TextureInfo&& texInfo )
 {
 	return Texture::CreateFromMemory( texData, std::move( texInfo ) );
 }
+
+// ================================ //
+//
+sw::Nullable< VertexShader* >	ResourcesFactory::CreateVertexShader			( const std::wstring& fileName, const std::string& code, const std::string& entrypoint )
+{
+	auto shader = VertexShaderObject::CreateFromCode( fileName, code, entrypoint );
+	if( shader.IsValid() )
+	{
+		shader.Get()->SetFileName( fileName );
+		shader.Get()->SetShaderName( entrypoint );
+	}
+	return shader;
+}
+
 
 
 /**@brief Tworzy obiekt vertex shadera.

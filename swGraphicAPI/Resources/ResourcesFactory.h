@@ -2,8 +2,12 @@
 /**
 @file ResourcesFactory.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
+
+#include "swCommonLib/Common/Exceptions/Nullable.h"
+
 
 #include "swGraphicAPI/Resources/MeshResources.h"
 #include "swGraphicAPI/Resources/RasterizerState.h"
@@ -42,16 +46,21 @@ class ResourcesFactory
 	friend class sw::ShaderCreator< ComputeShader >;
 
 private:
-	static TextureObject*			CreateTextureFromMemory			( const MemoryChunk& texData, TextureInfo&& texInfo );
 
-	static VertexShader*			CreateVertexShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "vs_4_0" );
-	static PixelShader*				CreatePixelShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "ps_4_0" );
-	static GeometryShader*			CreateGeometryShaderFromFile	( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "gs_4_0" );
-	static EvaluationShader*		CreateEvaluationShaderFromFile	( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "hs_4_0" );
-	static ControlShader*			CreateControlShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "ds_4_0" );
-	static ComputeShader*			CreateComputeShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "cs_4_0" );
+	static sw::Nullable< VertexShader* >	CreateVertexShader				( const std::wstring& fileName, const std::string& code, const std::string& entrypoint );
 
-	static BufferObject*			CreateBufferFromMemory			( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo );
+
+
+	static TextureObject*					CreateTextureFromMemory			( const MemoryChunk& texData, TextureInfo&& texInfo );
+
+	static VertexShader*					CreateVertexShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "vs_4_0" );
+	static PixelShader*						CreatePixelShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "ps_4_0" );
+	static GeometryShader*					CreateGeometryShaderFromFile	( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "gs_4_0" );
+	static EvaluationShader*				CreateEvaluationShaderFromFile	( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "hs_4_0" );
+	static ControlShader*					CreateControlShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "ds_4_0" );
+	static ComputeShader*					CreateComputeShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "cs_4_0" );
+
+	static BufferObject*					CreateBufferFromMemory			( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo );
 
 	static VertexShader*			CreateVertexShaderFromFile		( const std::wstring& fileName,
 																	const std::string& shaderName,

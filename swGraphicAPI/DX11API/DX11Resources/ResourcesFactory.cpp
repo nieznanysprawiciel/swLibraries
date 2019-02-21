@@ -1,8 +1,10 @@
 /**
 @file ResourcesFactory.cpp
 @author nieznanysprawiciel
-@copyright File is part of graphic engine SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
+
 #include "swGraphicAPI/DX11API/stdafx.h"
 
 #include "swGraphicAPI/Resources/ResourcesFactory.h"
@@ -30,11 +32,23 @@ typedef DX11DepthStencilState	DepthStencilStateObject;
 typedef DX11RasterizerState		RasterizerStateObject;
 typedef DX11BlendingState		BlendingStateObject;
 
-/**@brief Tworzy teksturê z podanego deskryptora.*/
+
+
+// ================================ //
+//
 TextureObject*			ResourcesFactory::CreateTextureFromMemory	( const MemoryChunk& texData, TextureInfo&& texInfo )
 {
 	return Texture::CreateFromMemory( texData, std::move( texInfo ) );
 }
+
+
+// ================================ //
+//
+sw::Nullable< VertexShader* >	ResourcesFactory::CreateVertexShader			( const std::wstring& fileName, const std::string& code, const std::string& entrypoint )
+{
+	return VertexShaderObject::CreateFromCode( fileName, code, entrypoint );
+}
+
 
 
 /**@brief Tworzy obiekt vertex shadera.
