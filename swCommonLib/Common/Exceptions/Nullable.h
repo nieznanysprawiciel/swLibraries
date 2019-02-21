@@ -164,7 +164,7 @@ inline Nullable< ContentType >::Nullable			( const std::string& error )
 //
 template< typename ContentType >
 inline Nullable< ContentType >::Nullable			( const Nullable< ContentType > & that ) 
-    : m_isValid( that.m_isValid ) 
+    : m_isValid( that.m_isValid )
 { 
     if( m_isValid ) 
         new( &Content ) ContentType( that.Content ); 
@@ -308,7 +308,7 @@ inline Nullable< ContentType >::operator ContentType &				() &
 template< typename ContentType >
 inline Nullable< ContentType >::operator ContentType &&				() &&
 { 
-    return Get(); 
+    return std::move( Get() );
 }
 
 //====================================================================================//

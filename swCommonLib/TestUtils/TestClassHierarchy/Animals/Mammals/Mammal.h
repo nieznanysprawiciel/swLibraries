@@ -22,9 +22,21 @@ public:
 
 public:
 	explicit		Mammal		() = default;
+	explicit		Mammal		( std::string name, uint16 age );
 	virtual			~Mammal		() = default;
 
 };
+
+
+//====================================================================================//
+//			Implementation
+//====================================================================================//
+
+// ================================ //
+//
+inline Mammal::Mammal		( std::string name, uint16 age )
+	:	Animal( name, age )
+{}
 
 
 
