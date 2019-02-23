@@ -29,6 +29,36 @@ enum class Result : uint8
 };
 
 
+namespace impl
+{
+
+// ================================ //
+//	
+template< typename From, typename To >
+struct IsBaseConversion
+{
+	// ================================ //
+	// Note: Visual Studio can't handle constexpr functions in std::enable_if
+	static constexpr inline bool		Value		()
+	{
+		using DecayedFrom = std::remove_pointer< typename From >::type;
+		using DecayedTo = std::remove_pointer< typename To >::type;
+	
+		return	!std::is_same< DecayedFrom, DecayedTo >::value &&
+				std::is_base_of< DecayedTo, DecayedFrom >::value;// &&
+				std::is_pointer< From >::value &&
+				std::is_pointer< To >::value;
+	}
+
+public:
+
+	const static bool value = IsBaseConversion::Value();
+};
+
+
+}	// impl
+
+
 
 /**@brief Alexandrescu Expected type for error handling.
 @ingroup Exceptions*/
@@ -55,19 +85,22 @@ public:
 							Nullable			( const ContentType& content );
                             Nullable			( const ErrorType& error );
 							Nullable			( const std::string& error );
-                            Nullable			( const Nullable< ContentType > & that );
+                            Nullable			( const Nullable< ContentType >& that );
                             ~Nullable			();
 
 	template< typename ExceptionType >
 							Nullable			( std::shared_ptr< ExceptionType > error );
 
+	template< typename DerivedClass, typename std::enable_if< impl::IsBaseConversion< DerivedClass, ContentType >::value >::type* = nullptr >
+							Nullable			( Nullable< DerivedClass >&& other );
+
     bool                    IsValid             ();
     std::string             GetErrorReason      ();
     ErrorType				GetError            ();
 
-    bool						operator==          ( const ContentType & that );
-    bool						operator!=          ( const ContentType & that );
-	Nullable< ContentType >&	operator=			( const Nullable< ContentType > & that );
+    bool						operator==          ( const ContentType& that );
+    bool						operator!=          ( const ContentType& that );
+	Nullable< ContentType >&	operator=			( const Nullable< ContentType >& that );
 
     const ContentType &				Get			() const&;
     operator const ContentType &				() const&;
@@ -76,7 +109,13 @@ public:
     operator ContentType &						() &;
 
 	ContentType &&					Get			() &&;
-    operator ContentType &&						() &&;
+    operator ContentType &&						() && = delete;
+
+public:
+
+	template< typename Type, typename std::enable_if< impl::IsBaseConversion< ContentType, Type >::value, void >::type* = nullptr >
+	Nullable< Type >				Move		();
+
 
 public:
 
@@ -163,7 +202,7 @@ inline Nullable< ContentType >::Nullable			( const std::string& error )
 // ================================ //
 //
 template< typename ContentType >
-inline Nullable< ContentType >::Nullable			( const Nullable< ContentType > & that ) 
+inline Nullable< ContentType >::Nullable			( const Nullable< ContentType >& that ) 
     : m_isValid( that.m_isValid )
 { 
     if( m_isValid ) 
@@ -180,6 +219,35 @@ inline Nullable< ContentType >::Nullable			( std::shared_ptr< ExceptionType > er
 	: m_isValid( false ), Error( std::static_pointer_cast< Exception >( error ) )
 {
 	static_assert( std::is_base_of< typename ErrorType::element_type, ExceptionType >::value, "ExceptionType should be derived from ErrorType" );
+}
+
+// ================================ //
+//
+template< typename ContentType >
+template< typename DerivedClass, typename std::enable_if< impl::IsBaseConversion< DerivedClass, ContentType >::value >::type* >
+inline Nullable< ContentType >::Nullable			( Nullable< DerivedClass >&& other )
+	: m_isValid( other.IsValid() )
+	, Error( nullptr )
+{
+	if( m_isValid )
+		Content = std::move( other ).Get();
+	else
+		Error = other.GetError();
+}
+
+// ================================ //
+//
+template< typename ContentType >
+template< typename Type, typename std::enable_if< impl::IsBaseConversion< ContentType, Type >::value, void >::type* >
+inline Nullable< Type >			Nullable< ContentType >::Move	()
+{
+	bool wasValid = IsValid();
+	//m_isValid = false;		// We don't change validity. We don't want to call Error destructor on Nullable destruction.
+
+	if( wasValid )
+		return Nullable< Type >( std::move( Content ) );
+	else
+		return Nullable< Type >( Error );		// Error is shared_ptr, we don't have to move.
 }
 
 // ================================ //
@@ -303,13 +371,13 @@ inline Nullable< ContentType >::operator ContentType &				() &
     return Get(); 
 }
 
-// ================================ //
-//
-template< typename ContentType >
-inline Nullable< ContentType >::operator ContentType &&				() &&
-{ 
-    return std::move( Get() );
-}
+//// ================================ //
+////
+//template< typename ContentType >
+//inline Nullable< ContentType >::operator ContentType &&				() &&
+//{ 
+//    return std::move( Get() );
+//}
 
 //====================================================================================//
 //			Creating Nullable from error	
