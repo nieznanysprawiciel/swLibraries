@@ -23,29 +23,32 @@ namespace sw
 template< typename ShaderObjectType >
 inline Nullable< Resource* >		ShaderCreator< ShaderObjectType >::Create			( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
 {
-	auto& init = static_cast< ShaderInitData&& >( createInfo );
-
-	std::string code = filesystem::File::Load( assetName );
-
-	switch( init.Type )
+	if( TypeID::get( createInfo ) == TypeID::get< ShaderInitData >() )
 	{
-		case ShaderType::VertexShader:
-			return CreateVertexShader( assetName.String(), code, init.EntryFunction );
-		case ShaderType::PixelShader:
-			return CreatePixelShader( assetName.String(), code, init.EntryFunction );
-		case ShaderType::GeometryShader:
-			return CreateGeometryShader( assetName.String(), code, init.EntryFunction );
-		case ShaderType::ComputeShader:
-			return CreateComputeShader( assetName.String(), code, init.EntryFunction );
-		case ShaderType::TesselationControlShader:
-			return CreateControlShader( assetName.String(), code, init.EntryFunction );
-		case ShaderType::TesselationEvaluationShader:
-			return CreateEvaluationShader( assetName.String(), code, init.EntryFunction );
-		default:
-			break;
+		auto& init = static_cast< ShaderInitData&& >( createInfo );
+
+		std::string code = filesystem::File::Load( assetName );
+
+		switch( init.Type )
+		{
+			case ShaderType::VertexShader:
+				return CreateVertexShader( assetName.String(), code, init.EntryFunction );
+			case ShaderType::PixelShader:
+				return CreatePixelShader( assetName.String(), code, init.EntryFunction );
+			case ShaderType::GeometryShader:
+				return CreateGeometryShader( assetName.String(), code, init.EntryFunction );
+			case ShaderType::ComputeShader:
+				return CreateComputeShader( assetName.String(), code, init.EntryFunction );
+			case ShaderType::TesselationControlShader:
+				return CreateControlShader( assetName.String(), code, init.EntryFunction );
+			case ShaderType::TesselationEvaluationShader:
+				return CreateEvaluationShader( assetName.String(), code, init.EntryFunction );
+			default:
+				break;
+		}
 	}
 
-	return nullptr;
+	return "IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported yet. This feature will be implemented in future.";
 }
 
 // ================================ //
