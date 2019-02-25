@@ -61,23 +61,32 @@ HRESULT									CreateShader< ID3D11ComputeShader >	( ID3D11Device* device, ID3D
 template< typename ShaderType, typename DXShaderType >
 static Nullable< ShaderType* >			CreateShader			( ID3D11Device* device, const std::wstring& fileName, const std::string& shaderName, const CompilationConfig& config )
 {
-	auto result = DX11Compiler::CompileShader( fileName, shaderName, config );
+	std::string code = filesystem::File::Load( fileName );
+	return CreateShader< ShaderType, DXShaderType >( device, code, shaderName, config );
+}
 
-	if( result.IsValid() )
+// ================================ //
+//
+template< typename ShaderType, typename DXShaderType >
+static Nullable< ShaderType* >			CreateShader			( ID3D11Device* device, const std::string& code, const std::string& entrypoint, const CompilationConfig& config )
+{
+	auto compilationResult = DX11Compiler::CompileShader( code, entrypoint, config );
+
+	if( compilationResult.IsValid() )
 	{
-		auto compiledShader = result.Get();
+		auto compiledShader = compilationResult.Get();
 		DXShaderType* shader = nullptr;
 
 		HRESULT result = CreateShader< DXShaderType >( device, compiledShader.Get(), &shader );
 
 		if( FAILED( result ) )
-			return "Creating shader [" + Convert::ToString( fileName ) + "], entry point [" + shaderName + "] failed.";
+			return "Creating shader failed.";
 
 		return new ShaderType( shader );
 	}
 	else
 	{
-		return Nullable< ShaderType* >( std::move( result.GetError() ) );
+		return Nullable< ShaderType* >( std::move( compilationResult.GetError() ) );
 	}
 }
 
@@ -85,21 +94,21 @@ static Nullable< ShaderType* >			CreateShader			( ID3D11Device* device, const st
 //
 Nullable< DX11VertexShader* >			DX11Compiler::CreateVertexShader			( const std::string& code, const std::string& entrypoint, const CompilationConfig& config )
 {
-	return Nullable<DX11VertexShader*>();
+	return CreateShader< DX11VertexShader, ID3D11VertexShader >( device, code, entrypoint, config );
 }
 
 // ================================ //
 //
 Nullable< DX11PixelShader* >			DX11Compiler::CreatePixelShader				( const std::string& code, const std::string& entrypoint, const CompilationConfig& config )
 {
-	return Nullable<DX11PixelShader*>();
+	return CreateShader< DX11PixelShader, ID3D11PixelShader >( device, code, entrypoint, config );
 }
 
 // ================================ //
 //
 Nullable< DX11ComputeShader* >			DX11Compiler::CreateComputeShader			( const std::string& code, const std::string& entrypoint, const CompilationConfig& config )
 {
-	return Nullable<DX11ComputeShader*>();
+	return CreateShader< DX11ComputeShader, ID3D11ComputeShader >( device, code, entrypoint, config );
 }
 
 // ================================ //

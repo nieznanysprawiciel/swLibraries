@@ -48,6 +48,8 @@ class ResourcesFactory
 private:
 
 	static sw::Nullable< VertexShader* >	CreateVertexShader				( const std::wstring& fileName, const std::string& code, const std::string& entrypoint );
+	static sw::Nullable< PixelShader* >		CreatePixelShader				( const std::wstring& fileName, const std::string& code, const std::string& entrypoint );
+	static sw::Nullable< ComputeShader* >	CreateComputeShader				( const std::wstring& fileName, const std::string& code, const std::string& entrypoint );
 
 
 

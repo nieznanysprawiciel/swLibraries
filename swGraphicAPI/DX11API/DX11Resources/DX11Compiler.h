@@ -30,7 +30,7 @@ struct ShaderModelDesc
 	ShaderModelDesc( ShaderType type )
 		: Major( 5 )
 		, Minor( 0 )
-		, Type( ShaderType::VertexShader )
+		, Type( type )
 	{}
 
 // ================================ //
@@ -57,7 +57,8 @@ struct CompilationConfig
 
 
 
-/**@brief Shader compiler.*/
+/**@brief Shader compiler.
+@ingroup DX11API*/
 class DX11Compiler : public DX11APIObjects
 {
 private:

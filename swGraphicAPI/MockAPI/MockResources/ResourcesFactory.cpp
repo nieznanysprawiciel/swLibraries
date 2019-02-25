@@ -44,16 +44,22 @@ TextureObject*					ResourcesFactory::CreateTextureFromMemory		( const MemoryChun
 //
 sw::Nullable< VertexShader* >	ResourcesFactory::CreateVertexShader			( const std::wstring& fileName, const std::string& code, const std::string& entrypoint )
 {
-	auto shader = VertexShaderObject::CreateFromCode( fileName, code, entrypoint );
-	if( shader.IsValid() )
-	{
-		shader.Get()->SetFileName( fileName );
-		shader.Get()->SetShaderName( entrypoint );
-	}
-	return shader;
+	return VertexShaderObject::CreateFromCode( fileName, code, entrypoint );
 }
 
+// ================================ //
+//
+sw::Nullable< PixelShader* >	ResourcesFactory::CreatePixelShader				( const std::wstring& fileName, const std::string& code, const std::string& entrypoint )
+{
+	return PixelShaderObject::CreateFromCode( fileName, code, entrypoint );
+}
 
+// ================================ //
+//
+sw::Nullable< ComputeShader* >	ResourcesFactory::CreateComputeShader			( const std::wstring& fileName, const std::string& code, const std::string& entrypoint )
+{
+	return ComputeShaderObject::CreateFromCode( fileName, code, entrypoint );
+}
 
 /**@brief Tworzy obiekt vertex shadera.
 

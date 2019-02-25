@@ -10,6 +10,7 @@
 #include "swGraphicAPI/Resources/Shaders/ShaderInitData.h"
 
 #include "swCommonLib/Common/Buffers/BufferTyped.h"
+#include "swCommonLib/System/File.h"
 
 
 
@@ -22,22 +23,24 @@ namespace sw
 template< typename ShaderObjectType >
 inline Nullable< Resource* >		ShaderCreator< ShaderObjectType >::Create			( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
 {
-	auto & init = static_cast< ShaderInitData&& >( createInfo );
+	auto& init = static_cast< ShaderInitData&& >( createInfo );
+
+	std::string code = filesystem::File::Load( assetName );
 
 	switch( init.Type )
 	{
 		case ShaderType::VertexShader:
-			return CreateVertexShader( assetName.String(), init.EntryFunction );
+			return CreateVertexShader( assetName.String(), code, init.EntryFunction );
 		case ShaderType::PixelShader:
-			return CreatePixelShader( assetName.String(), init.EntryFunction );
+			return CreatePixelShader( assetName.String(), code, init.EntryFunction );
 		case ShaderType::GeometryShader:
-			return CreateGeometryShader( assetName.String(), init.EntryFunction );
+			return CreateGeometryShader( assetName.String(), code, init.EntryFunction );
 		case ShaderType::ComputeShader:
-			return CreateComputeShader( assetName.String(), init.EntryFunction );
+			return CreateComputeShader( assetName.String(), code, init.EntryFunction );
 		case ShaderType::TesselationControlShader:
-			return CreateControlShader( assetName.String(), init.EntryFunction );
+			return CreateControlShader( assetName.String(), code, init.EntryFunction );
 		case ShaderType::TesselationEvaluationShader:
-			return CreateEvaluationShader( assetName.String(), init.EntryFunction );
+			return CreateEvaluationShader( assetName.String(), code, init.EntryFunction );
 		default:
 			break;
 	}
@@ -104,23 +107,23 @@ inline TypeID							ShaderCreator< ShaderObjectType >::GetAssetType				() const
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline Nullable< VertexShader* >		ShaderCreator< ShaderObjectType >::CreateVertexShader		( const filesystem::Path& fileName, const std::string& shaderEntry )
+inline Nullable< VertexShader* >		ShaderCreator< ShaderObjectType >::CreateVertexShader		( const filesystem::Path& fileName, const std::string& code, const std::string& shaderEntry )
 {
-	return ResourcesFactory::CreateVertexShaderFromFile( fileName.WString(), shaderEntry );
+	return ResourcesFactory::CreateVertexShader( fileName.WString(), code, shaderEntry );
 }
 
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline Nullable< PixelShader* >			ShaderCreator< ShaderObjectType >::CreatePixelShader		( const filesystem::Path& fileName, const std::string& shaderEntry )
+inline Nullable< PixelShader* >			ShaderCreator< ShaderObjectType >::CreatePixelShader		( const filesystem::Path& fileName, const std::string& code, const std::string& shaderEntry )
 {
-	return ResourcesFactory::CreatePixelShaderFromFile( fileName.WString(), shaderEntry );
+	return ResourcesFactory::CreatePixelShader( fileName.WString(), code, shaderEntry );
 }
 
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline Nullable< GeometryShader* >		ShaderCreator< ShaderObjectType >::CreateGeometryShader		( const filesystem::Path& fileName, const std::string& shaderEntry )
+inline Nullable< GeometryShader* >		ShaderCreator< ShaderObjectType >::CreateGeometryShader		( const filesystem::Path& fileName, const std::string& code, const std::string& shaderEntry )
 {
 	return nullptr;
 }
@@ -128,7 +131,7 @@ inline Nullable< GeometryShader* >		ShaderCreator< ShaderObjectType >::CreateGeo
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline Nullable< ControlShader*	>		ShaderCreator< ShaderObjectType >::CreateControlShader		( const filesystem::Path& fileName, const std::string& shaderEntry )
+inline Nullable< ControlShader*	>		ShaderCreator< ShaderObjectType >::CreateControlShader		( const filesystem::Path& fileName, const std::string& code, const std::string& shaderEntry )
 {
 	return nullptr;
 }
@@ -136,7 +139,7 @@ inline Nullable< ControlShader*	>		ShaderCreator< ShaderObjectType >::CreateCont
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline Nullable< EvaluationShader* >	ShaderCreator< ShaderObjectType >::CreateEvaluationShader	( const filesystem::Path & fileName, const std::string & shaderEntry )
+inline Nullable< EvaluationShader* >	ShaderCreator< ShaderObjectType >::CreateEvaluationShader	( const filesystem::Path & fileName, const std::string& code, const std::string& shaderEntry )
 {
 	return nullptr;
 }
@@ -144,9 +147,9 @@ inline Nullable< EvaluationShader* >	ShaderCreator< ShaderObjectType >::CreateEv
 // ================================ //
 //
 template< typename ShaderObjectType >
-inline Nullable< ComputeShader* >		ShaderCreator< ShaderObjectType >::CreateComputeShader	( const filesystem::Path & fileName, const std::string & shaderEntry )
+inline Nullable< ComputeShader* >		ShaderCreator< ShaderObjectType >::CreateComputeShader	( const filesystem::Path & fileName, const std::string& code, const std::string & shaderEntry )
 {
-	return ResourcesFactory::CreateComputeShaderFromFile( fileName.WString(), shaderEntry );
+	return ResourcesFactory::CreateComputeShader( fileName.WString(), code, shaderEntry );
 }
 
 
