@@ -78,18 +78,23 @@ Nullable< Resource* >	AssetsFactory::CreateAsset		( const filesystem::Path& asse
 {
 	IAssetCreator* creator = FindCreator( assetType );
 
-	// We prefere to obtain buffer for cache from resource, but some resources resides on GPU
-	// and loading data back is too difficult. This is last moment, where we can take necessary data.
-	bool canConvertResourceToRaw = creator->SupportsResourceToRaw();
-	if( !canConvertResourceToRaw )
-		Cache( creator, createInfo );
-	
-	auto resource = creator->Create( assetName, std::move( createInfo ) );
+	if( creator )
+	{
+		// We prefere to obtain buffer for cache from resource, but some resources resides on GPU
+		// and loading data back is too difficult. This is last moment, where we can take necessary data.
+		bool canConvertResourceToRaw = creator->SupportsResourceToRaw();
+		if( !canConvertResourceToRaw )
+			Cache( creator, createInfo );
 
-	if( canConvertResourceToRaw )
-		Cache( creator, resource );	
+		auto resource = creator->Create( assetName, std::move( createInfo ) );
 
-	return resource;
+		if( canConvertResourceToRaw )
+			Cache( creator, resource );
+
+		return resource;
+	}
+
+	return "Asset creator for type [" + assetType.get_name().to_string() + "] not registered.";
 }
 
 // ================================ //
