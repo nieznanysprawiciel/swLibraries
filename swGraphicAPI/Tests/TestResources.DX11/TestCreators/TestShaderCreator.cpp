@@ -36,6 +36,20 @@ TEST_CASE( "GraphicAPI.ShaderCreator.VertexShader.Create", "[GraphicAPI]" )
 }
 
 // ================================ //
+// Not compiling shader creation should return error message.
+TEST_CASE( "GraphicAPI.ShaderCreator.VertexShader.Create.CompilationFailed", "[GraphicAPI]" )
+{
+	AssetsFactory factory;
+
+	ShaderInitData init( ShaderType::VertexShader );
+
+	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/NotCompiling.vsh", TypeID::get< VertexShader >(), std::move( init ) );
+
+	REQUIRE( result.IsValid() == false );
+	CHECK( result.GetError() != nullptr );
+}
+
+// ================================ //
 // 
 TEST_CASE( "GraphicAPI.ShaderCreator.PixelShader.Create", "[GraphicAPI]" )
 {
@@ -52,6 +66,20 @@ TEST_CASE( "GraphicAPI.ShaderCreator.PixelShader.Create", "[GraphicAPI]" )
 	}
 
 	CHECK( result.Get() != nullptr );
+}
+
+// ================================ //
+// Not compiling shader creation should return error message.
+TEST_CASE( "GraphicAPI.ShaderCreator.PixelShader.Create.CompilationFailed", "[GraphicAPI]" )
+{
+	AssetsFactory factory;
+
+	ShaderInitData init( ShaderType::PixelShader );
+
+	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/NotCompiling.psh", TypeID::get< PixelShader >(), std::move( init ) );
+
+	REQUIRE( result.IsValid() == false );
+	CHECK( result.GetError() != nullptr );
 }
 
 // ================================ //
@@ -73,5 +101,19 @@ TEST_CASE( "GraphicAPI.ShaderCreator.ComputeShader.Create", "[GraphicAPI]" )
 	CHECK( result.Get() != nullptr );
 }
 
+
+// ================================ //
+// Not compiling shader creation should return error message.
+TEST_CASE( "GraphicAPI.ShaderCreator.ComputeShader.Create.CompilationFailed", "[GraphicAPI]" )
+{
+	AssetsFactory factory;
+
+	ShaderInitData init( ShaderType::ComputeShader );
+
+	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/NotCompiling.csh", TypeID::get< ComputeShader >(), std::move( init ) );
+
+	REQUIRE( result.IsValid() == false );
+	CHECK( result.GetError() != nullptr );
+}
 
 
