@@ -171,7 +171,7 @@ ComputeShader*		ResourcesFactory::CreateComputeShaderFromFile		( const std::wstr
 @param[in] data Pointer to initialization data. Memory can be released after call.
 @param[in] bufferInfo Buffer descriptor.
 @return Zwraca wskaünik na obiekt bufora lub nullptr w przypadku niepowodzenia.*/
-BufferObject*			ResourcesFactory::CreateBufferFromMemory		( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
+sw::Nullable< BufferObject* >			ResourcesFactory::CreateBufferFromMemory		( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
 {
 	return Buffer::CreateFromMemory( name, data, bufferInfo );
 }
@@ -179,28 +179,34 @@ BufferObject*			ResourcesFactory::CreateBufferFromMemory		( const std::wstring& 
 /**Tworzy object RenderTargetObject z bufora tylnego ekranu.
 
 @return Zwraca object RenderTargetObject.*/
-RenderTargetObject*		ResourcesFactory::CreateScreenRenderTarget()
+RenderTargetObject*						ResourcesFactory::CreateScreenRenderTarget		()
 {
 	return sw::MockRenderTarget::CreateScreenRenderTarget();
 }
 
-SwapChain*				ResourcesFactory::CreateScreenSwapChain( RenderTargetObject* screenRT )
+// ================================ //
+//
+SwapChain*								ResourcesFactory::CreateScreenSwapChain			( RenderTargetObject* screenRT )
 {
 	return sw::MockSwapChain::CreateScreenSwapChain( screenRT );
 }
 
-IGraphicAPIInitializer* ResourcesFactory::CreateAPIInitializer()
+// ================================ //
+//
+IGraphicAPIInitializer*					ResourcesFactory::CreateAPIInitializer			()
 {
 	return new sw::MockInitializer();
 }
 
 /**Tworzy obiekt deskryptora layoutu.*/
-InputLayoutDescriptor* ResourcesFactory::CreateInputLayoutDescriptor( const std::wstring& layoutName )
+InputLayoutDescriptor*					ResourcesFactory::CreateInputLayoutDescriptor	( const std::wstring& layoutName )
 {
 	return new sw::MockInputLayoutDescriptor( layoutName );
 }
 
-RenderTargetObject* ResourcesFactory::CreateRenderTarget( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor )
+// ================================ //
+//
+RenderTargetObject*						ResourcesFactory::CreateRenderTarget			( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor )
 {
 	return sw::MockRenderTarget::CreateRenderTarget( name, renderTargetDescriptor );
 }

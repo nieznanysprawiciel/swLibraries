@@ -36,12 +36,12 @@ public:
 
 public:
 
-	ResourcePtr< BufferObject >		CreateVertexBuffer			( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount );
-	ResourcePtr< BufferObject >		CreateVertexBuffer			( const filesystem::Path& name, const VertexBufferInitData& data );
-	ResourcePtr< BufferObject >		CreateIndexBuffer			( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount );
-	ResourcePtr< BufferObject >		CreateIndexBuffer			( const filesystem::Path& name, const IndexBufferInitData& data );
-	ResourcePtr< BufferObject >		CreateConstantsBuffer		( const filesystem::Path& name, const uint8* buffer, unsigned int size );
-	ResourcePtr< BufferObject >		CreateConstantsBuffer		( const filesystem::Path& name, const ConstantBufferInitData& data );
+	Nullable< BufferObject* >		CreateVertexBuffer			( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount );
+	Nullable< BufferObject* >		CreateVertexBuffer			( const filesystem::Path& name, const VertexBufferInitData& data );
+	Nullable< BufferObject* >		CreateIndexBuffer			( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount );
+	Nullable< BufferObject* >		CreateIndexBuffer			( const filesystem::Path& name, const IndexBufferInitData& data );
+	Nullable< BufferObject* >		CreateConstantsBuffer		( const filesystem::Path& name, const uint8* buffer, unsigned int size );
+	Nullable< BufferObject* >		CreateConstantsBuffer		( const filesystem::Path& name, const ConstantBufferInitData& data );
 
 };
 

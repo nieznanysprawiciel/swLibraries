@@ -62,7 +62,7 @@ private:
 	static ControlShader*					CreateControlShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "ds_4_0" );
 	static ComputeShader*					CreateComputeShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "cs_4_0" );
 
-	static BufferObject*					CreateBufferFromMemory			( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo );
+	static sw::Nullable< BufferObject* >	CreateBufferFromMemory			( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo );
 
 	static VertexShader*			CreateVertexShaderFromFile		( const std::wstring& fileName,
 																	const std::string& shaderName,

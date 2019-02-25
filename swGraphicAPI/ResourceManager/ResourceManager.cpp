@@ -334,7 +334,7 @@ ResourcePtr<BufferObject>	ResourceManager::CreateVertexBuffer		( const std::wstr
 		return ResourcePtr<BufferObject>();
 	
 	
-	vertexBuff = ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() );
+	vertexBuff = ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
 	if ( !vertexBuff )		// Bufor móg³ siê nie stworzyæ, a nie chcemy dodawaæ nullptra do ResourceManagera
 		return nullptr;
 
@@ -373,7 +373,7 @@ ResourcePtr<BufferObject>	ResourceManager::CreateIndexBuffer		( const std::wstri
 		return ResourcePtr<BufferObject>();
 	
 	
-	indexBuff = ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() );
+	indexBuff = ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
 	if ( !indexBuff )		// Bufor móg³ siê nie stworzyæ, a nie chcemy dodawaæ nullptra do ResourceManagera
 		return nullptr;
 
@@ -411,7 +411,7 @@ ResourcePtr<BufferObject>	ResourceManager::CreateConstantsBuffer		( const std::w
 		return ResourcePtr<BufferObject>();
 	
 	
-	constBuff = ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() );
+	constBuff = ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
 	if ( !constBuff )		// Bufor móg³ siê nie stworzyæ, a nie chcemy dodawaæ nullptra do ResourceManagera
 		return nullptr;
 

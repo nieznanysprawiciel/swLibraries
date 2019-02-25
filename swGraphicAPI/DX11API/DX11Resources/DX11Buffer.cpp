@@ -9,8 +9,8 @@
 #include "DX11Initializer/DX11ConstantsMapper.h"
 
 #include "swCommonLib/Common/Converters.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
 
-#include "swCommonLib/Common/MemoryLeaks.h"
 
 
 RTTR_REGISTRATION
@@ -20,6 +20,8 @@ RTTR_REGISTRATION
 
 
 
+// ================================ //
+//
 DX11Buffer::DX11Buffer( const std::wstring& name, const BufferInfo& descriptor, ID3D11Buffer* buff )
 	:	BufferObject( descriptor.ElementSize, descriptor.NumElements ), m_buffer( buff )
 	,	m_descriptor( descriptor )
@@ -33,6 +35,8 @@ DX11Buffer::DX11Buffer( const std::wstring& name, const BufferInfo& descriptor, 
 	}
 }
 
+// ================================ //
+//
 DX11Buffer::~DX11Buffer()
 {
 	if( m_buffer )
@@ -41,13 +45,9 @@ DX11Buffer::~DX11Buffer()
 }
 
 
-/**@brief Tworzy bufor wierzcho³ków, indeksów lub sta³ych o podanych parametrach.
-
-@param[in] name Buffer name or file path.
-@param[in] data Pointer to initialization data. Memory can be released after call.
-@param[in] bufferInfo Buffer descriptor.
-@return WskaŸnik na DX11Buffer w przypadku powodzenia lub nullptr, je¿eli coœ pójdzie nie tak.*/
-DX11Buffer*		DX11Buffer::CreateFromMemory	( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
+// ================================ //
+//
+sw::Nullable< BufferObject* >				DX11Buffer::CreateFromMemory	( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
 {
 	ResourceBinding bindFlag;
 	if( bufferInfo.BufferType == BufferType::VertexBuffer )
@@ -78,7 +78,7 @@ DX11Buffer*		DX11Buffer::CreateFromMemory	( const std::wstring& name, const uint
 	ID3D11Buffer* newBuffer;
 	result = device->CreateBuffer( &bufferDesc, initDataPtr, &newBuffer );
 	if( FAILED( result ) )
-		return nullptr;
+		return "[DX11Buffer] Buffer creation failed.";
 
 	DX11Buffer* newBufferObject = new DX11Buffer( name, bufferInfo, newBuffer );
 	return newBufferObject;
@@ -97,7 +97,7 @@ D3D11_USAGE_STAGING lub D3D11_USAGE_DEFAULT. Trzeba sprawdziæ flagi i robiæ kopi
 @attention Funkcja nie nadaje siê do wykonania wielow¹tkowego. U¿ywa DeviceContextu do kopiowania danych
 w zwi¹zku z czym wymaga synchronizacji z innymi funkcjami renderuj¹cymi.
 */
-MemoryChunk DX11Buffer::CopyData()
+MemoryChunk									DX11Buffer::CopyData()
 {
 	// Trzeba stworzyæ nowy bufor
 	D3D11_BUFFER_DESC bufferDesc;

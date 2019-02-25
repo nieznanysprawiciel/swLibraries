@@ -20,7 +20,8 @@ namespace sw
 {
 
 
-
+// ================================ //
+//
 MockBuffer::MockBuffer( const std::wstring& name, const BufferInfo& descriptor )
 	: BufferObject( descriptor.ElementSize, descriptor.NumElements )
 	, m_descriptor( descriptor )
@@ -28,12 +29,14 @@ MockBuffer::MockBuffer( const std::wstring& name, const BufferInfo& descriptor )
 	m_descriptor.Name = name;
 }
 
+// ================================ //
+//
 MockBuffer::~MockBuffer()
 {}
 
 
 /**@brief */
-MockBuffer*		MockBuffer::CreateFromMemory	( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
+sw::Nullable< BufferObject* >		MockBuffer::CreateFromMemory	( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
 {
 	MockBuffer* newBufferObject = new MockBuffer( name, bufferInfo );
 	return newBufferObject;
@@ -41,7 +44,7 @@ MockBuffer*		MockBuffer::CreateFromMemory	( const std::wstring& name, const uint
 
 
 /**@brief*/
-MemoryChunk MockBuffer::CopyData()
+MemoryChunk							MockBuffer::CopyData			()
 {
 	MemoryChunk memoryChunk;
 	return std::move( memoryChunk );

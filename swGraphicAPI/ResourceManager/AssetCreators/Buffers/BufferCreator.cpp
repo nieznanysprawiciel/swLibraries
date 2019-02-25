@@ -22,11 +22,11 @@ Nullable< Resource* >	BufferCreator::Create		( const filesystem::Path& assetName
 {
 	TypeID type = createInfo.get_type();
 	if( type == TypeID::get< ConstantBufferInitData >() )
-		return CreateConstantsBuffer( assetName, static_cast< ConstantBufferInitData& >( createInfo ) ).Ptr();
+		return CreateConstantsBuffer( assetName, static_cast< ConstantBufferInitData& >( createInfo ) );
 	else if( type == TypeID::get< VertexBufferInitData >() )
-		return CreateVertexBuffer( assetName, static_cast< VertexBufferInitData& >( createInfo ) ).Ptr();
+		return CreateVertexBuffer( assetName, static_cast< VertexBufferInitData& >( createInfo ) );
 	else if( type == TypeID::get< IndexBufferInitData >() )
-		return CreateIndexBuffer( assetName, static_cast< IndexBufferInitData& >( createInfo ) ).Ptr();
+		return CreateIndexBuffer( assetName, static_cast< IndexBufferInitData& >( createInfo ) );
 
 	return "[BufferCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported.";
 }
@@ -83,7 +83,7 @@ TypeID						BufferCreator::GetAssetType	() const
 
 // ================================ //
 //
-ResourcePtr< BufferObject >			BufferCreator::CreateVertexBuffer		( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount )
+Nullable< BufferObject* >			BufferCreator::CreateVertexBuffer		( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount )
 {
 	VertexBufferInitData initData;
 	initData.Data = buffer;
@@ -95,14 +95,14 @@ ResourcePtr< BufferObject >			BufferCreator::CreateVertexBuffer		( const filesys
 
 // ================================ //
 //
-ResourcePtr< BufferObject >			BufferCreator::CreateVertexBuffer		( const filesystem::Path& name, const VertexBufferInitData& data )
+Nullable< BufferObject* >			BufferCreator::CreateVertexBuffer		( const filesystem::Path& name, const VertexBufferInitData& data )
 {
 	return ResourcesFactory::CreateBufferFromMemory( name.WString(), data.Data, data.CreateBufferInfo() );
 }
 
 // ================================ //
 //
-ResourcePtr< BufferObject >			BufferCreator::CreateIndexBuffer		( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount )
+Nullable< BufferObject* >			BufferCreator::CreateIndexBuffer		( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount )
 {
 	IndexBufferInitData initData;
 	initData.Data = buffer;
@@ -114,14 +114,14 @@ ResourcePtr< BufferObject >			BufferCreator::CreateIndexBuffer		( const filesyst
 
 // ================================ //
 //
-ResourcePtr< BufferObject >			BufferCreator::CreateIndexBuffer		( const filesystem::Path& name, const IndexBufferInitData& data )
+Nullable< BufferObject* >			BufferCreator::CreateIndexBuffer		( const filesystem::Path& name, const IndexBufferInitData& data )
 {
 	return ResourcesFactory::CreateBufferFromMemory( name.WString(), data.Data, data.CreateBufferInfo() );
 }
 
 // ================================ //
 //
-ResourcePtr< BufferObject >			BufferCreator::CreateConstantsBuffer	( const filesystem::Path& name, const uint8* buffer, unsigned int size )
+Nullable< BufferObject* >			BufferCreator::CreateConstantsBuffer	( const filesystem::Path& name, const uint8* buffer, unsigned int size )
 {
 	ConstantBufferInitData initData;
 	initData.Data = (const uint8*)buffer;
@@ -133,7 +133,7 @@ ResourcePtr< BufferObject >			BufferCreator::CreateConstantsBuffer	( const files
 
 // ================================ //
 //
-ResourcePtr< BufferObject >			BufferCreator::CreateConstantsBuffer	( const filesystem::Path& name, const ConstantBufferInitData& data )
+Nullable< BufferObject* >			BufferCreator::CreateConstantsBuffer	( const filesystem::Path& name, const ConstantBufferInitData& data )
 {
 	return ResourcesFactory::CreateBufferFromMemory( name.WString(), data.Data, data.CreateBufferInfo() );
 }
