@@ -1,11 +1,11 @@
+#include "swCommonLib/External/Catch/catch.hpp"
+
 /**
 @file TestAssetsFactory.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-
-#include "swCommonLib/External/Catch/catch.hpp"
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/AssetsFactory.h"
 
@@ -24,7 +24,7 @@ TEST_CASE( "GraphicAPI.AssetsFactory.CreateAsset", "[GraphicAPI]" )
 
 	ShaderInitData init( ShaderType::VertexShader );
 
-	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/EmptyShader.vsh", TypeID::get< VertexShader >(), std::move( init ) );
+	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/MinimalShader.vsh", TypeID::get< VertexShader >(), std::move( init ) );
 	REQUIRE( result.IsValid() == true );
 
 	CHECK( result.Get() != nullptr );
