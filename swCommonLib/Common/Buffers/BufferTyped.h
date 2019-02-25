@@ -47,6 +47,7 @@ public:
 	TypeID				GetType			() const		{ return TypeID::get< ContentType >(); }
 	Size				GetSize			() const		{ return m_count * sizeof( ContentType ); }
 	Size				ElementsCount	() const		{ return m_count; }
+	Size				ElementSize		() const		{ return sizeof( ContentType ); }
 	uint8*				GetRawData		()				{ return reinterpret_cast< uint8* >( m_data ); }
 	const uint8*		GetRawData		() const		{ return reinterpret_cast< const uint8* >( m_data ); }
 	bool				IsValid			() const		{ return m_data != nullptr; }

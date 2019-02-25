@@ -48,7 +48,7 @@ inline Nullable< Resource* >		ShaderCreator< ShaderObjectType >::Create			( cons
 		}
 	}
 
-	return "IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported yet. This feature will be implemented in future.";
+	return "[ShaderCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported yet. This feature will be implemented in future.";
 }
 
 // ================================ //

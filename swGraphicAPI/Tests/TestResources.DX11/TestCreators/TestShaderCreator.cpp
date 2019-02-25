@@ -1,11 +1,11 @@
+#include "swCommonLib/External/Catch/catch.hpp"
+
 /**
 @file TestShaderCreator.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-
-#include "swCommonLib/External/Catch/catch.hpp"
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/AssetsFactory.h"
 

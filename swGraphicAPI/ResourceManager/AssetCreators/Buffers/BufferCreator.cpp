@@ -28,7 +28,7 @@ Nullable< Resource* >	BufferCreator::Create		( const filesystem::Path& assetName
 	else if( type == TypeID::get< IndexBufferInitData >() )
 		return CreateIndexBuffer( assetName, static_cast< IndexBufferInitData& >( createInfo ) ).Ptr();
 
-	return nullptr;
+	return "[BufferCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported.";
 }
 
 // ================================ //
@@ -59,7 +59,7 @@ BufferRaw					BufferCreator::SaveToRaw	( ResourcePtr< Resource > resource )
 //
 bool						BufferCreator::IsCacheable	() const
 {
-	return true;
+	return false;
 }
 
 // ================================ //

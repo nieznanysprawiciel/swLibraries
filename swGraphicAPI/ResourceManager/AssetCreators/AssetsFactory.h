@@ -13,11 +13,13 @@
 #include <vector>
 
 
+class BufferObject;
+
+
 namespace sw
 {
 
 class IAssetCache;
-class BufferObject;
 
 
 /**@brief Assets factory.

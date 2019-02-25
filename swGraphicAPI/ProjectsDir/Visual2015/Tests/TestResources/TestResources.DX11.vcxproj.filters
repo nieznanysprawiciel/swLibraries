@@ -8,6 +8,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestShaderCreator.cpp">
       <Filter>Tests\TestCreators</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestBufferCreator.cpp">
+      <Filter>Tests\TestCreators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestResources.DX11\GraphicAPI.h" />
