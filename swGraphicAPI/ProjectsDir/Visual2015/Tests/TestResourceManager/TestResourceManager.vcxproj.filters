@@ -8,10 +8,16 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetsFactory.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestCreators\TestBufferCreator.cpp">
+      <Filter>Tests\TestCreators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
       <UniqueIdentifier>{f8dd9c62-3b53-4454-b5c2-62c03f7ce92e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\TestCreators">
+      <UniqueIdentifier>{7b4ee1f2-f121-450a-98af-c4a4eea8dfe5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

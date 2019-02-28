@@ -135,6 +135,9 @@ Nullable< BufferObject* >			BufferCreator::CreateConstantsBuffer	( const filesys
 //
 Nullable< BufferObject* >			BufferCreator::CreateConstantsBuffer	( const filesystem::Path& name, const ConstantBufferInitData& data )
 {
+	if( data.ElementSize % 16 != 0 )
+		return "[BufferCreator] Invalid Buffer size. Should be multiply of 16.";
+
 	return ResourcesFactory::CreateBufferFromMemory( name.WString(), data.Data, data.CreateBufferInfo() );
 }
 
