@@ -1,9 +1,10 @@
 #pragma once
 /**
-@file IShader.h
+@file IShaderInputLayout.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
 
 
 #include "swGraphicAPI/Resources/ResourceObject.h"

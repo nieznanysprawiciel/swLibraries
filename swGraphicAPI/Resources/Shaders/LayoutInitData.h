@@ -63,6 +63,7 @@ struct LayoutEntry
 class InputLayoutDescriptor : public sw::IAssetCreateInfo
 {
 	RTTR_ENABLE( sw::IAssetCreateInfo );
+	RTTR_REGISTRATION_FRIEND;
 private:
 
 	std::wstring					m_inputLayoutName;
@@ -77,8 +78,8 @@ public:
 	virtual ~InputLayoutDescriptor		() = default;
 
 	/**@brief Adds Input layout entry.
-	@deprecated This function remained for compatibility with previous version of creatng input layouts.*/
-	virtual void			AddRow		( const char* semanticName, ResourceFormat format, unsigned int inputSlot, unsigned int byteOffset, bool perInstance, unsigned int instanceDataStep ) = 0;
+	@deprecated This function remained for compatibility with previous version of creating input layouts.*/
+	virtual void			AddRow		( const char* semanticName, ResourceFormat format, unsigned int inputSlot, unsigned int byteOffset, bool perInstance, unsigned int instanceDataStep ) {};
 
 	/**@brief Adds shader input layout entry.
 	This function will fill not specified data with apropriate values.*/
@@ -86,9 +87,15 @@ public:
 	void					AddEntry				( sw::AttributeSemantic semanticName, ResourceFormat format, uint16 inputSlot );
 	void					AddEntryPerInstance		( sw::AttributeSemantic semanticName, ResourceFormat format, uint16 inputSlot, uint32 instanceDataStep );
 
-	const std::wstring&		GetName		() { return m_inputLayoutName; }
+	const std::wstring&		GetName					() { return m_inputLayoutName; }
 
-	virtual TypeID			GetAssetType() const override;
+	virtual TypeID			GetAssetType			() const override;
+
+	const std::vector< sw::LayoutEntry >&			GetEntries		() const { return m_entries; }
+
+protected:
+
+	void					AddEntryImpl			( sw::AttributeSemantic semanticName, ResourceFormat format, uint16 inputSlot, bool perInstance, uint32 instanceDataStep );
 };
 
 

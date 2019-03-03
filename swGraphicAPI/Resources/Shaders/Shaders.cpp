@@ -59,9 +59,3 @@ TypeID			ShaderInitData::GetAssetType() const
 
 
 
-// ================================ //
-//
-TypeID			InputLayoutDescriptor::GetAssetType() const
-{
-	return TypeID::get< ShaderInputLayout >();
-}

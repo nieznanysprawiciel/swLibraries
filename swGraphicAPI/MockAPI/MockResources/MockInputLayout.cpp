@@ -17,10 +17,20 @@ RTTR_REGISTRATION
 namespace sw
 {
 
+// ================================ //
+//
 MockInputLayout::MockInputLayout()
 {}
 
+// ================================ //
+//
+sw::Nullable< MockInputLayout* >		MockInputLayout::CreateLayout		( const InputLayoutDescriptor& layoutDesc )
+{
+	return new MockInputLayout();
+}
 
+// ================================ //
+//
 MockInputLayout::~MockInputLayout()
 {}
 

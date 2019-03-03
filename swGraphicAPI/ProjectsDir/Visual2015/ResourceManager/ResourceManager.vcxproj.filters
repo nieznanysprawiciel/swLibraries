@@ -116,7 +116,7 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Resources\Texture.h">
       <Filter>Resources</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\..\..\ResourceManager\IAssetLoader.h">
       <Filter>ResourceManager</Filter>
     </ClInclude>
@@ -207,7 +207,7 @@
       <Filter>PrecompiledHeader</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Resources\Texture.cpp">
-        <Filter>Resources</Filter>
+      <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\nResourceManager.cpp">
       <Filter>ResourceManager</Filter>
@@ -244,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManagerAsync.cpp">
       <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Resources\Shaders\Layouts.cpp">
+      <Filter>Resources\Shaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

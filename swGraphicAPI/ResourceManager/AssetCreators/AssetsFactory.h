@@ -36,6 +36,7 @@ protected:
 	uint8				m_CSCreatorIdx;
 	uint8				m_CtrlSCreatorIdx;
 	uint8				m_GSCreatorIdx;
+	uint8				m_layoutCreator;
 
 	std::vector< IAssetCreatorPtr >		m_assetCreators;
 

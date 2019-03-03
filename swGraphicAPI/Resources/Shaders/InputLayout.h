@@ -10,8 +10,7 @@
 #include "swCommonLib/Common/ObjectDeleter.h"
 
 
-/**@brief Klasa przechowuje layout wierzcho³ka trafiaj¹cego do
-vertex shadera.
+/**@brief Class storing vertex shader input layout.
 @ingroup Shaders
 @ingroup Buffers
 @ingroup Resources*/
@@ -21,9 +20,11 @@ class ShaderInputLayout : public IShaderInputLayout
 	friend ObjectDeleter< ShaderInputLayout >;
 private:
 protected:
-	virtual ~ShaderInputLayout() = default;
+
+	virtual			~ShaderInputLayout	() = default;
+
 public:
-	ShaderInputLayout() = default;
+	explicit		ShaderInputLayout	() = default;
 
 	virtual std::string			GetResourceName	() const override { return ""; }
 };

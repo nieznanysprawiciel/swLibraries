@@ -23,6 +23,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\main.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestBlendingState.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestBufferCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestLayoutCreator.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestShaderCreator.cpp" />
   </ItemGroup>
   <ItemGroup>

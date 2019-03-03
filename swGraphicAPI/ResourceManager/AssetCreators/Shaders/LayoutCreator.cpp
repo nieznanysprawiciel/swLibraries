@@ -21,8 +21,7 @@ Nullable< Resource* >		LayoutCreator::Create			( const filesystem::Path& assetNa
 {
 	auto init = static_cast< InputLayoutDescriptor* >( &createInfo );
 
-
-	return nullptr;
+	return ResourcesFactory::CreateInputLayout( *init );
 }
 
 // ================================ //
@@ -51,14 +50,24 @@ BufferRaw					LayoutCreator::SaveToRaw		( ResourcePtr< Resource > resource )
 
 // ================================ //
 //
+bool						LayoutCreator::IsCacheable		() const
+{
+	return false;
+}
+
+// ================================ //
+//
 bool						LayoutCreator::SupportsResourceToRaw() const
 {
 	return false;
 }
 
-//====================================================================================//
-//			Non generic functions.	
-//====================================================================================//
+// ================================ //
+//
+TypeID						LayoutCreator::GetAssetType			() const
+{
+	return TypeID::get< ShaderInputLayout >();
+}
 
 
 
