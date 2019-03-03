@@ -56,7 +56,7 @@ public:
 	LayoutVec			GetDX11LayoutDesc		() const { return m_inputElement; }
 	std::string			GenerateShader			() const;
 
-private:
+public:
 
 	LayoutVec					Translate		( const InputLayoutDescriptor& layoutDesc ) const;
 	D3D11_INPUT_ELEMENT_DESC	Translate		( const sw::LayoutEntry& entry ) const;
@@ -73,7 +73,7 @@ private:
 	std::string					GenerateInputStruct		( const LayoutVec& layout ) const;
 	std::string					GenerateAttribute		( const D3D11_INPUT_ELEMENT_DESC& attribute ) const;
 	std::string					InputStructName			() const { return "InputVS"; }
-	std::string					MapSemanticToType		( const char* semantic ) const;
+	std::string					MapSemanticToType		( DXGI_FORMAT format ) const;
 };
 
 
@@ -209,7 +209,7 @@ std::string						DX11LayoutTranslator::GenerateAttribute		( const D3D11_INPUT_EL
 
 	std::string attributeEntry;
 
-	attributeEntry = MapSemanticToType( attribute.SemanticName );
+	attributeEntry = MapSemanticToType( attribute.Format );
 	attributeEntry += " m" + fullSemanticStr + " : " + fullSemanticStr + ";";
 
 	return attributeEntry;
@@ -217,8 +217,23 @@ std::string						DX11LayoutTranslator::GenerateAttribute		( const D3D11_INPUT_EL
 
 // ================================ //
 //
-std::string						DX11LayoutTranslator::MapSemanticToType		( const char* semantic ) const
+std::string						DX11LayoutTranslator::MapSemanticToType		( DXGI_FORMAT format ) const
 {
+	switch( format )
+	{
+		case DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UINT:
+			return "uint4";
+		case DXGI_FORMAT::DXGI_FORMAT_R8G8_UINT:
+			return "uint2";
+		case DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT:
+			return "float4";
+		case DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT:
+			return "float3";
+		case DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT:
+			return "float2";
+		case DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT:
+			return "float";
+	}
 	return "float4";
 }
 
