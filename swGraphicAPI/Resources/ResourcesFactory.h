@@ -23,6 +23,7 @@ namespace sw
 	class BufferCreator;
 	class LayoutCreator;
 	class BlendingStateCreator;
+	class RasterizerStateCreator;
 
 	template< typename ShaderObjectType > class ShaderCreator;
 }
@@ -48,6 +49,7 @@ class ResourcesFactory
 	friend class sw::ShaderCreator< ComputeShader >;
 	friend class sw::LayoutCreator;
 	friend class sw::BlendingStateCreator;
+	friend class sw::RasterizerStateCreator;
 
 
 private:

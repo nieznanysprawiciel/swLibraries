@@ -1,7 +1,7 @@
 #include "swCommonLib/External/Catch/catch.hpp"
 
 /**
-@file TestBlendingStateCreator.cpp
+@file TestRasterizerStateCreator.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
@@ -9,8 +9,8 @@
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/AssetsFactory.h"
 
-#include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/BlendingStateCreator.h"
-#include "swGraphicAPI/Resources/BlendingState.h"
+#include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/RasterizerStateCreator.h"
+#include "swGraphicAPI/Resources/RasterizerState.h"
 
 
 
@@ -19,14 +19,12 @@ using namespace sw;
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.BlendingStateCreator.Create", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.RasterizerStateCreator.Create", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
-	
-	BlendingInfo init;
-	init.EnableBlending = false;
+	RasterizerStateInfo init;
 
-	auto result = factory.CreateAsset( "::BlendingState::Opaque", TypeID::get< BlendingState >(), std::move( init ) );
+	auto result = factory.CreateAsset( "::RasterizerState::Default", TypeID::get< RasterizerState >(), std::move( init ) );
 
 	if( !result.IsValid() )
 	{

@@ -25,6 +25,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestBlendingStateCreator.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestBufferCreator.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestLayoutCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestRasterizerStateCreator.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestShaderCreator.cpp" />
   </ItemGroup>
   <ItemGroup>

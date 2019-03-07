@@ -38,6 +38,7 @@ protected:
 	uint8				m_GSCreatorIdx;
 	uint8				m_layoutCreator;
 	uint8				m_blendingStateCreator;
+	uint8				m_rasterizerStateCreator;
 
 	std::vector< IAssetCreatorPtr >		m_assetCreators;
 

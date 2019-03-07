@@ -198,6 +198,9 @@
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\BlendingStateCreator.h">
       <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\RasterizerStateCreator.h">
+      <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
@@ -252,6 +255,9 @@
       <Filter>Resources\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\BlendingStateCreator.cpp">
+      <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\RasterizerStateCreator.cpp">
       <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
     </ClCompile>
   </ItemGroup>

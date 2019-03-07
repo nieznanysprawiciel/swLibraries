@@ -37,13 +37,13 @@ protected:
 public:
 	explicit	DX11RasterizerState	( ComPtr< ID3D11RasterizerState > state, const RasterizerStateInfo& info );
 	
-	ID3D11RasterizerState*				Get	()	{ return m_state.Get(); }
+	ID3D11RasterizerState*								Get	()	{ return m_state.Get(); }
 
 	// Inherited via RasterizerState
-	virtual std::string					GetResourceName	() const override;
-	virtual const RasterizerStateInfo&	GetDescriptor	() override;
+	virtual std::string									GetResourceName	() const override;
+	virtual const RasterizerStateInfo&					GetDescriptor	() override;
 
-	static DX11RasterizerState*			Create			( const RasterizerStateInfo& info );
+	static sw::Nullable< DX11RasterizerState* >			Create			( const RasterizerStateInfo& info );
 };
 
 

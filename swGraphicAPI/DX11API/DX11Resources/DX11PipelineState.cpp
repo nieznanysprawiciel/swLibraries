@@ -29,21 +29,21 @@ DX11RasterizerState::DX11RasterizerState( ComPtr< ID3D11RasterizerState > state,
 
 // ================================ //
 //
-std::string						DX11RasterizerState::GetResourceName() const
+std::string										DX11RasterizerState::GetResourceName	() const
 {
 	return std::string();
 }
 
 // ================================ //
 //
-const RasterizerStateInfo&		DX11RasterizerState::GetDescriptor()
+const RasterizerStateInfo&						DX11RasterizerState::GetDescriptor		()
 {
 	return m_info;
 }
 
 // ================================ //
 //
-DX11RasterizerState*			DX11RasterizerState::Create		( const RasterizerStateInfo& info )
+sw::Nullable< DX11RasterizerState* >			DX11RasterizerState::Create				( const RasterizerStateInfo& info )
 {
 	D3D11_RASTERIZER_DESC desc;
 	desc.CullMode = DX11ConstantsMapper::Get( info.CullMode );
@@ -60,7 +60,7 @@ DX11RasterizerState*			DX11RasterizerState::Create		( const RasterizerStateInfo&
 	ComPtr< ID3D11RasterizerState > state;
 	auto result = device->CreateRasterizerState( &desc, state.GetAddressOf() );
 	if( FAILED( result ) )
-		return nullptr;
+		return "[DX11RasterizerState] Creation failed.";
 
 	return new DX11RasterizerState( state, info );
 }

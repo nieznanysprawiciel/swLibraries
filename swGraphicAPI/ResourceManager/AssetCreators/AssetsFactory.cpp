@@ -11,6 +11,7 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/Shaders/ShaderCreator.h"
 #include "swGraphicAPI/ResourceManager/AssetCreators/Shaders/LayoutCreator.h"
 #include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/BlendingStateCreator.h"
+#include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/RasterizerStateCreator.h"
 
 
 
@@ -77,6 +78,9 @@ void			AssetsFactory::RegisterDefaults		()
 
 	RegisterCreator( IAssetCreatorPtr( new BlendingStateCreator() ) );
 	m_blendingStateCreator = (uint8)m_assetCreators.size() - 1;
+
+	RegisterCreator( IAssetCreatorPtr( new RasterizerStateCreator() ) );
+	m_rasterizerStateCreator = (uint8)m_assetCreators.size() - 1;
 }
 
 // ================================ //

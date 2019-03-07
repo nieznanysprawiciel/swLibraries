@@ -8,17 +8,23 @@
 #include "swCommonLib/Common/ObjectDeleter.h"
 #include "ResourceObject.h"
 
+#include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreateInfo.h"
+
 
 /**@defgroup PipelineState
 @ingroup Resources
 */
 
 
+class RasterizerState;
+
 
 /**@brief 
 @ingroup PipelineState*/
-struct RasterizerStateInfo
+struct RasterizerStateInfo : public sw::IAssetCreateInfo
 {
+	RTTR_ENABLE( sw::IAssetCreateInfo );
+public:
 	CullMode		CullMode;
 	FillMode		FillMode;
 	int				DepthBias;
@@ -56,6 +62,10 @@ struct RasterizerStateInfo
 	}
 
 #undef Compare
+
+public:
+
+	virtual TypeID			GetAssetType			() const override { return TypeID::get< RasterizerState >(); }
 };
 
 
