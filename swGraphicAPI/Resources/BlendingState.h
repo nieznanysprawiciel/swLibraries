@@ -9,16 +9,22 @@
 
 #include "ResourceObject.h"
 #include "swGraphicAPI/Rendering/GraphicAPIConstants.h"
+#include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreateInfo.h"
 
 #include <DirectXMath.h>
+
+
+class BlendingState;
 
 
 
 /**@brief Initialization of BlendingState.
 
 @ingroup PipelineState*/
-struct BlendingInfo
+struct BlendingInfo : public sw::IAssetCreateInfo
 {
+	RTTR_ENABLE( sw::IAssetCreateInfo );
+public:
 	DirectX::XMFLOAT4	CustomBlendFactor;		///< Custom blend factors.
 	bool				EnableBlending;
 	BlendOperation		ColorOperation;
@@ -61,6 +67,10 @@ struct BlendingInfo
 	}
 
 #undef Compare
+
+public:
+
+	virtual TypeID			GetAssetType			() const override { return TypeID::get< BlendingState >(); }
 };
 
 

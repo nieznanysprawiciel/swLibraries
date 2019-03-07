@@ -195,6 +195,9 @@
     <ClInclude Include="..\..\..\ResourceManager\ResourceManagerAsync.h">
       <Filter>ResourceManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\BlendingStateCreator.h">
+      <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
@@ -247,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Resources\Shaders\Layouts.cpp">
       <Filter>Resources\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\BlendingStateCreator.cpp">
+      <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

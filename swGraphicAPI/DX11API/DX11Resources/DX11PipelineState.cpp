@@ -131,21 +131,21 @@ DX11BlendingState::DX11BlendingState( ComPtr< ID3D11BlendState > state, const Bl
 
 // ================================ //
 //
-std::string						DX11BlendingState::GetResourceName() const
+std::string								DX11BlendingState::GetResourceName() const
 {
 	return std::string();
 }
 
 // ================================ //
 //
-const BlendingInfo&				DX11BlendingState::GetDescriptor()
+const BlendingInfo&						DX11BlendingState::GetDescriptor()
 {
 	return m_info;
 }
 
 // ================================ //
 //
-DX11BlendingState*				DX11BlendingState::Create		( const BlendingInfo & info )
+sw::Nullable< DX11BlendingState* >		DX11BlendingState::Create		( const BlendingInfo& info )
 {
 	D3D11_BLEND_DESC desc;
 	desc.IndependentBlendEnable = false;
@@ -164,7 +164,7 @@ DX11BlendingState*				DX11BlendingState::Create		( const BlendingInfo & info )
 	ComPtr< ID3D11BlendState > state;
 	auto result = device->CreateBlendState( &desc, state.GetAddressOf() );
 	if( FAILED( result ) )
-		return nullptr;
+		return "[DX11BlendingState] Creation failed.";
 
 	return new DX11BlendingState( state, info );
 }

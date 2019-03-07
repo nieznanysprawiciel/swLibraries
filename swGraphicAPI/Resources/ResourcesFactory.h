@@ -22,6 +22,7 @@ namespace sw
 {
 	class BufferCreator;
 	class LayoutCreator;
+	class BlendingStateCreator;
 
 	template< typename ShaderObjectType > class ShaderCreator;
 }
@@ -46,6 +47,7 @@ class ResourcesFactory
 	friend class sw::ShaderCreator< ControlShader >;
 	friend class sw::ShaderCreator< ComputeShader >;
 	friend class sw::LayoutCreator;
+	friend class sw::BlendingStateCreator;
 
 
 private:
@@ -56,8 +58,12 @@ private:
 
 	static sw::Nullable< ShaderInputLayout* >	CreateInputLayout				( const InputLayoutDescriptor& layoutDesc );
 
-	static TextureObject*					CreateTextureFromMemory			( const MemoryChunk& texData, TextureInfo&& texInfo );
-	static sw::Nullable< BufferObject* >	CreateBufferFromMemory			( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo );
+	static TextureObject*						CreateTextureFromMemory			( const MemoryChunk& texData, TextureInfo&& texInfo );
+	static sw::Nullable< BufferObject* >		CreateBufferFromMemory			( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo );
+
+	static sw::Nullable< BlendingState*	>		CreateBlendingState				( const BlendingInfo& info );
+	static sw::Nullable< RasterizerState* >		CreateRasterizerState			( const RasterizerStateInfo& info );
+	static sw::Nullable< DepthStencilState* >	CreateDepthStencilState			( const DepthStencilInfo& info );
 
 
 	static VertexShader*					CreateVertexShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "vs_4_0" );
@@ -73,10 +79,6 @@ private:
 																	ShaderInputLayout** layout,
 																	InputLayoutDescriptor* layout_desc,
 																	const char* shaderModel = "vs_4_0" );
-
-	static BlendingState*			CreateBlendingState				( const BlendingInfo& info );
-	static RasterizerState*			CreateRasterizerState			( const RasterizerStateInfo& info );
-	static DepthStencilState*		CreateDepthStencilState			( const DepthStencilInfo& info );
 
 public:
 	static IGraphicAPIInitializer*	CreateAPIInitializer			();

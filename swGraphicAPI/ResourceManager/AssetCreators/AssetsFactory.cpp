@@ -10,6 +10,7 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/Buffers/BufferCreator.h"
 #include "swGraphicAPI/ResourceManager/AssetCreators/Shaders/ShaderCreator.h"
 #include "swGraphicAPI/ResourceManager/AssetCreators/Shaders/LayoutCreator.h"
+#include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/BlendingStateCreator.h"
 
 
 
@@ -73,6 +74,9 @@ void			AssetsFactory::RegisterDefaults		()
 
 	RegisterCreator( IAssetCreatorPtr( new LayoutCreator() ) );
 	m_layoutCreator = (uint8)m_assetCreators.size() - 1;
+
+	RegisterCreator( IAssetCreatorPtr( new BlendingStateCreator() ) );
+	m_blendingStateCreator = (uint8)m_assetCreators.size() - 1;
 }
 
 // ================================ //

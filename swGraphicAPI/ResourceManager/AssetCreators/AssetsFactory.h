@@ -37,6 +37,7 @@ protected:
 	uint8				m_CtrlSCreatorIdx;
 	uint8				m_GSCreatorIdx;
 	uint8				m_layoutCreator;
+	uint8				m_blendingStateCreator;
 
 	std::vector< IAssetCreatorPtr >		m_assetCreators;
 

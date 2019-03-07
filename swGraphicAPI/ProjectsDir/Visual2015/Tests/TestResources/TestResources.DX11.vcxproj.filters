@@ -14,6 +14,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestLayoutCreator.cpp">
       <Filter>Tests\TestCreators</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestBlendingStateCreator.cpp">
+      <Filter>Tests\TestCreators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestResources.DX11\GraphicAPI.h" />

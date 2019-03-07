@@ -7,6 +7,7 @@
 
 
 /**@brief Deskryptor layoutu dla DirectX 11.
+@deprecated InputLayoutDescriptor is last class in inheritance hierarchy
 @ingroup DX11API*/
 class DX11InputLayoutDescriptor : public InputLayoutDescriptor
 {

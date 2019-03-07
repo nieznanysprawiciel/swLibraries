@@ -112,19 +112,19 @@ VertexShader*		ResourcesFactory::CreateVertexShaderFromFile	( const std::wstring
 }
 
 /**@brief Creates BlendingState.*/
-BlendingState*		ResourcesFactory::CreateBlendingState		( const BlendingInfo& info )
+sw::Nullable< BlendingState* >		ResourcesFactory::CreateBlendingState		( const BlendingInfo& info )
 {
 	return BlendingStateObject::Create( info );
 }
 
 /**@brief Creates RasterizerState*/
-RasterizerState*	ResourcesFactory::CreateRasterizerState		( const RasterizerStateInfo& info )
+sw::Nullable< RasterizerState* >	ResourcesFactory::CreateRasterizerState		( const RasterizerStateInfo& info )
 {
 	return RasterizerStateObject::Create( info );
 }
 
 /**@brief Creates DepthStencilState.*/
-DepthStencilState*	ResourcesFactory::CreateDepthStencilState	( const DepthStencilInfo& info )
+sw::Nullable< DepthStencilState* >	ResourcesFactory::CreateDepthStencilState	( const DepthStencilInfo& info )
 {
 	return DepthStencilStateObject::Create( info );
 }

@@ -27,6 +27,7 @@
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Buffers\BufferCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\IAssetCreateInfo.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\IAssetCreator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\BlendingStateCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\LayoutCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\AssetLoadRequest.h" />
@@ -72,6 +73,7 @@
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.inl">
       <FileType>Document</FileType>
     </ClInclude>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\BlendingStateCreator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Shaders\LayoutCreator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\AssetsThread.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\LoadBarrier.cpp" />

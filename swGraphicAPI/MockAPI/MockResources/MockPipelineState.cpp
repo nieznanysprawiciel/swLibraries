@@ -103,6 +103,8 @@ const BlendingInfo&				MockBlendingState::GetDescriptor()
 	return m_info;
 }
 
+// ================================ //
+//
 MockBlendingState*				MockBlendingState::Create		( const BlendingInfo & info )
 {
 	return new MockBlendingState( info );

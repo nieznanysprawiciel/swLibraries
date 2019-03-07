@@ -5,6 +5,8 @@
 @copyright File is part of graphic engine SWEngine.
 */
 
+#include "swCommonLib/Common/Exceptions/Nullable.h"
+
 #include "DX11Initializer/DX11APIObjects.h"
 
 #include "swGraphicAPI/Resources/BlendingState.h"
@@ -24,11 +26,14 @@ class DX11RasterizerState : public RasterizerState, protected DX11APIObjects
 {
 	RTTR_ENABLE( RasterizerState );
 private:
+
 	ComPtr< ID3D11RasterizerState >		m_state;
 	RasterizerStateInfo					m_info;
 
 protected:
-	~DX11RasterizerState() = default;
+
+	virtual		~DX11RasterizerState() = default;
+
 public:
 	explicit	DX11RasterizerState	( ComPtr< ID3D11RasterizerState > state, const RasterizerStateInfo& info );
 	
@@ -72,20 +77,24 @@ class DX11BlendingState : public BlendingState, public DX11APIObjects
 {
 	RTTR_ENABLE( BlendingState );
 private:
+
 	ComPtr< ID3D11BlendState >	m_state;
 	BlendingInfo				m_info;
 
 protected:
-	~DX11BlendingState() = default;
+
+	virtual		~DX11BlendingState	() = default;
+
 public:
 	explicit	DX11BlendingState	( ComPtr< ID3D11BlendState > state, const BlendingInfo& info );
 	
-	ID3D11BlendState*				Get	()	{ return m_state.Get(); }
+
+	ID3D11BlendState*								Get	()	{ return m_state.Get(); }
 
 	// Inherited via BlendingState
-	virtual std::string				GetResourceName	() const override;
-	virtual const BlendingInfo&		GetDescriptor	() override;
+	virtual std::string								GetResourceName	() const override;
+	virtual const BlendingInfo&						GetDescriptor	() override;
 
-	static DX11BlendingState*		Create			( const BlendingInfo& info );
+	static sw::Nullable< DX11BlendingState* >		Create			( const BlendingInfo& info );
 };
 

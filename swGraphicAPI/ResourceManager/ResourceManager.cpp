@@ -428,7 +428,7 @@ ResourcePtr< BlendingState >	ResourceManager::CreateBlendingState	( const std::w
 	if ( resource )	// Jeøeli znaleüliúmy bufor, to zwracamy nullptr
 		return ResourcePtr< BlendingState >();
 
-	resource = ResourcesFactory::CreateBlendingState( info );
+	resource = ResourcesFactory::CreateBlendingState( info ).Get();
 	m_blendingState.UnsafeAdd( name, resource );
 
 	return ResourcePtr< BlendingState >( resource );
@@ -443,7 +443,7 @@ ResourcePtr< RasterizerState >	ResourceManager::CreateRasterizerState	( const st
 	if ( resource )	// Jeøeli znaleüliúmy bufor, to zwracamy nullptr
 		return ResourcePtr< RasterizerState >();
 
-	resource = ResourcesFactory::CreateRasterizerState( info );
+	resource = ResourcesFactory::CreateRasterizerState( info ).Get();
 	m_rasterizerState.UnsafeAdd( name, resource );
 
 	return ResourcePtr< RasterizerState >( resource );
@@ -458,7 +458,7 @@ ResourcePtr< DepthStencilState >	ResourceManager::CreateDepthStencilState	( cons
 	if ( resource )	// Jeøeli znaleüliúmy bufor, to zwracamy nullptr
 		return ResourcePtr< DepthStencilState >();
 
-	resource = ResourcesFactory::CreateDepthStencilState( info );
+	resource = ResourcesFactory::CreateDepthStencilState( info ).Get();
 	m_depthStencilState.UnsafeAdd( name, resource );
 
 	return ResourcePtr< DepthStencilState >( resource );
