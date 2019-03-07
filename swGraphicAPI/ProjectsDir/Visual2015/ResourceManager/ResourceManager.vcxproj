@@ -28,6 +28,7 @@
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\IAssetCreateInfo.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\IAssetCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\BlendingStateCreator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\DepthStencilStateCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\RasterizerStateCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\LayoutCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.h" />
@@ -75,6 +76,7 @@
       <FileType>Document</FileType>
     </ClInclude>
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\BlendingStateCreator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\DepthStencilStateCreator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\RasterizerStateCreator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Shaders\LayoutCreator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\AssetsThread.cpp" />

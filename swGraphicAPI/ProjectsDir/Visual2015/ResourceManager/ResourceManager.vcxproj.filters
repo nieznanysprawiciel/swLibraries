@@ -201,6 +201,9 @@
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\RasterizerStateCreator.h">
       <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\DepthStencilStateCreator.h">
+      <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
@@ -258,6 +261,9 @@
       <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\RasterizerStateCreator.cpp">
+      <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\DepthStencilStateCreator.cpp">
       <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
     </ClCompile>
   </ItemGroup>

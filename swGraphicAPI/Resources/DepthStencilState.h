@@ -8,14 +8,18 @@
 #include "swCommonLib/Common/ObjectDeleter.h"
 #include "ResourceObject.h"
 
+#include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreateInfo.h"
 
 
+class DepthStencilState;
 
 
 /**@brief 
 @ingroup PipelineState*/
-struct DepthStencilInfo
+struct DepthStencilInfo : public sw::IAssetCreateInfo
 {
+	RTTR_ENABLE( sw::IAssetCreateInfo );
+public:
 	bool			EnableDepthTest;
 	bool			EnableStencilTest;
 
@@ -36,6 +40,10 @@ struct DepthStencilInfo
 	}
 
 #undef Compare
+
+public:
+
+	virtual TypeID			GetAssetType			() const override { return TypeID::get< DepthStencilState >(); }
 };
 
 

@@ -61,13 +61,13 @@ protected:
 public:
 	explicit	DX11DepthStencilState	( ComPtr< ID3D11DepthStencilState > state, const DepthStencilInfo& info );
 	
-	ID3D11DepthStencilState*			Get	()	{ return m_state.Get(); }
+	ID3D11DepthStencilState*							Get	()	{ return m_state.Get(); }
 
 	// Inherited via DepthStencilState
-	virtual std::string					GetResourceName	() const override;
-	virtual const DepthStencilInfo&		GetDescriptor	() override;
+	virtual std::string									GetResourceName	() const override;
+	virtual const DepthStencilInfo&						GetDescriptor	() override;
 
-	static DX11DepthStencilState*		Create			( const DepthStencilInfo& info );
+	static sw::Nullable< DX11DepthStencilState* >		Create			( const DepthStencilInfo& info );
 };
 
 

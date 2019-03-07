@@ -24,6 +24,7 @@ namespace sw
 	class LayoutCreator;
 	class BlendingStateCreator;
 	class RasterizerStateCreator;
+	class DepthStencilStateCreator;
 
 	template< typename ShaderObjectType > class ShaderCreator;
 }
@@ -50,6 +51,7 @@ class ResourcesFactory
 	friend class sw::LayoutCreator;
 	friend class sw::BlendingStateCreator;
 	friend class sw::RasterizerStateCreator;
+	friend class sw::DepthStencilStateCreator;
 
 
 private:

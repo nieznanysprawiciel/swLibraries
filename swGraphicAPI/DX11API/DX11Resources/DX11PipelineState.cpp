@@ -78,21 +78,21 @@ DX11DepthStencilState::DX11DepthStencilState( ComPtr< ID3D11DepthStencilState > 
 
 // ================================ //
 //
-std::string						DX11DepthStencilState::GetResourceName() const
+std::string										DX11DepthStencilState::GetResourceName	() const
 {
 	return std::string();
 }
 
 // ================================ //
 //
-const DepthStencilInfo&			DX11DepthStencilState::GetDescriptor()
+const DepthStencilInfo&							DX11DepthStencilState::GetDescriptor	()
 {
 	return m_info;
 }
 
 // ================================ //
 //
-DX11DepthStencilState*			DX11DepthStencilState::Create			( const DepthStencilInfo& info )
+sw::Nullable< DX11DepthStencilState* >			DX11DepthStencilState::Create			( const DepthStencilInfo& info )
 {
 	D3D11_DEPTH_STENCIL_DESC desc;
 	desc.DepthEnable = info.EnableDepthTest;
@@ -113,7 +113,7 @@ DX11DepthStencilState*			DX11DepthStencilState::Create			( const DepthStencilInf
 	ComPtr< ID3D11DepthStencilState > state;
 	auto result = device->CreateDepthStencilState( &desc, state.GetAddressOf() );
 	if( FAILED( result ) )
-		return nullptr;
+		return "[DX11DepthStencilState] Creation failed.";
 
 	return new DX11DepthStencilState( state, info );
 }

@@ -12,6 +12,7 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/Shaders/LayoutCreator.h"
 #include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/BlendingStateCreator.h"
 #include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/RasterizerStateCreator.h"
+#include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/DepthStencilStateCreator.h"
 
 
 
@@ -81,6 +82,9 @@ void			AssetsFactory::RegisterDefaults		()
 
 	RegisterCreator( IAssetCreatorPtr( new RasterizerStateCreator() ) );
 	m_rasterizerStateCreator = (uint8)m_assetCreators.size() - 1;
+
+	RegisterCreator( IAssetCreatorPtr( new DepthStencilStateCreator() ) );
+	m_depthStencilStateCreator = (uint8)m_assetCreators.size() - 1;
 }
 
 // ================================ //
