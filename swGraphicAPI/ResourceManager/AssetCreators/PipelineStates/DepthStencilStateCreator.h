@@ -14,7 +14,8 @@
 namespace sw
 {
 
-/**@brief */
+/**@brief Creates depth-stencil state for graphic pipeline.
+@ingroup AssetsCreators*/
 class DepthStencilStateCreator : public IAssetCreator
 {
 private:

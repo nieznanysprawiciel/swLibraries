@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ImageGenerators\CheckerboardGenerator.h" />
     <ClInclude Include="..\..\..\Rendering\GraphicAPIConstants.h" />
     <ClInclude Include="..\..\..\Rendering\IGraphicAPIInitializer.h" />
     <ClInclude Include="..\..\..\Rendering\IRenderer.h" />
@@ -32,6 +33,9 @@
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\RasterizerStateCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\LayoutCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\MipMapGenerator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\Resampler\resampler.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\TextureCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\AssetLoadRequest.h" />
     <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\AssetLoadResponse.h" />
     <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\AssetsThread.h" />
@@ -70,6 +74,7 @@
     <ClInclude Include="..\..\..\Resources\Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ImageGenerators\CheckerboardGenerator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\AssetsFactory.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Buffers\BufferCreator.cpp" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.inl">
@@ -79,6 +84,14 @@
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\DepthStencilStateCreator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\RasterizerStateCreator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Shaders\LayoutCreator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\MipMapGenerator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\Resampler\resampler.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\TextureCreator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\AssetsThread.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\LoadBarrier.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncLoaderAPI.cpp" />

@@ -2,7 +2,7 @@
 /**
 @file IShader.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
 
 
@@ -11,8 +11,9 @@
 #include <string>
 
 
-/**@brief Shader interface.*/
-class IShader	:	public Resource
+/**@brief Shader interface.
+@ingroup Shaders*/
+class IShader : public Resource
 {
 	RTTR_ENABLE( Resource )
 private:

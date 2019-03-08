@@ -1,6 +1,6 @@
 #pragma once
 /**
-@file RasterizerStateCreator.h
+@file TextureCreator.h
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
@@ -9,20 +9,20 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreator.h"
 
 
-
-
 namespace sw
 {
 
-/**@brief Creates rasterizer state for graphic pipeline.
+
+
+/**@brief Creates texture and generates mipmaps.
 @ingroup AssetsCreators*/
-class RasterizerStateCreator : public IAssetCreator
+class TextureCreator : public IAssetCreator
 {
 private:
 protected:
 public:
-	explicit		RasterizerStateCreator		() = default;
-	virtual			~RasterizerStateCreator		() = default;
+	explicit		TextureCreator		() = default;
+	virtual			~TextureCreator		() = default;
 
 
 public:
@@ -37,9 +37,7 @@ public:
 	virtual bool					SupportsResourceToRaw	() const override;
 	virtual TypeID					GetAssetType			() const override;
 
-
 };
-
 
 
 

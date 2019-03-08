@@ -12,8 +12,12 @@
 
 
 /**@defgroup Shaders Shaders
-@ingroup Resources
-*/
+
+Shader creation structures:
+- @ref ShaderInitData
+- @ref ShaderCodeInitData
+
+@ingroup Resources*/
 
 
 

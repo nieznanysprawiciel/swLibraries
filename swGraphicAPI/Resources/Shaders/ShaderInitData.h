@@ -20,7 +20,8 @@ namespace sw
 
 /**@brief Create shader of given type from file path.
 
-Note: File path will be passed as second parameter to creator function so is ommited here.*/
+Note: File path will be passed as second parameter to creator function so is ommited here.
+@ingroup Shaders*/
 struct ShaderInitData : public IAssetCreateInfo
 {
 	RTTR_ENABLE( IAssetCreateInfo );
@@ -43,7 +44,8 @@ public:
 };
 
 
-/**@brief Create shader from string containing source code.*/
+/**@brief Create shader from string containing source code.
+@ingroup Shaders*/
 struct ShaderCodeInitData : public ShaderInitData
 {
 	RTTR_ENABLE( ShaderInitData );

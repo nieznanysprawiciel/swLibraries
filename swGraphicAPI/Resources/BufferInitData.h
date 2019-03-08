@@ -21,7 +21,8 @@
 class BufferObject;
 
 
-/**@brief Buffer initialization data.*/
+/**@brief Buffer initialization data.
+@ingroup Buffers*/
 struct BufferInitData : public sw::IAssetCreateInfo
 {
 	const uint8*	Data;			///< Pointer must be valid only in time of creation.
@@ -49,7 +50,8 @@ public:
 };
 
 
-/**@brief Constant buffer initialization data.*/
+/**@brief Constant buffer initialization data.
+@ingroup Buffers*/
 struct ConstantBufferInitData : public BufferInitData
 {
 	BufferInfo		CreateBufferInfo() const;
@@ -60,7 +62,8 @@ public:
 
 
 
-/**@brief Vertex buffer initialization data.*/
+/**@brief Vertex buffer initialization data.
+@ingroup Buffers*/
 struct VertexBufferInitData : public BufferInitData
 {
 	ResourcePtr< ShaderInputLayout >	VertexLayout;		///< [Optional] Layout of single vertex in buffer. You can add this layout to enable additional information in editor. Otherwise set to nullptr.
@@ -77,7 +80,8 @@ public:
 	RTTR_ENABLE( BufferInitData );
 };
 
-/**@brief  Index buffer initialization data.*/
+/**@brief  Index buffer initialization data.
+@ingroup Buffers*/
 struct IndexBufferInitData : public BufferInitData
 {
 	PrimitiveTopology					Topology;			///< [Optional] Topology of verticies. @note Index buffer topology override vertex buffer topology.

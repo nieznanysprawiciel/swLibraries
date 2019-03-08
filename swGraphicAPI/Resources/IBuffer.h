@@ -13,9 +13,17 @@
 #include "swCommonLib/System/Path.h"
 
 
-/**@defgroup Buffers
-@ingroup Resources
-*/
+/**@defgroup Buffers Buffers
+
+@brief GPU buffer objects.
+@detail
+
+Buffer initialization classes:
+- @ref ConstantBufferInitData
+- @ref IndexBufferInitData
+- @ref VertexBufferInitData
+
+@ingroup Resources*/
 
 class ShaderInputLayout;
 
@@ -30,7 +38,7 @@ enum class BufferType : uint8
 };
 
 
-/**@brief Descriptor of buffer.
+/**@brief Descriptor of buffer hold by @ref BufferObject.
 @ingroup Buffers*/
 struct BufferInfo
 {
@@ -68,7 +76,7 @@ struct BufferInfo
 /**@brief Base class for buffers.
 @ingroup Buffers
 @ingroup Resources*/
-class IBuffer	:	public Resource
+class IBuffer : public Resource
 {
 	RTTR_ENABLE( Resource )
 private:

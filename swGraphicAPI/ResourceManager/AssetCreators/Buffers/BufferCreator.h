@@ -12,7 +12,8 @@
 namespace sw
 {
 
-/**@brief */
+/**@brief Creates GPU Buffer.
+@ingroup AssetsCreators*/
 class BufferCreator : public IAssetCreator
 {
 private:

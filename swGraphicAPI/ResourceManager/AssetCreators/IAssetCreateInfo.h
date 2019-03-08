@@ -15,7 +15,8 @@ namespace sw
 Generally all structure used to create assets should inherit from this interface even if generic
 creation is not necessary.
 
-@ingroup AssetsManagement*/
+@ingroup AssetsManagement
+@ingroup AssetsCreators*/
 class IAssetCreateInfo
 {
 	RTTR_ENABLE();

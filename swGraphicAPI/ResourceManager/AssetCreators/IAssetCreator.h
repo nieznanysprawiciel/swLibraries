@@ -19,6 +19,10 @@
 namespace sw
 {
 
+/**@defgroup AssetsCreators Assets Creators
+@copydetails IAssetCreator
+@ingroup AssetsManagement*/
+
 
 
 /**@brief Interface for assets creator.
@@ -26,11 +30,12 @@ namespace sw
 Each asset type should have associated creator class, which implements creation function.
 This allows user to create generic assets. AssetCreator can be registered in AssetsFactory.
 
-Derived implementation can expose functions for typed IAssetCreateInfo descriptors.
+Derived implementation should implement functions for typed IAssetCreateInfo descriptors.
 
 Second purpose of this class is ability to write asset in raw data format to cache.
 
-@ingroup AssetsManagement*/
+@ingroup AssetsManagement
+@ingroup AssetsCreators*/
 class IAssetCreator
 {
 private:

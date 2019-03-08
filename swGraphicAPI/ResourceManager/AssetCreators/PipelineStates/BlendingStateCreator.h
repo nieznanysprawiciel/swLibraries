@@ -14,7 +14,8 @@
 namespace sw
 {
 
-/**@brief */
+/**@brief Creates blending state for graphic pipeline.
+@ingroup AssetsCreators*/
 class BlendingStateCreator : public IAssetCreator
 {
 private:

@@ -14,7 +14,8 @@ namespace sw
 
 
 
-/**@brief Creator for input layout.*/
+/**@brief Creator for input layout.
+@ingroup AssetsCreators*/
 class LayoutCreator : public IAssetCreator
 {
 private:

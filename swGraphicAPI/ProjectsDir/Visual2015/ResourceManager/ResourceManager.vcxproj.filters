@@ -52,6 +52,12 @@
     <Filter Include="ResourceManager\PathTranslators">
       <UniqueIdentifier>{17bac032-4543-4380-bd48-d3b8e5062c6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceManager\AssetCreators\Textures\Resampler">
+      <UniqueIdentifier>{21fab0d8-65c8-4533-b6cc-5729b33f10f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImageGenerators">
+      <UniqueIdentifier>{8f4f8bec-efb3-4307-9487-87df7f7e3d68}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Rendering\IRenderer.h">
@@ -204,6 +210,18 @@
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\DepthStencilStateCreator.h">
       <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\MipMapGenerator.h">
+      <Filter>ResourceManager\AssetCreators\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\Resampler\resampler.h">
+      <Filter>ResourceManager\AssetCreators\Textures\Resampler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\TextureCreator.h">
+      <Filter>ResourceManager\AssetCreators\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ImageGenerators\CheckerboardGenerator.h">
+      <Filter>ImageGenerators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
@@ -265,6 +283,18 @@
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\DepthStencilStateCreator.cpp">
       <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\MipMapGenerator.cpp">
+      <Filter>ResourceManager\AssetCreators\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\Resampler\resampler.cpp">
+      <Filter>ResourceManager\AssetCreators\Textures\Resampler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\TextureCreator.cpp">
+      <Filter>ResourceManager\AssetCreators\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ImageGenerators\CheckerboardGenerator.cpp">
+      <Filter>ImageGenerators</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
