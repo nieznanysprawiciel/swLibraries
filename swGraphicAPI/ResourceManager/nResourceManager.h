@@ -113,7 +113,7 @@ public:
 	ResourcePtr< RasterizerState >	CreateRasterizerState		( const filesystem::Path& name, const RasterizerStateInfo& info );
 	ResourcePtr< DepthStencilState >CreateDepthStencilState		( const filesystem::Path& name, const DepthStencilInfo& info );
 
-	ResourcePtr< Resource >	CreateGenericAsset			( const filesystem::Path& name, TypeID assetType, IAssetCreateInfo&& createInfo );
+	ResourcePtr< Resource >			CreateGenericAsset			( const filesystem::Path& name, TypeID assetType, IAssetCreateInfo&& createInfo );
 	///@}
 
 	RenderTargetObject*				AddRenderTarget				( RenderTargetObject* renderTarget, const std::wstring& name );
@@ -137,7 +137,7 @@ protected:
 
 	ResourcePtr< Resource >						FindResource		( const filesystem::Path& assetName, TypeID assetType );
 	ResourcePtr< Resource >						FindRequestedAsset	( const filesystem::Path& assetName, TypeID assetType, const AssetsVec& loadedAssets );
-	IAssetLoader*										FindLoader			( const filesystem::Path& assetName, TypeID assetType );
+	IAssetLoader*								FindLoader			( const filesystem::Path& assetName, TypeID assetType );
 
 	ResourcePtr< Resource >						LoadingImpl			( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID assetType );
 };

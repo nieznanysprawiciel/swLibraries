@@ -24,7 +24,7 @@
 #include "swGraphicAPI/Resources/Shaders/InputLayout.h"
 #include "swGraphicAPI/Resources/Shaders/LayoutInitData.h"
 
-#include "swGraphicAPI/Resources/Texture.h"
+#include "swGraphicAPI/Resources/Textures/Texture.h"
 
 #include <DirectXMath.h>
 
@@ -37,7 +37,7 @@ B³êdny identyfikator assetu w klasie @ref Resource.*/
 /**@defgroup Resources Resources
 @ingroup ResourcesManagment
 @ingroup GraphicAPI
-@brief Niskopoziomowe zasoby zwi¹zane z api graficznym.
+@brief Low level resources that depend on graphic API.
 
 Zasoby s¹ silnie zale¿ne od u¿ywanej platformy sprzêtowej. W celu oddzielenia referencji do
 API graficznego od @ref EngineCore, wszystkie obiekty silnika u¿ywaj¹ jedynie klas bazowych, które

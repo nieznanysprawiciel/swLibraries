@@ -5,7 +5,7 @@
 */
 #include "swGraphicAPI/ResourceManager/stdafx.h"
 
-#include "swGraphicAPI/Resources/Texture.h"
+#include "Texture.h"
 
 
 

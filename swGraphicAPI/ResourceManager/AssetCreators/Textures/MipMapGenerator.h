@@ -2,8 +2,9 @@
 /**
 @file MipMapGenerator.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
 
 #include "swCommonLib/Common/Buffers/BufferRaw.h"
 #include "swCommonLib/Common/Exceptions/Nullable.h"

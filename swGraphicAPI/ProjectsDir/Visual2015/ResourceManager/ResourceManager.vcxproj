@@ -71,12 +71,13 @@
     <ClInclude Include="..\..\..\Resources\Shaders\ShaderInitData.h" />
     <ClInclude Include="..\..\..\Resources\Shaders\Shaders.h" />
     <ClInclude Include="..\..\..\Resources\SwapChain.h" />
-    <ClInclude Include="..\..\..\Resources\Texture.h" />
+    <ClInclude Include="..\..\..\Resources\Textures\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ImageGenerators\CheckerboardGenerator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\AssetsFactory.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Buffers\BufferCreator.cpp" />
+    <ClCompile Include="..\..\..\Resources\Textures\Texture.cpp" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.inl">
       <FileType>Document</FileType>
     </ClInclude>
@@ -110,7 +111,6 @@
     <ClCompile Include="..\..\..\Resources\MeshResources.cpp" />
     <ClCompile Include="..\..\..\Resources\Shaders\Layouts.cpp" />
     <ClCompile Include="..\..\..\Resources\Shaders\Shaders.cpp" />
-    <ClCompile Include="..\..\..\Resources\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
