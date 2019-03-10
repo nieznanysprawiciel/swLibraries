@@ -25,7 +25,7 @@
 typedef sw::MockTexture				TextureObject;
 typedef sw::MockVertexShader		VertexShaderObject;
 typedef sw::MockPixelShader			PixelShaderObject;
-typedef sw::MockBuffer				Buffer;
+typedef sw::MockBuffer				BufferObject;
 typedef sw::MockComputeShader		ComputeShaderObject;
 typedef sw::MockDepthStencilState	DepthStencilStateObject;
 typedef sw::MockRasterizerState		RasterizerStateObject;
@@ -184,9 +184,9 @@ ComputeShader*		ResourcesFactory::CreateComputeShaderFromFile		( const std::wstr
 @param[in] data Pointer to initialization data. Memory can be released after call.
 @param[in] bufferInfo Buffer descriptor.
 @return Zwraca wskaünik na obiekt bufora lub nullptr w przypadku niepowodzenia.*/
-sw::Nullable< BufferObject* >			ResourcesFactory::CreateBufferFromMemory		( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
+sw::Nullable< Buffer* >					ResourcesFactory::CreateBufferFromMemory		( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
 {
-	return Buffer::CreateFromMemory( name, data, bufferInfo );
+	return BufferObject::CreateFromMemory( name, data, bufferInfo );
 }
 
 /**Tworzy object RenderTargetObject z bufora tylnego ekranu.

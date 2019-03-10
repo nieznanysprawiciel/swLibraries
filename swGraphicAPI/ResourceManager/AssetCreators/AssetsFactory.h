@@ -20,7 +20,7 @@ namespace sw
 {
 
 class IAssetCache;
-class BufferObject;
+class Buffer;
 
 
 /**@brief Assets factory.
@@ -63,12 +63,12 @@ public:
 
 public:
 
-	ResourcePtr< BufferObject >		CreateVertexBuffer			( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount );
-	ResourcePtr< BufferObject >		CreateVertexBuffer			( const filesystem::Path& name, const VertexBufferInitData& data );
-	ResourcePtr< BufferObject >		CreateIndexBuffer			( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount );
-	ResourcePtr< BufferObject >		CreateIndexBuffer			( const filesystem::Path& name, const IndexBufferInitData& data );
-	ResourcePtr< BufferObject >		CreateConstantsBuffer		( const filesystem::Path& name, const uint8* buffer, unsigned int size );
-	ResourcePtr< BufferObject >		CreateConstantsBuffer		( const filesystem::Path& name, const ConstantBufferInitData& data );
+	ResourcePtr< Buffer >		CreateVertexBuffer			( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount );
+	ResourcePtr< Buffer >		CreateVertexBuffer			( const filesystem::Path& name, const VertexBufferInitData& data );
+	ResourcePtr< Buffer >		CreateIndexBuffer			( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount );
+	ResourcePtr< Buffer >		CreateIndexBuffer			( const filesystem::Path& name, const IndexBufferInitData& data );
+	ResourcePtr< Buffer >		CreateConstantsBuffer		( const filesystem::Path& name, const uint8* buffer, unsigned int size );
+	ResourcePtr< Buffer >		CreateConstantsBuffer		( const filesystem::Path& name, const ConstantBufferInitData& data );
 
 
 private:

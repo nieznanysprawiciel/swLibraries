@@ -77,7 +77,7 @@ bool			Drawing::UpdateBrushConstants		( ResourceManager* rm, Brush* brush )
 	{
 		std::wstring name = brush->ConstantsName();
 
-		ResourcePtr< BufferObject > constantsBuffer = rm->GetConstantBuffer( name );
+		ResourcePtr< Buffer > constantsBuffer = rm->GetConstantBuffer( name );
 		if( !constantsBuffer )
 		{
 			auto bufferRange = brush->BufferData();
@@ -113,7 +113,7 @@ bool			Drawing::UpdatePenConstants			( ResourceManager* rm, Brush* pen )
 	{
 		std::wstring name = pen->ConstantsName();
 
-		ResourcePtr< BufferObject > constantsBuffer = rm->GetConstantBuffer( name );
+		ResourcePtr< Buffer > constantsBuffer = rm->GetConstantBuffer( name );
 		if( !constantsBuffer )
 		{
 			auto bufferRange = pen->BufferData();
@@ -151,8 +151,8 @@ bool			Drawing::UpdateGeometry				( ResourceManager* rm, Geometry* geometry )
 	{
 		std::wstring name = geometry->GeometryName();
 
-		ResourcePtr< BufferObject > vertexBuffer = rm->GetVertexBuffer( name );
-		ResourcePtr< BufferObject > indexBuffer = rm->GetIndexBuffer( name );
+		ResourcePtr< Buffer > vertexBuffer = rm->GetVertexBuffer( name );
+		ResourcePtr< Buffer > indexBuffer = rm->GetIndexBuffer( name );
 
 		/// @todo Optimise. We should generate data only if necessary. Introduce Asset for geometric
 		/// data that will hold all information needed for rendering.
@@ -191,7 +191,7 @@ bool			Drawing::UpdateGeometryConstants	( ResourceManager* rm, Geometry* geometr
 	{
 		std::wstring name = geometry->ConstantsName();
 
-		ResourcePtr< BufferObject > constantsBuffer = rm->GetConstantBuffer( name );
+		ResourcePtr< Buffer > constantsBuffer = rm->GetConstantBuffer( name );
 		if( !constantsBuffer )
 		{
 			auto bufferRange = geometry->BufferData();
@@ -352,7 +352,7 @@ void			Drawing::UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::
 
 // ================================ //
 //
-void			Drawing::UpdateCBContentImpl		( IRenderer* renderer, BufferObject* buffer, BufferRange bufferData )
+void			Drawing::UpdateCBContentImpl		( IRenderer* renderer, Buffer* buffer, BufferRange bufferData )
 {
 	UpdateBufferCommand cmd;
 	cmd.Buffer = buffer;

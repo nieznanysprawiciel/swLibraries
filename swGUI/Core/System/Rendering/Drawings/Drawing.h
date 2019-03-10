@@ -35,9 +35,9 @@ Note that verticies layout in Vertex Buffer doesn't matter since indicies refere
 from 0 position. That means that fill verticies can be used by border too.*/
 struct GeometryRenderingData
 {
-	ResourcePtr< BufferObject >			VertexBuffer;		///< Vertex Buffer containing both fill and border verticies.
-	ResourcePtr< BufferObject >			IndexBuffer;		///< Index Buffer containing both fill and border indicies.
-	ResourcePtr< BufferObject >			GeometryConstants;	///< Constant buffer bound to Vertex Shader.
+	ResourcePtr< Buffer >			VertexBuffer;		///< Vertex Buffer containing both fill and border verticies.
+	ResourcePtr< Buffer >			IndexBuffer;		///< Index Buffer containing both fill and border indicies.
+	ResourcePtr< Buffer >			GeometryConstants;	///< Constant buffer bound to Vertex Shader.
 	ResourcePtr< VertexShader >			VertexShader;		///< Vertex Shader.
 	ResourcePtr< ShaderInputLayout >	Layout;				///< Bertex layout.
 	uint32								FillEnd;			///< End of fill indicies in buffer.
@@ -51,7 +51,7 @@ struct GeometryRenderingData
 struct BrushRenderingData
 {
 	ResourcePtr< PixelShader >		PixelShader;		///< Pixel Shader.
-	ResourcePtr< BufferObject >		BrushConstants;		///< Constant buffer bound to Pixel Shader.
+	ResourcePtr< Buffer >		BrushConstants;		///< Constant buffer bound to Pixel Shader.
 	ResourcePtr< Texture >	Texture;			///< Optional texture bound to Pixel Shader.
 };
 
@@ -125,7 +125,7 @@ private:
 	bool					UpdateTextureImpl		( ResourceManager* rm, Brush* brush, impl::BrushRenderingData& brushData );
 
 	void					UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::BrushRenderingData& brushData );
-	void					UpdateCBContentImpl		( IRenderer* renderer, BufferObject* buffer, BufferRange bufferData );
+	void					UpdateCBContentImpl		( IRenderer* renderer, Buffer* buffer, BufferRange bufferData );
 
 	void					RenderImpl				( IRenderer* renderer, impl::GeometryRenderingData& geom, impl::BrushRenderingData& brush, uint32 start, uint32 end );
 

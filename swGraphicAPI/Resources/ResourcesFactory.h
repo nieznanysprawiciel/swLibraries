@@ -72,7 +72,7 @@ private:
 	static sw::Nullable< ShaderInputLayout* >	CreateInputLayout				( const InputLayoutDescriptor& layoutDesc );
 
 	static Texture*								CreateTextureFromMemory			( const MemoryChunk& texData, sw::TextureInfo&& texInfo );
-	static sw::Nullable< BufferObject* >		CreateBufferFromMemory			( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo );
+	static sw::Nullable< Buffer* >				CreateBufferFromMemory			( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo );
 
 	static sw::Nullable< BlendingState*	>		CreateBlendingState				( const BlendingInfo& info );
 	static sw::Nullable< RasterizerState* >		CreateRasterizerState			( const RasterizerStateInfo& info );

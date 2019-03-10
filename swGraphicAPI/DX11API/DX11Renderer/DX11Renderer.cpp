@@ -434,7 +434,7 @@ void	DX11Renderer::FlushCommands		()
 
 // ================================ //
 //
-bool    DX11Renderer::SetVertexBuffer   ( BufferObject* buffer, unsigned int offset )
+bool    DX11Renderer::SetVertexBuffer   ( Buffer* buffer, unsigned int offset )
 {
 	ID3D11Buffer* vertexBuffer = nullptr;
 	if( buffer )
@@ -458,7 +458,7 @@ bool    DX11Renderer::SetVertexBuffer   ( BufferObject* buffer, unsigned int off
 
 // ================================ //
 // Buffer can be nullptr.
-void	DX11Renderer::SetIndexBuffer	( BufferObject* buffer, unsigned int offset, bool extendedIndex )
+void	DX11Renderer::SetIndexBuffer	( Buffer* buffer, unsigned int offset, bool extendedIndex )
 {
 	if( buffer )
 	{

@@ -40,7 +40,7 @@ void					RenderingHelper::SetRenderTarget				( RenderTargetObject* target,
 
 // ================================ //
 //
-void					RenderingHelper::BindBuffer						( BufferObject* buffer, uint8 slot, uint8 shaderFlag )
+void					RenderingHelper::BindBuffer						( Buffer* buffer, uint8 slot, uint8 shaderFlag )
 {
 	if( buffer )
 		BindBuffer( m_renderer, buffer, slot, shaderFlag );
@@ -93,7 +93,7 @@ void					RenderingHelper::SetRenderTarget				( IRenderer* renderer,
 
 // ================================ //
 //
-void					RenderingHelper::BindBuffer						( IRenderer* renderer, BufferObject* buffer, uint8 slot, uint8 shaderFlag )
+void					RenderingHelper::BindBuffer						( IRenderer* renderer, Buffer* buffer, uint8 slot, uint8 shaderFlag )
 {
 	BindBufferCommand command;
 	command.BindToShader = shaderFlag;

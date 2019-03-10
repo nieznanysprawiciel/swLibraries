@@ -50,14 +50,14 @@ public:
 
 	/**@brief Updates buffer with data.*/
 	template< typename BufferDataType >
-	inline void				UpdateBuffer				( BufferObject* buffer, BufferDataType& data );
+	inline void				UpdateBuffer				( Buffer* buffer, BufferDataType& data );
 
 	/**@brief Updates buffer using StackBuffer.*/
 	template< typename BufferDataType >
-	inline void				UpdateBuffer				( BufferObject* buffer, StackBufferA< BufferDataType >& data );
+	inline void				UpdateBuffer				( Buffer* buffer, StackBufferA< BufferDataType >& data );
 
 	/**@brief Binds buffer.*/
-	void					BindBuffer					( BufferObject* buffer, uint8 slot, uint8 shaderFlag );
+	void					BindBuffer					( Buffer* buffer, uint8 slot, uint8 shaderFlag );
 
 	/**@brief Draw without using buffer.*/
 	void					DrawBufferLess				( uint32 numVerticies, PrimitiveTopology topology );
@@ -76,14 +76,14 @@ public:
 
 	/**@brief Updates buffer with data.*/
 	template< typename BufferDataType >
-	static inline void			UpdateBuffer				( IRenderer* renderer, BufferObject* buffer, BufferDataType& data );
+	static inline void			UpdateBuffer				( IRenderer* renderer, Buffer* buffer, BufferDataType& data );
 
 	/**@brief Updates buffer using StackBuffer.*/
 	template< typename BufferDataType >
-	static inline void			UpdateBuffer				( IRenderer* renderer, BufferObject* buffer, StackBufferA< BufferDataType >& data );
+	static inline void			UpdateBuffer				( IRenderer* renderer, Buffer* buffer, StackBufferA< BufferDataType >& data );
 
 	/**@brief Binds buffer.*/
-	static void					BindBuffer					( IRenderer* renderer, BufferObject* buffer, uint8 slot, uint8 shaderFlag );
+	static void					BindBuffer					( IRenderer* renderer, Buffer* buffer, uint8 slot, uint8 shaderFlag );
 
 	/**@brief Draw without using buffer.*/
 	static void					DrawBufferLess				( IRenderer* renderer, uint32 numVerticies, PrimitiveTopology topology );
@@ -102,7 +102,7 @@ public:
 // ================================ //
 //
 template< typename BufferDataType >
-inline void			RenderingHelper::UpdateBuffer			( BufferObject* buffer, BufferDataType& data )
+inline void			RenderingHelper::UpdateBuffer			( Buffer* buffer, BufferDataType& data )
 {
 	UpdateBuffer( m_renderer, buffer, data );
 }
@@ -110,7 +110,7 @@ inline void			RenderingHelper::UpdateBuffer			( BufferObject* buffer, BufferData
 // ================================ //
 //
 template< typename BufferDataType >
-inline void			RenderingHelper::UpdateBuffer			( BufferObject* buffer, StackBufferA< BufferDataType >& data )
+inline void			RenderingHelper::UpdateBuffer			( Buffer* buffer, StackBufferA< BufferDataType >& data )
 {
 	UpdateBuffer< BufferDataType >( m_renderer, buffer, data );
 }
@@ -118,7 +118,7 @@ inline void			RenderingHelper::UpdateBuffer			( BufferObject* buffer, StackBuffe
 // ================================ //
 //
 template< typename BufferDataType >
-inline void			RenderingHelper::UpdateBuffer			( IRenderer* renderer, BufferObject* buffer, BufferDataType& data )
+inline void			RenderingHelper::UpdateBuffer			( IRenderer* renderer, Buffer* buffer, BufferDataType& data )
 {
 	UpdateBufferCommand updateCommand;
 	updateCommand.Buffer = buffer;
@@ -131,7 +131,7 @@ inline void			RenderingHelper::UpdateBuffer			( IRenderer* renderer, BufferObjec
 // ================================ //
 //
 template< typename BufferDataType >
-inline void			RenderingHelper::UpdateBuffer			( IRenderer* renderer, BufferObject* buffer, StackBufferA< BufferDataType >& data )
+inline void			RenderingHelper::UpdateBuffer			( IRenderer* renderer, Buffer* buffer, StackBufferA< BufferDataType >& data )
 {
 	UpdateBufferCommand updateCommand;
 	updateCommand.Buffer = buffer;

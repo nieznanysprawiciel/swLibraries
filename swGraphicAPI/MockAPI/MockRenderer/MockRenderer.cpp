@@ -133,7 +133,7 @@ void	MockRenderer::FlushCommands		()
 
 // ================================ //
 //
-bool    MockRenderer::SetVertexBuffer   ( BufferObject* buffer, unsigned int offset )
+bool    MockRenderer::SetVertexBuffer   ( Buffer* buffer, unsigned int offset )
 {
 	if( buffer )
 	{
@@ -150,7 +150,7 @@ bool    MockRenderer::SetVertexBuffer   ( BufferObject* buffer, unsigned int off
 
 // ================================ //
 // Buffer can be nullptr.
-void	MockRenderer::SetIndexBuffer	( BufferObject* buffer, unsigned int offset, bool extendedIndex )
+void	MockRenderer::SetIndexBuffer	( Buffer* buffer, unsigned int offset, bool extendedIndex )
 {}
 
 // ================================ //

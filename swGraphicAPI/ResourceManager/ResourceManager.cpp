@@ -314,7 +314,7 @@ skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
 @param[in] elementSize Rozmiar pojedynczego elementu w buforze.
 @param[in] vertCount Liczba wierzcho³ków/indeksów w buforze.
 @return Dodany bufor wierzcho³ków. Zwraca nullptr, je¿eli nie uda³o siê stworzyæ bufora.*/
-sw::ResourcePtr< sw::BufferObject > ResourceManager::CreateVertexBuffer( const std::wstring& name, const void* buffer, unsigned int elementSize, unsigned int vertCount )
+sw::ResourcePtr< sw::Buffer > ResourceManager::CreateVertexBuffer( const std::wstring& name, const void* buffer, unsigned int elementSize, unsigned int vertCount )
 {
 	sw::VertexBufferInitData initData;
 	initData.Data = (const uint8*)buffer;
@@ -327,11 +327,11 @@ sw::ResourcePtr< sw::BufferObject > ResourceManager::CreateVertexBuffer( const s
 /**@brief Creates vetex buffer.
 
 @return Returns buffer or nullptr if name already exists or buffer creation failed.*/
-sw::ResourcePtr<sw::BufferObject>	ResourceManager::CreateVertexBuffer		( const std::wstring& name, const sw::VertexBufferInitData& data )
+sw::ResourcePtr<sw::Buffer>	ResourceManager::CreateVertexBuffer		( const std::wstring& name, const sw::VertexBufferInitData& data )
 {
-	sw::BufferObject* vertexBuff = m_vertexBuffer.get( name );
+	sw::Buffer* vertexBuff = m_vertexBuffer.get( name );
 	if ( vertexBuff )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return sw::ResourcePtr<sw::BufferObject>();
+		return sw::ResourcePtr<sw::Buffer>();
 	
 	
 	vertexBuff = sw::ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
@@ -339,7 +339,7 @@ sw::ResourcePtr<sw::BufferObject>	ResourceManager::CreateVertexBuffer		( const s
 		return nullptr;
 
 	m_vertexBuffer.UnsafeAdd( name, vertexBuff );	// Dodaliœmy bufor
-	return sw::ResourcePtr<sw::BufferObject>( vertexBuff );
+	return sw::ResourcePtr<sw::Buffer>( vertexBuff );
 }
 
 /**@brief Dodaje do ResourceManagera bufor indeksów.
@@ -353,7 +353,7 @@ skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
 @param[in] elementSize Rozmiar pojedynczego elementu w buforze.
 @param[in] vertCount Liczba wierzcho³ków/indeksów w buforze.
 @return Dodany bufor indeksów. Zwraca nullptr, je¿eli nie uda³o siê stworzyæ bufora.*/
-sw::ResourcePtr< sw::BufferObject > ResourceManager::CreateIndexBuffer( const std::wstring& name, const void* buffer, unsigned int elementSize, unsigned int vertCount )
+sw::ResourcePtr< sw::Buffer > ResourceManager::CreateIndexBuffer( const std::wstring& name, const void* buffer, unsigned int elementSize, unsigned int vertCount )
 {
 	sw::IndexBufferInitData initData;
 	initData.Data = (const uint8*)buffer;
@@ -366,11 +366,11 @@ sw::ResourcePtr< sw::BufferObject > ResourceManager::CreateIndexBuffer( const st
 /**@brief Vreates index buffer.
 
 @return Returns buffer or nullptr if name already exists or buffer creation failed.*/
-sw::ResourcePtr<sw::BufferObject>	ResourceManager::CreateIndexBuffer		( const std::wstring& name, const sw::IndexBufferInitData& data )
+sw::ResourcePtr<sw::Buffer>	ResourceManager::CreateIndexBuffer		( const std::wstring& name, const sw::IndexBufferInitData& data )
 {
-	sw::BufferObject* indexBuff = m_indexBuffer.get( name );
+	sw::Buffer* indexBuff = m_indexBuffer.get( name );
 	if ( indexBuff )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return sw::ResourcePtr<sw::BufferObject>();
+		return sw::ResourcePtr<sw::Buffer>();
 	
 	
 	indexBuff = sw::ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
@@ -378,7 +378,7 @@ sw::ResourcePtr<sw::BufferObject>	ResourceManager::CreateIndexBuffer		( const st
 		return nullptr;
 
 	m_indexBuffer.UnsafeAdd( name, indexBuff );	// Dodaliœmy bufor
-	return sw::ResourcePtr<sw::BufferObject>( indexBuff );
+	return sw::ResourcePtr<sw::Buffer>( indexBuff );
 }
 
 /**@brief Dodaje do ResourceManagera bufor sta³ch dla shadera.
@@ -391,7 +391,7 @@ skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
 @param[in] buffer WskaŸnik na bufor z danym, które maj¹ byæ przeniesione do bufora DirectXowego.
 @param[in] size Rozmiar bufora.
 @return Dodany bufor indeksów. Zwraca nullptr, je¿eli nie uda³o siê stworzyæ bufora.*/
-sw::ResourcePtr< sw::BufferObject >	ResourceManager::CreateConstantsBuffer( const std::wstring& name, const void* buffer, unsigned int size )
+sw::ResourcePtr< sw::Buffer >	ResourceManager::CreateConstantsBuffer( const std::wstring& name, const void* buffer, unsigned int size )
 {
 	sw::ConstantBufferInitData initData;
 	initData.Data = (const uint8*)buffer;
@@ -404,11 +404,11 @@ sw::ResourcePtr< sw::BufferObject >	ResourceManager::CreateConstantsBuffer( cons
 /**@brief Creates constant buffer.
 
 @return Returns buffer or nullptr if name already exists or buffer creation failed.*/
-sw::ResourcePtr<sw::BufferObject>	ResourceManager::CreateConstantsBuffer		( const std::wstring& name, const sw::ConstantBufferInitData& data )
+sw::ResourcePtr<sw::Buffer>	ResourceManager::CreateConstantsBuffer		( const std::wstring& name, const sw::ConstantBufferInitData& data )
 {
-	sw::BufferObject* constBuff = m_constantBuffer.get( name );
+	sw::Buffer* constBuff = m_constantBuffer.get( name );
 	if ( constBuff )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return sw::ResourcePtr<sw::BufferObject>();
+		return sw::ResourcePtr<sw::Buffer>();
 	
 	
 	constBuff = sw::ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
@@ -416,7 +416,7 @@ sw::ResourcePtr<sw::BufferObject>	ResourceManager::CreateConstantsBuffer		( cons
 		return nullptr;
 
 	m_constantBuffer.UnsafeAdd( name, constBuff );	// Dodaliœmy bufor
-	return sw::ResourcePtr<sw::BufferObject>( constBuff );
+	return sw::ResourcePtr<sw::Buffer>( constBuff );
 }
 
 /**@brief Created BlendingState object.
@@ -470,19 +470,19 @@ sw::ResourcePtr< sw::DepthStencilState >	ResourceManager::CreateDepthStencilStat
 
 
 /**@brief Listowanie buforów wierzcho³ków.*/
-std::vector< sw::ResourcePtr< sw::BufferObject > >		ResourceManager::ListVertexBuffers()
+std::vector< sw::ResourcePtr< sw::Buffer > >		ResourceManager::ListVertexBuffers()
 {
 	return m_vertexBuffer.List();
 }
 
 /**@brief Listowanie buforów indeksów.*/
-std::vector< sw::ResourcePtr< sw::BufferObject > >		ResourceManager::ListIndexBuffers()
+std::vector< sw::ResourcePtr< sw::Buffer > >		ResourceManager::ListIndexBuffers()
 {
 	return m_indexBuffer.List();
 }
 
 /**@brief Listowanie buforów sta³ych.*/
-std::vector< sw::ResourcePtr< sw::BufferObject > >		ResourceManager::ListConstantBuffers()
+std::vector< sw::ResourcePtr< sw::Buffer > >		ResourceManager::ListConstantBuffers()
 {
 	return m_constantBuffer.List();
 }

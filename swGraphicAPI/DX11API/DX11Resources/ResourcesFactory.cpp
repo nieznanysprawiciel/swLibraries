@@ -31,7 +31,7 @@ namespace sw
 typedef DX11Texture				TextureObject;
 typedef DX11VertexShader		VertexShaderObject;
 typedef DX11PixelShader			PixelShaderObject;
-typedef DX11Buffer				Buffer;
+typedef DX11Buffer				BufferObject;
 typedef DX11ComputeShader		ComputeShaderObject;
 typedef DX11DepthStencilState	DepthStencilStateObject;
 typedef DX11RasterizerState		RasterizerStateObject;
@@ -186,9 +186,9 @@ ComputeShader*		ResourcesFactory::CreateComputeShaderFromFile		( const std::wstr
 @param[in] data Pointer to initialization data. Memory can be released after call.
 @param[in] bufferInfo Buffer descriptor.
 @return Zwraca wskaünik na obiekt bufora lub nullptr w przypadku niepowodzenia.*/
-sw::Nullable< BufferObject* >	ResourcesFactory::CreateBufferFromMemory		( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
+sw::Nullable< Buffer* >	ResourcesFactory::CreateBufferFromMemory		( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
 {
-	return Buffer::CreateFromMemory( name, data, bufferInfo );
+	return BufferObject::CreateFromMemory( name, data, bufferInfo );
 }
 
 /**Tworzy object RenderTargetObject z bufora tylnego ekranu.

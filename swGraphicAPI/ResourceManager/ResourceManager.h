@@ -72,9 +72,9 @@ protected:
 	ResourceContainer< sw::ControlShader >			m_controlShaders;	///< Tesselation control shaders.
 
 	ResourceContainer< sw::Texture >				m_texture;			///< Textures.
-	ResourceContainer< sw::BufferObject >			m_vertexBuffer;		///< Vertex buffers.
-	ResourceContainer< sw::BufferObject >			m_indexBuffer;		///< Index buffers.
-	ResourceContainer< sw::BufferObject >			m_constantBuffer;	///< Shader constant buffers.
+	ResourceContainer< sw::Buffer >			m_vertexBuffer;		///< Vertex buffers.
+	ResourceContainer< sw::Buffer >			m_indexBuffer;		///< Index buffers.
+	ResourceContainer< sw::Buffer >			m_constantBuffer;	///< Shader constant buffers.
 	ResourceContainer< sw::ShaderInputLayout >		m_vertexLayout;		///< Vertex layouts.
 	// UWAGA! m_fileModel musi byæ na koñcu. Jego destruktor kasuje odwo³ania do obiektów powy¿ej. Podobnie RenderTargetObject odwo³uje siê do tekstur.
 	// Musz¹ one w tym czasie istnieæ, a destruktory s¹ wywo³ywane w kolejnoœci odwrotnej do zadeklarowanej w klasie.
@@ -106,9 +106,9 @@ public:
 	inline sw::VertexShader*			GetVertexShader				( const std::wstring& name ) { return m_vertexShader.get( name ); } ///<Zwraca vertex shader o podanej nazwie, je¿eli jest wczytany.
 	inline sw::PixelShader*				GetPixelShader				( const std::wstring& name ) { return m_pixelShader.get( name ); }	///<Zwraca pixel shader o podanej nazwie, je¿eli jest wczytany.
 	inline sw::Texture*					GetTexture					( const std::wstring& name ) { return m_texture.get( name ); }		///<Zwraca teksturê o podanej nazwie, je¿eli jest wczytany.
-	inline sw::BufferObject*			GetVertexBuffer				( const std::wstring& name ) { return m_vertexBuffer.get( name ); }	///<Zwraca bufor wierzcho³ków o podanej nazwie, je¿eli jest wczytany.
-	inline sw::BufferObject*			GetConstantBuffer			( const std::wstring& name ) { return m_constantBuffer.get( name ); }	///<Zwraca bufor sta³ych o podanej nazwie, je¿eli jest wczytany.
-	inline sw::BufferObject*			GetIndexBuffer				( const std::wstring& name ) { return m_indexBuffer.get( name ); }	///<Zwraca bufor indeksów o podanej nazwie, je¿eli jest wczytany.
+	inline sw::Buffer*			GetVertexBuffer				( const std::wstring& name ) { return m_vertexBuffer.get( name ); }	///<Zwraca bufor wierzcho³ków o podanej nazwie, je¿eli jest wczytany.
+	inline sw::Buffer*			GetConstantBuffer			( const std::wstring& name ) { return m_constantBuffer.get( name ); }	///<Zwraca bufor sta³ych o podanej nazwie, je¿eli jest wczytany.
+	inline sw::Buffer*			GetIndexBuffer				( const std::wstring& name ) { return m_indexBuffer.get( name ); }	///<Zwraca bufor indeksów o podanej nazwie, je¿eli jest wczytany.
 	inline sw::ShaderInputLayout*		GetLayout					( const std::wstring& name ) { return m_vertexLayout.get( name ); }	///<Zwraca layout o podanej nazwie.	
 	///@}
 
@@ -129,12 +129,12 @@ public:
 	///@detail You can create assets in code using these functions. Remember to give unique names for your assets.
 	///Engine uses convention, that all generated resources have :: before name, to distinguish them from assets loaded from files.
 	///@{
-	sw::ResourcePtr< sw::BufferObject >		CreateVertexBuffer			( const std::wstring& name, const void* buffer, unsigned int element_size, unsigned int vert_count );
-	sw::ResourcePtr< sw::BufferObject >		CreateVertexBuffer			( const std::wstring& name, const sw::VertexBufferInitData& data );
-	sw::ResourcePtr< sw::BufferObject >		CreateIndexBuffer			( const std::wstring& name, const void* buffer, unsigned int element_size, unsigned int vert_count );
-	sw::ResourcePtr< sw::BufferObject >		CreateIndexBuffer			( const std::wstring& name, const sw::IndexBufferInitData& data );
-	sw::ResourcePtr< sw::BufferObject >		CreateConstantsBuffer		( const std::wstring& name, const void* buffer, unsigned int size );
-	sw::ResourcePtr< sw::BufferObject >		CreateConstantsBuffer		( const std::wstring& name, const sw::ConstantBufferInitData& data );
+	sw::ResourcePtr< sw::Buffer >		CreateVertexBuffer			( const std::wstring& name, const void* buffer, unsigned int element_size, unsigned int vert_count );
+	sw::ResourcePtr< sw::Buffer >		CreateVertexBuffer			( const std::wstring& name, const sw::VertexBufferInitData& data );
+	sw::ResourcePtr< sw::Buffer >		CreateIndexBuffer			( const std::wstring& name, const void* buffer, unsigned int element_size, unsigned int vert_count );
+	sw::ResourcePtr< sw::Buffer >		CreateIndexBuffer			( const std::wstring& name, const sw::IndexBufferInitData& data );
+	sw::ResourcePtr< sw::Buffer >		CreateConstantsBuffer		( const std::wstring& name, const void* buffer, unsigned int size );
+	sw::ResourcePtr< sw::Buffer >		CreateConstantsBuffer		( const std::wstring& name, const sw::ConstantBufferInitData& data );
 
 	sw::ResourcePtr< sw::BlendingState >	CreateBlendingState			( const std::wstring& name, const sw::BlendingInfo& info );
 	sw::ResourcePtr< sw::RasterizerState >	CreateRasterizerState		( const std::wstring& name, const sw::RasterizerStateInfo& info );
@@ -147,9 +147,9 @@ public:
 
 	///@name Listing resources
 	///@{
-	std::vector< sw::ResourcePtr< sw::BufferObject > >			ListVertexBuffers	();
-	std::vector< sw::ResourcePtr< sw::BufferObject > >			ListIndexBuffers	();
-	std::vector< sw::ResourcePtr< sw::BufferObject > >			ListConstantBuffers	();
+	std::vector< sw::ResourcePtr< sw::Buffer > >			ListVertexBuffers	();
+	std::vector< sw::ResourcePtr< sw::Buffer > >			ListIndexBuffers	();
+	std::vector< sw::ResourcePtr< sw::Buffer > >			ListConstantBuffers	();
 	std::vector< sw::ResourcePtr< sw::ShaderInputLayout > >		ListShaderLayouts	();
 
 	std::vector< sw::ResourcePtr< sw::Texture > >				ListTextures		();

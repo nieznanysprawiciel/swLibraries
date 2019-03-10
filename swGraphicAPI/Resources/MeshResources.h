@@ -56,7 +56,7 @@ namespace sw
 {
 
 
-class BufferObject;
+class Buffer;
 class Texture;
 class VertexShader;
 class PixelShader;
@@ -202,27 +202,27 @@ public:
 
 
 //----------------------------------------------------------------------------------------------//
-//								BufferObject													//
+//								Buffer													//
 //----------------------------------------------------------------------------------------------//
 
-/**@brief Obiekt opakowuj¹cy bufor.
+/**@brief Object for GPU buffer.
+
+It can be vertex, index or constant buffer.
+
 @ingroup Buffers
 @ingroup Resources
-@ingroup GraphicAPI
-
-Bufor mo¿e byæ zarówno buforem wierzcho³ków, indeksów jak i sta³ych.
-*/
-class BufferObject : public IBuffer
+@ingroup GraphicAPI*/
+class Buffer : public IBuffer
 {
 	RTTR_ENABLE( IBuffer )
-		friend ObjectDeleter<BufferObject>;
+	friend ObjectDeleter<Buffer>;
 protected:
 	unsigned int		m_elementSize;			///<Rozmiar elementu.
 	unsigned int		m_elementCount;			///<Liczba elementów.
 
-	~BufferObject() = default;
+	~Buffer() = default;
 public:
-	BufferObject( unsigned int elementSize, unsigned int elementCount );
+	Buffer( unsigned int elementSize, unsigned int elementCount );
 
 	inline unsigned int GetStride() { return m_elementSize; }		///<Zwraca rozmiar pojedynczego elementu w buforze.
 	inline unsigned int	GetElementSize() { return m_elementSize; }		///<Zwraca rozmiar pojedynczego elementu w buforze.

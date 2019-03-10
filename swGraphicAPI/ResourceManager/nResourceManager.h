@@ -77,9 +77,9 @@ public:
 	VertexShader*				GetVertexShader				( const filesystem::Path& name );
 	PixelShader*				GetPixelShader				( const filesystem::Path& name );
 	Texture*					GetTexture					( const filesystem::Path& name );
-	BufferObject*				GetVertexBuffer				( const filesystem::Path& name );
-	BufferObject*				GetConstantBuffer			( const filesystem::Path& name );
-	BufferObject*				GetIndexBuffer				( const filesystem::Path& name );
+	Buffer*				GetVertexBuffer				( const filesystem::Path& name );
+	Buffer*				GetConstantBuffer			( const filesystem::Path& name );
+	Buffer*				GetIndexBuffer				( const filesystem::Path& name );
 	ShaderInputLayout*			GetLayout					( const filesystem::Path& name );
 	///@}
 
@@ -102,12 +102,12 @@ public:
 	///@detail You can create assets in code using these functions. Remember to give unique names for your assets.
 	///Engine uses convention, that all generated resources have :: before name, to distinguish them from assets loaded from files.
 	///@{
-	ResourcePtr< BufferObject >		CreateVertexBuffer			( const filesystem::Path& name, const void* buffer, unsigned int elementSize, unsigned int vertCount );
-	ResourcePtr< BufferObject >		CreateVertexBuffer			( const filesystem::Path& name, const VertexBufferInitData& data );
-	ResourcePtr< BufferObject >		CreateIndexBuffer			( const filesystem::Path& name, const void* buffer, unsigned int elementSize, unsigned int vertCount );
-	ResourcePtr< BufferObject >		CreateIndexBuffer			( const filesystem::Path& name, const IndexBufferInitData& data );
-	ResourcePtr< BufferObject >		CreateConstantsBuffer		( const filesystem::Path& name, const void* buffer, unsigned int size );
-	ResourcePtr< BufferObject >		CreateConstantsBuffer		( const filesystem::Path& name, const ConstantBufferInitData& data );
+	ResourcePtr< Buffer >		CreateVertexBuffer			( const filesystem::Path& name, const void* buffer, unsigned int elementSize, unsigned int vertCount );
+	ResourcePtr< Buffer >		CreateVertexBuffer			( const filesystem::Path& name, const VertexBufferInitData& data );
+	ResourcePtr< Buffer >		CreateIndexBuffer			( const filesystem::Path& name, const void* buffer, unsigned int elementSize, unsigned int vertCount );
+	ResourcePtr< Buffer >		CreateIndexBuffer			( const filesystem::Path& name, const IndexBufferInitData& data );
+	ResourcePtr< Buffer >		CreateConstantsBuffer		( const filesystem::Path& name, const void* buffer, unsigned int size );
+	ResourcePtr< Buffer >		CreateConstantsBuffer		( const filesystem::Path& name, const ConstantBufferInitData& data );
 
 	ResourcePtr< BlendingState >	CreateBlendingState			( const filesystem::Path& name, const BlendingInfo& info );
 	ResourcePtr< RasterizerState >	CreateRasterizerState		( const filesystem::Path& name, const RasterizerStateInfo& info );
@@ -121,9 +121,9 @@ public:
 
 	///@name Listing resources
 	///@{
-	std::vector< ResourcePtr< BufferObject > >			ListVertexBuffers	();
-	std::vector< ResourcePtr< BufferObject > >			ListIndexBuffers	();
-	std::vector< ResourcePtr< BufferObject > >			ListConstantBuffers	();
+	std::vector< ResourcePtr< Buffer > >			ListVertexBuffers	();
+	std::vector< ResourcePtr< Buffer > >			ListIndexBuffers	();
+	std::vector< ResourcePtr< Buffer > >			ListConstantBuffers	();
 	std::vector< ResourcePtr< ShaderInputLayout > >		ListShaderLayouts	();
 
 	std::vector< ResourcePtr< Texture > >				ListTextures		();

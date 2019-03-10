@@ -73,7 +73,7 @@ bool						BufferCreator::SupportsResourceToRaw() const
 //
 TypeID						BufferCreator::GetAssetType	() const
 {
-	return TypeID::get< BufferObject >();
+	return TypeID::get< Buffer >();
 }
 
 //====================================================================================//
@@ -83,7 +83,7 @@ TypeID						BufferCreator::GetAssetType	() const
 
 // ================================ //
 //
-Nullable< BufferObject* >			BufferCreator::CreateVertexBuffer		( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount )
+Nullable< Buffer* >			BufferCreator::CreateVertexBuffer		( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount )
 {
 	VertexBufferInitData initData;
 	initData.Data = buffer;
@@ -95,14 +95,14 @@ Nullable< BufferObject* >			BufferCreator::CreateVertexBuffer		( const filesyste
 
 // ================================ //
 //
-Nullable< BufferObject* >			BufferCreator::CreateVertexBuffer		( const filesystem::Path& name, const VertexBufferInitData& data )
+Nullable< Buffer* >			BufferCreator::CreateVertexBuffer		( const filesystem::Path& name, const VertexBufferInitData& data )
 {
 	return ResourcesFactory::CreateBufferFromMemory( name.WString(), data.Data, data.CreateBufferInfo() );
 }
 
 // ================================ //
 //
-Nullable< BufferObject* >			BufferCreator::CreateIndexBuffer		( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount )
+Nullable< Buffer* >			BufferCreator::CreateIndexBuffer		( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount )
 {
 	IndexBufferInitData initData;
 	initData.Data = buffer;
@@ -114,14 +114,14 @@ Nullable< BufferObject* >			BufferCreator::CreateIndexBuffer		( const filesystem
 
 // ================================ //
 //
-Nullable< BufferObject* >			BufferCreator::CreateIndexBuffer		( const filesystem::Path& name, const IndexBufferInitData& data )
+Nullable< Buffer* >			BufferCreator::CreateIndexBuffer		( const filesystem::Path& name, const IndexBufferInitData& data )
 {
 	return ResourcesFactory::CreateBufferFromMemory( name.WString(), data.Data, data.CreateBufferInfo() );
 }
 
 // ================================ //
 //
-Nullable< BufferObject* >			BufferCreator::CreateConstantsBuffer	( const filesystem::Path& name, const uint8* buffer, unsigned int size )
+Nullable< Buffer* >			BufferCreator::CreateConstantsBuffer	( const filesystem::Path& name, const uint8* buffer, unsigned int size )
 {
 	ConstantBufferInitData initData;
 	initData.Data = (const uint8*)buffer;
@@ -133,7 +133,7 @@ Nullable< BufferObject* >			BufferCreator::CreateConstantsBuffer	( const filesys
 
 // ================================ //
 //
-Nullable< BufferObject* >			BufferCreator::CreateConstantsBuffer	( const filesystem::Path& name, const ConstantBufferInitData& data )
+Nullable< Buffer* >			BufferCreator::CreateConstantsBuffer	( const filesystem::Path& name, const ConstantBufferInitData& data )
 {
 	if( data.ElementSize % 16 != 0 )
 		return "[BufferCreator] Invalid Buffer size. Should be multiply of 16.";

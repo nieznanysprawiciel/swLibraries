@@ -44,7 +44,7 @@ enum class BufferType : uint8
 };
 
 
-/**@brief Descriptor of buffer hold by @ref BufferObject.
+/**@brief Descriptor of buffer hold by @ref Buffer.
 @ingroup Buffers*/
 struct BufferInfo
 {

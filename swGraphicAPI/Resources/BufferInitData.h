@@ -23,7 +23,7 @@
 namespace sw
 {
 
-class BufferObject;
+class Buffer;
 
 
 /**@brief Buffer initialization data.

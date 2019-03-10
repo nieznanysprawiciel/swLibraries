@@ -25,7 +25,7 @@ class DX11Renderer;
 typedef DX11Renderer Renderer;
 
 
-inline DX11Buffer*				DX11	( BufferObject* res ) { return static_cast<DX11Buffer*>( res ); }
+inline DX11Buffer*				DX11	( Buffer* res ) { return static_cast<DX11Buffer*>( res ); }
 inline DX11Texture*				DX11	( sw::Texture* res ) { return static_cast<DX11Texture*>( res ); }
 inline DX11ComputeShader*		DX11	( ComputeShader* res ) { return static_cast<DX11ComputeShader*>( res ); }
 inline DX11PixelShader*			DX11	( PixelShader* res ) { return static_cast<DX11PixelShader*>( res ); }
@@ -94,8 +94,8 @@ public:
 
 private:
 
-	bool                SetVertexBuffer         ( BufferObject* buffer, unsigned int offset );
-	void				SetIndexBuffer			( BufferObject* buffer, unsigned int offset, bool extendedIndex );
+	bool                SetVertexBuffer         ( Buffer* buffer, unsigned int offset );
+	void				SetIndexBuffer			( Buffer* buffer, unsigned int offset, bool extendedIndex );
 	void				SetRenderTarget			( RenderTargetObject* const targets[ MAX_BOUND_RENDER_TARGETS ], RenderTargetObject* depthStencil );
 	void				SetTextures				( Texture* const texturesArray[ MAX_BOUND_RENDER_TARGETS ], const uint8 shaderTypes[ MAX_BOUND_RENDER_TARGETS ] );
 };

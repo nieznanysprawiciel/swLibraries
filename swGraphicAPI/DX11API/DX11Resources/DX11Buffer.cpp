@@ -25,7 +25,7 @@ namespace sw
 // ================================ //
 //
 DX11Buffer::DX11Buffer( const std::wstring& name, const BufferInfo& descriptor, ID3D11Buffer* buff )
-	: BufferObject( descriptor.ElementSize, descriptor.NumElements ), m_buffer( buff )
+	: Buffer( descriptor.ElementSize, descriptor.NumElements ), m_buffer( buff )
 	, m_descriptor( descriptor )
 {
 	m_descriptor.Name = name;
@@ -49,7 +49,7 @@ DX11Buffer::~DX11Buffer()
 
 // ================================ //
 //
-sw::Nullable< BufferObject* >				DX11Buffer::CreateFromMemory	( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
+sw::Nullable< Buffer* >				DX11Buffer::CreateFromMemory	( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
 {
 	ResourceBinding bindFlag;
 	if( bufferInfo.BufferType == BufferType::VertexBuffer )

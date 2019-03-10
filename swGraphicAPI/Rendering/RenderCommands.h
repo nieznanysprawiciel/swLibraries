@@ -46,8 +46,8 @@ struct SetRenderTargetCommand : public RendererCommand
 	RasterizerState*		RasterizerState;
 	BlendingState*			BlendingState;
 	DepthStencilState*		DepthStencilState;
-	BufferObject*			CameraBuffer;		///< Buffer updated once per render target (or even once per frame). Buffer is bound to both pixel and vertex shader.
-	BufferObject*			LightBuffer;		///< Buffer updated once per render target (or even once per frame). Buffer is bound only to pixel shader.
+	Buffer*			CameraBuffer;		///< Buffer updated once per render target (or even once per frame). Buffer is bound to both pixel and vertex shader.
+	Buffer*			LightBuffer;		///< Buffer updated once per render target (or even once per frame). Buffer is bound only to pixel shader.
 };
 
 
@@ -114,8 +114,8 @@ If mesh doesn't have index buffer, set IndexBuffer field to nullptr.
 @ingroup RenderingCommands*/
 struct DrawCommand : public RendererCommand
 {
-	BufferObject*			VertexBuffer;
-	BufferObject*			IndexBufer;
+	Buffer*			VertexBuffer;
+	Buffer*			IndexBufer;
 	ShaderInputLayout*		Layout;
 	uint32					BufferOffset;
 	uint32					NumVertices;
@@ -129,7 +129,7 @@ struct DrawCommand : public RendererCommand
 @ingroup RenderingCommands*/
 struct DrawInstancedCommand : public DrawCommand
 {
-	BufferObject*		PerInstanceBuffer;		///< Per instance transformation.
+	Buffer*		PerInstanceBuffer;		///< Per instance transformation.
 	uint16				NumInstances;
 };
 
@@ -164,9 +164,9 @@ struct SetShaderStateExCommand : public SetShaderStateCommand
 @ingroup RenderingCommands*/
 struct SetDefaultBuffersCommand : public RendererCommand
 {
-	BufferObject*		TransformBuffer;
-	BufferObject*		MaterialBuffer;
-	BufferObject*		BonesTransforms;
+	Buffer*		TransformBuffer;
+	Buffer*		MaterialBuffer;
+	Buffer*		BonesTransforms;
 };
 
 /**@brief
@@ -201,7 +201,7 @@ will override this setting.
 @ingroup RenderingCommands*/
 struct BindBufferCommand : public RendererCommand
 {
-	BufferObject*		Buffer;
+	Buffer*		Buffer;
 	uint8				BufferSlot;
 	uint8				BindToShader;		///< Use @ref ShaderType flag. @note ShaderType::ComputeShader will be ignored.
 };
@@ -212,7 +212,7 @@ struct BindBufferCommand : public RendererCommand
 @ingroup RenderingCommands*/
 struct UpdateBufferCommand : public RendererCommand
 {
-	BufferObject*		Buffer;
+	Buffer*		Buffer;
 	uint8*				FillData;
 	uint32				Size;		///< Size in bytes.
 };

@@ -39,7 +39,7 @@ TEST_CASE( "GraphicAPI.BufferCreator.ConstantBuffer.Create", "[GraphicAPI]" )
 	init.NumElements = (uint32)buffer.ElementsCount();
 	init.Data = buffer.GetRawData();
 
-	auto result = factory.CreateAsset( "::BufferFromMemory::Constants", TypeID::get< BufferObject >(), std::move( init ) );
+	auto result = factory.CreateAsset( "::BufferFromMemory::Constants", TypeID::get< Buffer >(), std::move( init ) );
 
 	if( !result.IsValid() )
 	{
@@ -49,7 +49,7 @@ TEST_CASE( "GraphicAPI.BufferCreator.ConstantBuffer.Create", "[GraphicAPI]" )
 
 	REQUIRE( result.Get() != nullptr );
 
-	BufferObject* bufferPtr = static_cast< BufferObject* >( result.Get() );
+	Buffer* bufferPtr = static_cast< Buffer* >( result.Get() );
 
 	CHECK( bufferPtr->GetElementSize() == sizeof( Struct16Bytes ) );
 	CHECK( bufferPtr->GetElementCount() == 10 );
@@ -69,7 +69,7 @@ TEST_CASE( "GraphicAPI.BufferCreator.IndexBuffer.Create", "[GraphicAPI]" )
 	init.NumElements = (uint32)buffer.ElementsCount();
 	init.Data = buffer.GetRawData();
 
-	auto result = factory.CreateAsset( "::BufferFromMemory::Index", TypeID::get< BufferObject >(), std::move( init ) );
+	auto result = factory.CreateAsset( "::BufferFromMemory::Index", TypeID::get< Buffer >(), std::move( init ) );
 
 	if( !result.IsValid() )
 	{
@@ -79,7 +79,7 @@ TEST_CASE( "GraphicAPI.BufferCreator.IndexBuffer.Create", "[GraphicAPI]" )
 
 	REQUIRE( result.Get() != nullptr );
 
-	BufferObject* bufferPtr = static_cast< BufferObject* >( result.Get() );
+	Buffer* bufferPtr = static_cast< Buffer* >( result.Get() );
 
 	CHECK( bufferPtr->GetElementSize() == sizeof( Index16 ) );
 	CHECK( bufferPtr->GetElementCount() == 10 );
@@ -99,7 +99,7 @@ TEST_CASE( "GraphicAPI.BufferCreator.VertexBuffer.Create", "[GraphicAPI]" )
 	init.NumElements = (uint32)buffer.ElementsCount();
 	init.Data = buffer.GetRawData();
 
-	auto result = factory.CreateAsset( "::BufferFromMemory::Vertex", TypeID::get< BufferObject >(), std::move( init ) );
+	auto result = factory.CreateAsset( "::BufferFromMemory::Vertex", TypeID::get< Buffer >(), std::move( init ) );
 
 	if( !result.IsValid() )
 	{
@@ -109,7 +109,7 @@ TEST_CASE( "GraphicAPI.BufferCreator.VertexBuffer.Create", "[GraphicAPI]" )
 
 	REQUIRE( result.Get() != nullptr );
 
-	BufferObject* bufferPtr = static_cast< BufferObject* >( result.Get() );
+	Buffer* bufferPtr = static_cast< Buffer* >( result.Get() );
 
 	CHECK( bufferPtr->GetElementSize() == sizeof( Struct16Bytes ) );
 	CHECK( bufferPtr->GetElementCount() == 10 );

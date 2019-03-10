@@ -288,8 +288,8 @@ RTTR_REGISTRATION
 
 
 	// Buffer
-	rttr::registration::class_< BufferObject >( "BufferObject" )
-		.property_readonly( "Descriptor", &BufferObject::GetDescriptor ) BIND_AS_PTR;
+	rttr::registration::class_< Buffer >( "Buffer" )
+		.property_readonly( "Descriptor", &Buffer::GetDescriptor ) BIND_AS_PTR;
 
 	rttr::registration::class_< BufferInfo >( "BufferInfo" )
 		.property_readonly( "BufferName", &BufferInfo::GetName )
@@ -381,12 +381,12 @@ std::string		RenderTargetObject::GetResourceName() const
 }
 
 //----------------------------------------------------------------------------------------------//
-//								BufferObject													//
+//								Buffer													//
 //----------------------------------------------------------------------------------------------//
 
 // ================================ //
 //
-BufferObject::BufferObject( unsigned int elementSize, unsigned int elementCount )
+Buffer::Buffer( unsigned int elementSize, unsigned int elementCount )
 	: m_elementSize( elementSize ),
 	m_elementCount( elementCount )
 {}
@@ -395,7 +395,7 @@ BufferObject::BufferObject( unsigned int elementSize, unsigned int elementCount 
 //
 TypeID		BufferInitData::GetAssetType	() const
 {
-	return TypeID::get< BufferObject >();
+	return TypeID::get< Buffer >();
 }
 
 
