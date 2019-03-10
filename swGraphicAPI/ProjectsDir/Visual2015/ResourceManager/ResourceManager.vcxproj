@@ -59,14 +59,14 @@
     <ClInclude Include="..\..\..\Resources\DepthStencilState.h" />
     <ClInclude Include="..\..\..\Resources\IBuffer.h" />
     <ClInclude Include="..\..\..\Resources\IRenderTarget.h" />
-    <ClInclude Include="..\..\..\Resources\IShader.h" />
-    <ClInclude Include="..\..\..\Resources\IShaderInputLayout.h" />
     <ClInclude Include="..\..\..\Resources\MeshResources.h" />
     <ClInclude Include="..\..\..\Resources\RasterizerState.h" />
     <ClInclude Include="..\..\..\Resources\ResourceObject.h" />
     <ClInclude Include="..\..\..\Resources\ResourcePtr.h" />
     <ClInclude Include="..\..\..\Resources\ResourcesFactory.h" />
     <ClInclude Include="..\..\..\Resources\Shaders\InputLayout.h" />
+    <ClInclude Include="..\..\..\Resources\Shaders\IShader.h" />
+    <ClInclude Include="..\..\..\Resources\Shaders\IShaderInputLayout.h" />
     <ClInclude Include="..\..\..\Resources\Shaders\LayoutInitData.h" />
     <ClInclude Include="..\..\..\Resources\Shaders\ShaderInitData.h" />
     <ClInclude Include="..\..\..\Resources\Shaders\Shaders.h" />

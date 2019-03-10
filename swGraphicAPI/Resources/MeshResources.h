@@ -12,10 +12,10 @@
 #include "swCommonLib/System/Path.h"
 
 #include "swGraphicAPI/Resources/ResourceObject.h"
-#include "swGraphicAPI/Resources/IShader.h"
+#include "swGraphicAPI/Resources/Shaders/IShader.h"
 #include "swGraphicAPI/Resources/IBuffer.h"
 #include "swGraphicAPI/Resources/IRenderTarget.h"
-#include "swGraphicAPI/Resources/IShaderInputLayout.h"
+#include "swGraphicAPI/Resources/Shaders/IShaderInputLayout.h"
 #include "swGraphicAPI/Rendering/GraphicAPIConstants.h"
 #include "swGraphicAPI/Resources/ResourcePtr.h"
 #include "swGraphicAPI/Resources/BufferInitData.h"

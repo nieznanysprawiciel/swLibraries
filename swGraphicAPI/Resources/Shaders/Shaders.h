@@ -5,7 +5,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swGraphicAPI/Resources/IShader.h"
+#include "swGraphicAPI/Resources/Shaders/IShader.h"
 
 #include "swCommonLib/Common/ObjectDeleter.h"
 #include "swCommonLib/System/Path.h"

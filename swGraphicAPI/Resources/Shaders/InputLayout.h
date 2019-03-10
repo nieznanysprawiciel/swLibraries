@@ -6,7 +6,7 @@
 */
 
 
-#include "swGraphicAPI/Resources/IShaderInputLayout.h"
+#include "swGraphicAPI/Resources/Shaders/IShaderInputLayout.h"
 #include "swCommonLib/Common/ObjectDeleter.h"
 
 

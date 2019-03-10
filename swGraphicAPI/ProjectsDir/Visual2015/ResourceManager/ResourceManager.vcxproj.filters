@@ -93,12 +93,6 @@
     <ClInclude Include="..\..\..\Resources\IRenderTarget.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Resources\IShader.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Resources\IShaderInputLayout.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Resources\MeshResources.h">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -221,6 +215,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Resources\Textures\Texture.h">
       <Filter>Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Shaders\IShader.h">
+      <Filter>Resources\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Shaders\IShaderInputLayout.h">
+      <Filter>Resources\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
