@@ -18,6 +18,11 @@
 #include <assert.h>
 
 
+
+
+namespace sw
+{
+
 class BufferObject;
 
 
@@ -35,7 +40,7 @@ struct BufferInitData : public sw::IAssetCreateInfo
 // ================================ //
 //
 	BufferInitData()
-		:	DataType( rttr::type::get_by_name( "" ) )	// Set invalid type.
+		: DataType( rttr::type::get_by_name( "" ) )	// Set invalid type.
 	{
 		Usage = ResourceUsage::RESOURCE_USAGE_DEFAULT;
 		NumElements = 1;
@@ -151,3 +156,5 @@ inline BufferInfo		IndexBufferInitData::CreateBufferInfo() const
 
 	return info;
 }
+
+}	// sw

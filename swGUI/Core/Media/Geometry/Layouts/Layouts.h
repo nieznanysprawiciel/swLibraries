@@ -12,9 +12,13 @@
 
 
 
+namespace sw
+{
+
 class InputLayoutDescriptor;
 DEFINE_UPTR_TYPE( InputLayoutDescriptor )
 
+}	// sw
 
 
 

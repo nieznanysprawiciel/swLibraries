@@ -38,7 +38,7 @@ namespace gui
 
 // ================================ //
 //
-HostWindow::HostWindow( INativeWindow* nativeWindow, input::IInput* input, ResourceManager* resourceManager, IGraphicAPIInitializer* graphicApi )
+HostWindow::HostWindow( INativeWindow* nativeWindow, input::IInput* input, ResourceManager* resourceManager, sw::IGraphicAPIInitializer* graphicApi )
 	:	m_input( input )
 	,	m_nativeWindow( nativeWindow )
 	,	m_resourceManager( resourceManager )

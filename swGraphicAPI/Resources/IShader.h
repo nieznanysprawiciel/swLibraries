@@ -11,6 +11,10 @@
 #include <string>
 
 
+
+namespace sw
+{
+
 /**@brief Shader interface.
 @ingroup Shaders*/
 class IShader : public Resource
@@ -29,8 +33,8 @@ protected:
 
 public:
 
-	const std::wstring&		GetShaderFile			() const		{ return m_shaderFile; }
-	const std::string&		GetShaderEntry			() const		{ return m_shaderEntry; }
+	const std::wstring&		GetShaderFile			() const { return m_shaderFile; }
+	const std::string&		GetShaderEntry			() const { return m_shaderEntry; }
 
 
 	virtual bool			ReloadFromFile			() = 0;
@@ -38,3 +42,4 @@ public:
 	virtual void			SaveShaderBinFile		( const std::wstring& file_name ) = 0;
 };
 
+}	// sw

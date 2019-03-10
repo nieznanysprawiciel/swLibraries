@@ -76,7 +76,7 @@ public:
 	RenderTargetObject*			GetRenderTarget				( const filesystem::Path& name );
 	VertexShader*				GetVertexShader				( const filesystem::Path& name );
 	PixelShader*				GetPixelShader				( const filesystem::Path& name );
-	TextureObject*				GetTexture					( const filesystem::Path& name );
+	Texture*					GetTexture					( const filesystem::Path& name );
 	BufferObject*				GetVertexBuffer				( const filesystem::Path& name );
 	BufferObject*				GetConstantBuffer			( const filesystem::Path& name );
 	BufferObject*				GetIndexBuffer				( const filesystem::Path& name );
@@ -87,7 +87,7 @@ public:
 	///@name Resource loading
 	///@detail Load assets from specified file. Functions protect from loading assets multiple times.
 	///@{
-	TextureObject*					LoadTexture					( const filesystem::Path& fileName );
+	Texture*						LoadTexture					( const filesystem::Path& fileName );
 	VertexShader*					LoadVertexShader			( const filesystem::Path& fileName, const std::string& shaderEntry );
 	VertexShader*					LoadVertexShader			( const filesystem::Path& fileName, const std::string& shaderEntry, ShaderInputLayout** layout, InputLayoutDescriptor* layout_desc );
 	PixelShader*					LoadPixelShader				( const filesystem::Path& fileName, const std::string& shaderEntry );
@@ -95,7 +95,7 @@ public:
 	ControlShader*					LoadControlShader			( const filesystem::Path& fileName, const std::string& shaderEntry );
 	EvaluationShader*				LoadEvaluationShader		( const filesystem::Path& fileName, const std::string& shaderEntry );
 
-	ResourcePtr< Resource >	LoadGeneric					( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID type );
+	ResourcePtr< Resource >			LoadGeneric					( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID type );
 	///@}
 
 	///@name Resource creation
@@ -126,7 +126,7 @@ public:
 	std::vector< ResourcePtr< BufferObject > >			ListConstantBuffers	();
 	std::vector< ResourcePtr< ShaderInputLayout > >		ListShaderLayouts	();
 
-	std::vector< ResourcePtr< TextureObject > >			ListTextures		();
+	std::vector< ResourcePtr< Texture > >				ListTextures		();
 	std::vector< ResourcePtr< VertexShader > >			ListVertexShaders	();
 	std::vector< ResourcePtr< PixelShader > >			ListPixelShaders	();
 	

@@ -78,7 +78,7 @@ private:
 	bool                SetVertexBuffer         ( BufferObject* buffer, unsigned int offset );
 	void				SetIndexBuffer			( BufferObject* buffer, unsigned int offset, bool extendedIndex );
 	void				SetRenderTarget			( RenderTargetObject* const targets[ MAX_BOUND_RENDER_TARGETS ], RenderTargetObject* depthStencil );
-	void				SetTextures				( TextureObject* const texturesArray[ MAX_BOUND_RENDER_TARGETS ], const uint8 shaderTypes[ MAX_BOUND_RENDER_TARGETS ] );
+	void				SetTextures				( Texture* const texturesArray[ MAX_BOUND_RENDER_TARGETS ], const uint8 shaderTypes[ MAX_BOUND_RENDER_TARGETS ] );
 };
 
 }	// sw

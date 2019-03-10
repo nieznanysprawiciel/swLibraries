@@ -1,6 +1,17 @@
 #pragma once
+/**
+@file ResourcePtr
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
+
 
 #include <type_traits>
+
+
+namespace sw
+{
 
 
 class Resource;
@@ -46,7 +57,7 @@ public:
 
 	ResourcePtr( ResourcePtr&& other )
 	{
-		if( this != &other)
+		if( this != &other )
 		{
 			m_resource = other.m_resource;
 			other.m_resource = nullptr;
@@ -65,7 +76,7 @@ public:
 		AssignPointer( ptr.m_resource );
 	}
 
-	operator void*() const
+	operator void*( ) const
 	{
 		return m_resource;
 	}
@@ -107,11 +118,14 @@ public:
 	}
 
 	ResourceType*	Ptr	() const
-	{ return m_resource; }
+	{
+		return m_resource;
+	}
 
 };
 
 
+}	// sw
 
 namespace rttr
 {
@@ -120,10 +134,10 @@ namespace rttr
 
 
 template< typename T >
-struct wrapper_mapper< ResourcePtr< T > >
+struct wrapper_mapper< sw::ResourcePtr< T > >
 {
-    using wrapped_type  = decltype( std::declval< ResourcePtr< T > >().Ptr() );
-    using type          = ResourcePtr< T >;
+    using wrapped_type  = decltype( std::declval< sw::ResourcePtr< T > >().Ptr() );
+    using type          = sw::ResourcePtr< T >;
 
     inline static wrapped_type	get		( const type& obj )
     {
@@ -132,7 +146,7 @@ struct wrapper_mapper< ResourcePtr< T > >
 
     inline static type			create	( const wrapped_type& value )
     {
-       return ResourcePtr< T >( value );
+       return sw::ResourcePtr< T >( value );
     } 
 };
 

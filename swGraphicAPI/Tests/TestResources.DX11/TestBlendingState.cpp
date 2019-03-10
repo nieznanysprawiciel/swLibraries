@@ -10,7 +10,7 @@ TEST_CASE( "GraphicAPI.Resources.BlendingState.Creation", "[GraphicAPI][Resource
 {
 	auto& graphic = GetGraphic();
 
-	BlendingInfo blendDesc;
+	sw::BlendingInfo blendDesc;
 	blendDesc.EnableBlending = true;
 
 	auto blendingState = graphic.RM->CreateBlendingState( L"TransparentBlendState", blendDesc );

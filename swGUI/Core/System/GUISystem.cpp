@@ -226,9 +226,9 @@ bool				GUISystem::DefaultInitGraphicAPI	( bool debug, bool singleThreaded )
 	graphicApiData.UseDebugLayer = debug;
 
 	auto result = m_graphicApi->InitAPI( graphicApiData );
-	assert( result );
+	assert( result.IsValid() );
 
-	return result;
+	return result.IsValid();
 }
 
 /**@brief Initializes rendering system.

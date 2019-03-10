@@ -10,6 +10,11 @@
 #include "swGraphicAPI/Resources/DepthStencilState.h"
 #include "swGraphicAPI/Resources/RasterizerState.h"
 
+
+namespace sw
+{
+
+
 /**@defgroup RenderingCommands Rendering commands
 Commands for @ref IRenderer class.
 
@@ -138,7 +143,7 @@ struct SetShaderStateCommand : public RendererCommand
 {
 	VertexShader*		VertexShader;
 	PixelShader*		PixelShader;
-	TextureObject*		Textures[ sMaxTextures ];
+	Texture*		Textures[ sMaxTextures ];
 	uint8				BindToShader[ sMaxTextures ];		///< Use @ref ShaderType flag. @note ShaderType::ComputeShader will be ignored.
 };
 
@@ -164,14 +169,14 @@ struct SetDefaultBuffersCommand : public RendererCommand
 	BufferObject*		BonesTransforms;
 };
 
-/**@brief 
+/**@brief
 
 @ingroup RenderingCommands*/
 struct SetRenderStateCommand : public SetShaderStateCommand, SetDefaultBuffersCommand
 {};
 
 
-/**@brief 
+/**@brief
 
 @ingroup RenderingCommands*/
 struct SetRenderStateExCommand : public SetShaderStateExCommand, SetDefaultBuffersCommand
@@ -183,8 +188,8 @@ struct SetRenderStateExCommand : public SetShaderStateExCommand, SetDefaultBuffe
 @ingroup RenderingCommands*/
 struct CopyTextureCommand : public RendererCommand
 {
-	TextureObject*		SourceTexture;
-	TextureObject*		DestinationTexture;
+	Texture*		SourceTexture;
+	Texture*		DestinationTexture;
 };
 
 /**@brief Binds additional buffers.
@@ -221,3 +226,8 @@ struct UpdateBindBuffer : public BindBufferCommand
 	uint8*				FillData;
 	uint32				Size;		///< Size in bytes.
 };
+
+}	// sw
+
+
+

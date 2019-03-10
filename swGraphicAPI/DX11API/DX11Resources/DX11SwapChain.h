@@ -1,11 +1,27 @@
 #pragma once
+/**
+@file DX11SwapChain.h
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
+
+
 
 #include "swGraphicAPI/DX11API/DX11Initializer/DX11APIObjects.h"
 #include "swGraphicAPI/Resources/SwapChain.h"
 #include "DX11RenderTarget.h"
 
 
-class DX11SwapChain	: public SwapChain, protected DX11APIObjects
+
+
+namespace sw
+{
+
+
+// ================================ //
+//
+class DX11SwapChain : public SwapChain, protected DX11APIObjects
 {
 	RTTR_ENABLE( SwapChain )
 private:
@@ -23,3 +39,5 @@ public:
 	static DX11SwapChain*	CreateScreenSwapChain	( RenderTargetObject* screenRT );
 };
 
+
+}	// sw

@@ -1,8 +1,9 @@
 /**
 @file DX11Texture.cpp
 @author nieznanysprawiciel
-@copyright File is part of graphic engine SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
 #include "swGraphicAPI/DX11API/stdafx.h"
 
 
@@ -16,9 +17,11 @@
 
 RTTR_REGISTRATION
 {
-	rttr::registration::class_< DX11Texture >( "DX11Texture" );
+	rttr::registration::class_< sw::DX11Texture >( "sw::DX11Texture" );
 }
 
+namespace sw
+{
 
 
 
@@ -27,7 +30,7 @@ RTTR_REGISTRATION
 void DX11Texture::Construct()
 {
 	if( IsDebugLayerEnabled() )
-	{	
+	{
 		SetDebugName( m_texture.Get(), m_descriptor.FilePath.String() );
 		SetDebugName( m_textureView.Get(), m_descriptor.FilePath.String() );
 	}
@@ -36,9 +39,9 @@ void DX11Texture::Construct()
 
 /**@brief Remember to release tex and texView (Call com interface Release method)*/
 DX11Texture::DX11Texture( TextureInfo&& texInfo, ID3D11Texture2D* tex, ID3D11ShaderResourceView* texView )
-	:	m_texture( tex )
-	,	m_textureView( texView )
-	,	m_descriptor( std::move( texInfo ) )
+	: m_texture( tex )
+	, m_textureView( texView )
+	, m_descriptor( std::move( texInfo ) )
 {
 	Construct();
 }
@@ -47,9 +50,9 @@ DX11Texture::DX11Texture( TextureInfo&& texInfo, ID3D11Texture2D* tex, ID3D11Sha
 // ================================ //
 //
 DX11Texture::DX11Texture( TextureInfo&& texInfo, ComPtr< ID3D11Texture2D > tex, ComPtr< ID3D11ShaderResourceView > texView )
-	:	m_texture( tex )
-	,	m_textureView( texView )
-	,	m_descriptor( std::move( texInfo ) )
+	: m_texture( tex )
+	, m_textureView( texView )
+	, m_descriptor( std::move( texInfo ) )
 {
 	Construct();
 }
@@ -63,13 +66,13 @@ DX11Texture::~DX11Texture()
 }
 
 
-/**@copydoc TextureObject::GetDescriptor.*/
+/**@copydoc Texture::GetDescriptor.*/
 const TextureInfo&			DX11Texture::GetDescriptor() const
 {
 	return m_descriptor;
 }
 
-/**@copydoc TextureObject::GetFilePath.*/
+/**@copydoc Texture::GetFilePath.*/
 const filesystem::Path&		DX11Texture::GetFilePath() const
 {
 	return m_descriptor.FilePath;
@@ -126,10 +129,10 @@ DX11Texture*	DX11Texture::CreateFromMemory( const MemoryChunk& texData, TextureI
 			result = device->CreateShaderResourceView( texture.Get(), &viewDesc, &texView );
 			if( result == S_OK )
 				return new DX11Texture( std::move( texInfo ), texture, texView );
-			else 
+			else
 				return nullptr;
 		}
-		
+
 		assert( !"Other texture types are not suported" );
 	}
 
@@ -144,8 +147,8 @@ wiele w¹tków bêdzie wywo³ywa³o jakieœ funkcje z kontekstu jednoczeœnie.*/
 MemoryChunk					DX11Texture::CopyData() const
 {
 	D3D11_TEXTURE2D_DESC texDesc = FillDesc( m_descriptor );
-	texDesc.CPUAccessFlags	= D3D11_CPU_ACCESS_READ;
-	texDesc.Usage			= D3D11_USAGE::D3D11_USAGE_STAGING;
+	texDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	texDesc.Usage = D3D11_USAGE::D3D11_USAGE_STAGING;
 
 	ID3D11Texture2D* newTex;
 
@@ -174,7 +177,7 @@ MemoryChunk					DX11Texture::CopyData() const
 		device_context->Unmap( newTex, level );
 	}
 
-	
+
 	newTex->Release();
 
 	return std::move( memoryChunk );
@@ -189,22 +192,22 @@ D3D11_TEXTURE2D_DESC			DX11Texture::FillDesc	( const TextureInfo& texInfo )
 	if( texInfo.TextureType == TextureType::TEXTURE_TYPE_TEXTURE2D_ARRAY || texInfo.TextureType == TextureType::TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE_ARRAY )
 		ArraySize = texInfo.ArraySize;
 
-	texDesc.Width				= texInfo.TextureWidth;
-	texDesc.Height				= texInfo.TextureHeight;
-	texDesc.MipLevels			= texInfo.MipMapLevels;
-	texDesc.Usage				= DX11ConstantsMapper::Get( texInfo.Usage );
-	texDesc.ArraySize			= ArraySize;
-	
-	
+	texDesc.Width = texInfo.TextureWidth;
+	texDesc.Height = texInfo.TextureHeight;
+	texDesc.MipLevels = texInfo.MipMapLevels;
+	texDesc.Usage = DX11ConstantsMapper::Get( texInfo.Usage );
+	texDesc.ArraySize = ArraySize;
+
+
 	assert( texInfo.TextureType != TextureType::TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE && texInfo.TextureType != TextureType::TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE_ARRAY );
-	texDesc.SampleDesc.Count	= 1;
-	texDesc.SampleDesc.Quality	= 0;
-	
+	texDesc.SampleDesc.Count = 1;
+	texDesc.SampleDesc.Quality = 0;
+
 	texDesc.MiscFlags = 0;
 	if( texInfo.IsCubeMap )
 		texDesc.MiscFlags |= D3D11_RESOURCE_MISC_TEXTURECUBE;
 	if( texInfo.AllowShareResource )
-		texDesc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED ;
+		texDesc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
 	texDesc.CPUAccessFlags = 0;
 	if( texInfo.CPURead )
@@ -313,3 +316,4 @@ uint32			DX11Texture::MipLevelSize	( uint16 mipLevel ) const
 }
 
 
+}	// sw

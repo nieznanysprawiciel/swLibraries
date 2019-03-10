@@ -122,7 +122,7 @@ void					RenderingHelper::DrawBufferLess					( IRenderer* renderer, uint32 numVe
 
 // ================================ //
 //
-void					RenderingHelper::SetTexture						( SetShaderStateCommand& command, TextureObject* texture, uint8 bindingPoint, uint8 bindShader )
+void					RenderingHelper::SetTexture						( SetShaderStateCommand& command, Texture* texture, uint8 bindingPoint, uint8 bindShader )
 {
 	assert( bindingPoint < 8 );
 	command.Textures[ bindingPoint ] = texture;

@@ -6,6 +6,10 @@
 #include <vector>
 
 
+
+namespace sw
+{
+
 /**@brief Deskryptor layoutu dla DirectX 11.
 @deprecated InputLayoutDescriptor is last class in inheritance hierarchy
 @ingroup DX11API*/
@@ -17,8 +21,8 @@ public:
 	DX11InputLayoutDescriptor( const std::wstring& layoutName ) : InputLayoutDescriptor( layoutName ) {}
 	~DX11InputLayoutDescriptor() = default;
 
-	Size							GetNumElements()		{ return m_inputElement.size(); }
-	D3D11_INPUT_ELEMENT_DESC*		GetDescriptorPtr()		{ return m_inputElement.data(); }
+	Size							GetNumElements() { return m_inputElement.size(); }
+	D3D11_INPUT_ELEMENT_DESC*		GetDescriptorPtr() { return m_inputElement.data(); }
 
 	virtual void					AddRow( const char* semanticName,
 											ResourceFormat format,
@@ -29,4 +33,7 @@ public:
 
 	unsigned int					CountSemantic( const char* semanticName );
 };
+
+
+}	// sw
 

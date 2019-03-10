@@ -1,8 +1,9 @@
 /**
 @file DX11Renderer.cpp
 @author nieznanysprawiciel
-@copyright File is part of graphic engine SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
 #include "swGraphicAPI/DX11API/stdafx.h"
 
 
@@ -17,6 +18,10 @@
 #include "DX11Resources/DX11RenderTarget.h"
 
 #include "swCommonLib/Common/MemoryLeaks.h"
+
+
+namespace sw
+{
 
 
 
@@ -38,12 +43,12 @@ Mo¿na sprawdziæ czy klasa zosta³a zainicjowana poprawnie wywo³uj¹c funkcjê isVal
 DX11Renderer::DX11Renderer( RendererUsage usage )
 {
 	m_usageType = usage;
-	if ( usage == RendererUsage::USE_AS_IMMEDIATE )
+	if( usage == RendererUsage::USE_AS_IMMEDIATE )
 	{
 		m_localDeviceContext = device_context;
 		m_valid = true;
 	}
-	else if ( usage == RendererUsage::USE_AS_DEFERRED )		// Will not work, if the device was created with the D3D11_CREATE_DEVICE_SINGLETHREADED value.
+	else if( usage == RendererUsage::USE_AS_DEFERRED )		// Will not work, if the device was created with the D3D11_CREATE_DEVICE_SINGLETHREADED value.
 	{
 		device->CreateDeferredContext( 0, &m_localDeviceContext );
 		m_valid = true;
@@ -59,8 +64,8 @@ DX11Renderer::DX11Renderer( RendererUsage usage )
 //
 DX11Renderer::~DX11Renderer()
 {
-	if ( m_usageType == RendererUsage::USE_AS_DEFERRED )	/// Tylko w takim wypadku alokowaliœmy nowy kontekst. Inaczej zwalanianie nale¿y do klasy DX11_interfaces_container.
-		if ( m_localDeviceContext )
+	if( m_usageType == RendererUsage::USE_AS_DEFERRED )	/// Tylko w takim wypadku alokowaliœmy nowy kontekst. Inaczej zwalanianie nale¿y do klasy DX11_interfaces_container.
+		if( m_localDeviceContext )
 			m_localDeviceContext->Release();
 }
 
@@ -84,7 +89,7 @@ void	DX11Renderer::Draw				( const DrawCommand& command )
 		m_localDeviceContext->IASetInputLayout( nullptr );
 
 	m_localDeviceContext->IASetPrimitiveTopology( DX11ConstantsMapper::Get( command.Topology ) );
-	
+
 
 	DX11Renderer::SetVertexBuffer( command.VertexBuffer, 0 );
 	SetIndexBuffer( command.IndexBufer, 0, command.ExtendedIndex );
@@ -242,7 +247,7 @@ void	DX11Renderer::ClearRenderTarget	( const ClearRenderTargetCommand& command )
 		float clearColor[ 4 ] = { command.ClearColor.x, command.ClearColor.y, command.ClearColor.z, command.ClearColor.w };
 		device_context->ClearRenderTargetView( renderTarget->GetRenderTarget(), clearColor );
 	}
-	
+
 	uint32 clearFlags = 0;
 	if( command.ClearDepth )
 		clearFlags = clearFlags | D3D11_CLEAR_DEPTH;
@@ -389,16 +394,16 @@ void	DX11Renderer::SetShaderState	( const SetShaderStateExCommand& command )
 //
 void	DX11Renderer::SetShaderState	( const SetRenderStateCommand& command )
 {
-	DX11Renderer::SetShaderState( static_cast< const SetShaderStateCommand& >( command ) );
-	DX11Renderer::SetDefaultBuffers( static_cast< const SetDefaultBuffersCommand& >( command ) );
+	DX11Renderer::SetShaderState( static_cast<const SetShaderStateCommand&>( command ) );
+	DX11Renderer::SetDefaultBuffers( static_cast<const SetDefaultBuffersCommand&>( command ) );
 }
 
 // ================================ //
 //
 void	DX11Renderer::SetShaderState	( const SetRenderStateExCommand& command )
 {
-	DX11Renderer::SetShaderState( static_cast< const SetShaderStateExCommand& >( command ) );
-	DX11Renderer::SetDefaultBuffers( static_cast< const SetDefaultBuffersCommand& >( command ) );
+	DX11Renderer::SetShaderState( static_cast<const SetShaderStateExCommand&>( command ) );
+	DX11Renderer::SetDefaultBuffers( static_cast<const SetDefaultBuffersCommand&>( command ) );
 }
 
 // ================================ //
@@ -431,23 +436,23 @@ void	DX11Renderer::FlushCommands		()
 //
 bool    DX11Renderer::SetVertexBuffer   ( BufferObject* buffer, unsigned int offset )
 {
-    ID3D11Buffer* vertexBuffer = nullptr;
-    if( buffer )
-    {
-        vertexBuffer = DX11( buffer )->Get();
-        unsigned int stride = buffer->GetStride();
-        m_localDeviceContext->IASetVertexBuffers( 0, 1, &vertexBuffer, &stride, &offset );
+	ID3D11Buffer* vertexBuffer = nullptr;
+	if( buffer )
+	{
+		vertexBuffer = DX11( buffer )->Get();
+		unsigned int stride = buffer->GetStride();
+		m_localDeviceContext->IASetVertexBuffers( 0, 1, &vertexBuffer, &stride, &offset );
 
-        return false;
-    }
-    else
-    {
-        //throw new std::runtime_error( "Vertex buffer is nullptr" );
-        //assert( !"Vertex buffer is nullptr" );
+		return false;
+	}
+	else
+	{
+		//throw new std::runtime_error( "Vertex buffer is nullptr" );
+		//assert( !"Vertex buffer is nullptr" );
 		unsigned int stride = 0;
 		m_localDeviceContext->IASetVertexBuffers( 0, 1, &vertexBuffer, &stride, &offset );
-    }
-    return true;
+	}
+	return true;
 }
 
 
@@ -455,7 +460,7 @@ bool    DX11Renderer::SetVertexBuffer   ( BufferObject* buffer, unsigned int off
 // Buffer can be nullptr.
 void	DX11Renderer::SetIndexBuffer	( BufferObject* buffer, unsigned int offset, bool extendedIndex )
 {
-	if ( buffer )
+	if( buffer )
 	{
 		auto indexBuffer = DX11( buffer )->Get();
 		assert( indexBuffer );
@@ -491,7 +496,7 @@ void	DX11Renderer::SetRenderTarget	( RenderTargetObject* const targets[ MAX_BOUN
 
 // ================================ //
 //
-void	DX11Renderer::SetTextures		( TextureObject* const texturesArray[ MAX_BOUND_RENDER_TARGETS ], const uint8 shaderTypes[ MAX_BOUND_RENDER_TARGETS ] )
+void	DX11Renderer::SetTextures		( Texture* const texturesArray[ MAX_BOUND_RENDER_TARGETS ], const uint8 shaderTypes[ MAX_BOUND_RENDER_TARGETS ] )
 {
 	ID3D11ShaderResourceView* texturesVert[ ENGINE_MAX_TEXTURES ];
 	ID3D11ShaderResourceView* texturesPix[ ENGINE_MAX_TEXTURES ];
@@ -527,3 +532,5 @@ void	DX11Renderer::SetTextures		( TextureObject* const texturesArray[ MAX_BOUND_
 	device_context->DSSetShaderResources( 0, ENGINE_MAX_TEXTURES, texturesDomain );
 }
 
+
+}	// sw

@@ -11,10 +11,14 @@
 
 RTTR_REGISTRATION
 {
-	rttr::registration::class_< DX11RasterizerState >( "DX11RasterizerState" );
-	rttr::registration::class_< DX11DepthStencilState >( "DX11DepthStencilState" );
-	rttr::registration::class_< DX11BlendingState >( "DX11BlendingState" );
+	rttr::registration::class_< sw::DX11RasterizerState >( "sw::DX11RasterizerState" );
+	rttr::registration::class_< sw::DX11DepthStencilState >( "sw::DX11DepthStencilState" );
+	rttr::registration::class_< sw::DX11BlendingState >( "sw::DX11BlendingState" );
 }
+
+
+namespace sw
+{
 
 
 
@@ -23,9 +27,9 @@ RTTR_REGISTRATION
 //====================================================================================//
 
 DX11RasterizerState::DX11RasterizerState( ComPtr< ID3D11RasterizerState > state, const RasterizerStateInfo& info )
-	:	m_state( state )
-	,	m_info( info )
-{ }
+	: m_state( state )
+	, m_info( info )
+{}
 
 // ================================ //
 //
@@ -72,9 +76,9 @@ sw::Nullable< DX11RasterizerState* >			DX11RasterizerState::Create				( const Ra
 //====================================================================================//
 
 DX11DepthStencilState::DX11DepthStencilState( ComPtr< ID3D11DepthStencilState > state, const DepthStencilInfo& info )
-	:	m_state( state )
-	,	m_info( info )
-{ }
+	: m_state( state )
+	, m_info( info )
+{}
 
 // ================================ //
 //
@@ -125,8 +129,8 @@ sw::Nullable< DX11DepthStencilState* >			DX11DepthStencilState::Create			( const
 //====================================================================================//
 
 DX11BlendingState::DX11BlendingState( ComPtr< ID3D11BlendState > state, const BlendingInfo& info )
-	:	m_state( state )
-	,	m_info( info )
+	: m_state( state )
+	, m_info( info )
 {}
 
 // ================================ //
@@ -168,3 +172,7 @@ sw::Nullable< DX11BlendingState* >		DX11BlendingState::Create		( const BlendingI
 
 	return new DX11BlendingState( state, info );
 }
+
+}	// sw
+
+

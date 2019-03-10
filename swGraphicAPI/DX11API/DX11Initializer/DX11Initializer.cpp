@@ -1,8 +1,9 @@
 /**
-@file DX11Initializaer.cpp
+@file DX11Initializer.cpp
 @author nieznanysprawiciel
-@copyright File is part of graphic engine SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
 #include "swGraphicAPI/DX11API/stdafx.h"
 
 
@@ -21,8 +22,18 @@
 #include <wrl/client.h>
 using namespace Microsoft::WRL;
 
+// _com_error
+#include <comdef.h>
+
 
 #include "swCommonLib/Common/MemoryLeaks.h"
+
+
+
+namespace sw
+{
+
+
 
 // ================================ //
 //
@@ -63,12 +74,12 @@ SwapChain*			DX11Initializer::CreateSwapChain		( const SwapChainInitData& swapCh
 
 // Render target
 	ComPtr< ID3D11Texture2D > backBuffer = nullptr;
-	result = swapChain->GetBuffer( 0, __uuidof(ID3D11Texture2D), (LPVOID*)backBuffer.GetAddressOf() );
-	if ( FAILED( result ) )	return nullptr;
+	result = swapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), (LPVOID*)backBuffer.GetAddressOf() );
+	if( FAILED( result ) )	return nullptr;
 
 	ComPtr< ID3D11RenderTargetView > renderTargetView;
 	result = device->CreateRenderTargetView( backBuffer.Get(), nullptr, renderTargetView.GetAddressOf() );
-	if ( FAILED( result ) )	return nullptr;
+	if( FAILED( result ) )	return nullptr;
 
 // Depth buffer
 	_z_buffer_desc.Format = DX11ConstantsMapper::Get( swapChainData.DepthStencilFormat );
@@ -82,17 +93,17 @@ SwapChain*			DX11Initializer::CreateSwapChain		( const SwapChainInitData& swapCh
 	_z_buffer_desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	_z_buffer_desc.CPUAccessFlags = 0;
 	_z_buffer_desc.MiscFlags = 0;
-	
+
 	_z_buffer_view_desc.Format = _z_buffer_desc.Format;
 
 
 	ComPtr< ID3D11Texture2D > backBufferDepth = nullptr;
 	result = device->CreateTexture2D( &_z_buffer_desc, nullptr, backBufferDepth.GetAddressOf() );
-	if ( FAILED( result ) )	return nullptr;
+	if( FAILED( result ) )	return nullptr;
 
 	ComPtr< ID3D11DepthStencilView > zBufferView;
 	result = device->CreateDepthStencilView( backBufferDepth.Get(), &_z_buffer_view_desc, zBufferView.GetAddressOf() );
-	if ( FAILED( result ) )	return nullptr;
+	if( FAILED( result ) )	return nullptr;
 
 
 	DX11RenderTarget* renderTargetObject = new DX11RenderTarget( renderTargetView, zBufferView, nullptr, nullptr, nullptr );
@@ -121,7 +132,7 @@ SwapChain*			DX11Initializer::CreateCompositionSwapChain	( const SwapChainInitDa
 
 @param[in] initData Dane u¿ywane do inicjalizacji.
 @return Zwraca true, je¿eli inicjalizacja siê uda.*/
-bool				DX11Initializer::InitAPI		( const GraphicAPIInitData& initData )
+ReturnResult			DX11Initializer::InitAPI		( const GraphicAPIInitData& initData )
 {
 	set_depth_stencil_format( DX11ConstantsMapper::Get( initData.SwapChain.DepthStencilFormat ) );
 
@@ -137,24 +148,24 @@ bool				DX11Initializer::InitAPI		( const GraphicAPIInitData& initData )
 							initData.SingleThreaded );
 
 		if( result != DX11_INIT_RESULT::DX11_INIT_OK )
-			return false;
+			return "Failed to init DirectX 11";			///< @todo More descriptive error message.
 	}
 	else
 	{
 		auto result = InitDevices( initData );
-		if( !result.IsValid )
-			return false;
+		if( !result.IsValid() )
+			return result;
 	}
 
 	result = init_sampler();
-	if ( result != DX11_INIT_OK )
+	if( result != DX11_INIT_OK )
 	{
 		release_DirectX();	// Jak tu coœ siê nie uda³o, to znaczy, ¿e deskryptor by³ niepoprawny.
-		return false;
+		return "Failed to create sampler.";
 	}
 
 	if( FAILED( device->CreateRasterizerState( &get_rasterizer_desc(), &m_rasterizer ) ) )
-		return false;
+		return "Failed to create RasterizerState.";
 
 	device_context->RSSetState( m_rasterizer );
 
@@ -179,7 +190,7 @@ bool				DX11Initializer::InitAPI		( const GraphicAPIInitData& initData )
 
 	//device_context->OMSetDepthStencilState( m_depthState, 0 );
 
-	return true;
+	return Result::Success;
 }
 
 /**@brief Zwalnia stworzone obiekty DirectX 11.*/
@@ -210,7 +221,7 @@ void*				DX11Initializer::GetRenderTargetHandle( RenderTargetObject* renderTarge
 
 	if( renderTargetDX11 )
 	{
-		auto colorBufferTex = static_cast< DX11Texture* >( renderTargetDX11->GetColorBuffer() );
+		auto colorBufferTex = static_cast<DX11Texture*>( renderTargetDX11->GetColorBuffer() );
 		if( colorBufferTex )
 		{
 			ComPtr< ID3D11Resource > renderTargetTexture;
@@ -224,7 +235,7 @@ void*				DX11Initializer::GetRenderTargetHandle( RenderTargetObject* renderTarge
 }
 
 /**@brief Creates only device and device context.*/
-Nullable< bool >	DX11Initializer::InitDevices	( const GraphicAPIInitData& initData )
+ReturnResult		DX11Initializer::InitDevices	( const GraphicAPIInitData& initData )
 {
 	UINT createDeviceFlags = 0;
 
@@ -232,23 +243,27 @@ Nullable< bool >	DX11Initializer::InitDevices	( const GraphicAPIInitData& initDa
 	if( initData.UseDebugLayer )
 		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 
-	if ( initData.SingleThreaded )
+	if( initData.SingleThreaded )
 		// Domyœlnie obiekt ID3D11Device jest synchronizowany, ale mo¿na to wy³¹czyæ
 		createDeviceFlags |= D3D11_CREATE_DEVICE_SINGLETHREADED;
 
 	auto result = D3D11CreateDevice( nullptr, D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, _feature_levels, _num_feature_levels, D3D11_SDK_VERSION, &device, &_current_feature_level, &device_context );
-	if ( FAILED( result ) )
-		return "Creating device failed.";	//@todo Use _com_error( result ).ErrorMessage();
+	if( FAILED( result ) )
+	{
+		auto error = _com_error( result );
+		return "Creating device failed. Error: " + Convert::ToString( std::wstring( error.ErrorMessage() ) );
+	}
 
 
 	if( initData.UseDebugLayer )
 	{
 		result = device->QueryInterface( __uuidof( ID3D11Debug ), (void**)&debug_interface );
-		if ( FAILED( result ) )
+		if( FAILED( result ) )
 			return "Creating debug layer failed";
 	}
 
-	return true;
+	return Result::Success;
 }
 
 
+}	// sw

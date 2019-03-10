@@ -16,18 +16,27 @@
 #include "swGraphicAPI/Resources/SwapChain.h"
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
 
-class AssetsManager;
+
+
+class ResourceManager;
+
+
 
 namespace sw
 {
-	class BufferCreator;
-	class LayoutCreator;
-	class BlendingStateCreator;
-	class RasterizerStateCreator;
-	class DepthStencilStateCreator;
 
-	template< typename ShaderObjectType > class ShaderCreator;
-}
+
+class AssetsManager;
+
+
+class BufferCreator;
+class LayoutCreator;
+class BlendingStateCreator;
+class RasterizerStateCreator;
+class DepthStencilStateCreator;
+
+template< typename ShaderObjectType > class ShaderCreator;
+
 
 
 /**@brief Class for creating low level graphic API dependent resources.
@@ -38,7 +47,7 @@ binding. In future this could change to virtual class.
 */
 class ResourcesFactory
 {
-	friend class ResourceManager;
+	friend class ::ResourceManager;
 	friend class AssetsManager;
 	friend class sw::BufferCreator;
 
@@ -62,7 +71,7 @@ private:
 
 	static sw::Nullable< ShaderInputLayout* >	CreateInputLayout				( const InputLayoutDescriptor& layoutDesc );
 
-	static TextureObject*						CreateTextureFromMemory			( const MemoryChunk& texData, TextureInfo&& texInfo );
+	static Texture*								CreateTextureFromMemory			( const MemoryChunk& texData, sw::TextureInfo&& texInfo );
 	static sw::Nullable< BufferObject* >		CreateBufferFromMemory			( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo );
 
 	static sw::Nullable< BlendingState*	>		CreateBlendingState				( const BlendingInfo& info );
@@ -77,12 +86,12 @@ private:
 	static ControlShader*					CreateControlShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "ds_4_0" );
 	static ComputeShader*					CreateComputeShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "cs_4_0" );
 
-	
+
 	static VertexShader*			CreateVertexShaderFromFile		( const std::wstring& fileName,
-																	const std::string& shaderName,
-																	ShaderInputLayout** layout,
-																	InputLayoutDescriptor* layout_desc,
-																	const char* shaderModel = "vs_4_0" );
+																	  const std::string& shaderName,
+																	  ShaderInputLayout** layout,
+																	  InputLayoutDescriptor* layout_desc,
+																	  const char* shaderModel = "vs_4_0" );
 
 public:
 	static IGraphicAPIInitializer*	CreateAPIInitializer			();
@@ -92,3 +101,5 @@ public:
 	static RenderTargetObject*		CreateRenderTarget				( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor );
 };
 
+
+}	// sw

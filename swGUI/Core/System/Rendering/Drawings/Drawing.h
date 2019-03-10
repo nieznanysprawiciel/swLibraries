@@ -52,7 +52,7 @@ struct BrushRenderingData
 {
 	ResourcePtr< PixelShader >		PixelShader;		///< Pixel Shader.
 	ResourcePtr< BufferObject >		BrushConstants;		///< Constant buffer bound to Pixel Shader.
-	ResourcePtr< TextureObject >	Texture;			///< Optional texture bound to Pixel Shader.
+	ResourcePtr< Texture >	Texture;			///< Optional texture bound to Pixel Shader.
 };
 
 

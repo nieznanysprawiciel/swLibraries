@@ -25,6 +25,12 @@ Buffer initialization classes:
 
 @ingroup Resources*/
 
+
+
+namespace sw
+{
+
+
 class ShaderInputLayout;
 
 
@@ -69,7 +75,7 @@ struct BufferInfo
 		: DataType( rttr::type::get_by_name( "" ) )	// Set invalid type.
 	{}
 
-	std::string		GetName	() const		{ return Name.String(); }
+	std::string		GetName	() const { return Name.String(); }
 };
 
 
@@ -88,4 +94,8 @@ public:
 	virtual MemoryChunk			CopyData		() = 0;				///<Kopiuje dane z bufora i umieszcza je w zwracanym MemoryChunku.
 	virtual const BufferInfo&	GetDescriptor	() const = 0;		///<Returns buffer descriptor.
 };
+
+
+}	// sw
+
 

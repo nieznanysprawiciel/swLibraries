@@ -41,9 +41,9 @@ SwapChain*			MockInitializer::CreateSwapChain	( const SwapChainInitData& swapCha
 }
 
 /**@brief */
-bool				MockInitializer::InitAPI			( const GraphicAPIInitData& initData )
+ReturnResult		MockInitializer::InitAPI			( const GraphicAPIInitData& initData )
 {
-	return true;
+	return Result::Success;
 }
 
 /**@brief */
@@ -57,9 +57,9 @@ void*				MockInitializer::GetRenderTargetHandle	( RenderTargetObject* renderTarg
 }
 
 /**@brief Creates only device and device context.*/
-Nullable< bool >	MockInitializer::InitDevices		( const GraphicAPIInitData& initData )
+ReturnResult		MockInitializer::InitDevices		( const GraphicAPIInitData& initData )
 {
-	return true;
+	return Result::Success;
 }
 
 }	// sw

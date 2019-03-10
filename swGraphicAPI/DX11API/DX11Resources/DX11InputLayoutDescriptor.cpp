@@ -15,6 +15,9 @@
 
 
 
+namespace sw
+{
+
 void DX11InputLayoutDescriptor::AddRow( const char* semanticName, ResourceFormat format, unsigned int inputSlot, unsigned int byteOffset, bool perInstance, unsigned int instanceDataStep )
 {
 	D3D11_INPUT_ELEMENT_DESC inputElement;
@@ -42,3 +45,6 @@ unsigned int DX11InputLayoutDescriptor::CountSemantic( const char* semanticName 
 
 	return numSemantic;
 }
+
+}	// sw
+

@@ -18,14 +18,18 @@
 
 
 //----------------------------------------------------------------------------------------------//
-//								TextureObject													//
+//								Texture															//
 //----------------------------------------------------------------------------------------------//
 
-/**@defgroup Textures Textures
-@ingroup Resources
 
-@todo Rename TextureObject to Texture. TextureObject is too long name.
-*/
+namespace sw
+{
+
+/**@defgroup Textures Textures
+@ingroup Resources*/
+
+
+
 
 /**@brief Textures filtering modes.
 
@@ -77,7 +81,7 @@ struct TextureInfo
 
 	uint32				MemorySize;					///< Texture size in memory.
 	filesystem::Path	FilePath;					///< Texture path or name.
-	
+
 // ================================ //
 //
 	explicit		TextureInfo()
@@ -98,18 +102,18 @@ struct TextureInfo
 
 private:
 	RTTR_REGISTRATION_FRIEND;
-	
-	int		GetWidth		()		{ return TextureWidth; }
-	int		GetHeight		()		{ return TextureHeight; }
-	int		GetArraySize	()		{ return ArraySize; }
-	bool	IsCPUReadable	()		{ return CPURead; }
-	bool	IsCPUWriteable	()		{ return CPUWrite; }
-	bool	IsSharedResource()		{ return AllowShareResource; }
-	bool	IsCubeMapTex	()		{ return IsCubeMap; }
-	bool	GenMipMaps		()		{ return GenerateMipMaps; }
-	int		GetMipLevels	()		{ return MipMapLevels; }
 
-	std::string		GetPath	()		{ return FilePath.String(); }
+	int		GetWidth		() { return TextureWidth; }
+	int		GetHeight		() { return TextureHeight; }
+	int		GetArraySize	() { return ArraySize; }
+	bool	IsCPUReadable	() { return CPURead; }
+	bool	IsCPUWriteable	() { return CPUWrite; }
+	bool	IsSharedResource() { return AllowShareResource; }
+	bool	IsCubeMapTex	() { return IsCubeMap; }
+	bool	GenMipMaps		() { return GenerateMipMaps; }
+	int		GetMipLevels	() { return MipMapLevels; }
+
+	std::string		GetPath	() { return FilePath.String(); }
 };
 
 
@@ -122,16 +126,16 @@ private:
 @ingroup GraphicAPI
 
 This class is platform independent. Inherit it while implementing chosen graphic API.*/
-class TextureObject : public Resource
+class Texture : public Resource
 {
 	RTTR_ENABLE( Resource );
-	friend ObjectDeleter<TextureObject>;
+	friend ObjectDeleter<Texture>;
 private:
 protected:
 	/// ¯eby unikn¹æ pomy³ki, obiekt mo¿e byœ kasowany tylko przez AssetsManager. Zapewnia to ObjectDeleter.
-	virtual ~TextureObject() = default;
+	virtual ~Texture() = default;
 public:
-	TextureObject() : Resource( 0 ) {}
+	Texture() : Resource( 0 ) {}
 
 	virtual const filesystem::Path&		GetFilePath		() const = 0;		///< Returns name of file, from which this object was created.
 
@@ -148,7 +152,8 @@ public:
 
 	virtual std::string					GetResourceName	() const override { return GetFilePath().String(); }
 
-	inline bool operator==( TextureObject& object );
+	inline bool operator==( Texture& object );
 	inline bool operator==( const std::wstring& file_name );
 };
 
+}	// sw

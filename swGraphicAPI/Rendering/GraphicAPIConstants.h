@@ -2,10 +2,16 @@
 /**
 @file GraphicAPIConstants.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
 
+
 #include "swCommonLib/Common/TypesDefinitions.h"
+
+
+namespace sw
+{
+
 
 /**@brief Blending operation.
 
@@ -71,10 +77,10 @@ enum class FillMode : uint8
 @see @ref GraphicAPI*/
 enum class ResourceUsage : uint8
 {
-	RESOURCE_USAGE_DEFAULT		= 0,		///<Pozawala GPU na zapis i odczyt.
-	RESOURCE_USAGE_DYNAMIC		= 1,		///<Pozwala GPU na odczyt, a CPU na zapis. Dobre do czêsto updatowanych zasobów.
-	RESOURCE_USAGE_STATIC		= 2,		///<Zasób raz stworzony i nigdy nie jest zmieniany.
-	RESOURCE_USAGE_STAGING		= 3			///<GPU mo¿e jedynie kopiowaæ, poza tym wszystkie prawa dostêpu s¹ po stronie CPU. Zobacz D3D11_USAGE_STAGING.
+	RESOURCE_USAGE_DEFAULT = 0,		///<Pozawala GPU na zapis i odczyt.
+	RESOURCE_USAGE_DYNAMIC = 1,		///<Pozwala GPU na odczyt, a CPU na zapis. Dobre do czêsto updatowanych zasobów.
+	RESOURCE_USAGE_STATIC = 2,		///<Zasób raz stworzony i nigdy nie jest zmieniany.
+	RESOURCE_USAGE_STAGING = 3			///<GPU mo¿e jedynie kopiowaæ, poza tym wszystkie prawa dostêpu s¹ po stronie CPU. Zobacz D3D11_USAGE_STAGING.
 };
 
 /**@brief Topologia wierzcho³ków.
@@ -83,15 +89,15 @@ enum class ResourceUsage : uint8
 @see @ref GraphicAPI*/
 enum class PrimitiveTopology : uint8
 {
-  PRIMITIVE_TOPOLOGY_POINTLIST                     = 0,
-  PRIMITIVE_TOPOLOGY_LINELIST                      = 1,
-  PRIMITIVE_TOPOLOGY_LINESTRIP                     = 2,
-  PRIMITIVE_TOPOLOGY_TRIANGLELIST                  = 3,
-  PRIMITIVE_TOPOLOGY_TRIANGLESTRIP                 = 4,
-  PRIMITIVE_TOPOLOGY_LINELIST_ADJ                  = 5,
-  PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ                 = 6,
-  PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ              = 7,
-  PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ             = 8
+	PRIMITIVE_TOPOLOGY_POINTLIST = 0,
+	PRIMITIVE_TOPOLOGY_LINELIST = 1,
+	PRIMITIVE_TOPOLOGY_LINESTRIP = 2,
+	PRIMITIVE_TOPOLOGY_TRIANGLELIST = 3,
+	PRIMITIVE_TOPOLOGY_TRIANGLESTRIP = 4,
+	PRIMITIVE_TOPOLOGY_LINELIST_ADJ = 5,
+	PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ = 6,
+	PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ = 7,
+	PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ = 8
 };
 
 /**@brief Okreœla jak bêdzie u¿ywany dany zasób w potoku karty graficznej.
@@ -102,17 +108,17 @@ jedn¹ opcjê.
 @see @ref GraphicAPI*/
 enum ResourceBinding : uint8
 {
-	BIND_RESOURCE_VERTEX_BUFFER     = 0x0L,
-	BIND_RESOURCE_INDEX_BUFFER		= 0x1L,
-	BIND_RESOURCE_CONSTANT_BUFFER	= 0x2L,
-	BIND_RESOURCE_SHADER_RESOURCE	= 0x3L,
-	BIND_RESOURCE_STREAM_OUTPUT		= 0x4L,
-	BIND_RESOURCE_RENDER_TARGET		= 0x5L,
-	BIND_RESOURCE_DEPTH_STENCIL		= 0x6L,
-	BIND_RESOURCE_UNORDERED_ACCESS	= 0x7L,
-	BIND_RESOURCE_DECODER			= 0x8L,
-	BIND_RESOURCE_VIDEO_ENCODER		= 0x9L
-	
+	BIND_RESOURCE_VERTEX_BUFFER = 0x0L,
+	BIND_RESOURCE_INDEX_BUFFER = 0x1L,
+	BIND_RESOURCE_CONSTANT_BUFFER = 0x2L,
+	BIND_RESOURCE_SHADER_RESOURCE = 0x3L,
+	BIND_RESOURCE_STREAM_OUTPUT = 0x4L,
+	BIND_RESOURCE_RENDER_TARGET = 0x5L,
+	BIND_RESOURCE_DEPTH_STENCIL = 0x6L,
+	BIND_RESOURCE_UNORDERED_ACCESS = 0x7L,
+	BIND_RESOURCE_DECODER = 0x8L,
+	BIND_RESOURCE_VIDEO_ENCODER = 0x9L
+
 };
 
 
@@ -122,15 +128,15 @@ enum ResourceBinding : uint8
 @see @ref GraphicAPI*/
 enum class TextureType : uint8
 {
-	TEXTURE_TYPE_UNKNOW							= 0,
-	TEXTURE_TYPE_BUFFER							= 1,
-	TEXTURE_TYPE_TEXTURE1D						= 2,
-	TEXTURE_TYPE_TEXTURE1D_ARRAY				= 3,
-	TEXTURE_TYPE_TEXTURE2D						= 4,
-	TEXTURE_TYPE_TEXTURE2D_ARRAY				= 5,
-	TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE			= 6,
-	TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE_ARRAY	= 7,
-	TEXTURE_TYPE_TEXTURE3D						= 8
+	TEXTURE_TYPE_UNKNOW = 0,
+	TEXTURE_TYPE_BUFFER = 1,
+	TEXTURE_TYPE_TEXTURE1D = 2,
+	TEXTURE_TYPE_TEXTURE1D_ARRAY = 3,
+	TEXTURE_TYPE_TEXTURE2D = 4,
+	TEXTURE_TYPE_TEXTURE2D_ARRAY = 5,
+	TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE = 6,
+	TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE_ARRAY = 7,
+	TEXTURE_TYPE_TEXTURE3D = 8
 };
 
 
@@ -140,10 +146,10 @@ enum class TextureType : uint8
 @see @ref GraphicAPI*/
 enum class DepthStencilFormat : uint8
 {
-	DEPTH_STENCIL_FORMAT_D32_FLOAT_S8X24_UINT	= 0,
-	DEPTH_STENCIL_FORMAT_D32_FLOAT				= 1,
-	DEPTH_STENCIL_FORMAT_D24_UNORM_S8_UINT		= 2,
-	DEPTH_STENCIL_FORMAT_D16_UNORM				= 3
+	DEPTH_STENCIL_FORMAT_D32_FLOAT_S8X24_UINT = 0,
+	DEPTH_STENCIL_FORMAT_D32_FLOAT = 1,
+	DEPTH_STENCIL_FORMAT_D24_UNORM_S8_UINT = 2,
+	DEPTH_STENCIL_FORMAT_D16_UNORM = 3
 };
 
 /**@brief Specyfikuje format tekstury b¹dŸ innego zasobu.
@@ -276,3 +282,7 @@ enum class ResourceFormat : uint8
 
 extern uint32				BitsPerPixel		( ResourceFormat fmt );		///< Liczba bitów na piksel danego formatu. Funkcja wymaga zaimplementrowania przez API graficzne.
 extern uint32				BytesPerPixel		( ResourceFormat fmt );		///< Liczba bajtów na piksel danego formatu. Funkcja wymaga zaimplementrowania przez API graficzne.
+
+}	// sw
+
+

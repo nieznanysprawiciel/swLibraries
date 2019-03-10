@@ -7,15 +7,26 @@
 które maj¹ prywatne destruktory.
 */
 
-class Resource;
-template <class TYPE> class ResourceContainer;
-template< class ResourceType > class ResourceContainer;
-template<> class ResourceContainer< Resource >;
 
 namespace sw
 {
-class AssetsManager;
+	class Resource;
 }	// sw
+
+
+class ResourceManager;
+class AssetsManager;
+
+template< class ResourceType > class ResourceContainer;
+template<> class ResourceContainer< sw::Resource >;
+
+namespace sw
+{
+
+template< class ResourceType > class ResourceContainer;
+
+
+
 
 /**
 @ingroup Helpers
@@ -37,12 +48,15 @@ Wystarczy, ¿e zadeklaruj¹ przyjaŸñ z obiektem ObjectDeleter. Taka przyjaŸñ jest 
 klasa ta nie s³u¿y do niczego innego ni¿ kasowanie obiektów, wiêc jesteœmy pewni, ¿e zmiany wprowadzone
 w klasie deklaruj¹cej przyjaŸñ nie bêd¹ psu³y ca³ego kodu aplikacji.
 */
-template<typename class_type> class ObjectDeleterKey
+template< typename class_type > class ObjectDeleterKey
 {
+	friend class ::ResourceManager;
 	friend class ResourceManager;
-	friend class sw::AssetsManager;
-	friend class ResourceContainer<class_type>;
-	friend class ResourceContainer< Resource >;
+	friend class ::AssetsManager;
+	friend class ::ResourceContainer< class_type >;
+	friend class ::ResourceContainer< Resource >;
+	friend class sw::ResourceContainer< class_type >;
+	friend class sw::ResourceContainer< Resource >;
 	friend class RenderTargetObject;
 private:
 	ObjectDeleterKey() = default;						///<Tylko klasa zaprzyjaŸniona mo¿e stworzyæ obiekt.
@@ -71,7 +85,7 @@ public:
 	ObjectDeleter( const ObjectDeleterKey<class_type>& deleter_key ) {};	///<Jedyny dostêpny do wywo³ania konstruktor, tylko dla wybrañców.
 
 	/**@brief Kasuje podany w parametrze obiekt.
-	
+
 	@param[in] object Obiekt do skasowania.*/
 	inline void delete_object( class_type* object )
 	{
@@ -87,3 +101,7 @@ public:
 		delete object;
 	}
 };
+
+}	// sw
+
+

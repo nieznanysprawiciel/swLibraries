@@ -16,10 +16,14 @@
 */
 
 
+
+namespace sw
+{
+
 class RasterizerState;
 
 
-/**@brief 
+/**@brief
 @ingroup PipelineState*/
 struct RasterizerStateInfo : public sw::IAssetCreateInfo
 {
@@ -37,13 +41,13 @@ public:
 // ================================ //
 //
 	RasterizerStateInfo()
-		:	CullMode( CullMode::Back )
-		,	FillMode( FillMode::Solid )
-		,	DepthBias( 0 )
-		,	IsClockwise( false )
-		,	EnableScissor( false )
-		,	EnableZClipping( true )
-		,	ConservativeRasterizer( false )
+		: CullMode( CullMode::Back )
+		, FillMode( FillMode::Solid )
+		, DepthBias( 0 )
+		, IsClockwise( false )
+		, EnableScissor( false )
+		, EnableZClipping( true )
+		, ConservativeRasterizer( false )
 	{}
 
 #define Compare( x ) if( x != other.x ) return false;
@@ -83,10 +87,12 @@ protected:
 	virtual			~RasterizerState() = default;
 public:
 	explicit		RasterizerState()
-		:	Resource( 0 )
+		: Resource( 0 )
 	{}
 
 
 	virtual const RasterizerStateInfo&		GetDescriptor	() = 0;
 };
 
+
+}	// sw

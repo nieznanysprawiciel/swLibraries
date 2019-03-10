@@ -51,8 +51,13 @@ Poniewa¿ zasoby mog¹ byæ wspó³dzielone przez wiele obiektów w silniku, istnieje 
 odwo³añ do obiektów implementowany przez klasê @ref Resource.*/
 
 
+
+namespace sw
+{
+
+
 class BufferObject;
-class TextureObject;
+class Texture;
 class VertexShader;
 class PixelShader;
 
@@ -129,11 +134,11 @@ struct RenderTargetDescriptor
 	ResourceUsage		Usage;						///<Sposób u¿ycia render targetu. Wp³ywa na optymalizacje u³o¿enia w pamiêci.
 
 	/**@brief Ustawia domyœlne wartoœci deskryptora.
-	
+
 	Ustawiane s¹ pola CPURead, CPUWrite, AllowShareResource, IsCubeMap, Usage.
 	Te zmienne s¹ u¿ywane rzadko i dlatego powinny mieæ takie wartoœci, ¿eby nie trzeba by³o ich jawnie ustawiaæ.
 	Pozosta³e wartoœci u¿ytkownik i tak musi zdefiniowaæ samemu, wiêc nie ma co nadk³adaæ pracy.
-	
+
 	Pola NumSamples i SamplesQuality s¹ ignorowane, je¿eli TextureType nie zosta³ ustawiony na teksturê z multisamplingiem.
 	Pole ArraySize jest ignorowane, je¿eli tekstura nie jest tablic¹.*/
 	RenderTargetDescriptor()
@@ -147,11 +152,11 @@ struct RenderTargetDescriptor
 	}
 
 	/**@brief Tworzy strukture TextureInfo wype³nion¹ danymi zgodnymi z deskryptorem RenderTargetu.
-	
+
 	@attention Funkcja nie ustawia formatu tekstury. Nie da siê wywnioskowaæ formatu na podstawie deskryptora.*/
-	TextureInfo		CreateTextureInfo() const
+	sw::TextureInfo		CreateTextureInfo() const
 	{
-		TextureInfo texInfo;
+		sw::TextureInfo texInfo;
 		texInfo.TextureWidth = TextureWidth;
 		texInfo.TextureHeight = TextureHeight;
 		texInfo.ArraySize = ArraySize;
@@ -181,16 +186,16 @@ class RenderTargetObject : public IRenderTarget
 	RTTR_REGISTRATION_FRIEND;
 private:
 protected:
-	ResourcePtr< TextureObject >	m_colorBuffer;			///<Pozwala na dostêp do bufora kolorów dla innych obiektów. Mo¿e byæ nullptrem.
-	ResourcePtr< TextureObject >	m_depthBuffer;			///<Pozwala na dostêp do bufora g³êbokoœci. Mo¿e byæ nullptrem.
-	ResourcePtr< TextureObject >	m_stencilBuffer;		///<Pozwala na dostêp do bufora stencil. Mo¿e byæ nulltrem.
+	ResourcePtr< Texture >	m_colorBuffer;			///<Pozwala na dostêp do bufora kolorów dla innych obiektów. Mo¿e byæ nullptrem.
+	ResourcePtr< Texture >	m_depthBuffer;			///<Pozwala na dostêp do bufora g³êbokoœci. Mo¿e byæ nullptrem.
+	ResourcePtr< Texture >	m_stencilBuffer;		///<Pozwala na dostêp do bufora stencil. Mo¿e byæ nulltrem.
 public:
-	RenderTargetObject( TextureObject* colorBuffer, TextureObject* depthBuffer, TextureObject* stencilBuffer );
+	RenderTargetObject( sw::Texture* colorBuffer, sw::Texture* depthBuffer, sw::Texture* stencilBuffer );
 	virtual ~RenderTargetObject();
 
-	inline TextureObject*		GetColorBuffer()			{ return m_colorBuffer.Ptr(); }		///<Zwraca obiekt bufora kolorów.
-	inline TextureObject*		GetDepthBuffer()			{ return m_depthBuffer.Ptr(); }		///<Zwraca obiekt bufora g³êbokoœci.
-	inline TextureObject*		GetStencilBuffer()			{ return m_stencilBuffer.Ptr(); }		///<Zwraca obiekt bufora stencilu.
+	inline sw::Texture*			GetColorBuffer	() { return m_colorBuffer.Ptr(); }		///<Zwraca obiekt bufora kolorów.
+	inline sw::Texture*			GetDepthBuffer	() { return m_depthBuffer.Ptr(); }		///<Zwraca obiekt bufora g³êbokoœci.
+	inline sw::Texture*			GetStencilBuffer() { return m_stencilBuffer.Ptr(); }		///<Zwraca obiekt bufora stencilu.
 
 	virtual std::string			GetResourceName	() const override;	///<@todo RenderTargety powinny mieæ swoje nazwy.
 };
@@ -210,7 +215,7 @@ Bufor mo¿e byæ zarówno buforem wierzcho³ków, indeksów jak i sta³ych.
 class BufferObject : public IBuffer
 {
 	RTTR_ENABLE( IBuffer )
-	friend ObjectDeleter<BufferObject>;
+		friend ObjectDeleter<BufferObject>;
 protected:
 	unsigned int		m_elementSize;			///<Rozmiar elementu.
 	unsigned int		m_elementCount;			///<Liczba elementów.
@@ -219,10 +224,12 @@ protected:
 public:
 	BufferObject( unsigned int elementSize, unsigned int elementCount );
 
-	inline unsigned int GetStride()				{ return m_elementSize; }		///<Zwraca rozmiar pojedynczego elementu w buforze.
-	inline unsigned int	GetElementSize()		{ return m_elementSize; }		///<Zwraca rozmiar pojedynczego elementu w buforze.
-	inline unsigned int GetElementCount()		{ return m_elementCount; }		///<Zwraca liczbê elementów w buforze.
+	inline unsigned int GetStride() { return m_elementSize; }		///<Zwraca rozmiar pojedynczego elementu w buforze.
+	inline unsigned int	GetElementSize() { return m_elementSize; }		///<Zwraca rozmiar pojedynczego elementu w buforze.
+	inline unsigned int GetElementCount() { return m_elementCount; }		///<Zwraca liczbê elementów w buforze.
 
 	virtual std::string	GetResourceName	() const override { return GetDescriptor().GetName(); }
 };
 
+
+}	// sw

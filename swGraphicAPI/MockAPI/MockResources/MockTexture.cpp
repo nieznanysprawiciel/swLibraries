@@ -44,13 +44,13 @@ MockTexture::~MockTexture()
 {}
 
 
-/**@copydoc TextureObject::GetDescriptor.*/
+/**@copydoc Texture::GetDescriptor.*/
 const TextureInfo&			MockTexture::GetDescriptor() const
 {
 	return m_descriptor;
 }
 
-/**@copydoc TextureObject::GetFilePath.*/
+/**@copydoc Texture::GetFilePath.*/
 const filesystem::Path&		MockTexture::GetFilePath() const
 {
 	return m_descriptor.FilePath;

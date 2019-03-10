@@ -68,7 +68,7 @@ bool						TextureCreator::SupportsResourceToRaw() const
 //
 TypeID						TextureCreator::GetAssetType	() const
 {
-	return TypeID::get< TextureObject >();
+	return TypeID::get< Texture >();
 }
 
 

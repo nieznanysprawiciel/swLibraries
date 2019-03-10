@@ -12,9 +12,13 @@
 
 RTTR_REGISTRATION
 {
-	rttr::registration::class_< DX11InputLayout >( "DX11InputLayout" );
+	rttr::registration::class_< sw::DX11InputLayout >( "sw::DX11InputLayout" );
 }
 
+
+
+namespace sw
+{
 
 
 // ================================ //
@@ -63,8 +67,8 @@ public:
 	const char*					Translate		( sw::AttributeSemantic semantic ) const;
 
 private:
-	D3D11_INPUT_ELEMENT_DESC	CreateRow		( const char* semanticName, ResourceFormat format, unsigned int inputSlot, 
-												unsigned int byteOffset, bool perInstance, unsigned int instanceDataStep ) const;
+	D3D11_INPUT_ELEMENT_DESC	CreateRow		( const char* semanticName, ResourceFormat format, unsigned int inputSlot,
+												  unsigned int byteOffset, bool perInstance, unsigned int instanceDataStep ) const;
 	Size						CountSemantic	( const char* semanticName ) const;
 
 private:
@@ -81,7 +85,7 @@ private:
 // ================================ //
 //
 DX11LayoutTranslator::DX11LayoutTranslator			( const InputLayoutDescriptor& layoutDesc )
-	:	m_inputElement( Translate( layoutDesc ) )
+	: m_inputElement( Translate( layoutDesc ) )
 {}
 
 // ================================ //
@@ -164,7 +168,7 @@ D3D11_INPUT_ELEMENT_DESC		DX11LayoutTranslator::CreateRow		( const char* semanti
 Size							DX11LayoutTranslator::CountSemantic	( const char* semanticName ) const
 {
 	return std::count_if( m_inputElement.begin(), m_inputElement.end(), [ semanticName ]( const D3D11_INPUT_ELEMENT_DESC& element )
-	{ 
+	{
 		return strcmp( element.SemanticName, semanticName ) == 0;
 	} );
 }
@@ -274,3 +278,5 @@ sw::Nullable< DX11InputLayout* >			DX11InputLayout::CreateLayout		( const InputL
 	return new DX11InputLayout( DX11layoutInterface );
 }
 
+
+}	// sw

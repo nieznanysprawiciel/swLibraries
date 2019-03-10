@@ -21,16 +21,22 @@ Shader creation structures:
 
 
 
+
+
+namespace sw
+{
+
+
 /**@brief Shader type flag.
 @ingroup Shaders*/
 enum class ShaderType : uint8
 {
-	VertexShader				= 0x01,
-	PixelShader					= 0x02,
-	GeometryShader				= 0x04,
-	TesselationControlShader	= 0x08,
-	TesselationEvaluationShader	= 0x10,
-	ComputeShader				= 0x20
+	VertexShader = 0x01,
+	PixelShader = 0x02,
+	GeometryShader = 0x04,
+	TesselationControlShader = 0x08,
+	TesselationEvaluationShader = 0x10,
+	ComputeShader = 0x20
 };
 
 //----------------------------------------------------------------------------------------------//
@@ -160,3 +166,4 @@ public:
 };
 
 
+}	// sw

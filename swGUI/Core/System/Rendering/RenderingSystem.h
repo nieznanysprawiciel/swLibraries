@@ -27,9 +27,12 @@
 @ingroup GUICore*/
 
 
-DEFINE_OPTR_TYPE( IRenderer );
 
 namespace sw {
+
+DEFINE_OPTR_TYPE( IRenderer );
+
+
 namespace gui
 {
 

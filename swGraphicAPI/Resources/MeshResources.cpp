@@ -15,6 +15,9 @@
 
 
 
+using namespace sw;
+
+
 RTTR_REGISTRATION
 {
 	RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS( std::wstring );
@@ -324,12 +327,14 @@ RTTR_REGISTRATION
 //----------------------------------------------------------------------------------------------//
 //								RenderTargetObject												//
 //----------------------------------------------------------------------------------------------//
+namespace sw
+{
 
 
-RenderTargetObject::RenderTargetObject( TextureObject* colorBuffer, TextureObject* depthBuffer, TextureObject* stencilBuffer )
-	:	m_colorBuffer( colorBuffer )
-	,	m_depthBuffer( depthBuffer )
-	,	m_stencilBuffer( stencilBuffer )
+RenderTargetObject::RenderTargetObject( Texture* colorBuffer, Texture* depthBuffer, Texture* stencilBuffer )
+	: m_colorBuffer( colorBuffer )
+	, m_depthBuffer( depthBuffer )
+	, m_stencilBuffer( stencilBuffer )
 {
 	//if( m_colorBuffer )
 	//	m_colorBuffer->AddAssetReference();
@@ -348,19 +353,19 @@ RenderTargetObject::~RenderTargetObject()
 	//{
 	//	m_colorBuffer->DeleteAssetReference();
 	//	//if( m_colorBuffer->CanDelete() )
-	//	//	ObjectDeleter<TextureObject>::delete_object( m_colorBuffer, ObjectDeleterKey<TextureObject>() );
+	//	//	ObjectDeleter<Texture>::delete_object( m_colorBuffer, ObjectDeleterKey<Texture>() );
 	//}
 	//if( m_depthBuffer )
 	//{
 	//	m_depthBuffer->DeleteAssetReference();
 	//	//if( m_depthBuffer->CanDelete() )
-	//	//	ObjectDeleter<TextureObject>::delete_object( m_depthBuffer, ObjectDeleterKey<TextureObject>() );
+	//	//	ObjectDeleter<Texture>::delete_object( m_depthBuffer, ObjectDeleterKey<Texture>() );
 	//}
 	//if( m_stencilBuffer )
 	//{
 	//	m_stencilBuffer->DeleteAssetReference();
 	//	//if( m_stencilBuffer->CanDelete() )
-	//	//	ObjectDeleter<TextureObject>::delete_object( m_stencilBuffer, ObjectDeleterKey<TextureObject>() );
+	//	//	ObjectDeleter<Texture>::delete_object( m_stencilBuffer, ObjectDeleterKey<Texture>() );
 	//}
 }
 
@@ -382,12 +387,16 @@ std::string		RenderTargetObject::GetResourceName() const
 // ================================ //
 //
 BufferObject::BufferObject( unsigned int elementSize, unsigned int elementCount )
-	:	m_elementSize( elementSize ),
-		m_elementCount( elementCount )
+	: m_elementSize( elementSize ),
+	m_elementCount( elementCount )
 {}
 
 // ================================ //
 //
 TypeID		BufferInitData::GetAssetType	() const
-{	return TypeID::get< BufferObject >(); 	}
+{
+	return TypeID::get< BufferObject >();
+}
 
+
+}	// sw

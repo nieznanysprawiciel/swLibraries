@@ -23,7 +23,12 @@
 
 #include "swCommonLib/Common/MemoryLeaks.h"
 
-typedef DX11Texture				Texture;
+
+namespace sw
+{
+
+
+typedef DX11Texture				TextureObject;
 typedef DX11VertexShader		VertexShaderObject;
 typedef DX11PixelShader			PixelShaderObject;
 typedef DX11Buffer				Buffer;
@@ -36,9 +41,9 @@ typedef DX11BlendingState		BlendingStateObject;
 
 // ================================ //
 //
-TextureObject*						ResourcesFactory::CreateTextureFromMemory		( const MemoryChunk& texData, TextureInfo&& texInfo )
+Texture*						ResourcesFactory::CreateTextureFromMemory		( const MemoryChunk& texData, TextureInfo&& texInfo )
 {
-	return Texture::CreateFromMemory( texData, std::move( texInfo ) );
+	return TextureObject::CreateFromMemory( texData, std::move( texInfo ) );
 }
 
 
@@ -97,10 +102,10 @@ VertexShader*		ResourcesFactory::CreateVertexShaderFromFile( const std::wstring&
 @param[in] shaderModel Shader model.
 @return Zwraca obiekt vertex shadera lub nullptr w przypadku niepowodzenia.*/
 VertexShader*		ResourcesFactory::CreateVertexShaderFromFile	( const std::wstring& fileName,
-																		const std::string& shaderName,
-																		ShaderInputLayout** layout,
-																		InputLayoutDescriptor* layoutDesc,
-																		const char* shaderModel/* = "vs_4_0"*/ )
+																	  const std::string& shaderName,
+																	  ShaderInputLayout** layout,
+																	  InputLayoutDescriptor* layoutDesc,
+																	  const char* shaderModel/* = "vs_4_0"*/ )
 {
 	auto shader = VertexShaderObject::CreateFromFile( fileName, shaderName, layout, layoutDesc, shaderModel );
 	if( shader )
@@ -221,3 +226,4 @@ RenderTargetObject*				ResourcesFactory::CreateRenderTarget( const std::wstring&
 	return DX11RenderTarget::CreateRenderTarget( name, renderTargetDescriptor );
 }
 
+}	// sw

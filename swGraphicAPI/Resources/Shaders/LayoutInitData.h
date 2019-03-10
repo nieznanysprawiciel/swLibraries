@@ -49,7 +49,7 @@ struct LayoutEntry
 };
 
 
-}	// sw
+
 
 
 
@@ -98,7 +98,7 @@ protected:
 	void					AddEntryImpl			( sw::AttributeSemantic semanticName, ResourceFormat format, uint16 inputSlot, bool perInstance, uint32 instanceDataStep );
 };
 
-
+}	// sw
 
 
 

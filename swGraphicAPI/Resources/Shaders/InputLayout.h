@@ -10,6 +10,13 @@
 #include "swCommonLib/Common/ObjectDeleter.h"
 
 
+
+
+namespace sw
+{
+
+
+
 /**@brief Class storing vertex shader input layout.
 @ingroup Shaders
 @ingroup Buffers
@@ -30,3 +37,5 @@ public:
 };
 
 
+
+}	// sw

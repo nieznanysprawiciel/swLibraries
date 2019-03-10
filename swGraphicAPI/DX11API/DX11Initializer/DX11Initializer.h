@@ -2,14 +2,19 @@
 /**
 @file DX11Initializer.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swCommonLib/Common/Nullable.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
 
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
 #include "DX11APIObjects.h"
 #include "swGraphicAPI/Resources/SwapChain.h"
+
+
+
+namespace sw
+{
 
 
 /**@defgroup DX11API
@@ -36,15 +41,18 @@ public:
 
 	virtual IRenderer*		CreateRenderer			( RendererUsage usage ) override;
 	virtual SwapChain*		CreateSwapChain			( const SwapChainInitData& swapChainData ) override;
-	virtual bool			InitAPI					( const GraphicAPIInitData& initData ) override;
+	virtual ReturnResult	InitAPI					( const GraphicAPIInitData& initData ) override;
 	virtual void			ReleaseAPI				() override;
 	virtual void*			GetRenderTargetHandle	( RenderTargetObject* renderTarget ) override;
 
 private:
 
-	Nullable< bool >		InitDevices				( const GraphicAPIInitData& initData );
+	ReturnResult			InitDevices				( const GraphicAPIInitData& initData );
 
 	SwapChain*				CreateWindowSwapChain		( const SwapChainInitData& swapChainData );
 	SwapChain*				CreateCompositionSwapChain	( const SwapChainInitData& swapChainData );
 };
+
+
+}	// sw
 

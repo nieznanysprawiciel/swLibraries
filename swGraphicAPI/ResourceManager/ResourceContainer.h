@@ -79,7 +79,7 @@ public:
 	TYPE*	Find				( const DescType& desc );
 
 	// Listowanie obiektów.
-	std::vector< ResourcePtr< TYPE > >		List();
+	std::vector< sw::ResourcePtr< TYPE > >		List();
 };
 
 template <class TYPE>
@@ -178,8 +178,8 @@ template <class TYPE>
 void ResourceContainer<TYPE>::ReleaseMemory( TYPE* object )
 {
 	// Destruktor jest prywatny, wiêc nie mo¿emy kasowaæ obiektu bezpoœrednio.
-	ObjectDeleterKey<TYPE> key;							// Tworzymy klucz.
-	ObjectDeleter<TYPE> model_deleter( key );			// Tworzymy obiekt kasuj¹cy i podajemy mu nasz klucz.
+	sw::ObjectDeleterKey<TYPE> key;							// Tworzymy klucz.
+	sw::ObjectDeleter<TYPE> model_deleter( key );			// Tworzymy obiekt kasuj¹cy i podajemy mu nasz klucz.
 	model_deleter.delete_object( object );				// Kasujemy obiekt za poœrednictwem klucza.
 }
 
@@ -309,14 +309,14 @@ void ResourceContainer<TYPE>::ForceRemoveAll( )
 
 /**@brief Listuje wszystkie assety danego typu.*/
 template< class TYPE >
-inline std::vector< ResourcePtr< TYPE > > ResourceContainer< TYPE >::List()
+inline std::vector< sw::ResourcePtr< TYPE > > ResourceContainer< TYPE >::List()
 {
-	std::vector< ResourcePtr< TYPE > > resourcesList;
+	std::vector< sw::ResourcePtr< TYPE > > resourcesList;
 	resourcesList.reserve( container.size() );
 
 	for( auto iter = container.begin(); iter != container.end(); iter++ )
 	{
-		resourcesList.push_back( ResourcePtr< TYPE >( iter->second ) );
+		resourcesList.push_back( sw::ResourcePtr< TYPE >( iter->second ) );
 	}
 
 	return resourcesList;

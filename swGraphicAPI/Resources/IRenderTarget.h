@@ -2,11 +2,19 @@
 /**
 @file IRenderTarget.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
 
 #include "ResourceObject.h"
 
+
+namespace sw
+{
+
+
+// ================================ //
+//
 class IRenderTarget : public Resource
 {
 	RTTR_ENABLE( Resource );
@@ -16,3 +24,6 @@ protected:
 	virtual ~IRenderTarget() = default;
 public:
 };
+
+}	// sw
+

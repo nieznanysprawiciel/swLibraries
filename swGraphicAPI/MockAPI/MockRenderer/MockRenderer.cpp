@@ -160,7 +160,7 @@ void	MockRenderer::SetRenderTarget	( RenderTargetObject* const targets[ MAX_BOUN
 
 // ================================ //
 //
-void	MockRenderer::SetTextures		( TextureObject* const texturesArray[ MAX_BOUND_RENDER_TARGETS ], const uint8 shaderTypes[ MAX_BOUND_RENDER_TARGETS ] )
+void	MockRenderer::SetTextures		( Texture* const texturesArray[ MAX_BOUND_RENDER_TARGETS ], const uint8 shaderTypes[ MAX_BOUND_RENDER_TARGETS ] )
 {}
 
 }	// sw

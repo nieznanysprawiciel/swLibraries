@@ -15,21 +15,23 @@
 
 RTTR_REGISTRATION
 {
-	rttr::registration::class_< DX11Buffer >( "DX11Buffer" );
+	rttr::registration::class_< sw::DX11Buffer >( "sw::DX11Buffer" );
 }
 
 
+namespace sw
+{
 
 // ================================ //
 //
 DX11Buffer::DX11Buffer( const std::wstring& name, const BufferInfo& descriptor, ID3D11Buffer* buff )
-	:	BufferObject( descriptor.ElementSize, descriptor.NumElements ), m_buffer( buff )
-	,	m_descriptor( descriptor )
+	: BufferObject( descriptor.ElementSize, descriptor.NumElements ), m_buffer( buff )
+	, m_descriptor( descriptor )
 {
 	m_descriptor.Name = name;
 
 	if( IsDebugLayerEnabled() )
-	{	
+	{
 		std::string nameStr = Convert::ToString< std::wstring >( name );
 		SetDebugName( m_buffer, nameStr );
 	}
@@ -129,3 +131,7 @@ MemoryChunk									DX11Buffer::CopyData()
 
 	return std::move( memoryChunk );
 }
+
+
+}	// sw
+

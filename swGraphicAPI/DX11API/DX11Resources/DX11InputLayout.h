@@ -2,8 +2,9 @@
 /**
 @file DX11InputLayout.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
 
 #include "swCommonLib/Common/Exceptions/Nullable.h"
 
@@ -11,6 +12,10 @@
 #include "swGraphicAPI/Resources/Shaders/LayoutInitData.h"
 #include "DX11Initializer/DX11APIObjects.h"
 
+
+
+namespace sw
+{
 
 
 /**@brief DirectX 11 implementation of input layout.
@@ -37,3 +42,4 @@ public:
 	inline ID3D11InputLayout*					Get					() { return m_vertexLayout; }
 };
 
+}	// sw

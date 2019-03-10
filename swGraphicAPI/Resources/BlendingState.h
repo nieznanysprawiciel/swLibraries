@@ -14,6 +14,13 @@
 #include <DirectXMath.h>
 
 
+
+
+
+namespace sw
+{
+
+
 class BlendingState;
 
 
@@ -37,14 +44,14 @@ public:
 // ================================ //
 //
 	BlendingInfo()
-		:	CustomBlendFactor( DirectX::XMFLOAT4( 0.0f, 0.0f, 0.0f, 0.0f ) )
-		,	EnableBlending( false )
-		,	ColorOperation( BlendOperation::Add )
-		,	AlphaOperation( BlendOperation::Add )
-		,	SrcColorBlend( BlendFactor::One )
-		,	DstColorBlend( BlendFactor::One )
-		,	SrcAlphaBlend( BlendFactor::One )
-		,	DstAlphaBlend( BlendFactor::One )
+		: CustomBlendFactor( DirectX::XMFLOAT4( 0.0f, 0.0f, 0.0f, 0.0f ) )
+		, EnableBlending( false )
+		, ColorOperation( BlendOperation::Add )
+		, AlphaOperation( BlendOperation::Add )
+		, SrcColorBlend( BlendFactor::One )
+		, DstColorBlend( BlendFactor::One )
+		, SrcAlphaBlend( BlendFactor::One )
+		, DstAlphaBlend( BlendFactor::One )
 	{}
 
 #define Compare( x ) if( x != other.x ) return false;
@@ -76,7 +83,7 @@ public:
 
 
 
-/**@brief 
+/**@brief
 
 @ingroup PipelineState*/
 class BlendingState : public Resource
@@ -90,10 +97,12 @@ protected:
 
 public:
 	explicit		BlendingState()
-		:	Resource( 0 )
+		: Resource( 0 )
 	{}
 
 
 	virtual const BlendingInfo&		GetDescriptor	() = 0;
 };
 
+
+}	// sw

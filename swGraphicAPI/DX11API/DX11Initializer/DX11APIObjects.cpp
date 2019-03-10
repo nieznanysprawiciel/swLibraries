@@ -1,8 +1,9 @@
 /**
 @file DX11APIObjects.cpp
 @author nieznanysprawiciel
-@copyright File is part of graphic engine SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
 #include "swGraphicAPI/DX11API/stdafx.h"
 
 
@@ -12,6 +13,11 @@
 #include "DX11Resources/DX11Compiler.h"
 
 #include "swCommonLib/Common/MemoryLeaks.h"
+
+
+namespace sw
+{
+
 
 //----------------------------------------------------------------------------------------------//
 //								Zmienne statyczne klasy											//
@@ -107,15 +113,15 @@ ARRAYSIZE( vertex_normal_color ) };
 DX11APIObjects::DX11APIObjects()
 {
 	// Inicjalizujemy tylko wtedy, kiedy wczeœniej siê to nie sta³o.
-	if ( this_ptr == nullptr )
+	if( this_ptr == nullptr )
 	{
 		this_ptr = this;
 
 		_window_width = 1024;
 		_window_height = 768;
 
-		_vertex_layout_desc = layouts[0];
-		_layout_elements_count = layouts_elements[0];
+		_vertex_layout_desc = layouts[ 0 ];
+		_layout_elements_count = layouts_elements[ 0 ];
 
 		// DXGI_SWAP_CHAIN_DESC
 		ZeroMemory( &_swap_chain_desc, sizeof( _swap_chain_desc ) );
@@ -197,27 +203,27 @@ void DX11APIObjects::release_DirectX()
 	// Bardzo wa¿ne jest ustawienie zmiennych na nullptr w razie, gdyby jakaœ inna klasa wywo³ywa³a destruktor
 
 	//Zmienne pomocnicze
-	if ( default_sampler )
+	if( default_sampler )
 		default_sampler->Release(), default_sampler = nullptr;
 
-	if ( swap_chain )
+	if( swap_chain )
 		//DirectX nie potrafi siê zamkn¹æ w trybie pe³noekranowym, wiêc musimy go zmieniæ
 		swap_chain->SetFullscreenState( FALSE, NULL );
 
 	//Zmienne s³u¿¹ce do wyœwietlania
-	if ( z_buffer_view )
+	if( z_buffer_view )
 		z_buffer_view->Release(), z_buffer_view = nullptr;
-	if ( swap_chain )
+	if( swap_chain )
 		swap_chain->Release(), swap_chain = nullptr;
-	if ( render_target )
+	if( render_target )
 		render_target->Release(), render_target = nullptr;
 	if( back_buffer )
 		back_buffer->Release(), back_buffer = nullptr;
 	if( z_buffer )
 		z_buffer->Release(), z_buffer = nullptr;
-	if ( device_context )
+	if( device_context )
 		device_context->Release(), device_context = nullptr;
-	if ( device )
+	if( device )
 		device->Release(), device = nullptr;
 
 	if( IsDebugLayerEnabled() )
@@ -257,8 +263,8 @@ void DX11APIObjects::set_viewport_desc( const D3D11_VIEWPORT& view_port_desc )
 {
 	_view_port_desc = view_port_desc;
 
-	_view_port_desc.Height = static_cast<float>(_window_height);
-	_view_port_desc.Width = static_cast<float>(_window_width);
+	_view_port_desc.Height = static_cast<float>( _window_height );
+	_view_port_desc.Width = static_cast<float>( _window_width );
 }
 
 /**@brief ustawia podan¹ w parametrze tablicê z levelami.
@@ -293,8 +299,8 @@ void DX11APIObjects::set_window_resolution( unsigned int window_width, unsigned 
 	_swap_chain_desc.BufferDesc.Height = _window_height;
 
 	// D3D11_VIEWPORT
-	_view_port_desc.Height = static_cast<float>(_window_height);
-	_view_port_desc.Width = static_cast<float>(_window_width);
+	_view_port_desc.Height = static_cast<float>( _window_height );
+	_view_port_desc.Width = static_cast<float>( _window_width );
 
 	// D3D11_TEXTURE2D_DESC Z-Buffer
 	_z_buffer_desc.Height = _window_height;
@@ -314,8 +320,8 @@ Funkcja nie ustawia ¿adnego layoutu w directX.
 i byæ zmiennymi globalnymi w przeciwnym razie moga byc wycieki pamêci.*/
 void DX11APIObjects::set_vertex_layout( DX11_DEFAULT_VERTEX_LAYOUT layout )
 {
-	_vertex_layout_desc = layouts[static_cast<unsigned int>(layout)];
-	_layout_elements_count = layouts_elements[static_cast<int>(layout)];
+	_vertex_layout_desc = layouts[ static_cast<unsigned int>( layout ) ];
+	_layout_elements_count = layouts_elements[ static_cast<int>( layout ) ];
 }
 
 /**@brief Ustawia podany deskryptor layoutu.
@@ -365,15 +371,15 @@ DX11_INIT_RESULT DX11APIObjects::init_DX11( int width, int height, HWND window, 
 	_swap_chain_desc.OutputWindow = window;
 
 	result = InitDevicesAndSwapChain( window, fullscreen, singleThread );	// Funkcja sama sprz¹ta po sobie
-	if ( result != DX11_INIT_OK )
+	if( result != DX11_INIT_OK )
 		return result;
 
 	result = init_z_buffer_and_render_target();		// Funkcja sama sprz¹ta po sobie
-	if ( result != DX11_INIT_OK )
+	if( result != DX11_INIT_OK )
 		return result;
 
 	result = init_viewport();		// Funkcja nie sprz¹ta, bo byæ mo¿e nie ma czego, je¿eli siê nie uda³o.
-	if ( result != DX11_INIT_OK )
+	if( result != DX11_INIT_OK )
 	{
 		release_DirectX();	// Sprz¹tamy na wszelki wypadek, ale w gruncie rzeczy najprawdopodobniej nie ma czego.
 		return result;
@@ -397,7 +403,7 @@ DirectXa typu bufory i shadery. Domyœlnie false.
 @return Zwraca jedn¹ z wartoœci DX11_INIT_RESULT.*/
 DX11_INIT_RESULT DX11APIObjects::InitDevicesAndSwapChain( HWND window, bool fullscreen, bool single_thread )
 {
-	if ( !this_ptr )
+	if( !this_ptr )
 		return NO_CLASS_INHERTIS_THIS_INTERFACE;
 
 	HRESULT result = S_OK;
@@ -408,7 +414,7 @@ DX11_INIT_RESULT DX11APIObjects::InitDevicesAndSwapChain( HWND window, bool full
 		createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 	}
 
-	if ( single_thread )
+	if( single_thread )
 		// Domyœlnie obiekt ID3D11Device jest synchronizowany, ale mo¿na to wy³¹czyæ
 		createDeviceFlags |= D3D11_CREATE_DEVICE_SINGLETHREADED;
 
@@ -417,10 +423,10 @@ DX11_INIT_RESULT DX11APIObjects::InitDevicesAndSwapChain( HWND window, bool full
 											createDeviceFlags, _feature_levels, _num_feature_levels,
 											D3D11_SDK_VERSION, &_swap_chain_desc, &swap_chain,
 											&device, &_current_feature_level, &device_context );
-	if ( FAILED( result ) )
+	if( FAILED( result ) )
 		return COULD_NOT_INIT_DEVICES_AND_SWAPCHAIN;
 
-	if ( fullscreen )
+	if( fullscreen )
 		swap_chain->SetFullscreenState( TRUE, nullptr );
 
 	if( m_useDebugLayer )
@@ -436,7 +442,7 @@ DX11_INIT_RESULT DX11APIObjects::InitDevicesAndSwapChain( HWND window, bool full
 /**@brief Ustawia viewport zgodny z aktualnie ustawionym deskryptorem.*/
 DX11_INIT_RESULT DX11APIObjects::init_viewport()
 {
-	if ( !device )
+	if( !device )
 		return DX11_DEVICE_NOT_INITIALIZED;
 	device_context->RSSetViewports( 1, &_view_port_desc );	//tworzymy tylko jeden viewport, ale noramlnie mo¿na wiecej, tylko po co
 	return DX11_INIT_OK;
@@ -450,21 +456,21 @@ Nastêpnie widok z bufora i widok tylnego bufora s¹ ustawione jako cel dla funkcj
 DX11_INIT_RESULT DX11APIObjects::init_z_buffer_and_render_target()
 {
 	HRESULT result = S_OK;
-	if ( !device )
+	if( !device )
 		return DX11_DEVICE_NOT_INITIALIZED;
 
 	// RenderTargetView
 	// Tworzymy RenderTargetView. W tym celu pobieramy wskaŸnik na obiekt tylniego bufora
 	// i tworzymy z niego widok.
-	result = swap_chain->GetBuffer( 0, __uuidof(ID3D11Texture2D), (LPVOID*)&back_buffer );
-	if ( FAILED( result ) )
+	result = swap_chain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), (LPVOID*)&back_buffer );
+	if( FAILED( result ) )
 	{
 		release_DirectX();
 		return COULD_NOT_CREATE_BACKBUFFER;
 	}
 
 	result = device->CreateRenderTargetView( back_buffer, nullptr, &render_target );
-	if ( FAILED( result ) )
+	if( FAILED( result ) )
 	{
 		release_DirectX();
 		return COULD_NOT_CREATE_RENDERTARGET;
@@ -476,7 +482,7 @@ DX11_INIT_RESULT DX11APIObjects::init_z_buffer_and_render_target()
 
 	result = device->CreateTexture2D( &_z_buffer_desc, nullptr, &z_buffer );
 
-	if ( FAILED( result ) )
+	if( FAILED( result ) )
 	{
 		release_DirectX();
 		return COULD_NOT_CREATE_DEPTHSTENCIL;
@@ -487,7 +493,7 @@ DX11_INIT_RESULT DX11APIObjects::init_z_buffer_and_render_target()
 	z_buffer->Release();
 	z_buffer = nullptr;
 
-	if ( FAILED( result ) )
+	if( FAILED( result ) )
 	{
 		release_DirectX();
 		return COULD_NOT_CREATE_DEPTHSTENCIL_VIEW;
@@ -505,7 +511,7 @@ DX11_INIT_RESULT DX11APIObjects::init_sampler()
 {
 	HRESULT result = device->CreateSamplerState( &_sampler_desc, &default_sampler );
 
-	if ( FAILED( result ) )
+	if( FAILED( result ) )
 		return COULD_NOT_CREATE_SAMPLER;
 	device_context->PSSetSamplers( 0, 1, &default_sampler );
 
@@ -525,7 +531,7 @@ programista jest odpowiedzialny za poprawne wywo³anie.*/
 void DX11APIObjects::begin_scene()
 {
 	//Bufor tylny
-	float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };	// red, green, blue, alpha
+	float ClearColor[ 4 ] = { 0.0f, 0.0f, 0.0f, 1.0f };	// red, green, blue, alpha
 	device_context->ClearRenderTargetView( render_target, ClearColor );
 
 	//Z-bufor
@@ -568,16 +574,16 @@ void DX11AuxiliaryObjects::init_buffers( unsigned int size_per_frame, unsigned i
 
 	// Bufory sta³ych musz¹ mieæ rozmiar bêd¹cy wielokrotnoœci¹ 16
 	// Dobrze ¿e DirectX wypluwa jakieœ debugowe informacje, bo nie wiem, jakbym na to wpad³
-	if ( size_per_frame % 16 )
+	if( size_per_frame % 16 )
 	{
 		size_per_frame = size_per_frame >> 4;		// Dzielimy na 16 (dzielenie ca³kowite)
-		size_per_frame = (size_per_frame + 1) << 4;	// Najbli¿sza wielokrotnoœæ 16
+		size_per_frame = ( size_per_frame + 1 ) << 4;	// Najbli¿sza wielokrotnoœæ 16
 	}
 
-	if ( size_per_mesh % 16 )
+	if( size_per_mesh % 16 )
 	{
 		size_per_mesh = size_per_mesh >> 4;			// Dzielimy na 16 (dzielenie ca³kowite)
-		size_per_mesh = (size_per_mesh + 1) << 4;	// Najbli¿sza wielokrotnoœæ 16
+		size_per_mesh = ( size_per_mesh + 1 ) << 4;	// Najbli¿sza wielokrotnoœæ 16
 	}
 
 	// Tworzymy bufor sta³ych w ka¿dej ramce
@@ -640,15 +646,19 @@ void  DX11AuxiliaryObjects::init_depth_states()
 zwolniæ wszystkie obiekty, które istniej¹.*/
 void DX11AuxiliaryObjects::release_DirectX()
 {
-	if ( const_per_frame )
+	if( const_per_frame )
 		const_per_frame->Release(), const_per_frame = nullptr;
-	if ( const_per_mesh )
+	if( const_per_mesh )
 		const_per_mesh->Release(), const_per_mesh = nullptr;
-	if ( depth_enabled )
+	if( depth_enabled )
 		depth_enabled->Release();
-	if ( depth_disabled )
+	if( depth_disabled )
 		depth_disabled->Release();
 
 	// Zwalniamy te¿ wszystkie obiekty, które zwalnia³a klasa bazowa
 	DX11APIObjects::release_DirectX();
 }
+
+}	// sw
+
+

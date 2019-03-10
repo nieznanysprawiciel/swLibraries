@@ -12,17 +12,20 @@
 #include "Shaders.h"
 
 
+using namespace sw;
+
+
 RTTR_REGISTRATION
 {
 
 	// Shader
-	rttr::registration::class_< ShaderInputLayout >( "ShaderInputLayout" );
-	rttr::registration::class_< IShader >( "IShader" )
+	rttr::registration::class_< ShaderInputLayout >( "sw::ShaderInputLayout" );
+	rttr::registration::class_< IShader >( "sw::IShader" )
 		.property_readonly( "FilePath", &IShader::GetShaderFile )
 		.property_readonly( "MainFunction", &IShader::GetShaderEntry );
 
-	rttr::registration::class_< PixelShader >( "PixelShader" );
-	rttr::registration::class_< VertexShader >( "VertexShader" );
+	rttr::registration::class_< PixelShader >( "sw::PixelShader" );
+	rttr::registration::class_< VertexShader >( "sw::VertexShader" );
 
 }
 

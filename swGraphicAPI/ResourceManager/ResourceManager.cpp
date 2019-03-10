@@ -66,12 +66,12 @@ np. jak¹œ polityk¹ nazewnictwa, ¿e w ten sposób nie nadpisujemy istniej¹cej teks
 @param[in] renderTargetDescriptor Deskryptor opisuj¹cy parametry render targetu.
 @return Zwraca stworzony obiekt lub nullptr w przypadku niepowodzenia. Je¿eli render target ju¿ istnia³, to zwracany jest istniej¹cy obiekt.
 */
-RenderTargetObject* ResourceManager::CreateRenderTarget( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor )
+sw::RenderTargetObject* ResourceManager::CreateRenderTarget( const std::wstring& name, const sw::RenderTargetDescriptor& renderTargetDescriptor )
 {
-	RenderTargetObject* newRenderTarget = m_renderTarget.get( name );
+	sw::RenderTargetObject* newRenderTarget = m_renderTarget.get( name );
 	if( !newRenderTarget )
 	{
-		newRenderTarget = ResourcesFactory::CreateRenderTarget( name, renderTargetDescriptor );
+		newRenderTarget = sw::ResourcesFactory::CreateRenderTarget( name, renderTargetDescriptor );
 		if( !newRenderTarget )	return nullptr;
 
 		m_renderTarget.UnsafeAdd( name, newRenderTarget );
@@ -110,9 +110,9 @@ Najlepiej, ¿eby by³y one tworzone przez ResourceManager, ale wtedy trzeba wymyœl
 @param[in] renderTarget renderTarget, który ma zostaæ dodany.
 @param[in] name Nazwa renderTargetu. Do materia³u bêdzie mo¿na siê odwo³aæ podaj¹c ci¹g znaków
 @return Zwraca wskaŸnik na dodany renderTarget.*/
-RenderTargetObject* ResourceManager::AddRenderTarget( RenderTargetObject* renderTarget, const std::wstring& name )
+sw::RenderTargetObject* ResourceManager::AddRenderTarget( sw::RenderTargetObject* renderTarget, const std::wstring& name )
 {
-	RenderTargetObject* newRenderTarget = m_renderTarget.get( name );
+	sw::RenderTargetObject* newRenderTarget = m_renderTarget.get( name );
 	if ( !newRenderTarget )
 		m_renderTarget.UnsafeAdd( name, renderTarget );	// Dodaliœmy materia³
 
@@ -127,13 +127,13 @@ skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
 @param[in] fileName Nazwa pliku, w którym znajduje siê vertex shader.
 @param[in] shaderEntry Nazwa funkcji od której ma siê zacz¹æ wykonywanie shadera.
 @return Zwraca obiekt dodanego shadera. Zwraca nullptr, je¿eli shadera nie uda³o siê skompilowaæ.*/
-VertexShader* ResourceManager::LoadVertexShader( const std::wstring& fileName, const std::string& shaderEntry )
+sw::VertexShader* ResourceManager::LoadVertexShader( const std::wstring& fileName, const std::string& shaderEntry )
 {
-	VertexShader* shader = m_vertexShader.get( fileName );
+	sw::VertexShader* shader = m_vertexShader.get( fileName );
 	if ( !shader )
 	{
 		// Nie by³o shadera, trzeba go stworzyæ i dodaæ
-		shader = ResourcesFactory::CreateVertexShaderFromFile( fileName, shaderEntry );
+		shader = sw::ResourcesFactory::CreateVertexShaderFromFile( fileName, shaderEntry );
 		if ( !shader )		// shader móg³ mieæ z³y format, a nie chcemy dodawaæ nullptra do ResourceManagera
 			return nullptr;
 
@@ -163,16 +163,16 @@ kasowany i nie zostaje zdublowany w ResourceManagerze, ale niepotrzebna praca zo
 do takich rzeczy dochodzi³o jak najrzadziej.
 @param[in] layoutDesc Deskryptor opisujacy tworzony layout.
 @return Zwraca obiekt dodanego shadera. Zwraca nullptr, je¿eli shadera nie uda³o siê skompilowaæ.*/
-VertexShader* ResourceManager::LoadVertexShader( const std::wstring& fileName,
+sw::VertexShader* ResourceManager::LoadVertexShader( const std::wstring& fileName,
 													const std::string& shaderEntry,
-													ShaderInputLayout** layout,
-													InputLayoutDescriptor* layoutDesc )
+													sw::ShaderInputLayout** layout,
+													sw::InputLayoutDescriptor* layoutDesc )
 {
 	/// @todo Ten kod to jakiœ totalny shit. Jak komuœ siê bêdzie nudzi³o kiedyœ (ha ha), to mo¿e niech poprawi.
 	*layout = nullptr;
-	VertexShader* shader = m_vertexShader.get( fileName );
-	VertexShader* newShader = nullptr;
-	ShaderInputLayout* inputLayout = m_vertexLayout.get( layoutDesc->GetName() );
+	sw::VertexShader* shader = m_vertexShader.get( fileName );
+	sw::VertexShader* newShader = nullptr;
+	sw::ShaderInputLayout* inputLayout = m_vertexLayout.get( layoutDesc->GetName() );
 
 
 	// Tworzymy potrzebne obiekty
@@ -180,14 +180,14 @@ VertexShader* ResourceManager::LoadVertexShader( const std::wstring& fileName,
 	{
 		// Tworzymy shader niezale¿nie czy istnieje. Inaczej nie moglibyœmy stworzyæ layoutu.
 		// Shader zostanie potem usuniêty.
-		newShader = ResourcesFactory::CreateVertexShaderFromFile( fileName, shaderEntry, layout, layoutDesc );
+		newShader = sw::ResourcesFactory::CreateVertexShaderFromFile( fileName, shaderEntry, layout, layoutDesc );
 		if ( !newShader )		// shader móg³ mieæ z³y format, a nie chcemy dodawaæ nullptra do ResourceManagera
 			return nullptr;		// layout te¿ jest nullptrem, nie trzeba siê martwiæ.
 	}
 	else if( !shader )
 	{
 		// Layout istnieje, ale shader nie.
-		newShader = ResourcesFactory::CreateVertexShaderFromFile( fileName, shaderEntry );
+		newShader = sw::ResourcesFactory::CreateVertexShaderFromFile( fileName, shaderEntry );
 		*layout = inputLayout;	// Je¿eli layout istnia³, to przepisujemy go na wyjœcie. Je¿eli nie to i tak bêdzie nullptr.
 		if ( !newShader )		// shader móg³ mieæ z³y format, a nie chcemy dodawaæ nullptra do ResourceManagera
 			return nullptr;
@@ -208,7 +208,7 @@ VertexShader* ResourceManager::LoadVertexShader( const std::wstring& fileName,
 	else
 	{	// Shader ju¿ by³, wiêc kasujemy nowy
 		// Destruktor jest prywatny, wiêc nie mo¿emy kasowaæ obiektu bezpoœrednio.
-		ObjectDeleter< VertexShader>::delete_object( shader, ObjectDeleterKey< VertexShader>() );
+		sw::ObjectDeleter< sw::VertexShader>::delete_object( shader, sw::ObjectDeleterKey< sw::VertexShader>() );
 	}
 
 	if( !inputLayout )	// Layoutu nie by³o wczeœniej wiêc dodajemy.
@@ -226,13 +226,13 @@ skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
 @param[in] fileName Nazwa pliku, w którym znajduje siê pixel shader.
 @param[in] shaderEntry Nazwa funkcji od której ma siê zacz¹æ wykonywanie shadera.
 @return Zwraca obiekt dodanego shadera. Zwraca nullptr, je¿eli shadera nie uda³o siê skompilowaæ.*/
-PixelShader* ResourceManager::LoadPixelShader				( const std::wstring& fileName, const std::string& shaderEntry )
+sw::PixelShader* ResourceManager::LoadPixelShader				( const std::wstring& fileName, const std::string& shaderEntry )
 {
-	PixelShader* shader = m_pixelShader.get( fileName );
+	sw::PixelShader* shader = m_pixelShader.get( fileName );
 	if ( !shader )
 	{
 		// Nie by³o shadera, trzeba go stworzyæ i dodaæ
-		shader = ResourcesFactory::CreatePixelShaderFromFile( fileName, shaderEntry );
+		shader = sw::ResourcesFactory::CreatePixelShaderFromFile( fileName, shaderEntry );
 		if ( !shader )		// shader móg³ mieæ z³y format, a nie chcemy dodawaæ nullptra do ResourceManagera
 			return nullptr;
 
@@ -242,7 +242,7 @@ PixelShader* ResourceManager::LoadPixelShader				( const std::wstring& fileName,
 	return shader;
 }
 
-GeometryShader*		ResourceManager::LoadGeometryShader	( const std::wstring& fileName, const std::string& shaderEntry )
+sw::GeometryShader*		ResourceManager::LoadGeometryShader	( const std::wstring& fileName, const std::string& shaderEntry )
 {
 	//GeometryShader* shader = m_geometryShader.get( fileName );
 	//if ( !shader )
@@ -260,13 +260,13 @@ GeometryShader*		ResourceManager::LoadGeometryShader	( const std::wstring& fileN
 	return nullptr;
 }
 
-ControlShader*		ResourceManager::LoadControlShader	( const std::wstring& fileName, const std::string& shaderEntry )
+sw::ControlShader*		ResourceManager::LoadControlShader	( const std::wstring& fileName, const std::string& shaderEntry )
 {
 	assert( !"Implements me" );
 	return nullptr;
 }
 
-EvaluationShader*	ResourceManager::LoadEvaluationShader	( const std::wstring& fileName, const std::string& shaderEntry )
+sw::EvaluationShader*	ResourceManager::LoadEvaluationShader	( const std::wstring& fileName, const std::string& shaderEntry )
 {
 	assert( !"Implements me" );
 	return nullptr;
@@ -280,20 +280,20 @@ skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
 @param[in] fileName Œcie¿ka do tekstury
 
 @return Zwraca wskaŸnik na dodan¹ teksturê lub nullptr, je¿eli nie da³o siê wczytaæ.*/
-TextureObject* ResourceManager::LoadTexture( const std::wstring& fileName )
+sw::Texture* ResourceManager::LoadTexture( const std::wstring& fileName )
 {
-	TextureObject* tex = m_texture.get( fileName );
+	sw::Texture* tex = m_texture.get( fileName );
 	if ( !tex )
 	{
 		// Nie by³o tekstury, trzeba j¹ stworzyæ i dodaæ
-		TextureInfo texInfo;
+		sw::TextureInfo texInfo;
 		texInfo.FilePath = filesystem::Path( fileName );
 		texInfo.GenerateMipMaps = true;
-		texInfo.MipMapFilter = MipMapFilter::Lanczos4;
+		texInfo.MipMapFilter = sw::MipMapFilter::Lanczos4;
 
 		MemoryChunk texData = LoadTextureImpl( texInfo.FilePath, texInfo );
 
-		tex = ResourcesFactory::CreateTextureFromMemory( texData, std::move( texInfo ) );
+		tex = sw::ResourcesFactory::CreateTextureFromMemory( texData, std::move( texInfo ) );
 		if ( !tex )		// Tekstura mog³a mieæ z³y format, a nie chcemy dodawaæ nullptra do ResourceManagera
 			return nullptr;
 
@@ -314,9 +314,9 @@ skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
 @param[in] elementSize Rozmiar pojedynczego elementu w buforze.
 @param[in] vertCount Liczba wierzcho³ków/indeksów w buforze.
 @return Dodany bufor wierzcho³ków. Zwraca nullptr, je¿eli nie uda³o siê stworzyæ bufora.*/
-ResourcePtr< BufferObject > ResourceManager::CreateVertexBuffer( const std::wstring& name, const void* buffer, unsigned int elementSize, unsigned int vertCount )
+sw::ResourcePtr< sw::BufferObject > ResourceManager::CreateVertexBuffer( const std::wstring& name, const void* buffer, unsigned int elementSize, unsigned int vertCount )
 {
-	VertexBufferInitData initData;
+	sw::VertexBufferInitData initData;
 	initData.Data = (const uint8*)buffer;
 	initData.ElementSize = elementSize;
 	initData.NumElements = vertCount;
@@ -327,19 +327,19 @@ ResourcePtr< BufferObject > ResourceManager::CreateVertexBuffer( const std::wstr
 /**@brief Creates vetex buffer.
 
 @return Returns buffer or nullptr if name already exists or buffer creation failed.*/
-ResourcePtr<BufferObject>	ResourceManager::CreateVertexBuffer		( const std::wstring& name, const VertexBufferInitData& data )
+sw::ResourcePtr<sw::BufferObject>	ResourceManager::CreateVertexBuffer		( const std::wstring& name, const sw::VertexBufferInitData& data )
 {
-	BufferObject* vertexBuff = m_vertexBuffer.get( name );
+	sw::BufferObject* vertexBuff = m_vertexBuffer.get( name );
 	if ( vertexBuff )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return ResourcePtr<BufferObject>();
+		return sw::ResourcePtr<sw::BufferObject>();
 	
 	
-	vertexBuff = ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
+	vertexBuff = sw::ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
 	if ( !vertexBuff )		// Bufor móg³ siê nie stworzyæ, a nie chcemy dodawaæ nullptra do ResourceManagera
 		return nullptr;
 
 	m_vertexBuffer.UnsafeAdd( name, vertexBuff );	// Dodaliœmy bufor
-	return ResourcePtr<BufferObject>( vertexBuff );
+	return sw::ResourcePtr<sw::BufferObject>( vertexBuff );
 }
 
 /**@brief Dodaje do ResourceManagera bufor indeksów.
@@ -353,9 +353,9 @@ skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
 @param[in] elementSize Rozmiar pojedynczego elementu w buforze.
 @param[in] vertCount Liczba wierzcho³ków/indeksów w buforze.
 @return Dodany bufor indeksów. Zwraca nullptr, je¿eli nie uda³o siê stworzyæ bufora.*/
-ResourcePtr< BufferObject > ResourceManager::CreateIndexBuffer( const std::wstring& name, const void* buffer, unsigned int elementSize, unsigned int vertCount )
+sw::ResourcePtr< sw::BufferObject > ResourceManager::CreateIndexBuffer( const std::wstring& name, const void* buffer, unsigned int elementSize, unsigned int vertCount )
 {
-	IndexBufferInitData initData;
+	sw::IndexBufferInitData initData;
 	initData.Data = (const uint8*)buffer;
 	initData.ElementSize = elementSize;
 	initData.NumElements = vertCount;
@@ -366,19 +366,19 @@ ResourcePtr< BufferObject > ResourceManager::CreateIndexBuffer( const std::wstri
 /**@brief Vreates index buffer.
 
 @return Returns buffer or nullptr if name already exists or buffer creation failed.*/
-ResourcePtr<BufferObject>	ResourceManager::CreateIndexBuffer		( const std::wstring& name, const IndexBufferInitData& data )
+sw::ResourcePtr<sw::BufferObject>	ResourceManager::CreateIndexBuffer		( const std::wstring& name, const sw::IndexBufferInitData& data )
 {
-	BufferObject* indexBuff = m_indexBuffer.get( name );
+	sw::BufferObject* indexBuff = m_indexBuffer.get( name );
 	if ( indexBuff )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return ResourcePtr<BufferObject>();
+		return sw::ResourcePtr<sw::BufferObject>();
 	
 	
-	indexBuff = ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
+	indexBuff = sw::ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
 	if ( !indexBuff )		// Bufor móg³ siê nie stworzyæ, a nie chcemy dodawaæ nullptra do ResourceManagera
 		return nullptr;
 
 	m_indexBuffer.UnsafeAdd( name, indexBuff );	// Dodaliœmy bufor
-	return ResourcePtr<BufferObject>( indexBuff );
+	return sw::ResourcePtr<sw::BufferObject>( indexBuff );
 }
 
 /**@brief Dodaje do ResourceManagera bufor sta³ch dla shadera.
@@ -391,9 +391,9 @@ skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
 @param[in] buffer WskaŸnik na bufor z danym, które maj¹ byæ przeniesione do bufora DirectXowego.
 @param[in] size Rozmiar bufora.
 @return Dodany bufor indeksów. Zwraca nullptr, je¿eli nie uda³o siê stworzyæ bufora.*/
-ResourcePtr< BufferObject >	ResourceManager::CreateConstantsBuffer( const std::wstring& name, const void* buffer, unsigned int size )
+sw::ResourcePtr< sw::BufferObject >	ResourceManager::CreateConstantsBuffer( const std::wstring& name, const void* buffer, unsigned int size )
 {
-	ConstantBufferInitData initData;
+	sw::ConstantBufferInitData initData;
 	initData.Data = (const uint8*)buffer;
 	initData.ElementSize = size;
 	initData.NumElements = 1;
@@ -404,64 +404,64 @@ ResourcePtr< BufferObject >	ResourceManager::CreateConstantsBuffer( const std::w
 /**@brief Creates constant buffer.
 
 @return Returns buffer or nullptr if name already exists or buffer creation failed.*/
-ResourcePtr<BufferObject>	ResourceManager::CreateConstantsBuffer		( const std::wstring& name, const ConstantBufferInitData& data )
+sw::ResourcePtr<sw::BufferObject>	ResourceManager::CreateConstantsBuffer		( const std::wstring& name, const sw::ConstantBufferInitData& data )
 {
-	BufferObject* constBuff = m_constantBuffer.get( name );
+	sw::BufferObject* constBuff = m_constantBuffer.get( name );
 	if ( constBuff )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return ResourcePtr<BufferObject>();
+		return sw::ResourcePtr<sw::BufferObject>();
 	
 	
-	constBuff = ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
+	constBuff = sw::ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
 	if ( !constBuff )		// Bufor móg³ siê nie stworzyæ, a nie chcemy dodawaæ nullptra do ResourceManagera
 		return nullptr;
 
 	m_constantBuffer.UnsafeAdd( name, constBuff );	// Dodaliœmy bufor
-	return ResourcePtr<BufferObject>( constBuff );
+	return sw::ResourcePtr<sw::BufferObject>( constBuff );
 }
 
 /**@brief Created BlendingState object.
 
 @return If object named name exist, returns nullptr.*/
-ResourcePtr< BlendingState >	ResourceManager::CreateBlendingState	( const std::wstring& name, const BlendingInfo& info )
+sw::ResourcePtr< sw::BlendingState >	ResourceManager::CreateBlendingState	( const std::wstring& name, const sw::BlendingInfo& info )
 {
 	auto resource = m_blendingState.get( name );
 	if ( resource )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return ResourcePtr< BlendingState >();
+		return sw::ResourcePtr< sw::BlendingState >();
 
-	resource = ResourcesFactory::CreateBlendingState( info ).Get();
+	resource = sw::ResourcesFactory::CreateBlendingState( info ).Get();
 	m_blendingState.UnsafeAdd( name, resource );
 
-	return ResourcePtr< BlendingState >( resource );
+	return sw::ResourcePtr< sw::BlendingState >( resource );
 }
 
 /**@brief Created RasterizerState object.
 
 @return If object named name exist, returns nullptr.*/
-ResourcePtr< RasterizerState >	ResourceManager::CreateRasterizerState	( const std::wstring& name, const RasterizerStateInfo& info )
+sw::ResourcePtr< sw::RasterizerState >	ResourceManager::CreateRasterizerState	( const std::wstring& name, const sw::RasterizerStateInfo& info )
 {
 	auto resource = m_rasterizerState.get( name );
 	if ( resource )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return ResourcePtr< RasterizerState >();
+		return sw::ResourcePtr< sw::RasterizerState >();
 
-	resource = ResourcesFactory::CreateRasterizerState( info ).Get();
+	resource = sw::ResourcesFactory::CreateRasterizerState( info ).Get();
 	m_rasterizerState.UnsafeAdd( name, resource );
 
-	return ResourcePtr< RasterizerState >( resource );
+	return sw::ResourcePtr< sw::RasterizerState >( resource );
 }
 
 /**@brief Created DepthStencilState object.
 
 @return If object named name exist, returns nullptr.*/
-ResourcePtr< DepthStencilState >	ResourceManager::CreateDepthStencilState	( const std::wstring& name, const DepthStencilInfo& info )
+sw::ResourcePtr< sw::DepthStencilState >	ResourceManager::CreateDepthStencilState	( const std::wstring& name, const sw::DepthStencilInfo& info )
 {
 	auto resource = m_depthStencilState.get( name );
 	if ( resource )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return ResourcePtr< DepthStencilState >();
+		return sw::ResourcePtr< sw::DepthStencilState >();
 
-	resource = ResourcesFactory::CreateDepthStencilState( info ).Get();
+	resource = sw::ResourcesFactory::CreateDepthStencilState( info ).Get();
 	m_depthStencilState.UnsafeAdd( name, resource );
 
-	return ResourcePtr< DepthStencilState >( resource );
+	return sw::ResourcePtr< sw::DepthStencilState >( resource );
 }
 
 //====================================================================================//
@@ -470,49 +470,49 @@ ResourcePtr< DepthStencilState >	ResourceManager::CreateDepthStencilState	( cons
 
 
 /**@brief Listowanie buforów wierzcho³ków.*/
-std::vector< ResourcePtr< BufferObject > >		ResourceManager::ListVertexBuffers()
+std::vector< sw::ResourcePtr< sw::BufferObject > >		ResourceManager::ListVertexBuffers()
 {
 	return m_vertexBuffer.List();
 }
 
 /**@brief Listowanie buforów indeksów.*/
-std::vector< ResourcePtr< BufferObject > >		ResourceManager::ListIndexBuffers()
+std::vector< sw::ResourcePtr< sw::BufferObject > >		ResourceManager::ListIndexBuffers()
 {
 	return m_indexBuffer.List();
 }
 
 /**@brief Listowanie buforów sta³ych.*/
-std::vector< ResourcePtr< BufferObject > >		ResourceManager::ListConstantBuffers()
+std::vector< sw::ResourcePtr< sw::BufferObject > >		ResourceManager::ListConstantBuffers()
 {
 	return m_constantBuffer.List();
 }
 
 /**@brief Listowanie layoutów wierzcho³ków.*/
-std::vector< ResourcePtr< ShaderInputLayout > > ResourceManager::ListShaderLayouts()
+std::vector< sw::ResourcePtr< sw::ShaderInputLayout > > ResourceManager::ListShaderLayouts()
 {
 	return m_vertexLayout.List();
 }
 
 /**@brief Listowanie tekstur.*/
-std::vector< ResourcePtr< TextureObject > >		ResourceManager::ListTextures()
+std::vector< sw::ResourcePtr< sw::Texture > >		ResourceManager::ListTextures()
 {
 	return m_texture.List();
 }
 
 /**@brief Listowanie vertex shaderów.*/
-std::vector< ResourcePtr< VertexShader > >		ResourceManager::ListVertexShaders()
+std::vector< sw::ResourcePtr< sw::VertexShader > >		ResourceManager::ListVertexShaders()
 {
 	return m_vertexShader.List();
 }
 
 /**@brief Listowanie pixel shaderów.*/
-std::vector< ResourcePtr< PixelShader > >		ResourceManager::ListPixelShaders()
+std::vector< sw::ResourcePtr< sw::PixelShader > >		ResourceManager::ListPixelShaders()
 {
 	return m_pixelShader.List();
 }
 
 /**@brief Listowanie render targetów.*/
-std::vector< ResourcePtr< RenderTargetObject > > ResourceManager::ListRenderTargets()
+std::vector< sw::ResourcePtr< sw::RenderTargetObject > > ResourceManager::ListRenderTargets()
 {
 	return m_renderTarget.List();
 }
@@ -523,7 +523,7 @@ This is hack function. Resource manager have no texture loading function beacaus
 it needs separate library for this. Derived classes will implement it, but in future
 this must change. ResourceManager must be fully operational class. Otherwise GUI 
 won't load textures.*/
-MemoryChunk ResourceManager::LoadTextureImpl( const filesystem::Path& filePath, TextureInfo& texInfo )
+MemoryChunk ResourceManager::LoadTextureImpl( const filesystem::Path& filePath, sw::TextureInfo& texInfo )
 {
 	MemoryChunk fakeChunk( 1024 );
 

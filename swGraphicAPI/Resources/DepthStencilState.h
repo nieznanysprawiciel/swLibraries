@@ -11,10 +11,15 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreateInfo.h"
 
 
+
+
+namespace sw
+{
+
 class DepthStencilState;
 
 
-/**@brief 
+/**@brief
 @ingroup PipelineState*/
 struct DepthStencilInfo : public sw::IAssetCreateInfo
 {
@@ -26,8 +31,8 @@ public:
 // ================================ //
 //
 	DepthStencilInfo()
-		:	EnableDepthTest( true )
-		,	EnableStencilTest( false )
+		: EnableDepthTest( true )
+		, EnableStencilTest( false )
 	{}
 
 #define Compare( x ) if( x != other.x ) return false;
@@ -49,7 +54,7 @@ public:
 
 
 
-/**@brief 
+/**@brief
 @ingroup PipelineState*/
 class DepthStencilState : public Resource
 {
@@ -62,8 +67,10 @@ protected:
 
 public:
 	explicit		DepthStencilState()
-		:	Resource( 0 )
+		: Resource( 0 )
 	{}
 
 	virtual const DepthStencilInfo&		GetDescriptor	() = 0;
 };
+
+}	// sw

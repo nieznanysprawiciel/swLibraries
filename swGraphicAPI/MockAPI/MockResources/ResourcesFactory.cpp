@@ -22,7 +22,7 @@
 
 
 
-typedef sw::MockTexture				Texture;
+typedef sw::MockTexture				TextureObject;
 typedef sw::MockVertexShader		VertexShaderObject;
 typedef sw::MockPixelShader			PixelShaderObject;
 typedef sw::MockBuffer				Buffer;
@@ -33,11 +33,16 @@ typedef sw::MockBlendingState		BlendingStateObject;
 
 
 
+
+namespace sw
+{
+
+
 // ================================ //
 //
-TextureObject*						ResourcesFactory::CreateTextureFromMemory		( const MemoryChunk& texData, TextureInfo&& texInfo )
+Texture*						ResourcesFactory::CreateTextureFromMemory		( const MemoryChunk& texData, sw::TextureInfo&& texInfo )
 {
-	return Texture::CreateFromMemory( texData, std::move( texInfo ) );
+	return TextureObject::CreateFromMemory( texData, std::move( texInfo ) );
 }
 
 // ================================ //
@@ -95,10 +100,10 @@ VertexShader*		ResourcesFactory::CreateVertexShaderFromFile( const std::wstring&
 @param[in] shaderModel Shader model.
 @return Zwraca obiekt vertex shadera lub nullptr w przypadku niepowodzenia.*/
 VertexShader*		ResourcesFactory::CreateVertexShaderFromFile	( const std::wstring& fileName,
-																		const std::string& shaderName,
-																		ShaderInputLayout** layout,
-																		InputLayoutDescriptor* layoutDesc,
-																		const char* shaderModel/* = "vs_4_0"*/ )
+																	  const std::string& shaderName,
+																	  ShaderInputLayout** layout,
+																	  InputLayoutDescriptor* layoutDesc,
+																	  const char* shaderModel/* = "vs_4_0"*/ )
 {
 	auto shader = VertexShaderObject::CreateFromFile( fileName, shaderName, layout, layoutDesc, shaderModel );
 	if( shader )
@@ -218,4 +223,8 @@ RenderTargetObject*						ResourcesFactory::CreateRenderTarget			( const std::wst
 {
 	return sw::MockRenderTarget::CreateRenderTarget( name, renderTargetDescriptor );
 }
+
+
+}	// sw
+
 

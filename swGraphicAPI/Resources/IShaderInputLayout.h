@@ -11,6 +11,12 @@
 
 
 
+
+namespace sw
+{
+
+// ================================ //
+//
 class IShaderInputLayout : public Resource
 {
 	RTTR_ENABLE( Resource );
@@ -22,3 +28,4 @@ public:
 
 };
 
+}	// sw

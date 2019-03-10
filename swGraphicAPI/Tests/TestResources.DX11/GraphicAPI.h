@@ -10,8 +10,8 @@
 //
 struct Graphic
 {
-	IGraphicAPIInitializer*		API;
-	ResourceManager*			RM;
+	sw::IGraphicAPIInitializer*		API;
+	ResourceManager*				RM;
 
 // ================================ //
 //
@@ -34,9 +34,9 @@ inline Graphic&			GetGraphic	()
 
 	if( !graphic.API )
 	{
-		graphic.API = ResourcesFactory::CreateAPIInitializer();
+		graphic.API = sw::ResourcesFactory::CreateAPIInitializer();
 
-		GraphicAPIInitData graphicApiData;
+		sw::GraphicAPIInitData graphicApiData;
 		graphicApiData.CreateSwapChain = false;		// We will create swap chain and render target later with window.
 		graphicApiData.SingleThreaded = true;
 		graphicApiData.UseDebugLayer = false;

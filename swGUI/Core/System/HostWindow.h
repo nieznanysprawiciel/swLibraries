@@ -14,8 +14,13 @@
 #include <vector>
 #include <map>
 
-class IGraphicAPIInitializer;
 
+
+
+namespace sw
+{
+	class IGraphicAPIInitializer;
+}	// sw
 
 
 namespace sw {
@@ -47,7 +52,7 @@ private:
 protected:
 public:
 
-	explicit		HostWindow	( INativeWindow* nativeWindow, input::IInput* input, ResourceManager* resourceManager, IGraphicAPIInitializer* graphicApi );
+	explicit		HostWindow	( INativeWindow* nativeWindow, input::IInput* input, ResourceManager* resourceManager, sw::IGraphicAPIInitializer* graphicApi );
 	virtual			~HostWindow	();
 
 

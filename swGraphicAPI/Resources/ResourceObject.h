@@ -10,14 +10,16 @@
 //#include <atomic>
 
 
-class Resource;
-
-typedef uint32 ResourceID;
 
 namespace sw
 {
-	template< class ResourceType > class ResourceContainer;
-}
+
+
+class Resource;
+
+typedef uint32 ResourceID;
+template< class ResourceType > class ResourceContainer;
+
 
 
 /**@brief Class Restricts access to some functions only for chosen classes.*/
@@ -44,9 +46,9 @@ reference counter to avoid deletion. Use class ResourcePtr for this purpose.
 
 @todo Zliczanie referencji w Resource nie nadaje siê do wielow¹tkowoœci. Poprawiæ w odpowiednim momencie.
 */
-class Resource : public sw::EngineObject
+class Resource : public EngineObject
 {
-	RTTR_ENABLE( sw::EngineObject );
+	RTTR_ENABLE( EngineObject );
 	RTTR_REGISTRATION_FRIEND
 private:
 	unsigned int			m_objectReferences;	///< Liczba assetów, które sie odwo³uj¹. @todo To powinien byæ std::atomic_uint, ale wtedy nie kompiluje siê z CLRem.
@@ -77,18 +79,18 @@ public:
 	do tekstur, materia³ów i meshy, modyfikowa³y równie¿ iloœæ odwo³añ.
 	U¿ytkownik silnika powinien mieæ udostêpnion¹ wartstwê poœredniczac¹, ¿eby nie musia³
 	pamiêtaæ o odwo³aniach.*/
-	inline void			AddAssetReference()		{ ++m_objectReferences; }	///< Dodaje odwo³anie plikowe do assetu
-	inline void			AddObjectReference()	{ ++m_objectReferences; }	///< Dodaje odwo³anie bezpoœrednie obiektu do assetu
-	inline void			DeleteAssetReference()	{ --m_objectReferences; }	///< Kasuje odwo³anie plikowe do assetu
-	inline void			DeleteObjectReference()	{ --m_objectReferences; }	///< Kasuje odwo³anie bezpoœrednie obiektu do assetu
+	inline void			AddAssetReference() { ++m_objectReferences; }	///< Dodaje odwo³anie plikowe do assetu
+	inline void			AddObjectReference() { ++m_objectReferences; }	///< Dodaje odwo³anie bezpoœrednie obiektu do assetu
+	inline void			DeleteAssetReference() { --m_objectReferences; }	///< Kasuje odwo³anie plikowe do assetu
+	inline void			DeleteObjectReference() { --m_objectReferences; }	///< Kasuje odwo³anie bezpoœrednie obiektu do assetu
 
-	inline ResourceID	GetID()			{ return m_uniqueId; }		///< Zwraca identyfikator nadany assetowi
+	inline ResourceID	GetID() { return m_uniqueId; }		///< Zwraca identyfikator nadany assetowi
 
 	virtual std::string GetResourceName() const = 0;				///< Zwraca nazwê zasobu. To mo¿e byæ nazwa pliku, na podstawie którego stworzono zasób, ale zasadniczo interpretacja jest dowolna.
 
 public:
 
-	virtual bool		IsCacheable		() { return false;  }
+	virtual bool		IsCacheable		() { return false; }
 };
 
 
@@ -127,3 +129,6 @@ inline bool Resource::CanDelete()
 		return true;
 	return false;
 }
+
+}	// sw
+

@@ -89,7 +89,7 @@ ResourcePtr< Resource >			nResourceManager::FindResource				( const filesystem::
 	auto containerIter = m_resources.find( assetType );
 	if( containerIter != m_resources.end() )
 	{
-		ResourceContainer< Resource > & container = containerIter->second;
+		ResourceContainer< Resource >& container = containerIter->second;
 		return container.Get( name );
 	}
 

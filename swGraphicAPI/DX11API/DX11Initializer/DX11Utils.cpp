@@ -13,6 +13,11 @@
 
 
 
+
+namespace sw
+{
+
+
 // ================================ //
 //
 DXGI_SWAP_CHAIN_DESC			DX11Utils::CreateSwapChainDesc		( const SwapChainInitData& swapChainData )
@@ -46,10 +51,10 @@ DXGI_SWAP_CHAIN_DESC1			DX11Utils::CreateSwapChainDesc1		( const SwapChainInitDa
 	desc.SampleDesc.Quality = swapChainData.SamplesQuality;
 	desc.Stereo = false;
 	desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    desc.Scaling = DXGI_SCALING_STRETCH;
-    desc.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+	desc.Scaling = DXGI_SCALING_STRETCH;
+	desc.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 	desc.AlphaMode = DXGI_ALPHA_MODE_IGNORE;
-    desc.Flags = 0;
+	desc.Flags = 0;
 
 	return desc;
 }
@@ -62,13 +67,13 @@ ComPtr< IDXGIAdapter >			DX11Utils::GetDXGIAdapter			()
 
 	ComPtr< IDXGIDevice > dxgiDevice = nullptr;
 	result = device->QueryInterface( __uuidof( IDXGIDevice ), (void**)&dxgiDevice );
-	
+
 	assert( SUCCEEDED( result ) );
 	if( FAILED( result ) )	return nullptr;
 
 	ComPtr< IDXGIAdapter > dxgiAdapter = nullptr;
 	result = dxgiDevice->GetParent( __uuidof( IDXGIAdapter ), (void **)&dxgiAdapter );
-	
+
 	assert( SUCCEEDED( result ) );
 	if( FAILED( result ) )	return nullptr;
 
@@ -125,3 +130,5 @@ ComPtr< IDXGIFactory2 >			DX11Utils::GetDXGIFactory2			()
 	return GetFactory< IDXGIFactory2 >();
 }
 
+
+}	// sw

@@ -35,13 +35,15 @@ RTTR_REGISTRATION
 		.property( "IsPerInstance", &sw::LayoutEntry::PerInstance )
 		.property( "InstanceDataStep", &sw::LayoutEntry::InstanceDataStep );
 
-	rttr::registration::class_< InputLayoutDescriptor >( "InputLayoutDescriptor" )
-		.property( "Name", &InputLayoutDescriptor::m_inputLayoutName )
-		.property( "Entries", &InputLayoutDescriptor::m_entries );
+	rttr::registration::class_< sw::InputLayoutDescriptor >( "sw::InputLayoutDescriptor" )
+		.property( "Name", &sw::InputLayoutDescriptor::m_inputLayoutName )
+		.property( "Entries", &sw::InputLayoutDescriptor::m_entries );
 
 }
 
 
+namespace sw
+{
 
 
 // ================================ //
@@ -87,3 +89,4 @@ void			InputLayoutDescriptor::AddEntryImpl				( sw::AttributeSemantic semanticNa
 	m_entries.push_back( entry );
 }
 
+}	// sw
