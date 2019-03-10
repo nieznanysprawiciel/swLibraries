@@ -55,9 +55,10 @@
     <ClInclude Include="..\..\..\ResourceManager\ResourceManagerAsync.h" />
     <ClInclude Include="..\..\..\ResourceManager\stdafx.h" />
     <ClInclude Include="..\..\..\Resources\BlendingState.h" />
-    <ClInclude Include="..\..\..\Resources\BufferInitData.h" />
+    <ClInclude Include="..\..\..\Resources\Buffers\Buffer.h" />
+    <ClInclude Include="..\..\..\Resources\Buffers\BufferInitData.h" />
+    <ClInclude Include="..\..\..\Resources\Buffers\IBuffer.h" />
     <ClInclude Include="..\..\..\Resources\DepthStencilState.h" />
-    <ClInclude Include="..\..\..\Resources\IBuffer.h" />
     <ClInclude Include="..\..\..\Resources\IRenderTarget.h" />
     <ClInclude Include="..\..\..\Resources\MeshResources.h" />
     <ClInclude Include="..\..\..\Resources\RasterizerState.h" />
@@ -77,6 +78,7 @@
     <ClCompile Include="..\..\..\ImageGenerators\CheckerboardGenerator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\AssetsFactory.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Buffers\BufferCreator.cpp" />
+    <ClCompile Include="..\..\..\Resources\Buffers\Buffer.cpp" />
     <ClCompile Include="..\..\..\Resources\Textures\Texture.cpp" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.inl">
       <FileType>Document</FileType>

@@ -27,7 +27,7 @@ RTTR_REGISTRATION
 //====================================================================================//
 	
 
-	rttr::registration::enumeration< ResourceUsage >( "ResourceUsage" )
+	rttr::registration::enumeration< ResourceUsage >( "sw::ResourceUsage" )
 	(
 		rttr::value( "Default", ResourceUsage::RESOURCE_USAGE_DEFAULT ),
 		rttr::value( "Dynamic", ResourceUsage::RESOURCE_USAGE_DYNAMIC ),
@@ -35,7 +35,7 @@ RTTR_REGISTRATION
 		rttr::value( "Static", ResourceUsage::RESOURCE_USAGE_STATIC )
 	);
 
-	rttr::registration::enumeration< BlendOperation >( "BlendOperation" )
+	rttr::registration::enumeration< BlendOperation >( "sw::BlendOperation" )
 	(
 		rttr::value( "Add", BlendOperation::Add ),
 		rttr::value( "Subtract", BlendOperation::Subtract ),
@@ -45,7 +45,7 @@ RTTR_REGISTRATION
 	);
 
 
-	rttr::registration::enumeration< BlendFactor >( "BlendFactor" )
+	rttr::registration::enumeration< BlendFactor >( "sw::BlendFactor" )
 	(
 		rttr::value( "Zero", BlendFactor::Zero ),
 		rttr::value( "One", BlendFactor::One ),
@@ -61,20 +61,20 @@ RTTR_REGISTRATION
 		rttr::value( "InverseBlendFactor", BlendFactor::InverseBlendFactor )
 	);
 
-	rttr::registration::enumeration< CullMode >( "CullMode" )
+	rttr::registration::enumeration< CullMode >( "sw::CullMode" )
 	(
 		rttr::value( "Front", CullMode::Front ),
 		rttr::value( "Back", CullMode::Back ),
 		rttr::value( "None", CullMode::None )
 	);
 
-	rttr::registration::enumeration< FillMode >( "FillMode" )
+	rttr::registration::enumeration< FillMode >( "sw::FillMode" )
 	(
 		rttr::value( "Solid", FillMode::Solid ),
 		rttr::value( "Wireframe", FillMode::Wireframe )
 	);
 
-	rttr::registration::enumeration< ResourceFormat >( "ResourceFormat" )
+	rttr::registration::enumeration< ResourceFormat >( "sw::ResourceFormat" )
 	(
 		rttr::value( "Unknown", ResourceFormat::RESOURCE_FORMAT_UNKNOWN ),
 		rttr::value( "R32G32B32A32_TYPELESS", ResourceFormat::RESOURCE_FORMAT_R32G32B32A32_TYPELESS ),
@@ -197,7 +197,7 @@ RTTR_REGISTRATION
 		rttr::value( "V408", ResourceFormat::RESOURCE_FORMAT_V408 )
 	);
 
-	rttr::registration::enumeration< ShaderType >( "ShaderType" )
+	rttr::registration::enumeration< ShaderType >( "sw::ShaderType" )
 	(
 		rttr::value( "VertexShader", ShaderType::VertexShader ),
 		rttr::value( "PixelShader", ShaderType::PixelShader ),
@@ -208,7 +208,7 @@ RTTR_REGISTRATION
 	);
 
 	
-	rttr::registration::enumeration< BufferType >( "BufferType" )
+	rttr::registration::enumeration< BufferType >( "sw::BufferType" )
 	(
 		rttr::value( "VertexBuffer", BufferType::VertexBuffer ),
 		rttr::value( "IndexBuffer", BufferType::IndexBuffer ),
@@ -216,7 +216,7 @@ RTTR_REGISTRATION
 	);
 
 	
-	rttr::registration::enumeration< PrimitiveTopology >( "PrimitiveTopology" )
+	rttr::registration::enumeration< PrimitiveTopology >( "sw::PrimitiveTopology" )
 	(
 		rttr::value( "Points", PrimitiveTopology::PRIMITIVE_TOPOLOGY_POINTLIST ),
 		rttr::value( "Lines", PrimitiveTopology::PRIMITIVE_TOPOLOGY_LINELIST ),
@@ -233,7 +233,7 @@ RTTR_REGISTRATION
 //			Resources	
 //====================================================================================//
 
-	rttr::registration::class_< Resource >( "Resource" )
+	rttr::registration::class_< Resource >( "sw::Resource" )
 		.property_readonly( "ID", &Resource::m_uniqueId )
 		( 
 			rttr::metadata( MetaDataType::AllowInSaveFile, false),
@@ -245,11 +245,11 @@ RTTR_REGISTRATION
 			rttr::metadata( MetaDataType::Serialize, false )
 		);
 
-	rttr::registration::class_< SwapChain >( "SwapChain" );
+	rttr::registration::class_< SwapChain >( "sw::SwapChain" );
 
 
 	// Blending
-	rttr::registration::class_< BlendingInfo >( "BlendingInfo" )
+	rttr::registration::class_< BlendingInfo >( "sw::BlendingInfo" )
 		.property_readonly( "CustomBlendFactor", &BlendingInfo::CustomBlendFactor ) BIND_AS_PTR
 		.property_readonly( "EnableBlending", &BlendingInfo::EnableBlending )
 		.property_readonly( "ColorOperation", &BlendingInfo::ColorOperation )
@@ -259,12 +259,12 @@ RTTR_REGISTRATION
 		.property_readonly( "SrcAlphaBlend", &BlendingInfo::SrcAlphaBlend )
 		.property_readonly( "DstAlphaBlend", &BlendingInfo::DstAlphaBlend );
 
-	rttr::registration::class_< BlendingState >( "BlendingState" )
+	rttr::registration::class_< BlendingState >( "sw::BlendingState" )
 		.property_readonly( "Descriptor", &BlendingState::GetDescriptor ) BIND_AS_PTR;
 
 
 	// Rasterizer
-	rttr::registration::class_< RasterizerStateInfo >( "RasterizerStateInfo" )
+	rttr::registration::class_< RasterizerStateInfo >( "sw::RasterizerStateInfo" )
 		.property_readonly( "CullMode", &RasterizerStateInfo::CullMode )
 		.property_readonly( "FillMode", &RasterizerStateInfo::FillMode )
 		.property_readonly( "IsClockwise", &RasterizerStateInfo::IsClockwise )
@@ -274,40 +274,21 @@ RTTR_REGISTRATION
 		.property_readonly( "DepthBias", &RasterizerStateInfo::DepthBias );
 
 
-	rttr::registration::class_< RasterizerState >( "RasterizerState" )
+	rttr::registration::class_< RasterizerState >( "sw::RasterizerState" )
 		.property_readonly( "Descriptor", &RasterizerState::GetDescriptor ) BIND_AS_PTR;
 
 
 	// Depth/Stencil
-	rttr::registration::class_< DepthStencilInfo >( "DepthStencilInfo" )
+	rttr::registration::class_< DepthStencilInfo >( "sw::DepthStencilInfo" )
 		.property_readonly( "EnableDepthTest", &DepthStencilInfo::EnableDepthTest )
 		.property_readonly( "EnableStencilTest", &DepthStencilInfo::EnableStencilTest );
 
-	rttr::registration::class_< DepthStencilState >( "DepthStencilState" )
+	rttr::registration::class_< DepthStencilState >( "sw::DepthStencilState" )
 		.property_readonly( "Descriptor", &RasterizerState::GetDescriptor ) BIND_AS_PTR;
 
 
-	// Buffer
-	rttr::registration::class_< Buffer >( "Buffer" )
-		.property_readonly( "Descriptor", &Buffer::GetDescriptor ) BIND_AS_PTR;
 
-	rttr::registration::class_< BufferInfo >( "BufferInfo" )
-		.property_readonly( "BufferName", &BufferInfo::GetName )
-		.property_readonly( "NumberElements", &BufferInfo::NumElements )
-		.property_readonly( "ElementSize", &BufferInfo::ElementSize )
-		.property_readonly( "Usage", &BufferInfo::Usage )
-		.property_readonly( "BufferType", &BufferInfo::BufferType )
-		.property_readonly( "Topology", &BufferInfo::Topology )
-		.property_readonly( "4 Bytes Index Size", &BufferInfo::Use4BytesIndex )
-		.property_readonly( "VertexLayout", &BufferInfo::VertexLayout );
-
-	rttr::registration::class_< BufferInitData >( "BufferInitData" );
-	rttr::registration::class_< ConstantBufferInitData >( "ConstantBufferInitData" );
-	rttr::registration::class_< VertexBufferInitData >( "VertexBufferInitData" );
-	rttr::registration::class_< IndexBufferInitData >( "IndexBufferInitData" );
-
-
-	rttr::registration::class_< RenderTargetObject >( "RenderTargetObject" )
+	rttr::registration::class_< RenderTargetObject >( "sw::RenderTargetObject" )
 		.property( "ColorBuffer", &RenderTargetObject::m_colorBuffer )
 		.property( "DepthBuffer", &RenderTargetObject::m_depthBuffer )
 		.property( "StencilBuffer", &RenderTargetObject::m_stencilBuffer );
@@ -379,24 +360,5 @@ std::string		RenderTargetObject::GetResourceName() const
 		return m_stencilBuffer->GetFilePath().String();
 	return "";
 }
-
-//----------------------------------------------------------------------------------------------//
-//								Buffer													//
-//----------------------------------------------------------------------------------------------//
-
-// ================================ //
-//
-Buffer::Buffer( unsigned int elementSize, unsigned int elementCount )
-	: m_elementSize( elementSize ),
-	m_elementCount( elementCount )
-{}
-
-// ================================ //
-//
-TypeID		BufferInitData::GetAssetType	() const
-{
-	return TypeID::get< Buffer >();
-}
-
 
 }	// sw

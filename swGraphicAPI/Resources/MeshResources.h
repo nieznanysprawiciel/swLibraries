@@ -13,12 +13,12 @@
 
 #include "swGraphicAPI/Resources/ResourceObject.h"
 #include "swGraphicAPI/Resources/Shaders/IShader.h"
-#include "swGraphicAPI/Resources/IBuffer.h"
+#include "swGraphicAPI/Resources/Buffers/Buffer.h"
 #include "swGraphicAPI/Resources/IRenderTarget.h"
 #include "swGraphicAPI/Resources/Shaders/IShaderInputLayout.h"
 #include "swGraphicAPI/Rendering/GraphicAPIConstants.h"
 #include "swGraphicAPI/Resources/ResourcePtr.h"
-#include "swGraphicAPI/Resources/BufferInitData.h"
+
 
 #include "swGraphicAPI/Resources/Shaders/Shaders.h"
 #include "swGraphicAPI/Resources/Shaders/InputLayout.h"
@@ -200,36 +200,6 @@ public:
 	virtual std::string			GetResourceName	() const override;	///<@todo RenderTargety powinny mieæ swoje nazwy.
 };
 
-
-//----------------------------------------------------------------------------------------------//
-//								Buffer													//
-//----------------------------------------------------------------------------------------------//
-
-/**@brief Object for GPU buffer.
-
-It can be vertex, index or constant buffer.
-
-@ingroup Buffers
-@ingroup Resources
-@ingroup GraphicAPI*/
-class Buffer : public IBuffer
-{
-	RTTR_ENABLE( IBuffer )
-	friend ObjectDeleter<Buffer>;
-protected:
-	unsigned int		m_elementSize;			///<Rozmiar elementu.
-	unsigned int		m_elementCount;			///<Liczba elementów.
-
-	~Buffer() = default;
-public:
-	Buffer( unsigned int elementSize, unsigned int elementCount );
-
-	inline unsigned int GetStride() { return m_elementSize; }		///<Zwraca rozmiar pojedynczego elementu w buforze.
-	inline unsigned int	GetElementSize() { return m_elementSize; }		///<Zwraca rozmiar pojedynczego elementu w buforze.
-	inline unsigned int GetElementCount() { return m_elementCount; }		///<Zwraca liczbê elementów w buforze.
-
-	virtual std::string	GetResourceName	() const override { return GetDescriptor().GetName(); }
-};
 
 
 }	// sw

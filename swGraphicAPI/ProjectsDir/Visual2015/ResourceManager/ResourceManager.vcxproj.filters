@@ -81,13 +81,7 @@
     <ClInclude Include="..\..\..\Resources\BlendingState.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Resources\BufferInitData.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Resources\DepthStencilState.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Resources\IBuffer.h">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Resources\IRenderTarget.h">
@@ -222,6 +216,15 @@
     <ClInclude Include="..\..\..\Resources\Shaders\IShaderInputLayout.h">
       <Filter>Resources\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Buffers\BufferInitData.h">
+      <Filter>Resources\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Buffers\IBuffer.h">
+      <Filter>Resources\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Buffers\Buffer.h">
+      <Filter>Resources\Buffers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
@@ -295,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Resources\Textures\Texture.cpp">
       <Filter>Resources\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Resources\Buffers\Buffer.cpp">
+      <Filter>Resources\Buffers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

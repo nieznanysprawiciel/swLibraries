@@ -11,7 +11,8 @@
 #include "swCommonLib/Common/RTTR.h"
 
 #include "swGraphicAPI/Rendering/GraphicAPIConstants.h"
-#include "swGraphicAPI/Resources/IBuffer.h"
+#include "swGraphicAPI/Resources/Buffers/IBuffer.h"
+#include "swGraphicAPI/Resources/ResourcePtr.h"
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreateInfo.h"
 

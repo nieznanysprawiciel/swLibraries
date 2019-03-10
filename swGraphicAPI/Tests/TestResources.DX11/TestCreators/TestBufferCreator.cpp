@@ -10,7 +10,7 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/AssetsFactory.h"
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/Buffers/BufferCreator.h"
-#include "swGraphicAPI/Resources/BufferInitData.h"
+#include "swGraphicAPI/Resources/Buffers/BufferInitData.h"
 
 #include "swCommonLib/Common/Buffers/BufferTyped.h"
 
