@@ -29,8 +29,8 @@ MipMapGenerator::MipMapGenerator()
 Set MipMapFilter field to filter that should be used.
 
 If texture dimension isn't power of 2, this function will scale image and modify in TextureInfo structure these fields:
-- TextureWidth
-- TextureHeight
+- Width
+- Height
 
 These fields will be modified, if non zero CutOffMipMaps value is set.
 Then the biggest mipmap will become main texture .
@@ -45,8 +45,8 @@ sw::Nullable< BufferRaw >		MipMapGenerator::Generate	( const BufferRaw& source, 
 	
 	NumChannels = 4;
 
-	uint16 newWidth = PowerOfTwo( texInfo.TextureWidth ) >> texInfo.CutOffMipMaps;
-	uint16 newHeight = PowerOfTwo( texInfo.TextureHeight ) >> texInfo.CutOffMipMaps;
+	uint16 newWidth = PowerOfTwo( texInfo.Width ) >> texInfo.CutOffMipMaps;
+	uint16 newHeight = PowerOfTwo( texInfo.Height ) >> texInfo.CutOffMipMaps;
 	texInfo.MipMapLevels = ComputeMipMapsLevels( newWidth, newHeight );
 
 	if( newWidth == 0 || newHeight == 0 )
@@ -55,10 +55,10 @@ sw::Nullable< BufferRaw >		MipMapGenerator::Generate	( const BufferRaw& source, 
 	texInfo.MemorySize = ComputeBufferSize( newWidth, newHeight, NumChannels );
 	BufferTyped< uint8 > texWithMips( texInfo.MemorySize );
 
-	if( newWidth != texInfo.TextureWidth || newHeight != texInfo.TextureHeight )
+	if( newWidth != texInfo.Width || newHeight != texInfo.Height )
 	{
 		// Przeskaluj teksturê, ¿eby jej wymiary by³y potêg¹ dwójki.
-		Resample( texInfo.TextureWidth, texInfo.TextureHeight, newWidth, newHeight, source.GetData(), texWithMips.GetRawData(), texInfo.MipMapFilter );
+		Resample( texInfo.Width, texInfo.Height, newWidth, newHeight, source.GetData(), texWithMips.GetRawData(), texInfo.MipMapFilter );
 	}
 	else
 	{
@@ -67,8 +67,8 @@ sw::Nullable< BufferRaw >		MipMapGenerator::Generate	( const BufferRaw& source, 
 	}
 
 	// Aktualizujemy informacje o teksturze.
-	texInfo.TextureWidth = newWidth;
-	texInfo.TextureHeight = newHeight;
+	texInfo.Width = newWidth;
+	texInfo.Height = newHeight;
 
 	PtrOffset offset = 0;
 	PtrOffset prevOffset = 0;

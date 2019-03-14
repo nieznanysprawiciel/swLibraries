@@ -12,6 +12,9 @@
 #include <d3d11_1.h>
 
 
+#include <string>
+
+
 namespace sw
 {
 
@@ -44,6 +47,10 @@ private:
 
 	template< typename FactoryType >
 	static ComPtr< FactoryType >				GetFactory				();
+
+public:
+
+	static std::string							ErrorString				( HRESULT result );
 };
 
 

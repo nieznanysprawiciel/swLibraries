@@ -73,6 +73,7 @@
     <ClInclude Include="..\..\..\Resources\Shaders\Shaders.h" />
     <ClInclude Include="..\..\..\Resources\SwapChain.h" />
     <ClInclude Include="..\..\..\Resources\Textures\Texture.h" />
+    <ClInclude Include="..\..\..\Resources\Textures\TextureInitData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ImageGenerators\CheckerboardGenerator.cpp" />

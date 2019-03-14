@@ -63,8 +63,8 @@ enum class MipMapFilter : short
 @ingroup Textures*/
 struct TextureInfo
 {
-	uint32				TextureWidth;				///< Texture width in pixels.
-	uint32				TextureHeight;				///< Texture height in pixels.
+	uint32				Width;				///< Texture width in pixels.
+	uint32				Height;				///< Texture height in pixels.
 	uint16				ArraySize;					///< Size of array.
 	bool				CPURead : 1;				///< Allows to read texture by CPU.
 	bool				CPUWrite : 1;				///< Allows to write texture by CPU.
@@ -103,8 +103,8 @@ struct TextureInfo
 private:
 	RTTR_REGISTRATION_FRIEND;
 
-	int		GetWidth		() { return TextureWidth; }
-	int		GetHeight		() { return TextureHeight; }
+	int		GetWidth		() { return Width; }
+	int		GetHeight		() { return Height; }
 	int		GetArraySize	() { return ArraySize; }
 	bool	IsCPUReadable	() { return CPURead; }
 	bool	IsCPUWriteable	() { return CPUWrite; }

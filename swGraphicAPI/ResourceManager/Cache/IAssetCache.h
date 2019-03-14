@@ -26,6 +26,10 @@ namespace sw
 {
 
 /**@brief Interface for assets cache.
+
+@todo Change Cache interface and storage. We should store BufferRaw and IAssetCreateInfo
+that will be passed to asset creator.
+
 @ingroup AssetCache*/
 class IAssetCache
 {

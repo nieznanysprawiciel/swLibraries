@@ -34,6 +34,9 @@ Derived implementation should implement functions for typed IAssetCreateInfo des
 
 Second purpose of this class is ability to write asset in raw data format to cache.
 
+@todo Change Cache data generation api. During creation we should return created Resource
+and data for cache in the most processed form to avoid recomputation after loading from cache.
+
 @ingroup AssetsManagement
 @ingroup AssetsCreators*/
 class IAssetCreator

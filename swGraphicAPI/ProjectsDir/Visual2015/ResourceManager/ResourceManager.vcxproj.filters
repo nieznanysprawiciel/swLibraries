@@ -225,6 +225,9 @@
     <ClInclude Include="..\..\..\Resources\Buffers\Buffer.h">
       <Filter>Resources\Buffers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Textures\TextureInitData.h">
+      <Filter>Resources\Textures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">

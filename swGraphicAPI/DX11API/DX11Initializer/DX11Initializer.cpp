@@ -22,12 +22,6 @@
 #include <wrl/client.h>
 using namespace Microsoft::WRL;
 
-// _com_error
-#include <comdef.h>
-
-
-#include "swCommonLib/Common/MemoryLeaks.h"
-
 
 
 namespace sw
@@ -249,10 +243,7 @@ ReturnResult		DX11Initializer::InitDevices	( const GraphicAPIInitData& initData 
 
 	auto result = D3D11CreateDevice( nullptr, D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, _feature_levels, _num_feature_levels, D3D11_SDK_VERSION, &device, &_current_feature_level, &device_context );
 	if( FAILED( result ) )
-	{
-		auto error = _com_error( result );
-		return "Creating device failed. Error: " + Convert::ToString( std::wstring( error.ErrorMessage() ) );
-	}
+		return "Creating device failed. Error: " + DX11Utils::ErrorString( result );
 
 
 	if( initData.UseDebugLayer )

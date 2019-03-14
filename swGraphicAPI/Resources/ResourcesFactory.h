@@ -7,6 +7,7 @@
 
 
 #include "swCommonLib/Common/Exceptions/Nullable.h"
+#include "swCommonLib/Common/Buffers/BufferRaw.h"
 
 
 #include "swGraphicAPI/Resources/MeshResources.h"
@@ -34,6 +35,7 @@ class LayoutCreator;
 class BlendingStateCreator;
 class RasterizerStateCreator;
 class DepthStencilStateCreator;
+class TextureCreator;
 
 template< typename ShaderObjectType > class ShaderCreator;
 
@@ -61,6 +63,7 @@ class ResourcesFactory
 	friend class sw::BlendingStateCreator;
 	friend class sw::RasterizerStateCreator;
 	friend class sw::DepthStencilStateCreator;
+	friend class sw::TextureCreator;
 
 
 private:
@@ -71,13 +74,15 @@ private:
 
 	static sw::Nullable< ShaderInputLayout* >	CreateInputLayout				( const InputLayoutDescriptor& layoutDesc );
 
-	static Texture*								CreateTextureFromMemory			( const MemoryChunk& texData, sw::TextureInfo&& texInfo );
+	static sw::Nullable< Texture* >				CreateTextureFromMemory			( const BufferRaw& texData, sw::TextureInfo&& texInfo );
 	static sw::Nullable< Buffer* >				CreateBufferFromMemory			( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo );
 
 	static sw::Nullable< BlendingState*	>		CreateBlendingState				( const BlendingInfo& info );
 	static sw::Nullable< RasterizerState* >		CreateRasterizerState			( const RasterizerStateInfo& info );
 	static sw::Nullable< DepthStencilState* >	CreateDepthStencilState			( const DepthStencilInfo& info );
 
+
+	static Texture*								CreateTextureFromMemory			( const MemoryChunk& texData, sw::TextureInfo&& texInfo );
 
 	static VertexShader*					CreateVertexShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "vs_4_0" );
 	static PixelShader*						CreatePixelShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "ps_4_0" );

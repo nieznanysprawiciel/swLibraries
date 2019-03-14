@@ -119,8 +119,8 @@ enum TextureUse
 @ingroup RenderTargets*/
 struct RenderTargetDescriptor
 {
-	uint16				TextureWidth;				///<Szerokoœæ tekstury w pikselach.
-	uint16				TextureHeight;				///<Wysokoœæ tekstury w pikselach.
+	uint16				Width;				///<Szerokoœæ tekstury w pikselach.
+	uint16				Height;				///<Wysokoœæ tekstury w pikselach.
 	uint16				ArraySize;					///<Liczba elementów tablicy.
 	bool				CPURead : 1;				///<Pozwala na odczyt tekstury przez CPU.
 	bool				CPUWrite : 1;				///<Pozwala na zapis tekstury przez CPU.
@@ -157,8 +157,8 @@ struct RenderTargetDescriptor
 	sw::TextureInfo		CreateTextureInfo() const
 	{
 		sw::TextureInfo texInfo;
-		texInfo.TextureWidth = TextureWidth;
-		texInfo.TextureHeight = TextureHeight;
+		texInfo.Width = Width;
+		texInfo.Height = Height;
 		texInfo.ArraySize = ArraySize;
 		texInfo.CPURead = CPURead;
 		texInfo.CPUWrite = CPUWrite;

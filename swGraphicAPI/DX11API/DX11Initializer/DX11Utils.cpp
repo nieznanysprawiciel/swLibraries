@@ -11,6 +11,9 @@
 #include "DX11ConstantsMapper.h"
 //#include <DXGI.h>
 
+// _com_error
+#include <comdef.h>
+
 
 
 
@@ -114,6 +117,14 @@ ComPtr< IDXGISwapChain >		DX11Utils::CreateCompositionSwapChain	( const SwapChai
 	assert( SUCCEEDED( result ) );
 
 	return swapChain;
+}
+
+// ================================ //
+//
+std::string						DX11Utils::ErrorString				( HRESULT result )
+{
+	auto error = _com_error( result );
+	return Convert::ToString( std::wstring( error.ErrorMessage() ) );
 }
 
 // ================================ //

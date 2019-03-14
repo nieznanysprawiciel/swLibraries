@@ -75,6 +75,13 @@ sw::Nullable< ShaderInputLayout* >	ResourcesFactory::CreateInputLayout				( cons
 	return DX11InputLayout::CreateLayout( layoutDesc );
 }
 
+// ================================ //
+//
+sw::Nullable< Texture* >			ResourcesFactory::CreateTextureFromMemory		( const BufferRaw& texData, sw::TextureInfo&& texInfo )
+{
+	return TextureObject::CreateFromMemory( texData, std::move( texInfo ) );
+}
+
 
 /**@brief Tworzy obiekt vertex shadera.
 

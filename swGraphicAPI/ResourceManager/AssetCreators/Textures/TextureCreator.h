@@ -15,6 +15,10 @@ namespace sw
 
 
 /**@brief Creates texture and generates mipmaps.
+
+@todo Implement Texture creation with already generated mipmaps. Add new IAssetCreateInfo
+structure.
+
 @ingroup AssetsCreators*/
 class TextureCreator : public IAssetCreator
 {

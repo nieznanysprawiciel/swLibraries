@@ -9,6 +9,7 @@
 
 #include "DX11Texture.h"
 #include "DX11Initializer/DX11ConstantsMapper.h"
+#include "DX11Initializer/DX11Utils.h"
 
 
 #include "swCommonLib/Common/MemoryLeaks.h"
@@ -67,20 +68,80 @@ DX11Texture::~DX11Texture()
 
 
 /**@copydoc Texture::GetDescriptor.*/
-const TextureInfo&			DX11Texture::GetDescriptor() const
+const TextureInfo&				DX11Texture::GetDescriptor() const
 {
 	return m_descriptor;
 }
 
 /**@copydoc Texture::GetFilePath.*/
-const filesystem::Path&		DX11Texture::GetFilePath() const
+const filesystem::Path&			DX11Texture::GetFilePath() const
 {
 	return m_descriptor.FilePath;
+}
+
+// ================================ //
+//
+sw::Nullable< DX11Texture* >	DX11Texture::CreateFromMemory	( const BufferRaw& texData, TextureInfo&& texInfo )
+{
+	if( texData.GetData() == nullptr )
+		return "[DX11Texture] Can't create texture. Data field is nullptr.";
+
+	/// @todo Trzeba zacz¹æ kiedyœ obœ³ugiwac inne typy tekstur.
+	assert( texInfo.TextureType == TextureType::TEXTURE_TYPE_TEXTURE2D );
+	if( texInfo.TextureType != TextureType::TEXTURE_TYPE_TEXTURE2D )
+		return "[DX11Texture] Can't create texture. Only Textures 2D are supported.";
+
+	ComPtr< ID3D11Texture2D > texture = nullptr;
+	ComPtr< ID3D11ShaderResourceView > texView = nullptr;
+	D3D11_TEXTURE2D_DESC texDesc = FillDesc( texInfo );
+
+	std::unique_ptr< D3D11_SUBRESOURCE_DATA[] > initData( new D3D11_SUBRESOURCE_DATA[ texInfo.MipMapLevels /** texInfo.ArraySize*/ ] );
+	uint16 mipWidth = texInfo.Width;
+	uint16 mipHeight = texInfo.Height;
+	PtrOffset offset = 0;
+
+	for( int level = 0; level < texInfo.MipMapLevels; level++ )
+	{
+		initData[ level ].pSysMem = texData.GetData() + offset;
+		initData[ level ].SysMemPitch = (uint32)mipWidth * BytesPerPixel( texInfo.Format );
+
+		offset += mipWidth * mipHeight * BytesPerPixel( texInfo.Format );
+
+		mipWidth /= 2;
+		mipHeight /= 2;
+		if( mipHeight == 0 )	mipHeight = 1;
+		if( mipWidth == 0 )		mipWidth = 1;
+	}
+
+	HRESULT result = device->CreateTexture2D( &texDesc, initData.get(), &texture );
+	if( result == S_OK )
+	{
+		D3D11_SHADER_RESOURCE_VIEW_DESC viewDesc;
+
+		if( texInfo.TextureType == TextureType::TEXTURE_TYPE_TEXTURE2D )
+		{
+			viewDesc.Format = texDesc.Format;
+			viewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			viewDesc.Texture2D.MostDetailedMip = 0;
+			viewDesc.Texture2D.MipLevels = texInfo.MipMapLevels;
+
+			result = device->CreateShaderResourceView( texture.Get(), &viewDesc, &texView );
+			if( result == S_OK )
+				return new DX11Texture( std::move( texInfo ), texture, texView );
+			else
+				return "[DX11Texture] Can't create texture. Error: " + DX11Utils::ErrorString( result );
+		}
+
+		assert( !"Other texture types are not suported" );
+	}
+
+	return "[DX11Texture] Can't create texture. Error: " + DX11Utils::ErrorString( result );
 }
 
 
 /**@brief Tworzy teksturê z podanego wskaŸnika.
 
+@deprecated Use functions taking BufferRaw as parameter.
 @return Zawraca stworzony wewn¹trz obiekt DX11Texture z wczytan¹ tekstur¹ lub nullptr w przypadku niepowodzenia.*/
 DX11Texture*	DX11Texture::CreateFromMemory( const MemoryChunk& texData, TextureInfo&& texInfo )
 {
@@ -97,8 +158,8 @@ DX11Texture*	DX11Texture::CreateFromMemory( const MemoryChunk& texData, TextureI
 	D3D11_TEXTURE2D_DESC texDesc = FillDesc( texInfo );
 
 	std::unique_ptr< D3D11_SUBRESOURCE_DATA[] > initData( new D3D11_SUBRESOURCE_DATA[ texInfo.MipMapLevels /** texInfo.ArraySize*/ ] );
-	uint16 mipWidth = texInfo.TextureWidth;
-	uint16 mipHeight = texInfo.TextureHeight;
+	uint16 mipWidth = texInfo.Width;
+	uint16 mipHeight = texInfo.Height;
 	PtrOffset offset = 0;
 
 	for( int level = 0; level < texInfo.MipMapLevels; level++ )
@@ -192,8 +253,8 @@ D3D11_TEXTURE2D_DESC			DX11Texture::FillDesc	( const TextureInfo& texInfo )
 	if( texInfo.TextureType == TextureType::TEXTURE_TYPE_TEXTURE2D_ARRAY || texInfo.TextureType == TextureType::TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE_ARRAY )
 		ArraySize = texInfo.ArraySize;
 
-	texDesc.Width = texInfo.TextureWidth;
-	texDesc.Height = texInfo.TextureHeight;
+	texDesc.Width = texInfo.Width;
+	texDesc.Height = texInfo.Height;
 	texDesc.MipLevels = texInfo.MipMapLevels;
 	texDesc.Usage = DX11ConstantsMapper::Get( texInfo.Usage );
 	texDesc.ArraySize = ArraySize;
@@ -286,7 +347,7 @@ uint16			DX11Texture::MipWidth		( uint16 mipLevel ) const
 		return 0;
 
 	uint32 mipDivider = 0x1 << ( mipLevel - 1 );	// MipLevel = 1 means original texture level.
-	return m_descriptor.TextureWidth / mipDivider;
+	return m_descriptor.Width / mipDivider;
 }
 
 // ================================ //
@@ -297,7 +358,7 @@ uint16			DX11Texture::MipHeight		( uint16 mipLevel ) const
 		return 0;
 
 	uint32 mipDivider = 0x1 << ( mipLevel - 1 );	// MipLevel = 1 means original texture level.
-	return m_descriptor.TextureWidth / mipDivider;
+	return m_descriptor.Width / mipDivider;
 }
 
 // ================================ //
