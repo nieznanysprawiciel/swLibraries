@@ -41,6 +41,7 @@ protected:
 	uint8				m_blendingStateCreator;
 	uint8				m_rasterizerStateCreator;
 	uint8				m_depthStencilStateCreator;
+	uint8				m_textureCreator;
 
 	std::vector< IAssetCreatorPtr >		m_assetCreators;
 

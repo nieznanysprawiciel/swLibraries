@@ -61,6 +61,7 @@ public:
 		MipMapLevels = 1;
 		CutOffMipMaps = 0;
 		TextureType = TextureType::TEXTURE_TYPE_TEXTURE2D;
+		Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
 	}
 		
 
