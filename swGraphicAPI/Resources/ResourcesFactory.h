@@ -99,11 +99,11 @@ private:
 																	  const char* shaderModel = "vs_4_0" );
 
 public:
-	static IGraphicAPIInitializer*	CreateAPIInitializer			();
-	static RenderTarget*			CreateScreenRenderTarget		();
-	static SwapChain*				CreateScreenSwapChain			( RenderTarget* screenRT );
-	static InputLayoutDescriptor*	CreateInputLayoutDescriptor		( const std::wstring& layoutName );
-	static RenderTarget*			CreateRenderTarget				( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor );
+	static IGraphicAPIInitializer*				CreateAPIInitializer			();
+	static RenderTarget*						CreateScreenRenderTarget		();
+	static SwapChain*							CreateScreenSwapChain			( RenderTarget* screenRT );
+	static InputLayoutDescriptor*				CreateInputLayoutDescriptor		( const std::wstring& layoutName );
+	static sw::Nullable< RenderTarget* >		CreateRenderTarget				( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor );
 };
 
 

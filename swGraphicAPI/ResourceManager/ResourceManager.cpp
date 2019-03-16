@@ -71,7 +71,7 @@ sw::RenderTarget* ResourceManager::CreateRenderTarget( const std::wstring& name,
 	sw::RenderTarget* newRenderTarget = m_renderTarget.get( name );
 	if( !newRenderTarget )
 	{
-		newRenderTarget = sw::ResourcesFactory::CreateRenderTarget( name, renderTargetDescriptor );
+		newRenderTarget = sw::ResourcesFactory::CreateRenderTarget( name, renderTargetDescriptor ).Get();
 		if( !newRenderTarget )	return nullptr;
 
 		m_renderTarget.UnsafeAdd( name, newRenderTarget );

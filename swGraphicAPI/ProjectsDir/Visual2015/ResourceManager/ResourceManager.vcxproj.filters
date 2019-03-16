@@ -231,6 +231,9 @@
     <ClInclude Include="..\..\..\Resources\Textures\RenderTarget.h">
       <Filter>Resources\Textures</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.h">
+      <Filter>ResourceManager\AssetCreators\Textures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
@@ -307,6 +310,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Resources\Textures\RenderTarget.cpp">
       <Filter>Resources\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.cpp">
+      <Filter>ResourceManager\AssetCreators\Textures</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

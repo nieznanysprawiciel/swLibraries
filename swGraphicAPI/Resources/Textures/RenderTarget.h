@@ -37,6 +37,8 @@ static const std::wstring RENDER_TARGET_STENCIL_BUFFER_NAME = L"::stencil";
 @ingroup RenderTargets*/
 struct RenderTargetDescriptor : public IAssetCreateInfo
 {
+	RTTR_ENABLE( IAssetCreateInfo )
+public:
 	uint32				Width;						///< Texture width in pixels.
 	uint32				Height;						///< Texture height in pixels.
 	uint16				ArraySize;					///< Size of array.

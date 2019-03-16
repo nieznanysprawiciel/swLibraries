@@ -208,27 +208,27 @@ RenderTarget*				ResourcesFactory::CreateScreenRenderTarget()
 
 // ================================ //
 //
-SwapChain*						ResourcesFactory::CreateScreenSwapChain( RenderTarget* screenRT )
+SwapChain*						ResourcesFactory::CreateScreenSwapChain			( RenderTarget* screenRT )
 {
 	return DX11SwapChain::CreateScreenSwapChain( screenRT );
 }
 
 // ================================ //
 //
-IGraphicAPIInitializer*			ResourcesFactory::CreateAPIInitializer()
+IGraphicAPIInitializer*			ResourcesFactory::CreateAPIInitializer			()
 {
 	return new DX11Initializer();
 }
 
 /**Tworzy obiekt deskryptora layoutu.*/
-InputLayoutDescriptor*			ResourcesFactory::CreateInputLayoutDescriptor( const std::wstring& layoutName )
+InputLayoutDescriptor*			ResourcesFactory::CreateInputLayoutDescriptor	( const std::wstring& layoutName )
 {
 	return new DX11InputLayoutDescriptor( layoutName );
 }
 
 // ================================ //
 //
-RenderTarget*				ResourcesFactory::CreateRenderTarget( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor )
+sw::Nullable< RenderTarget* >	ResourcesFactory::CreateRenderTarget			( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor )
 {
 	return DX11RenderTarget::CreateRenderTarget( name, renderTargetDescriptor );
 }

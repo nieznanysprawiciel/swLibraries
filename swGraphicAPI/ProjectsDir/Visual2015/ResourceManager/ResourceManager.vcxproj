@@ -34,6 +34,7 @@
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\LayoutCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\MipMapGenerator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\Resampler\resampler.h" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\TextureCreator.h" />
     <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\AssetLoadRequest.h" />
@@ -80,6 +81,7 @@
     <ClCompile Include="..\..\..\ImageGenerators\CheckerboardGenerator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\AssetsFactory.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Buffers\BufferCreator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.cpp" />
     <ClCompile Include="..\..\..\Resources\Buffers\Buffer.cpp" />
     <ClCompile Include="..\..\..\Resources\Textures\RenderTarget.cpp" />
     <ClCompile Include="..\..\..\Resources\Textures\Texture.cpp" />

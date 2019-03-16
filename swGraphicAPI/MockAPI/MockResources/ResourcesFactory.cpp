@@ -226,7 +226,7 @@ InputLayoutDescriptor*					ResourcesFactory::CreateInputLayoutDescriptor	( const
 
 // ================================ //
 //
-RenderTarget*						ResourcesFactory::CreateRenderTarget			( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor )
+sw::Nullable< RenderTarget* >			ResourcesFactory::CreateRenderTarget			( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor )
 {
 	return sw::MockRenderTarget::CreateRenderTarget( name, renderTargetDescriptor );
 }
