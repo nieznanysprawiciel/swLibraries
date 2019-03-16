@@ -36,7 +36,7 @@ public:
 	virtual SwapChain*		CreateSwapChain			( const SwapChainInitData& swapChainData ) override;
 	virtual ReturnResult	InitAPI					( const GraphicAPIInitData& initData ) override;
 	virtual void			ReleaseAPI				() override;
-	virtual void*			GetRenderTargetHandle	( RenderTargetObject* renderTarget ) override;
+	virtual void*			GetRenderTargetHandle	( RenderTarget* renderTarget ) override;
 
 private:
 	ReturnResult			InitDevices				( const GraphicAPIInitData& initData );

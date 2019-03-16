@@ -84,7 +84,7 @@ ResourcePtr< Resource >			nResourceManager::CreateGenericAsset		( const filesyst
 
 // ================================ //
 //
-ResourcePtr< Resource >			nResourceManager::FindResource				( const filesystem::Path& name, TypeID assetType )
+ResourcePtr< Resource >					nResourceManager::FindResource				( const filesystem::Path& name, TypeID assetType )
 {
 	auto containerIter = m_resources.find( assetType );
 	if( containerIter != m_resources.end() )
@@ -112,7 +112,7 @@ IAssetLoader*							nResourceManager::FindLoader				( const filesystem::Path& as
 
 // ================================ //
 //
-ResourcePtr< Resource >			nResourceManager::FindRequestedAsset		( const filesystem::Path& assetName, TypeID assetType, const AssetsVec& loadedAssets )
+ResourcePtr< Resource >					nResourceManager::FindRequestedAsset		( const filesystem::Path& assetName, TypeID assetType, const AssetsVec& loadedAssets )
 {
 	std::string assetNameStr = assetName.String();
 
@@ -132,7 +132,7 @@ ResourcePtr< Resource >			nResourceManager::FindRequestedAsset		( const filesyst
 
 // ================================ //
 //
-ResourcePtr< Resource >			nResourceManager::LoadingImpl				( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID assetType )
+ResourcePtr< Resource >					nResourceManager::LoadingImpl				( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID assetType )
 {
 	auto resource = m_cacheManager.LoadFromCache( assetName, assetType );
 	if( !resource )

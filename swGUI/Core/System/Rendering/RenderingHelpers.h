@@ -42,11 +42,11 @@ public:
 
 	/**@brief Default clear command.
 	This command doesn't clear stencil buffer.*/
-	void					ClearRenderTargetAndDepth	( RenderTargetObject* target, const DirectX::XMFLOAT4& color, float depth );
+	void					ClearRenderTargetAndDepth	( RenderTarget* target, const DirectX::XMFLOAT4& color, float depth );
 
 	/**@brief Set render target.
 	Ignores buffers and sets them to nullptr.*/
-	void					SetRenderTarget				( RenderTargetObject* target, RasterizerState* rasterizerState, BlendingState* blendingState, DepthStencilState* depthStencilState );
+	void					SetRenderTarget				( RenderTarget* target, RasterizerState* rasterizerState, BlendingState* blendingState, DepthStencilState* depthStencilState );
 
 	/**@brief Updates buffer with data.*/
 	template< typename BufferDataType >
@@ -68,11 +68,11 @@ public:
 
 	/**@brief Default clear command.
 	This command doesn't clear stencil buffer.*/
-	static void					ClearRenderTargetAndDepth	( IRenderer* renderer, RenderTargetObject* target, const DirectX::XMFLOAT4& color, float depth );
+	static void					ClearRenderTargetAndDepth	( IRenderer* renderer, RenderTarget* target, const DirectX::XMFLOAT4& color, float depth );
 
 	/**@brief Set render target.
 	Ignores buffers and sets them to nullptr.*/
-	static void					SetRenderTarget				( IRenderer* renderer, RenderTargetObject* target, RasterizerState* rasterizerState, BlendingState* blendingState, DepthStencilState* depthStencilState );
+	static void					SetRenderTarget				( IRenderer* renderer, RenderTarget* target, RasterizerState* rasterizerState, BlendingState* blendingState, DepthStencilState* depthStencilState );
 
 	/**@brief Updates buffer with data.*/
 	template< typename BufferDataType >

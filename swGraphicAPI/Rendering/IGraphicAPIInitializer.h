@@ -112,7 +112,7 @@ public:
 	virtual SwapChain*		CreateSwapChain			( const SwapChainInitData& swapChainData ) = 0;
 	virtual ReturnResult	InitAPI					( const GraphicAPIInitData& initData ) = 0;
 	virtual void			ReleaseAPI				() = 0;
-	virtual void*			GetRenderTargetHandle	( RenderTargetObject* renderTarget ) = 0;
+	virtual void*			GetRenderTargetHandle	( RenderTarget* renderTarget ) = 0;
 
 	// Future
 	// virtual std::wstring	GetErrorString() = 0;

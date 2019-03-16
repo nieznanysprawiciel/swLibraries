@@ -105,7 +105,7 @@ const std::string&	HostWindow::GetControlName		( const UIElement* control ) cons
 
 // ================================ //
 //
-ResourcePtr< RenderTargetObject >	HostWindow::GetRenderTarget()
+ResourcePtr< RenderTarget >	HostWindow::GetRenderTarget()
 {
 	return m_renderTarget;
 }

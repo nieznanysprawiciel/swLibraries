@@ -19,7 +19,7 @@ RTTR_REGISTRATION
 namespace sw
 {
 
-MockSwapChain::MockSwapChain( RenderTargetObject* screenRT )
+MockSwapChain::MockSwapChain( RenderTarget* screenRT )
 	:	SwapChain( screenRT )
 {}
 
@@ -41,7 +41,7 @@ void	MockSwapChain::Resize( uint16 newWidth, uint16 newHeight )
 }
 
 /**@brief */
-MockSwapChain* MockSwapChain::CreateScreenSwapChain( RenderTargetObject* screenRT )
+MockSwapChain* MockSwapChain::CreateScreenSwapChain( RenderTarget* screenRT )
 {
 	MockSwapChain* swapChainObject = new MockSwapChain( screenRT );
 	return swapChainObject;

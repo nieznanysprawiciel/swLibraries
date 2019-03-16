@@ -209,7 +209,7 @@ wskaŸnika na zasoby DirectXowe. Nie ma ¿adnego powodu, ¿eby jej u¿ywaæ w innych 
 @param[in] renderTarget RenderTarget, z którego ma zostaæ wziêtu wskaŸnik.
 @return Zwraca wskaŸnik na widok na bufor koloru render targetu lub nullptr,
 jezeli podano niepoprawny render target.*/
-void*				DX11Initializer::GetRenderTargetHandle( RenderTargetObject* renderTarget )
+void*				DX11Initializer::GetRenderTargetHandle( RenderTarget* renderTarget )
 {
 	DX11RenderTarget* renderTargetDX11 = static_cast<DX11RenderTarget*>( renderTarget );
 

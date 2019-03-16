@@ -474,7 +474,7 @@ void	DX11Renderer::SetIndexBuffer	( Buffer* buffer, unsigned int offset, bool ex
 
 // ================================ //
 //
-void	DX11Renderer::SetRenderTarget	( RenderTargetObject* const targets[ MAX_BOUND_RENDER_TARGETS ], RenderTargetObject* depthStencil )
+void	DX11Renderer::SetRenderTarget	( RenderTarget* const targets[ MAX_BOUND_RENDER_TARGETS ], RenderTarget* depthStencil )
 {
 	ID3D11RenderTargetView* DX11Targets[ MAX_BOUND_RENDER_TARGETS ];
 	for( int i = 0; i < MAX_BOUND_RENDER_TARGETS; ++i )

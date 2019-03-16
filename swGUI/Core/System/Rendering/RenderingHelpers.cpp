@@ -23,14 +23,14 @@ namespace gui
 
 // ================================ //
 //
-void					RenderingHelper::ClearRenderTargetAndDepth		( RenderTargetObject* target, const DirectX::XMFLOAT4& color, float depth )
+void					RenderingHelper::ClearRenderTargetAndDepth		( RenderTarget* target, const DirectX::XMFLOAT4& color, float depth )
 {
 	ClearRenderTargetAndDepth( m_renderer, target, color, depth );
 }
 
 // ================================ //
 //
-void					RenderingHelper::SetRenderTarget				( RenderTargetObject* target,
+void					RenderingHelper::SetRenderTarget				( RenderTarget* target,
 																		  RasterizerState* rasterizerState,
 																		  BlendingState* blendingState,
 																		  DepthStencilState* depthStencilState )
@@ -55,7 +55,7 @@ void					RenderingHelper::DrawBufferLess					( uint32 numVerticies, PrimitiveTop
 
 // ================================ //
 //
-void					RenderingHelper::ClearRenderTargetAndDepth		( IRenderer* renderer, RenderTargetObject* target, const DirectX::XMFLOAT4& color, float depth )
+void					RenderingHelper::ClearRenderTargetAndDepth		( IRenderer* renderer, RenderTarget* target, const DirectX::XMFLOAT4& color, float depth )
 {
 	ClearRenderTargetCommand clearCommand;
 	clearCommand.ClearDepth = true;
@@ -71,7 +71,7 @@ void					RenderingHelper::ClearRenderTargetAndDepth		( IRenderer* renderer, Rend
 // ================================ //
 //
 void					RenderingHelper::SetRenderTarget				( IRenderer* renderer,
-																		  RenderTargetObject* target,
+																		  RenderTarget* target,
 																		  RasterizerState* rasterizerState,
 																		  BlendingState* blendingState,
 																		  DepthStencilState* depthStencilState )

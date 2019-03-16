@@ -44,7 +44,7 @@ private:
 	input::IInput*				m_input;
 	ResourceManager*			m_resourceManager;
 
-	ResourcePtr< RenderTargetObject >	m_renderTarget;
+	ResourcePtr< RenderTarget >	m_renderTarget;
 	ResourcePtr< SwapChain >			m_swapChain;
 
 	HostLogic					m_hostLogic;
@@ -62,7 +62,7 @@ public:
 	const std::string&	GetControlName		( const UIElement* control ) const;
 
 
-	ResourcePtr< RenderTargetObject >	GetRenderTarget		();
+	ResourcePtr< RenderTarget >	GetRenderTarget		();
 	ResourcePtr< SwapChain >			GetSwapChain		();
 
 	INativeWindow*						GetNativeWindow		();

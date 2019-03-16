@@ -30,7 +30,7 @@ inline DX11Texture*				DX11	( sw::Texture* res ) { return static_cast<DX11Textur
 inline DX11ComputeShader*		DX11	( ComputeShader* res ) { return static_cast<DX11ComputeShader*>( res ); }
 inline DX11PixelShader*			DX11	( PixelShader* res ) { return static_cast<DX11PixelShader*>( res ); }
 inline DX11VertexShader*		DX11	( VertexShader* res ) { return static_cast<DX11VertexShader*>( res ); }
-inline DX11RenderTarget*		DX11	( RenderTargetObject* res ) { return static_cast<DX11RenderTarget*>( res ); }
+inline DX11RenderTarget*		DX11	( RenderTarget* res ) { return static_cast<DX11RenderTarget*>( res ); }
 
 inline DX11BlendingState*		DX11	( BlendingState* res ) { return static_cast<DX11BlendingState*>( res ); }
 inline DX11RasterizerState*		DX11	( RasterizerState* res ) { return static_cast<DX11RasterizerState*>( res ); }
@@ -96,7 +96,7 @@ private:
 
 	bool                SetVertexBuffer         ( Buffer* buffer, unsigned int offset );
 	void				SetIndexBuffer			( Buffer* buffer, unsigned int offset, bool extendedIndex );
-	void				SetRenderTarget			( RenderTargetObject* const targets[ MAX_BOUND_RENDER_TARGETS ], RenderTargetObject* depthStencil );
+	void				SetRenderTarget			( RenderTarget* const targets[ MAX_BOUND_RENDER_TARGETS ], RenderTarget* depthStencil );
 	void				SetTextures				( Texture* const texturesArray[ MAX_BOUND_RENDER_TARGETS ], const uint8 shaderTypes[ MAX_BOUND_RENDER_TARGETS ] );
 };
 

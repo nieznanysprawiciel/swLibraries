@@ -51,7 +51,7 @@ void				MockInitializer::ReleaseAPI			()
 {}
 
 /**@brief Not working. Use regular API.*/
-void*				MockInitializer::GetRenderTargetHandle	( RenderTargetObject* renderTarget )
+void*				MockInitializer::GetRenderTargetHandle	( RenderTarget* renderTarget )
 {
 	return nullptr;
 }

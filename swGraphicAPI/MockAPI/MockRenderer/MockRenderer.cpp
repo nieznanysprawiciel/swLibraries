@@ -155,7 +155,7 @@ void	MockRenderer::SetIndexBuffer	( Buffer* buffer, unsigned int offset, bool ex
 
 // ================================ //
 //
-void	MockRenderer::SetRenderTarget	( RenderTargetObject* const targets[ MAX_BOUND_RENDER_TARGETS ], RenderTargetObject* depthStencil )
+void	MockRenderer::SetRenderTarget	( RenderTarget* const targets[ MAX_BOUND_RENDER_TARGETS ], RenderTarget* depthStencil )
 {}
 
 // ================================ //

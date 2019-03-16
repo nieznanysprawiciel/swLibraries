@@ -100,10 +100,10 @@ private:
 
 public:
 	static IGraphicAPIInitializer*	CreateAPIInitializer			();
-	static RenderTargetObject*		CreateScreenRenderTarget		();
-	static SwapChain*				CreateScreenSwapChain			( RenderTargetObject* screenRT );
+	static RenderTarget*			CreateScreenRenderTarget		();
+	static SwapChain*				CreateScreenSwapChain			( RenderTarget* screenRT );
 	static InputLayoutDescriptor*	CreateInputLayoutDescriptor		( const std::wstring& layoutName );
-	static RenderTargetObject*		CreateRenderTarget				( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor );
+	static RenderTarget*			CreateRenderTarget				( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor );
 };
 
 

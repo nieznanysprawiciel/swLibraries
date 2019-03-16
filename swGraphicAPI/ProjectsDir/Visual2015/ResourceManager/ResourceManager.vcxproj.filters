@@ -236,9 +236,6 @@
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
       <Filter>ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Resources\MeshResources.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\stdafx.cpp">
       <Filter>PrecompiledHeader</Filter>
     </ClCompile>

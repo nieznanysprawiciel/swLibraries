@@ -56,7 +56,7 @@ void	DX11SwapChain::Resize( uint16 newWidth, uint16 newHeight )
 @todo Wersja troszkê niew³aœciwa. SwapChain jest ju¿ stworzony wczeœniej przy zwyk³ej inicjalizacji DX11APIObjects.
 Tutaj jest jedynie tworzony obiekt silnikowy, który potrafi to obs³u¿yæ. Trzeba to zmieniæ, ¿eby ca³e tworzenie
 render targetu odbywa³o siê tutaj.*/
-DX11SwapChain* DX11SwapChain::CreateScreenSwapChain( RenderTargetObject* screenRT )
+DX11SwapChain* DX11SwapChain::CreateScreenSwapChain( RenderTarget* screenRT )
 {
 	DX11SwapChain* swapChainObject = new DX11SwapChain( swap_chain, static_cast<DX11RenderTarget*>( screenRT ) );
 

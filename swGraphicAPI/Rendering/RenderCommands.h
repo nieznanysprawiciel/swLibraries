@@ -41,8 +41,8 @@ If you want your custom settings use @ref SetRenderTargetExCommand.
 @ingroup RenderingCommands*/
 struct SetRenderTargetCommand : public RendererCommand
 {
-	RenderTargetObject*		RenderTargets[ MAX_BOUND_RENDER_TARGETS ];	///< Render targets. If you want to use only one slot, set other to nullptr.
-	RenderTargetObject*		DepthStencil;		///< Renderer will extract depth stencil from this render target. You can use one of objects from RenderTargets array.
+	RenderTarget*		RenderTargets[ MAX_BOUND_RENDER_TARGETS ];	///< Render targets. If you want to use only one slot, set other to nullptr.
+	RenderTarget*		DepthStencil;		///< Renderer will extract depth stencil from this render target. You can use one of objects from RenderTargets array.
 	RasterizerState*		RasterizerState;
 	BlendingState*			BlendingState;
 	DepthStencilState*		DepthStencilState;
@@ -99,7 +99,7 @@ struct SetRenderTargetExCommand : public SetRenderTargetCommand
 @ingroup RenderingCommands*/
 struct ClearRenderTargetCommand : public RendererCommand
 {
-	RenderTargetObject*		RenderTarget;
+	RenderTarget*		RenderTarget;
 	DirectX::XMFLOAT4		ClearColor;
 	float					DepthValue;
 	uint8					StencilValue;

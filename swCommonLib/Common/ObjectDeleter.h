@@ -57,7 +57,7 @@ template< typename class_type > class ObjectDeleterKey
 	friend class ::ResourceContainer< Resource >;
 	friend class sw::ResourceContainer< class_type >;
 	friend class sw::ResourceContainer< Resource >;
-	friend class RenderTargetObject;
+	friend class RenderTarget;
 private:
 	ObjectDeleterKey() = default;						///<Tylko klasa zaprzyjaŸniona mo¿e stworzyæ obiekt.
 	ObjectDeleterKey( const ObjectDeleterKey& ) {}		///<Tylko klasa zaprzyjaŸniona mo¿e stworzyæ obiekt.

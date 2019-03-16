@@ -76,9 +76,9 @@ protected:
 	ResourceContainer< sw::Buffer >			m_indexBuffer;		///< Index buffers.
 	ResourceContainer< sw::Buffer >			m_constantBuffer;	///< Shader constant buffers.
 	ResourceContainer< sw::ShaderInputLayout >		m_vertexLayout;		///< Vertex layouts.
-	// UWAGA! m_fileModel musi byæ na koñcu. Jego destruktor kasuje odwo³ania do obiektów powy¿ej. Podobnie RenderTargetObject odwo³uje siê do tekstur.
+	// UWAGA! m_fileModel musi byæ na koñcu. Jego destruktor kasuje odwo³ania do obiektów powy¿ej. Podobnie RenderTarget odwo³uje siê do tekstur.
 	// Musz¹ one w tym czasie istnieæ, a destruktory s¹ wywo³ywane w kolejnoœci odwrotnej do zadeklarowanej w klasie.
-	ResourceContainer< sw::RenderTargetObject >		m_renderTarget;		///<Obiekty mog¹ce s³u¿yæ za render target.
+	ResourceContainer< sw::RenderTarget >		m_renderTarget;		///<Obiekty mog¹ce s³u¿yæ za render target.
 
 	/*loadery dla ró¿nych formatów plików z modelami*/
 	//std::vector<ILoader*>						m_loader;				///<Loadery do plików z modelami 3D
@@ -88,7 +88,7 @@ public:
 	virtual							~ResourceManager();
 
 	// Funkcje do zarz¹dzania assetami
-	sw::RenderTargetObject*			CreateRenderTarget			( const std::wstring& name, const sw::RenderTargetDescriptor& renderTargetDescriptor );
+	sw::RenderTarget*					CreateRenderTarget			( const std::wstring& name, const sw::RenderTargetDescriptor& renderTargetDescriptor );
 
 	///@name Geting existing resource
 	///@detail Gets resource if exist otherwise returns nullptr.
@@ -102,13 +102,13 @@ public:
 	inline sw::RasterizerState*			GetRasterizerState			( const sw::RasterizerStateInfo& info ) { return m_rasterizerState.Find( info ); }
 	inline sw::DepthStencilState*		GetDepthStencilState		( const sw::DepthStencilInfo& info )	{ return m_depthStencilState.Find( info ); }
 
-	inline sw::RenderTargetObject*		GetRenderTarget				( const std::wstring& name ) { return m_renderTarget.get( name ); }	///<Zwraca RenderTarget o podanej nazwie, je¿eli jest wczytany.
+	inline sw::RenderTarget*			GetRenderTarget				( const std::wstring& name ) { return m_renderTarget.get( name ); }	///<Zwraca RenderTarget o podanej nazwie, je¿eli jest wczytany.
 	inline sw::VertexShader*			GetVertexShader				( const std::wstring& name ) { return m_vertexShader.get( name ); } ///<Zwraca vertex shader o podanej nazwie, je¿eli jest wczytany.
 	inline sw::PixelShader*				GetPixelShader				( const std::wstring& name ) { return m_pixelShader.get( name ); }	///<Zwraca pixel shader o podanej nazwie, je¿eli jest wczytany.
 	inline sw::Texture*					GetTexture					( const std::wstring& name ) { return m_texture.get( name ); }		///<Zwraca teksturê o podanej nazwie, je¿eli jest wczytany.
-	inline sw::Buffer*			GetVertexBuffer				( const std::wstring& name ) { return m_vertexBuffer.get( name ); }	///<Zwraca bufor wierzcho³ków o podanej nazwie, je¿eli jest wczytany.
-	inline sw::Buffer*			GetConstantBuffer			( const std::wstring& name ) { return m_constantBuffer.get( name ); }	///<Zwraca bufor sta³ych o podanej nazwie, je¿eli jest wczytany.
-	inline sw::Buffer*			GetIndexBuffer				( const std::wstring& name ) { return m_indexBuffer.get( name ); }	///<Zwraca bufor indeksów o podanej nazwie, je¿eli jest wczytany.
+	inline sw::Buffer*					GetVertexBuffer				( const std::wstring& name ) { return m_vertexBuffer.get( name ); }	///<Zwraca bufor wierzcho³ków o podanej nazwie, je¿eli jest wczytany.
+	inline sw::Buffer*					GetConstantBuffer			( const std::wstring& name ) { return m_constantBuffer.get( name ); }	///<Zwraca bufor sta³ych o podanej nazwie, je¿eli jest wczytany.
+	inline sw::Buffer*					GetIndexBuffer				( const std::wstring& name ) { return m_indexBuffer.get( name ); }	///<Zwraca bufor indeksów o podanej nazwie, je¿eli jest wczytany.
 	inline sw::ShaderInputLayout*		GetLayout					( const std::wstring& name ) { return m_vertexLayout.get( name ); }	///<Zwraca layout o podanej nazwie.	
 	///@}
 
@@ -142,7 +142,7 @@ public:
 
 	///@}
 
-	sw::RenderTargetObject*				AddRenderTarget				( sw::RenderTargetObject* renderTarget, const std::wstring& name );
+	sw::RenderTarget*						AddRenderTarget				( sw::RenderTarget* renderTarget, const std::wstring& name );
 
 
 	///@name Listing resources
@@ -156,7 +156,7 @@ public:
 	std::vector< sw::ResourcePtr< sw::VertexShader > >			ListVertexShaders	();
 	std::vector< sw::ResourcePtr< sw::PixelShader > >			ListPixelShaders	();
 	
-	std::vector< sw::ResourcePtr< sw::RenderTargetObject > >	ListRenderTargets	();
+	std::vector< sw::ResourcePtr< sw::RenderTarget > >			ListRenderTargets	();
 	///@}
 
 private:

@@ -44,10 +44,10 @@ class SwapChain : public Resource
 	RTTR_ENABLE()
 protected:
 
-	ResourcePtr< RenderTargetObject >	m_renderTarget;
+	ResourcePtr< RenderTarget >	m_renderTarget;
 
 protected:
-	SwapChain( RenderTargetObject* windowRT )
+	SwapChain( RenderTarget* windowRT )
 		: Resource( WRONG_ID )
 		, m_renderTarget( windowRT )
 	{
@@ -63,7 +63,7 @@ public:
 	virtual void			Resize			( uint16 newWidth, uint16 newHeight ) = 0;
 
 
-	ResourcePtr< RenderTargetObject >		GetRenderTarget	() { return m_renderTarget; }
+	ResourcePtr< RenderTarget >		GetRenderTarget	() { return m_renderTarget; }
 
 	// Inherited via Resource
 	virtual std::string		GetResourceName	() const override { return "SwapChain: " + m_renderTarget->GetResourceName(); }

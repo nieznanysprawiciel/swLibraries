@@ -88,14 +88,14 @@ struct RenderTargetDescriptor : public IAssetCreateInfo
 
 
 public:
-	virtual TypeID		GetAssetType	() const override { return TypeID::get< RenderTargetObject >(); }
+	virtual TypeID		GetAssetType	() const override { return TypeID::get< RenderTarget >(); }
 };
 
 /**@brief Class representing render target.
 @ingroup RenderTargets
 @ingroup Resources
 @ingroup GraphicAPI*/
-class RenderTargetObject : public IRenderTarget
+class RenderTarget : public IRenderTarget
 {
 	RTTR_ENABLE( IRenderTarget );
 	RTTR_REGISTRATION_FRIEND;
@@ -108,8 +108,8 @@ protected:
 
 public:
 
-	explicit					RenderTargetObject	( sw::Texture* colorBuffer, sw::Texture* depthBuffer, sw::Texture* stencilBuffer );
-	virtual						~RenderTargetObject	();
+	explicit					RenderTarget	( sw::Texture* colorBuffer, sw::Texture* depthBuffer, sw::Texture* stencilBuffer );
+	virtual						~RenderTarget	();
 
 	inline sw::Texture*			GetColorBuffer	() { return m_colorBuffer.Ptr(); }
 	inline sw::Texture*			GetDepthBuffer	() { return m_depthBuffer.Ptr(); }

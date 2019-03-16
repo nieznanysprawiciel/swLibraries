@@ -281,10 +281,10 @@ RTTR_REGISTRATION
 		.property_readonly( "Descriptor", &RasterizerState::GetDescriptor ) BIND_AS_PTR;
 
 
-	rttr::registration::class_< sw::RenderTargetObject >( "sw::RenderTargetObject" )
-		.property( "ColorBuffer", &sw::RenderTargetObject::m_colorBuffer )
-		.property( "DepthBuffer", &sw::RenderTargetObject::m_depthBuffer )
-		.property( "StencilBuffer", &sw::RenderTargetObject::m_stencilBuffer );
+	rttr::registration::class_< sw::RenderTarget >( "sw::RenderTarget" )
+		.property( "ColorBuffer", &sw::RenderTarget::m_colorBuffer )
+		.property( "DepthBuffer", &sw::RenderTarget::m_depthBuffer )
+		.property( "StencilBuffer", &sw::RenderTarget::m_stencilBuffer );
 
 }
 
@@ -296,7 +296,7 @@ namespace sw
 
 // ================================ //
 //
-RenderTargetObject::RenderTargetObject( Texture* colorBuffer, Texture* depthBuffer, Texture* stencilBuffer )
+RenderTarget::RenderTarget( Texture* colorBuffer, Texture* depthBuffer, Texture* stencilBuffer )
 	: m_colorBuffer( colorBuffer )
 	, m_depthBuffer( depthBuffer )
 	, m_stencilBuffer( stencilBuffer )
@@ -305,13 +305,13 @@ RenderTargetObject::RenderTargetObject( Texture* colorBuffer, Texture* depthBuff
 
 // ================================ //
 //
-RenderTargetObject::~RenderTargetObject()
+RenderTarget::~RenderTarget()
 {}
 
 
 // ================================ //
 //
-std::string		RenderTargetObject::GetResourceName() const
+std::string		RenderTarget::GetResourceName() const
 {
 	if( m_colorBuffer )
 		return m_colorBuffer->GetFilePath().String();

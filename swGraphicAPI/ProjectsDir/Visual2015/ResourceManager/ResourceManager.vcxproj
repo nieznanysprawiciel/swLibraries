@@ -113,7 +113,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\..\Resources\MeshResources.cpp" />
     <ClCompile Include="..\..\..\Resources\Shaders\Layouts.cpp" />
     <ClCompile Include="..\..\..\Resources\Shaders\Shaders.cpp" />
   </ItemGroup>

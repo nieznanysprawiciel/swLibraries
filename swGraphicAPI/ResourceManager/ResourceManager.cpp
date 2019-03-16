@@ -66,9 +66,9 @@ np. jak¹œ polityk¹ nazewnictwa, ¿e w ten sposób nie nadpisujemy istniej¹cej teks
 @param[in] renderTargetDescriptor Deskryptor opisuj¹cy parametry render targetu.
 @return Zwraca stworzony obiekt lub nullptr w przypadku niepowodzenia. Je¿eli render target ju¿ istnia³, to zwracany jest istniej¹cy obiekt.
 */
-sw::RenderTargetObject* ResourceManager::CreateRenderTarget( const std::wstring& name, const sw::RenderTargetDescriptor& renderTargetDescriptor )
+sw::RenderTarget* ResourceManager::CreateRenderTarget( const std::wstring& name, const sw::RenderTargetDescriptor& renderTargetDescriptor )
 {
-	sw::RenderTargetObject* newRenderTarget = m_renderTarget.get( name );
+	sw::RenderTarget* newRenderTarget = m_renderTarget.get( name );
 	if( !newRenderTarget )
 	{
 		newRenderTarget = sw::ResourcesFactory::CreateRenderTarget( name, renderTargetDescriptor );
@@ -110,9 +110,9 @@ Najlepiej, ¿eby by³y one tworzone przez ResourceManager, ale wtedy trzeba wymyœl
 @param[in] renderTarget renderTarget, który ma zostaæ dodany.
 @param[in] name Nazwa renderTargetu. Do materia³u bêdzie mo¿na siê odwo³aæ podaj¹c ci¹g znaków
 @return Zwraca wskaŸnik na dodany renderTarget.*/
-sw::RenderTargetObject* ResourceManager::AddRenderTarget( sw::RenderTargetObject* renderTarget, const std::wstring& name )
+sw::RenderTarget* ResourceManager::AddRenderTarget( sw::RenderTarget* renderTarget, const std::wstring& name )
 {
-	sw::RenderTargetObject* newRenderTarget = m_renderTarget.get( name );
+	sw::RenderTarget* newRenderTarget = m_renderTarget.get( name );
 	if ( !newRenderTarget )
 		m_renderTarget.UnsafeAdd( name, renderTarget );	// Dodaliœmy materia³
 
@@ -512,7 +512,7 @@ std::vector< sw::ResourcePtr< sw::PixelShader > >		ResourceManager::ListPixelSha
 }
 
 /**@brief Listowanie render targetów.*/
-std::vector< sw::ResourcePtr< sw::RenderTargetObject > > ResourceManager::ListRenderTargets()
+std::vector< sw::ResourcePtr< sw::RenderTarget > > ResourceManager::ListRenderTargets()
 {
 	return m_renderTarget.List();
 }

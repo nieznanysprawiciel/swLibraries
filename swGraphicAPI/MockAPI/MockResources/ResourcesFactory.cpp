@@ -196,17 +196,17 @@ sw::Nullable< Buffer* >					ResourcesFactory::CreateBufferFromMemory		( const st
 	return BufferObject::CreateFromMemory( name, data, bufferInfo );
 }
 
-/**Tworzy object RenderTargetObject z bufora tylnego ekranu.
+/**Tworzy object RenderTarget z bufora tylnego ekranu.
 
-@return Zwraca object RenderTargetObject.*/
-RenderTargetObject*						ResourcesFactory::CreateScreenRenderTarget		()
+@return Zwraca object RenderTarget.*/
+RenderTarget*						ResourcesFactory::CreateScreenRenderTarget		()
 {
 	return sw::MockRenderTarget::CreateScreenRenderTarget();
 }
 
 // ================================ //
 //
-SwapChain*								ResourcesFactory::CreateScreenSwapChain			( RenderTargetObject* screenRT )
+SwapChain*								ResourcesFactory::CreateScreenSwapChain			( RenderTarget* screenRT )
 {
 	return sw::MockSwapChain::CreateScreenSwapChain( screenRT );
 }
@@ -226,7 +226,7 @@ InputLayoutDescriptor*					ResourcesFactory::CreateInputLayoutDescriptor	( const
 
 // ================================ //
 //
-RenderTargetObject*						ResourcesFactory::CreateRenderTarget			( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor )
+RenderTarget*						ResourcesFactory::CreateRenderTarget			( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor )
 {
 	return sw::MockRenderTarget::CreateRenderTarget( name, renderTargetDescriptor );
 }

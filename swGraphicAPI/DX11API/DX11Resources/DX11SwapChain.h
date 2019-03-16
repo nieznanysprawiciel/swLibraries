@@ -36,7 +36,7 @@ public:
 	virtual void			Resize			( uint16 newWidth, uint16 newHeight )	override;
 
 public:
-	static DX11SwapChain*	CreateScreenSwapChain	( RenderTargetObject* screenRT );
+	static DX11SwapChain*	CreateScreenSwapChain	( RenderTarget* screenRT );
 };
 
 
