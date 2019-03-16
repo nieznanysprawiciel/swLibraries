@@ -100,24 +100,24 @@ enum class PrimitiveTopology : uint8
 	TriangleStripAdjacency = 8
 };
 
-/**@brief Okreœla jak bêdzie u¿ywany dany zasób w potoku karty graficznej.
+/**@brief Tells how graphic pipeline will use resource.
 
-@attention DirectX pozwala na ³¹czenie tych sta³ych jak flag, ale w silniku mo¿na wybraæ tylko
-jedn¹ opcjê.
+@attention Engine allows to choose only one of values, but graphic API like DirectX allow to combine these flags.
+
 @attention Don't change constants order.
 @see @ref GraphicAPI*/
 enum ResourceBinding : uint8
 {
-	BIND_RESOURCE_VERTEX_BUFFER = 0x0L,
-	BIND_RESOURCE_INDEX_BUFFER = 0x1L,
-	BIND_RESOURCE_CONSTANT_BUFFER = 0x2L,
-	BIND_RESOURCE_SHADER_RESOURCE = 0x3L,
-	BIND_RESOURCE_STREAM_OUTPUT = 0x4L,
-	BIND_RESOURCE_RENDER_TARGET = 0x5L,
-	BIND_RESOURCE_DEPTH_STENCIL = 0x6L,
-	BIND_RESOURCE_UNORDERED_ACCESS = 0x7L,
-	BIND_RESOURCE_DECODER = 0x8L,
-	BIND_RESOURCE_VIDEO_ENCODER = 0x9L
+	RB_VertexBuffer = 0x0L,
+	RB_IndexBuffer = 0x1L,
+	RB_ConstantsBuffer = 0x2L,
+	RB_ShaderResource = 0x3L,
+	RB_StreamOutput = 0x4L,
+	RB_RenderTarget = 0x5L,
+	RB_DepthStencil = 0x6L,
+	RB_UnorderedAccess = 0x7L,
+	RB_ResourceDecoder = 0x8L,
+	RB_ResourceVideoEncoder = 0x9L
 
 };
 

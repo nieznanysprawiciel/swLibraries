@@ -53,11 +53,11 @@ sw::Nullable< Buffer* >				DX11Buffer::CreateFromMemory	( const std::wstring& na
 {
 	ResourceBinding bindFlag;
 	if( bufferInfo.BufferType == BufferType::VertexBuffer )
-		bindFlag = ResourceBinding::BIND_RESOURCE_VERTEX_BUFFER;
+		bindFlag = ResourceBinding::RB_VertexBuffer;
 	else if( bufferInfo.BufferType == BufferType::IndexBuffer )
-		bindFlag = ResourceBinding::BIND_RESOURCE_INDEX_BUFFER;
+		bindFlag = ResourceBinding::RB_IndexBuffer;
 	else if( bufferInfo.BufferType == BufferType::ConstantBuffer )
-		bindFlag = ResourceBinding::BIND_RESOURCE_CONSTANT_BUFFER;
+		bindFlag = ResourceBinding::RB_ConstantsBuffer;
 
 	// Wype³niamy deskryptor bufora
 	D3D11_BUFFER_DESC bufferDesc;
