@@ -29,10 +29,10 @@ RTTR_REGISTRATION
 
 	rttr::registration::enumeration< ResourceUsage >( "sw::ResourceUsage" )
 	(
-		rttr::value( "Default", ResourceUsage::RESOURCE_USAGE_DEFAULT ),
-		rttr::value( "Dynamic", ResourceUsage::RESOURCE_USAGE_DYNAMIC ),
-		rttr::value( "Staging", ResourceUsage::RESOURCE_USAGE_STAGING ),
-		rttr::value( "Static", ResourceUsage::RESOURCE_USAGE_STATIC )
+		rttr::value( "Default", ResourceUsage::Default ),
+		rttr::value( "Dynamic", ResourceUsage::Dynamic ),
+		rttr::value( "Staging", ResourceUsage::Staging ),
+		rttr::value( "Static", ResourceUsage::Static )
 	);
 
 	rttr::registration::enumeration< BlendOperation >( "sw::BlendOperation" )

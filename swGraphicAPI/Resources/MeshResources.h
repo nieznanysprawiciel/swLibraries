@@ -154,7 +154,7 @@ struct RenderTargetDescriptor
 		CPUWrite = 0;
 		AllowShareResource = 0;
 		IsCubeMap = 0;
-		Usage = ResourceUsage::RESOURCE_USAGE_DEFAULT;
+		Usage = ResourceUsage::Default;
 	}
 
 	/**@brief Tworzy strukture TextureInfo wype³nion¹ danymi zgodnymi z deskryptorem RenderTargetu.

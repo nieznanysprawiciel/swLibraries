@@ -43,7 +43,7 @@ struct BufferInitData : public sw::IAssetCreateInfo
 	BufferInitData()
 		: DataType( rttr::type::get_by_name( "" ) )	// Set invalid type.
 	{
-		Usage = ResourceUsage::RESOURCE_USAGE_DEFAULT;
+		Usage = ResourceUsage::Default;
 		NumElements = 1;
 		ElementSize = 0;
 		Data = nullptr;

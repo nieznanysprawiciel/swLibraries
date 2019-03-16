@@ -289,8 +289,8 @@ D3D11_TEXTURE2D_DESC			DX11Texture::FillDesc	( const TextureInfo& texInfo )
 bool						DX11Texture::UpdateData			( uint8* dataPtr, uint16 mipLevel, uint16 arrayIdx )
 {
 	// Texture must be updatable.
-	if( m_descriptor.Usage == ResourceUsage::RESOURCE_USAGE_STATIC ||
-		m_descriptor.Usage == ResourceUsage::RESOURCE_USAGE_STAGING )
+	if( m_descriptor.Usage == ResourceUsage::Static ||
+		m_descriptor.Usage == ResourceUsage::Staging )
 		return false;
 
 	if( mipLevel > m_descriptor.MipMapLevels ||
@@ -312,7 +312,7 @@ bool						DX11Texture::UpdateData			( uint8* dataPtr, uint16 mipLevel, uint16 ar
 	// mipLevel == 1 have index 0.
 	uint16 subresourceIdx = ( mipLevel - 1 ) + m_descriptor.MipMapLevels * ( arrayIdx - 1 );
 
-	if( m_descriptor.Usage == ResourceUsage::RESOURCE_USAGE_DYNAMIC )
+	if( m_descriptor.Usage == ResourceUsage::Dynamic )
 	{
 		D3D11_MAPPED_SUBRESOURCE updateData;
 		HRESULT result = device_context->Map( m_texture.Get(), subresourceIdx, D3D11_MAP_WRITE_DISCARD, 0, &updateData );
@@ -326,7 +326,7 @@ bool						DX11Texture::UpdateData			( uint8* dataPtr, uint16 mipLevel, uint16 ar
 	}
 	else
 	{
-		// ResourceUsage::RESOURCE_USAGE_DEFAULT
+		// ResourceUsage::Default
 		device_context->UpdateSubresource( m_texture.Get(), subresourceIdx, nullptr, dataPtr, MipRowSize( mipLevel ), 0 );
 		return true;
 	}

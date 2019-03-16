@@ -71,16 +71,16 @@ enum class FillMode : uint8
 };
 
 
-/**@brief Specyfikuje typ dostêpu do pamiêci danego zasobu.
+/**@brief Tells how GPU will access resource.
 
 @attention Don't change constants order.
 @see @ref GraphicAPI*/
 enum class ResourceUsage : uint8
 {
-	RESOURCE_USAGE_DEFAULT = 0,		///<Pozawala GPU na zapis i odczyt.
-	RESOURCE_USAGE_DYNAMIC = 1,		///<Pozwala GPU na odczyt, a CPU na zapis. Dobre do czêsto updatowanych zasobów.
-	RESOURCE_USAGE_STATIC = 2,		///<Zasób raz stworzony i nigdy nie jest zmieniany.
-	RESOURCE_USAGE_STAGING = 3			///<GPU mo¿e jedynie kopiowaæ, poza tym wszystkie prawa dostêpu s¹ po stronie CPU. Zobacz D3D11_USAGE_STAGING.
+	Default = 0,		///< GPU read and write.
+	Dynamic = 1,		///< GPU can read, CPU can write. Use for frequently changing resources.
+	Static = 2,			///< Resources is created once and never changes.
+	Staging = 3			///< GPU can only copy resource, all access writes are for CPU. @see D3D11_USAGE_STAGING.
 };
 
 /**@brief Vertex topology.

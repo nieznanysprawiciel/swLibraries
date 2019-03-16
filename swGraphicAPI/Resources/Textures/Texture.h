@@ -92,7 +92,7 @@ struct TextureInfo
 		AllowShareResource = false;
 		IsCubeMap = false;
 		GenerateMipMaps = false;
-		Usage = ResourceUsage::RESOURCE_USAGE_DEFAULT;
+		Usage = ResourceUsage::Default;
 		MipMapFilter = MipMapFilter::Unknown;
 		MipMapLevels = 1;
 		CutOffMipMaps = 0;
