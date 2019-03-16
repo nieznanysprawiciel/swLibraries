@@ -73,6 +73,13 @@ sw::Nullable< ShaderInputLayout* >	ResourcesFactory::CreateInputLayout				( cons
 	return sw::MockInputLayout::CreateLayout( layoutDesc );
 }
 
+// ================================ //
+//
+sw::Nullable< Texture* >			ResourcesFactory::CreateTextureFromMemory		( const BufferRaw& texData, sw::TextureInfo&& texInfo )
+{
+	return TextureObject::CreateFromMemory( texData, std::move( texInfo ) );
+}
+
 
 /**@brief Tworzy obiekt vertex shadera.
 

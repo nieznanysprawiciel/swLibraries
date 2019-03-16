@@ -7,9 +7,9 @@
 
 
 #include "swGraphicAPI/Resources/ResourcesFactory.h"
-#include "RasterizerState.h"
-#include "BlendingState.h"
-#include "DepthStencilState.h"
+#include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
+#include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
+#include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
 
 #include "swCommonLib/Common/MemoryLeaks.h"
 

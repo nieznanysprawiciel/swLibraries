@@ -10,7 +10,7 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/AssetsFactory.h"
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/DepthStencilStateCreator.h"
-#include "swGraphicAPI/Resources/DepthStencilState.h"
+#include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
 
 
 

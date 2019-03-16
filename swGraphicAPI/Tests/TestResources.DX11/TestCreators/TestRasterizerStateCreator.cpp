@@ -10,7 +10,7 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/AssetsFactory.h"
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/RasterizerStateCreator.h"
-#include "swGraphicAPI/Resources/RasterizerState.h"
+#include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
 
 
 

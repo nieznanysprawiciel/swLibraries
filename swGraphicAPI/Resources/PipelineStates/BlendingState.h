@@ -7,7 +7,7 @@
 
 #include "swCommonLib/Common/ObjectDeleter.h"
 
-#include "ResourceObject.h"
+#include "swGraphicAPI/Resources/ResourceObject.h"
 #include "swGraphicAPI/Rendering/GraphicAPIConstants.h"
 #include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreateInfo.h"
 

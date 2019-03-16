@@ -66,14 +66,24 @@ MockTexture*	MockTexture::CreateFromMemory( const MemoryChunk& texData, TextureI
 	return new MockTexture( std::move( texInfo ) );
 }
 
+// ================================ //
+//
+sw::Nullable< MockTexture* >	MockTexture::CreateFromMemory	( const BufferRaw& texData, TextureInfo&& texInfo )
+{
+	if( texData.GetData() == nullptr )
+		return nullptr;
+
+	return new MockTexture( std::move( texInfo ) );
+}
+
 /**@brief */
-bool			MockTexture::UpdateData		( uint8* dataPtr, uint16 mipLevel, uint16 arrayIdx )
+bool							MockTexture::UpdateData		( uint8* dataPtr, uint16 mipLevel, uint16 arrayIdx )
 {
 	return true;
 }
 
 /**@brief */
-MemoryChunk					MockTexture::CopyData() const
+MemoryChunk						MockTexture::CopyData() const
 {
 	MemoryChunk memoryChunk( m_descriptor.MemorySize );
 	return std::move( memoryChunk );

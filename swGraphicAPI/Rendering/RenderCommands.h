@@ -6,9 +6,9 @@
 */
 
 #include "swGraphicAPI/Resources/MeshResources.h"
-#include "swGraphicAPI/Resources/BlendingState.h"
-#include "swGraphicAPI/Resources/DepthStencilState.h"
-#include "swGraphicAPI/Resources/RasterizerState.h"
+#include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
+#include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
+#include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
 
 
 namespace sw

@@ -78,19 +78,10 @@
     <ClInclude Include="..\..\..\ResourceManager\ResourceManager.h">
       <Filter>ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Resources\BlendingState.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Resources\DepthStencilState.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Resources\IRenderTarget.h">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Resources\MeshResources.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Resources\RasterizerState.h">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Resources\ResourceObject.h">
@@ -227,6 +218,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Resources\Textures\TextureInitData.h">
       <Filter>Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\PipelineStates\BlendingState.h">
+      <Filter>Resources\PipelineStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\PipelineStates\DepthStencilState.h">
+      <Filter>Resources\PipelineStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\PipelineStates\RasterizerState.h">
+      <Filter>Resources\PipelineStates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

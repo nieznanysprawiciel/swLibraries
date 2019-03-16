@@ -10,7 +10,7 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/AssetsFactory.h"
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/BlendingStateCreator.h"
-#include "swGraphicAPI/Resources/BlendingState.h"
+#include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
 
 
 

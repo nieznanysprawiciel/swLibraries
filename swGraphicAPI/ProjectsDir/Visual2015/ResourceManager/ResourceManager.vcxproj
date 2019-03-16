@@ -54,14 +54,14 @@
     <ClInclude Include="..\..\..\ResourceManager\ResourceManager.h" />
     <ClInclude Include="..\..\..\ResourceManager\ResourceManagerAsync.h" />
     <ClInclude Include="..\..\..\ResourceManager\stdafx.h" />
-    <ClInclude Include="..\..\..\Resources\BlendingState.h" />
     <ClInclude Include="..\..\..\Resources\Buffers\Buffer.h" />
     <ClInclude Include="..\..\..\Resources\Buffers\BufferInitData.h" />
     <ClInclude Include="..\..\..\Resources\Buffers\IBuffer.h" />
-    <ClInclude Include="..\..\..\Resources\DepthStencilState.h" />
     <ClInclude Include="..\..\..\Resources\IRenderTarget.h" />
     <ClInclude Include="..\..\..\Resources\MeshResources.h" />
-    <ClInclude Include="..\..\..\Resources\RasterizerState.h" />
+    <ClInclude Include="..\..\..\Resources\PipelineStates\BlendingState.h" />
+    <ClInclude Include="..\..\..\Resources\PipelineStates\DepthStencilState.h" />
+    <ClInclude Include="..\..\..\Resources\PipelineStates\RasterizerState.h" />
     <ClInclude Include="..\..\..\Resources\ResourceObject.h" />
     <ClInclude Include="..\..\..\Resources\ResourcePtr.h" />
     <ClInclude Include="..\..\..\Resources\ResourcesFactory.h" />

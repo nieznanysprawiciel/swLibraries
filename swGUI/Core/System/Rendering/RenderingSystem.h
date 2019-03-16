@@ -10,9 +10,9 @@
 #include "swGraphicAPI/Rendering/IRenderer.h"
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
 
-#include "swGraphicAPI/Resources/RasterizerState.h"
-#include "swGraphicAPI/Resources/DepthStencilState.h"
-#include "swGraphicAPI/Resources/BlendingState.h"
+#include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
+#include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
+#include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
 
 #include "swGUI/Core/System/Rendering/Shading/ShaderProvider.h"
 #include "swGUI/Core/System/Config/PathsManager.h"

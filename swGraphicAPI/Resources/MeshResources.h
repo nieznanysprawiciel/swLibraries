@@ -26,6 +26,10 @@
 
 #include "swGraphicAPI/Resources/Textures/Texture.h"
 
+#include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
+#include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
+#include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
+
 #include <DirectXMath.h>
 
 
@@ -90,6 +94,8 @@ typedef uint8 Index8;
 /**@brief Meaning of texture indicies.
 
 @ingroup Textures
+
+@deprecated I don't think it's good way to handle textures semantic.
 
 These are values used by default shaders. You don't have to use this convention
 when you write your own shaders.*/
