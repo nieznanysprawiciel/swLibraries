@@ -77,7 +77,7 @@ struct VertexBufferInitData : public BufferInitData
 
 	VertexBufferInitData()
 	{
-		Topology = PrimitiveTopology::PRIMITIVE_TOPOLOGY_POINTLIST;
+		Topology = PrimitiveTopology::Points;
 	}
 
 	BufferInfo		CreateBufferInfo() const;
@@ -95,7 +95,7 @@ struct IndexBufferInitData : public BufferInitData
 
 	IndexBufferInitData()
 	{
-		Topology = PrimitiveTopology::PRIMITIVE_TOPOLOGY_POINTLIST;
+		Topology = PrimitiveTopology::Points;
 		Use4BytesIndex = false;
 	}
 
@@ -115,7 +115,7 @@ inline BufferInfo		ConstantBufferInitData::CreateBufferInfo() const
 	info.ElementSize = ElementSize;
 	info.NumElements = NumElements;
 	info.DataType = DataType;
-	info.Topology = PrimitiveTopology::PRIMITIVE_TOPOLOGY_POINTLIST;
+	info.Topology = PrimitiveTopology::Points;
 	info.Usage = Usage;
 	info.Use4BytesIndex = false;
 

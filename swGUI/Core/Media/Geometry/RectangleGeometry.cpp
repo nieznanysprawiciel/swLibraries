@@ -96,7 +96,7 @@ GeometryData		RectangleGeometry::Generate			()
 	geomData.FillIdxEnd = (uint32)rect.GetNumberFillIndicies();
 	geomData.BorderIdxEnd = (uint32)rect.GetNumberFillIndicies() + (uint32)rect.GetNumberBorderIndicies();
 	geomData.ExtendedIB = false;
-	geomData.Topology = PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	geomData.Topology = PrimitiveTopology::Triangles;
 
 	return std::move( geomData );
 }

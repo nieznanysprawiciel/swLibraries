@@ -218,15 +218,15 @@ RTTR_REGISTRATION
 	
 	rttr::registration::enumeration< PrimitiveTopology >( "sw::PrimitiveTopology" )
 	(
-		rttr::value( "Points", PrimitiveTopology::PRIMITIVE_TOPOLOGY_POINTLIST ),
-		rttr::value( "Lines", PrimitiveTopology::PRIMITIVE_TOPOLOGY_LINELIST ),
-		rttr::value( "LinesAdjacency", PrimitiveTopology::PRIMITIVE_TOPOLOGY_LINELIST_ADJ ),
-		rttr::value( "LineStrip", PrimitiveTopology::PRIMITIVE_TOPOLOGY_LINESTRIP ),
-		rttr::value( "LineStripAdjacency", PrimitiveTopology::PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ ),
-		rttr::value( "Triangles", PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST ),
-		rttr::value( "TrianglesAdjacency", PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ ),
-		rttr::value( "TriangleStrip", PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLESTRIP ),
-		rttr::value( "TriangleStripAdjacency", PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ )
+		rttr::value( "Points", PrimitiveTopology::Points ),
+		rttr::value( "Lines", PrimitiveTopology::Lines ),
+		rttr::value( "LinesAdjacency", PrimitiveTopology::LinesAdjacency ),
+		rttr::value( "LineStrip", PrimitiveTopology::LineStrip ),
+		rttr::value( "LineStripAdjacency", PrimitiveTopology::LineStripAdjacency ),
+		rttr::value( "Triangles", PrimitiveTopology::Triangles ),
+		rttr::value( "TrianglesAdjacency", PrimitiveTopology::TrianglesAdjacency ),
+		rttr::value( "TriangleStrip", PrimitiveTopology::TriangleStrip ),
+		rttr::value( "TriangleStripAdjacency", PrimitiveTopology::TriangleStripAdjacency )
 	);
 
 //====================================================================================//

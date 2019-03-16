@@ -83,21 +83,21 @@ enum class ResourceUsage : uint8
 	RESOURCE_USAGE_STAGING = 3			///<GPU mo¿e jedynie kopiowaæ, poza tym wszystkie prawa dostêpu s¹ po stronie CPU. Zobacz D3D11_USAGE_STAGING.
 };
 
-/**@brief Topologia wierzcho³ków.
+/**@brief Vertex topology.
 
 @attention Don't change constants order.
 @see @ref GraphicAPI*/
 enum class PrimitiveTopology : uint8
 {
-	PRIMITIVE_TOPOLOGY_POINTLIST = 0,
-	PRIMITIVE_TOPOLOGY_LINELIST = 1,
-	PRIMITIVE_TOPOLOGY_LINESTRIP = 2,
-	PRIMITIVE_TOPOLOGY_TRIANGLELIST = 3,
-	PRIMITIVE_TOPOLOGY_TRIANGLESTRIP = 4,
-	PRIMITIVE_TOPOLOGY_LINELIST_ADJ = 5,
-	PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ = 6,
-	PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ = 7,
-	PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ = 8
+	Points = 0,
+	Lines = 1,
+	LineStrip = 2,
+	Triangles = 3,
+	TriangleStrip = 4,
+	LinesAdjacency = 5,
+	LineStripAdjacency = 6,
+	TrianglesAdjacency = 7,
+	TriangleStripAdjacency = 8
 };
 
 /**@brief Okreœla jak bêdzie u¿ywany dany zasób w potoku karty graficznej.

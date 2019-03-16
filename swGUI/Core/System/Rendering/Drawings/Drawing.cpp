@@ -27,7 +27,7 @@ Drawing::Drawing()
 	m_geometryData.BorderEnd = 0;
 	m_geometryData.ExtendedIB = false;
 	m_geometryData.FillEnd = 0;
-	m_geometryData.Topology = PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	m_geometryData.Topology = PrimitiveTopology::Triangles;
 }
 
 // ================================ //

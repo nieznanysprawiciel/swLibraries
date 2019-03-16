@@ -42,7 +42,7 @@ struct GeometryData
 		, IndexBuffer( std::move( indexBuffer ) )
 		, FillIdxEnd( 0 )
 		, BorderIdxEnd( 0 )
-		, Topology( PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST )
+		, Topology( PrimitiveTopology::Triangles )
 		, ExtendedIB( false )
 	{}
 };
