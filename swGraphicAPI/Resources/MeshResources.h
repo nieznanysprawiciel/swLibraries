@@ -2,10 +2,11 @@
 /**
 @file MeshResources.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 
-@brief Plik zawiera deklaracje formatów wierzcho³ków oraz klas zawieraj¹cych assety shadery itp.
+@brief This file contains includes for low level API dependent Resources.
 */
+
 
 
 #include "swCommonLib/Common/ObjectDeleter.h"
@@ -14,7 +15,7 @@
 #include "swGraphicAPI/Resources/ResourceObject.h"
 #include "swGraphicAPI/Resources/Shaders/IShader.h"
 #include "swGraphicAPI/Resources/Buffers/Buffer.h"
-#include "swGraphicAPI/Resources/IRenderTarget.h"
+#include "swGraphicAPI/Resources/Textures/RenderTarget.h"
 #include "swGraphicAPI/Resources/Shaders/IShaderInputLayout.h"
 #include "swGraphicAPI/Rendering/GraphicAPIConstants.h"
 #include "swGraphicAPI/Resources/ResourcePtr.h"
@@ -60,30 +61,6 @@ namespace sw
 {
 
 
-class Buffer;
-class Texture;
-class VertexShader;
-class PixelShader;
-
-
-/*
-// W buforze wierzcho³ków znajduj¹ siê elementy typu VERT_INDEX.
-// Definicja typu VERT_INDEX znajduje siê w pliku macros_switches.h i wygl¹da tak:
-
-#if defined(INDEX_BUFFER_UINT16)
-typedef UINT16 VERT_INDEX;
-#elif defined(INDEX_BUFFER_UINT32)
-typedef UINT32 VERT_INDEX;
-#else
-typedef UINT32 VERT_INDEX;
-#endif
-
-*/
-
-
-static const std::wstring RENDER_TARGET_COLOR_BUFFER_NAME = L"::color";
-static const std::wstring RENDER_TARGET_DEPTH_BUFFER_NAME = L"::depth";
-static const std::wstring RENDER_TARGET_STENCIL_BUFFER_NAME = L"::stencil";
 
 
 typedef uint16 Index16;
@@ -112,100 +89,5 @@ enum TextureUse
 };
 
 
-
-//----------------------------------------------------------------------------------------------//
-//								RenderTargetObject												//
-//----------------------------------------------------------------------------------------------//
-
-/**@defgroup RenderTargets RenderTargets
-@ingroup Resources
-*/
-
-/**@brief Struktura u¿ywana do tworzenia render targetu.
-@ingroup RenderTargets*/
-struct RenderTargetDescriptor
-{
-	uint16				Width;				///<Szerokoœæ tekstury w pikselach.
-	uint16				Height;				///<Wysokoœæ tekstury w pikselach.
-	uint16				ArraySize;					///<Liczba elementów tablicy.
-	bool				CPURead : 1;				///<Pozwala na odczyt tekstury przez CPU.
-	bool				CPUWrite : 1;				///<Pozwala na zapis tekstury przez CPU.
-	bool				AllowShareResource : 1;		///<Pozwala na dostêp do zasoby z wielu API graficznych i pomiêdzy kontekstami.
-	bool				IsCubeMap : 1;				///<Nale¿y ustawiæ je¿eli tekstura jest cubemap¹.
-	uint8				NumSamples;					///<Liczba próbek w przypadku stosowania multisamplingu.
-	uint16				SamplesQuality;				///<Jakoœæ próbek przy multisamplingu.
-	TextureType			TextureType;				///<Typ tekstury (liczba wymiarów, multsampling). Tekstura nie mo¿e byæ inna ni¿ dwuwymiarowa (mo¿e byæ tablic¹).
-	ResourceFormat		ColorBuffFormat;			///<Format bufora kolorów.
-	DepthStencilFormat	DepthStencilFormat;			///<Format bufora g³êbokoœci i stencilu.
-	ResourceUsage		Usage;						///<Sposób u¿ycia render targetu. Wp³ywa na optymalizacje u³o¿enia w pamiêci.
-
-	/**@brief Ustawia domyœlne wartoœci deskryptora.
-
-	Ustawiane s¹ pola CPURead, CPUWrite, AllowShareResource, IsCubeMap, Usage.
-	Te zmienne s¹ u¿ywane rzadko i dlatego powinny mieæ takie wartoœci, ¿eby nie trzeba by³o ich jawnie ustawiaæ.
-	Pozosta³e wartoœci u¿ytkownik i tak musi zdefiniowaæ samemu, wiêc nie ma co nadk³adaæ pracy.
-
-	Pola NumSamples i SamplesQuality s¹ ignorowane, je¿eli TextureType nie zosta³ ustawiony na teksturê z multisamplingiem.
-	Pole ArraySize jest ignorowane, je¿eli tekstura nie jest tablic¹.*/
-	RenderTargetDescriptor()
-	{
-		ArraySize = 1;
-		CPURead = 0;
-		CPUWrite = 0;
-		AllowShareResource = 0;
-		IsCubeMap = 0;
-		Usage = ResourceUsage::Default;
-	}
-
-	/**@brief Tworzy strukture TextureInfo wype³nion¹ danymi zgodnymi z deskryptorem RenderTargetu.
-
-	@attention Funkcja nie ustawia formatu tekstury. Nie da siê wywnioskowaæ formatu na podstawie deskryptora.*/
-	sw::TextureInfo		CreateTextureInfo() const
-	{
-		sw::TextureInfo texInfo;
-		texInfo.Width = Width;
-		texInfo.Height = Height;
-		texInfo.ArraySize = ArraySize;
-		texInfo.CPURead = CPURead;
-		texInfo.CPUWrite = CPUWrite;
-		texInfo.AllowShareResource = AllowShareResource;
-		texInfo.IsCubeMap = IsCubeMap;
-		texInfo.TextureType = TextureType;
-		texInfo.Usage = Usage;
-
-		return texInfo;
-	}
-};
-
-/**@brief Klasa dla render targetów.
-@ingroup RenderTargets
-@ingroup Resources
-@ingroup GraphicAPI
-
-Klasa umo¿liwia pobranie jednej z tekstur sk³adowych i udostêpnienie dla shaderów.
-Je¿eli API graficzne nie pozwala na oddzielne trzymanie bufora g³êbokoœci i stencilu,
-to mo¿e tu byæ przechowywany ten sam obiekt. Ewentualnie mog¹ byæ to dwa obiekty,
-które przechowuj¹ inny widok, ale fizycznie odwo³uj¹ siê do tej samej pamiêci.*/
-class RenderTargetObject : public IRenderTarget
-{
-	RTTR_ENABLE( IRenderTarget );
-	RTTR_REGISTRATION_FRIEND;
-private:
-protected:
-	ResourcePtr< Texture >	m_colorBuffer;			///<Pozwala na dostêp do bufora kolorów dla innych obiektów. Mo¿e byæ nullptrem.
-	ResourcePtr< Texture >	m_depthBuffer;			///<Pozwala na dostêp do bufora g³êbokoœci. Mo¿e byæ nullptrem.
-	ResourcePtr< Texture >	m_stencilBuffer;		///<Pozwala na dostêp do bufora stencil. Mo¿e byæ nulltrem.
-public:
-	RenderTargetObject( sw::Texture* colorBuffer, sw::Texture* depthBuffer, sw::Texture* stencilBuffer );
-	virtual ~RenderTargetObject();
-
-	inline sw::Texture*			GetColorBuffer	() { return m_colorBuffer.Ptr(); }		///<Zwraca obiekt bufora kolorów.
-	inline sw::Texture*			GetDepthBuffer	() { return m_depthBuffer.Ptr(); }		///<Zwraca obiekt bufora g³êbokoœci.
-	inline sw::Texture*			GetStencilBuffer() { return m_stencilBuffer.Ptr(); }		///<Zwraca obiekt bufora stencilu.
-
-	virtual std::string			GetResourceName	() const override;	///<@todo RenderTargety powinny mieæ swoje nazwy.
-};
-
-
-
 }	// sw
+

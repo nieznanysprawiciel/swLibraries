@@ -6,7 +6,7 @@
 */
 
 
-#include "ResourceObject.h"
+#include "swGraphicAPI/Resources/ResourceObject.h"
 
 
 namespace sw

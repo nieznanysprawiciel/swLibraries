@@ -1,26 +1,20 @@
 /**
-@file MeshResources.cpp
+@file RenderTarget.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
 #include "swGraphicAPI/ResourceManager/stdafx.h"
 
-
-#include "swGraphicAPI/Resources/ResourcesFactory.h"
-#include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
-#include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
-#include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
-
-#include "swCommonLib/Common/MemoryLeaks.h"
-
+#include "RenderTarget.h"
 
 
 using namespace sw;
 
 
+
 RTTR_REGISTRATION
 {
-	RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS( std::wstring );
+		RTTR_REGISTRATION_STANDARD_TYPE_VARIANTS( std::wstring );
 
 //====================================================================================//
 //			Enumarations	
@@ -287,7 +281,52 @@ RTTR_REGISTRATION
 		.property_readonly( "Descriptor", &RasterizerState::GetDescriptor ) BIND_AS_PTR;
 
 
-
+	rttr::registration::class_< sw::RenderTargetObject >( "sw::RenderTargetObject" )
+		.property( "ColorBuffer", &sw::RenderTargetObject::m_colorBuffer )
+		.property( "DepthBuffer", &sw::RenderTargetObject::m_depthBuffer )
+		.property( "StencilBuffer", &sw::RenderTargetObject::m_stencilBuffer );
 
 }
+
+
+namespace sw
+{
+
+
+
+// ================================ //
+//
+RenderTargetObject::RenderTargetObject( Texture* colorBuffer, Texture* depthBuffer, Texture* stencilBuffer )
+	: m_colorBuffer( colorBuffer )
+	, m_depthBuffer( depthBuffer )
+	, m_stencilBuffer( stencilBuffer )
+{}
+
+
+// ================================ //
+//
+RenderTargetObject::~RenderTargetObject()
+{}
+
+
+// ================================ //
+//
+std::string		RenderTargetObject::GetResourceName() const
+{
+	if( m_colorBuffer )
+		return m_colorBuffer->GetFilePath().String();
+	if( m_depthBuffer )
+		return m_depthBuffer->GetFilePath().String();
+	if( m_stencilBuffer )
+		return m_stencilBuffer->GetFilePath().String();
+	return "";
+}
+
+
+
+}	// sw
+
+
+
+
 

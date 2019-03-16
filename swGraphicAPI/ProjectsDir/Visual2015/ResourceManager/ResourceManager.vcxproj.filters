@@ -78,9 +78,6 @@
     <ClInclude Include="..\..\..\ResourceManager\ResourceManager.h">
       <Filter>ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Resources\IRenderTarget.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Resources\MeshResources.h">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -228,6 +225,12 @@
     <ClInclude Include="..\..\..\Resources\PipelineStates\RasterizerState.h">
       <Filter>Resources\PipelineStates</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Textures\IRenderTarget.h">
+      <Filter>Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Textures\RenderTarget.h">
+      <Filter>Resources\Textures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
@@ -304,6 +307,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Resources\Buffers\Buffer.cpp">
       <Filter>Resources\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Resources\Textures\RenderTarget.cpp">
+      <Filter>Resources\Textures</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

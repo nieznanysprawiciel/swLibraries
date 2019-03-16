@@ -57,7 +57,6 @@
     <ClInclude Include="..\..\..\Resources\Buffers\Buffer.h" />
     <ClInclude Include="..\..\..\Resources\Buffers\BufferInitData.h" />
     <ClInclude Include="..\..\..\Resources\Buffers\IBuffer.h" />
-    <ClInclude Include="..\..\..\Resources\IRenderTarget.h" />
     <ClInclude Include="..\..\..\Resources\MeshResources.h" />
     <ClInclude Include="..\..\..\Resources\PipelineStates\BlendingState.h" />
     <ClInclude Include="..\..\..\Resources\PipelineStates\DepthStencilState.h" />
@@ -72,6 +71,8 @@
     <ClInclude Include="..\..\..\Resources\Shaders\ShaderInitData.h" />
     <ClInclude Include="..\..\..\Resources\Shaders\Shaders.h" />
     <ClInclude Include="..\..\..\Resources\SwapChain.h" />
+    <ClInclude Include="..\..\..\Resources\Textures\IRenderTarget.h" />
+    <ClInclude Include="..\..\..\Resources\Textures\RenderTarget.h" />
     <ClInclude Include="..\..\..\Resources\Textures\Texture.h" />
     <ClInclude Include="..\..\..\Resources\Textures\TextureInitData.h" />
   </ItemGroup>
@@ -80,6 +81,7 @@
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\AssetsFactory.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Buffers\BufferCreator.cpp" />
     <ClCompile Include="..\..\..\Resources\Buffers\Buffer.cpp" />
+    <ClCompile Include="..\..\..\Resources\Textures\RenderTarget.cpp" />
     <ClCompile Include="..\..\..\Resources\Textures\Texture.cpp" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.inl">
       <FileType>Document</FileType>
