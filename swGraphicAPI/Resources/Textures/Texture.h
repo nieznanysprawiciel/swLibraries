@@ -96,7 +96,7 @@ struct TextureInfo
 		MipMapFilter = MipMapFilter::Unknown;
 		MipMapLevels = 1;
 		CutOffMipMaps = 0;
-		TextureType = TextureType::TEXTURE_TYPE_TEXTURE2D;
+		TextureType = TextureType::Texture2D;
 		MemorySize = 0;
 	}
 

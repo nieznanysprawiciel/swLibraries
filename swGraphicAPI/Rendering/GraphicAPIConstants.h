@@ -122,21 +122,21 @@ enum ResourceBinding : uint8
 };
 
 
-/**@brief Definiuje typ tekstury.
+/**@brief Defines Texture type.
 
 @attention Don't change constants order.
 @see @ref GraphicAPI*/
 enum class TextureType : uint8
 {
-	TEXTURE_TYPE_UNKNOW = 0,
-	TEXTURE_TYPE_BUFFER = 1,
-	TEXTURE_TYPE_TEXTURE1D = 2,
-	TEXTURE_TYPE_TEXTURE1D_ARRAY = 3,
-	TEXTURE_TYPE_TEXTURE2D = 4,
-	TEXTURE_TYPE_TEXTURE2D_ARRAY = 5,
-	TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE = 6,
-	TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE_ARRAY = 7,
-	TEXTURE_TYPE_TEXTURE3D = 8
+	Unknown = 0,
+	Buffer = 1,
+	Texture1D = 2,
+	TextureArray1D = 3,
+	Texture2D = 4,
+	TextureArray2D = 5,
+	Texture2DMultisample = 6,
+	TextureArray2DMultisample = 7,
+	Texture3D = 8
 };
 
 

@@ -14,14 +14,14 @@ RTTR_REGISTRATION
 
 	rttr::registration::enumeration< sw::TextureType >( "TextureType" )
 	(
-		rttr::value( "Buffer", sw::TextureType::TEXTURE_TYPE_BUFFER ),
-		rttr::value( "Texture 1D", sw::TextureType::TEXTURE_TYPE_TEXTURE1D ),
-		rttr::value( "Texture 1D Array", sw::TextureType::TEXTURE_TYPE_TEXTURE1D_ARRAY ),
-		rttr::value( "Texture 2D", sw::TextureType::TEXTURE_TYPE_TEXTURE2D ),
-		rttr::value( "Texture 2D Array", sw::TextureType::TEXTURE_TYPE_TEXTURE2D_ARRAY ),
-		rttr::value( "Texture 2D Multisample", sw::TextureType::TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE ),
-		rttr::value( "Texture 2D Multisample Array", sw::TextureType::TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE_ARRAY ),
-		rttr::value( "Texture 3D", sw::TextureType::TEXTURE_TYPE_TEXTURE3D )
+		rttr::value( "Buffer", sw::TextureType::Buffer ),
+		rttr::value( "Texture 1D", sw::TextureType::Texture1D ),
+		rttr::value( "Texture 1D Array", sw::TextureType::TextureArray1D ),
+		rttr::value( "Texture 2D", sw::TextureType::Texture2D ),
+		rttr::value( "Texture 2D Array", sw::TextureType::TextureArray2D ),
+		rttr::value( "Texture 2D Multisample", sw::TextureType::Texture2DMultisample ),
+		rttr::value( "Texture 2D Multisample Array", sw::TextureType::TextureArray2DMultisample ),
+		rttr::value( "Texture 3D", sw::TextureType::Texture3D )
 	);
 
 	rttr::registration::enumeration< sw::MipMapFilter >( "sw::MipMapFilter" )

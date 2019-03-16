@@ -87,8 +87,8 @@ sw::Nullable< DX11Texture* >	DX11Texture::CreateFromMemory	( const BufferRaw& te
 		return "[DX11Texture] Can't create texture. Data field is nullptr.";
 
 	/// @todo Trzeba zacz¹æ kiedyœ obœ³ugiwac inne typy tekstur.
-	assert( texInfo.TextureType == TextureType::TEXTURE_TYPE_TEXTURE2D );
-	if( texInfo.TextureType != TextureType::TEXTURE_TYPE_TEXTURE2D )
+	assert( texInfo.TextureType == TextureType::Texture2D );
+	if( texInfo.TextureType != TextureType::Texture2D )
 		return "[DX11Texture] Can't create texture. Only Textures 2D are supported.";
 
 	ComPtr< ID3D11Texture2D > texture = nullptr;
@@ -118,7 +118,7 @@ sw::Nullable< DX11Texture* >	DX11Texture::CreateFromMemory	( const BufferRaw& te
 	{
 		D3D11_SHADER_RESOURCE_VIEW_DESC viewDesc;
 
-		if( texInfo.TextureType == TextureType::TEXTURE_TYPE_TEXTURE2D )
+		if( texInfo.TextureType == TextureType::Texture2D )
 		{
 			viewDesc.Format = texDesc.Format;
 			viewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -149,8 +149,8 @@ DX11Texture*	DX11Texture::CreateFromMemory( const MemoryChunk& texData, TextureI
 		return nullptr;
 
 	/// @todo Trzeba zacz¹æ kiedyœ obœ³ugiwac inne typy tekstur.
-	assert( texInfo.TextureType == TextureType::TEXTURE_TYPE_TEXTURE2D );
-	if( texInfo.TextureType != TextureType::TEXTURE_TYPE_TEXTURE2D )
+	assert( texInfo.TextureType == TextureType::Texture2D );
+	if( texInfo.TextureType != TextureType::Texture2D )
 		return nullptr;
 
 	ComPtr< ID3D11Texture2D > texture = nullptr;
@@ -180,7 +180,7 @@ DX11Texture*	DX11Texture::CreateFromMemory( const MemoryChunk& texData, TextureI
 	{
 		D3D11_SHADER_RESOURCE_VIEW_DESC viewDesc;
 
-		if( texInfo.TextureType == TextureType::TEXTURE_TYPE_TEXTURE2D )
+		if( texInfo.TextureType == TextureType::Texture2D )
 		{
 			viewDesc.Format = texDesc.Format;
 			viewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -250,7 +250,7 @@ D3D11_TEXTURE2D_DESC			DX11Texture::FillDesc	( const TextureInfo& texInfo )
 	D3D11_TEXTURE2D_DESC texDesc;
 
 	unsigned int ArraySize = 1;
-	if( texInfo.TextureType == TextureType::TEXTURE_TYPE_TEXTURE2D_ARRAY || texInfo.TextureType == TextureType::TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE_ARRAY )
+	if( texInfo.TextureType == TextureType::TextureArray2D || texInfo.TextureType == TextureType::TextureArray2DMultisample )
 		ArraySize = texInfo.ArraySize;
 
 	texDesc.Width = texInfo.Width;
@@ -260,7 +260,7 @@ D3D11_TEXTURE2D_DESC			DX11Texture::FillDesc	( const TextureInfo& texInfo )
 	texDesc.ArraySize = ArraySize;
 
 
-	assert( texInfo.TextureType != TextureType::TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE && texInfo.TextureType != TextureType::TEXTURE_TYPE_TEXTURE2D_MULTISAMPLE_ARRAY );
+	assert( texInfo.TextureType != TextureType::Texture2DMultisample && texInfo.TextureType != TextureType::TextureArray2DMultisample );
 	texDesc.SampleDesc.Count = 1;
 	texDesc.SampleDesc.Quality = 0;
 
