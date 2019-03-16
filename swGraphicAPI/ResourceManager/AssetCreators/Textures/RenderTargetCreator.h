@@ -17,6 +17,9 @@ namespace sw
 
 /**@brief Creates RenderTarget.
 
+@note RenderTargetCreator can't add color, depth and stencil textures to ResourceManager.
+We need to load render targets using Loader to add them.
+
 @ingroup AssetsCreators*/
 class RenderTargetCreator : public IAssetCreator
 {
