@@ -163,6 +163,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\main.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetsFactory.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestCreators\TestBufferCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsCreation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">

@@ -66,6 +66,8 @@ public:
 	///@detail Gets resource if exist otherwise returns nullptr.
 	///@{
 
+	ResourcePointer				GetGeneric					( const filesystem::Path& name, TypeID type );
+
 	BlendingState*				GetBlendingState			( const filesystem::Path& name );
 	RasterizerState*			GetRasterizerState			( const filesystem::Path& name );
 	DepthStencilState*			GetDepthStencilState		( const filesystem::Path& name );
@@ -141,6 +143,8 @@ protected:
 	IAssetLoader*								FindLoader			( const filesystem::Path& assetName, TypeID assetType );
 
 	sw::Nullable< ResourcePointer >				LoadingImpl			( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID assetType );
+
+	ReturnResult								AddGenericResource	( const filesystem::Path& name, TypeID assetType, ResourcePointer resource );
 };
 
 }	// sw

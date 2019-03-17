@@ -11,6 +11,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestCreators\TestBufferCreator.cpp">
       <Filter>Tests\TestCreators</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsCreation.cpp">
+      <Filter>Tests\TestResourceManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
@@ -18,6 +21,9 @@
     </Filter>
     <Filter Include="Tests\TestCreators">
       <UniqueIdentifier>{7b4ee1f2-f121-450a-98af-c4a4eea8dfe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\TestResourceManager">
+      <UniqueIdentifier>{f3325ed5-4f61-4279-b87d-bab254a9d0b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

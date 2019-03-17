@@ -37,7 +37,7 @@ private:
 protected:
 public:
 	explicit		IAssetCache		() = default;
-	virtual			~IAssetCache	() = 0;
+	virtual			~IAssetCache	() = 0 {};
 
 
 	virtual bool			AddCacheEntry		( const filesystem::Path& filePath, TypeID resourceType, MemoryChunk rawData  )		= 0;

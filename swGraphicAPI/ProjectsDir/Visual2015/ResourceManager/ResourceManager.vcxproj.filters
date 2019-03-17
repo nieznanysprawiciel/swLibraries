@@ -58,6 +58,9 @@
     <Filter Include="ImageGenerators">
       <UniqueIdentifier>{8f4f8bec-efb3-4307-9487-87df7f7e3d68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceManager\Exceptions">
+      <UniqueIdentifier>{5e98a667-2f6c-4093-b4fa-01a668ca6254}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Rendering\IRenderer.h">
@@ -234,6 +237,9 @@
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.h">
       <Filter>ResourceManager\AssetCreators\Textures</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.h">
+      <Filter>ResourceManager\Exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
@@ -314,5 +320,6 @@
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.cpp">
       <Filter>ResourceManager\AssetCreators\Textures</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.cpp" />
   </ItemGroup>
 </Project>

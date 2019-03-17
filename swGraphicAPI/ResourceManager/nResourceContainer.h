@@ -34,6 +34,7 @@ class ResourceContainer
 	friend class ResourceManager;
 	friend class nResourceManager;
 private:
+
 	ResourceID		m_counter;		///< Identifier for next resource.
 
 protected:
@@ -100,9 +101,8 @@ public:
 //
 template< class ResourceType >
 ResourceContainer< ResourceType >::ResourceContainer()
-{
-	count = 1;
-}
+	:	m_counter( 1 )
+{}
 
 /**@brief Releases all assets.*/
 template< class ResourceType >
@@ -163,7 +163,7 @@ void					ResourceContainer< ResourceType >::UnsafeAdd		( const filesystem::Path&
 	if( !resource )
 		return;
 
-	m_resMap[ name ] = resource
+	m_resMap[ name ] = resource;
 	resource->SetID( m_counter++ );
 }
 
