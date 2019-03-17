@@ -28,6 +28,9 @@ class Buffer;
 
 
 /**@brief Buffer initialization data.
+
+@attention This structure doesn't take ownership of Data. Use only in synchronous api.
+
 @ingroup Buffers*/
 struct BufferInitData : public sw::IAssetCreateInfo
 {
@@ -57,6 +60,9 @@ public:
 
 
 /**@brief Constant buffer initialization data.
+
+@attention This structure doesn't take ownership of Data. Use only in synchronous api.
+
 @ingroup Buffers*/
 struct ConstantBufferInitData : public BufferInitData
 {
@@ -69,6 +75,9 @@ public:
 
 
 /**@brief Vertex buffer initialization data.
+
+@attention This structure doesn't take ownership of Data. Use only in synchronous api.
+
 @ingroup Buffers*/
 struct VertexBufferInitData : public BufferInitData
 {
@@ -87,6 +96,9 @@ public:
 };
 
 /**@brief  Index buffer initialization data.
+
+@attention This structure doesn't take ownership of Data. Use only in synchronous api.
+
 @ingroup Buffers*/
 struct IndexBufferInitData : public BufferInitData
 {
