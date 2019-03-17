@@ -102,6 +102,16 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.Error.CreateFromString", "[Nullab
 	CHECK( nullableDog.GetError() != nullptr );
 }
 
+// ================================ //
+// Passing ExceptionPtr to constructor should create invalid Nullable.
+TEST_CASE( "Common.Helpers.Exceptions.Nullable.Error.CreateFromException", "[Nullable]" )
+{
+	Nullable< Dog* > nullableDog( std::make_shared< RuntimeException >( "Something wrong..." ));
+
+	REQUIRE( nullableDog.IsValid() == false );
+	CHECK( nullableDog.GetErrorReason() == "Something wrong..." );
+	CHECK( nullableDog.GetError() != nullptr );
+}
 
 // ================================ //
 //

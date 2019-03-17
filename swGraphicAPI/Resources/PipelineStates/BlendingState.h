@@ -104,5 +104,7 @@ public:
 	virtual const BlendingInfo&		GetDescriptor	() = 0;
 };
 
+DEFINE_RESOURCE_PTR_TYPE( BlendingState );
+
 
 }	// sw

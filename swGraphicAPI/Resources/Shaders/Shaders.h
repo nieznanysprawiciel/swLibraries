@@ -60,6 +60,9 @@ public:
 	virtual std::string			GetResourceName	() const override { return ""; }
 };
 
+DEFINE_RESOURCE_PTR_TYPE( VertexShader );
+
+
 //----------------------------------------------------------------------------------------------//
 //								PixelShader														//
 //----------------------------------------------------------------------------------------------//
@@ -80,6 +83,9 @@ public:
 
 	virtual std::string			GetResourceName	() const override { return ""; }
 };
+
+DEFINE_RESOURCE_PTR_TYPE( PixelShader );
+
 
 //----------------------------------------------------------------------------------------------//
 //								GeometryShader													//
@@ -102,6 +108,9 @@ public:
 	virtual std::string			GetResourceName	() const override { return ""; }
 };
 
+DEFINE_RESOURCE_PTR_TYPE( GeometryShader );
+
+
 //----------------------------------------------------------------------------------------------//
 //								ControlShader													//
 //----------------------------------------------------------------------------------------------//
@@ -122,6 +131,9 @@ public:
 
 	virtual std::string			GetResourceName	() const override { return ""; }
 };
+
+DEFINE_RESOURCE_PTR_TYPE( ControlShader );
+
 
 //----------------------------------------------------------------------------------------------//
 //								EvaluationShader												//
@@ -144,6 +156,9 @@ public:
 	virtual std::string			GetResourceName	() const override { return ""; }
 };
 
+DEFINE_RESOURCE_PTR_TYPE( EvaluationShader );
+
+
 //----------------------------------------------------------------------------------------------//
 //								ComputeShader													//
 //----------------------------------------------------------------------------------------------//
@@ -164,6 +179,8 @@ public:
 
 	virtual std::string			GetResourceName	() const override { return ""; }
 };
+
+DEFINE_RESOURCE_PTR_TYPE( ComputeShader );
 
 
 }	// sw

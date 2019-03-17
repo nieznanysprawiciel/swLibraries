@@ -73,4 +73,7 @@ public:
 	virtual const DepthStencilInfo&		GetDescriptor	() = 0;
 };
 
+DEFINE_RESOURCE_PTR_TYPE( DepthStencilState );
+
+
 }	// sw

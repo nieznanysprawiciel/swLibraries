@@ -94,5 +94,8 @@ public:
 	virtual const RasterizerStateInfo&		GetDescriptor	() = 0;
 };
 
+DEFINE_RESOURCE_PTR_TYPE( RasterizerState );
+
 
 }	// sw
+

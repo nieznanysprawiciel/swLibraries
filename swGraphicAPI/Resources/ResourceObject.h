@@ -7,6 +7,7 @@
 
 
 #include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swGraphicAPI/Resources/ResourcePtr.h"
 //#include <atomic>
 
 
@@ -93,7 +94,7 @@ public:
 	virtual bool		IsCacheable		() { return false; }
 };
 
-
+typedef ResourcePtr< Resource > ResourcePointer;
 
 
 //----------------------------------------------------------------------------------------------//

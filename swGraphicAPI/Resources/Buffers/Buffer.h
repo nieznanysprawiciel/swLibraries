@@ -45,6 +45,7 @@ public:
 	virtual std::string	GetResourceName	() const override { return GetDescriptor().GetName(); }
 };
 
+DEFINE_RESOURCE_PTR_TYPE( Buffer );
 
 
 }	// sw

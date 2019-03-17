@@ -120,6 +120,8 @@ public:
 	virtual std::string			GetResourceName	() const override;	///<@todo RenderTargety should have their names..
 };
 
+DEFINE_RESOURCE_PTR_TYPE( RenderTarget );
+
 
 }	// sw
 

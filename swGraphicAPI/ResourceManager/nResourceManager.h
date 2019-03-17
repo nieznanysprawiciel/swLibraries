@@ -12,6 +12,7 @@
 #include "swGraphicAPI/ResourceManager/nResourceContainer.h"
 
 #include "swCommonLib/Common/Multithreading/ReaderWriterLock.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
 
 #include "AssetCreators/AssetsFactory.h"
 #include "IAssetLoader.h"
@@ -43,7 +44,7 @@ protected:
 
 	ResourcesMap				m_resources;
 
-	ReaderWriterLock			m_rwLock;
+	ReaderWriterLock			m_rwLock;				///< Reader/Writer lock for protecting m_resources dictionary.
 	LoadBarrier					m_waitingAssets;		///< Barrier protects from loading one asset multiple times.
 
 	CacheManager				m_cacheManager;			///< Assets cache.
@@ -95,7 +96,7 @@ public:
 	ControlShader*					LoadControlShader			( const filesystem::Path& fileName, const std::string& shaderEntry );
 	EvaluationShader*				LoadEvaluationShader		( const filesystem::Path& fileName, const std::string& shaderEntry );
 
-	ResourcePtr< Resource >			LoadGeneric					( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID type );
+	sw::Nullable< ResourcePointer >	LoadGeneric					( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID type );
 	///@}
 
 	///@name Resource creation
@@ -113,7 +114,7 @@ public:
 	ResourcePtr< RasterizerState >	CreateRasterizerState		( const filesystem::Path& name, const RasterizerStateInfo& info );
 	ResourcePtr< DepthStencilState >CreateDepthStencilState		( const filesystem::Path& name, const DepthStencilInfo& info );
 
-	ResourcePtr< Resource >			CreateGenericAsset			( const filesystem::Path& name, TypeID assetType, IAssetCreateInfo&& createInfo );
+	sw::Nullable< ResourcePointer >	CreateGenericAsset			( const filesystem::Path& name, TypeID assetType, IAssetCreateInfo&& createInfo );
 	///@}
 
 	RenderTarget*					AddRenderTarget				( RenderTarget* renderTarget, const std::wstring& name );
@@ -139,7 +140,7 @@ protected:
 	ResourcePtr< Resource >						FindRequestedAsset	( const filesystem::Path& assetName, TypeID assetType, const AssetsVec& loadedAssets );
 	IAssetLoader*								FindLoader			( const filesystem::Path& assetName, TypeID assetType );
 
-	ResourcePtr< Resource >						LoadingImpl			( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID assetType );
+	sw::Nullable< ResourcePointer >				LoadingImpl			( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID assetType );
 };
 
 }	// sw

@@ -29,7 +29,7 @@ nResourceManager::~nResourceManager()
 
 // ================================ //
 //
-ResourcePtr< Resource >			nResourceManager::LoadGeneric				( const filesystem::Path& name, IAssetLoadInfo* desc, TypeID type )
+sw::Nullable< ResourcePointer >			nResourceManager::LoadGeneric				( const filesystem::Path& name, IAssetLoadInfo* desc, TypeID type )
 {
 	// Lock as Reader.
 	ReaderUniqueLock< ReaderWriterLock > lock( m_rwLock );
@@ -48,15 +48,21 @@ ResourcePtr< Resource >			nResourceManager::LoadGeneric				( const filesystem::P
 
 		if( needWait )
 		{
-			m_waitingAssets.WaitUntilLoaded( assetWait );
+			auto result = m_waitingAssets.WaitUntilLoaded( assetWait );
 
-			// Asset loader could load requested file but there's no guarantee that requested asset was loaded too.
-			// For example name contains path to material inside mesh file. Loader loads entire mesh, but material wasn't necessary.
-			// If asset was loaded, next call to LoadGeneric will take it from m_resources map. If it wasn't - next call will try to load
-			// specific asset (not entire file). If it returns nullptr, it means that asset can't be loaded.
-			//
-			// @todo Consider situation when first found loader isn't able to load file, but next could. Should we handle this? Maybe use some loader flags.
-			resource = LoadGeneric( name, desc, type );
+			// Loading could fail. If this is the case, we return error stored in result.
+			if( result.IsValid() )
+			{
+				// Asset loader could load requested file but there's no guarantee that requested asset was loaded too.
+				// For example name contains path to material inside mesh file. Loader loads entire mesh, but material wasn't necessary.
+				// If asset was loaded, next call to LoadGeneric will take it from m_resources map. If it wasn't - next call will try to load
+				// specific asset (not entire file). If it returns nullptr, it means that asset can't be loaded.
+				//
+				// @todo Consider situation when first found loader isn't able to load file, but next could. Should we handle this? Maybe use some loader flags.
+				return LoadGeneric( name, desc, type );
+			}
+
+			return result.GetError();
 		}
 		else
 		{
@@ -69,7 +75,7 @@ ResourcePtr< Resource >			nResourceManager::LoadGeneric				( const filesystem::P
 
 // ================================ //
 //
-ResourcePtr< Resource >			nResourceManager::CreateGenericAsset		( const filesystem::Path& name, TypeID assetType, IAssetCreateInfo&& createInfo )
+sw::Nullable< ResourcePointer >			nResourceManager::CreateGenericAsset		( const filesystem::Path& name, TypeID assetType, IAssetCreateInfo&& createInfo )
 {
 
 
@@ -132,7 +138,7 @@ ResourcePtr< Resource >					nResourceManager::FindRequestedAsset		( const filesy
 
 // ================================ //
 //
-ResourcePtr< Resource >					nResourceManager::LoadingImpl				( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID assetType )
+sw::Nullable< ResourcePointer >			nResourceManager::LoadingImpl				( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID assetType )
 {
 	auto resource = m_cacheManager.LoadFromCache( assetName, assetType );
 	if( !resource )

@@ -156,4 +156,7 @@ public:
 	inline bool operator==( const std::wstring& file_name );
 };
 
+DEFINE_RESOURCE_PTR_TYPE( Texture );
+
+
 }	// sw

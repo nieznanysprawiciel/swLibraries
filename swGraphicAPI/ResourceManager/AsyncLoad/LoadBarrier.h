@@ -8,6 +8,8 @@
 
 #include "swCommonLib/System/Path.h"
 #include "swCommonLib/Common/TypesDefinitions.h"
+#include "swCommonLib/Common/Exceptions/Exception.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
 
 #include <set>
 #include <atomic>
@@ -30,6 +32,8 @@ private:
 	std::condition_variable		m_condition;
 	std::mutex					m_lock;
 
+	ExceptionPtr				m_error;
+
 public:
 	WaitingAsset		() = default;
 	WaitingAsset		( const filesystem::Path& filePath );
@@ -49,9 +53,15 @@ private:
 	@return Returns true if it was last waiting thread.*/
 	bool				LoadingCompleted	();
 
+	/**@brief Notify all threads waiting for this asset.
+	@return Returns true if it was last waiting thread.*/
+	bool				LoadingCompleted	( ExceptionPtr error );
+
 	/**@brief Check if file is during laoding.*/
 	bool				Compare				( const filesystem::Path& filePath );
 
+	/**@brief Returns error or nullptr.*/
+	ExceptionPtr		GetError			() const { return m_error; }
 
 private:
 	FRIEND_CLASS_TESTER( LoadBarrier )
@@ -77,12 +87,17 @@ public:
 	std::pair< WaitingAsset*, bool >		RequestAsset		( const filesystem::Path& filePath );
 
 	/**@brief Function waits until asset will be loaded.*/
-	void									WaitUntilLoaded		( WaitingAsset* asset );
+	ReturnResult							WaitUntilLoaded		( WaitingAsset* asset );
 
 	/**@brief Notify all threads waiting for this asset.*/
 	void									LoadingCompleted	( const filesystem::Path& filePath );
 
+	/**@brief Notify all threads waiting for this asset that loading failed.*/
+	void									LoadingFailed		( const filesystem::Path& filePath, ExceptionPtr error );
+
 private:
+
+	void									LoadingFinishedImpl	( const filesystem::Path& filePath, ExceptionPtr error );
 
     bool                                    RemoveWaitingAsset	( WaitingAsset* asset );
 

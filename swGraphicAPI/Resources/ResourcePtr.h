@@ -124,6 +124,8 @@ public:
 
 };
 
+#define DEFINE_RESOURCE_PTR_TYPE( type )			typedef ResourcePtr< type > type ## Ptr;
+
 
 }	// sw
 

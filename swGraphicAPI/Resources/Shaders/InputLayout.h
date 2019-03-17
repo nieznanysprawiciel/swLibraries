@@ -36,6 +36,7 @@ public:
 	virtual std::string			GetResourceName	() const override { return ""; }
 };
 
+DEFINE_RESOURCE_PTR_TYPE( ShaderInputLayout );
 
 
 }	// sw

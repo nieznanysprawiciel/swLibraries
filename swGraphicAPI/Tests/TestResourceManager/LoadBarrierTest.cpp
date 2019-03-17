@@ -176,3 +176,23 @@ TEST_CASE( "GraphicAPI.LoadBarrier.SingleAssetLoading", "[GraphicAPI]" )
     // Waiting assets list should be cleaned.
     CHECK( sw::CLASS_TESTER( LoadBarrier )::GetWaitingAssets( gBarrier ).size() == 0 );
 }
+
+// ================================ //
+//
+TEST_CASE( "GraphicAPI.LoadBarrier.SingleAssetLoading.FailedLoading", "[GraphicAPI]" )
+{
+	sw::LoadBarrier     barrier;
+    auto result = barrier.RequestAsset( assetFile );
+
+    // New Waiting asset should be created in this case.
+    REQUIRE( result.second == false );
+    CHECK( result.first != nullptr );
+
+    // Here in real application should be loading code.
+
+    barrier.LoadingFailed( assetFile, std::make_shared< sw::RuntimeException >( "Error!" ) );
+
+    // Waiting assets list should be cleaned.
+    CHECK( sw::CLASS_TESTER( LoadBarrier )::GetWaitingAssets( barrier ).size() == 0 );
+}
+

@@ -55,9 +55,17 @@ void			WaitingAsset::RequestAsset			()
 //
 bool			WaitingAsset::LoadingCompleted		()
 {
+	return LoadingCompleted( nullptr );
+}
+
+// ================================ //
+//
+bool			WaitingAsset::LoadingCompleted		( ExceptionPtr error )
+{
     m_lock.lock();
 
     m_ready = true;
+	m_error = error;
     bool noOneWaits = m_numWaiting == 0;
 
     m_lock.unlock();
@@ -119,8 +127,10 @@ std::pair< WaitingAsset*, bool >		LoadBarrier::RequestAsset		( const filesystem:
 
 // ================================ //
 //
-void									LoadBarrier::WaitUntilLoaded	( WaitingAsset* asset )
+ReturnResult							LoadBarrier::WaitUntilLoaded	( WaitingAsset* asset )
 {
+	auto error = asset->GetError();
+
 	bool isLast = asset->WaitUntilLoaded();
 	if( isLast )
 	{
@@ -129,11 +139,30 @@ void									LoadBarrier::WaitUntilLoaded	( WaitingAsset* asset )
 
 		assert( removed );
 	}
+
+	if( error != nullptr )
+		return error;
+	else
+		return Result::Success;
 }
 
 // ================================ //
 //
 void									LoadBarrier::LoadingCompleted	( const filesystem::Path& filePath )
+{
+	LoadingFinishedImpl( filePath, nullptr );
+}
+
+// ================================ //
+//
+void									LoadBarrier::LoadingFailed		( const filesystem::Path& filePath, ExceptionPtr error )
+{
+	LoadingFinishedImpl( filePath, error );
+}
+
+// ================================ //
+//
+void									LoadBarrier::LoadingFinishedImpl( const filesystem::Path& filePath, ExceptionPtr error )
 {
     std::unique_lock< std::mutex > lock( m_lock );
 
@@ -151,7 +180,7 @@ void									LoadBarrier::LoadingCompleted	( const filesystem::Path& filePath )
     
     if( asset )
     {
-        bool noOneWaits = asset->LoadingCompleted();
+        bool noOneWaits = asset->LoadingCompleted( error );		// Error can be nullptr and that means that asset was loaded successfully.
 
         // Remove if there're no waiting threads
         if( noOneWaits )
