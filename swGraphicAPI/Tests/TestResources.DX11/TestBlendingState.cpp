@@ -6,7 +6,7 @@
 
 // ================================ //
 //
-TEST_CASE( "GraphicAPI.Resources.BlendingState.Creation", "[GraphicAPI][Resources]" )
+TEST_CASE( "GraphicAPI.DX11.Resources.BlendingState.Creation", "[GraphicAPI][Resources]" )
 {
 	auto& graphic = GetGraphic();
 

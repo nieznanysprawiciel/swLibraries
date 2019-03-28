@@ -17,8 +17,12 @@ struct Graphic
 //
 	~Graphic()
 	{
-		if( API ) delete API;
 		if( RM ) delete RM;
+		if( API )
+		{
+			API->ReleaseAPI();
+			delete API;
+		}
 
 		API = nullptr;
 		RM = nullptr;
@@ -39,7 +43,7 @@ inline Graphic&			GetGraphic	()
 		sw::GraphicAPIInitData graphicApiData;
 		graphicApiData.CreateSwapChain = false;		// We will create swap chain and render target later with window.
 		graphicApiData.SingleThreaded = true;
-		graphicApiData.UseDebugLayer = false;
+		graphicApiData.UseDebugLayer = true;
 
 		auto result = graphic.API->InitAPI( graphicApiData );
 	}

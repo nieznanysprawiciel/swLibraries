@@ -19,7 +19,7 @@ using namespace sw;
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.DepthStencilStateCreator.Create", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.DepthStencilStateCreator.Create", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	DepthStencilInfo init;

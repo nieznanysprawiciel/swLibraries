@@ -320,6 +320,8 @@
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.cpp">
       <Filter>ResourceManager\AssetCreators\Textures</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.cpp">
+      <Filter>ResourceManager\Exceptions</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

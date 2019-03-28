@@ -13,6 +13,9 @@
 #include "swGraphicAPI/Resources/Buffers/BufferInitData.h"
 #include "swCommonLib/Common/Buffers/BufferTyped.h"
 
+#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAssetCreator.h"
+#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAsset.h"
+
 
 
 using namespace sw;
@@ -27,10 +30,29 @@ struct RandomStruct
 
 
 
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.ResourceManager.RegisterAssetCreator", "[GraphicAPI]" )
+{
+	auto creator = MockAssetCreator::CreateCreator();		// Creator must live longer then ResourceManager since it tracks references of created assets.
+
+	nResourceManager rm;
+	
+	bool regResult = rm.RegisterAssetCreator( creator );
+	REQUIRE( regResult == true );
+
+	MockAssetCreateInfo init;
+
+	auto result = rm.CreateGenericAsset( "::RegisterAssetCreator::Check", TypeID::get< MockAsset >(), std::move( init ) );
+	REQUIRE( result.IsValid() );
+
+	CHECK( rm.GetGeneric( "::RegisterAssetCreator::Check", TypeID::get< MockAsset >() ) != nullptr );
+}
+
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.SingleAsset", "[GraphicAPI]" )
 {
 	nResourceManager rm;
 
@@ -48,4 +70,23 @@ TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.", "[GraphicAPI]" )
 	CHECK( rm.GetGeneric( "::RandomBuffer", TypeID::get< Buffer >() ) != nullptr );
 }
 
+// ================================ //
+// Can't create second asset with the same name.
+TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.TwoAssetsSameName", "[GraphicAPI]" )
+{
+	auto creator = MockAssetCreator::CreateCreator();		// Creator must live longer then ResourceManager since it tracks references of created assets.
+	nResourceManager rm;		rm.RegisterAssetCreator( creator );
 
+	MockAssetCreateInfo init;
+	
+	auto result = rm.CreateGenericAsset( "::CreateAsset::TwoAssetsSameName", TypeID::get< MockAsset >(), std::move( init ) );
+	REQUIRE( result.IsValid() );
+
+	MockAssetCreateInfo init2;
+
+	result = rm.CreateGenericAsset( "::CreateAsset::TwoAssetsSameName", TypeID::get< MockAsset >(), std::move( init2 ) );
+	REQUIRE( !result.IsValid() );
+
+	// One asset should still be alive in ResourceManager. Second asset shouldn't be created or should be properly destroyed.
+	CHECK( creator->CountLivingAssets() == 1 );
+}

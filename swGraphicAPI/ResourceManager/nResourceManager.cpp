@@ -102,15 +102,36 @@ sw::Nullable< ResourcePointer >			nResourceManager::CreateGenericAsset		( const 
 
 		auto result = AddGenericResource( name, assetType, assetPointer );
 		
+		// Note: Asset under this name could already exist and it won't be added in AddGenericResource function.
 		if( result.IsValid() )
 			return assetPointer;
 		else
+		{
+			// We must manually remove asset here, because it wasn't added to resources list.
+			// @todo It would be better not to create asset in first place if we can't add it to resources list.
+			// There are some solutions for that:
+			// - Create asset under m_rwLock as writer - but creation would last long and we don't want to stop other threads.
+			// - Check if asset can be added as reader and then add as writer - this suffers from race conditions but this way we could
+			//   avoid most of not necessary creations.
+			// - Use LoadBarrier (separate then in loader) - I don't know if it is reasonable, because we don't want to use asset created by others.
+			assetPointer->Delete( ResourceAccessKey< Resource >() );
+
 			return result.GetError();
+		}
 	}
 	else
 	{
 		return asset.GetError();
 	}
+}
+
+
+
+// ================================ //
+//
+bool									nResourceManager::RegisterAssetCreator		( IAssetCreatorPtr creator )
+{
+	return m_assetsFactory->RegisterCreator( creator );
 }
 
 
@@ -198,18 +219,13 @@ ReturnResult							nResourceManager::AddGenericResource		( const filesystem::Pat
 	// Lock as Writer, because we want to add resource atomically.
 	WriterUniqueLock< ReaderWriterLock > lock( m_rwLock );
 
-	auto existing = FindResource( name, assetType );
-	if( !existing )
-	{
-		ResourceContainer< Resource >& container = m_resources[ assetType ];
-		container.UnsafeAdd( name, resource.Ptr() );
+	ResourceContainer< Resource >& container = m_resources[ assetType ];
+	bool inserted = container.SafeAdd( name, resource.Ptr() );
 
-		return Result::Success;
-	}
-	else
-	{
+	if( !inserted )
 		return std::make_shared< ResourceManagerException >( "Can't add asset, because it already existed.", name, assetType );
-	}
+
+	return Result::Success;
 }
 
 

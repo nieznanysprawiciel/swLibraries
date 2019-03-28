@@ -164,6 +164,8 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetsFactory.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestCreators\TestBufferCreator.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsCreation.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAsset.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetCreator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
@@ -181,6 +183,10 @@
     <ProjectReference Include="..\..\ResourceManager\ResourceManager.vcxproj">
       <Project>{9f71f0da-1d72-4e96-93b7-5ac2c9cb6ede}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAsset.h" />
+    <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetCreator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

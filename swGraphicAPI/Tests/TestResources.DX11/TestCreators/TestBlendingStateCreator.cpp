@@ -19,7 +19,7 @@ using namespace sw;
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.BlendingStateCreator.Create", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.BlendingStateCreator.Create", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	

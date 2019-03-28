@@ -19,7 +19,7 @@ using namespace sw;
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.RasterizerStateCreator.Create", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.RasterizerStateCreator.Create", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	RasterizerStateInfo init;

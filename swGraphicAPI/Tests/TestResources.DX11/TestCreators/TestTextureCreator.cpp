@@ -25,7 +25,7 @@ using namespace sw;
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.TextureCreator.Create.GenerateMipmaps", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.TextureCreator.Create.GenerateMipmaps", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	
@@ -58,7 +58,7 @@ TEST_CASE( "GraphicAPI.TextureCreator.Create.GenerateMipmaps", "[GraphicAPI]" )
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.TextureCreator.Create.NoMipmaps", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.TextureCreator.Create.NoMipmaps", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	

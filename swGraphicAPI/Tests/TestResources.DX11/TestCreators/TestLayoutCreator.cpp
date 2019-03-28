@@ -19,7 +19,7 @@ using namespace sw;
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.LayoutCreator.Create.Semantic.Position", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.Position", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	
@@ -40,7 +40,7 @@ TEST_CASE( "GraphicAPI.LayoutCreator.Create.Semantic.Position", "[GraphicAPI]" )
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.LayoutCreator.Create.Semantic.Blending", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.Blending", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	
@@ -62,7 +62,7 @@ TEST_CASE( "GraphicAPI.LayoutCreator.Create.Semantic.Blending", "[GraphicAPI]" )
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.LayoutCreator.Create.Semantic.Color", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.Color", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	
@@ -83,7 +83,7 @@ TEST_CASE( "GraphicAPI.LayoutCreator.Create.Semantic.Color", "[GraphicAPI]" )
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.LayoutCreator.Create.Semantic.Coordinates", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.Coordinates", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	
@@ -104,7 +104,7 @@ TEST_CASE( "GraphicAPI.LayoutCreator.Create.Semantic.Coordinates", "[GraphicAPI]
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.LayoutCreator.Create.Semantic.NormalBinormalTangent", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.NormalBinormalTangent", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	
@@ -127,7 +127,7 @@ TEST_CASE( "GraphicAPI.LayoutCreator.Create.Semantic.NormalBinormalTangent", "[G
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.LayoutCreator.Create.Semantic.PointSize", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.PointSize", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	

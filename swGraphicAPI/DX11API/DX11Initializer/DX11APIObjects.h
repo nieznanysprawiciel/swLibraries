@@ -15,6 +15,9 @@
 #pragma warning( default : 4005 )
 
 
+#include "DX11DebugLayer.h"
+
+
 namespace sw
 {
 
@@ -69,7 +72,12 @@ class DX11APIObjects
 protected:
 	static DX11APIObjects*			this_ptr;		///<Wa¿ne, ¿eby nie zainicjowac obiektu wielokrotnie.
 
+protected:
+
 	static bool						m_useDebugLayer;
+	static DX11DebugLayer			m_debugLayer;
+
+protected:
 
 	static unsigned int				_window_width;
 	static unsigned int				_window_height;

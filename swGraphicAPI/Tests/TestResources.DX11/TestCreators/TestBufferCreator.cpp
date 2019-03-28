@@ -28,7 +28,7 @@ struct Struct16Bytes
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.BufferCreator.ConstantBuffer.Create", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.BufferCreator.ConstantBuffer.Create", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	
@@ -58,7 +58,7 @@ TEST_CASE( "GraphicAPI.BufferCreator.ConstantBuffer.Create", "[GraphicAPI]" )
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.BufferCreator.IndexBuffer.Create", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.BufferCreator.IndexBuffer.Create", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	
@@ -88,7 +88,7 @@ TEST_CASE( "GraphicAPI.BufferCreator.IndexBuffer.Create", "[GraphicAPI]" )
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.BufferCreator.VertexBuffer.Create", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.BufferCreator.VertexBuffer.Create", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	

@@ -60,6 +60,7 @@ public:
 
 	// Adding objects
 	void			UnsafeAdd			( const filesystem::Path& name, ResourceType* resource );
+	bool			SafeAdd				( const filesystem::Path& name, ResourceType* resource );
 
 	// Resources access.
 	ResourceType*	Get					( ResourceID id );
@@ -165,6 +166,22 @@ void					ResourceContainer< ResourceType >::UnsafeAdd		( const filesystem::Path&
 
 	m_resMap[ name ] = resource;
 	resource->SetID( m_counter++ );
+}
+
+/**@brief Adds resource only if it didn't existed.*/
+template< class ResourceType >
+inline bool				ResourceContainer< ResourceType >::SafeAdd			( const filesystem::Path& name, ResourceType* resource )
+{
+	if( !resource )
+		return false;
+
+	auto insertResult = m_resMap.insert( std::make_pair( name, resource ) );
+	
+	// Check if element existed.
+	if( insertResult.second == false )
+		return false;
+
+	return true;
 }
 
 //-------------------------------------------------------------------------------//

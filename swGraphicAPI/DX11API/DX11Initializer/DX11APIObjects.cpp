@@ -30,6 +30,7 @@ obiekt. Dziêki temu mo¿emy zainicjowaæ deskryptory domyœlnymi wartoœciami w wygo
 DX11APIObjects*						DX11APIObjects::this_ptr = nullptr;
 
 bool								DX11APIObjects::m_useDebugLayer = false;
+DX11DebugLayer						DX11APIObjects::m_debugLayer;
 
 //Zmienne globalne dla funkcji
 D3D11_VIEWPORT						DX11APIObjects::_view_port_desc;			//Domyœlny viewport. Je¿eli uzytkownik poda w³asny to zostanie on nadpisany.
@@ -542,10 +543,7 @@ void DX11APIObjects::begin_scene()
 //
 void		DX11APIObjects::SetDebugName	( ID3D11DeviceChild* child, const std::string& name )
 {
-	if( child != nullptr )
-	{
-		child->SetPrivateData( WKPDID_D3DDebugObjectName, (uint32)name.size(), name.c_str() );
-	}
+	m_debugLayer.SetDebugName( child, name );
 }
 
 // ================================ //

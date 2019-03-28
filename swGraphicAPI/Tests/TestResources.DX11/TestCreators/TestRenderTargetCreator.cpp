@@ -19,7 +19,7 @@ using namespace sw;
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.RenderTargetCreator.Create.ColorDepth", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.RenderTargetCreator.Create.ColorDepth", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	
@@ -49,7 +49,7 @@ TEST_CASE( "GraphicAPI.RenderTargetCreator.Create.ColorDepth", "[GraphicAPI]" )
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.RenderTargetCreator.Create.ColorDepthStencil", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.RenderTargetCreator.Create.ColorDepthStencil", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 	

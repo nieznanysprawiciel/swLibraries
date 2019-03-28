@@ -18,7 +18,7 @@ using namespace sw;
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.ShaderCreator.VertexShader.Create", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.ShaderCreator.VertexShader.Create", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 
@@ -37,7 +37,7 @@ TEST_CASE( "GraphicAPI.ShaderCreator.VertexShader.Create", "[GraphicAPI]" )
 
 // ================================ //
 // Not compiling shader creation should return error message.
-TEST_CASE( "GraphicAPI.ShaderCreator.VertexShader.Create.CompilationFailed", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.ShaderCreator.VertexShader.Create.CompilationFailed", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 
@@ -51,7 +51,7 @@ TEST_CASE( "GraphicAPI.ShaderCreator.VertexShader.Create.CompilationFailed", "[G
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.ShaderCreator.PixelShader.Create", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.ShaderCreator.PixelShader.Create", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 
@@ -70,7 +70,7 @@ TEST_CASE( "GraphicAPI.ShaderCreator.PixelShader.Create", "[GraphicAPI]" )
 
 // ================================ //
 // Not compiling shader creation should return error message.
-TEST_CASE( "GraphicAPI.ShaderCreator.PixelShader.Create.CompilationFailed", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.ShaderCreator.PixelShader.Create.CompilationFailed", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 
@@ -84,7 +84,7 @@ TEST_CASE( "GraphicAPI.ShaderCreator.PixelShader.Create.CompilationFailed", "[Gr
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.ShaderCreator.ComputeShader.Create", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.ShaderCreator.ComputeShader.Create", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 
@@ -104,7 +104,7 @@ TEST_CASE( "GraphicAPI.ShaderCreator.ComputeShader.Create", "[GraphicAPI]" )
 
 // ================================ //
 // Not compiling shader creation should return error message.
-TEST_CASE( "GraphicAPI.ShaderCreator.ComputeShader.Create.CompilationFailed", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.DX11.ShaderCreator.ComputeShader.Create.CompilationFailed", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
 

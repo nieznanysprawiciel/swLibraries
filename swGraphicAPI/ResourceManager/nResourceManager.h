@@ -136,6 +136,17 @@ public:
 	std::vector< ResourcePtr< RenderTarget > >			ListRenderTargets	();
 	///@}
 
+public:
+
+	///@name Thread unsafe initialization api
+	/// These api functions should be called on the beginning of the program.
+	/// @todo Consider doing this API thread safe.
+	///@{
+	bool							RegisterAssetCreator		( IAssetCreatorPtr creator );
+
+	///@}
+
+
 protected:
 
 	ResourcePtr< Resource >						FindResource		( const filesystem::Path& assetName, TypeID assetType );
