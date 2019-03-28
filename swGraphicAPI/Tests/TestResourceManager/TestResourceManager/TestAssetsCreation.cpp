@@ -90,3 +90,36 @@ TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.TwoAssetsSameName", "[Graphic
 	// One asset should still be alive in ResourceManager. Second asset shouldn't be created or should be properly destroyed.
 	CHECK( creator->CountLivingAssets() == 1 );
 }
+
+// ================================ //
+// Can't create asset when creator isn't registered.
+TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.AssetWithoutCreator", "[GraphicAPI]" )
+{
+	nResourceManager rm;
+
+	MockAssetCreateInfo init;
+	
+	auto result = rm.CreateGenericAsset( "::CreateAsset::AssetWithoutCreator", TypeID::get< MockAsset >(), std::move( init ) );
+	REQUIRE( !result.IsValid() );
+
+	CHECK( rm.GetGeneric( "::RandomBuffer", TypeID::get< MockAsset >() ) == nullptr );
+}
+
+// ================================ //
+// Asset won't be created if we specify wrong type.
+TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.TypeOtherThenDeclared", "[GraphicAPI]" )
+{
+	auto creator = MockAssetCreator::CreateCreator();		// Creator must live longer then ResourceManager since it tracks references of created assets.
+
+	nResourceManager rm;
+	
+	bool regResult = rm.RegisterAssetCreator( creator );
+	REQUIRE( regResult == true );
+
+	MockAssetCreateInfo init;
+
+	auto result = rm.CreateGenericAsset( "::RegisterAssetCreator::Check", TypeID::get< Buffer >(), std::move( init ) );
+	REQUIRE( !result.IsValid() );
+}
+
+
