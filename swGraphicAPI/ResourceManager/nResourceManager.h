@@ -28,8 +28,6 @@ namespace sw
 {
 
 
-typedef std::vector< ResourcePtr< Resource > > AssetsVec;
-
 
 /**@brief Future implementation of ResourceManager.
 

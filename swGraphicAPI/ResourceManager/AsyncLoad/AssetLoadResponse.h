@@ -22,9 +22,9 @@ namespace sw
 @ingroup AsyncLoading*/
 struct AssetLoadResponse
 {
-	ResourcePtr< Resource >		Resource;
+	ResourcePointer						Resource;
 	filesystem::Path					FilePath;		///< Path of loaded asset, the same that was used to call async request.
-	IAssetLoadInfoPtr					LoadInfo;		///< Structure send to load asset. Can be nullptr.
+	IAssetLoadInfoPtr					LoadInfo;		///< Structure sent to load asset. Can be nullptr.
 };
 
 /**@brief Delegate to invoke after asset is loaded.

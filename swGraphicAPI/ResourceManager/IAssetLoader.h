@@ -54,6 +54,18 @@ To write your own file loader you should implement @ref IAssetLoader interface.
 
 
 
+typedef std::vector< ResourcePointer > AssetsVec;
+
+
+
+/**@brief Structure returned by loader.
+@ingroup Loaders*/
+struct LoadingResult
+{
+	Nullable< AssetsVec >		Assets;			///< Contains all assets loaded in @ref Load call or errors in case of fail.
+	ExceptionPtr				Warnings;		///< Contains all warining that occured during loading.
+};
+
 
 
 /**@brief Base class for resource and assets loaders.
@@ -83,7 +95,7 @@ public:
 	Function for loading assets. Loader should create all assets internally, by using AssetFactoryAPI from parameter.
 	AssetFactoryAPI adds all created assets to ResourceManager.
 
-	Frequently asset Laoder must create multiple helper assets before creating main asset. All these assets should be placed
+	Frequently asset Loader must create multiple helper assets before creating main asset. All these assets should be placed
 	in result vector. Main asset should take 0 index of this vector and should have the same name as passed in filePath parameter and type
 	described by resourceType.
 	This is important when someone wants to load for example mesh and provides file path to ResourceManager. After asset is loaded, someone must
@@ -99,13 +111,13 @@ public:
 	@param[in] assetDesc Asset descriptor has all info needed to create and process asset internally.
 	@param[in] factory Pointer to interface for creating assets.
 	*/
-	virtual std::vector< ResourcePtr< Resource > >				Load		( const filesystem::Path& filePath, TypeID resourceType, IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory ) = 0;
+	virtual LoadingResult										Load		( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory ) = 0;
 
 	/**@brief Function used to prefetch and cache asset.
 	
 	Loader shouldn't create this asset. Instead it should call asset creation functiond from asset manager with
 	flag indicating, that it should be cached. Note that this should apply to all nested assets too.*/
-	virtual bool												Prefetch	( const filesystem::Path& filePath, TypeID resourceType, IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory ) = 0;
+	virtual ReturnResult										Prefetch	( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory ) = 0;
 };
 
 DEFINE_OPTR_TYPE( IAssetLoader );

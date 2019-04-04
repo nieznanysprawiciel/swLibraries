@@ -23,9 +23,9 @@ public:
 	virtual			~ShaderLoader		() = default;
 
 
-	virtual bool											CanLoad			( const filesystem::Path& filePath, TypeID resourceType )														override;
-	virtual std::vector< ResourcePtr< Resource > >	Load			( const filesystem::Path& filePath, TypeID resourceType, IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )	override;
-	virtual bool											Prefetch		( const filesystem::Path& filePath, TypeID resourceType, IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )	override;
+	virtual bool											CanLoad			( const filesystem::Path& filePath, TypeID resourceType )																override;
+	virtual LoadingResult									Load			( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )	override;
+	virtual ReturnResult									Prefetch		( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )	override;
 
 };
 

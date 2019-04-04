@@ -23,18 +23,18 @@ bool											ShaderLoader::CanLoad		( const filesystem::Path& filePath, TypeID
 
 // ================================ //
 //
-std::vector< ResourcePtr< Resource > >	ShaderLoader::Load			( const filesystem::Path& filePath, TypeID resourceType, IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )
+LoadingResult									ShaderLoader::Load			( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )
 {
 	std::string fileContent = filesystem::File::Load( filePath );
 
-	return std::vector<ResourcePtr<Resource>>();
+	return LoadingResult();
 }
 
 // ================================ //
 //
-bool											ShaderLoader::Prefetch		( const filesystem::Path& filePath, TypeID resourceType, IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )
+ReturnResult									ShaderLoader::Prefetch		( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )
 {
-	return false;
+	return Result::Error;
 }
 
 }	// sw

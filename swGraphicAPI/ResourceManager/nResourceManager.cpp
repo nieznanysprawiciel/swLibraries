@@ -197,9 +197,12 @@ sw::Nullable< ResourcePointer >			nResourceManager::LoadingImpl				( const files
 	{
 		// @todo Maybe we should extract file name from asset name.
 		auto loader = FindLoader( assetName, assetType );
-		AssetsVec loadedAssets = loader->Load( assetName, assetType, desc, RMAsyncLoaderAPI( this ) );
+		auto loadingResult = loader->Load( assetName, assetType, desc, RMAsyncLoaderAPI( this ) );
 
-		resource = FindRequestedAsset( assetName, assetType, loadedAssets );
+		if( !loadingResult.Assets.IsValid() )
+			return loadingResult.Assets.GetError();
+
+		resource = FindRequestedAsset( assetName, assetType, loadingResult.Assets );
 	}
 
 	return resource;
