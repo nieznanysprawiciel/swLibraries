@@ -196,3 +196,47 @@ TEST_CASE( "GraphicAPI.LoadBarrier.SingleAssetLoading.FailedLoading", "[GraphicA
     CHECK( sw::CLASS_TESTER( LoadBarrier )::GetWaitingAssets( barrier ).size() == 0 );
 }
 
+
+// ================================ //
+//
+TEST_CASE( "GraphicAPI.LoadBarrier.SingleAssetLoading.FailedLoading.AccessError", "[GraphicAPI]" )
+{
+	sw::ThreadsBarrier	waitForMainThread( 2 );
+	sw::ThreadsBarrier	waitWithLoading( 2 );
+
+	sw::LoadBarrier     waitingAssets;
+
+	std::thread loadingThread( [&]()
+	{
+		auto result = waitingAssets.RequestAsset( assetFile );
+
+		waitForMainThread.ArriveAndWait();		// This forces this thread to request asset as first.
+		waitWithLoading.ArriveAndWait();		// Wait for first thread to request asset.
+
+		waitingAssets.LoadingFailed( assetFile, std::make_shared< sw::RuntimeException >( "Error!" ) );
+	} );
+
+	// Wait for second thread to RequestAsset
+	waitForMainThread.ArriveAndWait();
+
+	// Request asset as second.
+	auto result = waitingAssets.RequestAsset( assetFile );
+
+	sw::WaitingAsset* assetWait = result.first;
+	bool needWait = result.second;
+
+	REQUIRE( needWait );		// Needs to wait.
+
+	// After this barrier second thread can send LoadingFailed
+	waitWithLoading.ArriveAndWait();
+
+	auto loadingResult = waitingAssets.WaitUntilLoaded( assetWait );
+
+	loadingThread.join();
+
+	REQUIRE( loadingResult.IsValid() == false );
+	CHECK( loadingResult.GetError() != nullptr );
+
+    // Waiting assets list should be cleaned.
+    CHECK( sw::CLASS_TESTER( LoadBarrier )::GetWaitingAssets( waitingAssets ).size() == 0 );
+}

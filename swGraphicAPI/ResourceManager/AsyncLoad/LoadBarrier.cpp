@@ -129,9 +129,9 @@ std::pair< WaitingAsset*, bool >		LoadBarrier::RequestAsset		( const filesystem:
 //
 ReturnResult							LoadBarrier::WaitUntilLoaded	( WaitingAsset* asset )
 {
+	bool isLast = asset->WaitUntilLoaded();
 	auto error = asset->GetError();
 
-	bool isLast = asset->WaitUntilLoaded();
 	if( isLast )
 	{
 		std::unique_lock< std::mutex > lock( m_lock );
