@@ -1,6 +1,6 @@
 #pragma once
 /**
-@file RMAssetsThreadAPI.h
+@file RMAsyncAPI.h
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
@@ -21,7 +21,7 @@ AssetsThread class should use only this API for loading assets. This class forwa
 to internal ResourceManager pointer.
 
 @ingroup AsyncLoading*/
-class RMAsyncLoaderAPI
+class RMAsyncAPI
 {
 private:
 
@@ -29,8 +29,8 @@ private:
 
 protected:
 public:
-	explicit		RMAsyncLoaderAPI		( nResourceManager* manager );
-					~RMAsyncLoaderAPI		() = default;
+	explicit		RMAsyncAPI		( nResourceManager* manager );
+					~RMAsyncAPI		() = default;
 
 };
 

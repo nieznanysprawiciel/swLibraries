@@ -15,7 +15,7 @@
 #include "swCommonLib/Common/Exceptions/Nullable.h"
 
 #include "AssetCreators/AssetsFactory.h"
-#include "IAssetLoader.h"
+#include "Loaders/IAssetLoader.h"
 #include "Cache/CacheManager.h"
 #include "AsyncLoad/LoadBarrier.h"
 
@@ -97,6 +97,23 @@ public:
 	EvaluationShader*				LoadEvaluationShader		( const filesystem::Path& fileName, const std::string& shaderEntry );
 
 	sw::Nullable< ResourcePointer >	LoadGeneric					( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID type );
+
+	/**@brief Loads asset file with it's whole content.
+	
+	This function is meant for Editor usage. It will load and return all assets that will be found in specified file.
+	Moreover all assets from other files, that are referenced by these assets will be loaded too.
+	If asset alredy existed in ResourceManager, Loader should take this existing asset and return warning.
+	
+	@note Note that Loader will be called each time this function is called, even if all assets were loaded. There is
+	no other way to determine content of file, than to load it again. Loaders should always check if asset existed
+	and shouldn't spend time on creating not necessary assets, but performance penalty exists and depends on Laoder.
+
+	@note Note that it is posible that file contains assets that couldn't be loaded, because IAssetLoader implementation
+	doesn't support that.
+
+	@return Returns list of loaded assets or error if loader was unable to load file. Loading results
+	contains all warnings that occured during loading.*/
+	LoadingResult					LoadFileGeneric				( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID type );
 	///@}
 
 	///@name Resource creation

@@ -40,10 +40,12 @@ ResourcePointer							nResourceManager::GetGeneric				( const filesystem::Path& 
 }
 
 // ================================ //
-//
+/// @note If asset loading fails and we call LoadGeneric function again, LoadGeneric will try to load it
+/// for the second time. This will cause performance problem, when something is wrong with important asset
+/// loaded by multiple entities, because even failed loading is heavy operation.
 sw::Nullable< ResourcePointer >			nResourceManager::LoadGeneric				( const filesystem::Path& name, IAssetLoadInfo* desc, TypeID type )
 {
-	// Lock as Reader.
+	// Lock as Reader. Try to find resource and request asset atomically.
 	ReaderUniqueLock< ReaderWriterLock > lock( m_rwLock );
 
 	auto resource = FindResource( name, type );
@@ -197,7 +199,7 @@ sw::Nullable< ResourcePointer >			nResourceManager::LoadingImpl				( const files
 	{
 		// @todo Maybe we should extract file name from asset name.
 		auto loader = FindLoader( assetName, assetType );
-		auto loadingResult = loader->Load( assetName, assetType, desc, RMAsyncLoaderAPI( this ) );
+		auto loadingResult = loader->Load( assetName, assetType, desc, RMLoaderAPI( this ) );
 
 		if( !loadingResult.Assets.IsValid() )
 			return loadingResult.Assets.GetError();

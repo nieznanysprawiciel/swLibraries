@@ -198,7 +198,7 @@ TEST_CASE( "GraphicAPI.LoadBarrier.SingleAssetLoading.FailedLoading", "[GraphicA
 
 
 // ================================ //
-//
+// Checks if we can access error after loading asset.
 TEST_CASE( "GraphicAPI.LoadBarrier.SingleAssetLoading.FailedLoading.AccessError", "[GraphicAPI]" )
 {
 	sw::ThreadsBarrier	waitForMainThread( 2 );

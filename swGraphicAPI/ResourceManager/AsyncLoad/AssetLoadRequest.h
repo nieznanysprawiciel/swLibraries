@@ -8,7 +8,7 @@
 #include "swCommonLib/External/FastDelegate/FastDelegate.h"
 #include "swCommonLib/System/Path.h"
 
-#include "swGraphicAPI/ResourceManager/IAssetLoadInfo.h"
+#include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
 
 #include "AssetLoadResponse.h"
 

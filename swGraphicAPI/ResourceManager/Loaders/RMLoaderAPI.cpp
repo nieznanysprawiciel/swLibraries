@@ -1,13 +1,13 @@
 /**
-@file RMAssetsThreadAPI.cpp
+@file LoaderAPI.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-
-
 #include "swGraphicAPI/ResourceManager/stdafx.h"
-#include "RMAsyncLoaderAPI.h"
+
+
+#include "RMLoaderAPI.h"
 
 
 namespace sw
@@ -15,7 +15,7 @@ namespace sw
 
 // ================================ //
 //
-RMAsyncLoaderAPI::RMAsyncLoaderAPI	( nResourceManager* manager )
+RMLoaderAPI::RMLoaderAPI		( nResourceManager* manager )
 	:	m_resourceManager( manager )
 {}
 

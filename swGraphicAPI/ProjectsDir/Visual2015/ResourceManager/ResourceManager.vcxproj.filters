@@ -99,12 +99,6 @@
     <ClInclude Include="..\..\..\ResourceManager\stdafx.h">
       <Filter>PrecompiledHeader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ResourceManager\IAssetLoader.h">
-      <Filter>ResourceManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ResourceManager\IAssetLoadInfo.h">
-      <Filter>ResourceManager</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\IAssetCreator.h">
       <Filter>ResourceManager\AssetCreators</Filter>
     </ClInclude>
@@ -143,9 +137,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.inl">
       <Filter>ResourceManager\AssetCreators\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncLoaderAPI.h">
-      <Filter>ResourceManager\AsyncLoad</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\AssetLoadResponse.h">
       <Filter>ResourceManager\AsyncLoad</Filter>
@@ -240,6 +231,18 @@
     <ClInclude Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.h">
       <Filter>ResourceManager\Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncAPI.h">
+      <Filter>ResourceManager\AsyncLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\IAssetLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\IAssetLoadInfo.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
@@ -261,9 +264,6 @@
       <Filter>Resources\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\AssetsThread.cpp">
-      <Filter>ResourceManager\AsyncLoad</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncLoaderAPI.cpp">
       <Filter>ResourceManager\AsyncLoad</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\Loaders\ShaderLoader.cpp">
@@ -322,6 +322,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.cpp">
       <Filter>ResourceManager\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncAPI.cpp">
+      <Filter>ResourceManager\AsyncLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

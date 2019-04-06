@@ -23,7 +23,7 @@ bool											ShaderLoader::CanLoad		( const filesystem::Path& filePath, TypeID
 
 // ================================ //
 //
-LoadingResult									ShaderLoader::Load			( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )
+LoadingResult									ShaderLoader::Load			( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	std::string fileContent = filesystem::File::Load( filePath );
 
@@ -32,7 +32,7 @@ LoadingResult									ShaderLoader::Load			( const filesystem::Path& filePath, T
 
 // ================================ //
 //
-ReturnResult									ShaderLoader::Prefetch		( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )
+ReturnResult									ShaderLoader::Prefetch		( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	return Result::Error;
 }

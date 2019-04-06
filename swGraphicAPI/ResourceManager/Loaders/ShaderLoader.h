@@ -5,7 +5,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swGraphicAPI/ResourceManager/IAssetLoader.h"
+#include "swGraphicAPI/ResourceManager/Loaders/IAssetLoader.h"
 
 
 namespace sw
@@ -24,8 +24,8 @@ public:
 
 
 	virtual bool											CanLoad			( const filesystem::Path& filePath, TypeID resourceType )																override;
-	virtual LoadingResult									Load			( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )	override;
-	virtual ReturnResult									Prefetch		( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMAsyncLoaderAPI factory )	override;
+	virtual LoadingResult									Load			( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )	override;
+	virtual ReturnResult									Prefetch		( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )	override;
 
 };
 
