@@ -20,6 +20,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetCreator.cpp">
       <Filter>Utils\MockAsset</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetPath.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">

@@ -52,6 +52,7 @@
     <ClInclude Include="..\..\..\ResourceManager\Loaders\ShaderLoader.h" />
     <ClInclude Include="..\..\..\ResourceManager\nResourceContainer.h" />
     <ClInclude Include="..\..\..\ResourceManager\nResourceManager.h" />
+    <ClInclude Include="..\..\..\ResourceManager\PathTranslators\AssetPath.h" />
     <ClInclude Include="..\..\..\ResourceManager\PathTranslators\Translator.h" />
     <ClInclude Include="..\..\..\ResourceManager\ResourceContainer.h" />
     <ClInclude Include="..\..\..\ResourceManager\ResourceManager.h" />

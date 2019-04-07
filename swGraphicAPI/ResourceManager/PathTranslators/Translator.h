@@ -14,7 +14,9 @@ namespace sw
 /**@brief Paths translation description.
 
 First translator checks if path matches specified pattern (@ref m_matchPattern).
-If it matches then it replaces all occurances of m_replacePattern with m_replaceExpression.*/
+If it matches then it replaces all occurances of m_replacePattern with m_replaceExpression.
+
+@deprecated Probably it isn't way to do what we want.*/
 class Translator
 {
 private:

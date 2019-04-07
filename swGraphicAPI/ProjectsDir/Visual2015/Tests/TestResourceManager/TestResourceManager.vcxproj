@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\LoadBarrierTest.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetPath.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetsFactory.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestCreators\TestBufferCreator.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsCreation.cpp" />
