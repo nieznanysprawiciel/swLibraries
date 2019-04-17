@@ -28,7 +28,7 @@ Nullable< AssetPath >			AssetPath::FromString		( const std::string& assetPath )
 {
 	std::smatch match;
 
-	if( std::regex_search( assetPath, match, impl::sAssetPathRegex ) )
+	if( std::regex_match( assetPath, match, impl::sAssetPathRegex ) )
 	{
 		// Ignore first match, it represents full match, that is full string.
 		return AssetPath( match[ 1 ], match[ 2 ] );
