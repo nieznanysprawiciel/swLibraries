@@ -17,10 +17,10 @@ namespace sw
 
 // ================================ //
 //
-MockAsset::MockAsset		( MockAssetCreator* creator, std::string name )
-	:	Resource( 0 )
+MockAsset::MockAsset		( MockAssetCreator* creator, const AssetPath& name )
+	:	Resource( name )
 	,	m_creator( creator )
-	,	m_name( name )
+	,	m_name( name.String() )
 {
 	m_creator->OnCreateAsset( this );
 }

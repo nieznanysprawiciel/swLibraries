@@ -20,8 +20,10 @@ class IRenderTarget : public Resource
 	RTTR_ENABLE( Resource );
 private:
 protected:
-	IRenderTarget() : Resource( 0 ) {}
-	virtual ~IRenderTarget() = default;
+
+	explicit		IRenderTarget	( const AssetPath& name ) : Resource( name ) {}
+	virtual			~IRenderTarget	() = default;
+
 public:
 };
 

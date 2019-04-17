@@ -25,7 +25,7 @@ private:
 
 protected:
 public:
-	explicit		MockAsset		( MockAssetCreator* creator, std::string name );
+	explicit		MockAsset		( MockAssetCreator* creator, const AssetPath& name );
 	virtual			~MockAsset		();
 
 public:

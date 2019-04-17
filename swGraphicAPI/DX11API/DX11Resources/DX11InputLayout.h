@@ -25,7 +25,7 @@ class DX11InputLayout : public ShaderInputLayout, protected DX11APIObjects
 	RTTR_ENABLE( ShaderInputLayout );
 private:
 
-	ID3D11InputLayout*				m_vertexLayout;
+	ComPtr< ID3D11InputLayout >			m_vertexLayout;
 
 protected:
 
@@ -33,13 +33,13 @@ protected:
 
 public:
 
-	explicit									DX11InputLayout		( ID3D11InputLayout* layout );
+	explicit									DX11InputLayout		( const AssetPath& fileName, ID3D11InputLayout* layout );
 
-	static sw::Nullable< DX11InputLayout* >		CreateLayout		( const InputLayoutDescriptor& layoutDesc );
+	static sw::Nullable< DX11InputLayout* >		CreateLayout		( const AssetPath& fileName, const InputLayoutDescriptor& layoutDesc );
 
 public:
 
-	inline ID3D11InputLayout*					Get					() { return m_vertexLayout; }
+	inline ID3D11InputLayout*					Get					() { return m_vertexLayout.Get(); }
 };
 
 }	// sw

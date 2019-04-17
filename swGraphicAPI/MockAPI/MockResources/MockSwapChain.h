@@ -15,8 +15,8 @@ class MockSwapChain : public SwapChain
 	RTTR_ENABLE( SwapChain )
 private:
 public:
-	MockSwapChain( RenderTarget* screenRT );
-	~MockSwapChain();
+	explicit				MockSwapChain	( RenderTarget* screenRT );
+	virtual					~MockSwapChain	();
 
 	virtual void			Present			( int syncInterval )					override;
 	virtual void			Resize			( uint16 newWidth, uint16 newHeight )	override;

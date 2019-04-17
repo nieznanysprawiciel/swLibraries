@@ -21,7 +21,6 @@ RTTR_REGISTRATION
 	// Shader
 	rttr::registration::class_< ShaderInputLayout >( "sw::ShaderInputLayout" );
 	rttr::registration::class_< IShader >( "sw::IShader" )
-		.property_readonly( "FilePath", &IShader::GetShaderFile )
 		.property_readonly( "MainFunction", &IShader::GetShaderEntry );
 
 	rttr::registration::class_< PixelShader >( "sw::PixelShader" );

@@ -18,18 +18,18 @@ namespace sw
 
 // ================================ //
 //
-Nullable< Resource* >		BlendingStateCreator::Create		( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
+Nullable< Resource* >		BlendingStateCreator::Create		( const AssetPath& assetName, IAssetCreateInfo&& createInfo )
 {
 	TypeID type = createInfo.get_type();
 	if( type == TypeID::get< BlendingInfo >() )
-		return ResourcesFactory::CreateBlendingState( static_cast< BlendingInfo& >( createInfo ) );
+		return ResourcesFactory::CreateBlendingState( assetName, static_cast< BlendingInfo& >( createInfo ) );
 
 	return "[BlendingStateCreator] IAssetCreateInfo of type [" + type.get_name().to_string() + "] not supported.";
 }
 
 // ================================ //
 //
-Nullable< Resource* >		BlendingStateCreator::LoadFromRaw	( const filesystem::Path& assetName, const BufferRaw& rawData )
+Nullable< Resource* >		BlendingStateCreator::LoadFromRaw	( const AssetPath& assetName, const BufferRaw& rawData )
 {
 	assert( !"Buffer is not cacheable" );
 	return nullptr;

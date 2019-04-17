@@ -12,6 +12,7 @@
 #include "swCommonLib/System/Path.h"
 
 #include "swGraphicAPI/Resources/ResourcesFactory.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
 
 
 
@@ -71,7 +72,7 @@ sw::RenderTarget* ResourceManager::CreateRenderTarget( const std::wstring& name,
 	sw::RenderTarget* newRenderTarget = m_renderTarget.get( name );
 	if( !newRenderTarget )
 	{
-		newRenderTarget = sw::ResourcesFactory::CreateRenderTarget( name, renderTargetDescriptor ).Get();
+		newRenderTarget = sw::ResourcesFactory::CreateRenderTarget( sw::AssetPath( "", name ), renderTargetDescriptor ).Get();
 		if( !newRenderTarget )	return nullptr;
 
 		m_renderTarget.UnsafeAdd( name, newRenderTarget );
@@ -334,7 +335,7 @@ sw::ResourcePtr<sw::Buffer>	ResourceManager::CreateVertexBuffer		( const std::ws
 		return sw::ResourcePtr<sw::Buffer>();
 	
 	
-	vertexBuff = sw::ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
+	vertexBuff = sw::ResourcesFactory::CreateBufferFromMemory( sw::AssetPath( name, "" ), data.Data, data.CreateBufferInfo() ).Get();
 	if ( !vertexBuff )		// Bufor móg³ siê nie stworzyæ, a nie chcemy dodawaæ nullptra do ResourceManagera
 		return nullptr;
 
@@ -373,7 +374,7 @@ sw::ResourcePtr<sw::Buffer>	ResourceManager::CreateIndexBuffer		( const std::wst
 		return sw::ResourcePtr<sw::Buffer>();
 	
 	
-	indexBuff = sw::ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
+	indexBuff = sw::ResourcesFactory::CreateBufferFromMemory( sw::AssetPath( name, "" ), data.Data, data.CreateBufferInfo() ).Get();
 	if ( !indexBuff )		// Bufor móg³ siê nie stworzyæ, a nie chcemy dodawaæ nullptra do ResourceManagera
 		return nullptr;
 
@@ -411,7 +412,7 @@ sw::ResourcePtr<sw::Buffer>	ResourceManager::CreateConstantsBuffer		( const std:
 		return sw::ResourcePtr<sw::Buffer>();
 	
 	
-	constBuff = sw::ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() ).Get();
+	constBuff = sw::ResourcesFactory::CreateBufferFromMemory( sw::AssetPath( name, "" ), data.Data, data.CreateBufferInfo() ).Get();
 	if ( !constBuff )		// Bufor móg³ siê nie stworzyæ, a nie chcemy dodawaæ nullptra do ResourceManagera
 		return nullptr;
 
@@ -428,7 +429,7 @@ sw::ResourcePtr< sw::BlendingState >	ResourceManager::CreateBlendingState	( cons
 	if ( resource )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
 		return sw::ResourcePtr< sw::BlendingState >();
 
-	resource = sw::ResourcesFactory::CreateBlendingState( info ).Get();
+	resource = sw::ResourcesFactory::CreateBlendingState( sw::AssetPath( "", name ), info ).Get();
 	m_blendingState.UnsafeAdd( name, resource );
 
 	return sw::ResourcePtr< sw::BlendingState >( resource );
@@ -443,7 +444,7 @@ sw::ResourcePtr< sw::RasterizerState >	ResourceManager::CreateRasterizerState	( 
 	if ( resource )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
 		return sw::ResourcePtr< sw::RasterizerState >();
 
-	resource = sw::ResourcesFactory::CreateRasterizerState( info ).Get();
+	resource = sw::ResourcesFactory::CreateRasterizerState( sw::AssetPath( "", name ), info ).Get();
 	m_rasterizerState.UnsafeAdd( name, resource );
 
 	return sw::ResourcePtr< sw::RasterizerState >( resource );
@@ -458,7 +459,7 @@ sw::ResourcePtr< sw::DepthStencilState >	ResourceManager::CreateDepthStencilStat
 	if ( resource )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
 		return sw::ResourcePtr< sw::DepthStencilState >();
 
-	resource = sw::ResourcesFactory::CreateDepthStencilState( info ).Get();
+	resource = sw::ResourcesFactory::CreateDepthStencilState( sw::AssetPath( "", name ), info ).Get();
 	m_depthStencilState.UnsafeAdd( name, resource );
 
 	return sw::ResourcePtr< sw::DepthStencilState >( resource );

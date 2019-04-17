@@ -8,7 +8,7 @@
 
 
 #include "swCommonLib/System/Path.h"
-
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
 
 
 #include <map>
@@ -38,13 +38,13 @@ private:
 	ResourceID		m_counter;		///< Identifier for next resource.
 
 protected:
-	std::map< filesystem::Path, ResourceType* >		m_resMap;	///< Maps assets names/paths to Resources.
+	std::map< AssetPath, ResourceType* >		m_resMap;	///< Maps assets names/paths to Resources.
 
 
 protected:
 
 	// Deleting objects.
-	bool			ForceRemove			( const filesystem::Path& name );
+	bool			ForceRemove			( const AssetPath& name );
 	bool			ForceRemove			( ResourceID id );
 	void			ForceRemoveAll		();
 	void			ReleaseMemory		( ResourceType* );
@@ -54,13 +54,13 @@ public:
 	~ResourceContainer();
 
 	// Deleting objects.
-	bool			Remove				( const filesystem::Path& name );
+	bool			Remove				( const AssetPath& name );
 	bool			Remove				( ResourceID id );
 	uint32			RemoveUnused		();
 
 	// Adding objects
-	void			UnsafeAdd			( const filesystem::Path& name, ResourceType* resource );
-	bool			SafeAdd				( const filesystem::Path& name, ResourceType* resource );
+	void			UnsafeAdd			( const AssetPath& name, ResourceType* resource );
+	bool			SafeAdd				( const AssetPath& name, ResourceType* resource );
 
 	// Resources access.
 	ResourceType*	Get					( ResourceID id );
@@ -68,7 +68,7 @@ public:
 	/**@brief Zwraca element na podstawie jego nazwy
 	@param[in] name Nazwa elementu, który chcemy dostaæ
 	@return WskaŸnik na obiekt assetu*/
-	inline ResourceType*		Get		( const filesystem::Path& name )
+	inline ResourceType*		Get		( const AssetPath& name )
 	{
 		auto iter = m_resMap.find( name );
 		if( iter != m_resMap.end() )
@@ -159,7 +159,7 @@ inline ResourceType*	ResourceContainer< ResourceType >::Find				( const DescType
 /**@brief Adds resource without checking it's existance.
 Resource will be overwritten if it existed.*/
 template< class ResourceType >
-void					ResourceContainer< ResourceType >::UnsafeAdd		( const filesystem::Path& name, ResourceType* resource )
+void					ResourceContainer< ResourceType >::UnsafeAdd		( const AssetPath& name, ResourceType* resource )
 {
 	if( !resource )
 		return;
@@ -170,7 +170,7 @@ void					ResourceContainer< ResourceType >::UnsafeAdd		( const filesystem::Path&
 
 /**@brief Adds resource only if it didn't existed.*/
 template< class ResourceType >
-inline bool				ResourceContainer< ResourceType >::SafeAdd			( const filesystem::Path& name, ResourceType* resource )
+inline bool				ResourceContainer< ResourceType >::SafeAdd			( const AssetPath& name, ResourceType* resource )
 {
 	if( !resource )
 		return false;
@@ -199,7 +199,7 @@ void					ResourceContainer< ResourceType >::ReleaseMemory		( ResourceType* objec
 /**@brief Removes resource if it's posible.
 @return Returns false if resource doesn't exist or it still has references.*/
 template< class ResourceType >
-bool					ResourceContainer< ResourceType >::Remove				( const filesystem::Path& name )
+bool					ResourceContainer< ResourceType >::Remove				( const AssetPath& name )
 {
 	auto iter = m_resMap.find( name );
 	if( iter != m_resMap.end() )
@@ -260,7 +260,7 @@ uint32					ResourceContainer< ResourceType >::RemoveUnused			()
 /**@brief Removes resource even if it's reference count is greater then 0.
 @return Returns false if resource doesn't exist.*/
 template< class ResourceType >
-bool					ResourceContainer< ResourceType >::ForceRemove			( const filesystem::Path& name )
+bool					ResourceContainer< ResourceType >::ForceRemove			( const AssetPath& name )
 {
 	auto iter = m_resMap.find( name );
 	if( iter != m_resMap.end() )

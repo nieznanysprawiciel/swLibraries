@@ -53,7 +53,6 @@ struct BufferInfo
 	rttr::type			DataType;		///< [Optional] Type of single element in buffer.
 	ResourceUsage		Usage;			///< Usage of resource by graphic card.
 	BufferType			BufferType;		///< Vertex, index or constant buffer.
-	filesystem::Path	Name;			///< Buffer name or file path.
 
 	///@name Only for vertex or index buffer.
 	///@{
@@ -75,7 +74,6 @@ struct BufferInfo
 		: DataType( rttr::type::get_by_name( "" ) )	// Set invalid type.
 	{}
 
-	std::string		GetName	() const { return Name.String(); }
 };
 
 
@@ -88,8 +86,8 @@ class IBuffer : public Resource
 private:
 
 protected:
-	IBuffer() : Resource( 0 ) {}
-	virtual ~IBuffer() = default;
+	explicit		IBuffer		( const AssetPath& assetPath ) : Resource( assetPath ) {}
+	virtual			~IBuffer	() = default;
 public:
 	virtual MemoryChunk			CopyData		() = 0;				///<Kopiuje dane z bufora i umieszcza je w zwracanym MemoryChunku.
 	virtual const BufferInfo&	GetDescriptor	() const = 0;		///<Returns buffer descriptor.

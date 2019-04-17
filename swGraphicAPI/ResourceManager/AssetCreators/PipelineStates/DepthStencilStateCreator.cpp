@@ -18,18 +18,18 @@ namespace sw
 
 // ================================ //
 //
-Nullable< Resource* >		DepthStencilStateCreator::Create		( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
+Nullable< Resource* >		DepthStencilStateCreator::Create		( const AssetPath& assetName, IAssetCreateInfo&& createInfo )
 {
 	TypeID type = createInfo.get_type();
 	if( type == TypeID::get< DepthStencilInfo >() )
-		return ResourcesFactory::CreateDepthStencilState( static_cast< DepthStencilInfo& >( createInfo ) );
+		return ResourcesFactory::CreateDepthStencilState( assetName, static_cast< DepthStencilInfo& >( createInfo ) );
 
 	return "[DepthStencilStateCreator] IAssetCreateInfo of type [" + type.get_name().to_string() + "] not supported.";
 }
 
 // ================================ //
 //
-Nullable< Resource* >		DepthStencilStateCreator::LoadFromRaw	( const filesystem::Path& assetName, const BufferRaw& rawData )
+Nullable< Resource* >		DepthStencilStateCreator::LoadFromRaw	( const AssetPath& assetName, const BufferRaw& rawData )
 {
 	assert( !"Buffer is not cacheable" );
 	return nullptr;

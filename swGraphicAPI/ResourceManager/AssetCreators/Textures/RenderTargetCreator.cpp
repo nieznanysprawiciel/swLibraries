@@ -21,12 +21,12 @@ namespace sw
 
 // ================================ //
 //
-Nullable< Resource* >		RenderTargetCreator::Create		( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
+Nullable< Resource* >		RenderTargetCreator::Create		( const AssetPath& assetName, IAssetCreateInfo&& createInfo )
 {
 	TypeID type = createInfo.get_type();
 	if( type == TypeID::get< RenderTargetDescriptor >() )
 	{
-		return ResourcesFactory::CreateRenderTarget( assetName.WString(), static_cast<RenderTargetDescriptor&>( createInfo ) );
+		return ResourcesFactory::CreateRenderTarget( assetName, static_cast< RenderTargetDescriptor& >( createInfo ) );
 	}
 
 	return "[RenderTargetCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported.";
@@ -34,7 +34,7 @@ Nullable< Resource* >		RenderTargetCreator::Create		( const filesystem::Path& as
 
 // ================================ //
 //
-Nullable< Resource* >		RenderTargetCreator::LoadFromRaw	( const filesystem::Path& assetName, const BufferRaw& rawData )
+Nullable< Resource* >		RenderTargetCreator::LoadFromRaw	( const AssetPath& assetName, const BufferRaw& rawData )
 {
 	assert( !"Buffer is not cacheable" );
 	return nullptr;

@@ -24,7 +24,7 @@ TEST_CASE( "GraphicAPI.DX11.DepthStencilStateCreator.Create", "[GraphicAPI]" )
 	AssetsFactory factory;
 	DepthStencilInfo init;
 
-	auto result = factory.CreateAsset( "::DepthStencilState::Opaque", TypeID::get< DepthStencilState >(), std::move( init ) );
+	auto result = factory.CreateAsset( "::/DepthStencilState/Opaque", TypeID::get< DepthStencilState >(), std::move( init ) );
 
 	if( !result.IsValid() )
 	{

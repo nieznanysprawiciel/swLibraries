@@ -29,9 +29,9 @@ public:
 
 public:
 
-	virtual Nullable< Resource* >	Create				( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )		override;
+	virtual Nullable< Resource* >	Create				( const AssetPath& assetName, IAssetCreateInfo&& createInfo )				override;
 
-	virtual Nullable< Resource* >	LoadFromRaw			( const filesystem::Path& assetName, const BufferRaw& rawData )				override;
+	virtual Nullable< Resource* >	LoadFromRaw			( const AssetPath& assetName, const BufferRaw& rawData )					override;
 	virtual BufferRaw				SaveToRaw			( const IAssetCreateInfo& createInfo )										override;
 	virtual BufferRaw				SaveToRaw			( ResourcePtr< Resource > resource )										override;
 
@@ -41,12 +41,12 @@ public:
 
 public:
 
-	inline Nullable< VertexShader* >				CreateVertexShader			( const filesystem::Path& fileName, const std::string& code, const std::string& shaderEntry = "main" );
-	inline Nullable< PixelShader* >					CreatePixelShader			( const filesystem::Path& fileName, const std::string& code, const std::string& shaderEntry = "main" );
-	inline Nullable< GeometryShader* >				CreateGeometryShader		( const filesystem::Path& fileName, const std::string& code, const std::string& shaderEntry = "main" );
-	inline Nullable< ControlShader*	>				CreateControlShader			( const filesystem::Path& fileName, const std::string& code, const std::string& shaderEntry = "main" );
-	inline Nullable< EvaluationShader* >			CreateEvaluationShader		( const filesystem::Path& fileName, const std::string& code, const std::string& shaderEntry = "main" );
-	inline Nullable< ComputeShader* >				CreateComputeShader			( const filesystem::Path& fileName, const std::string& code, const std::string& shaderEntry = "main" );
+	inline Nullable< VertexShader* >				CreateVertexShader			( const AssetPath& fileName, const std::string& code, const std::string& shaderEntry = "main" );
+	inline Nullable< PixelShader* >					CreatePixelShader			( const AssetPath& fileName, const std::string& code, const std::string& shaderEntry = "main" );
+	inline Nullable< GeometryShader* >				CreateGeometryShader		( const AssetPath& fileName, const std::string& code, const std::string& shaderEntry = "main" );
+	inline Nullable< ControlShader*	>				CreateControlShader			( const AssetPath& fileName, const std::string& code, const std::string& shaderEntry = "main" );
+	inline Nullable< EvaluationShader* >			CreateEvaluationShader		( const AssetPath& fileName, const std::string& code, const std::string& shaderEntry = "main" );
+	inline Nullable< ComputeShader* >				CreateComputeShader			( const AssetPath& fileName, const std::string& code, const std::string& shaderEntry = "main" );
 
 };
 

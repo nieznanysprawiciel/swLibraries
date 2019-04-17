@@ -13,6 +13,8 @@
 #include "swGraphicAPI/Resources/ResourceObject.h"
 #include "swGraphicAPI/Resources/ResourcePtr.h"
 
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
+
 #include "IAssetCreateInfo.h"
 
 
@@ -49,11 +51,11 @@ public:
 
 	/**@brief Main generic function for assets creation.
 	Implementation is allowed to move content of createInfo parameter.*/
-	virtual	Nullable< Resource* >	Create			( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )		= 0;
+	virtual	Nullable< Resource* >	Create			( const AssetPath& assetName, IAssetCreateInfo&& createInfo )				= 0;
 
 	/**@brief Loads Asset from raw data format.
 	This function is used to read data from cache.*/
-	virtual Nullable< Resource* >	LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )				= 0;
+	virtual Nullable< Resource* >	LoadFromRaw		( const AssetPath& assetName, const BufferRaw& rawData )					= 0;
 
 	/**@brief Creates raw data format MemoryChunk.
 	This function is used to create data that will be written to cache.*/

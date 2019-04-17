@@ -7,6 +7,8 @@
 
 #include "IAssetCache.h"
 
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
+
 
 
 namespace sw
@@ -25,8 +27,9 @@ public:
 					~CacheManager		() = default;
 
 	/**@brief Loads asset from cache if it exists. Oterwise returns nullptr.
-	@todo Probably we should pass pointer to resource manager to allow asset creation.*/
-	ResourcePtr< Resource >		LoadFromCache		( const filesystem::Path& assetName, TypeID assetType );
+	@todo Probably we should pass pointer to resource manager to allow asset creation.
+	@todo Maybe we could use string as key instead of AssetPath.*/
+	ResourcePtr< Resource >		LoadFromCache		( const AssetPath& assetName, TypeID assetType );
 
 private:
 

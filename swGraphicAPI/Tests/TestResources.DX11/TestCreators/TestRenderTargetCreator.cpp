@@ -30,7 +30,7 @@ TEST_CASE( "GraphicAPI.DX11.RenderTargetCreator.Create.ColorDepth", "[GraphicAPI
 	init.ColorBuffFormat = ResourceFormat::RESOURCE_FORMAT_B8G8R8A8_UNORM;
 
 
-	auto result = factory.CreateAsset( "::RenderTarget::ColorDepth", TypeID::get< RenderTarget >(), std::move( init ) );
+	auto result = factory.CreateAsset( "::/RenderTarget/ColorDepth", TypeID::get< RenderTarget >(), std::move( init ) );
 
 	if( !result.IsValid() )
 	{
@@ -60,7 +60,7 @@ TEST_CASE( "GraphicAPI.DX11.RenderTargetCreator.Create.ColorDepthStencil", "[Gra
 	init.ColorBuffFormat = ResourceFormat::RESOURCE_FORMAT_B8G8R8A8_UNORM;
 
 
-	auto result = factory.CreateAsset( "::RenderTarget::ColorDepthStencil", TypeID::get< RenderTarget >(), std::move( init ) );
+	auto result = factory.CreateAsset( "::/RenderTarget/ColorDepthStencil", TypeID::get< RenderTarget >(), std::move( init ) );
 
 	if( !result.IsValid() )
 	{

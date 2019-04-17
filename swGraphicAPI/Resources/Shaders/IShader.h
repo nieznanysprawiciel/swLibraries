@@ -24,16 +24,14 @@ private:
 protected:
 
 	std::string				m_shaderEntry;			///< Name of main shader function;
-	std::wstring			m_shaderFile;			///< Shader file path.
 
 protected:
 
-	IShader() : Resource( 0 ) {}
-	virtual ~IShader() = default;
+	explicit		IShader		( const AssetPath& assetPath ) : Resource( assetPath ) {}
+	virtual			~IShader	() = default;
 
 public:
 
-	const std::wstring&		GetShaderFile			() const { return m_shaderFile; }
 	const std::string&		GetShaderEntry			() const { return m_shaderEntry; }
 
 

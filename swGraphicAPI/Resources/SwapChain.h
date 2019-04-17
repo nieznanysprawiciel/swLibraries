@@ -47,8 +47,8 @@ protected:
 	ResourcePtr< RenderTarget >	m_renderTarget;
 
 protected:
-	SwapChain( RenderTarget* windowRT )
-		: Resource( WRONG_ID )
+	explicit			SwapChain		( RenderTarget* windowRT )
+		: Resource( CreateName( windowRT ) )
 		, m_renderTarget( windowRT )
 	{
 		assert( windowRT );
@@ -67,7 +67,25 @@ public:
 
 	// Inherited via Resource
 	virtual std::string		GetResourceName	() const override { return "SwapChain: " + m_renderTarget->GetResourceName(); }
+
+private:
+
+	AssetPath				CreateName		( RenderTarget* rt ) const;
 };
 
+
+//====================================================================================//
+//			Implementation
+//====================================================================================//
+
+// ================================ //
+//
+inline AssetPath		SwapChain::CreateName		( RenderTarget* rt ) const
+{
+	auto rtPath = rt->GetAssetPath();
+	auto swapChainPath = rtPath.GetInternalPath() / "SwpaChain";
+
+	return AssetPath( rtPath.GetFile(), swapChainPath );
+}
 
 }	// sw

@@ -159,7 +159,6 @@ void ResourceContainer<TYPE>::UnsafeAdd( const std::wstring& name, TYPE* resourc
 
 	container[name] = resource;
 
-	resource->SetID( count );
 	++count;			// Inkrementujemy licznik
 }
 

@@ -47,37 +47,37 @@ Texture*						ResourcesFactory::CreateTextureFromMemory		( const MemoryChunk& te
 
 // ================================ //
 //
-sw::Nullable< VertexShader* >		ResourcesFactory::CreateVertexShader			( const std::wstring& fileName, const std::string& code, const std::string& entrypoint )
+sw::Nullable< VertexShader* >		ResourcesFactory::CreateVertexShader			( const AssetPath& fileName, const std::string& code, const std::string& entrypoint )
 {
 	return VertexShaderObject::CreateFromCode( fileName, code, entrypoint );
 }
 
 // ================================ //
 //
-sw::Nullable< PixelShader* >		ResourcesFactory::CreatePixelShader				( const std::wstring& fileName, const std::string& code, const std::string& entrypoint )
+sw::Nullable< PixelShader* >		ResourcesFactory::CreatePixelShader				( const AssetPath& fileName, const std::string& code, const std::string& entrypoint )
 {
 	return PixelShaderObject::CreateFromCode( fileName, code, entrypoint );
 }
 
 // ================================ //
 //
-sw::Nullable< ComputeShader* >		ResourcesFactory::CreateComputeShader			( const std::wstring& fileName, const std::string& code, const std::string& entrypoint )
+sw::Nullable< ComputeShader* >		ResourcesFactory::CreateComputeShader			( const AssetPath& fileName, const std::string& code, const std::string& entrypoint )
 {
 	return ComputeShaderObject::CreateFromCode( fileName, code, entrypoint );
 }
 
 // ================================ //
 //
-sw::Nullable< ShaderInputLayout* >	ResourcesFactory::CreateInputLayout				( const InputLayoutDescriptor& layoutDesc )
+sw::Nullable< ShaderInputLayout* >	ResourcesFactory::CreateInputLayout				( const AssetPath& name, const InputLayoutDescriptor& layoutDesc )
 {
-	return sw::MockInputLayout::CreateLayout( layoutDesc );
+	return sw::MockInputLayout::CreateLayout( name, layoutDesc );
 }
 
 // ================================ //
 //
-sw::Nullable< Texture* >			ResourcesFactory::CreateTextureFromMemory		( const BufferRaw& texData, sw::TextureInfo&& texInfo )
+sw::Nullable< Texture* >			ResourcesFactory::CreateTextureFromMemory		( const AssetPath& name, const BufferRaw& texData, sw::TextureInfo&& texInfo )
 {
-	return TextureObject::CreateFromMemory( texData, std::move( texInfo ) );
+	return TextureObject::CreateFromMemory( name, texData, std::move( texInfo ) );
 }
 
 
@@ -92,7 +92,7 @@ VertexShader*		ResourcesFactory::CreateVertexShaderFromFile( const std::wstring&
 	auto shader = VertexShaderObject::CreateFromFile( fileName, shaderName, shaderModel );
 	if( shader )
 	{
-		shader->SetFileName( fileName );
+		//shader->SetFileName( fileName );
 		shader->SetShaderName( shaderName );
 	}
 	return shader;
@@ -115,28 +115,28 @@ VertexShader*		ResourcesFactory::CreateVertexShaderFromFile	( const std::wstring
 	auto shader = VertexShaderObject::CreateFromFile( fileName, shaderName, layout, layoutDesc, shaderModel );
 	if( shader )
 	{
-		shader->SetFileName( fileName );
+		//shader->SetFileName( fileName );
 		shader->SetShaderName( shaderName );
 	}
 	return shader;
 }
 
 /**@brief Creates BlendingState.*/
-sw::Nullable< BlendingState* >		ResourcesFactory::CreateBlendingState		( const BlendingInfo& info )
+sw::Nullable< BlendingState* >		ResourcesFactory::CreateBlendingState		( const AssetPath& name, const BlendingInfo& info )
 {
-	return BlendingStateObject::Create( info );
+	return BlendingStateObject::Create( name, info );
 }
 
 /**@brief Creates RasterizerState*/
-sw::Nullable< RasterizerState* >	ResourcesFactory::CreateRasterizerState		( const RasterizerStateInfo& info )
+sw::Nullable< RasterizerState* >	ResourcesFactory::CreateRasterizerState		( const AssetPath& name, const RasterizerStateInfo& info )
 {
-	return RasterizerStateObject::Create( info );
+	return RasterizerStateObject::Create( name, info );
 }
 
 /**@brief Creates DepthStencilState.*/
-sw::Nullable< DepthStencilState* >	ResourcesFactory::CreateDepthStencilState	( const DepthStencilInfo& info )
+sw::Nullable< DepthStencilState* >	ResourcesFactory::CreateDepthStencilState	( const AssetPath& name, const DepthStencilInfo& info )
 {
-	return DepthStencilStateObject::Create( info );
+	return DepthStencilStateObject::Create( name, info );
 }
 
 
@@ -150,7 +150,7 @@ PixelShader*		ResourcesFactory::CreatePixelShaderFromFile( const std::wstring& f
 	auto shader = PixelShaderObject::CreateFromFile( fileName, shaderName, shaderModel );
 	if( shader )
 	{
-		shader->SetFileName( fileName );
+		//shader->SetFileName( fileName );
 		shader->SetShaderName( shaderName );
 	}
 	return shader;
@@ -191,7 +191,7 @@ ComputeShader*		ResourcesFactory::CreateComputeShaderFromFile		( const std::wstr
 @param[in] data Pointer to initialization data. Memory can be released after call.
 @param[in] bufferInfo Buffer descriptor.
 @return Zwraca wskaünik na obiekt bufora lub nullptr w przypadku niepowodzenia.*/
-sw::Nullable< Buffer* >					ResourcesFactory::CreateBufferFromMemory		( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
+sw::Nullable< Buffer* >					ResourcesFactory::CreateBufferFromMemory		( const AssetPath& name, const uint8* data, const BufferInfo& bufferInfo )
 {
 	return BufferObject::CreateFromMemory( name, data, bufferInfo );
 }
@@ -226,7 +226,7 @@ InputLayoutDescriptor*					ResourcesFactory::CreateInputLayoutDescriptor	( const
 
 // ================================ //
 //
-sw::Nullable< RenderTarget* >			ResourcesFactory::CreateRenderTarget			( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor )
+sw::Nullable< RenderTarget* >			ResourcesFactory::CreateRenderTarget			( const AssetPath& name, const RenderTargetDescriptor& renderTargetDescriptor )
 {
 	return sw::MockRenderTarget::CreateRenderTarget( name, renderTargetDescriptor );
 }

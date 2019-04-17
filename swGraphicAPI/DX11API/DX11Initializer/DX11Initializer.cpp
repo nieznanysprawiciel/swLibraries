@@ -99,8 +99,9 @@ SwapChain*			DX11Initializer::CreateSwapChain		( const SwapChainInitData& swapCh
 	result = device->CreateDepthStencilView( backBufferDepth.Get(), &_z_buffer_view_desc, zBufferView.GetAddressOf() );
 	if( FAILED( result ) )	return nullptr;
 
-
-	DX11RenderTarget* renderTargetObject = new DX11RenderTarget( renderTargetView, zBufferView, nullptr, nullptr, nullptr );
+	///@todo Set here proper RenderTarget path. This code can be used in different branch, we must check what happens
+	///there after we merge this to master.
+	DX11RenderTarget* renderTargetObject = new DX11RenderTarget( AssetPath( "", "/RenderTarget" ), renderTargetView, zBufferView, nullptr, nullptr, nullptr );
 	renderTargetObject->SetHeight( static_cast<uint16>( swapChainData.WindowHeight ) );
 	renderTargetObject->SetWidth( static_cast<uint16>( swapChainData.WindowWidth ) );
 

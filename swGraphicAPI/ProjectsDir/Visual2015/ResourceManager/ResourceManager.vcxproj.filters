@@ -332,5 +332,11 @@
     <ClCompile Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.cpp">
       <Filter>ResourceManager\Loaders</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\PathTranslators\AssetPath.cpp">
+      <Filter>ResourceManager\PathTranslators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Resources\Resource.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

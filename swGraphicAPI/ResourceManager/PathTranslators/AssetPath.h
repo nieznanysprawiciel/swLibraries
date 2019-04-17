@@ -6,7 +6,7 @@
 */
 
 #include "swCommonLib/System/Path.h"
-
+#include "swCommonLib/Common/Exceptions/Nullable.h"
 
 #include <tuple>
 
@@ -41,12 +41,17 @@ public:
 
 	explicit		AssetPath		() = default;
 	explicit		AssetPath		( filesystem::Path file, filesystem::Path internalPath );
+					AssetPath		( const std::string& assetPath );
+					AssetPath		( const char* assetPath );
+
 					~AssetPath		() = default;
 
 public:
 
 	const filesystem::Path&			GetFile				() const { return m_filePath; }
 	const filesystem::Path&			GetInternalPath		() const { return m_internalPath; }
+
+	std::string						String				() const;
 
 public:
 
@@ -56,6 +61,10 @@ public:
 	bool					operator<=		( const AssetPath& other ) const;
 	bool					operator>		( const AssetPath& other ) const;
 	bool					operator>=		( const AssetPath& other ) const;
+
+public:
+
+	static Nullable< AssetPath >		FromString		( const std::string& assetPath );
 };
 
 
@@ -66,10 +75,38 @@ public:
 
 // ================================ //
 //
-AssetPath::AssetPath		( filesystem::Path file, filesystem::Path internalPath )
+inline				AssetPath::AssetPath		( filesystem::Path file, filesystem::Path internalPath )
 	:	m_filePath( file )
 	,	m_internalPath( internalPath )
 {}
+
+// ================================ //
+//
+inline				AssetPath::AssetPath		( const std::string& assetPath )
+{
+	auto pathNullable = AssetPath::FromString( assetPath );
+
+	if( pathNullable.IsValid() )
+	{
+		auto path = std::move( pathNullable ).Get();
+
+		m_filePath = std::move( path.m_filePath );
+		m_internalPath = std::move( path.m_internalPath );
+	}
+}
+
+// ================================ //
+//
+inline				AssetPath::AssetPath		( const char* assetPath )
+	:	AssetPath( std::string( assetPath ) )
+{}
+
+// ================================ //
+//
+inline std::string	AssetPath::String			() const
+{
+	return GetFile().String() + "::" + GetInternalPath().String();
+}
 
 // ================================ //
 //
@@ -112,6 +149,7 @@ inline bool			AssetPath::operator>=		( const AssetPath& other ) const
 {
 	return std::tie( m_filePath, m_internalPath ) >= std::tie( other.GetFile(), other.GetInternalPath() );
 }
+
 
 
 }	// sw

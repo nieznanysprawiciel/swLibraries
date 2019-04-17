@@ -98,7 +98,7 @@ void			AssetsFactory::RegisterDefaults		()
 
 // ================================ //
 //
-Nullable< Resource* >	AssetsFactory::CreateAsset		( const filesystem::Path& assetName, TypeID assetType, IAssetCreateInfo&& createInfo )
+Nullable< Resource* >	AssetsFactory::CreateAsset		( const AssetPath& assetName, TypeID assetType, IAssetCreateInfo&& createInfo )
 {
 	IAssetCreator* creator = FindCreator( assetType );
 

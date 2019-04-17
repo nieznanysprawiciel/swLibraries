@@ -84,14 +84,14 @@ class RasterizerState : public Resource
 	friend ObjectDeleter< RasterizerState >;
 private:
 protected:
+
 	virtual			~RasterizerState() = default;
+
 public:
-	explicit		RasterizerState()
-		: Resource( 0 )
-	{}
 
+	explicit		RasterizerState		( const AssetPath& assetPath ) : Resource( assetPath ) {}
 
-	virtual const RasterizerStateInfo&		GetDescriptor	() = 0;
+	virtual const RasterizerStateInfo&		GetDescriptor	() const = 0;
 };
 
 DEFINE_RESOURCE_PTR_TYPE( RasterizerState );

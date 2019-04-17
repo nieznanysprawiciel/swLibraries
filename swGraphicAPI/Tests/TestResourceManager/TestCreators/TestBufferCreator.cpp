@@ -39,7 +39,7 @@ TEST_CASE( "GraphicAPI.AssetsCreators.BufferCreator.ConstantBuffer.NotAligned", 
 	init.NumElements = (uint32)buffer.ElementsCount();
 	init.Data = buffer.GetRawData();
 
-	auto result = creator.Create( "::Buffer::NotAligned", std::move( init ) );
+	auto result = creator.Create( "::/Buffer/NotAligned", std::move( init ) );
 	REQUIRE( result.IsValid() == false );
 
 	CHECK( result.GetError() != nullptr );

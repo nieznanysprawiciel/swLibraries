@@ -32,9 +32,9 @@ IRenderer*			MockInitializer::CreateRenderer		( RendererUsage usage )
 /**@brief */
 SwapChain*			MockInitializer::CreateSwapChain	( const SwapChainInitData& swapChainData )
 {
-	MockRenderTarget* renderTargetObject = new MockRenderTarget( nullptr, nullptr, nullptr );
-	renderTargetObject->SetHeight( static_cast<uint16>( swapChainData.WindowHeight ) );
-	renderTargetObject->SetWidth( static_cast<uint16>( swapChainData.WindowWidth ) );
+	MockRenderTarget* renderTargetObject = new MockRenderTarget( AssetPath( "", "/RenderTarget" ), nullptr, nullptr, nullptr );
+	renderTargetObject->SetHeight( static_cast< uint16 >( swapChainData.WindowHeight ) );
+	renderTargetObject->SetWidth( static_cast< uint16 >( swapChainData.WindowWidth ) );
 
 	MockSwapChain* newSwapChain = new MockSwapChain( renderTargetObject );
 	return newSwapChain;

@@ -18,18 +18,18 @@ namespace sw
 
 // ================================ //
 //
-Nullable< Resource* >		RasterizerStateCreator::Create		( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
+Nullable< Resource* >		RasterizerStateCreator::Create		( const AssetPath& assetName, IAssetCreateInfo&& createInfo )
 {
 	TypeID type = createInfo.get_type();
 	if( type == TypeID::get< RasterizerStateInfo >() )
-		return ResourcesFactory::CreateRasterizerState( static_cast< RasterizerStateInfo& >( createInfo ) );
+		return ResourcesFactory::CreateRasterizerState( assetName, static_cast< RasterizerStateInfo& >( createInfo ) );
 
 	return "[RasterizerStateCreator] IAssetCreateInfo of type [" + type.get_name().to_string() + "] not supported.";
 }
 
 // ================================ //
 //
-Nullable< Resource* >		RasterizerStateCreator::LoadFromRaw	( const filesystem::Path& assetName, const BufferRaw& rawData )
+Nullable< Resource* >		RasterizerStateCreator::LoadFromRaw	( const AssetPath& assetName, const BufferRaw& rawData )
 {
 	assert( !"Buffer is not cacheable" );
 	return nullptr;

@@ -44,15 +44,14 @@ protected:
 	virtual		~DX11RasterizerState() = default;
 
 public:
-	explicit	DX11RasterizerState	( ComPtr< ID3D11RasterizerState > state, const RasterizerStateInfo& info );
+	explicit	DX11RasterizerState	( const AssetPath& assetPath, ComPtr< ID3D11RasterizerState > state, const RasterizerStateInfo& info );
 
 	ID3D11RasterizerState*								Get	() { return m_state.Get(); }
 
 	// Inherited via RasterizerState
-	virtual std::string									GetResourceName	() const override;
-	virtual const RasterizerStateInfo&					GetDescriptor	() override;
+	virtual const RasterizerStateInfo&					GetDescriptor	() const override;
 
-	static sw::Nullable< DX11RasterizerState* >			Create			( const RasterizerStateInfo& info );
+	static sw::Nullable< DX11RasterizerState* >			Create			(  const AssetPath& assetPath, const RasterizerStateInfo& info );
 };
 
 //====================================================================================//
@@ -72,15 +71,14 @@ private:
 protected:
 	~DX11DepthStencilState() = default;
 public:
-	explicit	DX11DepthStencilState	( ComPtr< ID3D11DepthStencilState > state, const DepthStencilInfo& info );
+	explicit	DX11DepthStencilState	( const AssetPath& assetPath, ComPtr< ID3D11DepthStencilState > state, const DepthStencilInfo& info );
 
 	ID3D11DepthStencilState*							Get	() { return m_state.Get(); }
 
 	// Inherited via DepthStencilState
-	virtual std::string									GetResourceName	() const override;
-	virtual const DepthStencilInfo&						GetDescriptor	() override;
+	virtual const DepthStencilInfo&						GetDescriptor	() const override;
 
-	static sw::Nullable< DX11DepthStencilState* >		Create			( const DepthStencilInfo& info );
+	static sw::Nullable< DX11DepthStencilState* >		Create			( const AssetPath& assetPath, const DepthStencilInfo& info );
 };
 
 
@@ -104,16 +102,15 @@ protected:
 	virtual		~DX11BlendingState	() = default;
 
 public:
-	explicit	DX11BlendingState	( ComPtr< ID3D11BlendState > state, const BlendingInfo& info );
+	explicit	DX11BlendingState	( const AssetPath& assetPath, ComPtr< ID3D11BlendState > state, const BlendingInfo& info );
 
 
 	ID3D11BlendState*								Get	() { return m_state.Get(); }
 
 	// Inherited via BlendingState
-	virtual std::string								GetResourceName	() const override;
-	virtual const BlendingInfo&						GetDescriptor	() override;
+	virtual const BlendingInfo&						GetDescriptor	() const override;
 
-	static sw::Nullable< DX11BlendingState* >		Create			( const BlendingInfo& info );
+	static sw::Nullable< DX11BlendingState* >		Create			( const AssetPath& assetPath, const BlendingInfo& info );
 };
 
 

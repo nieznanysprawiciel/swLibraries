@@ -28,14 +28,12 @@ private:
 protected:
 	~MockRasterizerState() = default;
 public:
-	explicit	MockRasterizerState	( const RasterizerStateInfo& info );
+	explicit	MockRasterizerState	( const AssetPath& name, const RasterizerStateInfo& info );
 
 
-	// Inherited via RasterizerState
-	virtual std::string					GetResourceName	() const override;
-	virtual const RasterizerStateInfo&	GetDescriptor	() override;
+	virtual const RasterizerStateInfo&	GetDescriptor	() const override;
 
-	static MockRasterizerState*			Create			( const RasterizerStateInfo& info );
+	static MockRasterizerState*			Create			( const AssetPath& name, const RasterizerStateInfo& info );
 };
 
 
@@ -51,14 +49,12 @@ private:
 protected:
 	~MockDepthStencilState() = default;
 public:
-	explicit	MockDepthStencilState	( const DepthStencilInfo& info );
+	explicit	MockDepthStencilState	( const AssetPath& name, const DepthStencilInfo& info );
 
 
-	// Inherited via DepthStencilState
-	virtual std::string					GetResourceName	() const override;
-	virtual const DepthStencilInfo&		GetDescriptor	() override;
+	virtual const DepthStencilInfo&		GetDescriptor	() const override;
 
-	static MockDepthStencilState*		Create			( const DepthStencilInfo& info );
+	static MockDepthStencilState*		Create			( const AssetPath& name, const DepthStencilInfo& info );
 };
 
 
@@ -75,14 +71,12 @@ private:
 protected:
 	~MockBlendingState() = default;
 public:
-	explicit	MockBlendingState	( const BlendingInfo& info );
+	explicit	MockBlendingState	( const AssetPath& name, const BlendingInfo& info );
 
 
-	// Inherited via BlendingState
-	virtual std::string				GetResourceName	() const override;
-	virtual const BlendingInfo&		GetDescriptor	() override;
+	virtual const BlendingInfo&		GetDescriptor	() const override;
 
-	static MockBlendingState*		Create			( const BlendingInfo& info );
+	static MockBlendingState*		Create			( const AssetPath& name, const BlendingInfo& info );
 };
 
 }	// sw

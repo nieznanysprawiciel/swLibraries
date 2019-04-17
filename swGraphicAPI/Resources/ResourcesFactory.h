@@ -17,6 +17,8 @@
 #include "swGraphicAPI/Resources/SwapChain.h"
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
 
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
+
 
 
 class ResourceManager;
@@ -68,18 +70,18 @@ class ResourcesFactory
 
 private:
 
-	static sw::Nullable< VertexShader* >		CreateVertexShader				( const std::wstring& fileName, const std::string& code, const std::string& entrypoint );
-	static sw::Nullable< PixelShader* >			CreatePixelShader				( const std::wstring& fileName, const std::string& code, const std::string& entrypoint );
-	static sw::Nullable< ComputeShader* >		CreateComputeShader				( const std::wstring& fileName, const std::string& code, const std::string& entrypoint );
+	static sw::Nullable< VertexShader* >		CreateVertexShader				( const AssetPath& name, const std::string& code, const std::string& entrypoint );
+	static sw::Nullable< PixelShader* >			CreatePixelShader				( const AssetPath& name, const std::string& code, const std::string& entrypoint );
+	static sw::Nullable< ComputeShader* >		CreateComputeShader				( const AssetPath& name, const std::string& code, const std::string& entrypoint );
 
-	static sw::Nullable< ShaderInputLayout* >	CreateInputLayout				( const InputLayoutDescriptor& layoutDesc );
+	static sw::Nullable< ShaderInputLayout* >	CreateInputLayout				( const AssetPath& name, const InputLayoutDescriptor& layoutDesc );
 
-	static sw::Nullable< Texture* >				CreateTextureFromMemory			( const BufferRaw& texData, sw::TextureInfo&& texInfo );
-	static sw::Nullable< Buffer* >				CreateBufferFromMemory			( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo );
+	static sw::Nullable< Texture* >				CreateTextureFromMemory			( const AssetPath& name, const BufferRaw& texData, sw::TextureInfo&& texInfo );
+	static sw::Nullable< Buffer* >				CreateBufferFromMemory			( const AssetPath& name, const uint8* data, const BufferInfo& bufferInfo );
 
-	static sw::Nullable< BlendingState*	>		CreateBlendingState				( const BlendingInfo& info );
-	static sw::Nullable< RasterizerState* >		CreateRasterizerState			( const RasterizerStateInfo& info );
-	static sw::Nullable< DepthStencilState* >	CreateDepthStencilState			( const DepthStencilInfo& info );
+	static sw::Nullable< BlendingState*	>		CreateBlendingState				( const AssetPath& name, const BlendingInfo& info );
+	static sw::Nullable< RasterizerState* >		CreateRasterizerState			( const AssetPath& name, const RasterizerStateInfo& info );
+	static sw::Nullable< DepthStencilState* >	CreateDepthStencilState			( const AssetPath& name, const DepthStencilInfo& info );
 
 
 	static Texture*								CreateTextureFromMemory			( const MemoryChunk& texData, sw::TextureInfo&& texInfo );
@@ -103,7 +105,7 @@ public:
 	static RenderTarget*						CreateScreenRenderTarget		();
 	static SwapChain*							CreateScreenSwapChain			( RenderTarget* screenRT );
 	static InputLayoutDescriptor*				CreateInputLayoutDescriptor		( const std::wstring& layoutName );
-	static sw::Nullable< RenderTarget* >		CreateRenderTarget				( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor );
+	static sw::Nullable< RenderTarget* >		CreateRenderTarget				( const AssetPath& name, const RenderTargetDescriptor& renderTargetDescriptor );
 };
 
 

@@ -39,8 +39,9 @@ void DX11Texture::Construct()
 
 
 /**@brief Remember to release tex and texView (Call com interface Release method)*/
-DX11Texture::DX11Texture( TextureInfo&& texInfo, ID3D11Texture2D* tex, ID3D11ShaderResourceView* texView )
-	: m_texture( tex )
+DX11Texture::DX11Texture		( const AssetPath& name, TextureInfo&& texInfo, ID3D11Texture2D* tex, ID3D11ShaderResourceView* texView )
+	: Texture( name )
+	, m_texture( tex )
 	, m_textureView( texView )
 	, m_descriptor( std::move( texInfo ) )
 {
@@ -50,8 +51,9 @@ DX11Texture::DX11Texture( TextureInfo&& texInfo, ID3D11Texture2D* tex, ID3D11Sha
 
 // ================================ //
 //
-DX11Texture::DX11Texture( TextureInfo&& texInfo, ComPtr< ID3D11Texture2D > tex, ComPtr< ID3D11ShaderResourceView > texView )
-	: m_texture( tex )
+DX11Texture::DX11Texture		( const AssetPath& name, TextureInfo&& texInfo, ComPtr< ID3D11Texture2D > tex, ComPtr< ID3D11ShaderResourceView > texView )
+	: Texture( name )
+	, m_texture( tex )
 	, m_textureView( texView )
 	, m_descriptor( std::move( texInfo ) )
 {
@@ -73,15 +75,10 @@ const TextureInfo&				DX11Texture::GetDescriptor() const
 	return m_descriptor;
 }
 
-/**@copydoc Texture::GetFilePath.*/
-const filesystem::Path&			DX11Texture::GetFilePath() const
-{
-	return m_descriptor.FilePath;
-}
 
 // ================================ //
 //
-sw::Nullable< DX11Texture* >	DX11Texture::CreateFromMemory	( const BufferRaw& texData, TextureInfo&& texInfo )
+sw::Nullable< DX11Texture* >	DX11Texture::CreateFromMemory	( const AssetPath& name, const BufferRaw& texData, TextureInfo&& texInfo )
 {
 	if( texData.GetData() == nullptr )
 		return "[DX11Texture] Can't create texture. Data field is nullptr.";
@@ -127,7 +124,7 @@ sw::Nullable< DX11Texture* >	DX11Texture::CreateFromMemory	( const BufferRaw& te
 
 			result = device->CreateShaderResourceView( texture.Get(), &viewDesc, &texView );
 			if( result == S_OK )
-				return new DX11Texture( std::move( texInfo ), texture, texView );
+				return new DX11Texture( name, std::move( texInfo ), texture, texView );
 			else
 				return "[DX11Texture] Can't create texture. Error: " + DX11Utils::ErrorString( result );
 		}
@@ -189,7 +186,10 @@ DX11Texture*	DX11Texture::CreateFromMemory( const MemoryChunk& texData, TextureI
 
 			result = device->CreateShaderResourceView( texture.Get(), &viewDesc, &texView );
 			if( result == S_OK )
-				return new DX11Texture( std::move( texInfo ), texture, texView );
+			{
+				auto path = texInfo.FilePath;
+				return new DX11Texture( AssetPath( path, "" ), std::move( texInfo ), texture, texView );
+			}
 			else
 				return nullptr;
 		}

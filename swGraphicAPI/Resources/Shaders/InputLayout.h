@@ -31,9 +31,7 @@ protected:
 	virtual			~ShaderInputLayout	() = default;
 
 public:
-	explicit		ShaderInputLayout	() = default;
-
-	virtual std::string			GetResourceName	() const override { return ""; }
+	explicit		ShaderInputLayout		( const AssetPath& assetPath ) : IShaderInputLayout( assetPath ) {}
 };
 
 DEFINE_RESOURCE_PTR_TYPE( ShaderInputLayout );

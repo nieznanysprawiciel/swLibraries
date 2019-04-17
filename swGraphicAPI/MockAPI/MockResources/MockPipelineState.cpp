@@ -23,29 +23,23 @@ namespace sw
 //			RasterizerState	
 //====================================================================================//
 
-MockRasterizerState::MockRasterizerState( const RasterizerStateInfo& info )
-	:	m_info( info )
+MockRasterizerState::MockRasterizerState	( const AssetPath& name, const RasterizerStateInfo& info )
+	:	RasterizerState( name )
+	,	m_info( info )
 {}
 
 // ================================ //
 //
-std::string						MockRasterizerState::GetResourceName() const
-{
-	return std::string();
-}
-
-// ================================ //
-//
-const RasterizerStateInfo&		MockRasterizerState::GetDescriptor()
+const RasterizerStateInfo&		MockRasterizerState::GetDescriptor	() const
 {
 	return m_info;
 }
 
 // ================================ //
 //
-MockRasterizerState*			MockRasterizerState::Create		( const RasterizerStateInfo& info )
+MockRasterizerState*			MockRasterizerState::Create		( const AssetPath& name, const RasterizerStateInfo& info )
 {
-	return new MockRasterizerState( info );
+	return new MockRasterizerState( name, info );
 }
 
 
@@ -54,29 +48,23 @@ MockRasterizerState*			MockRasterizerState::Create		( const RasterizerStateInfo&
 //			DepthStencilState	
 //====================================================================================//
 
-MockDepthStencilState::MockDepthStencilState( const DepthStencilInfo& info )
-	:	m_info( info )
+MockDepthStencilState::MockDepthStencilState	( const AssetPath& name, const DepthStencilInfo& info )
+	:	DepthStencilState( name )
+	,	m_info( info )
 {}
 
 // ================================ //
 //
-std::string						MockDepthStencilState::GetResourceName() const
-{
-	return std::string();
-}
-
-// ================================ //
-//
-const DepthStencilInfo&			MockDepthStencilState::GetDescriptor()
+const DepthStencilInfo&			MockDepthStencilState::GetDescriptor	() const
 {
 	return m_info;
 }
 
 // ================================ //
 //
-MockDepthStencilState*			MockDepthStencilState::Create			( const DepthStencilInfo& info )
+MockDepthStencilState*			MockDepthStencilState::Create			( const AssetPath& name, const DepthStencilInfo& info )
 {
-	return new MockDepthStencilState( info );
+	return new MockDepthStencilState( name, info );
 }
 
 
@@ -85,29 +73,24 @@ MockDepthStencilState*			MockDepthStencilState::Create			( const DepthStencilInf
 //			BlendingState	
 //====================================================================================//
 
-MockBlendingState::MockBlendingState( const BlendingInfo& info )
-	:	m_info( info )
+MockBlendingState::MockBlendingState	( const AssetPath& name, const BlendingInfo& info )
+	:	BlendingState( name )
+	,	m_info( info )
 {}
 
-// ================================ //
-//
-std::string						MockBlendingState::GetResourceName() const
-{
-	return std::string();
-}
 
 // ================================ //
 //
-const BlendingInfo&				MockBlendingState::GetDescriptor()
+const BlendingInfo&				MockBlendingState::GetDescriptor	() const
 {
 	return m_info;
 }
 
 // ================================ //
 //
-MockBlendingState*				MockBlendingState::Create		( const BlendingInfo & info )
+MockBlendingState*				MockBlendingState::Create		( const AssetPath& name, const BlendingInfo & info )
 {
-	return new MockBlendingState( info );
+	return new MockBlendingState( name, info );
 }
 
 }	// sw

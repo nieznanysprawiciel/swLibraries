@@ -16,23 +16,23 @@ namespace sw
 
 // ================================ //
 //
-bool											ShaderLoader::CanLoad		( const filesystem::Path& filePath, TypeID resourceType )
+bool											ShaderLoader::CanLoad		( const AssetPath& filePath, TypeID resourceType )
 {
 	return false;
 }
 
 // ================================ //
 //
-LoadingResult									ShaderLoader::Load			( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+LoadingResult									ShaderLoader::Load			( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
-	std::string fileContent = filesystem::File::Load( filePath );
+	std::string fileContent = filesystem::File::Load( filePath.GetFile() );
 
 	return LoadingResult();
 }
 
 // ================================ //
 //
-ReturnResult									ShaderLoader::Prefetch		( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+ReturnResult									ShaderLoader::Prefetch		( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	return Result::Error;
 }

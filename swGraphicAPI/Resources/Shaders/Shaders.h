@@ -53,11 +53,9 @@ class VertexShader : public IShader
 	friend ObjectDeleter< VertexShader >;
 private:
 protected:
-	~VertexShader() = default;
+	virtual		~VertexShader	() = default;
 public:
-	VertexShader() = default;
-
-	virtual std::string			GetResourceName	() const override { return ""; }
+	explicit	VertexShader	( const AssetPath& assetPath ) : IShader( assetPath ) {}
 };
 
 DEFINE_RESOURCE_PTR_TYPE( VertexShader );
@@ -77,11 +75,9 @@ class PixelShader : public IShader
 	friend ObjectDeleter< PixelShader >;
 private:
 protected:
-	~PixelShader() = default;
+	virtual		~PixelShader	() = default;
 public:
-	PixelShader() = default;
-
-	virtual std::string			GetResourceName	() const override { return ""; }
+	explicit	PixelShader		( const AssetPath& assetPath ) : IShader( assetPath ) {}
 };
 
 DEFINE_RESOURCE_PTR_TYPE( PixelShader );
@@ -101,11 +97,9 @@ class GeometryShader : public IShader
 	friend ObjectDeleter<GeometryShader>;
 private:
 protected:
-	~GeometryShader() = default;
+	virtual		~GeometryShader	() = default;
 public:
-	GeometryShader() = default;
-
-	virtual std::string			GetResourceName	() const override { return ""; }
+	explicit	GeometryShader	( const AssetPath& assetPath ) : IShader( assetPath ) {}
 };
 
 DEFINE_RESOURCE_PTR_TYPE( GeometryShader );
@@ -125,11 +119,9 @@ class ControlShader : public IShader
 	friend ObjectDeleter< ControlShader >;
 private:
 protected:
-	~ControlShader() = default;
+	virtual		~ControlShader	() = default;
 public:
-	ControlShader() = default;
-
-	virtual std::string			GetResourceName	() const override { return ""; }
+	explicit	ControlShader	( const AssetPath& assetPath ) : IShader( assetPath ) {}
 };
 
 DEFINE_RESOURCE_PTR_TYPE( ControlShader );
@@ -149,11 +141,9 @@ class EvaluationShader : public IShader
 	friend ObjectDeleter< EvaluationShader >;
 private:
 protected:
-	~EvaluationShader() = default;
+	virtual		~EvaluationShader	() = default;
 public:
-	EvaluationShader() = default;
-
-	virtual std::string			GetResourceName	() const override { return ""; }
+	explicit	EvaluationShader	( const AssetPath& assetPath ) : IShader( assetPath ) {}
 };
 
 DEFINE_RESOURCE_PTR_TYPE( EvaluationShader );
@@ -173,11 +163,9 @@ class ComputeShader : public IShader
 	friend ObjectDeleter<ComputeShader>;
 private:
 protected:
-	~ComputeShader() = default;
+	virtual		~ComputeShader		() = default;
 public:
-	ComputeShader() = default;
-
-	virtual std::string			GetResourceName	() const override { return ""; }
+	explicit	ComputeShader		( const AssetPath& assetPath ) : IShader( assetPath ) {}
 };
 
 DEFINE_RESOURCE_PTR_TYPE( ComputeShader );

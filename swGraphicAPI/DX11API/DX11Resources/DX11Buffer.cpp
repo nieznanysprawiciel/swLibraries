@@ -24,16 +24,14 @@ namespace sw
 
 // ================================ //
 //
-DX11Buffer::DX11Buffer( const std::wstring& name, const BufferInfo& descriptor, ID3D11Buffer* buff )
-	: Buffer( descriptor.ElementSize, descriptor.NumElements ), m_buffer( buff )
+DX11Buffer::DX11Buffer			( const AssetPath& name, const BufferInfo& descriptor, ID3D11Buffer* buff )
+	: Buffer( name, descriptor.ElementSize, descriptor.NumElements ), m_buffer( buff )
 	, m_descriptor( descriptor )
 {
-	m_descriptor.Name = name;
-
 	if( IsDebugLayerEnabled() )
 	{
-		std::string nameStr = Convert::ToString< std::wstring >( name );
-		SetDebugName( m_buffer, nameStr );
+		std::string nameStr = name.String();
+		SetDebugName( m_buffer.Get(), nameStr );
 	}
 }
 
@@ -41,15 +39,13 @@ DX11Buffer::DX11Buffer( const std::wstring& name, const BufferInfo& descriptor, 
 //
 DX11Buffer::~DX11Buffer()
 {
-	if( m_buffer )
-		m_buffer->Release();
 	m_buffer = nullptr;
 }
 
 
 // ================================ //
 //
-sw::Nullable< Buffer* >				DX11Buffer::CreateFromMemory	( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
+sw::Nullable< Buffer* >				DX11Buffer::CreateFromMemory	( const AssetPath& name, const uint8* data, const BufferInfo& bufferInfo )
 {
 	ResourceBinding bindFlag;
 	if( bufferInfo.BufferType == BufferType::VertexBuffer )
@@ -116,7 +112,7 @@ MemoryChunk									DX11Buffer::CopyData()
 		return MemoryChunk();
 
 	// Kopiowanie zawartoœci miêdzy buforami
-	device_context->CopyResource( newBuffer, m_buffer );
+	device_context->CopyResource( newBuffer, m_buffer.Get() );
 
 	D3D11_MAPPED_SUBRESOURCE data;
 	result = device_context->Map( newBuffer, 0, D3D11_MAP::D3D11_MAP_READ, 0, &data );

@@ -8,6 +8,7 @@
 #include "IAssetCreator.h"
 
 #include "swGraphicAPI/Resources/MeshResources.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
 
 
 #include <vector>
@@ -52,7 +53,7 @@ public:
 
 	/**@brief Function for generic asset creation.
 	Internal implementation can steal content of IAssetCreateInfo.*/
-	Nullable< Resource* >	CreateAsset		( const filesystem::Path& assetName, TypeID assetType, IAssetCreateInfo&& createInfo );
+	Nullable< Resource* >	CreateAsset		( const AssetPath& assetName, TypeID assetType, IAssetCreateInfo&& createInfo );
 
 	/**@brief Registers asset creator.
 	Can't register creator when it existed.
@@ -65,12 +66,12 @@ public:
 
 public:
 
-	ResourcePtr< Buffer >		CreateVertexBuffer			( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount );
-	ResourcePtr< Buffer >		CreateVertexBuffer			( const filesystem::Path& name, const VertexBufferInitData& data );
-	ResourcePtr< Buffer >		CreateIndexBuffer			( const filesystem::Path& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount );
-	ResourcePtr< Buffer >		CreateIndexBuffer			( const filesystem::Path& name, const IndexBufferInitData& data );
-	ResourcePtr< Buffer >		CreateConstantsBuffer		( const filesystem::Path& name, const uint8* buffer, unsigned int size );
-	ResourcePtr< Buffer >		CreateConstantsBuffer		( const filesystem::Path& name, const ConstantBufferInitData& data );
+	ResourcePtr< Buffer >		CreateVertexBuffer			( const AssetPath& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount );
+	ResourcePtr< Buffer >		CreateVertexBuffer			( const AssetPath& name, const VertexBufferInitData& data );
+	ResourcePtr< Buffer >		CreateIndexBuffer			( const AssetPath& name, const uint8* buffer, unsigned int elementSize, unsigned int vertCount );
+	ResourcePtr< Buffer >		CreateIndexBuffer			( const AssetPath& name, const IndexBufferInitData& data );
+	ResourcePtr< Buffer >		CreateConstantsBuffer		( const AssetPath& name, const uint8* buffer, unsigned int size );
+	ResourcePtr< Buffer >		CreateConstantsBuffer		( const AssetPath& name, const ConstantBufferInitData& data );
 
 
 private:

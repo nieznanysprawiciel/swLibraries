@@ -23,17 +23,15 @@ namespace sw
 
 // ================================ //
 //
-DX11InputLayout::DX11InputLayout( ID3D11InputLayout* layout )
-{
-	m_vertexLayout = layout;
-}
+DX11InputLayout::DX11InputLayout		( const AssetPath& fileName, ID3D11InputLayout* layout )
+	:	ShaderInputLayout( fileName )
+	,	m_vertexLayout( layout )
+{}
 
 // ================================ //
 //
 DX11InputLayout::~DX11InputLayout()
 {
-	if( m_vertexLayout )
-		m_vertexLayout->Release();
 	m_vertexLayout = nullptr;
 }
 
@@ -244,7 +242,7 @@ std::string						DX11LayoutTranslator::MapSemanticToType		( DXGI_FORMAT format )
 
 // ================================ //
 //
-sw::Nullable< DX11InputLayout* >			DX11InputLayout::CreateLayout		( const InputLayoutDescriptor& layoutDesc )
+sw::Nullable< DX11InputLayout* >			DX11InputLayout::CreateLayout		( const AssetPath& fileName, const InputLayoutDescriptor& layoutDesc )
 {
 	DX11LayoutTranslator layoutTranslator( layoutDesc );
 
@@ -275,7 +273,7 @@ sw::Nullable< DX11InputLayout* >			DX11InputLayout::CreateLayout		( const InputL
 	if( FAILED( result ) )
 		return "[DX11InputLayout] Can't create layout.";
 
-	return new DX11InputLayout( DX11layoutInterface );
+	return new DX11InputLayout( fileName, DX11layoutInterface );
 }
 
 

@@ -10,6 +10,7 @@
 #include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
 #include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
 #include "swGraphicAPI/ResourceManager/nResourceContainer.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
 
 #include "swCommonLib/Common/Multithreading/ReaderWriterLock.h"
 #include "swCommonLib/Common/Exceptions/Nullable.h"
@@ -58,45 +59,45 @@ public:
 
 
 
-	RenderTarget*				CreateRenderTarget			( const filesystem::Path& name, const RenderTargetDescriptor& renderTargetDescriptor );
+	RenderTarget*				CreateRenderTarget			( const AssetPath& name, const RenderTargetDescriptor& renderTargetDescriptor );
 
 	///@name Geting existing resource
 	///@detail Gets resource if exist otherwise returns nullptr.
 	///@{
 
-	ResourcePointer				GetGeneric					( const filesystem::Path& name, TypeID type );
+	ResourcePointer				GetGeneric					( const AssetPath& name, TypeID type );
 
-	BlendingState*				GetBlendingState			( const filesystem::Path& name );
-	RasterizerState*			GetRasterizerState			( const filesystem::Path& name );
-	DepthStencilState*			GetDepthStencilState		( const filesystem::Path& name );
+	BlendingState*				GetBlendingState			( const AssetPath& name );
+	RasterizerState*			GetRasterizerState			( const AssetPath& name );
+	DepthStencilState*			GetDepthStencilState		( const AssetPath& name );
 
 	BlendingState*				GetBlendingState			( const BlendingInfo& info );
 	RasterizerState*			GetRasterizerState			( const RasterizerStateInfo& info );
 	DepthStencilState*			GetDepthStencilState		( const DepthStencilInfo& info );
 
-	RenderTarget*				GetRenderTarget				( const filesystem::Path& name );
-	VertexShader*				GetVertexShader				( const filesystem::Path& name );
-	PixelShader*				GetPixelShader				( const filesystem::Path& name );
-	Texture*					GetTexture					( const filesystem::Path& name );
-	Buffer*						GetVertexBuffer				( const filesystem::Path& name );
-	Buffer*						GetConstantBuffer			( const filesystem::Path& name );
-	Buffer*						GetIndexBuffer				( const filesystem::Path& name );
-	ShaderInputLayout*			GetLayout					( const filesystem::Path& name );
+	RenderTarget*				GetRenderTarget				( const AssetPath& name );
+	VertexShader*				GetVertexShader				( const AssetPath& name );
+	PixelShader*				GetPixelShader				( const AssetPath& name );
+	Texture*					GetTexture					( const AssetPath& name );
+	Buffer*						GetVertexBuffer				( const AssetPath& name );
+	Buffer*						GetConstantBuffer			( const AssetPath& name );
+	Buffer*						GetIndexBuffer				( const AssetPath& name );
+	ShaderInputLayout*			GetLayout					( const AssetPath& name );
 	///@}
 
 
 	///@name Resource loading
 	///@detail Load assets from specified file. Functions protect from loading assets multiple times.
 	///@{
-	Texture*						LoadTexture					( const filesystem::Path& fileName );
-	VertexShader*					LoadVertexShader			( const filesystem::Path& fileName, const std::string& shaderEntry );
-	VertexShader*					LoadVertexShader			( const filesystem::Path& fileName, const std::string& shaderEntry, ShaderInputLayout** layout, InputLayoutDescriptor* layout_desc );
-	PixelShader*					LoadPixelShader				( const filesystem::Path& fileName, const std::string& shaderEntry );
-	GeometryShader*					LoadGeometryShader			( const filesystem::Path& fileName, const std::string& shaderEntry );
-	ControlShader*					LoadControlShader			( const filesystem::Path& fileName, const std::string& shaderEntry );
-	EvaluationShader*				LoadEvaluationShader		( const filesystem::Path& fileName, const std::string& shaderEntry );
+	Texture*						LoadTexture					( const AssetPath& fileName );
+	VertexShader*					LoadVertexShader			( const AssetPath& fileName, const std::string& shaderEntry );
+	VertexShader*					LoadVertexShader			( const AssetPath& fileName, const std::string& shaderEntry, ShaderInputLayout** layout, InputLayoutDescriptor* layout_desc );
+	PixelShader*					LoadPixelShader				( const AssetPath& fileName, const std::string& shaderEntry );
+	GeometryShader*					LoadGeometryShader			( const AssetPath& fileName, const std::string& shaderEntry );
+	ControlShader*					LoadControlShader			( const AssetPath& fileName, const std::string& shaderEntry );
+	EvaluationShader*				LoadEvaluationShader		( const AssetPath& fileName, const std::string& shaderEntry );
 
-	sw::Nullable< ResourcePointer >	LoadGeneric					( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID type );
+	sw::Nullable< ResourcePointer >	LoadGeneric					( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID type );
 
 	/**@brief Loads asset file with it's whole content.
 	
@@ -113,25 +114,25 @@ public:
 
 	@return Returns list of loaded assets or error if loader was unable to load file. Loading results
 	contains all warnings that occured during loading.*/
-	LoadingResult					LoadFileGeneric				( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID type );
+	LoadingResult					LoadFileGeneric				( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID type );
 	///@}
 
 	///@name Resource creation
 	///@detail You can create assets in code using these functions. Remember to give unique names for your assets.
 	///Engine uses convention, that all generated resources have :: before name, to distinguish them from assets loaded from files.
 	///@{
-	ResourcePtr< Buffer >			CreateVertexBuffer			( const filesystem::Path& name, const void* buffer, unsigned int elementSize, unsigned int vertCount );
-	ResourcePtr< Buffer >			CreateVertexBuffer			( const filesystem::Path& name, const VertexBufferInitData& data );
-	ResourcePtr< Buffer >			CreateIndexBuffer			( const filesystem::Path& name, const void* buffer, unsigned int elementSize, unsigned int vertCount );
-	ResourcePtr< Buffer >			CreateIndexBuffer			( const filesystem::Path& name, const IndexBufferInitData& data );
-	ResourcePtr< Buffer >			CreateConstantsBuffer		( const filesystem::Path& name, const void* buffer, unsigned int size );
-	ResourcePtr< Buffer >			CreateConstantsBuffer		( const filesystem::Path& name, const ConstantBufferInitData& data );
+	ResourcePtr< Buffer >			CreateVertexBuffer			( const AssetPath& name, const void* buffer, unsigned int elementSize, unsigned int vertCount );
+	ResourcePtr< Buffer >			CreateVertexBuffer			( const AssetPath& name, const VertexBufferInitData& data );
+	ResourcePtr< Buffer >			CreateIndexBuffer			( const AssetPath& name, const void* buffer, unsigned int elementSize, unsigned int vertCount );
+	ResourcePtr< Buffer >			CreateIndexBuffer			( const AssetPath& name, const IndexBufferInitData& data );
+	ResourcePtr< Buffer >			CreateConstantsBuffer		( const AssetPath& name, const void* buffer, unsigned int size );
+	ResourcePtr< Buffer >			CreateConstantsBuffer		( const AssetPath& name, const ConstantBufferInitData& data );
 
-	ResourcePtr< BlendingState >	CreateBlendingState			( const filesystem::Path& name, const BlendingInfo& info );
-	ResourcePtr< RasterizerState >	CreateRasterizerState		( const filesystem::Path& name, const RasterizerStateInfo& info );
-	ResourcePtr< DepthStencilState >CreateDepthStencilState		( const filesystem::Path& name, const DepthStencilInfo& info );
+	ResourcePtr< BlendingState >	CreateBlendingState			( const AssetPath& name, const BlendingInfo& info );
+	ResourcePtr< RasterizerState >	CreateRasterizerState		( const AssetPath& name, const RasterizerStateInfo& info );
+	ResourcePtr< DepthStencilState >CreateDepthStencilState		( const AssetPath& name, const DepthStencilInfo& info );
 
-	sw::Nullable< ResourcePointer >	CreateGenericAsset			( const filesystem::Path& name, TypeID assetType, IAssetCreateInfo&& createInfo );
+	sw::Nullable< ResourcePointer >	CreateGenericAsset			( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo );
 	///@}
 
 	RenderTarget*					AddRenderTarget				( RenderTarget* renderTarget, const std::wstring& name );
@@ -164,13 +165,13 @@ public:
 
 protected:
 
-	ResourcePtr< Resource >						FindResource		( const filesystem::Path& assetName, TypeID assetType );
-	ResourcePtr< Resource >						FindRequestedAsset	( const filesystem::Path& assetName, TypeID assetType, const AssetsVec& loadedAssets );
-	IAssetLoader*								FindLoader			( const filesystem::Path& assetName, TypeID assetType );
+	ResourcePtr< Resource >						FindResource		( const AssetPath& assetName, TypeID assetType );
+	ResourcePtr< Resource >						FindRequestedAsset	( const AssetPath& assetName, TypeID assetType, const AssetsVec& loadedAssets );
+	IAssetLoader*								FindLoader			( const AssetPath& assetName, TypeID assetType );
 
-	sw::Nullable< ResourcePointer >				LoadingImpl			( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID assetType );
+	sw::Nullable< ResourcePointer >				LoadingImpl			( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID assetType );
 
-	ReturnResult								AddGenericResource	( const filesystem::Path& name, TypeID assetType, ResourcePointer resource );
+	ReturnResult								AddGenericResource	( const AssetPath& name, TypeID assetType, ResourcePointer resource );
 };
 
 }	// sw

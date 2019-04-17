@@ -87,7 +87,9 @@
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\PathTranslators\AssetPath.cpp" />
     <ClCompile Include="..\..\..\Resources\Buffers\Buffer.cpp" />
+    <ClCompile Include="..\..\..\Resources\Resource.cpp" />
     <ClCompile Include="..\..\..\Resources\Textures\RenderTarget.cpp" />
     <ClCompile Include="..\..\..\Resources\Textures\Texture.cpp" />
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.inl">

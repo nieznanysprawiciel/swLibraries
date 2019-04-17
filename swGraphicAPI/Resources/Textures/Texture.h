@@ -80,7 +80,7 @@ struct TextureInfo
 													///< Set value to 1 if you want to replace original texture with first mipmap.
 
 	uint32				MemorySize;					///< Texture size in memory.
-	filesystem::Path	FilePath;					///< Texture path or name.
+	filesystem::Path	FilePath;					///< Texture path or name. @deprecated Remove, after we get rid of old creation functions.
 
 // ================================ //
 //
@@ -132,12 +132,14 @@ class Texture : public Resource
 	friend ObjectDeleter<Texture>;
 private:
 protected:
-	/// ¯eby unikn¹æ pomy³ki, obiekt mo¿e byœ kasowany tylko przez AssetsManager. Zapewnia to ObjectDeleter.
-	virtual ~Texture() = default;
-public:
-	Texture() : Resource( 0 ) {}
 
-	virtual const filesystem::Path&		GetFilePath		() const = 0;		///< Returns name of file, from which this object was created.
+	virtual			~Texture	() = default;
+
+public:
+
+	explicit		Texture		( const AssetPath& name ) : Resource( name ) {}
+
+public:
 
 	/**@brief Updates texture data on graphic card.
 	Note that size of dataPtr memory must large be enough to fill requested miplevel and array idx.

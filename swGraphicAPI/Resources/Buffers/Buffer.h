@@ -36,13 +36,11 @@ protected:
 	virtual				~Buffer	() = default;
 public:
 
-	explicit			Buffer			( unsigned int elementSize, unsigned int elementCount );
+	explicit			Buffer			( const AssetPath& assetPath, unsigned int elementSize, unsigned int elementCount );
 
 	inline unsigned int GetStride		() { return m_elementSize; }		///<Zwraca rozmiar pojedynczego elementu w buforze.
 	inline unsigned int	GetElementSize	() { return m_elementSize; }		///<Zwraca rozmiar pojedynczego elementu w buforze.
 	inline unsigned int GetElementCount	() { return m_elementCount; }		///<Zwraca liczbê elementów w buforze.
-
-	virtual std::string	GetResourceName	() const override { return GetDescriptor().GetName(); }
 };
 
 DEFINE_RESOURCE_PTR_TYPE( Buffer );

@@ -96,12 +96,9 @@ protected:
 	virtual			~BlendingState() = default;
 
 public:
-	explicit		BlendingState()
-		: Resource( 0 )
-	{}
+	explicit		BlendingState			( const AssetPath& assetPath ) : Resource( assetPath ) {}
 
-
-	virtual const BlendingInfo&		GetDescriptor	() = 0;
+	virtual const BlendingInfo&				GetDescriptor	() const = 0;
 };
 
 DEFINE_RESOURCE_PTR_TYPE( BlendingState );

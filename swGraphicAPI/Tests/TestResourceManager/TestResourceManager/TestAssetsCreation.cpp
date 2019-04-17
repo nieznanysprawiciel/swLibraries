@@ -43,10 +43,10 @@ TEST_CASE( "GraphicAPI.ResourceManager.RegisterAssetCreator", "[GraphicAPI]" )
 
 	MockAssetCreateInfo init;
 
-	auto result = rm.CreateGenericAsset( "::RegisterAssetCreator::Check", TypeID::get< MockAsset >(), std::move( init ) );
+	auto result = rm.CreateGenericAsset( "::/RegisterAssetCreator/Check", TypeID::get< MockAsset >(), std::move( init ) );
 	REQUIRE( result.IsValid() );
 
-	CHECK( rm.GetGeneric( "::RegisterAssetCreator::Check", TypeID::get< MockAsset >() ) != nullptr );
+	CHECK( rm.GetGeneric( "::/RegisterAssetCreator/Check", TypeID::get< MockAsset >() ) != nullptr );
 }
 
 
@@ -63,7 +63,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.SingleAsset", "[GraphicAPI]" 
 	init.NumElements = (uint32)buffer.ElementsCount();
 	init.Data = buffer.GetRawData();
 
-	auto result = rm.CreateGenericAsset( "::RandomBuffer", TypeID::get< Buffer >(), std::move( init ) );
+	auto result = rm.CreateGenericAsset( "::/RandomBuffer", TypeID::get< Buffer >(), std::move( init ) );
 	REQUIRE( result.IsValid() );
 
 	CHECK( result.Get() != nullptr );
@@ -79,12 +79,12 @@ TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.TwoAssetsSameName", "[Graphic
 
 	MockAssetCreateInfo init;
 	
-	auto result = rm.CreateGenericAsset( "::CreateAsset::TwoAssetsSameName", TypeID::get< MockAsset >(), std::move( init ) );
+	auto result = rm.CreateGenericAsset( "::/CreateAsset/TwoAssetsSameName", TypeID::get< MockAsset >(), std::move( init ) );
 	REQUIRE( result.IsValid() );
 
 	MockAssetCreateInfo init2;
 
-	result = rm.CreateGenericAsset( "::CreateAsset::TwoAssetsSameName", TypeID::get< MockAsset >(), std::move( init2 ) );
+	result = rm.CreateGenericAsset( "::/CreateAsset/TwoAssetsSameName", TypeID::get< MockAsset >(), std::move( init2 ) );
 	REQUIRE( !result.IsValid() );
 
 	// One asset should still be alive in ResourceManager. Second asset shouldn't be created or should be properly destroyed.
@@ -99,10 +99,10 @@ TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.AssetWithoutCreator", "[Graph
 
 	MockAssetCreateInfo init;
 	
-	auto result = rm.CreateGenericAsset( "::CreateAsset::AssetWithoutCreator", TypeID::get< MockAsset >(), std::move( init ) );
+	auto result = rm.CreateGenericAsset( "::/CreateAsset/AssetWithoutCreator", TypeID::get< MockAsset >(), std::move( init ) );
 	REQUIRE( !result.IsValid() );
 
-	CHECK( rm.GetGeneric( "::RandomBuffer", TypeID::get< MockAsset >() ) == nullptr );
+	CHECK( rm.GetGeneric( "::/RandomBuffer", TypeID::get< MockAsset >() ) == nullptr );
 }
 
 // ================================ //
@@ -118,7 +118,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.TypeOtherThenDeclared", "[Gra
 
 	MockAssetCreateInfo init;
 
-	auto result = rm.CreateGenericAsset( "::RegisterAssetCreator::Check", TypeID::get< Buffer >(), std::move( init ) );
+	auto result = rm.CreateGenericAsset( "::/RegisterAssetCreator/Check", TypeID::get< Buffer >(), std::move( init ) );
 	REQUIRE( !result.IsValid() );
 }
 

@@ -40,12 +40,12 @@ public:
 	virtual			~IAssetCache	() = 0 {};
 
 
-	virtual bool			AddCacheEntry		( const filesystem::Path& filePath, TypeID resourceType, MemoryChunk rawData  )		= 0;
-	virtual bool			RemoveEntry			( const filesystem::Path& filePath, TypeID resourceType )							= 0;
+	virtual bool			AddCacheEntry		( const AssetPath& filePath, TypeID resourceType, MemoryChunk rawData  )		= 0;
+	virtual bool			RemoveEntry			( const AssetPath& filePath, TypeID resourceType )								= 0;
 
 	/**@brief Gets raw cache entry.
 	@todo Solve problem with multithreading. This entry can be released during use.*/
-	virtual MemoryChunk&	GetEntry			( const filesystem::Path& filePath, TypeID resourceType )							= 0;
+	virtual MemoryChunk&	GetEntry			( const AssetPath& filePath, TypeID resourceType )								= 0;
 
 };
 

@@ -66,11 +66,9 @@ protected:
 	virtual			~DepthStencilState() = default;
 
 public:
-	explicit		DepthStencilState()
-		: Resource( 0 )
-	{}
+	explicit		DepthStencilState		( const AssetPath& assetPath ) : Resource( assetPath ) {}
 
-	virtual const DepthStencilInfo&		GetDescriptor	() = 0;
+	virtual const DepthStencilInfo&			GetDescriptor	() const = 0;
 };
 
 DEFINE_RESOURCE_PTR_TYPE( DepthStencilState );

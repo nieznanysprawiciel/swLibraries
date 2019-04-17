@@ -26,10 +26,10 @@ protected:
 	virtual			~MockInputLayout		();
 
 public:
-	explicit		MockInputLayout			();
+	explicit		MockInputLayout			( const AssetPath& fileName );
 
 
-	static sw::Nullable< MockInputLayout* >		CreateLayout		( const InputLayoutDescriptor& layoutDesc );
+	static sw::Nullable< MockInputLayout* >		CreateLayout		( const AssetPath& fileName, const InputLayoutDescriptor& layoutDesc );
 };
 
 }	// sw

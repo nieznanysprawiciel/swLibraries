@@ -24,7 +24,7 @@ TEST_CASE( "GraphicAPI.DX11.RasterizerStateCreator.Create", "[GraphicAPI]" )
 	AssetsFactory factory;
 	RasterizerStateInfo init;
 
-	auto result = factory.CreateAsset( "::RasterizerState::Default", TypeID::get< RasterizerState >(), std::move( init ) );
+	auto result = factory.CreateAsset( "::/RasterizerState/Default", TypeID::get< RasterizerState >(), std::move( init ) );
 
 	if( !result.IsValid() )
 	{

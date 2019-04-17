@@ -14,21 +14,21 @@ namespace sw
 
 // ================================ //
 //
-bool				MemoryCache::AddCacheEntry		( const filesystem::Path& filePath, TypeID resourceType, MemoryChunk rawData )
+bool				MemoryCache::AddCacheEntry		( const AssetPath& filePath, TypeID resourceType, MemoryChunk rawData )
 {
 	return false;
 }
 
 // ================================ //
 //
-bool				MemoryCache::RemoveEntry		( const filesystem::Path& filePath, TypeID resourceType )
+bool				MemoryCache::RemoveEntry		( const AssetPath& filePath, TypeID resourceType )
 {
 	return false;
 }
 
 // ================================ //
 //
-MemoryChunk&		MemoryCache::GetEntry			( const filesystem::Path& filePath, TypeID resourceType )
+MemoryChunk&		MemoryCache::GetEntry			( const AssetPath& filePath, TypeID resourceType )
 {
 	// TODO: insert return statement here
 	return MemoryChunk();

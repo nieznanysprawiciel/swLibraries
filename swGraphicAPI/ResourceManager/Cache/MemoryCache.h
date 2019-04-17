@@ -26,11 +26,11 @@ public:
 
 
 	/**@copydoc IAssetCache::AddCacheEntry*/
-	virtual bool			AddCacheEntry		( const filesystem::Path& filePath, TypeID resourceType, MemoryChunk rawData )		override;
+	virtual bool			AddCacheEntry		( const AssetPath& filePath, TypeID resourceType, MemoryChunk rawData )		override;
 	/**@copydoc IAssetCache::RemoveEntry*/
-	virtual bool			RemoveEntry			( const filesystem::Path& filePath, TypeID resourceType )							override;
+	virtual bool			RemoveEntry			( const AssetPath& filePath, TypeID resourceType )							override;
 	/**@copydoc IAssetCache::GetEntry*/
-	virtual MemoryChunk&	GetEntry			( const filesystem::Path& filePath, TypeID resourceType )							override;
+	virtual MemoryChunk&	GetEntry			( const AssetPath& filePath, TypeID resourceType )							override;
 
 };
 

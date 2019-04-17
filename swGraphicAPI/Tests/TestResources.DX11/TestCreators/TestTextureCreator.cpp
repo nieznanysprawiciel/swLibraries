@@ -39,7 +39,7 @@ TEST_CASE( "GraphicAPI.DX11.TextureCreator.Create.GenerateMipmaps", "[GraphicAPI
 	init.MipMapFilter = MipMapFilter::Box;
 	init.Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
 
-	auto result = factory.CreateAsset( "::Texture::Checkerboard::Mipmaps", TypeID::get< Texture >(), std::move( init ) );
+	auto result = factory.CreateAsset( "::/Texture/Checkerboard/Mipmaps", TypeID::get< Texture >(), std::move( init ) );
 
 	if( !result.IsValid() )
 	{
@@ -71,7 +71,7 @@ TEST_CASE( "GraphicAPI.DX11.TextureCreator.Create.NoMipmaps", "[GraphicAPI]" )
 	init.GenerateMipMaps = false;
 	init.Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
 
-	auto result = factory.CreateAsset( "::Texture::Checkerboard::NoMipmaps", TypeID::get< Texture >(), std::move( init ) );
+	auto result = factory.CreateAsset( "::/Texture/Checkerboard/NoMipmaps", TypeID::get< Texture >(), std::move( init ) );
 
 	if( !result.IsValid() )
 	{

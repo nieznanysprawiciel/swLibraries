@@ -26,10 +26,11 @@ namespace sw
 
 
 
-static const std::wstring RENDER_TARGET_COLOR_BUFFER_NAME = L"::color";
-static const std::wstring RENDER_TARGET_DEPTH_BUFFER_NAME = L"::depth";
-static const std::wstring RENDER_TARGET_STENCIL_BUFFER_NAME = L"::stencil";
+static const std::string RENDER_TARGET_COLOR_BUFFER_NAME = "color";
+static const std::string RENDER_TARGET_DEPTH_BUFFER_NAME = "depth";
+static const std::string RENDER_TARGET_STENCIL_BUFFER_NAME = "stencil";
 
+static const std::string SCREEN_RENDER_TARGET = "ScreenRT";
 
 
 
@@ -110,14 +111,12 @@ protected:
 
 public:
 
-	explicit					RenderTarget	( sw::Texture* colorBuffer, sw::Texture* depthBuffer, sw::Texture* stencilBuffer );
+	explicit					RenderTarget	( const AssetPath& name, sw::Texture* colorBuffer, sw::Texture* depthBuffer, sw::Texture* stencilBuffer );
 	virtual						~RenderTarget	();
 
 	inline sw::Texture*			GetColorBuffer	() { return m_colorBuffer.Ptr(); }
 	inline sw::Texture*			GetDepthBuffer	() { return m_depthBuffer.Ptr(); }
 	inline sw::Texture*			GetStencilBuffer() { return m_stencilBuffer.Ptr(); }
-
-	virtual std::string			GetResourceName	() const override;	///<@todo RenderTargety should have their names..
 };
 
 DEFINE_RESOURCE_PTR_TYPE( RenderTarget );

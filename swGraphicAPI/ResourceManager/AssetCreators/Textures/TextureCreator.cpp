@@ -21,7 +21,7 @@ namespace sw
 
 // ================================ //
 //
-Nullable< Resource* >		TextureCreator::Create		( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
+Nullable< Resource* >		TextureCreator::Create		( const AssetPath& assetName, IAssetCreateInfo&& createInfo )
 {
 	TypeID type = createInfo.get_type();
 	if( type == TypeID::get< TextureInitData >() )
@@ -52,10 +52,10 @@ Nullable< Resource* >		TextureCreator::Create		( const filesystem::Path& assetNa
 			if( !result.IsValid() )
 				return result.GetError();
 
-			return ResourcesFactory::CreateTextureFromMemory( result.Get(), std::move( info ) );
+			return ResourcesFactory::CreateTextureFromMemory( assetName, result.Get(), std::move( info ) );
 		}
 		else
-			return ResourcesFactory::CreateTextureFromMemory( typedInitData.Data, std::move( info ) );
+			return ResourcesFactory::CreateTextureFromMemory( assetName, typedInitData.Data, std::move( info ) );
 	}
 
 	return "[TextureCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported.";
@@ -63,7 +63,7 @@ Nullable< Resource* >		TextureCreator::Create		( const filesystem::Path& assetNa
 
 // ================================ //
 //
-Nullable< Resource* >		TextureCreator::LoadFromRaw	( const filesystem::Path& assetName, const BufferRaw& rawData )
+Nullable< Resource* >		TextureCreator::LoadFromRaw	( const AssetPath& assetName, const BufferRaw& rawData )
 {
 	assert( !"Buffer is not cacheable" );
 	return nullptr;

@@ -17,16 +17,16 @@ namespace sw
 
 // ================================ //
 //
-Nullable< Resource* >		LayoutCreator::Create			( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
+Nullable< Resource* >		LayoutCreator::Create			( const AssetPath& assetName, IAssetCreateInfo&& createInfo )
 {
 	auto init = static_cast< InputLayoutDescriptor* >( &createInfo );
 
-	return ResourcesFactory::CreateInputLayout( *init );
+	return ResourcesFactory::CreateInputLayout( assetName, *init );
 }
 
 // ================================ //
 //
-Nullable< Resource* >		LayoutCreator::LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )
+Nullable< Resource* >		LayoutCreator::LoadFromRaw		( const AssetPath& assetName, const BufferRaw& rawData )
 {
 	assert( !"InputLayout is not cacheable" );
 	return nullptr;

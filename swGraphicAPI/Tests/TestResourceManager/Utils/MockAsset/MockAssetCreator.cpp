@@ -17,14 +17,14 @@ namespace sw
 
 // ================================ //
 //
-Nullable< Resource* >		MockAssetCreator::Create			( const filesystem::Path& assetName, IAssetCreateInfo&& createInfo )
+Nullable< Resource* >		MockAssetCreator::Create			( const AssetPath& assetName, IAssetCreateInfo&& createInfo )
 {
-	return new MockAsset( this, assetName.String() );
+	return new MockAsset( this, assetName );
 }
 
 // ================================ //
 //
-Nullable< Resource* >		MockAssetCreator::LoadFromRaw		( const filesystem::Path& assetName, const BufferRaw& rawData )
+Nullable< Resource* >		MockAssetCreator::LoadFromRaw		( const AssetPath& assetName, const BufferRaw& rawData )
 {
 	assert( !"InputLayout is not cacheable" );
 	return nullptr;

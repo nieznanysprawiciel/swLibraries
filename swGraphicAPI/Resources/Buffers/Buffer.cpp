@@ -18,7 +18,6 @@ RTTR_REGISTRATION
 		.property_readonly( "Descriptor", &Buffer::GetDescriptor ) BIND_AS_PTR;
 
 	rttr::registration::class_< BufferInfo >( "sw::BufferInfo" )
-		.property_readonly( "BufferName", &BufferInfo::GetName )
 		.property_readonly( "NumberElements", &BufferInfo::NumElements )
 		.property_readonly( "ElementSize", &BufferInfo::ElementSize )
 		.property_readonly( "Usage", &BufferInfo::Usage )
@@ -40,9 +39,10 @@ namespace sw
 
 // ================================ //
 //
-Buffer::Buffer( unsigned int elementSize, unsigned int elementCount )
-	: m_elementSize( elementSize ),
-	m_elementCount( elementCount )
+Buffer::Buffer( const AssetPath& assetPath, unsigned int elementSize, unsigned int elementCount )
+	:	IBuffer( assetPath )
+	,	m_elementSize( elementSize )
+	,	m_elementCount( elementCount )
 {}
 
 // ================================ //

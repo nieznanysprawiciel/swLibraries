@@ -82,7 +82,7 @@ static Nullable< ShaderType* >			CreateShader			( ID3D11Device* device, const st
 		if( FAILED( result ) )
 			return "Creating shader failed.";
 
-		return new ShaderType( shader );
+		return new ShaderType( AssetPath( "", "" ), shader );
 	}
 	else
 	{

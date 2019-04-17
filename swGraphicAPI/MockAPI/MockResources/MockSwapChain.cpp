@@ -19,29 +19,34 @@ RTTR_REGISTRATION
 namespace sw
 {
 
+
+// ================================ //
+//
 MockSwapChain::MockSwapChain( RenderTarget* screenRT )
 	:	SwapChain( screenRT )
 {}
 
 
+// ================================ //
+//
 MockSwapChain::~MockSwapChain()
 {}
 
 
 /**@copydoc SwapChain::Present.*/
-void	MockSwapChain::Present( int syncInterval )
+void				MockSwapChain::Present		( int syncInterval )
 {
 	//m_swapChain->Present( syncInterval, 0 );
 }
 
 /**@copydoc SwapChain::Resize.*/
-void	MockSwapChain::Resize( uint16 newWidth, uint16 newHeight )
+void				MockSwapChain::Resize		( uint16 newWidth, uint16 newHeight )
 {
 	assert( !"Implement me" );
 }
 
 /**@brief */
-MockSwapChain* MockSwapChain::CreateScreenSwapChain( RenderTarget* screenRT )
+MockSwapChain*		MockSwapChain::CreateScreenSwapChain		( RenderTarget* screenRT )
 {
 	MockSwapChain* swapChainObject = new MockSwapChain( screenRT );
 	return swapChainObject;

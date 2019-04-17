@@ -39,7 +39,7 @@ TEST_CASE( "GraphicAPI.DX11.BufferCreator.ConstantBuffer.Create", "[GraphicAPI]"
 	init.NumElements = (uint32)buffer.ElementsCount();
 	init.Data = buffer.GetRawData();
 
-	auto result = factory.CreateAsset( "::BufferFromMemory::Constants", TypeID::get< Buffer >(), std::move( init ) );
+	auto result = factory.CreateAsset( "::/BufferFromMemory/Constants", TypeID::get< Buffer >(), std::move( init ) );
 
 	if( !result.IsValid() )
 	{
@@ -69,7 +69,7 @@ TEST_CASE( "GraphicAPI.DX11.BufferCreator.IndexBuffer.Create", "[GraphicAPI]" )
 	init.NumElements = (uint32)buffer.ElementsCount();
 	init.Data = buffer.GetRawData();
 
-	auto result = factory.CreateAsset( "::BufferFromMemory::Index", TypeID::get< Buffer >(), std::move( init ) );
+	auto result = factory.CreateAsset( "::/BufferFromMemory/Index", TypeID::get< Buffer >(), std::move( init ) );
 
 	if( !result.IsValid() )
 	{
@@ -99,7 +99,7 @@ TEST_CASE( "GraphicAPI.DX11.BufferCreator.VertexBuffer.Create", "[GraphicAPI]" )
 	init.NumElements = (uint32)buffer.ElementsCount();
 	init.Data = buffer.GetRawData();
 
-	auto result = factory.CreateAsset( "::BufferFromMemory::Vertex", TypeID::get< Buffer >(), std::move( init ) );
+	auto result = factory.CreateAsset( "::/BufferFromMemory/Vertex", TypeID::get< Buffer >(), std::move( init ) );
 
 	if( !result.IsValid() )
 	{

@@ -14,6 +14,7 @@
 
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
 #include "swGraphicAPI/ResourceManager/Loaders/RMLoaderAPI.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
 
 #include <vector>
 
@@ -88,7 +89,7 @@ public:
 	
 	@param[in] resourceType Different files can contain multiple assets of multiple types. You should check this argument and confirm, that this asset
 	type is supported by this loader.*/
-	virtual bool												CanLoad		( const filesystem::Path& filePath, TypeID resourceType ) = 0;
+	virtual bool												CanLoad		( const AssetPath& filePath, TypeID resourceType ) = 0;
 	
 	/**@brief Function loads asset.
 	
@@ -111,13 +112,13 @@ public:
 	@param[in] assetDesc Asset descriptor has all info needed to create and process asset internally.
 	@param[in] factory Pointer to interface for creating assets.
 	*/
-	virtual LoadingResult										Load		( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory ) = 0;
+	virtual LoadingResult										Load		( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory ) = 0;
 
 	/**@brief Function used to prefetch and cache asset.
 	
 	Loader shouldn't create this asset. Instead it should call asset creation functiond from asset manager with
 	flag indicating, that it should be cached. Note that this should apply to all nested assets too.*/
-	virtual ReturnResult										Prefetch	( const filesystem::Path& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory ) = 0;
+	virtual ReturnResult										Prefetch	( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory ) = 0;
 };
 
 DEFINE_OPTR_TYPE( IAssetLoader );
