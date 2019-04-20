@@ -19,7 +19,13 @@ namespace sw
 //
 Nullable< Resource* >		MockAssetCreator::Create			( const AssetPath& assetName, IAssetCreateInfo&& createInfo )
 {
-	return new MockAsset( this, assetName );
+	if( createInfo.get_type() == TypeID::get< MockAssetCreateInfo >() )
+	{
+		auto& typedInfo = static_cast< MockAssetCreateInfo& >(createInfo);
+		return new MockAsset( this, assetName, typedInfo.Content );
+	}
+
+	return "Wrong IAssetCreateInfo of type [" + createInfo.get_type().get_name().to_string() + "].";
 }
 
 // ================================ //

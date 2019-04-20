@@ -23,6 +23,15 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetPath.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsLoadingSync.cpp">
+      <Filter>Tests\TestResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetLoader.cpp">
+      <Filter>Utils\MockAsset</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\TestLoadingResult.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
@@ -46,6 +55,9 @@
       <Filter>Utils\MockAsset</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetCreator.h">
+      <Filter>Utils\MockAsset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetLoader.h">
       <Filter>Utils\MockAsset</Filter>
     </ClInclude>
   </ItemGroup>

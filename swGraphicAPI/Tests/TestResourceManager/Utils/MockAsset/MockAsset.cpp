@@ -17,10 +17,10 @@ namespace sw
 
 // ================================ //
 //
-MockAsset::MockAsset		( MockAssetCreator* creator, const AssetPath& name )
+MockAsset::MockAsset		( MockAssetCreator* creator, const AssetPath& name, const std::string& content )
 	:	Resource( name )
 	,	m_creator( creator )
-	,	m_name( name.String() )
+	,	m_content( content )
 {
 	m_creator->OnCreateAsset( this );
 }
@@ -32,12 +32,6 @@ MockAsset::~MockAsset()
 	m_creator->OnDeleteAsset( this );
 }
 
-// ================================ //
-//
-std::string				MockAsset::GetResourceName			() const
-{
-	return m_name;
-}
 
 }	// sw
 

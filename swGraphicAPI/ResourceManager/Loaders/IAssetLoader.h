@@ -13,6 +13,7 @@
 #include "swGraphicAPI/Resources/ResourceObject.h"
 
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
+#include "swGraphicAPI/ResourceManager/Loaders/LoadingResult.h"
 #include "swGraphicAPI/ResourceManager/Loaders/RMLoaderAPI.h"
 #include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
 
@@ -53,19 +54,6 @@ To write your own file loader you should implement @ref IAssetLoader interface.
 @copydoc IAssetLoader::Load
 */
 
-
-
-typedef std::vector< ResourcePointer > AssetsVec;
-
-
-
-/**@brief Structure returned by loader.
-@ingroup Loaders*/
-struct LoadingResult
-{
-	Nullable< AssetsVec >		Assets;			///< Contains all assets loaded in @ref Load call or errors in case of fail.
-	ExceptionPtr				Warnings;		///< Contains all warining that occured during loading.
-};
 
 
 

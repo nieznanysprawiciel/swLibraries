@@ -48,6 +48,7 @@
     <ClInclude Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\IAssetLoader.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\IAssetLoadInfo.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\LoadingResult.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\ShaderLoader.h" />
     <ClInclude Include="..\..\..\ResourceManager\nResourceContainer.h" />

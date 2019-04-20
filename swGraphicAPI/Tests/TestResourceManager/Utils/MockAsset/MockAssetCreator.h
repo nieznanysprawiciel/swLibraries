@@ -8,6 +8,8 @@
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreator.h"
 
+#include <string>
+
 
 namespace sw
 {
@@ -22,7 +24,11 @@ DEFINE_PTR_TYPE( MockAssetCreator );
 struct MockAssetCreateInfo : public IAssetCreateInfo
 {
 	RTTR_ENABLE( IAssetCreateInfo );
+public:
 
+	std::string			Content;
+
+public:
 	virtual TypeID					GetAssetType	() const { return TypeID::get< MockAsset >(); }
 };
 

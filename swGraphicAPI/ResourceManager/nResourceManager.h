@@ -115,6 +115,7 @@ public:
 	@return Returns list of loaded assets or error if loader was unable to load file. Loading results
 	contains all warnings that occured during loading.*/
 	LoadingResult					LoadFileGeneric				( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID type );
+	LoadingResult					LoadFileGeneric				( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID type, IAssetLoader* loader );
 	///@}
 
 	///@name Resource creation

@@ -90,6 +90,20 @@ sw::Nullable< ResourcePointer >			nResourceManager::LoadGeneric				( const Asset
 
 // ================================ //
 //
+LoadingResult							nResourceManager::LoadFileGeneric			( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID type )
+{
+	return LoadingResult();
+}
+
+// ================================ //
+//
+LoadingResult							nResourceManager::LoadFileGeneric			( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID type, IAssetLoader* loader )
+{
+	return LoadingResult();
+}
+
+// ================================ //
+//
 sw::Nullable< ResourcePointer >			nResourceManager::CreateGenericAsset		( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo )
 {
 	auto asset = m_assetsFactory->CreateAsset( name, assetType, std::move( createInfo ) );
@@ -231,6 +245,8 @@ ReturnResult							nResourceManager::AddGenericResource		( const AssetPath& name
 
 	return Result::Success;
 }
+
+
 
 
 

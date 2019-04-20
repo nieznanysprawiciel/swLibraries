@@ -21,18 +21,15 @@ class MockAsset : public Resource
 private:
 
 	MockAssetCreator*		m_creator;		///< Remembers creator to remove reference after deletion.
-	std::string				m_name;
+	std::string				m_content;
 
 protected:
 public:
-	explicit		MockAsset		( MockAssetCreator* creator, const AssetPath& name );
+	explicit		MockAsset		( MockAssetCreator* creator, const AssetPath& name, const std::string& content );
 	virtual			~MockAsset		();
 
 public:
 
-
-	// Inherited via Resource
-	virtual std::string				GetResourceName		() const override;
 
 };
 
