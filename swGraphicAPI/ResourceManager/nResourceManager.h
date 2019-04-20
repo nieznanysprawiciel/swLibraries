@@ -29,6 +29,8 @@ namespace sw
 {
 
 
+typedef std::vector< IAssetLoaderPtr > LoadersVec;
+
 
 /**@brief Future implementation of ResourceManager.
 
@@ -49,7 +51,7 @@ protected:
 	CacheManager				m_cacheManager;			///< Assets cache.
 	AssetsFactoryOPtr			m_assetsFactory;		///< Factory for generic and non generic assets creation.
 
-	std::vector< IAssetLoaderOPtr >		m_loaders;		///< File loaders.
+	LoadersVec					m_loaders;				///< File loaders.
 
 public:
 
@@ -160,8 +162,9 @@ public:
 	/// @todo Consider doing this API thread safe.
 	///@{
 	bool							RegisterAssetCreator		( IAssetCreatorPtr creator );
-	bool							RegisterLoader				( IAssetLoaderOPtr loader );
+	bool							RegisterLoader				( IAssetLoaderPtr loader );
 
+	LoadersVec						ListLoaders					() const;
 	///@}
 
 

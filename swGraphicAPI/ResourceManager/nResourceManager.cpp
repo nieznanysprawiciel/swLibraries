@@ -154,10 +154,17 @@ bool									nResourceManager::RegisterAssetCreator		( IAssetCreatorPtr creator 
 
 // ================================ //
 //
-bool									nResourceManager::RegisterLoader			( IAssetLoaderOPtr loader )
+bool									nResourceManager::RegisterLoader			( IAssetLoaderPtr loader )
 {
-	m_loaders.push_back( std::move( loader ) );
+	m_loaders.push_back( loader );
 	return true;
+}
+
+// ================================ //
+//
+LoadersVec								nResourceManager::ListLoaders				() const
+{
+	return m_loaders;
 }
 
 

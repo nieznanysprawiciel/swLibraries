@@ -109,7 +109,7 @@ public:
 	virtual ReturnResult										Prefetch	( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory ) = 0;
 };
 
-DEFINE_OPTR_TYPE( IAssetLoader );
+DEFINE_PTR_TYPE( IAssetLoader );
 
 
 }	// sw

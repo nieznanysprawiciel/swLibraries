@@ -23,11 +23,11 @@ namespace sw
 std::unique_ptr< nResourceManager >		CreateResourceManagerWithMocks	()
 {
 	auto creator = MockAssetCreator::CreateCreator();		// Creator must live longer then ResourceManager since it tracks references of created assets.
-	auto loader = IAssetLoaderOPtr( new MockAssetLoader() );
+	auto loader = std::make_shared< MockAssetLoader >();
 
 	std::unique_ptr< nResourceManager > rm = std::make_unique< nResourceManager >();
 	rm->RegisterAssetCreator( creator );
-	rm->RegisterLoader( std::move( loader ) );
+	rm->RegisterLoader( loader );
 
 	return std::move( rm );
 }
