@@ -60,5 +60,8 @@
     <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetLoader.h">
       <Filter>Utils\MockAsset</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\Utils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -31,6 +31,7 @@ struct LoadingResult
 public:
 
 	LoadingResult		() = default;
+	LoadingResult		( ResourcePointer resource );
 	LoadingResult		( std::string error );
 	LoadingResult		( ExceptionPtr error );
 	LoadingResult		( std::string error, ExceptionPtr warnings );
@@ -42,6 +43,12 @@ public:
 //			Implementation	
 //====================================================================================//
 
+
+// ================================ //
+//
+inline LoadingResult::LoadingResult			( ResourcePointer resource )
+	: Assets( AssetsVec( { resource } ) )
+{}
 
 // ================================ //
 //

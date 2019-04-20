@@ -65,7 +65,7 @@ private:
 protected:
 public:
 	explicit		IAssetLoader	() = default;
-	virtual			~IAssetLoader	() = 0;
+	virtual			~IAssetLoader	() = 0 {}
 
 
 	/**@brief Override this function checks if this loader can load specified file.

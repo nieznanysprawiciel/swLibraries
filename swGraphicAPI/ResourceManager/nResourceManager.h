@@ -160,6 +160,7 @@ public:
 	/// @todo Consider doing this API thread safe.
 	///@{
 	bool							RegisterAssetCreator		( IAssetCreatorPtr creator );
+	bool							RegisterLoader				( IAssetLoaderOPtr loader );
 
 	///@}
 

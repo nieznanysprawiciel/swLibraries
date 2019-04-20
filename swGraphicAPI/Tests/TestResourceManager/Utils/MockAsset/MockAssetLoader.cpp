@@ -18,7 +18,7 @@ namespace sw
 //
 bool				MockAssetLoader::CanLoad			( const AssetPath& filePath, TypeID resourceType )
 {
-	return filePath.GetFile().GetExtension() == "mock";
+	return filePath.GetFile().GetExtension() == ".mock";
 }
 
 // ================================ //
@@ -27,14 +27,19 @@ LoadingResult		MockAssetLoader::Load				( const AssetPath& filePath, TypeID reso
 {
 	LoadingResult result;
 
-
-	if( resourceType != TypeID::get< MockAsset >() ||
+	if( resourceType != TypeID::get< MockAsset >() &&
 		resourceType != TypeID::get< Resource >() )
-		return result;
+		return "Can't load asset of type [" + resourceType.get_name().to_string() + "].";
 
-	std::string fileContent = filesystem::File::Load( filePath.GetFile() );
 
-	return LoadingResult();
+	MockAssetCreateInfo createInfo;
+	createInfo.Content = filesystem::File::Load( filePath.GetFile() );
+
+	auto res = factory.CreateGenericAsset( filePath, TypeID::get< MockAsset >(), std::move( createInfo ) );
+	if( !res.IsValid() )
+		return res.GetError();
+
+	return LoadingResult( res.Get() );
 }
 
 // ================================ //

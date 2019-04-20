@@ -9,10 +9,31 @@
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoader.h"
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
 
+#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAsset.h"
+
 
 
 namespace sw
 {
+
+// ================================ //
+//
+class MockAssetLoadInfo : public IAssetLoadInfo
+{
+private:
+protected:
+public:
+	explicit		MockAssetLoadInfo		() = default;
+	virtual			~MockAssetLoadInfo		() = default;
+
+public:
+	// ================================ //
+	//
+	TypeID		MockAssetLoadInfo::GetAssetType	() const override { return TypeID::get< MockAsset >(); }
+};
+
+
+
 
 /**@brief MockAsset loader.*/
 class MockAssetLoader : public IAssetLoader

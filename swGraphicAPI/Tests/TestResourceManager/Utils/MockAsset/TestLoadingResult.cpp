@@ -9,6 +9,9 @@
 
 #include "swGraphicAPI/ResourceManager/Loaders/LoadingResult.h"
 
+#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAssetCreator.h"
+#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAsset.h"
 
 
 namespace sw
@@ -96,7 +99,23 @@ TEST_CASE( "GraphicAPI.Loading.LoadingResult.Constructor.ExceptionAndWarning", "
 	CHECK( result.Warnings->ErrorMessage() == "Warning" );
 }
 
+// ================================ //
+//
+TEST_CASE( "GraphicAPI.Loading.LoadingResult.Constructor.SingleResource", "[GraphicAPI]" )
+{
+	auto creator = MockAssetCreator::CreateCreator();		// Creator must live longer then ResourceManager since it tracks references of created assets.
+	nResourceManager rm;		rm.RegisterAssetCreator( creator );
 
+	MockAssetCreateInfo init;
+
+	auto result = rm.CreateGenericAsset( "::/LoadingResult/ResourceToReturn", TypeID::get< MockAsset >(), std::move( init ) );
+	REQUIRE( result.IsValid() );
+
+	LoadingResult resourceResult( result.Get() );
+
+	REQUIRE( resourceResult.Assets.IsValid() == true );
+	CHECK( resourceResult.Assets.Get()[ 0 ] == result.Get() );
+}
 
 
 }	// sw

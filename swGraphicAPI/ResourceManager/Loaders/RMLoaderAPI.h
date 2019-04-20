@@ -7,6 +7,7 @@
 
 
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
+#include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreateInfo.h"
 
 
 
@@ -70,6 +71,9 @@ public:
 
 	/**@copydoc nResourceManager::LoadGeneric*/
 	sw::Nullable< ResourcePointer >	LoadGeneric					( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID type );
+
+	/**@copydoc nResourceManager::CreateGenericAsset*/
+	sw::Nullable< ResourcePointer >	CreateGenericAsset			( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo );
 };
 
 

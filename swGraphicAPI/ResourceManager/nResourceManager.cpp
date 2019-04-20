@@ -26,7 +26,10 @@ nResourceManager::nResourceManager()
 // ================================ //
 //
 nResourceManager::~nResourceManager()
-{}
+{
+	// It would happen later, but we want to release Resources before creators and loaders.
+	m_resources.clear();
+}
 
 
 // ================================ //
@@ -147,6 +150,14 @@ sw::Nullable< ResourcePointer >			nResourceManager::CreateGenericAsset		( const 
 bool									nResourceManager::RegisterAssetCreator		( IAssetCreatorPtr creator )
 {
 	return m_assetsFactory->RegisterCreator( creator );
+}
+
+// ================================ //
+//
+bool									nResourceManager::RegisterLoader			( IAssetLoaderOPtr loader )
+{
+	m_loaders.push_back( std::move( loader ) );
+	return true;
 }
 
 

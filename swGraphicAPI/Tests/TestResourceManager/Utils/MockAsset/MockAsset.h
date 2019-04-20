@@ -30,6 +30,7 @@ public:
 
 public:
 
+	std::string		GetContent		() const { return m_content; }
 
 };
 

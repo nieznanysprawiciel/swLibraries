@@ -21,10 +21,12 @@ private:
 protected:
 public:
 	explicit		IAssetLoadInfo		() = default;
-	virtual			~IAssetLoadInfo		() = 0;
+	virtual			~IAssetLoadInfo		() = 0 {}
 
 
-	virtual TypeID		GetAssetType	() = 0;
+public:
+
+	virtual TypeID		GetAssetType	() const = 0;
 
 };
 

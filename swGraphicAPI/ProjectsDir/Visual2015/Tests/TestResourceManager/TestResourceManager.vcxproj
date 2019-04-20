@@ -192,6 +192,7 @@
     <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAsset.h" />
     <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetCreator.h" />
     <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetLoader.h" />
+    <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
