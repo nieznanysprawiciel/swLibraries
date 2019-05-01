@@ -94,9 +94,9 @@ public:
 	template< typename DerivedClass, typename std::enable_if< impl::IsBaseConversion< DerivedClass, ContentType >::value >::type* = nullptr >
 							Nullable			( Nullable< DerivedClass >&& other );
 
-    bool                    IsValid             ();
-    std::string             GetErrorReason      ();
-    ErrorType				GetError            ();
+    bool                    IsValid             () const;
+    std::string             GetErrorReason      () const;
+    ErrorType				GetError            () const;
 
     bool						operator==          ( const ContentType& that );
     bool						operator!=          ( const ContentType& that );
@@ -264,7 +264,7 @@ inline Nullable< ContentType >::~Nullable       ()
 // ================================ //
 //
 template< typename ContentType >
-inline bool						Nullable< ContentType >::IsValid() 
+inline bool						Nullable< ContentType >::IsValid		() const
 {
     return m_isValid;
 }
@@ -272,7 +272,7 @@ inline bool						Nullable< ContentType >::IsValid()
 // ================================ //
 //
 template< typename ContentType >
-inline std::string				Nullable< ContentType >::GetErrorReason  () 
+inline std::string				Nullable< ContentType >::GetErrorReason  () const
 { 
 	if( Error )
 		return Error->ErrorMessage();
@@ -282,7 +282,7 @@ inline std::string				Nullable< ContentType >::GetErrorReason  ()
 // ================================ //
 //
 template< typename ContentType >
-inline typename Nullable< ContentType >::ErrorType		Nullable< ContentType >::GetError ()
+inline typename Nullable< ContentType >::ErrorType		Nullable< ContentType >::GetError () const
 {
     if( m_isValid )
         assert( false ); // FIXME: error handling(?)

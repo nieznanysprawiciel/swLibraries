@@ -165,3 +165,26 @@ TEST_CASE( "Common.Helpers.Exceptions.ErrorsCollector.AddCollectorToItself" )
 	CHECK( collector.GetExceptionsList()->GetNestedExceptions().size() == 2 );
 }
 
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.ErrorsCollector.Success.ValidNullable" )
+{
+	ErrorsCollector collector;
+	Nullable< int > someValue = 3;
+
+	CHECK( collector.Success( someValue ) );
+	CHECK( static_cast< ReturnResult >( collector ).IsValid() );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.ErrorsCollector.Success.InValidNullable" )
+{
+	ErrorsCollector collector;
+	Nullable< int > someValue = "Error occured";
+
+	CHECK( !collector.Success( someValue ) );
+	CHECK( !static_cast< ReturnResult >( collector ).IsValid() );
+	CHECK( collector.Get().GetErrorReason() == "Error occured" );
+}
+

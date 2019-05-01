@@ -44,6 +44,23 @@ public:
 	inline void			Add						( ExceptionsListPtr list );
 	inline void			Add						( const ErrorsCollector& collector );
 
+	/**@brief Checks if returned result was success. Adds exception, if it wasnt't.
+	
+	Proposed usage:
+	@code
+	ErrorsCollector collector;
+
+	auto result = SomeFunction();
+	if( collector.Success( result ) )
+	{
+		// Do something with result here, because it's valid.
+		result.Get();
+	}
+	@endcode
+	*/
+	template< typename ReturnType >
+	inline bool			Success					( const Nullable< ReturnType >& result );
+
 	inline				operator ReturnResult	();
 	inline ReturnResult Get						();
 
@@ -157,6 +174,17 @@ inline ExceptionsListPtr		ErrorsCollector::GetExceptionsList		() const
 	return nullptr;
 }
 
+// ================================ //
+//
+template< typename ReturnType >
+inline bool						ErrorsCollector::Success				( const Nullable< ReturnType >& result )
+{
+	if( result.IsValid() )
+		return true;
+
+	Add( result.GetError() );
+	return false;
+}
 
 }	// sw
 
