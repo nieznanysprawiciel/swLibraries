@@ -117,6 +117,23 @@ TEST_CASE( "GraphicAPI.Loading.LoadingResult.Constructor.SingleResource", "[Grap
 	CHECK( resourceResult.Assets.Get()[ 0 ] == result.Get() );
 }
 
+// ================================ //
+//
+TEST_CASE( "GraphicAPI.Loading.LoadingResult.Constructor.Exception+ErrorsCollector", "[GraphicAPI]" )
+{
+	ErrorsCollector collector;
+	collector.Add( std::static_pointer_cast< Exception >( std::make_shared< RuntimeException >( "Warning" ) ) );
+
+	LoadingResult result{ std::make_shared< RuntimeException >( "Error message" ), collector };
+
+	REQUIRE( result.Assets.IsValid() == false );
+	CHECK( result.Assets.GetError() != nullptr );
+	CHECK( result.Assets.GetErrorReason() == "Error message" );
+
+	REQUIRE( result.Warnings != nullptr );
+	CHECK( result.Warnings->ErrorMessage() == "Warning" );
+}
+
 
 }	// sw
 

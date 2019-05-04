@@ -140,6 +140,12 @@ public:
 
 	RenderTarget*					AddRenderTarget				( RenderTarget* renderTarget, const std::wstring& name );
 
+	///@name Reasource freeing api
+	///@{
+	void							FreeUnusedAssets			();
+
+	///@}
+
 
 	///@name Listing resources
 	///@{

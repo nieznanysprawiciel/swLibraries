@@ -56,7 +56,7 @@ public:
 	// Deleting objects.
 	bool			Remove				( const AssetPath& name );
 	bool			Remove				( ResourceID id );
-	uint32			RemoveUnused		();
+	Size			RemoveUnused		();
 
 	// Adding objects
 	void			UnsafeAdd			( const AssetPath& name, ResourceType* resource );
@@ -239,7 +239,7 @@ bool					ResourceContainer< ResourceType >::Remove				( ResourceID id )
 /**@brief Removes all resources witout references.
 @return Returns number of deleted elements.*/
 template< class ResourceType >
-uint32					ResourceContainer< ResourceType >::RemoveUnused			()
+Size					ResourceContainer< ResourceType >::RemoveUnused			()
 {
 	int count = 0;
 	for( auto iter = m_resMap.begin(); iter != m_resMap.end(); iter++ )

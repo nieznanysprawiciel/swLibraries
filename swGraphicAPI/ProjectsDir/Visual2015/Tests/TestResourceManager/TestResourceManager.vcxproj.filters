@@ -29,8 +29,26 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetLoader.cpp">
       <Filter>Utils\MockAsset</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\TestLoadingResult.cpp">
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsRemoval.cpp">
+      <Filter>Tests\TestResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestLoaders.cpp">
+      <Filter>Tests\TestResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoadingResult.cpp">
       <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockCompositeAsset.cpp">
+      <Filter>Utils\MockAsset</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockCompositeAssetCreator.cpp">
+      <Filter>Utils\MockAsset</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockCompositeAssetLoader.cpp">
+      <Filter>Utils\MockAsset</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\Tests\TestMockCompositeAsset.cpp">
+      <Filter>Utils\Tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +67,9 @@
     <Filter Include="Utils\MockAsset">
       <UniqueIdentifier>{01663be4-d7e7-4e0f-8a30-2b71c6acd159}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils\Tests">
+      <UniqueIdentifier>{3ffcb99c-ce8b-4abb-9b50-7208a7495431}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAsset.h">
@@ -62,6 +83,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\Utils.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockCompositeAsset.h">
+      <Filter>Utils\MockAsset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockCompositeAssetCreator.h">
+      <Filter>Utils\MockAsset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockCompositeAssetLoader.h">
+      <Filter>Utils\MockAsset</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

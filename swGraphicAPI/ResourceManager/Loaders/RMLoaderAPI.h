@@ -52,7 +52,7 @@ public:
 
 	The second case is, when Loader wants to load asset referenced by file that he loads. In this case you should
 	use LoadGeneric function.*/
-	ResourcePointer					GetGeneric					( const filesystem::Path& name, TypeID type );
+	ResourcePointer								GetGeneric					( const AssetPath& name, TypeID type );
 
 	/**@brief Gets asset from ResourceManager or tries to create it from cache.
 
@@ -67,15 +67,42 @@ public:
 	
 	Don't use LoadGeneric to load assets from file that you are loading. Load Generic should be used to load
 	assets referenced by file, but placed in other files.*/
-	ResourcePointer					GetCachedGeneric			( const filesystem::Path& name, TypeID type );
+	ResourcePointer								GetCachedGeneric			( const AssetPath& name, TypeID type );
 
 	/**@copydoc nResourceManager::LoadGeneric*/
-	sw::Nullable< ResourcePointer >	LoadGeneric					( const filesystem::Path& assetName, IAssetLoadInfo* desc, TypeID type );
+	sw::Nullable< ResourcePointer >				LoadGeneric					( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID type );
+
+	/**Typed version of LoadGeneric.
+	@copydoc nResourceManager::LoadGeneric*/
+	template< typename AssetType >
+	sw::Nullable< ResourcePtr< AssetType > >	Load						( const AssetPath& assetName, IAssetLoadInfo* desc );
 
 	/**@copydoc nResourceManager::CreateGenericAsset*/
-	sw::Nullable< ResourcePointer >	CreateGenericAsset			( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo );
+	sw::Nullable< ResourcePointer >				CreateGenericAsset			( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo );
 };
 
+
+//====================================================================================//
+//			Implementation	
+//====================================================================================//
+
+
+
+// ================================ //
+//
+template< typename AssetType >
+inline sw::Nullable< ResourcePtr< AssetType > >		RMLoaderAPI::Load			( const AssetPath& assetName, IAssetLoadInfo* desc )
+{
+	auto assetLoadResult = LoadGeneric( assetName, desc, TypeID::get< AssetType >() );
+	
+	/// @todo It would be nice if Nullable could make this conversion by itself.
+	/// It's imposible, because we store ResorucePtr in Nullable and wrappers
+	/// types aren't related.
+	if( assetLoadResult.IsValid() )
+		return ResourcePtr< AssetType >( static_cast< AssetType* >( assetLoadResult.Get().Ptr() ) );
+	else
+		return assetLoadResult.GetError();
+}
 
 }	// sw
 

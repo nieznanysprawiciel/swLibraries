@@ -20,19 +20,21 @@
 using namespace sw;
 
 
-
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.SimpleLoading", "[GraphicAPI]" )
+TEST_CASE( "GraphicAPI.ResourceManager.RegisterLoader", "[GraphicAPI]" )
 {
-	auto rm = CreateResourceManagerWithMocks();
+	auto loader = std::make_shared< MockAssetLoader >();
 
-	MockAssetLoadInfo info;
+	nResourceManager rm;
+	bool registerResult = rm.RegisterLoader( loader );
 
-	auto resource = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
-	
-	REQUIRE( resource.IsValid() == true );
-	REQUIRE( resource.Get() != nullptr );
-	CHECK( static_cast< MockAsset* >( resource.Get().Ptr() )->GetContent() == "Example");
+	REQUIRE( registerResult == true );
+
+	auto loaders = rm.ListLoaders();
+
+	REQUIRE( loaders.size() == 1 );
+	CHECK( loaders[ 0 ] == loader );
 }
+
 

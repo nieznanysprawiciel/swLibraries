@@ -67,6 +67,7 @@ public:
 	inline bool			IsList					() const { return m_multipleRaised; }
 
 	inline ExceptionsListPtr	GetExceptionsList	() const;
+	inline ExceptionPtr			GetException		() const { return m_exception; }
 };
 
 //====================================================================================//

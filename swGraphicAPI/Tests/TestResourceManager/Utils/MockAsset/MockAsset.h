@@ -33,7 +33,7 @@ public:
 	std::string		GetContent		() const { return m_content; }
 
 };
-
+DEFINE_RESOURCE_PTR_TYPE( MockAsset )
 
 
 }	// sw

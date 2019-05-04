@@ -42,6 +42,11 @@ ResourcePointer							nResourceManager::GetGeneric				( const AssetPath& name, T
 	return FindResource( name, type );
 }
 
+//====================================================================================//
+//			Loading	
+//====================================================================================//
+
+
 // ================================ //
 /// @note If asset loading fails and we call LoadGeneric function again, LoadGeneric will try to load it
 /// for the second time. This will cause performance problem, when something is wrong with important asset
@@ -105,6 +110,11 @@ LoadingResult							nResourceManager::LoadFileGeneric			( const AssetPath& asset
 	return LoadingResult();
 }
 
+//====================================================================================//
+//			Assets creation	
+//====================================================================================//
+
+
 // ================================ //
 //
 sw::Nullable< ResourcePointer >			nResourceManager::CreateGenericAsset		( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo )
@@ -143,6 +153,33 @@ sw::Nullable< ResourcePointer >			nResourceManager::CreateGenericAsset		( const 
 	}
 }
 
+//====================================================================================//
+//				Releasing resources
+//====================================================================================//
+
+// ================================ //
+//
+void									nResourceManager::FreeUnusedAssets			()
+{
+	WriterUniqueLock< ReaderWriterLock > lock( m_rwLock );
+	
+	// Assets can depend on other Assets. The simplest way to free Resources is to iterate multiple times.
+	Size removedAssets = 0;		
+	
+	do
+	{
+		removedAssets = 0;
+		for( auto& container : m_resources )
+		{
+			removedAssets += container.second.RemoveUnused();
+		}
+
+	} while( removedAssets > 0 );
+}
+
+//====================================================================================//
+//			Loaders, creators, registration
+//====================================================================================//
 
 
 // ================================ //

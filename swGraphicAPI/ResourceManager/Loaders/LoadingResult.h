@@ -10,6 +10,7 @@
 #include "swGraphicAPI/Resources/ResourcePtr.h"
 
 #include "swCommonLib/Common/Exceptions/Exception.h"
+#include "swCommonLib/Common/Exceptions/ErrorsCollector.h"
 
 #include <vector>
 
@@ -36,6 +37,8 @@ public:
 	LoadingResult		( ExceptionPtr error );
 	LoadingResult		( std::string error, ExceptionPtr warnings );
 	LoadingResult		( ExceptionPtr error, ExceptionPtr warnings );
+	LoadingResult		( AssetsVec assets, ExceptionPtr warnings );
+	LoadingResult		( ExceptionPtr error, const ErrorsCollector& warnings );
 
 };
 
@@ -74,6 +77,20 @@ inline LoadingResult::LoadingResult			( ExceptionPtr error, ExceptionPtr warning
 inline LoadingResult::LoadingResult			( std::string error, ExceptionPtr warnings )
 	: Assets( Nullable< AssetsVec >( error ) )
 	, Warnings( warnings )
+{}
+
+// ================================ //
+//
+inline LoadingResult::LoadingResult			( AssetsVec assets, ExceptionPtr warnings )
+	: Assets( std::move( assets ) )
+	, Warnings( warnings )
+{}
+
+// ================================ //
+//
+inline LoadingResult::LoadingResult			( ExceptionPtr error, const ErrorsCollector& warnings )
+	: Assets( Nullable< AssetsVec >( error ) )
+	, Warnings( warnings.GetException() )
 {}
 
 }	// sw

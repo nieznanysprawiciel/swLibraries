@@ -164,12 +164,18 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetPath.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetsFactory.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestCreators\TestBufferCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoadingResult.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsCreation.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsLoadingSync.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsRemoval.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestLoaders.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAsset.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetCreator.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetLoader.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\TestLoadingResult.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockCompositeAsset.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockCompositeAssetCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockCompositeAssetLoader.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\Tests\TestMockCompositeAsset.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
@@ -192,6 +198,9 @@
     <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAsset.h" />
     <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetCreator.h" />
     <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetLoader.h" />
+    <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockCompositeAsset.h" />
+    <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockCompositeAssetCreator.h" />
+    <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockCompositeAssetLoader.h" />
     <ClInclude Include="..\..\..\..\Tests\TestResourceManager\Utils\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

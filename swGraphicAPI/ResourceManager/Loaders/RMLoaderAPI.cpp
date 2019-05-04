@@ -22,6 +22,13 @@ RMLoaderAPI::RMLoaderAPI		( nResourceManager* manager )
 
 // ================================ //
 //
+sw::Nullable< ResourcePointer >		RMLoaderAPI::LoadGeneric				( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID type )
+{
+	return m_resourceManager->LoadGeneric( assetName, desc, type );
+}
+
+// ================================ //
+//
 Nullable< ResourcePointer >			RMLoaderAPI::CreateGenericAsset			( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo )
 {
 	return m_resourceManager->CreateGenericAsset( name, assetType, std::move( createInfo ) );
