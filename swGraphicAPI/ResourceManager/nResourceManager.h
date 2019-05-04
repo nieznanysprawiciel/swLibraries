@@ -149,6 +149,11 @@ public:
 
 	///@name Listing resources
 	///@{
+	std::vector< ResourcePointer >						ListAssets			( TypeID assetType ) const;
+
+	template< typename AssetType >
+	std::vector< ResourcePtr< AssetType > >				ListAssetsTyped		( TypeID assetType ) const;
+
 	std::vector< ResourcePtr< Buffer > >				ListVertexBuffers	();
 	std::vector< ResourcePtr< Buffer > >				ListIndexBuffers	();
 	std::vector< ResourcePtr< Buffer > >				ListConstantBuffers	();
@@ -184,6 +189,27 @@ protected:
 
 	ReturnResult								AddGenericResource	( const AssetPath& name, TypeID assetType, ResourcePointer resource );
 };
+
+
+//====================================================================================//
+//			Implementation	
+//====================================================================================//
+
+
+// ================================ //
+//
+template< typename AssetType >
+inline std::vector< ResourcePtr< AssetType > >		nResourceManager::ListAssetsTyped		( TypeID assetType ) const
+{
+	auto containerIter = m_resources.find( assetType );
+	if( containerIter != m_resources.end() )
+	{
+		const ResourceContainer< AssetType >& container = containerIter->second;
+		return container.List< AssetType >();
+	}
+
+	return std::vector< ResourcePtr< AssetType > >();
+}
 
 }	// sw
 

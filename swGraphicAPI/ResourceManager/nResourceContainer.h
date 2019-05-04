@@ -87,7 +87,7 @@ public:
 
 	// Listing resources.
 	template< typename ResourceCastType >
-	std::vector< ResourcePtr< ResourceCastType > >		List();
+	std::vector< ResourcePtr< ResourceCastType > >		List() const;
 
 	inline uint32				GetNextId() { return count; }	///< Returns idetifier for next resource of this type.
 };
@@ -300,7 +300,7 @@ void					ResourceContainer< ResourceType >::ForceRemoveAll		()
 /**@brief Lists all elements in ResourceContainer.*/
 template< class ResourceType >
 template< typename ResourceCastType >
-inline std::vector< ResourcePtr< ResourceCastType > >		ResourceContainer< ResourceType >::List()
+inline std::vector< ResourcePtr< ResourceCastType > >		ResourceContainer< ResourceType >::List	() const
 {
 	std::vector< ResourcePtr< ResourceCastType > > resourcesList;
 	resourcesList.reserve( m_resMap.size() );
