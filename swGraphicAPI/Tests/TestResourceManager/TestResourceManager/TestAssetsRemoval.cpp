@@ -91,4 +91,27 @@ TEST_CASE( "GraphicAPI.ResourceManager.AssetsRemoval.FreeUnusedAssets.DontFreeUs
 	CHECK( internalReferenced.Ptr() != nullptr );
 }
 
+// ================================ //
+// Checks if assets are removed properly. If assets aren't released it causes not only
+// memory leaks by GPU resources leaks.
+TEST_CASE( "GraphicAPI.ResourceManager.AssetsRemoval.FreeUnusedAssets.CheckLeaks", "[GraphicAPI]" )
+{
+	auto creator = MockAssetCreator::CreateCreator();		// Creator must live longer then ResourceManager since it tracks references of created assets.
+
+	nResourceManager rm;		rm.RegisterAssetCreator( creator );
+
+	MockAssetCreateInfo init;
+
+	auto asset = rm.CreateGenericAsset( "::/AssetsRemoval/FreeUnusedAssets/CheckLeaks", TypeID::get< MockAsset >(), std::move( init ) );
+	REQUIRE( asset.IsValid() );
+	
+	// Release all references to asset and than remove all unused assets.
+	asset.Get().ReleaseResource();
+	rm.FreeUnusedAssets();
+
+	CHECK( creator->CountLivingAssets() == 0 );
+}
+
+
+
 
