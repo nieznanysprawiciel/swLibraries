@@ -170,6 +170,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsRemoval.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestListAssets.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestLoaders.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourcePtr.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAsset.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetCreator.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\MockAsset\MockAssetLoader.cpp" />

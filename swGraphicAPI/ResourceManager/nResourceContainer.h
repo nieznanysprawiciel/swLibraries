@@ -242,14 +242,18 @@ template< class ResourceType >
 Size					ResourceContainer< ResourceType >::RemoveUnused			()
 {
 	int count = 0;
-	for( auto iter = m_resMap.begin(); iter != m_resMap.end(); iter++ )
+	for( auto iter = m_resMap.begin(); iter != m_resMap.end(); )
 	{
 		if( iter->second->CanDelete() )
 		{
 			ReleaseMemory( iter->second );
-			m_resMap.erase( iter );
+			iter = m_resMap.erase( iter );
 
 			++count;
+		}
+		else
+		{
+			iter++;
 		}
 	}
 
