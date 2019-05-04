@@ -34,5 +34,8 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.SimpleLoading", "[GraphicAPI]
 	REQUIRE( resource.IsValid() == true );
 	REQUIRE( resource.Get() != nullptr );
 	CHECK( static_cast< MockAsset* >( resource.Get().Ptr() )->GetContent() == "Example");
+
+	// This will hang if assets locks aren't released properly.
+	auto resource2 = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
 }
 

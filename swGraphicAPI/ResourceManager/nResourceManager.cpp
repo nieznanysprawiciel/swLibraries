@@ -281,10 +281,17 @@ sw::Nullable< ResourcePointer >			nResourceManager::LoadingImpl				( const Asset
 		auto loadingResult = loader->Load( assetName, assetType, desc, RMLoaderAPI( this ) );
 
 		if( !loadingResult.Assets.IsValid() )
+		{
+			// Remove asset lock.
+			m_waitingAssets.LoadingFailed( assetName.GetFile(), loadingResult.Assets.GetError() );
 			return loadingResult.Assets.GetError();
+		}
 
 		resource = FindRequestedAsset( assetName, assetType, loadingResult.Assets );
 	}
+
+	// Remove asset lock.
+	m_waitingAssets.LoadingCompleted( assetName.GetFile() );
 
 	return resource;
 }
