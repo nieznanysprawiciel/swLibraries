@@ -61,16 +61,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.NotRegisteredLoader", "[Graph
 {
 	std::unique_ptr< nResourceManager > rm = std::make_unique< nResourceManager >();
 
-	{
-		auto creator = MockCompositeAssetCreator::CreateCreator();
-		auto loader = std::make_shared< MockCompositeAssetLoader >();
-
-		rm->RegisterAssetCreator( creator );
-		rm->RegisterLoader( loader );
-	}
-
 	MockAssetLoadInfo info;
-
 	auto resource = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
 
 	REQUIRE( resource.IsValid() == false );
