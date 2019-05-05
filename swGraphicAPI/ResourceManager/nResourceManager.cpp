@@ -273,6 +273,9 @@ ResourcePtr< Resource >					nResourceManager::FindRequestedAsset		( const AssetP
 //
 sw::Nullable< ResourcePointer >			nResourceManager::LoadingImpl				( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID assetType )
 {
+	// @attention: Remember to remove asset lock before each return statement.
+	// Otherwise assetName will be locked for loading for always. 
+
 	auto resource = m_cacheManager.LoadFromCache( assetName, assetType );
 	if( !resource )
 	{
@@ -295,6 +298,7 @@ sw::Nullable< ResourcePointer >			nResourceManager::LoadingImpl				( const Asset
 		{
 			auto exception = std::make_shared< ResourceManagerException >( "Loader for asset not found.", assetName.String(), assetType );
 
+			// Remove asset lock.
 			m_waitingAssets.LoadingFailed( assetName.GetFile(), exception );
 			return exception;
 		}
