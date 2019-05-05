@@ -39,3 +39,16 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.SimpleLoading", "[GraphicAPI]
 	auto resource2 = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
 }
 
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.LoadNotExisting", "[GraphicAPI]" )
+{
+	auto rm = CreateResourceManagerWithMocks();
+
+	MockAssetLoadInfo info;
+
+	auto resource = rm->LoadGeneric( "../TestAssets/mock/example-notexists.mock", &info, TypeID::get< MockAsset >() );
+
+	REQUIRE( resource.IsValid() == false );
+}
+

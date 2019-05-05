@@ -33,13 +33,21 @@ LoadingResult		MockAssetLoader::Load				( const AssetPath& filePath, TypeID reso
 
 
 	MockAssetCreateInfo createInfo;
-	createInfo.Content = filesystem::File::Load( filePath.GetFile() );
+	
+	if( filePath.GetFile().Exists() )
+	{
+		createInfo.Content = filesystem::File::Load( filePath.GetFile() );
 
-	auto res = factory.CreateGenericAsset( filePath, TypeID::get< MockAsset >(), std::move( createInfo ) );
-	if( !res.IsValid() )
-		return res.GetError();
+		auto res = factory.CreateGenericAsset( filePath, TypeID::get< MockAsset >(), std::move( createInfo ) );
+		if( !res.IsValid() )
+			return res.GetError();
 
-	return LoadingResult( res.Get() );
+		return LoadingResult( res.Get() );
+	}
+	else
+	{
+		return "File [" + filePath.GetFile().String() + "] doesn't exist.";
+	}
 }
 
 // ================================ //
