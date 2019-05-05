@@ -1,7 +1,14 @@
 #pragma once
+/**
+@file Exception.h
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 
 #include "swCommonLib/Common/TypesDefinitions.h"
+#include "swCommonLib/Common/RTTR.h"
 
 #include <exception>
 #include <string>
@@ -19,6 +26,7 @@ namespace sw
 @ingroup Exceptions*/
 class Exception : public std::exception
 {
+	RTTR_ENABLE();
 private:
 protected:
 public:
@@ -44,6 +52,7 @@ DEFINE_PTR_TYPE( Exception )
 @ingroup Exceptions*/
 class RuntimeException : public Exception
 {
+	RTTR_ENABLE( Exception );
 private:
 protected:
 

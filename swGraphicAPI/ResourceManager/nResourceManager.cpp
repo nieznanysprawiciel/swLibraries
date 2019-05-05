@@ -278,16 +278,26 @@ sw::Nullable< ResourcePointer >			nResourceManager::LoadingImpl				( const Asset
 	{
 		// @todo Maybe we should extract file name from asset name.
 		auto loader = FindLoader( assetName, assetType );
-		auto loadingResult = loader->Load( assetName, assetType, desc, RMLoaderAPI( this ) );
-
-		if( !loadingResult.Assets.IsValid() )
+		if( loader )
 		{
-			// Remove asset lock.
-			m_waitingAssets.LoadingFailed( assetName.GetFile(), loadingResult.Assets.GetError() );
-			return loadingResult.Assets.GetError();
-		}
+			auto loadingResult = loader->Load( assetName, assetType, desc, RMLoaderAPI( this ) );
 
-		resource = FindRequestedAsset( assetName, assetType, loadingResult.Assets );
+			if( !loadingResult.Assets.IsValid() )
+			{
+				// Remove asset lock.
+				m_waitingAssets.LoadingFailed( assetName.GetFile(), loadingResult.Assets.GetError() );
+				return loadingResult.Assets.GetError();
+			}
+
+			resource = FindRequestedAsset( assetName, assetType, loadingResult.Assets );
+		}
+		else
+		{
+			auto exception = std::make_shared< ResourceManagerException >( "Loader for asset not found.", assetName.String(), assetType );
+
+			m_waitingAssets.LoadingFailed( assetName.GetFile(), exception );
+			return exception;
+		}
 	}
 
 	// Remove asset lock.

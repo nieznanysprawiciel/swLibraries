@@ -18,6 +18,7 @@ namespace sw
 @ingroup BindingExceptions*/
 class ResourceManagerException : public RuntimeException
 {
+	RTTR_ENABLE( RuntimeException );
 private:
 protected:
 

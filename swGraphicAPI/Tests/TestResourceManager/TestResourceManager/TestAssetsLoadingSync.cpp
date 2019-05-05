@@ -50,5 +50,32 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.LoadNotExisting", "[GraphicAP
 	auto resource = rm->LoadGeneric( "../TestAssets/mock/example-notexists.mock", &info, TypeID::get< MockAsset >() );
 
 	REQUIRE( resource.IsValid() == false );
+
+	// This will hang if assets locks aren't released properly.
+	auto resource2 = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
+}
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.NotRegisteredLoader", "[GraphicAPI]" )
+{
+	std::unique_ptr< nResourceManager > rm = std::make_unique< nResourceManager >();
+
+	{
+		auto creator = MockCompositeAssetCreator::CreateCreator();
+		auto loader = std::make_shared< MockCompositeAssetLoader >();
+
+		rm->RegisterAssetCreator( creator );
+		rm->RegisterLoader( loader );
+	}
+
+	MockAssetLoadInfo info;
+
+	auto resource = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
+
+	REQUIRE( resource.IsValid() == false );
+
+	// This will hang if assets locks aren't released properly.
+	auto resource2 = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
 }
 
