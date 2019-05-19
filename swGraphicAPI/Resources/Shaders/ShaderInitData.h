@@ -60,9 +60,9 @@ public:
 		:	ShaderInitData( type )
 	{}
 
-	ShaderCodeInitData( ShaderType type, const std::string& sourceCode )
+	ShaderCodeInitData( ShaderType type, std::string sourceCode )
 		:	ShaderInitData( type )
-		,	SourceCode( sourceCode )
+		,	SourceCode( std::move( sourceCode ) )
 	{}
 
 };

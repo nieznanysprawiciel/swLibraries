@@ -10,7 +10,7 @@
 #include <type_traits>
 
 // Included to register wrapper_mapper in rttr
-#include "swCommonLib/Reflection/src/rttr/wrapper_mapper.h"
+#include "swCommonLib/Common/RTTR.h"
 
 
 namespace sw
