@@ -102,3 +102,22 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.TwoThreadsSameAsset", "[Graph
 	CHECK( resource.Get() == threadResource.Get() );
 }
 
+// ================================ //
+// We first load asset and then try to load it again. We should get the same asset object.
+TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.LoadSameAfterLoad", "[GraphicAPI]" )
+{
+	auto rm = CreateResourceManagerWithMocks();
+
+	MockAssetLoadInfo info;
+
+	auto resource = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
+
+	REQUIRE( resource.IsValid() == true );
+	REQUIRE( resource.Get() != nullptr );
+
+	// This will hang if assets locks aren't released properly.
+	auto resource2 = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
+
+	CHECK( resource.Get() == resource2.Get() );
+}
+
