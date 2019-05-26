@@ -164,6 +164,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetPath.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetsFactory.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestCreators\TestBufferCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoaders\TestShaderLoader.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoadingResult.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsCreation.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsLoadingSync.cpp" />

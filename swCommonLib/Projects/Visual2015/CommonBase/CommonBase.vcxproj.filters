@@ -31,6 +31,9 @@
     <Filter Include="Common\Buffers">
       <UniqueIdentifier>{9e6aceb0-23e1-46a1-8b54-c5882da45a8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Exceptions\Common">
+      <UniqueIdentifier>{a561dd66-9f10-4e4c-9833-55bcc4299c7f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Common\Converters.cpp">
@@ -62,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Common\Exceptions\ExceptionsList.cpp">
       <Filter>Common\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.cpp">
+      <Filter>Common\Exceptions\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Buffers\IndexedGeometryBuffer.h">
       <Filter>Common\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.h">
+      <Filter>Common\Exceptions\Common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

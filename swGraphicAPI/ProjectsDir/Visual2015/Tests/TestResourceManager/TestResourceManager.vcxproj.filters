@@ -56,6 +56,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourcePtr.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoaders\TestShaderLoader.cpp">
+      <Filter>Tests\TestLoaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
@@ -75,6 +78,9 @@
     </Filter>
     <Filter Include="Utils\Tests">
       <UniqueIdentifier>{3ffcb99c-ce8b-4abb-9b50-7208a7495431}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\TestLoaders">
+      <UniqueIdentifier>{8b4a4068-6d30-412e-9ac0-bb4c5be6935d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,8 @@
 #include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockCompositeAssetCreator.h"
 #include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockCompositeAssetLoader.h"
 
+#include "swGraphicAPI/ResourceManager/AssetCreators/Shaders/ShaderCreator.h"
+#include "swGraphicAPI/ResourceManager/Loaders/ShaderLoader.h"
 
 
 namespace sw
@@ -23,7 +25,7 @@ namespace sw
 
 // ================================ //
 //
-inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMocks	()
+inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMocks				()
 {
 	std::unique_ptr< nResourceManager > rm = std::make_unique< nResourceManager >();
 
@@ -40,6 +42,20 @@ inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMocks	()
 		auto loader = std::make_shared< MockCompositeAssetLoader >();
 
 		rm->RegisterAssetCreator( creator );
+		rm->RegisterLoader( loader );
+	}
+
+	return std::move( rm );
+}
+
+// ================================ //
+//
+inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMocksAndDefaults	()
+{
+	auto rm = CreateResourceManagerWithMocks();
+
+	{
+		auto loader = std::make_shared< ShaderLoader >();
 		rm->RegisterLoader( loader );
 	}
 

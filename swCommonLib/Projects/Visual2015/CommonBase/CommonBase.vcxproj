@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Common\Converters.cpp" />
+    <ClCompile Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.cpp" />
     <ClCompile Include="..\..\..\Common\Exceptions\ExceptionsList.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\Semaphore.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\ThreadsBarrier.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="..\..\..\Common\Buffers\StackBuffer.h" />
     <ClInclude Include="..\..\..\Common\Config\ConfigHelper.h" />
     <ClInclude Include="..\..\..\Common\Converters.h" />
+    <ClInclude Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\ErrorsCollector.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Exception.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\ExceptionsList.h" />
