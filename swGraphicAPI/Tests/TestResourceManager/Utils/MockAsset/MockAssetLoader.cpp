@@ -18,7 +18,9 @@ namespace sw
 //
 bool				MockAssetLoader::CanLoad			( const AssetPath& filePath, TypeID resourceType )
 {
-	return filePath.GetFile().GetExtension() == ".mock";
+	return filePath.GetFile().GetExtension() == ".mock" &&
+		  ( TypeID::get< MockAsset >() == resourceType ||
+			TypeID::get< Resource >() == resourceType );
 }
 
 // ================================ //
