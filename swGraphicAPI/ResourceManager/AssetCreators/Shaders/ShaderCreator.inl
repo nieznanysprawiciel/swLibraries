@@ -11,6 +11,7 @@
 
 #include "swCommonLib/Common/Buffers/BufferTyped.h"
 #include "swCommonLib/System/File.h"
+#include "swCommonLib/Common/Exceptions/Common/InvalidCodeLogicException.h"
 
 
 
@@ -39,7 +40,7 @@ Nullable< Resource* >				ShaderCreator< ShaderObjectType >::CreateShader		( cons
 	case ShaderType::TesselationEvaluationShader:
 		return CreateEvaluationShader( assetName, code, shaderEntry );
 	default:
-		return "[ShaderCreator] Unknown shader type. Execution shouldn't reach this point, check your code.";
+		return InvalidCodeLogicException::Create( "[ShaderCreator] Unknown shader type", __FILE__, __LINE__ );
 	}
 }
 

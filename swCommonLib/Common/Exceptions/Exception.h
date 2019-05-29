@@ -62,8 +62,8 @@ public:
 
 	// ================================ //
 	//
-	explicit		RuntimeException		( const std::string& message )
-		: m_errorMessage( message )
+	explicit		RuntimeException		( std::string message )
+		: m_errorMessage( std::move( message ) )
 	{}
 
 	virtual			~RuntimeException		() = default;

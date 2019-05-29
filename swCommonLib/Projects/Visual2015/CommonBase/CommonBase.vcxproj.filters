@@ -69,6 +69,9 @@
     <ClCompile Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.cpp">
       <Filter>Common\Exceptions\Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Common\Exceptions\Common\InvalidCodeLogicException.cpp">
+      <Filter>Common\Exceptions\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Common\Converters.h">
@@ -189,6 +192,9 @@
       <Filter>Common\Buffers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.h">
+      <Filter>Common\Exceptions\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Exceptions\Common\InvalidCodeLogicException.h">
       <Filter>Common\Exceptions\Common</Filter>
     </ClInclude>
   </ItemGroup>
