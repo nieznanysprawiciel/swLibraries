@@ -41,6 +41,9 @@ public:
 
 	virtual TypeID		GetAssetType	() const override;
 
+public:
+
+	static ShaderType	GetFromTypeID	( TypeID type );
 };
 
 

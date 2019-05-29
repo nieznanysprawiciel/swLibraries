@@ -34,7 +34,7 @@ namespace sw
 
 // ================================ //
 //
-TypeID			ShaderInitData::GetAssetType() const
+TypeID			ShaderInitData::GetAssetType		() const
 {
 	switch( Type )
 	{
@@ -54,6 +54,26 @@ TypeID			ShaderInitData::GetAssetType() const
 			return TypeID::get_by_name( "" );
 			break;
 	}
+}
+
+// ================================ //
+//
+ShaderType		ShaderInitData::GetFromTypeID		( TypeID type )
+{
+	if( type == TypeID::get< VertexShader >() )
+		return ShaderType::VertexShader;
+	if( type == TypeID::get< PixelShader >() )
+		return ShaderType::PixelShader;
+	if( type == TypeID::get< GeometryShader >() )
+		return ShaderType::GeometryShader;
+	if( type == TypeID::get< ControlShader >() )
+		return ShaderType::TesselationControlShader;
+	if( type == TypeID::get< EvaluationShader >() )
+		return ShaderType::TesselationEvaluationShader;
+	if( type == TypeID::get< ComputeShader >() )
+		return ShaderType::ComputeShader;
+
+	return ShaderType();
 }
 
 

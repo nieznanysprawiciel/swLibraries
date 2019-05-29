@@ -70,12 +70,17 @@ public:
 	ResourcePointer								GetCachedGeneric			( const AssetPath& name, TypeID type );
 
 	/**@copydoc nResourceManager::LoadGeneric*/
-	sw::Nullable< ResourcePointer >				LoadGeneric					( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID type );
+	sw::Nullable< ResourcePointer >				LoadGeneric					( const AssetPath& assetName, const IAssetLoadInfo* desc, TypeID type );
 
 	/**Typed version of LoadGeneric.
 	@copydoc nResourceManager::LoadGeneric*/
 	template< typename AssetType >
-	sw::Nullable< ResourcePtr< AssetType > >	Load						( const AssetPath& assetName, IAssetLoadInfo* desc );
+	sw::Nullable< ResourcePtr< AssetType > >	Load						( const AssetPath& assetName, const IAssetLoadInfo* desc );
+
+	/**@brief Typed version of GetCachedGeneric.
+	@copydoc RMLoaderAPI::GetCachedGeneric*/
+	template< typename AssetType >
+	ResourcePtr< AssetType >					GetCached					( const AssetPath& name );
 
 	/**@copydoc nResourceManager::CreateGenericAsset*/
 	sw::Nullable< ResourcePointer >				CreateGenericAsset			( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo );
@@ -91,7 +96,7 @@ public:
 // ================================ //
 //
 template< typename AssetType >
-inline sw::Nullable< ResourcePtr< AssetType > >		RMLoaderAPI::Load			( const AssetPath& assetName, IAssetLoadInfo* desc )
+inline sw::Nullable< ResourcePtr< AssetType > >		RMLoaderAPI::Load			( const AssetPath& assetName, const IAssetLoadInfo* desc )
 {
 	auto assetLoadResult = LoadGeneric( assetName, desc, TypeID::get< AssetType >() );
 	
@@ -102,6 +107,22 @@ inline sw::Nullable< ResourcePtr< AssetType > >		RMLoaderAPI::Load			( const Ass
 		return ResourcePtr< AssetType >( static_cast< AssetType* >( assetLoadResult.Get().Ptr() ) );
 	else
 		return assetLoadResult.GetError();
+}
+
+// ================================ //
+//
+template< typename AssetType >
+inline ResourcePtr< AssetType >						RMLoaderAPI::GetCached		( const AssetPath& name )
+{
+	auto resource = GetCachedGeneric( name, TypeID::get< AssetType >() );
+
+	/// @todo It would be nice if Nullable could make this conversion by itself.
+	/// It's imposible, because we store ResorucePtr in Nullable and wrappers
+	/// types aren't related.
+	if( resource.IsValid() )
+		return ResourcePtr< AssetType >( static_cast< AssetType* >( resource.Get().Ptr() ) );
+	else
+		return resource.GetError();
 }
 
 }	// sw

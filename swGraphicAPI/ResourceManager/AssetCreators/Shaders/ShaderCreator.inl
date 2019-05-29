@@ -18,6 +18,31 @@
 namespace sw
 {
 
+
+// ================================ //
+//
+template< typename ShaderObjectType >
+Nullable< Resource* >				ShaderCreator< ShaderObjectType >::CreateShader		( const AssetPath& assetName, ShaderType type, const std::string& code, const std::string& shaderEntry )
+{
+	switch( type )
+	{
+	case ShaderType::VertexShader:
+		return CreateVertexShader( assetName, code, shaderEntry );
+	case ShaderType::PixelShader:
+		return CreatePixelShader( assetName, code, shaderEntry );
+	case ShaderType::GeometryShader:
+		return CreateGeometryShader( assetName, code, shaderEntry );
+	case ShaderType::ComputeShader:
+		return CreateComputeShader( assetName, code, shaderEntry );
+	case ShaderType::TesselationControlShader:
+		return CreateControlShader( assetName, code, shaderEntry );
+	case ShaderType::TesselationEvaluationShader:
+		return CreateEvaluationShader( assetName, code, shaderEntry );
+	default:
+		return "[ShaderCreator] Unknown shader type. Execution shouldn't reach this point, check your code.";
+	}
+}
+
 // ================================ //
 //
 template< typename ShaderObjectType >
@@ -26,29 +51,20 @@ inline Nullable< Resource* >		ShaderCreator< ShaderObjectType >::Create			( cons
 	if( TypeID::get( createInfo ) == TypeID::get< ShaderInitData >() )
 	{
 		auto& init = static_cast< ShaderInitData&& >( createInfo );
-
 		std::string code = filesystem::File::Load( assetName.GetFile() );
-
-		switch( init.Type )
-		{
-			case ShaderType::VertexShader:
-				return CreateVertexShader( assetName, code, init.EntryFunction );
-			case ShaderType::PixelShader:
-				return CreatePixelShader( assetName, code, init.EntryFunction );
-			case ShaderType::GeometryShader:
-				return CreateGeometryShader( assetName, code, init.EntryFunction );
-			case ShaderType::ComputeShader:
-				return CreateComputeShader( assetName, code, init.EntryFunction );
-			case ShaderType::TesselationControlShader:
-				return CreateControlShader( assetName, code, init.EntryFunction );
-			case ShaderType::TesselationEvaluationShader:
-				return CreateEvaluationShader( assetName, code, init.EntryFunction );
-			default:
-				break;
-		}
+		
+		return CreateShader( assetName, init.Type, code, init.EntryFunction );
 	}
+	else if( TypeID::get( createInfo ) == TypeID::get< ShaderCodeInitData >() )
+	{
+		auto& init = static_cast< ShaderCodeInitData&& >( createInfo );
 
-	return "[ShaderCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported yet. This feature will be implemented in future.";
+		return CreateShader( assetName, init.Type, init.SourceCode, init.EntryFunction );
+	}
+	else
+	{
+		return "[ShaderCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported yet.";
+	}
 }
 
 // ================================ //

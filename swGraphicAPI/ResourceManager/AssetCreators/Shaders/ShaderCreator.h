@@ -48,6 +48,10 @@ public:
 	inline Nullable< EvaluationShader* >			CreateEvaluationShader		( const AssetPath& fileName, const std::string& code, const std::string& shaderEntry = "main" );
 	inline Nullable< ComputeShader* >				CreateComputeShader			( const AssetPath& fileName, const std::string& code, const std::string& shaderEntry = "main" );
 
+private:
+
+	inline Nullable< Resource* >					CreateShader				( const AssetPath& assetName, ShaderType type, const std::string& code, const std::string& shaderEntry );
+
 };
 
 

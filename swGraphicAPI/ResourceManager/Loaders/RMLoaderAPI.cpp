@@ -22,7 +22,7 @@ RMLoaderAPI::RMLoaderAPI		( nResourceManager* manager )
 
 // ================================ //
 //
-sw::Nullable< ResourcePointer >		RMLoaderAPI::LoadGeneric				( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID type )
+sw::Nullable< ResourcePointer >		RMLoaderAPI::LoadGeneric				( const AssetPath& assetName, const IAssetLoadInfo* desc, TypeID type )
 {
 	return m_resourceManager->LoadGeneric( assetName, desc, type );
 }

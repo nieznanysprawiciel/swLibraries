@@ -9,6 +9,7 @@
 #include "ShaderLoader.h"
 
 #include "swGraphicAPI/Resources/Shaders/Shaders.h"
+#include "swGraphicAPI/Resources/Shaders/ShaderInitData.h"
 
 #include "swCommonLib/Common/Exceptions/Common/FileNotFoundException.h"
 #include "swCommonLib/System/File.h"
@@ -49,6 +50,16 @@ LoadingResult									ShaderLoader::Load			( const AssetPath& filePath, TypeID r
 	if( filePath.GetFile().Exists() )
 	{
 		std::string fileContent = filesystem::File::Load( filePath.GetFile() );
+
+		ShaderCodeInitData init( ShaderInitData::GetFromTypeID( resourceType ), std::move( fileContent ) );
+
+		// We don't use GetCachedGeneric here because it's not nested asset and ResourceManager
+		// checks cache first.
+		auto resourceNullable = factory.CreateGenericAsset( filePath, resourceType, std::move( init ) );
+		if( resourceNullable.IsValid() )
+			return { resourceNullable.Get() };
+		else
+			return { resourceNullable.GetError() };
 	}
 	else
 	{

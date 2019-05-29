@@ -28,3 +28,15 @@ TEST_CASE( "GraphicAPI.ShaderLoader.FileDoesntExists", "[GraphicAPI]" )
 	CHECK( resource.GetError() != nullptr );
 	CHECK( resource.GetError()->get_type() == TypeID::get< FileNotFoundException >() );
 }
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.ShaderLoader.Load.VertexShader", "[GraphicAPI]" )
+{
+	auto rm = CreateResourceManagerWithMocksAndDefaults();
+
+	auto resource = rm->LoadGeneric( "../TestAssets/shaders/hlsl/MinimalShader.vsh::main", nullptr, TypeID::get< VertexShader >() );
+	REQUIRE( resource.IsValid() == true );
+
+	CHECK( resource.Get() != nullptr );
+}

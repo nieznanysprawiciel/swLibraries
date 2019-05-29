@@ -99,7 +99,7 @@ public:
 	ControlShader*					LoadControlShader			( const AssetPath& fileName, const std::string& shaderEntry );
 	EvaluationShader*				LoadEvaluationShader		( const AssetPath& fileName, const std::string& shaderEntry );
 
-	sw::Nullable< ResourcePointer >	LoadGeneric					( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID type );
+	sw::Nullable< ResourcePointer >	LoadGeneric					( const AssetPath& assetName, const IAssetLoadInfo* desc, TypeID type );
 
 	/**@brief Loads asset file with it's whole content.
 	
@@ -185,7 +185,7 @@ protected:
 	ResourcePtr< Resource >						FindRequestedAsset	( const AssetPath& assetName, TypeID assetType, const AssetsVec& loadedAssets );
 	IAssetLoader*								FindLoader			( const AssetPath& assetName, TypeID assetType );
 
-	sw::Nullable< ResourcePointer >				LoadingImpl			( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID assetType );
+	sw::Nullable< ResourcePointer >				LoadingImpl			( const AssetPath& assetName, const IAssetLoadInfo* desc, TypeID assetType );
 
 	ReturnResult								AddGenericResource	( const AssetPath& name, TypeID assetType, ResourcePointer resource );
 };

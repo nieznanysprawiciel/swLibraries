@@ -51,7 +51,7 @@ ResourcePointer							nResourceManager::GetGeneric				( const AssetPath& name, T
 /// @note If asset loading fails and we call LoadGeneric function again, LoadGeneric will try to load it
 /// for the second time. This will cause performance problem, when something is wrong with important asset
 /// loaded by multiple entities, because even failed loading is heavy operation.
-sw::Nullable< ResourcePointer >			nResourceManager::LoadGeneric				( const AssetPath& name, IAssetLoadInfo* desc, TypeID type )
+sw::Nullable< ResourcePointer >			nResourceManager::LoadGeneric				( const AssetPath& name, const IAssetLoadInfo* desc, TypeID type )
 {
 	// Lock as Reader. Try to find resource and request asset atomically.
 	ReaderUniqueLock< ReaderWriterLock > lock( m_rwLock );
@@ -271,7 +271,7 @@ ResourcePtr< Resource >					nResourceManager::FindRequestedAsset		( const AssetP
 
 // ================================ //
 //
-sw::Nullable< ResourcePointer >			nResourceManager::LoadingImpl				( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID assetType )
+sw::Nullable< ResourcePointer >			nResourceManager::LoadingImpl				( const AssetPath& assetName, const IAssetLoadInfo* desc, TypeID assetType )
 {
 	// @attention: Remember to remove asset lock before each return statement.
 	// Otherwise assetName will be locked for loading for always. 
