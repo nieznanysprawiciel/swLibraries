@@ -40,3 +40,27 @@ TEST_CASE( "GraphicAPI.ShaderLoader.Load.VertexShader", "[GraphicAPI]" )
 
 	CHECK( resource.Get() != nullptr );
 }
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.ShaderLoader.Load.PixelShader", "[GraphicAPI]" )
+{
+	auto rm = CreateResourceManagerWithMocksAndDefaults();
+
+	auto resource = rm->LoadGeneric( "../TestAssets/shaders/hlsl/MinimalShader.psh::main", nullptr, TypeID::get< PixelShader >() );
+	REQUIRE( resource.IsValid() == true );
+
+	CHECK( resource.Get() != nullptr );
+}
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.ShaderLoader.Load.ComputeShader", "[GraphicAPI]" )
+{
+	auto rm = CreateResourceManagerWithMocksAndDefaults();
+
+	auto resource = rm->LoadGeneric( "../TestAssets/shaders/hlsl/MinimalShader.csh::main", nullptr, TypeID::get< ComputeShader >() );
+	REQUIRE( resource.IsValid() == true );
+
+	CHECK( resource.Get() != nullptr );
+}
