@@ -64,6 +64,9 @@
     <Filter Include="ResourceManager\Loaders\Tools">
       <UniqueIdentifier>{0cb0ceaf-52eb-44c8-a34c-864f5632aee9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\Shaders\Exceptions">
+      <UniqueIdentifier>{bd89a30a-b372-406b-a238-ec8a712fc45a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Rendering\IRenderer.h">
@@ -254,6 +257,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ResourceManager\Loaders\Tools\LoadingContext.h">
       <Filter>ResourceManager\Loaders\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Shaders\Exceptions\CompilationException.h">
+      <Filter>Resources\Shaders\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

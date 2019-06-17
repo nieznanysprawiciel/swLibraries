@@ -70,6 +70,7 @@
     <ClInclude Include="..\..\..\Resources\ResourceObject.h" />
     <ClInclude Include="..\..\..\Resources\ResourcePtr.h" />
     <ClInclude Include="..\..\..\Resources\ResourcesFactory.h" />
+    <ClInclude Include="..\..\..\Resources\Shaders\Exceptions\CompilationException.h" />
     <ClInclude Include="..\..\..\Resources\Shaders\InputLayout.h" />
     <ClInclude Include="..\..\..\Resources\Shaders\IShader.h" />
     <ClInclude Include="..\..\..\Resources\Shaders\IShaderInputLayout.h" />

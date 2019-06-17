@@ -11,6 +11,7 @@
 #include "swCommonLib/Common/Converters.h"
 #include "swCommonLib/System/File.h"
 
+#include "swGraphicAPI/Resources/Shaders/Exceptions/CompilationException.h"
 
 
 namespace sw
@@ -156,7 +157,7 @@ Nullable< ComPtr< ID3D10Blob > >		DX11Compiler::CompileShader				( const std::st
 	HRESULT hr = D3DCompile( code.c_str(), code.size(), nullptr, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, entrypoint.c_str(), shaderModel.c_str(), flags, 0, &compiledShader, &errorBlob );
 
 	if( FAILED( hr ) )
-		return std::string( (char*)errorBlob->GetBufferPointer() );
+		return CompilationException::Create( (char*)errorBlob->GetBufferPointer() );
 
 	return Nullable< ComPtr< ID3D10Blob > >( std::move( compiledShader ) );
 }

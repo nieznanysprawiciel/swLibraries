@@ -1,6 +1,15 @@
 #pragma once
+/**
+@file GraphicAPI.h
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
+#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/Loaders/ShaderLoader.h"
+
 #include "swGraphicAPI/Resources/ResourcesFactory.h"
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
 
@@ -55,4 +64,25 @@ inline Graphic&			GetGraphic	()
 
 	return graphic;
 }
+
+
+namespace sw
+{
+
+// ================================ //
+//
+inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithDefaults		()
+{
+	std::unique_ptr< nResourceManager > rm = std::make_unique< nResourceManager >();
+
+	{
+		auto loader = std::make_shared< ShaderLoader >();
+		rm->RegisterLoader( loader );
+	}
+
+	return std::move( rm );
+}
+
+
+}	// sw
 

@@ -29,6 +29,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestRenderTargetCreator.cpp">
       <Filter>Tests\TestCreators</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestLoaders\TestShaderLoader.cpp">
+      <Filter>Tests\TestLoaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestResources.DX11\GraphicAPI.h" />
@@ -39,6 +42,9 @@
     </Filter>
     <Filter Include="Tests\TestCreators">
       <UniqueIdentifier>{a7b7edd7-b4cd-4f61-a20f-8aa3024371fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\TestLoaders">
+      <UniqueIdentifier>{f06c9516-1a7c-449c-a40b-c8ac070afd54}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
