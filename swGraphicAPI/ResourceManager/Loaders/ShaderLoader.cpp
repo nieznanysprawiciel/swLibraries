@@ -24,6 +24,26 @@ namespace sw
 //
 bool											ShaderLoader::CanLoad		( const AssetPath& filePath, TypeID resourceType )
 {
+	std::string allowedExtensions[] =
+	{
+		".vert",
+		".tesc",
+		".tese",
+		".geom",
+		".frag",
+		".comp",
+
+		".vsh",
+		".psh",
+		".gsh",
+		".csh"
+	};
+
+	auto extension = filePath.GetFile().GetExtension();
+
+	if( std::find( std::begin( allowedExtensions ), std::end( allowedExtensions ), extension ) == std::end( allowedExtensions ) )
+		return false;
+
 	TypeID allowedTypes[] =
 	{
 		TypeID::get< VertexShader >(),
@@ -34,7 +54,7 @@ bool											ShaderLoader::CanLoad		( const AssetPath& filePath, TypeID resour
 		TypeID::get< ComputeShader >(),
 		// Note that we don't support loading of all shaders from file, because we can't find out
 		// all symbols that can be treated as entrypoint to shader.
-		// TypeID::get< Resoruce >(),
+		// TypeID::get< Resource >(),
 	};
 
 	if( std::find( std::begin( allowedTypes ), std::end( allowedTypes ), resourceType ) == std::end( allowedTypes ) )
