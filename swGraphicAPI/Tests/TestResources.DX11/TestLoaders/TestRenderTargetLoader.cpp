@@ -45,6 +45,21 @@ TEST_CASE( "GraphicAPI.DX11.RenderTargetLoader.Create.ColorDepthStencil", "[Grap
 	CHECK( stencilTex == rt->GetStencilBuffer() );
 }
 
+// ================================ //
+// Checks if RenderTargetLoader forwards errors.
+TEST_CASE( "GraphicAPI.DX11.RenderTargetLoader.Create.InvalidRT", "[GraphicAPI]" )
+{
+	auto rm = CreateResourceManagerWithDefaults();
 
+	RenderTargetLoadInfo init;
+	init.Height = 0;
+	init.Width = 0;
+	init.DepthStencilFormat = DepthStencilFormat::DEPTH_STENCIL_FORMAT_D24_UNORM_S8_UINT;
+	init.ColorBuffFormat = ResourceFormat::RESOURCE_FORMAT_B8G8R8A8_UNORM;
 
+	auto result = rm->LoadGeneric( "::/ColorDepthStencilRT", &init, TypeID::get< RenderTarget >() );
+	REQUIRE( !result.IsValid() );
+
+	CHECK( result.GetError() != nullptr );
+}
 
