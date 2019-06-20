@@ -24,6 +24,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\TestUtils\CatchUtils\ExtendedMacros.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Animal.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Components\PhysicalProperties.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\Dog.h" />
