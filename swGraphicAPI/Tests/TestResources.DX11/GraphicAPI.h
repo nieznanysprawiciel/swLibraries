@@ -9,6 +9,7 @@
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
 #include "swGraphicAPI/ResourceManager/nResourceManager.h"
 #include "swGraphicAPI/ResourceManager/Loaders/ShaderLoader.h"
+#include "swGraphicAPI/ResourceManager/Loaders/RenderTargetLoader.h"
 
 #include "swGraphicAPI/Resources/ResourcesFactory.h"
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
@@ -77,6 +78,11 @@ inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithDefaults		
 
 	{
 		auto loader = std::make_shared< ShaderLoader >();
+		rm->RegisterLoader( loader );
+	}
+
+	{
+		auto loader = std::make_shared< RenderTargetLoader >();
 		rm->RegisterLoader( loader );
 	}
 

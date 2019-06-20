@@ -30,6 +30,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestRenderTargetCreator.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestShaderCreator.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestTextureCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestLoaders\TestRenderTargetLoader.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestLoaders\TestShaderLoader.cpp" />
   </ItemGroup>
   <ItemGroup>

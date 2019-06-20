@@ -32,6 +32,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestLoaders\TestShaderLoader.cpp">
       <Filter>Tests\TestLoaders</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestLoaders\TestRenderTargetLoader.cpp">
+      <Filter>Tests\TestLoaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestResources.DX11\GraphicAPI.h" />
