@@ -18,6 +18,7 @@
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/Shaders/ShaderCreator.h"
 #include "swGraphicAPI/ResourceManager/Loaders/ShaderLoader.h"
+#include "swGraphicAPI/ResourceManager/Loaders/RenderTargetLoader.h"
 
 
 namespace sw
@@ -59,10 +60,25 @@ inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMocksAndDe
 		rm->RegisterLoader( loader );
 	}
 
+	{
+		auto loader = std::make_shared< RenderTargetLoader >();
+		rm->RegisterLoader( loader );
+	}
+
 	return std::move( rm );
 }
 
 
 }	// sw
 
+
+// ================================ //
+// Checks nullable IsValid and prints exception
+// if there's an error.
+#define REQUIRE_IS_VALID( nullable )			\
+if( !nullable.IsValid() )						\
+{												\
+	INFO( nullable.GetErrorReason() );			\
+	REQUIRE( nullable.IsValid() == true );		\
+}
 

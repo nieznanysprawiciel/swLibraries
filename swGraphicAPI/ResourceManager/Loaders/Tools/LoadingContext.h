@@ -51,10 +51,18 @@ public:
 
 // ================================ //
 //
-LoadingContext::LoadingContext		( RMLoaderAPI rm )
+inline LoadingContext::LoadingContext		( RMLoaderAPI rm )
 	:	Factory( rm )
 {}
 
+
+// ================================ //
+//
+template< typename AssetType >
+inline void				LoadingContext::CollectAsset			( ResourcePtr< AssetType > asset )
+{
+	AssetsCollection.push_back( asset.Ptr() );
+}
 
 }	// sw
 

@@ -9,8 +9,23 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreator.h"
 
 
+
 namespace sw
 {
+
+/**@brief Adds existing texture.
+Hack for RenderTargets textures.*/
+struct TextureExistingInitInfo : public sw::IAssetCreateInfo
+{
+private:
+	RTTR_ENABLE( sw::IAssetCreateInfo );
+public:
+
+	TexturePtr			Tex;
+
+public:
+	virtual TypeID		GetAssetType	() const override { return TypeID::get< Texture >(); }
+};
 
 
 

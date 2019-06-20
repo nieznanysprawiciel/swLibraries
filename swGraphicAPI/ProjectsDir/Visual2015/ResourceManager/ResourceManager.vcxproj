@@ -49,6 +49,7 @@
     <ClInclude Include="..\..\..\ResourceManager\Loaders\IAssetLoader.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\IAssetLoadInfo.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\LoadingResult.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\ShaderLoader.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\Tools\LoadingContext.h" />
@@ -89,6 +90,7 @@
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Buffers\BufferCreator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\PathTranslators\AssetPath.cpp" />
     <ClCompile Include="..\..\..\Resources\Buffers\Buffer.cpp" />

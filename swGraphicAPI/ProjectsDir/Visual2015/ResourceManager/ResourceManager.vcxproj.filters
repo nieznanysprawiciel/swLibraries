@@ -261,6 +261,9 @@
     <ClInclude Include="..\..\..\Resources\Shaders\Exceptions\CompilationException.h">
       <Filter>Resources\Shaders\Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
@@ -352,6 +355,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Resources\Resource.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

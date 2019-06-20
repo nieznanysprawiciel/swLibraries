@@ -69,6 +69,9 @@ public:
 
 	ResourcePointer				GetGeneric					( const AssetPath& name, TypeID type );
 
+	template< typename AssetType >
+	ResourcePtr< AssetType >	Get							( const AssetPath& name );
+
 	BlendingState*				GetBlendingState			( const AssetPath& name );
 	RasterizerState*			GetRasterizerState			( const AssetPath& name );
 	DepthStencilState*			GetDepthStencilState		( const AssetPath& name );
@@ -195,6 +198,15 @@ protected:
 //			Implementation	
 //====================================================================================//
 
+
+// ================================ //
+//
+template< typename AssetType >
+inline ResourcePtr< AssetType >						nResourceManager::Get					( const AssetPath& assetName )
+{
+	auto result = GetGeneric( assetName, TypeID::get< AssetType >() );
+	return ResourcePtr< AssetType >( static_cast< AssetType* >( result.Ptr() ) );
+}
 
 // ================================ //
 //

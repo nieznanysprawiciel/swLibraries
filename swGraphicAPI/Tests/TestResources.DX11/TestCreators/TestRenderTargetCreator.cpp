@@ -12,6 +12,8 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/Textures/RenderTargetCreator.h"
 #include "swGraphicAPI/Resources/Textures/RenderTarget.h"
 
+#include "swGraphicAPI/Tests/TestResourceManager/Utils/Utils.h"
+
 
 using namespace sw;
 

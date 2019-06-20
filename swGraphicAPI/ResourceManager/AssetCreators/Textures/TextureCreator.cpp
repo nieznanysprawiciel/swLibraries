@@ -57,6 +57,14 @@ Nullable< Resource* >		TextureCreator::Create		( const AssetPath& assetName, IAs
 		else
 			return ResourcesFactory::CreateTextureFromMemory( assetName, typedInitData.Data, std::move( info ) );
 	}
+	else if( type == TypeID::get< TextureExistingInitInfo >() )
+	{
+		// This initialization makes possible to add render target textures to
+		// ResourceManager. We don't create anything, because Texture already exists
+		// but external layers will add this asset to resources.
+		auto& typedInitData = static_cast< TextureExistingInitInfo& >( createInfo );
+		return typedInitData.Tex.Ptr();
+	}
 
 	return "[TextureCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported.";
 }
