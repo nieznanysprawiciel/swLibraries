@@ -16,6 +16,7 @@
 
 #include "swCommonLib/Common/Buffers/BufferTyped.h"
 
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 using namespace sw;
 
@@ -40,12 +41,7 @@ TEST_CASE( "GraphicAPI.DX11.TextureCreator.Create.GenerateMipmaps", "[GraphicAPI
 	init.Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
 
 	auto result = factory.CreateAsset( "::/Texture/Checkerboard/Mipmaps", TypeID::get< Texture >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	REQUIRE( result.Get() != nullptr );
 
@@ -72,12 +68,7 @@ TEST_CASE( "GraphicAPI.DX11.TextureCreator.Create.NoMipmaps", "[GraphicAPI]" )
 	init.Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
 
 	auto result = factory.CreateAsset( "::/Texture/Checkerboard/NoMipmaps", TypeID::get< Texture >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	REQUIRE( result.Get() != nullptr );
 

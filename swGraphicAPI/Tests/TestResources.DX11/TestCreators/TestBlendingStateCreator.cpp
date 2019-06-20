@@ -12,6 +12,8 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/BlendingStateCreator.h"
 #include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
 
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
+
 
 
 using namespace sw;
@@ -27,12 +29,7 @@ TEST_CASE( "GraphicAPI.DX11.BlendingStateCreator.Create", "[GraphicAPI]" )
 	init.EnableBlending = false;
 
 	auto result = factory.CreateAsset( "::/BlendingState/Opaque", TypeID::get< BlendingState >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	REQUIRE( result.Get() != nullptr );
 }

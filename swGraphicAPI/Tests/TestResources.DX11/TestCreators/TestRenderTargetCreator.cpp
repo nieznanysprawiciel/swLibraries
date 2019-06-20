@@ -13,6 +13,7 @@
 #include "swGraphicAPI/Resources/Textures/RenderTarget.h"
 
 #include "swGraphicAPI/Tests/TestResourceManager/Utils/Utils.h"
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 
 using namespace sw;
@@ -33,12 +34,7 @@ TEST_CASE( "GraphicAPI.DX11.RenderTargetCreator.Create.ColorDepth", "[GraphicAPI
 
 
 	auto result = factory.CreateAsset( "::/RenderTarget/ColorDepth", TypeID::get< RenderTarget >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	REQUIRE( result.Get() != nullptr );
 
@@ -63,12 +59,7 @@ TEST_CASE( "GraphicAPI.DX11.RenderTargetCreator.Create.ColorDepthStencil", "[Gra
 
 
 	auto result = factory.CreateAsset( "::/RenderTarget/ColorDepthStencil", TypeID::get< RenderTarget >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	REQUIRE( result.Get() != nullptr );
 

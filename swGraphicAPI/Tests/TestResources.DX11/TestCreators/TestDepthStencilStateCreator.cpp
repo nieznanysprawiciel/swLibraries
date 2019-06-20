@@ -12,6 +12,8 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/DepthStencilStateCreator.h"
 #include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
 
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
+
 
 
 using namespace sw;
@@ -25,12 +27,7 @@ TEST_CASE( "GraphicAPI.DX11.DepthStencilStateCreator.Create", "[GraphicAPI]" )
 	DepthStencilInfo init;
 
 	auto result = factory.CreateAsset( "::/DepthStencilState/Opaque", TypeID::get< DepthStencilState >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	REQUIRE( result.Get() != nullptr );
 }

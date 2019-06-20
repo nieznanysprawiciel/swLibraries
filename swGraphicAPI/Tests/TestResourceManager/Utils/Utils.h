@@ -20,6 +20,8 @@
 #include "swGraphicAPI/ResourceManager/Loaders/ShaderLoader.h"
 #include "swGraphicAPI/ResourceManager/Loaders/RenderTargetLoader.h"
 
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
+
 
 namespace sw
 {
@@ -72,13 +74,4 @@ inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMocksAndDe
 }	// sw
 
 
-// ================================ //
-// Checks nullable IsValid and prints exception
-// if there's an error.
-#define REQUIRE_IS_VALID( nullable )			\
-if( !nullable.IsValid() )						\
-{												\
-	INFO( nullable.GetErrorReason() );			\
-	REQUIRE( nullable.IsValid() == true );		\
-}
 

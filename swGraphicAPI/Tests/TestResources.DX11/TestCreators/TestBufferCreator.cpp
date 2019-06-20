@@ -14,6 +14,8 @@
 
 #include "swCommonLib/Common/Buffers/BufferTyped.h"
 
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
+
 
 using namespace sw;
 
@@ -40,12 +42,7 @@ TEST_CASE( "GraphicAPI.DX11.BufferCreator.ConstantBuffer.Create", "[GraphicAPI]"
 	init.Data = buffer.GetRawData();
 
 	auto result = factory.CreateAsset( "::/BufferFromMemory/Constants", TypeID::get< Buffer >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	REQUIRE( result.Get() != nullptr );
 
@@ -70,12 +67,7 @@ TEST_CASE( "GraphicAPI.DX11.BufferCreator.IndexBuffer.Create", "[GraphicAPI]" )
 	init.Data = buffer.GetRawData();
 
 	auto result = factory.CreateAsset( "::/BufferFromMemory/Index", TypeID::get< Buffer >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	REQUIRE( result.Get() != nullptr );
 
@@ -100,12 +92,7 @@ TEST_CASE( "GraphicAPI.DX11.BufferCreator.VertexBuffer.Create", "[GraphicAPI]" )
 	init.Data = buffer.GetRawData();
 
 	auto result = factory.CreateAsset( "::/BufferFromMemory/Vertex", TypeID::get< Buffer >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	REQUIRE( result.Get() != nullptr );
 

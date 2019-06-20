@@ -13,6 +13,7 @@
 #include "swGraphicAPI/Resources/Shaders/ShaderInitData.h"
 
 #include "swCommonLib/System/File.h"
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 
 using namespace sw;
@@ -27,12 +28,7 @@ TEST_CASE( "GraphicAPI.DX11.ShaderCreator.VertexShader.Create", "[GraphicAPI]" )
 	ShaderInitData init( ShaderType::VertexShader );
 
 	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/MinimalShader.vsh", TypeID::get< VertexShader >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	CHECK( result.Get() != nullptr );
 }
@@ -60,12 +56,7 @@ TEST_CASE( "GraphicAPI.DX11.ShaderCreator.PixelShader.Create", "[GraphicAPI]" )
 	ShaderInitData init( ShaderType::PixelShader );
 
 	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/MinimalShader.psh", TypeID::get< PixelShader >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	CHECK( result.Get() != nullptr );
 }
@@ -93,12 +84,7 @@ TEST_CASE( "GraphicAPI.DX11.ShaderCreator.ComputeShader.Create", "[GraphicAPI]" 
 	ShaderInitData init( ShaderType::ComputeShader );
 
 	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/MinimalShader.csh", TypeID::get< ComputeShader >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	CHECK( result.Get() != nullptr );
 }
@@ -130,12 +116,7 @@ TEST_CASE( "GraphicAPI.DX11.ShaderCreator.ComputeShader.Create.FromCode", "[Grap
 	init.SourceCode = filesystem::File::Load( "../TestAssets/shaders/hlsl/MinimalShader.vsh" );
 
 	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/MinimalShader.vsh", TypeID::get< VertexShader >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	CHECK( result.Get() != nullptr );
 }

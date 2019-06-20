@@ -12,6 +12,7 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/PipelineStates/RasterizerStateCreator.h"
 #include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
 
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 
 using namespace sw;
@@ -25,12 +26,7 @@ TEST_CASE( "GraphicAPI.DX11.RasterizerStateCreator.Create", "[GraphicAPI]" )
 	RasterizerStateInfo init;
 
 	auto result = factory.CreateAsset( "::/RasterizerState/Default", TypeID::get< RasterizerState >(), std::move( init ) );
-
-	if( !result.IsValid() )
-	{
-		INFO( result.GetErrorReason() );
-		REQUIRE( result.IsValid() == true );
-	}
+	REQUIRE_IS_VALID( result );
 
 	REQUIRE( result.Get() != nullptr );
 }
