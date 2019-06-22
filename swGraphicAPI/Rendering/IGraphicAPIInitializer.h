@@ -23,16 +23,8 @@ namespace sw
 
 /**@defgroup GraphicAPI
 @ingroup ModulesStructure
-@brief Interfejsy dla obiektów zasobów, renderera i initializera.
-
-@EngineCore jest niezale¿ny od konkretnej implementacji API graficznego, która
-zosta³a u¿yta. W tym celu w tym projekcie zgromadzone s¹ wszystkie interfejsy,
-które powinny zostaæ zaimplementowane przez dziedzicz¹ce API oraz zestawy sta³ych silnikowych
-niezale¿nych od platformy.
-
-Pliki w tym projekcie powinny zostaæ w³¹czone do ka¿dego projektu, który u¿ywa b¹dŸ
-implementuje API graficzne. Oprócz interfejsów do zaimplementowania, projekt zawiera te¿
-pliki .cpp, które powinny byæ skompilowane do biblioteki statycznej razem z poszczególnymi API graficznymi.*/
+@brief Interfaces for Resources, rendering and resources management.
+*/
 
 
 /**@brief Przechowuje informacje potrzebne do SwapChaina. Parametr dla funkcji IGraphicAPIInitializer::CreateSwapChain.
@@ -70,8 +62,7 @@ struct SwapChainInitData
 	}
 };
 
-/**@brief Przechowuje informacje potrzebne do inicjalizacji
-API graficznego. Parametr dla funkcji IGraphicAPIInitializer::InitAPI.
+/**@brief GraphicAPI initialialization data. Parameter for function IGraphicAPIInitializer::InitAPI.
 @ingroup GraphicAPI*/
 struct GraphicAPIInitData
 {

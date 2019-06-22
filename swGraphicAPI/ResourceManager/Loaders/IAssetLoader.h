@@ -68,7 +68,7 @@ public:
 	virtual			~IAssetLoader	() = 0 {}
 
 
-	/**@brief Override this function checks if this loader can load specified file.
+	/**@brief Override this function. It checks if this loader can load specified file.
 
 	Override this function checks if this loader can load specified file.
 	@param[in] filePath
@@ -81,10 +81,10 @@ public:
 	
 	/**@brief Function loads asset.
 	
-	Function for loading assets. Loader should create all assets internally, by using AssetFactoryAPI from parameter.
-	AssetFactoryAPI adds all created assets to ResourceManager.
+	Function for loading assets. Loader should create all assets internally, by using RMLoaderAPI from parameter.
+	RMLoaderAPI adds all created assets to ResourceManager.
 
-	Frequently asset Loader must create multiple helper assets before creating main asset. All these assets should be placed
+	Frequently asset Loader must create multiple nested assets before creating main asset. All these assets should be placed
 	in result vector. Main asset should take 0 index of this vector and should have the same name as passed in filePath parameter and type
 	described by resourceType.
 	This is important when someone wants to load for example mesh and provides file path to ResourceManager. After asset is loaded, someone must

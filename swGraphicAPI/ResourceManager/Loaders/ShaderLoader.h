@@ -13,7 +13,8 @@ namespace sw
 
 /**@brief Loads shader from file.
 
-This class only loads content of file. There's nothing magical or interesting here.*/
+This class only loads content of file. There's nothing magical or interesting here.
+@ingroup Loaders*/
 class ShaderLoader : public IAssetLoader
 {
 private:

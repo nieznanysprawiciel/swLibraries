@@ -24,30 +24,59 @@ class ILoader;
 
 @section RMRequirements ResourceManager requirements
 
-1. ResourceManager supports generic assets types defined by future users. It should also expose special functions
+-# ResourceManager supports generic assets types defined by future users. It should also expose special functions
 for built in low level types without need to use this generic API, but these types should be also avaible through generic API.
-2. User can write his own implementations of loaders for different file types. ResourceManager finds best matching loader and uses
-it to load asset.
-Loaders implement generic interface, but user can also add parameters for specific loader. For example FBX SDK loader could load
-Meshes and merge them all in one asset or it could create several assets for all parts.
-3. Asynchronous assets loading. Assets can be loaded in separate thread. User provides callback function which will be called
+-# User can write his own implementations of loaders for different file types.
+Requirements:
+	- Loaders implement generic interface, but user can also add parameters for specific loader.
+	  For example FBX SDK loader could load Meshes and merge them all in one asset or it could
+	  create several assets for all parts.
+	- ResourceManager finds best matching loader and uses it to load asset.
+	- Loaders support loading of whole content of file.
+	- Loaders allow to prefetch data and store it in cache, without loading asset.
+	- Separated asset creation and file loading.
+		- User uses the same API to generate assets as Loader uses to load file.
+		- Assets are created using descritpors describing their content.
+		- User can provide their own implementation of @ref sw::IAssetCreator "Asset Creator".
+		- Library provides set of basic creators for native GPU Resources.
+-# Asynchronous assets loading. Assets can be loaded in separate thread. User provides callback function which will be called
 when asset is ready.
- - There's separate API for synchronous and asynchronous loading.
- - Request can come from multiple threads. In case of synchronous load, when multiple threads want to load the same asset,
- all threads are blocked until asset is loaded. ResourceManager takes care of dealing with these conflicts and prevents from loading
- same asset multiple times.
- - Internal implementation uses only one thread for loading. This should be enough for high performance, since disk access is bottleneck.
-4. Paths translation. Some assets' directory can depend on graphic API which is being used (for example shaders glsl or hlsl).
-User can register Paths Translators in ResourceManager to solve this problem. Paths Translators are fully user defined so can be used for
-different purposes too.
-Moreover ResourceManager supports packed file which internally consist of many smaller files. This goal is reached by using special naming
-convention. ::sings separate file name paths from each other.
-5. Assets caching. Asssets can be cached in RAM memory in raw form to speed up creating. Second cach level can exist on SSD drive.
-Cache automatically manages resources. It supports maximal memory occupancy limit. It supports user defined API for prefetching data.
-6. Support for logging mechanism. This mechanism is independent from logger implementation (maybe callback).
-7. Support for level of detailes.
-8. Support for asset streaming.
-9. Support for hot reload of shaders and other assets wher possible.
+	- There's separate API for synchronous and asynchronous loading.
+	- Request can come from multiple threads. In case of synchronous load, when multiple threads want to load the same asset,
+	  all threads are blocked until asset is loaded. ResourceManager takes care of dealing with these conflicts and prevents from loading
+      same asset multiple times.
+	- Internal implementation uses only one thread for loading. This should be enough for high performance, since disk access is bottleneck.
+-# Paths translation. Some assets' directory can depend on graphic API which is being used (for example shaders glsl or hlsl).
+User can register Paths Aliases in ResourceManager and access assets paths using these aliases. ResourceManager translates aliases to
+real paths.
+Requirements:
+	- Paths Aliases are user defined so can be used for different purposes too.
+	- Functionality of finding best matching alias. This functionality is usefull, when editor has browse file dialog and sends absolut
+	  path to ResourceManager.
+-# ResourceManager supports packed file which internally consist of many smaller files.
+	- ResourceManager paths consist of system path and internal path.
+		- Asset file can contain multiple assets.
+		- File can have internal filesystem and internal path represent this internal structure.
+		- ResourceManager supports generated content. Paths should constist only from internal path then.
+-# Assets caching. Assets can be cached in RAM memory in raw form to speed up creating. Second cache level can exist on SSD drive.
+Requirements:
+	- Cache automatically manages resources.
+		- Assets are moved automatically based on chosen cache strategy.
+		- It supports maximal memory occupancy limit.
+		- Support for prefetching mechanism. Assets can be loaded from cache depending on prefetching strategy.
+		- Cache should be aware of assets dependencies. Dependend assets can't be moved to lower cache level before
+		  parent asset is moved.
+	- Support for multilevel cache hierarchy. User can implement his own cache levels.
+	- Predefined cache levels: RAM cache and disk cache.
+	- API for user defined caching strategy.
+	- API for user defined prefetching strategy.
+-# Descriptive error handling.
+	- Most of API returns @ref sw::Nullable "Nullable", which can hold error message (@ref sw::Exception).
+	- ResourceManager doesn't throws exceptions.
+	- Two levels of errors: errors and warnings.
+-# Support for level of detailes.
+-# Support for asset streaming.
+-# Support for hot reload of shaders and other assets where possible.
 */
 
 
