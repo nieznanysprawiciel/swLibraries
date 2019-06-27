@@ -70,3 +70,17 @@ TEST_CASE( "Common.Buffers.BufferTyped.CreateEmpty" )
 	CHECK( buffer.GetSize() == 0 );
 	CHECK( buffer.GetType() == TypeID::get< StructWithSimpleTypes >() );
 }
+
+// ================================ //
+//
+TEST_CASE( "Common.Buffers.BufferTyped.FromMemory" )
+{
+	StructWithSimpleTypes* array = new StructWithSimpleTypes[ 3 ];
+	auto buffer = BufferTyped< StructWithSimpleTypes >::StealMemory( std::move( array ), 3 );
+	
+	CHECK( array == nullptr );
+	CHECK( buffer.GetRawData() != nullptr );
+	CHECK( buffer.ElementsCount() == 3 );
+	CHECK( buffer.GetType() == TypeID::get< StructWithSimpleTypes >() );
+	CHECK( buffer.GetSize() == 3 * sizeof( StructWithSimpleTypes ) );
+}

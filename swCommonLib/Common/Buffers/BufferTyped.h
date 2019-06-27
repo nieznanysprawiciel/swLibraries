@@ -34,13 +34,18 @@ public:
 	explicit			BufferTyped		( Size numElements );
 	explicit			BufferTyped		( BufferRaw&& rawBuffer );
 	explicit			BufferTyped		( const BufferTyped& buffer ) = delete;
-	explicit			BufferTyped		( BufferTyped&& buffer );
+						BufferTyped		( BufferTyped&& buffer );
 
 						~BufferTyped	();
 
 
 	BufferTyped< ContentType, Alloc >&		operator=		( const BufferTyped& ) = delete;
 	BufferTyped< ContentType, Alloc >&		operator=		( BufferTyped&& );
+
+private:
+
+	/**@brief Stealing constructor takes ownership of memory.*/
+	explicit			BufferTyped		( ContentType*&& data, Size numElements );
 
 public:
 
@@ -64,6 +69,11 @@ public:
 
 public:
 	static BufferRaw	CreateEmpty		();
+
+public:
+
+	/**@brief Takes ownership of memory.*/
+	static BufferTyped< ContentType, Alloc >		StealMemory			( ContentType*&& data, Size numElements );
 };
 
 
@@ -128,6 +138,17 @@ inline		BufferTyped< ContentType, Alloc >::BufferTyped	( BufferTyped< ContentTyp
 // ================================ //
 //
 template< typename ContentType, class Alloc >
+inline		BufferTyped< ContentType, Alloc >::BufferTyped	( ContentType*&& data, Size numElements )
+	:	m_data( std::move( data ) )
+	,	m_count( numElements )
+{
+	data = nullptr;
+	// Don't allocate.
+}
+
+// ================================ //
+//
+template< typename ContentType, class Alloc >
 inline BufferTyped< ContentType, Alloc >&			BufferTyped< ContentType, Alloc >::operator=( BufferTyped< ContentType, Alloc >&& other )
 {
 	m_data = other.m_data;
@@ -187,6 +208,14 @@ inline BufferRaw			BufferTyped< ContentType, Alloc >::CreateEmpty		()
 {
 	BufferTyped< ContentType > buffer( 0 );
 	return buffer.MoveToRawBuffer();
+}
+
+// ================================ //
+//
+template< typename ContentType, class Alloc >
+inline BufferTyped< ContentType, Alloc >			BufferTyped< ContentType, Alloc >::StealMemory			( ContentType*&& data, Size numElements )
+{
+	return BufferTyped< ContentType, Alloc >( std::move( data ), numElements );
 }
 
 
