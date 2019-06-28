@@ -32,19 +32,19 @@ Nullable< Resource* >		TextureCreator::Create		( const AssetPath& assetName, IAs
 		info.Width = typedInitData.Width;
 		info.Height = typedInitData.Height;
 		info.ArraySize = typedInitData.ArraySize;
-		info.CPURead = typedInitData.CPURead;
-		info.CPUWrite = typedInitData.CPUWrite;
-		info.AllowShareResource = typedInitData.AllowShareResource;
+		info.CPURead = typedInitData.TextureUsage.CPURead;
+		info.CPUWrite = typedInitData.TextureUsage.CPUWrite;
+		info.AllowShareResource = typedInitData.TextureUsage.AllowShareResource;
 		info.IsCubeMap = typedInitData.IsCubeMap;
-		info.GenerateMipMaps = typedInitData.GenerateMipMaps;
+		info.GenerateMipMaps = typedInitData.MipMaps.GenerateMipMaps;
 		info.TextureType = typedInitData.TextureType;
-		info.Usage = typedInitData.Usage;
+		info.Usage = typedInitData.TextureUsage.Usage;
 		info.Format = typedInitData.Format;
-		info.MipMapFilter = typedInitData.MipMapFilter;
-		info.MipMapLevels = typedInitData.MipMapLevels;
-		info.CutOffMipMaps = typedInitData.CutOffMipMaps;
+		info.MipMapFilter = typedInitData.MipMaps.Filter;
+		info.MipMapLevels = typedInitData.NumMipMapLevels();
+		info.CutOffMipMaps = typedInitData.MipMaps.CutOffMipMaps;
 
-		if( typedInitData.GenerateMipMaps )
+		if( typedInitData.MipMaps.GenerateMipMaps )
 		{
 			MipMapGenerator generator;
 			auto result = generator.Generate( typedInitData.Data, info );

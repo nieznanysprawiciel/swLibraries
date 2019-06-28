@@ -58,6 +58,59 @@ enum class MipMapFilter : short
 };
 
 
+/**@brief Describes how to handle mipmaps.
+
+@todo Add computing of mipmap levels.
+
+@ingroup Textures*/
+struct MipMapsInfo
+{
+	bool				GenerateMipMaps;
+	MipMapFilter		Filter;						///< Filtering used to generate mipmaps. Valid only if GenerateMipMaps is set to true.
+	uint16				CutOffMipMaps;				///< Removes number of mipmaps levels. Useful when we don't need full resolution of mipmaps (for example using dynamic LoD).
+													///< Set value to 1 if you want to replace original texture with first mipmap.
+
+
+	// ================================ //
+	//
+	MipMapsInfo()
+		: GenerateMipMaps( false )
+		, CutOffMipMaps( 0 )
+		, Filter( MipMapFilter::Unknown )
+	{}
+
+	// ================================ //
+	//
+	MipMapsInfo( MipMapFilter filter )
+		: GenerateMipMaps( filter != MipMapFilter::Unknown )
+		, CutOffMipMaps( 0 )
+		, Filter( filter )
+	{}
+};
+
+
+
+/**@brief How texture will be used by GPU and CPU.
+@ingroup Textures*/
+struct TextureUsageInfo
+{
+	bool				CPURead : 1;				///< Allows to read texture by CPU.
+	bool				CPUWrite : 1;				///< Allows to write texture by CPU.
+	bool				AllowShareResource : 1;		///< Can share resource between multiple graphic APIs.
+	ResourceUsage		Usage;						///< Texture usage type. Influences how texture will be placed in GPU memory.
+
+	// ================================ //
+	//
+	TextureUsageInfo()
+		: Usage( ResourceUsage::Default )
+		, CPURead( false )
+		, CPUWrite( false )
+		, AllowShareResource( false )
+	{}
+};
+
+
+
 /**@brief Texture descriptor.
 
 @ingroup Textures*/

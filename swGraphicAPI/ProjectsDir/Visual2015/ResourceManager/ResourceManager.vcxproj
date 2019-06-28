@@ -45,6 +45,7 @@
     <ClInclude Include="..\..\..\ResourceManager\Cache\CacheManager.h" />
     <ClInclude Include="..\..\..\ResourceManager\Cache\IAssetCache.h" />
     <ClInclude Include="..\..\..\ResourceManager\Cache\MemoryCache.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Exceptions\LoaderException.h" />
     <ClInclude Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\IAssetLoader.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\IAssetLoadInfo.h" />
@@ -52,6 +53,7 @@
     <ClInclude Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\ShaderLoader.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\TextureLoadInfo.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\Tools\LoadingContext.h" />
     <ClInclude Include="..\..\..\ResourceManager\nResourceContainer.h" />
     <ClInclude Include="..\..\..\ResourceManager\nResourceManager.h" />
@@ -89,6 +91,7 @@
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\AssetsFactory.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Buffers\BufferCreator.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\Exceptions\LoaderException.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.cpp" />

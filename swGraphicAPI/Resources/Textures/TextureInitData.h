@@ -32,18 +32,11 @@ public:
 	uint32				Width;						///< Texture width in pixels.
 	uint32				Height;						///< Texture height in pixels.
 	uint16				ArraySize;					///< Size of array.
-	bool				CPURead : 1;				///< Allows to read texture by CPU.
-	bool				CPUWrite : 1;				///< Allows to write texture by CPU.
-	bool				AllowShareResource : 1;		///< Can share resource between multiple graphic APIs.
 	bool				IsCubeMap : 1;				///< True if texture is cube map.
-	bool				GenerateMipMaps : 1;		///< Will automatically generates mipmpas.
 	TextureType			TextureType;				///< Texture type (number of dimensions, multsampling). Only 2-dimensional textures are spoprted now (can be array).
-	ResourceUsage		Usage;						///< Texture usage type. Influences how texture will be placed in GPU memory.
 	ResourceFormat		Format;						///< Texture format.
-	MipMapFilter		MipMapFilter;				///< Filtering used to generate mipmaps. Valid only if GenerateMipMaps is set to true.
-	uint16				MipMapLevels;				///< Number of mipmaps levels. 1 means only original texture.
-	uint16				CutOffMipMaps;				///< Removes number of mipmaps levels. Useful when we don't need full resolution of mipmaps (for example using dynamic LoD).
-													///< Set value to 1 if you want to replace original texture with first mipmap.
+	MipMapsInfo			MipMaps;					///< Mipmaps generation information.
+	TextureUsageInfo	TextureUsage;
 
 // ================================ //
 //
@@ -51,19 +44,31 @@ public:
 		:	Data( std::move( buffer ) )
 	{
 		ArraySize = 1;
-		CPURead = false;
-		CPUWrite = false;
-		AllowShareResource = false;
+		TextureUsage.CPURead = false;
+		TextureUsage.CPUWrite = false;
+		TextureUsage.AllowShareResource = false;
 		IsCubeMap = false;
-		GenerateMipMaps = false;
-		Usage = ResourceUsage::Default;
-		MipMapFilter = MipMapFilter::Unknown;
-		MipMapLevels = 1;
-		CutOffMipMaps = 0;
+		MipMaps.GenerateMipMaps = false;
+		TextureUsage.Usage = ResourceUsage::Default;
+		MipMaps.Filter = MipMapFilter::Unknown;
+		MipMaps.CutOffMipMaps = 0;
 		TextureType = TextureType::Texture2D;
 		Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
 	}
-		
+	
+	// ================================ //
+	//
+	uint16				NumMipMapLevels	() const
+	{
+		// If there's only original texture, we return only 1 mipmap what means that there's only
+		// original texture.
+		if( !MipMaps.GenerateMipMaps )
+			return 1;
+
+		auto size = std::max( Width, Height );
+		auto levels = 1 + (uint32)std::floor( std::log2( size ) );
+		return levels - MipMaps.CutOffMipMaps;
+	}
 
 public:
 	virtual TypeID		GetAssetType	() const override { return TypeID::get< Texture >(); }

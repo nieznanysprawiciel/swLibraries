@@ -264,6 +264,12 @@
     <ClInclude Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.h">
       <Filter>ResourceManager\Loaders</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\TextureLoadInfo.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Exceptions\LoaderException.h">
+      <Filter>ResourceManager\Exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
@@ -358,6 +364,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.cpp">
       <Filter>ResourceManager\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\Exceptions\LoaderException.cpp">
+      <Filter>ResourceManager\Exceptions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

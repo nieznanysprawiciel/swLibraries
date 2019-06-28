@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.102
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreGUI", "ProjectDir\Visual2015\CoreGUI\CoreGUI.vcxproj", "{C6DAB3EE-E9A7-47FC-9B33-A8F4250C219B}"
 EndProject
@@ -122,6 +122,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestResourceManager", "..\swGraphicAPI\ProjectsDir\Visual2015\Tests\TestResourceManager\TestResourceManager.vcxproj", "{54F074CF-39C0-4FD6-BBEE-2DC880EB5C24}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestMipMapGenerator", "..\swGraphicAPI\ProjectsDir\Visual2015\Tests\TestMipMapsGenerator\TestMipMapGenerator.vcxproj", "{CD54BACD-BC9B-40D8-8319-A3B4C6234073}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Loaders", "Loaders", "{014B7E50-A80E-4E13-B882-53E100BDECFF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SoilTextureLoader", "..\swGraphicAPI\ProjectsDir\Visual2015\SoilTextureLoader\SoilTextureLoader.vcxproj", "{7275758B-1ABC-4B28-BB42-CBDBCD2584D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -483,6 +487,14 @@ Global
 		{CD54BACD-BC9B-40D8-8319-A3B4C6234073}.Release|x64.Build.0 = Release|x64
 		{CD54BACD-BC9B-40D8-8319-A3B4C6234073}.Release|x86.ActiveCfg = Release|Win32
 		{CD54BACD-BC9B-40D8-8319-A3B4C6234073}.Release|x86.Build.0 = Release|Win32
+		{7275758B-1ABC-4B28-BB42-CBDBCD2584D1}.Debug|x64.ActiveCfg = Debug|x64
+		{7275758B-1ABC-4B28-BB42-CBDBCD2584D1}.Debug|x64.Build.0 = Debug|x64
+		{7275758B-1ABC-4B28-BB42-CBDBCD2584D1}.Debug|x86.ActiveCfg = Debug|Win32
+		{7275758B-1ABC-4B28-BB42-CBDBCD2584D1}.Debug|x86.Build.0 = Debug|Win32
+		{7275758B-1ABC-4B28-BB42-CBDBCD2584D1}.Release|x64.ActiveCfg = Release|x64
+		{7275758B-1ABC-4B28-BB42-CBDBCD2584D1}.Release|x64.Build.0 = Release|x64
+		{7275758B-1ABC-4B28-BB42-CBDBCD2584D1}.Release|x86.ActiveCfg = Release|Win32
+		{7275758B-1ABC-4B28-BB42-CBDBCD2584D1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -547,6 +559,8 @@ Global
 		{38A2726D-373C-42CE-B596-5226F04520D5} = {CAC5582E-F5A0-42EA-85DE-325A7C0651D8}
 		{54F074CF-39C0-4FD6-BBEE-2DC880EB5C24} = {62ACF2F3-2B23-4B0D-A755-A4561CB158F1}
 		{CD54BACD-BC9B-40D8-8319-A3B4C6234073} = {62ACF2F3-2B23-4B0D-A755-A4561CB158F1}
+		{014B7E50-A80E-4E13-B882-53E100BDECFF} = {9CC57B89-7D1B-4C37-96E9-53F6D7329EA8}
+		{7275758B-1ABC-4B28-BB42-CBDBCD2584D1} = {014B7E50-A80E-4E13-B882-53E100BDECFF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A341301D-630D-4C6A-B843-1A50FC78565A}

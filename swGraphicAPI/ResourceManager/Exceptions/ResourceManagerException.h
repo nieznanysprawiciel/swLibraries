@@ -14,8 +14,7 @@
 namespace sw
 {
 
-/**@brief Exceptions tells that two types cannot be bound.
-@ingroup BindingExceptions*/
+/**@brief Exceptions tells that two types cannot be bound.*/
 class ResourceManagerException : public RuntimeException
 {
 	RTTR_ENABLE( RuntimeException );
