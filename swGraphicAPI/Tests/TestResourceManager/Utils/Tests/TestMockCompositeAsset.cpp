@@ -9,7 +9,7 @@
 
 #include "swGraphicAPI/ResourceManager/nResourceManager.h"
 
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/Utils.h"
+#include "swGraphicAPI/MockAssets/Utils.h"
 
 
 using namespace sw;

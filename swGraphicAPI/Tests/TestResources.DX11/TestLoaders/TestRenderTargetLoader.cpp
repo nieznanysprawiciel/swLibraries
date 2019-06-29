@@ -7,7 +7,7 @@
 
 #include "swGraphicAPI/ResourceManager/Loaders/RenderTargetLoader.h"
 
-#include "swGraphicAPI/Tests/TestResources.DX11/GraphicAPI.h"
+#include "swGraphicAPI/MockAssets/GraphicAPI.h"
 #include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 

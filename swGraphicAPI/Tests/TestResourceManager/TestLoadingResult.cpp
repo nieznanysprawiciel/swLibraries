@@ -10,8 +10,8 @@
 #include "swGraphicAPI/ResourceManager/Loaders/LoadingResult.h"
 
 #include "swGraphicAPI/ResourceManager/nResourceManager.h"
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAssetCreator.h"
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAsset.h"
+#include "swGraphicAPI/MockAssets/MockAssetCreator.h"
+#include "swGraphicAPI/MockAssets/MockAsset.h"
 
 
 namespace sw

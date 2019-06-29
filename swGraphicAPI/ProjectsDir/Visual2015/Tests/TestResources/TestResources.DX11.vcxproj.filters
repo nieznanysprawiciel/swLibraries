@@ -37,9 +37,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Tests\TestResources.DX11\GraphicAPI.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="Tests">
       <UniqueIdentifier>{08c08f31-9bff-467c-b6e4-a110c5bddae9}</UniqueIdentifier>
     </Filter>

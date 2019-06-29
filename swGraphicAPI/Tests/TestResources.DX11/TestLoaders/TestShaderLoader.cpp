@@ -7,7 +7,7 @@
 
 #include "swGraphicAPI/Resources/Shaders/Exceptions/CompilationException.h"
 
-#include "swGraphicAPI/Tests/TestResources.DX11/GraphicAPI.h"
+#include "swGraphicAPI/MockAssets/GraphicAPI.h"
 
 
 using namespace sw;

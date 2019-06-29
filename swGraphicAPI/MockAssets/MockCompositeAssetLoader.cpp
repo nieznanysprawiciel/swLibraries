@@ -4,6 +4,9 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
+#include "swGraphicAPI/MockAssets/stdafx.h"
+
+
 #include "MockCompositeAssetLoader.h"
 #include "MockCompositeAsset.h"
 #include "MockCompositeAssetCreator.h"

@@ -52,6 +52,11 @@ public:
 	explicit		TextureLoadInfo		() = default;
 	virtual			~TextureLoadInfo	() = default;
 
+public:
+
+	
+	virtual TypeID	GetAssetType		() const		{ return TypeID::get< Texture >(); }
+
 };
 
 

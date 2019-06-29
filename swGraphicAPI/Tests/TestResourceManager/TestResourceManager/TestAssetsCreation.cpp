@@ -13,8 +13,8 @@
 #include "swGraphicAPI/Resources/Buffers/BufferInitData.h"
 #include "swCommonLib/Common/Buffers/BufferTyped.h"
 
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAssetCreator.h"
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAsset.h"
+#include "swGraphicAPI/MockAssets/MockAssetCreator.h"
+#include "swGraphicAPI/MockAssets/MockAsset.h"
 
 
 

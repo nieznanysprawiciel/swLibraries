@@ -10,7 +10,7 @@
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoader.h"
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
 
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockCompositeAsset.h"
+#include "MockCompositeAsset.h"
 
 
 

@@ -19,10 +19,36 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
+      <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\Serialization\Serialization.vcxproj">
+      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\SerializerXML\SerializerXML.vcxproj">
+      <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MockAPI\MockAPI.vcxproj">
+      <Project>{eeefab61-f404-4957-ac24-a3bf81c5e4ed}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MockAssets\MockAssets.vcxproj">
+      <Project>{fc28f28c-c54c-4f0c-bf70-43e7f4e7192e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ResourceManager\ResourceManager.vcxproj">
+      <Project>{9f71f0da-1d72-4e96-93b7-5ac2c9cb6ede}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SoilTextureLoader\SoilTextureLoader.vcxproj">
+      <Project>{7275758b-1abc-4b28-bb42-cbdbcd2584d1}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Tests\TestSoilTextureLoader\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestSoilTextureLoader\TestTextureLoading.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{54F074CF-39C0-4FD6-BBEE-2DC880EB5C24}</ProjectGuid>
+    <ProjectGuid>{A4A7B575-BCEE-43A6-A3F7-9831A2CCA253}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>TestResourceManager</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -158,43 +184,6 @@
     <TargetName>$(TestFileName)</TargetName>
     <OutDir>$(TestBuildDir)</OutDir>
   </PropertyGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\LoadBarrierTest.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\main.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetPath.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetsFactory.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestCreators\TestBufferCreator.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoaders\TestRenderTargetLoader.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoaders\TestShaderLoader.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoadingResult.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsCreation.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsLoadingSync.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsRemoval.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestListAssets.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestLoaders.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourcePtr.cpp" />
-    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\Tests\TestMockCompositeAsset.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
-      <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\Serialization\Serialization.vcxproj">
-      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\SerializerXML\SerializerXML.vcxproj">
-      <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MockAPI\MockAPI.vcxproj">
-      <Project>{eeefab61-f404-4957-ac24-a3bf81c5e4ed}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MockAssets\MockAssets.vcxproj">
-      <Project>{fc28f28c-c54c-4f0c-bf70-43e7f4e7192e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ResourceManager\ResourceManager.vcxproj">
-      <Project>{9f71f0da-1d72-4e96-93b7-5ac2c9cb6ede}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

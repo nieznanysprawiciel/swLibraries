@@ -34,9 +34,6 @@
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestLoaders\TestShaderLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Tests\TestResources.DX11\GraphicAPI.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\DX11API\DX11API.vcxproj">
       <Project>{44643d7f-1c71-41c1-b452-b2dc5e088a58}</Project>
     </ProjectReference>

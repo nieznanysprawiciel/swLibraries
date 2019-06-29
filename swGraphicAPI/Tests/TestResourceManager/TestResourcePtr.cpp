@@ -8,7 +8,7 @@
 
 #include "swGraphicAPI/Resources/ResourcePtr.h"
 
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/Utils.h"
+#include "swGraphicAPI/MockAssets/Utils.h"
 
 
 using namespace sw;

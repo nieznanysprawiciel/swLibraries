@@ -12,7 +12,7 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/Textures/RenderTargetCreator.h"
 #include "swGraphicAPI/Resources/Textures/RenderTarget.h"
 
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/Utils.h"
+#include "swGraphicAPI/MockAssets/Utils.h"
 #include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 

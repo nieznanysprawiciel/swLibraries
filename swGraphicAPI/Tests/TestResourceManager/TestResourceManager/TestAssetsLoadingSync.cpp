@@ -10,11 +10,11 @@
 #include "swGraphicAPI/ResourceManager/nResourceManager.h"
 
 
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAssetCreator.h"
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAsset.h"
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAssetLoader.h"
+#include "swGraphicAPI/MockAssets/MockAssetCreator.h"
+#include "swGraphicAPI/MockAssets/MockAsset.h"
+#include "swGraphicAPI/MockAssets/MockAssetLoader.h"
 
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/Utils.h"
+#include "swGraphicAPI/MockAssets/Utils.h"
 
 #include "swCommonLib/Common/Multithreading/ThreadsBarrier.h"
 

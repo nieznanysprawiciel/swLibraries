@@ -9,16 +9,17 @@
 #include "swGraphicAPI/ResourceManager/nResourceManager.h"
 
 
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAssetCreator.h"
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAsset.h"
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockAssetLoader.h"
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockCompositeAsset.h"
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockCompositeAssetCreator.h"
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/MockAsset/MockCompositeAssetLoader.h"
+#include "swGraphicAPI/MockAssets/MockAssetCreator.h"
+#include "swGraphicAPI/MockAssets/MockAsset.h"
+#include "swGraphicAPI/MockAssets/MockAssetLoader.h"
+#include "swGraphicAPI/MockAssets/MockCompositeAsset.h"
+#include "swGraphicAPI/MockAssets/MockCompositeAssetCreator.h"
+#include "swGraphicAPI/MockAssets/MockCompositeAssetLoader.h"
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/Shaders/ShaderCreator.h"
 #include "swGraphicAPI/ResourceManager/Loaders/ShaderLoader.h"
 #include "swGraphicAPI/ResourceManager/Loaders/RenderTargetLoader.h"
+#include "swGraphicAPI/Loaders/SoilTextureLoader/SoilTextureLoader.h"
 
 #include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
@@ -64,6 +65,11 @@ inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMocksAndDe
 
 	{
 		auto loader = std::make_shared< RenderTargetLoader >();
+		rm->RegisterLoader( loader );
+	}
+
+	{
+		auto loader = std::make_shared< SoilTextureLoader >();
 		rm->RegisterLoader( loader );
 	}
 

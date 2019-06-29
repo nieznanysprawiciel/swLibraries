@@ -1,7 +1,13 @@
 #include "swCommonLib/External/Catch/catch.hpp"
+/**
+@file TestBlendingState.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
 
 
-#include "GraphicAPI.h"
+
+#include "swGraphicAPI/MockAssets/GraphicAPI.h"
 
 
 // ================================ //

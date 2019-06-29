@@ -8,7 +8,7 @@
 
 #include "swGraphicAPI/ResourceManager/nResourceManager.h"
 
-#include "swGraphicAPI/Tests/TestResourceManager/Utils/Utils.h"
+#include "swGraphicAPI/MockAssets/Utils.h"
 
 #include "swCommonLib/Common/Exceptions/Common/FileNotFoundException.h"
 
