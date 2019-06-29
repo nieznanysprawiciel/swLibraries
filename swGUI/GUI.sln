@@ -133,6 +133,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestSoilTextureLoader", "..
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MockAssets", "..\swGraphicAPI\ProjectsDir\Visual2015\MockAssets\MockAssets.vcxproj", "{FC28F28C-C54C-4F0C-BF70-43E7F4E7192E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestSoilTextureLoader.DX11", "..\swGraphicAPI\ProjectsDir\Visual2015\Tests\TestSoilTextureLoader\TestSoilTextureLoader.DX11.vcxproj", "{20597CBF-CF6D-4D30-B0E3-2D289AF61143}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -517,6 +519,14 @@ Global
 		{FC28F28C-C54C-4F0C-BF70-43E7F4E7192E}.Release|x64.Build.0 = Release|x64
 		{FC28F28C-C54C-4F0C-BF70-43E7F4E7192E}.Release|x86.ActiveCfg = Release|Win32
 		{FC28F28C-C54C-4F0C-BF70-43E7F4E7192E}.Release|x86.Build.0 = Release|Win32
+		{20597CBF-CF6D-4D30-B0E3-2D289AF61143}.Debug|x64.ActiveCfg = Debug|x64
+		{20597CBF-CF6D-4D30-B0E3-2D289AF61143}.Debug|x64.Build.0 = Debug|x64
+		{20597CBF-CF6D-4D30-B0E3-2D289AF61143}.Debug|x86.ActiveCfg = Debug|Win32
+		{20597CBF-CF6D-4D30-B0E3-2D289AF61143}.Debug|x86.Build.0 = Debug|Win32
+		{20597CBF-CF6D-4D30-B0E3-2D289AF61143}.Release|x64.ActiveCfg = Release|x64
+		{20597CBF-CF6D-4D30-B0E3-2D289AF61143}.Release|x64.Build.0 = Release|x64
+		{20597CBF-CF6D-4D30-B0E3-2D289AF61143}.Release|x86.ActiveCfg = Release|Win32
+		{20597CBF-CF6D-4D30-B0E3-2D289AF61143}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -586,6 +596,7 @@ Global
 		{4AC9E04C-4BB2-4FE6-A4E2-F1ABCBDB224A} = {62ACF2F3-2B23-4B0D-A755-A4561CB158F1}
 		{A4A7B575-BCEE-43A6-A3F7-9831A2CCA253} = {4AC9E04C-4BB2-4FE6-A4E2-F1ABCBDB224A}
 		{FC28F28C-C54C-4F0C-BF70-43E7F4E7192E} = {9CC57B89-7D1B-4C37-96E9-53F6D7329EA8}
+		{20597CBF-CF6D-4D30-B0E3-2D289AF61143} = {4AC9E04C-4BB2-4FE6-A4E2-F1ABCBDB224A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A341301D-630D-4C6A-B843-1A50FC78565A}

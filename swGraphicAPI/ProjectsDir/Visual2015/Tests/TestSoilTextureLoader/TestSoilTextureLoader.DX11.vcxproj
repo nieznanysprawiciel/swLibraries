@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
   <Import Project="..\..\Paths.props" />
-
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -21,8 +19,23 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DX11API\DX11API.vcxproj">
+      <Project>{44643d7f-1c71-41c1-b452-b2dc5e088a58}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ResourceManager\ResourceManager.vcxproj">
+      <Project>{9f71f0da-1d72-4e96-93b7-5ac2c9cb6ede}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SoilTextureLoader\SoilTextureLoader.vcxproj">
+      <Project>{7275758b-1abc-4b28-bb42-cbdbcd2584d1}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Tests\TestSoilTextureLoader.DX11\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestSoilTextureLoader.DX11\TestFilesLoading.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{22C79F18-F938-4A9E-A4B0-B77E8F87429D}</ProjectGuid>
+    <ProjectGuid>{20597CBF-CF6D-4D30-B0E3-2D289AF61143}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -60,19 +73,19 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-	<Import Project="..\..\LinkReflection.props" />
+    <Import Project="..\..\LinkReflection.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-	<Import Project="..\..\LinkReflection.props" />
+    <Import Project="..\..\LinkReflection.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-	<Import Project="..\..\LinkReflection.props" />
+    <Import Project="..\..\LinkReflection.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-	<Import Project="..\..\LinkReflection.props" />
+    <Import Project="..\..\LinkReflection.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -147,7 +160,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  
   <PropertyGroup Label="UserMacros">
     <TestName>$(ProjectName)</TestName>
     <TestLibDir>$(LibDir)$(TestName)\</TestLibDir>
@@ -160,7 +172,6 @@
     <TargetName>$(TestFileName)</TargetName>
     <OutDir>$(TestBuildDir)</OutDir>
   </PropertyGroup>
-  
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

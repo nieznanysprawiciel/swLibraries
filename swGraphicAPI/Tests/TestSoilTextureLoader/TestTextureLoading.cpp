@@ -10,6 +10,7 @@
 #include "swGraphicAPI/ResourceManager/Loaders/TextureLoadInfo.h"
 
 #include "swGraphicAPI/MockAssets/Utils.h"
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 #include "swCommonLib/Common/Exceptions/Common/FileNotFoundException.h"
 
@@ -26,7 +27,7 @@ TEST_CASE( "GraphicAPI.SoilTextureLoader.FileDoesntExists", "[GraphicAPI][SoilTe
 	TextureLoadInfo loadInfo;
 
 	auto resource = rm->LoadGeneric( "../TestAssets/texture/NotExisting.png", &loadInfo, TypeID::get< Texture >() );
-	REQUIRE( resource.IsValid() == false );
+	REQUIRE_IS_VALID( resource );
 
 	CHECK( resource.GetError() != nullptr );
 	CHECK( resource.GetError()->get_type() == TypeID::get< FileNotFoundException >() );
