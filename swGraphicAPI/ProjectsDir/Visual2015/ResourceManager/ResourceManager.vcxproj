@@ -58,6 +58,7 @@
     <ClInclude Include="..\..\..\ResourceManager\nResourceContainer.h" />
     <ClInclude Include="..\..\..\ResourceManager\nResourceManager.h" />
     <ClInclude Include="..\..\..\ResourceManager\PathTranslators\AssetPath.h" />
+    <ClInclude Include="..\..\..\ResourceManager\PathTranslators\PathsManager.h" />
     <ClInclude Include="..\..\..\ResourceManager\PathTranslators\Translator.h" />
     <ClInclude Include="..\..\..\ResourceManager\ResourceContainer.h" />
     <ClInclude Include="..\..\..\ResourceManager\ResourceManager.h" />
@@ -96,6 +97,7 @@
     <ClCompile Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\PathTranslators\AssetPath.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\PathTranslators\PathsManager.cpp" />
     <ClCompile Include="..\..\..\Resources\Buffers\Buffer.cpp" />
     <ClCompile Include="..\..\..\Resources\Resource.cpp" />
     <ClCompile Include="..\..\..\Resources\Textures\RenderTarget.cpp" />

@@ -44,6 +44,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoaders\TestRenderTargetLoader.cpp">
       <Filter>Tests\TestLoaders</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestPathsManager.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">

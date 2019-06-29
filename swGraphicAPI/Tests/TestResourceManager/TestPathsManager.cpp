@@ -1,6 +1,13 @@
 #include "swCommonLib/External/Catch/catch.hpp"
+/**
+@file TestPathsManager.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
 
-#include "swGUI/Core/System/Config/PathsManager.h"
+
+
+#include "swGraphicAPI/ResourceManager/PathTranslators/PathsManager.h"
 
 
 
@@ -9,7 +16,7 @@
 // Register new alias.
 TEST_CASE( "GUI.PathsManager.AliasRegister.ValidAlias", "[GUISystem][PathsManager]" )
 {
-	sw::gui::PathsManager pathsManager;
+	sw::PathsManager pathsManager;
 
 	sw::ReturnResult result = pathsManager.RegisterAlias( "$(BLABLA_DIR)", "C:\\blabla/blabla" );
 	
@@ -21,7 +28,7 @@ TEST_CASE( "GUI.PathsManager.AliasRegister.ValidAlias", "[GUISystem][PathsManage
 // Don't register invalid alias.
 TEST_CASE( "GUI.PathsManager.AliasRegister.InvalidAlias", "[GUISystem][PathsManager]" )
 {
-	sw::gui::PathsManager pathsManager;
+	sw::PathsManager pathsManager;
 
 	sw::ReturnResult result = pathsManager.RegisterAlias( "BLABLA_DIR", "C:\\blabla/blabla" );
 	
@@ -33,7 +40,7 @@ TEST_CASE( "GUI.PathsManager.AliasRegister.InvalidAlias", "[GUISystem][PathsMana
 // Don't register existing alias.
 TEST_CASE( "GUI.PathsManager.AliasRegister.Existing", "[GUISystem][PathsManager]" )
 {
-	sw::gui::PathsManager pathsManager;
+	sw::PathsManager pathsManager;
 
 	pathsManager.RegisterAlias( "$(BLABLA_DIR)", "C:\\blabla/blabla" );
 	sw::ReturnResult result = pathsManager.RegisterAlias( "$(BLABLA_DIR)", "C:\\blabla/blabla" );
@@ -47,7 +54,7 @@ TEST_CASE( "GUI.PathsManager.AliasRegister.Existing", "[GUISystem][PathsManager]
 // Translate path using alias.
 TEST_CASE( "GUI.PathsManager.Translate.ExistingAlias", "[GUISystem][PathsManager]" )
 {
-	sw::gui::PathsManager pathsManager;
+	sw::PathsManager pathsManager;
 
 	sw::ReturnResult result = pathsManager.RegisterAlias( "$(BLABLA_DIR)", "C:\\blabla/blabla" );
 	REQUIRE( result.IsValid() == true );
@@ -61,7 +68,7 @@ TEST_CASE( "GUI.PathsManager.Translate.ExistingAlias", "[GUISystem][PathsManager
 // Translate path using not existing alias. Path remains unchanged.
 TEST_CASE( "GUI.PathsManager.Translate.NotExistingAlias", "[GUISystem][PathsManager]" )
 {
-	sw::gui::PathsManager pathsManager;
+	sw::PathsManager pathsManager;
 
 	sw::ReturnResult result = pathsManager.RegisterAlias( "$(BLABLA_DIR)", "C:\\blabla/blabla" );
 	REQUIRE( result.IsValid() == true );
@@ -75,7 +82,7 @@ TEST_CASE( "GUI.PathsManager.Translate.NotExistingAlias", "[GUISystem][PathsMana
 // Path should be resolved correctly.
 TEST_CASE( "GUI.PathsManager.Translate.AliasReferenceInAlias", "[GUISystem][PathsManager]" )
 {
-	sw::gui::PathsManager pathsManager;
+	sw::PathsManager pathsManager;
 
 	sw::ReturnResult result = pathsManager.RegisterAlias( "$(TMP_DIR)", "C:\\blabla/tmp" );
 	REQUIRE( result.IsValid() == true );

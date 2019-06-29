@@ -1,4 +1,10 @@
 #pragma once
+/**
+@file PathsManager.h
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 #include "swCommonLib/System/Path.h"
 #include "swCommonLib/Common/Exceptions/Nullable.h"
@@ -7,18 +13,14 @@
 #include <map>
 
 
-namespace sw {
-namespace gui
+namespace sw
 {
 
 
 /**@brief Translates paths.
 
 PathsManager stores paths aliases and can translate them to absolute paths during programm execution.
-Example alias $(APP_DIR) would be resolved to absolut path.
-
-@todo This class could be placed inside ResourceManager. This would allow us to use paths relative
-to aliases in whole invironement and translate them only while loading assets.*/
+Example alias $(APP_DIR) would be resolved to absolut path.*/
 class PathsManager
 {
 private:
@@ -64,6 +66,5 @@ DEFINE_UPTR_TYPE( PathsManager )
 DEFINE_PTR_TYPE( PathsManager )
 
 
-}	// gui
 }	// sw
 

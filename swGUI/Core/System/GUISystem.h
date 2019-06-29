@@ -14,7 +14,7 @@
 #include "Events/EventsSystem.h"
 #include "swGUI/Core/System/Rendering/RenderingSystem.h"
 #include "swGUI/Core/System/Config/GUISystemConfig.h"
-#include "swGUI/Core/System/Config/PathsManager.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/PathsManager.h"
 #include "swGUI/Core/System/Time/Clock.h"
 
 #include "HostWindow.h"

@@ -270,6 +270,9 @@
     <ClInclude Include="..\..\..\ResourceManager\Exceptions\LoaderException.h">
       <Filter>ResourceManager\Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\PathTranslators\PathsManager.h">
+      <Filter>ResourceManager\PathTranslators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
@@ -367,6 +370,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\Exceptions\LoaderException.cpp">
       <Filter>ResourceManager\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\PathTranslators\PathsManager.cpp">
+      <Filter>ResourceManager\PathTranslators</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

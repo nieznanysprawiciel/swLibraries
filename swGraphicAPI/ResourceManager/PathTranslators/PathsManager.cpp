@@ -3,17 +3,16 @@
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
-#include "swGUI/Core/stdafx.h"
-
-
+#include "swGraphicAPI/ResourceManager/stdafx.h"
 
 #include "PathsManager.h"
 
 #include <filesystem>
 #include <regex>
 
-namespace sw {
-namespace gui
+
+
+namespace sw
 {
 
 
@@ -108,7 +107,7 @@ ReturnResult		PathsManager::OverrideAlias			( const std::string& alias, const fi
 	return Result::Error;
 }
 
-}	// gui
+
 }	// sw
 
 

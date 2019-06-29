@@ -155,7 +155,6 @@
     <ClInclude Include="..\..\..\Core\System\CommonTypes\CommonTypes.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\Thickness.h" />
     <ClInclude Include="..\..\..\Core\System\Config\GUISystemConfig.h" />
-    <ClInclude Include="..\..\..\Core\System\Config\PathsManager.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\Binding.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\BindingInfo.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\BindingMode.h" />
@@ -215,7 +214,6 @@
     <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\RectangleGeometry.cpp" />
-    <ClCompile Include="..\..\..\Core\System\Config\PathsManager.cpp" />
     <ClCompile Include="..\..\..\Core\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

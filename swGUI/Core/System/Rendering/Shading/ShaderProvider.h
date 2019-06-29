@@ -9,8 +9,8 @@
 #include "swCommonLib/System/Path.h"
 
 #include "swGraphicAPI/Resources/MeshResources.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/PathsManager.h"
 
-#include "swGUI/Core/System/Config/PathsManager.h"
 #include "ShaderBuilder.h"
 
 

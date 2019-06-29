@@ -15,7 +15,7 @@
 #include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
 
 #include "swGUI/Core/System/Rendering/Shading/ShaderProvider.h"
-#include "swGUI/Core/System/Config/PathsManager.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/PathsManager.h"
 
 #include "swGUI/Core/Controls/Visual.h"
 #include "swGUI/Core/System/Rendering/Drawings/IDrawing.h"
