@@ -17,6 +17,7 @@ namespace sw
 @ingroup Loaders*/
 class IAssetLoadInfo
 {
+	RTTR_ENABLE();
 private:
 protected:
 public:

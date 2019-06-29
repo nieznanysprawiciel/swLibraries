@@ -55,7 +55,7 @@ void			SoilAllocator::deallocate		( uint8* data, Size numElements )
 
 // ================================ //
 //
-bool											SoilTextureLoader::CanLoad		( const AssetPath& filePath, TypeID resourceType )
+bool											SoilTextureLoader::CanLoad				( const AssetPath& filePath, TypeID resourceType )
 {
 	std::string allowedExtensions[] =
 	{
@@ -89,13 +89,35 @@ bool											SoilTextureLoader::CanLoad		( const AssetPath& filePath, TypeID r
 	return true;
 }
 
+// ================================ //
+//
+ReturnResult									SoilTextureLoader::ValidateParameters	( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc )
+{
+	if( assetDesc->get_type() != TypeID::get< TextureLoadInfo >() )
+		return LoaderException::Create( "SoilTextureLoader", "Unsupported descriptor type[ " + assetDesc->get_type().get_name().to_string() + " ].", filePath, resourceType );
+
+	auto loadInfo = static_cast< const TextureLoadInfo* >( assetDesc );
+	
+	// In future we could force expected number of channels.
+	if( loadInfo->Processing.ForceFormat )
+		return LoaderException::Create( "SoilTextureLoader", "ForceFormat option is not supported.", filePath, resourceType );
+
+	return Result::Success;
+}
+
 
 // ================================ //
 //
-LoadingResult									SoilTextureLoader::Load			( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+LoadingResult									SoilTextureLoader::Load					( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	if( filePath.GetFile().Exists() )
 	{
+		// Validate assetDesc parameters, if this loader can handle them.
+		auto validation = ValidateParameters( filePath, resourceType, assetDesc );
+
+		if( !validation.IsValid() )
+			return { validation.GetError() };
+
 		auto loadInfo = static_cast< const TextureLoadInfo* >( assetDesc );
 
 		int height = 0;
@@ -122,6 +144,8 @@ LoadingResult									SoilTextureLoader::Load			( const AssetPath& filePath, Typ
 		TextureInitData texInfo( texBuffer.MoveToRawBuffer() );
 		texInfo.Width = width;
 		texInfo.Height = height;
+		texInfo.MipMaps = loadInfo->MipMaps;
+		texInfo.TextureUsage = loadInfo->TextureUsage;
 
 		if( realChannels == 1 )
 			texInfo.Format = ResourceFormat::RESOURCE_FORMAT_R8_UNORM;
@@ -134,10 +158,7 @@ LoadingResult									SoilTextureLoader::Load			( const AssetPath& filePath, Typ
 		else
 			return { LoaderException::Create( "SoilTextureLoader", "Unexpected number of color channels " + Convert::ToString( realChannels ), filePath, resourceType ) };
 
-
-		texInfo.MipMaps = loadInfo->MipMaps;
-		texInfo.TextureUsage = loadInfo->TextureUsage;
-
+		// Create texture asset.
 		auto result = factory.CreateGenericAsset( filePath, resourceType, std::move( texInfo ) );
 
 		if( result.IsValid() )
@@ -153,7 +174,7 @@ LoadingResult									SoilTextureLoader::Load			( const AssetPath& filePath, Typ
 
 // ================================ //
 //
-ReturnResult									SoilTextureLoader::Prefetch		( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+ReturnResult									SoilTextureLoader::Prefetch				( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	return Result::Error;
 }

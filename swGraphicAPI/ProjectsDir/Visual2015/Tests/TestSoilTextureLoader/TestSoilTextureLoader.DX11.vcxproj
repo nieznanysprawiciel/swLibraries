@@ -33,6 +33,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestSoilTextureLoader.DX11\main.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestSoilTextureLoader.DX11\TestFilesLoading.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestSoilTextureLoader.DX11\TestMipMapGeneration.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{20597CBF-CF6D-4D30-B0E3-2D289AF61143}</ProjectGuid>

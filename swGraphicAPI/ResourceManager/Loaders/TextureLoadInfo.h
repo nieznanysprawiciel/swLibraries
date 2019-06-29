@@ -42,6 +42,7 @@ struct TextureProcessingInfo
 @ingroup TexturesLoaders*/
 class TextureLoadInfo : public IAssetLoadInfo
 {
+	RTTR_ENABLE( IAssetLoadInfo );
 public:
 
 	MipMapsInfo					MipMaps;
