@@ -68,6 +68,15 @@ inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMocksAndDe
 		rm->RegisterLoader( loader );
 	}
 
+	return std::move( rm );
+}
+
+// ================================ //
+//
+inline std::unique_ptr< nResourceManager >			CreateRMWithDefaultsMocksSoil				()
+{
+	auto rm = CreateResourceManagerWithMocksAndDefaults();
+
 	{
 		auto loader = std::make_shared< SoilTextureLoader >();
 		rm->RegisterLoader( loader );

@@ -15,6 +15,7 @@
 
 #include "swCommonLib/Common/Exceptions/Common/FileNotFoundException.h"
 #include "swCommonLib/Common/Buffers/BufferTyped.h"
+#include "swCommonLib/Common/Converters.h"
 
 #include <algorithm>
 
@@ -100,8 +101,17 @@ LoadingResult									SoilTextureLoader::Load			( const AssetPath& filePath, Typ
 		int height = 0;
 		int width = 0;
 		int channels = 0;
+		int realChannels = 0;
 
-		uint8* data = stbi_load( filePath.GetFile().String().c_str(), &width, &height, &channels, 4 );
+		// Check file metadata. This can fail, but we ignore it. We handle fails after calling stbi_load.
+		stbi_info( filePath.GetFile().String().c_str(), &width, &height, &channels );
+
+		// Force alpha channel if image has 3 channels. We don't support 3-components
+		// images, because DirectX don't support this format.
+		if( channels == 3 )
+			channels = 4;
+
+		uint8* data = stbi_load( filePath.GetFile().String().c_str(), &width, &height, &realChannels, channels );
 
 		if( data == nullptr )
 			return { LoaderException::Create( "SoilTextureLoader", stbi_failure_reason(), filePath, resourceType ) };
@@ -113,12 +123,17 @@ LoadingResult									SoilTextureLoader::Load			( const AssetPath& filePath, Typ
 		texInfo.Width = width;
 		texInfo.Height = height;
 
-		//if( channels == 1 )
-		//	texInfo.format = ResourceFormat::RESOURCE_FORMAT_R8_UNORM;
-		//else if( channels == 2 )
-		//	texInfo.format = ResourceFormat::RESOURCE_FORMAT_R8G8_UNORM;
-		//else if( channels == 3 )
-		texInfo.Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
+		if( realChannels == 1 )
+			texInfo.Format = ResourceFormat::RESOURCE_FORMAT_R8_UNORM;
+		else if( realChannels == 2 )
+			texInfo.Format = ResourceFormat::RESOURCE_FORMAT_R8G8_UNORM;
+		else if( realChannels == 3 )
+			texInfo.Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
+		else if( realChannels == 4 )
+			texInfo.Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
+		else
+			return { LoaderException::Create( "SoilTextureLoader", "Unexpected number of color channels " + Convert::ToString( realChannels ), filePath, resourceType ) };
+
 
 		texInfo.MipMaps = loadInfo->MipMaps;
 		texInfo.TextureUsage = loadInfo->TextureUsage;

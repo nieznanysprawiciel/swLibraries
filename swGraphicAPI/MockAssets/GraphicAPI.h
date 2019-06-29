@@ -87,6 +87,16 @@ inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithDefaults		
 		rm->RegisterLoader( loader );
 	}
 
+	return std::move( rm );
+}
+
+
+// ================================ //
+//
+inline std::unique_ptr< nResourceManager >			CreateRMWithDefaultsSoil				()
+{
+	auto rm = CreateResourceManagerWithDefaults();
+
 	{
 		auto loader = std::make_shared< SoilTextureLoader >();
 		rm->RegisterLoader( loader );

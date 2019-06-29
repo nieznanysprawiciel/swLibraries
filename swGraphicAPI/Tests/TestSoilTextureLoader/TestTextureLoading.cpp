@@ -22,12 +22,12 @@ using namespace sw;
 // 
 TEST_CASE( "GraphicAPI.SoilTextureLoader.FileDoesntExists", "[GraphicAPI][SoilTextureLoader]" )
 {
-	auto rm = CreateResourceManagerWithMocksAndDefaults();
+	auto rm = CreateRMWithDefaultsMocksSoil();
 
 	TextureLoadInfo loadInfo;
 
 	auto resource = rm->LoadGeneric( "../TestAssets/texture/NotExisting.png", &loadInfo, TypeID::get< Texture >() );
-	REQUIRE_IS_VALID( resource );
+	REQUIRE( resource.IsValid() == false );
 
 	CHECK( resource.GetError() != nullptr );
 	CHECK( resource.GetError()->get_type() == TypeID::get< FileNotFoundException >() );
