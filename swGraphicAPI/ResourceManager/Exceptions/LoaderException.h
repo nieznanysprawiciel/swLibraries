@@ -11,6 +11,7 @@
 #include "swCommonLib/System/Path.h"
 
 #include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/LoadPath.h"
 
 
 namespace sw
@@ -28,12 +29,12 @@ class LoaderException : public RuntimeException
 private:
 protected:
 
-	AssetPath				m_path;
+	LoadPath				m_path;
 	TypeID					m_resourceType;
 	std::string				m_loaderName;
 
 public:
-	explicit		LoaderException				( std::string loaderName, std::string error, AssetPath path, TypeID assetType );
+	explicit		LoaderException				( std::string loaderName, std::string error, LoadPath path, TypeID assetType );
 	virtual			~LoaderException			() = default;
 
 	std::string		ErrorMessage				() const override;
@@ -45,7 +46,7 @@ private:
 
 public:
 
-	static LoaderExceptionPtr		Create		( std::string loaderName, std::string error, AssetPath path, TypeID assetType );
+	static LoaderExceptionPtr		Create		( std::string loaderName, std::string error, LoadPath path, TypeID assetType );
 };
 
 

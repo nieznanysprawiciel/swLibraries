@@ -16,6 +16,7 @@
 #include "swGraphicAPI/ResourceManager/Loaders/LoadingResult.h"
 #include "swGraphicAPI/ResourceManager/Loaders/RMLoaderAPI.h"
 #include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/LoadPath.h"
 
 #include <vector>
 
@@ -100,13 +101,13 @@ public:
 	@param[in] assetDesc Asset descriptor has all info needed to create and process asset internally.
 	@param[in] factory Pointer to interface for creating assets.
 	*/
-	virtual LoadingResult										Load		( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory ) = 0;
+	virtual LoadingResult										Load		( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory ) = 0;
 
 	/**@brief Function used to prefetch and cache asset.
 	
 	Loader shouldn't create this asset. Instead it should call asset creation functiond from asset manager with
 	flag indicating, that it should be cached. Note that this should apply to all nested assets too.*/
-	virtual ReturnResult										Prefetch	( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory ) = 0;
+	virtual ReturnResult										Prefetch	( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory ) = 0;
 };
 
 DEFINE_PTR_TYPE( IAssetLoader );

@@ -15,7 +15,7 @@ namespace sw
 
 // ================================ //
 //
-LoaderException::LoaderException								( std::string loaderName, std::string error, AssetPath path, TypeID assetType )
+LoaderException::LoaderException								( std::string loaderName, std::string error, LoadPath path, TypeID assetType )
 	: RuntimeException( std::move( error ) )
 	, m_path( std::move( path ) )
 	, m_resourceType( assetType )
@@ -24,7 +24,7 @@ LoaderException::LoaderException								( std::string loaderName, std::string er
 
 // ================================ //
 //
-LoaderExceptionPtr		LoaderException::Create					( std::string loaderName, std::string error, AssetPath path, TypeID assetType )
+LoaderExceptionPtr		LoaderException::Create					( std::string loaderName, std::string error, LoadPath path, TypeID assetType )
 {
 	return std::make_shared< LoaderException >( std::move( loaderName ), std::move( error ), std::move( path ), assetType );
 }
@@ -50,7 +50,7 @@ std::string				LoaderException::LoaderHeader			() const
 //
 std::string				LoaderException::ResourceInfo			() const
 {
-	return " Name [" + m_path.String() + "], type [" + m_resourceType.get_name().to_string() + "].";
+	return " " + m_path.Print() + ", type [" + m_resourceType.get_name().to_string() + "].";
 }
 
 

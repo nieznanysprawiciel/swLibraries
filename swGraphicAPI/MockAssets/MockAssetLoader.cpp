@@ -27,7 +27,7 @@ bool				MockAssetLoader::CanLoad			( const AssetPath& filePath, TypeID resourceT
 
 // ================================ //
 //
-LoadingResult		MockAssetLoader::Load				( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+LoadingResult		MockAssetLoader::Load				( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	LoadingResult result;
 
@@ -42,7 +42,7 @@ LoadingResult		MockAssetLoader::Load				( const AssetPath& filePath, TypeID reso
 	{
 		createInfo.Content = filesystem::File::Load( filePath.GetFile() );
 
-		auto res = factory.CreateGenericAsset( filePath, TypeID::get< MockAsset >(), std::move( createInfo ) );
+		auto res = factory.CreateGenericAsset( filePath.GetOriginalPath(), TypeID::get< MockAsset >(), std::move( createInfo ) );
 		if( !res.IsValid() )
 			return res.GetError();
 
@@ -56,7 +56,7 @@ LoadingResult		MockAssetLoader::Load				( const AssetPath& filePath, TypeID reso
 
 // ================================ //
 //
-ReturnResult		MockAssetLoader::Prefetch			( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+ReturnResult		MockAssetLoader::Prefetch			( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	return ReturnResult();
 }

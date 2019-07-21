@@ -47,13 +47,13 @@ void											AddTextureIfNotNull					( TexturePtr tex, LoadingContext& context
 
 // ================================ //
 //
-LoadingResult									RenderTargetLoader::Load			( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+LoadingResult									RenderTargetLoader::Load			( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	// Translate load info to descriptor used in creators.
 	const RenderTargetLoadInfo* loadInfo = static_cast< const RenderTargetLoadInfo* >( assetDesc );
 	auto descriptor = loadInfo->ToDescriptor();
 
-	auto resourceNullable = factory.CreateGenericAsset( filePath, resourceType, std::move( descriptor ) );
+	auto resourceNullable = factory.CreateGenericAsset( filePath.GetOriginalPath(), resourceType, std::move( descriptor ) );
 
 	// Creation failed.
 	if( !resourceNullable.IsValid() )
@@ -81,7 +81,7 @@ LoadingResult									RenderTargetLoader::Load			( const AssetPath& filePath, Ty
 
 // ================================ //
 //
-ReturnResult									RenderTargetLoader::Prefetch		( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+ReturnResult									RenderTargetLoader::Prefetch		( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	return Result::Error;
 }

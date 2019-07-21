@@ -65,7 +65,7 @@ bool											ShaderLoader::CanLoad		( const AssetPath& filePath, TypeID resour
 
 // ================================ //
 //
-LoadingResult									ShaderLoader::Load			( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+LoadingResult									ShaderLoader::Load			( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	if( filePath.GetFile().Exists() )
 	{
@@ -75,7 +75,7 @@ LoadingResult									ShaderLoader::Load			( const AssetPath& filePath, TypeID r
 
 		// We don't use GetCachedGeneric here because it's not nested asset and ResourceManager
 		// checks cache first.
-		auto resourceNullable = factory.CreateGenericAsset( filePath, resourceType, std::move( init ) );
+		auto resourceNullable = factory.CreateGenericAsset( filePath.GetOriginalPath(), resourceType, std::move( init ) );
 		if( resourceNullable.IsValid() )
 			return { resourceNullable.Get() };
 		else
@@ -89,7 +89,7 @@ LoadingResult									ShaderLoader::Load			( const AssetPath& filePath, TypeID r
 
 // ================================ //
 //
-ReturnResult									ShaderLoader::Prefetch		( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+ReturnResult									ShaderLoader::Prefetch		( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	return Result::Error;
 }

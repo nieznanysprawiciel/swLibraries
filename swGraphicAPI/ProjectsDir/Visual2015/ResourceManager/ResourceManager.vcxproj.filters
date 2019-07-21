@@ -273,6 +273,9 @@
     <ClInclude Include="..\..\..\ResourceManager\PathTranslators\PathsManager.h">
       <Filter>ResourceManager\PathTranslators</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\PathTranslators\LoadPath.h">
+      <Filter>ResourceManager\PathTranslators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">

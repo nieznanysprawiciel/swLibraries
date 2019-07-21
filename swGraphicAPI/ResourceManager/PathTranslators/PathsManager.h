@@ -56,9 +56,9 @@ public:
 	///@}
 
 
-protected:
+public:
 
-	bool					IsValidAlias		( const std::string& alias ) const;
+	static bool				IsValidAlias		( const std::string& alias );
 };
 
 DEFINE_OPTR_TYPE( PathsManager )

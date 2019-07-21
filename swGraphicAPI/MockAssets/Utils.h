@@ -33,6 +33,10 @@ inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMocks				(
 {
 	std::unique_ptr< nResourceManager > rm = std::make_unique< nResourceManager >();
 
+	auto pm = rm->GetPathsManager();
+	pm->RegisterAlias( "$(TestAssets)", "../TestAssets/" );
+	pm->RegisterAlias( "$(MocksDir)", "$(TestAssets)/mock/" );
+
 	{
 		auto creator = MockAssetCreator::CreateCreator();		// Creator must live longer then ResourceManager since it tracks references of created assets.
 		auto loader = std::make_shared< MockAssetLoader >();

@@ -40,7 +40,7 @@ Nullable< MockAssetPtr >					LoadSubAsset		( const AssetPath& assetName, Loading
 
 // ================================ //
 //
-Nullable< MockCompositeAssetPtr	>			LoadComposite		( const AssetPath& assetName, const MockCompositeAssetLoadInfo* compositeDesc, LoadingContext& context )
+Nullable< MockCompositeAssetPtr	>			LoadComposite		( const LoadPath& path, const MockCompositeAssetLoadInfo* compositeDesc, LoadingContext& context )
 {
 	ErrorsCollector collector;
 
@@ -51,7 +51,7 @@ Nullable< MockCompositeAssetPtr	>			LoadComposite		( const AssetPath& assetName,
 
 	for( auto& nested : compositeDesc->NestedComposites )
 	{
-		AssetPath name( assetName.GetFile(), assetName.GetInternalPath() / Convert::ToString( idx ) );
+		LoadPath name = path / Convert::ToString( idx );
 
 		auto result = LoadComposite( name, nested.get(), context );
 		if( collector.Success( result ) )
@@ -77,7 +77,7 @@ Nullable< MockCompositeAssetPtr	>			LoadComposite		( const AssetPath& assetName,
 	createInfo.SubAssets			= std::move( subAssets );
 	createInfo.CompositeSubAssets	= std::move( compositeAssets );
 
-	auto result = context.Factory.CreateGenericAsset( assetName, TypeID::get< MockCompositeAsset >(), std::move( createInfo ) );
+	auto result = context.Factory.CreateGenericAsset( path.GetOriginalPath(), TypeID::get< MockCompositeAsset >(), std::move( createInfo ) );
 	if( collector.Success( result ) )
 	{
 		context.Warnings.Add( collector );
@@ -90,7 +90,7 @@ Nullable< MockCompositeAssetPtr	>			LoadComposite		( const AssetPath& assetName,
 
 // ================================ //
 //
-LoadingResult		MockCompositeAssetLoader::Load				( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+LoadingResult		MockCompositeAssetLoader::Load				( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	LoadingResult loadingResult;
 
@@ -115,7 +115,7 @@ LoadingResult		MockCompositeAssetLoader::Load				( const AssetPath& filePath, Ty
 
 // ================================ //
 //
-ReturnResult		MockCompositeAssetLoader::Prefetch			( const AssetPath & filePath, TypeID resourceType, const IAssetLoadInfo * assetDesc, RMLoaderAPI factory )
+ReturnResult		MockCompositeAssetLoader::Prefetch			( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo * assetDesc, RMLoaderAPI factory )
 {
 	return ReturnResult();
 }

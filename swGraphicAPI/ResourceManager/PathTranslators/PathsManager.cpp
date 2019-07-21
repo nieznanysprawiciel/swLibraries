@@ -78,7 +78,7 @@ ReturnResult		PathsManager::RegisterAlias			( const std::string& alias, const fi
 
 // ================================ //
 //
-bool				PathsManager::IsValidAlias			( const std::string& alias ) const
+bool				PathsManager::IsValidAlias			( const std::string& alias )
 {
 	return std::regex_match( alias, gAliasFormat );
 }

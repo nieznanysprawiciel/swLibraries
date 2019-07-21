@@ -9,8 +9,10 @@
 #include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
 #include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
 #include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
+
 #include "swGraphicAPI/ResourceManager/nResourceContainer.h"
 #include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/PathsManager.h"
 
 #include "swCommonLib/Common/Multithreading/ReaderWriterLock.h"
 #include "swCommonLib/Common/Exceptions/Nullable.h"
@@ -47,6 +49,8 @@ protected:
 
 	ReaderWriterLock			m_rwLock;				///< Reader/Writer lock for protecting m_resources dictionary.
 	LoadBarrier					m_waitingAssets;		///< Barrier protects from loading one asset multiple times.
+
+	PathsManagerUPtr			m_pathsManager;			///< Translates path aliases into system paths.
 
 	CacheManager				m_cacheManager;			///< Assets cache.
 	AssetsFactoryOPtr			m_assetsFactory;		///< Factory for generic and non generic assets creation.
@@ -179,18 +183,26 @@ public:
 	bool							RegisterLoader				( IAssetLoaderPtr loader );
 
 	LoadersVec						ListLoaders					() const;
+
+	PathsManager*					GetPathsManager				() const						{ return m_pathsManager.get(); }
 	///@}
 
 
 protected:
 
 	ResourcePtr< Resource >						FindResource		( const AssetPath& assetName, TypeID assetType );
-	ResourcePtr< Resource >						FindRequestedAsset	( const AssetPath& assetName, TypeID assetType, const AssetsVec& loadedAssets );
+	ResourcePtr< Resource >						FindRequestedAsset	( const LoadPath& assetName, TypeID assetType, const AssetsVec& loadedAssets );
 	IAssetLoader*								FindLoader			( const AssetPath& assetName, TypeID assetType );
 
-	sw::Nullable< ResourcePointer >				LoadingImpl			( const AssetPath& assetName, const IAssetLoadInfo* desc, TypeID assetType );
+	std::pair< WaitingAsset*, bool >			LockFileForLoading	( const LoadPath& assetName );
+
+	sw::Nullable< ResourcePointer >				LoadGeneric			( const LoadPath& assetName, const IAssetLoadInfo* desc, TypeID type );
+	sw::Nullable< ResourcePointer >				LoadingImpl			( const LoadPath& assetName, const IAssetLoadInfo* desc, TypeID assetType );
 
 	ReturnResult								AddGenericResource	( const AssetPath& name, TypeID assetType, ResourcePointer resource );
+
+	filesystem::Path							Translate			( const filesystem::Path& path );
+	AssetPath									Translate			( const AssetPath& name );
 };
 
 

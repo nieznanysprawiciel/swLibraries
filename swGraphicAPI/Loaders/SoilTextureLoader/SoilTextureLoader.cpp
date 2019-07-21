@@ -91,7 +91,7 @@ bool											SoilTextureLoader::CanLoad				( const AssetPath& filePath, TypeID
 
 // ================================ //
 //
-ReturnResult									SoilTextureLoader::ValidateParameters	( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc )
+ReturnResult									SoilTextureLoader::ValidateParameters	( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc )
 {
 	if( assetDesc->get_type() != TypeID::get< TextureLoadInfo >() )
 		return LoaderException::Create( "SoilTextureLoader", "Unsupported descriptor type[ " + assetDesc->get_type().get_name().to_string() + " ].", filePath, resourceType );
@@ -108,7 +108,7 @@ ReturnResult									SoilTextureLoader::ValidateParameters	( const AssetPath& fi
 
 // ================================ //
 //
-LoadingResult									SoilTextureLoader::Load					( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+LoadingResult									SoilTextureLoader::Load					( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	if( filePath.GetFile().Exists() )
 	{
@@ -159,7 +159,7 @@ LoadingResult									SoilTextureLoader::Load					( const AssetPath& filePath, T
 			return { LoaderException::Create( "SoilTextureLoader", "Unexpected number of color channels " + Convert::ToString( realChannels ), filePath, resourceType ) };
 
 		// Create texture asset.
-		auto result = factory.CreateGenericAsset( filePath, resourceType, std::move( texInfo ) );
+		auto result = factory.CreateGenericAsset( filePath.GetOriginalPath(), resourceType, std::move( texInfo ) );
 
 		if( result.IsValid() )
 			return { result.Get() };
@@ -174,7 +174,7 @@ LoadingResult									SoilTextureLoader::Load					( const AssetPath& filePath, T
 
 // ================================ //
 //
-ReturnResult									SoilTextureLoader::Prefetch				( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+ReturnResult									SoilTextureLoader::Prefetch				( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	return Result::Error;
 }

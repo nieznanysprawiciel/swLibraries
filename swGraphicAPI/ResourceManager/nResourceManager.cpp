@@ -9,6 +9,7 @@
 #include "nResourceManager.h"
 #include "swGraphicAPI/ResourceManager/nResourceContainer.h"
 #include "swGraphicAPI/ResourceManager/Exceptions/ResourceManagerException.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/LoadPath.h"
 
 #include "swCommonLib/Common/Multithreading/UniqueLock.h"
 
@@ -19,6 +20,7 @@ namespace sw
 // ================================ //
 //
 nResourceManager::nResourceManager()
+	:	m_pathsManager( new PathsManager() )
 {
 	m_assetsFactory = AssetsFactoryOPtr( new AssetsFactory() );
 }
@@ -47,29 +49,37 @@ ResourcePointer							nResourceManager::GetGeneric				( const AssetPath& name, T
 //====================================================================================//
 
 
+sw::Nullable< ResourcePointer >			nResourceManager::LoadGeneric				( const AssetPath& name, const IAssetLoadInfo* desc, TypeID type )
+{
+	auto loadPath = LoadPath( name, m_pathsManager.get() );
+	return LoadGeneric( loadPath, desc, type );
+}
+
 // ================================ //
 /// @note If asset loading fails and we call LoadGeneric function again, LoadGeneric will try to load it
 /// for the second time. This will cause performance problem, when something is wrong with important asset
 /// loaded by multiple entities, because even failed loading is heavy operation.
-sw::Nullable< ResourcePointer >			nResourceManager::LoadGeneric				( const AssetPath& name, const IAssetLoadInfo* desc, TypeID type )
+sw::Nullable< ResourcePointer >			nResourceManager::LoadGeneric				( const LoadPath& loadPath, const IAssetLoadInfo* desc, TypeID type )
 {
 	// Lock as Reader. Try to find resource and request asset atomically.
 	ReaderUniqueLock< ReaderWriterLock > lock( m_rwLock );
 
-	auto resource = FindResource( name, type );
+	auto resource = FindResource( loadPath.GetOriginalPath(), type );
 	if( !resource )
 	{
-		auto result = m_waitingAssets.RequestAsset( name.GetFile() );
+		WaitingAsset* assetLock = nullptr;
+		bool isLoadingInProgress = false;
 
-		// Unlock as Reader.
+		// We want to lock on absolute path without aliases. Otherwise two paths can point to the same asset.
+		std::tie( assetLock, isLoadingInProgress ) = LockFileForLoading( loadPath );
+
+		// Unlock as Reader. Here we either have locked asset for this thread or asset was already
+		// locked and we must wait until other thread will load it completly.
 		lock.Unlock();
-		
-		WaitingAsset* assetWait = result.first;
-		bool needWait = result.second;
 
-		if( needWait )
+		if( isLoadingInProgress )
 		{
-			auto result = m_waitingAssets.WaitUntilLoaded( assetWait );
+			auto result = m_waitingAssets.WaitUntilLoaded( assetLock );
 
 			// Loading could fail. If this is the case, we return error stored in WaitingAsset.
 			// Note that we must store error in WaitingAsset to avoid reloading the same file again.
@@ -82,14 +92,14 @@ sw::Nullable< ResourcePointer >			nResourceManager::LoadGeneric				( const Asset
 				// specific asset (not entire file). If it returns nullptr, it means that asset can't be loaded.
 				//
 				// @todo Consider situation when first found loader isn't able to load file, but next could. Should we handle this? Maybe use some loader flags.
-				return LoadGeneric( name, desc, type );
+				return LoadGeneric( loadPath, desc, type );
 			}
 
 			return result.GetError();
 		}
 		else
 		{
-			return LoadingImpl( name, desc, type );
+			return LoadingImpl( loadPath, desc, type );
 		}
 	}
 
@@ -225,11 +235,13 @@ LoadersVec								nResourceManager::ListLoaders				() const
 //
 ResourcePtr< Resource >					nResourceManager::FindResource				( const AssetPath& name, TypeID assetType )
 {
+	auto translatedPath = Translate( name );
+
 	auto containerIter = m_resources.find( assetType );
 	if( containerIter != m_resources.end() )
 	{
 		ResourceContainer< Resource >& container = containerIter->second;
-		return container.Get( name );
+		return container.Get( translatedPath );
 	}
 
 	return ResourcePtr< Resource >();
@@ -248,12 +260,19 @@ IAssetLoader*							nResourceManager::FindLoader				( const AssetPath& assetName
 	return nullptr;
 }
 
+// ================================ //
+//
+std::pair< WaitingAsset*, bool >		nResourceManager::LockFileForLoading		( const LoadPath& loadPath )
+{
+	// We want to lock on absolute path without aliases. Otherwise two paths can point to the same asset.
+	return m_waitingAssets.RequestAsset( loadPath.GetTranslatedPath().GetFile() );
+}
 
 // ================================ //
 //
-ResourcePtr< Resource >					nResourceManager::FindRequestedAsset		( const AssetPath& assetName, TypeID assetType, const AssetsVec& loadedAssets )
+ResourcePtr< Resource >					nResourceManager::FindRequestedAsset		( const LoadPath& loadPath, TypeID assetType, const AssetsVec& loadedAssets )
 {
-	std::string assetNameStr = assetName.String();
+	std::string assetNameStr = loadPath.GetOriginalPath().String();
 
 	for( auto loadedAsset : loadedAssets )
 	{
@@ -271,41 +290,40 @@ ResourcePtr< Resource >					nResourceManager::FindRequestedAsset		( const AssetP
 
 // ================================ //
 //
-sw::Nullable< ResourcePointer >			nResourceManager::LoadingImpl				( const AssetPath& assetName, const IAssetLoadInfo* desc, TypeID assetType )
+sw::Nullable< ResourcePointer >			nResourceManager::LoadingImpl				( const LoadPath& loadPath, const IAssetLoadInfo* desc, TypeID assetType )
 {
 	// @attention: Remember to remove asset lock before each return statement.
 	// Otherwise assetName will be locked for loading for always. 
 
-	auto resource = m_cacheManager.LoadFromCache( assetName, assetType );
+	auto resource = m_cacheManager.LoadFromCache( loadPath.GetTranslatedPath(), assetType );
 	if( !resource )
 	{
-		// @todo Maybe we should extract file name from asset name.
-		auto loader = FindLoader( assetName, assetType );
+		auto loader = FindLoader( loadPath.GetOriginalPath(), assetType );
 		if( loader )
 		{
-			auto loadingResult = loader->Load( assetName, assetType, desc, RMLoaderAPI( this ) );
+			auto loadingResult = loader->Load( loadPath, assetType, desc, RMLoaderAPI( this ) );
 
 			if( !loadingResult.Assets.IsValid() )
 			{
 				// Remove asset lock.
-				m_waitingAssets.LoadingFailed( assetName.GetFile(), loadingResult.Assets.GetError() );
+				m_waitingAssets.LoadingFailed( loadPath.GetFileTranslated(), loadingResult.Assets.GetError() );
 				return loadingResult.Assets.GetError();
 			}
 
-			resource = FindRequestedAsset( assetName, assetType, loadingResult.Assets );
+			resource = FindRequestedAsset( loadPath, assetType, loadingResult.Assets );
 		}
 		else
 		{
-			auto exception = std::make_shared< ResourceManagerException >( "Loader for asset not found.", assetName.String(), assetType );
+			auto exception = std::make_shared< ResourceManagerException >( "Loader for asset not found. ", loadPath.Print(), assetType );
 
 			// Remove asset lock.
-			m_waitingAssets.LoadingFailed( assetName.GetFile(), exception );
+			m_waitingAssets.LoadingFailed( loadPath.GetFileTranslated(), exception );
 			return exception;
 		}
 	}
 
 	// Remove asset lock.
-	m_waitingAssets.LoadingCompleted( assetName.GetFile() );
+	m_waitingAssets.LoadingCompleted( loadPath.GetFileTranslated() );
 
 	return resource;
 }
@@ -317,6 +335,8 @@ ReturnResult							nResourceManager::AddGenericResource		( const AssetPath& name
 	if( !resource )
 		return std::make_shared< ResourceManagerException >( "Trying to add nullptr resource.", name.String(), assetType );
 
+	auto translatedName = Translate( name );
+
 	// Check if asset already exists in m_resources. Note that even if asset exists, that doesn't
 	// mean that it is the same asset. It could be generated by user (and have different content) or it could be loaded
 	// and postprocessed using different parameters.
@@ -325,12 +345,26 @@ ReturnResult							nResourceManager::AddGenericResource		( const AssetPath& name
 	WriterUniqueLock< ReaderWriterLock > lock( m_rwLock );
 
 	ResourceContainer< Resource >& container = m_resources[ assetType ];
-	bool inserted = container.SafeAdd( name, resource.Ptr() );
+	bool inserted = container.SafeAdd( translatedName, resource.Ptr() );
 
 	if( !inserted )
 		return std::make_shared< ResourceManagerException >( "Can't add asset, because it already existed.", name.String(), assetType );
 
 	return Result::Success;
+}
+
+// ================================ //
+//
+filesystem::Path						nResourceManager::Translate					( const filesystem::Path& path )
+{
+	return LoadPath::Translate( path, m_pathsManager.get() );
+}
+
+// ================================ //
+//
+AssetPath								nResourceManager::Translate					( const AssetPath& name )
+{
+	return LoadPath::Translate( name, m_pathsManager.get() );
 }
 
 

@@ -31,13 +31,13 @@ public:
 
 
 	virtual bool					CanLoad				( const AssetPath& filePath, TypeID resourceType )															override;
-	virtual LoadingResult			Load				( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )	override;
-	virtual ReturnResult			Prefetch			( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )	override;
+	virtual LoadingResult			Load				( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )		override;
+	virtual ReturnResult			Prefetch			( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )		override;
 
 
 public:
 
-	ReturnResult					ValidateParameters	( const AssetPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc );
+	ReturnResult					ValidateParameters	( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc );
 };
 
 }	// sw

@@ -47,6 +47,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestPathsManager.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestPathAliases.cpp">
+      <Filter>Tests\TestResourceManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
