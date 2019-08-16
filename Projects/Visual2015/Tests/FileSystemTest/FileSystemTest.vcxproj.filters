@@ -9,5 +9,9 @@
     <ClCompile Include="..\..\..\..\Tests\FileSystemTest\PathTest.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\FileSystemTest\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\FileSystemTest\TestNormalizePath.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
