@@ -25,3 +25,17 @@ TEST_CASE( "GraphicAPI.ResourceManager.PathAliases.LoadPath.Constructor", "[Grap
 	CHECK( loadPath.GetFileOriginal() == "$(MocksDir)/example.mock" );
 	CHECK( loadPath.GetFileTranslated() == filesystem::Path::WorkingDirectory().GetParent() / "TestAssets/mock/example.mock" );
 }
+
+// ================================ //
+// Translation should normalize path.
+TEST_CASE( "GraphicAPI.ResourceManager.PathAliases.LoadPath.Normalization", "[GraphicAPI]" )
+{
+	auto rm = CreateResourceManagerWithMocks();
+
+	auto path = AssetPath::FromString( "$(MocksDir)/../example.mock" );
+	auto loadPath = LoadPath( path, rm->GetPathsManager() );
+
+	CHECK( loadPath.GetFileOriginal() == "$(MocksDir)/../example.mock" );
+	CHECK( loadPath.GetFileTranslated() == filesystem::Path::WorkingDirectory().GetParent() / "TestAssets/example.mock" );
+}
+
