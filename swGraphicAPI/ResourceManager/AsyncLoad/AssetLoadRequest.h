@@ -5,9 +5,10 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
+#include "swCommonLib/Common/RTTR.h"
 #include "swCommonLib/External/FastDelegate/FastDelegate.h"
-#include "swCommonLib/System/Path.h"
 
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
 
 #include "AssetLoadResponse.h"
@@ -37,9 +38,11 @@ class CreateEndMessage
 @ingroup AsyncLoading*/
 struct AssetLoadRequest
 {
-	filesystem::Path		FilePath;
+	AssetPath				AssetPath;
+	TypeID					AssetType;
 	IAssetLoadInfoPtr		LoadInfo;
-	AsyncLoadHandler		OnLoaded;
+	LoadingSuccessHandler	OnLoaded;
+	LoadingFailedHandler	OnFailed;
 
 private:
 	bool					EndMessage;		///< Set to true if you want end loading thread execution.
@@ -48,11 +51,13 @@ private:
 //
 public:
 	AssetLoadRequest()
-		: EndMessage( false )
+		:	EndMessage( false )
+		,	AssetType( TypeID::get_by_name( "" ) )	// Set invalid type.
 	{}
 
 	AssetLoadRequest( const impl::CreateEndMessage& )
-		: EndMessage( true )
+		:	EndMessage( true )
+		,	AssetType( TypeID::get_by_name( "" ) )	// Set invalid type.
 	{}
 	
 	bool		IsEndMessage	() const			{ return EndMessage; }

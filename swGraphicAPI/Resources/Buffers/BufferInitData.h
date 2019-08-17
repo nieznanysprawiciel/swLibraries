@@ -6,8 +6,7 @@
 */
 
 
-
-#include "swCommonLib/Common/MemoryChunk.h"
+#include "swCommonLib/Common/Buffers/BufferRange.h"
 #include "swCommonLib/Common/RTTR.h"
 
 #include "swGraphicAPI/Rendering/GraphicAPIConstants.h"

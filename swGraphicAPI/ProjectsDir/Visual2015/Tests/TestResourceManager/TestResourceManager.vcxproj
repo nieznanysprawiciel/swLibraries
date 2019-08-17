@@ -170,6 +170,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoadPath.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestPathsManager.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsCreation.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsLoadingAsync.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsLoadingSync.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsRemoval.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestListAssets.cpp" />

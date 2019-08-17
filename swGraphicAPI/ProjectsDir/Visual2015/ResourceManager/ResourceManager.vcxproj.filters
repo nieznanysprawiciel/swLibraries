@@ -237,9 +237,6 @@
     <ClInclude Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.h">
       <Filter>ResourceManager\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncAPI.h">
-      <Filter>ResourceManager\AsyncLoad</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\ResourceManager\Loaders\IAssetLoader.h">
       <Filter>ResourceManager\Loaders</Filter>
     </ClInclude>
@@ -275,6 +272,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ResourceManager\PathTranslators\LoadPath.h">
       <Filter>ResourceManager\PathTranslators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncThread.h">
+      <Filter>ResourceManager\AsyncLoad</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -356,9 +356,6 @@
     <ClCompile Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.cpp">
       <Filter>ResourceManager\Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncAPI.cpp">
-      <Filter>ResourceManager\AsyncLoad</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.cpp">
       <Filter>ResourceManager\Loaders</Filter>
     </ClCompile>
@@ -376,6 +373,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\PathTranslators\PathsManager.cpp">
       <Filter>ResourceManager\PathTranslators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncThread.cpp">
+      <Filter>ResourceManager\AsyncLoad</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

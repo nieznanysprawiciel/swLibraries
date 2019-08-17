@@ -59,15 +59,26 @@ void			AssetsThread::LoadingThread		()
 		if( request.IsEndMessage() )
 			break;
 
-		// Load asset here
+		auto result = m_resourceManager->LoadGeneric( request.AssetPath, request.LoadInfo.get(), request.AssetType );
 
 		AssetLoadResponse response;
-		response.FilePath = std::move( request.FilePath );
+		response.FilePath = std::move( request.AssetPath );
 		response.LoadInfo = std::move( request.LoadInfo );
-		//response.Resource = 
 
-		if( request.OnLoaded )
-			request.OnLoaded( response );
+		if( result.IsValid() )
+		{
+			response.Resource = result.Get();
+
+			if( request.OnLoaded )
+				request.OnLoaded( response );
+		}
+		else
+		{
+			response.Resource = nullptr;
+
+			if( request.OnFailed )
+				request.OnFailed( response, result.GetError() );
+		}
 	}
 }
 
