@@ -72,3 +72,36 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGenericAsync.LoadFails", "[GraphicAPI
 	REQUIRE( resource == nullptr );
 	CHECK( error != nullptr );
 }
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.ResourceManager.LoadGenericAsync.Load2Assets", "[GraphicAPI][ResourceManager]" )
+{
+	auto rm = CreateResourceManagerWithMocks();
+	RMAsyncThread rmThread( rm.get() );
+
+	ResourcePointer resource1;
+	ResourcePointer resource2;
+	ThreadsBarrier barier( 2 );
+
+	rmThread.LoadGenericAsync( "../TestAssets/mock/example.mock", nullptr, TypeID::get< MockAsset >(),
+							   [ & ]( AssetLoadResponse& response )
+	{
+		resource1 = response.Resource;
+		barier.ArriveAndWait();
+	}, nullptr );
+
+	rmThread.LoadGenericAsync( "../TestAssets/mock/example1.mock", nullptr, TypeID::get< MockAsset >(),
+							   [ & ]( AssetLoadResponse& response )
+	{
+		resource2 = response.Resource;
+		barier.ArriveAndWait();
+	}, nullptr );
+
+	// Wait for assets to be loaded.
+	barier.ArriveAndWait();
+	barier.ArriveAndWait();
+
+	REQUIRE( resource1 != nullptr );
+	REQUIRE( resource2 != nullptr );
+}
