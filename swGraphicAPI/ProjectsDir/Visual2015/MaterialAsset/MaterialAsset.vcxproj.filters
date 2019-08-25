@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="MaterialAsset">
+      <UniqueIdentifier>{7168a8bd-8533-4642-9b64-a31b35eb73f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PrecompiledHeader">
+      <UniqueIdentifier>{f3e383ce-9dfe-4be3-8c2c-8dc846dc6c68}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Assets\MaterialAsset\stdafx.cpp">
+      <Filter>PrecompiledHeader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Assets\MaterialAsset\stdafx.h">
+      <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
