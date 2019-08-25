@@ -139,6 +139,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{2D8B62
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MaterialAsset", "..\swGraphicAPI\ProjectsDir\Visual2015\MaterialAsset\MaterialAsset.vcxproj", "{85BA6BD1-9CDC-451F-ADF8-A8CDE6443EAF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MeshAsset", "..\swGraphicAPI\ProjectsDir\Visual2015\MeshAsset\MeshAsset.vcxproj", "{406C51BB-C070-4B6A-8631-4C9A26CB1B2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -539,6 +541,14 @@ Global
 		{85BA6BD1-9CDC-451F-ADF8-A8CDE6443EAF}.Release|x64.Build.0 = Release|x64
 		{85BA6BD1-9CDC-451F-ADF8-A8CDE6443EAF}.Release|x86.ActiveCfg = Release|Win32
 		{85BA6BD1-9CDC-451F-ADF8-A8CDE6443EAF}.Release|x86.Build.0 = Release|Win32
+		{406C51BB-C070-4B6A-8631-4C9A26CB1B2E}.Debug|x64.ActiveCfg = Debug|x64
+		{406C51BB-C070-4B6A-8631-4C9A26CB1B2E}.Debug|x64.Build.0 = Debug|x64
+		{406C51BB-C070-4B6A-8631-4C9A26CB1B2E}.Debug|x86.ActiveCfg = Debug|Win32
+		{406C51BB-C070-4B6A-8631-4C9A26CB1B2E}.Debug|x86.Build.0 = Debug|Win32
+		{406C51BB-C070-4B6A-8631-4C9A26CB1B2E}.Release|x64.ActiveCfg = Release|x64
+		{406C51BB-C070-4B6A-8631-4C9A26CB1B2E}.Release|x64.Build.0 = Release|x64
+		{406C51BB-C070-4B6A-8631-4C9A26CB1B2E}.Release|x86.ActiveCfg = Release|Win32
+		{406C51BB-C070-4B6A-8631-4C9A26CB1B2E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -611,6 +621,7 @@ Global
 		{20597CBF-CF6D-4D30-B0E3-2D289AF61143} = {4AC9E04C-4BB2-4FE6-A4E2-F1ABCBDB224A}
 		{2D8B624F-F50D-4177-9433-DFCC6460E402} = {9CC57B89-7D1B-4C37-96E9-53F6D7329EA8}
 		{85BA6BD1-9CDC-451F-ADF8-A8CDE6443EAF} = {2D8B624F-F50D-4177-9433-DFCC6460E402}
+		{406C51BB-C070-4B6A-8631-4C9A26CB1B2E} = {2D8B624F-F50D-4177-9433-DFCC6460E402}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A341301D-630D-4C6A-B843-1A50FC78565A}
