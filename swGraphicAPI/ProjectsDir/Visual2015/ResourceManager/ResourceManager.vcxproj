@@ -63,7 +63,7 @@
     <ClInclude Include="..\..\..\ResourceManager\PathTranslators\Translator.h" />
     <ClInclude Include="..\..\..\ResourceManager\ResourceContainer.h" />
     <ClInclude Include="..\..\..\ResourceManager\ResourceManager.h" />
-    <ClInclude Include="..\..\..\ResourceManager\ResourceManagerAsync.h" />
+    <ClInclude Include="..\..\..\ResourceManager\ResourceManagerAPI.h" />
     <ClInclude Include="..\..\..\ResourceManager\stdafx.h" />
     <ClInclude Include="..\..\..\Resources\Buffers\Buffer.h" />
     <ClInclude Include="..\..\..\Resources\Buffers\BufferInitData.h" />
@@ -97,7 +97,6 @@
     <ClCompile Include="..\..\..\ResourceManager\Exceptions\LoaderException.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.cpp" />
-    <ClCompile Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\PathTranslators\AssetPath.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\PathTranslators\PathsManager.cpp" />
     <ClCompile Include="..\..\..\Resources\Buffers\Buffer.cpp" />
@@ -126,7 +125,7 @@
     <ClCompile Include="..\..\..\ResourceManager\Loaders\ShaderLoader.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\nResourceManager.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp" />
-    <ClCompile Include="..\..\..\ResourceManager\ResourceManagerAsync.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\ResourceManagerAPI.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

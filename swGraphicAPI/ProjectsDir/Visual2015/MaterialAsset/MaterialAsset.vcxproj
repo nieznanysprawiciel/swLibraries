@@ -22,6 +22,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Assets\MaterialAsset\MaterialAsset.cpp" />
+    <ClCompile Include="..\..\..\Assets\MaterialAsset\MaterialCreator.cpp" />
+    <ClCompile Include="..\..\..\Assets\MaterialAsset\ShadingModels.cpp" />
     <ClCompile Include="..\..\..\Assets\MaterialAsset\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -30,6 +33,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Assets\MaterialAsset\MaterialAsset.h" />
+    <ClInclude Include="..\..\..\Assets\MaterialAsset\MaterialAssetInitData.h" />
+    <ClInclude Include="..\..\..\Assets\MaterialAsset\MaterialCreator.h" />
+    <ClInclude Include="..\..\..\Assets\MaterialAsset\MaterialInfo.h" />
+    <ClInclude Include="..\..\..\Assets\MaterialAsset\PhongMaterialData.h" />
+    <ClInclude Include="..\..\..\Assets\MaterialAsset\ShadingModelData.h" />
     <ClInclude Include="..\..\..\Assets\MaterialAsset\stdafx.h" />
   </ItemGroup>
   <ItemGroup>

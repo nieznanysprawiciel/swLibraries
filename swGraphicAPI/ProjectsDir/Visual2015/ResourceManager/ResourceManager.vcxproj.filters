@@ -171,9 +171,6 @@
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\AssetsFactory.h">
       <Filter>ResourceManager\AssetCreators</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ResourceManager\ResourceManagerAsync.h">
-      <Filter>ResourceManager</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\BlendingStateCreator.h">
       <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
     </ClInclude>
@@ -276,6 +273,9 @@
     <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncThread.h">
       <Filter>ResourceManager\AsyncLoad</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\ResourceManagerAPI.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
@@ -313,9 +313,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\AssetCreators\AssetsFactory.cpp">
       <Filter>ResourceManager\AssetCreators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ResourceManager\ResourceManagerAsync.cpp">
-      <Filter>ResourceManager</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Resources\Shaders\Layouts.cpp">
       <Filter>Resources\Shaders</Filter>
@@ -356,9 +353,6 @@
     <ClCompile Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.cpp">
       <Filter>ResourceManager\Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.cpp">
-      <Filter>ResourceManager\Loaders</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\PathTranslators\AssetPath.cpp">
       <Filter>ResourceManager\PathTranslators</Filter>
     </ClCompile>
@@ -376,6 +370,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncThread.cpp">
       <Filter>ResourceManager\AsyncLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\ResourceManagerAPI.cpp">
+      <Filter>ResourceManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

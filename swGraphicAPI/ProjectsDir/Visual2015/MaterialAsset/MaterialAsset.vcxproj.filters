@@ -12,10 +12,37 @@
     <ClCompile Include="..\..\..\Assets\MaterialAsset\stdafx.cpp">
       <Filter>PrecompiledHeader</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Assets\MaterialAsset\MaterialAsset.cpp">
+      <Filter>MaterialAsset</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Assets\MaterialAsset\ShadingModels.cpp">
+      <Filter>MaterialAsset</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Assets\MaterialAsset\MaterialCreator.cpp">
+      <Filter>MaterialAsset</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Assets\MaterialAsset\stdafx.h">
       <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Assets\MaterialAsset\MaterialAsset.h">
+      <Filter>MaterialAsset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Assets\MaterialAsset\MaterialAssetInitData.h">
+      <Filter>MaterialAsset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Assets\MaterialAsset\MaterialInfo.h">
+      <Filter>MaterialAsset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Assets\MaterialAsset\PhongMaterialData.h">
+      <Filter>MaterialAsset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Assets\MaterialAsset\ShadingModelData.h">
+      <Filter>MaterialAsset</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Assets\MaterialAsset\MaterialCreator.h">
+      <Filter>MaterialAsset</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
