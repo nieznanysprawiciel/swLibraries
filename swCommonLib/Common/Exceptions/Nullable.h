@@ -328,17 +328,17 @@ Nullable< ContentType >&		Nullable< ContentType >::operator=		( const Nullable< 
 // ================================ //
 //
 template< typename ContentType >
-inline const ContentType &		Nullable< ContentType >::Get          () const&
+inline const ContentType&		Nullable< ContentType >::Get          () const&
 { 
     if( !m_isValid ) 
-        assert( false );  // FIXME: error handling(?)
+        throw Error;
     return Content; 
 }
 
 // ================================ //
 //
 template< typename ContentType >
-inline ContentType &			Nullable< ContentType >::Get          () &
+inline ContentType&			    Nullable< ContentType >::Get          () &
 { 
 	if( !m_isValid )
 		throw Error;
@@ -348,7 +348,7 @@ inline ContentType &			Nullable< ContentType >::Get          () &
 // ================================ //
 //
 template< typename ContentType >
-inline ContentType &&			Nullable< ContentType >::Get          () &&
+inline ContentType&&			Nullable< ContentType >::Get          () &&
 { 
 	if( !m_isValid )
 		throw Error;
