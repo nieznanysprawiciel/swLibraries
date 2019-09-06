@@ -13,6 +13,11 @@
 namespace sw
 {
 
+class MaterialCreator;
+DEFINE_PTR_TYPE( MaterialCreator );
+
+
+
 /**@brief Creates @ref MaterialAsset.
 @ingroup AssetsCreators*/
 class MaterialCreator : public IAssetCreator
@@ -35,7 +40,12 @@ public:
     virtual bool					IsCacheable				() const override;
     virtual bool					SupportsResourceToRaw	() const override;
     virtual TypeID					GetAssetType			() const override;
+
+public:
+
+    static MaterialCreatorPtr       CreateCreator           ();
 };
+
 
 
 

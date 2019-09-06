@@ -29,6 +29,7 @@ struct MaterialInitData : public IAssetCreateInfo
 {
     RTTR_ENABLE( IAssetCreateInfo );
 public:
+    BufferPtr		                        MaterialBuffer;
 	VertexShaderPtr			                VertexShader;
 	PixelShaderPtr				            PixelShader;
 	GeometryShaderPtr			            GeometryShader;
@@ -53,27 +54,6 @@ public:
     virtual TypeID		GetAssetType	() const override { return TypeID::get< MaterialAsset >(); }
 };
 
-/**@brief Struct contains data needed to initialize material.
-
-For internal use by @ref AssetsManager. Use MaterialInitData instead.
-This structure gets it's own @ref BufferObject for storing shading data.
-You can create materials sharing same buffer but updating one material shading data would
-cause updating other materials without changing ShadingData.
-
-@ingroup Materials*/
-struct MaterialCreateData : public IAssetCreateInfo
-{
-    RTTR_ENABLE( IAssetCreateInfo );
-public:
-
-	MaterialInitData				Data;
-	BufferPtr		                MaterialBuffer;
-
-public:
-    // ================================ //
-    //
-    virtual TypeID		GetAssetType	() const override { return TypeID::get< MaterialAsset >(); }
-};
 
 
 //====================================================================================//

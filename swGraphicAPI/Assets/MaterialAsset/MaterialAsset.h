@@ -73,7 +73,7 @@ private:
 	MaterialInfo					m_descriptor;			///< Material descriptor.
 
 public:
-	explicit			MaterialAsset		( AssetPath filePath, MaterialCreateData&& initData );
+	explicit			MaterialAsset		( AssetPath filePath, MaterialInitData&& initData );
 
 public:
 

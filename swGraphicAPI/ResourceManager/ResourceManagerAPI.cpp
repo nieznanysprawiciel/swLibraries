@@ -23,7 +23,7 @@ ResourceManagerAPI::ResourceManagerAPI( nResourceManager* resourceManager )
 
 // ================================ //
 //
-sw::Nullable< ResourcePointer >		ResourceManagerAPI::LoadGeneric				( const AssetPath& assetName, const IAssetLoadInfo* desc, TypeID type )
+sw::Nullable< ResourcePointer >		ResourceManagerAPI::LoadGeneric				    ( const AssetPath& assetName, const IAssetLoadInfo* desc, TypeID type )
 {
     return m_resourceManager->LoadGeneric( assetName, desc, type );
 }
@@ -33,6 +33,63 @@ sw::Nullable< ResourcePointer >		ResourceManagerAPI::LoadGeneric				( const Asse
 Nullable< ResourcePointer >			ResourceManagerAPI::CreateGenericAsset			( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo )
 {
     return m_resourceManager->CreateGenericAsset( name, assetType, std::move( createInfo ) );
+}
+
+//====================================================================================//
+//			Non generic API	
+//====================================================================================//
+
+// ================================ //
+//
+Nullable< TexturePtr >              ResourceManagerAPI::LoadTexture                 ( const AssetPath& name )
+{
+    return Load< Texture >( name, nullptr );
+}
+
+//====================================================================================//
+//			Shader loading	
+//====================================================================================//
+
+// ================================ //
+//
+Nullable< VertexShaderPtr >         ResourceManagerAPI::LoadVertexShader            ( const AssetPath& name )
+{
+    return LoadShader< VertexShader >( name );
+}
+
+// ================================ //
+//
+Nullable< PixelShaderPtr >          ResourceManagerAPI::LoadPixelShader             ( const AssetPath& name )
+{
+    return LoadShader< PixelShader >( name );
+}
+
+// ================================ //
+//
+Nullable< GeometryShaderPtr >       ResourceManagerAPI::LoadGeometryShader          ( const AssetPath& name )
+{
+    return LoadShader< GeometryShader >( name );
+}
+
+// ================================ //
+//
+Nullable< ControlShaderPtr >        ResourceManagerAPI::LoadControlShader           ( const AssetPath& name )
+{
+    return LoadShader< ControlShader >( name );
+}
+
+// ================================ //
+//
+Nullable< EvaluationShaderPtr >     ResourceManagerAPI::LoadEvaluationShader        ( const AssetPath& name )
+{
+    return LoadShader< EvaluationShader >( name );
+}
+
+// ================================ //
+//
+Nullable< ComputeShaderPtr >        ResourceManagerAPI::LoadComputeShader           ( const AssetPath& name )
+{
+    return LoadShader< ComputeShader >( name );
 }
 
 

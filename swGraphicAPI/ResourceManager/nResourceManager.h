@@ -98,13 +98,6 @@ public:
 	///@name Resource loading
 	///@detail Load assets from specified file. Functions protect from loading assets multiple times.
 	///@{
-	Texture*						LoadTexture					( const AssetPath& fileName );
-	VertexShader*					LoadVertexShader			( const AssetPath& fileName, const std::string& shaderEntry );
-	VertexShader*					LoadVertexShader			( const AssetPath& fileName, const std::string& shaderEntry, ShaderInputLayout** layout, InputLayoutDescriptor* layout_desc );
-	PixelShader*					LoadPixelShader				( const AssetPath& fileName, const std::string& shaderEntry );
-	GeometryShader*					LoadGeometryShader			( const AssetPath& fileName, const std::string& shaderEntry );
-	ControlShader*					LoadControlShader			( const AssetPath& fileName, const std::string& shaderEntry );
-	EvaluationShader*				LoadEvaluationShader		( const AssetPath& fileName, const std::string& shaderEntry );
 
 	sw::Nullable< ResourcePointer >	LoadGeneric					( const AssetPath& assetName, const IAssetLoadInfo* desc, TypeID type );
 

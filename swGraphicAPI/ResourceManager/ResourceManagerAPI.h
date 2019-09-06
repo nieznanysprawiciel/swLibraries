@@ -8,6 +8,8 @@
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
 #include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreateInfo.h"
 
+#include "swGraphicAPI/Resources/MeshResources.h"
+
 
 namespace sw
 {
@@ -26,7 +28,7 @@ class ResourceManagerAPI
 {
 protected:
 
-    nResourceManager* m_resourceManager;		///< Pointer to synchronous resource manager.
+    nResourceManager*       m_resourceManager;		///< Pointer to synchronous resource manager.
 
 public:
     explicit		ResourceManagerAPI		( nResourceManager* resourceManager );
@@ -75,6 +77,33 @@ public:
 
     /**@copydoc nResourceManager::CreateGenericAsset*/
     sw::Nullable< ResourcePointer >				CreateGenericAsset			( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo );
+
+    /**Typed version of CreateGenericAsset.
+    @copydoc nResourceManager::CreateGenericAsset*/
+    template< typename AssetType >
+    sw::Nullable< ResourcePtr< AssetType > >	CreateAsset			        ( const AssetPath& name, IAssetCreateInfo&& createInfo );
+
+public:
+
+    Nullable< TexturePtr >                      LoadTexture                 ( const AssetPath& name );
+
+    ///@name Shader loading functions.
+    /// Load shader file. Parameter name can contain shader entrypoint as internal path.
+    /// If internal path is empty, default entrpoint (main) will be added.
+    ///@{
+    Nullable< VertexShaderPtr >                 LoadVertexShader            ( const AssetPath& name );
+    Nullable< PixelShaderPtr >                  LoadPixelShader             ( const AssetPath& name );
+    Nullable< GeometryShaderPtr >               LoadGeometryShader          ( const AssetPath& name );
+    Nullable< ControlShaderPtr >                LoadControlShader			( const AssetPath& name );
+    Nullable< EvaluationShaderPtr >             LoadEvaluationShader		( const AssetPath& name );
+    Nullable< ComputeShaderPtr >                LoadComputeShader		    ( const AssetPath& name );
+
+    ///@}
+
+protected:
+
+    template< typename ShaderType >
+    Nullable< ResourcePtr< ShaderType > >       LoadShader                  ( const AssetPath& name );
 };
 
 
@@ -117,6 +146,42 @@ inline ResourcePtr< AssetType >						ResourceManagerAPI::GetCached		( const Asse
         return resource.GetError();
 }
 
+// ================================ //
+//
+template< typename AssetType >
+inline sw::Nullable< ResourcePtr< AssetType > >     ResourceManagerAPI::CreateAsset     ( const AssetPath& name, IAssetCreateInfo&& createInfo )
+{
+    auto creationResult = CreateGenericAsset( name, TypeID::get< AssetType >(), std::move( createInfo ) );
+
+    /// @todo It would be nice if Nullable could make this conversion by itself.
+    /// It's imposible, because we store ResorucePtr in Nullable and wrappers
+    /// types aren't related.
+    if( creationResult.IsValid() )
+        return ResourcePtr< AssetType >( static_cast< AssetType* >( creationResult.Get().Ptr() ) );
+    else
+        return creationResult.GetError();
+}
+
+
+//====================================================================================//
+//			Private helper functions	
+//====================================================================================//
+
+// ================================ //
+//
+template<typename ShaderType>
+inline Nullable< ResourcePtr< ShaderType > >        ResourceManagerAPI::LoadShader      ( const AssetPath& name )
+{
+    // Check if InternalPath contains anything. If not we should append
+    // default shader entrypoint function.
+    if( !name.GetInternalPath().HasFileName() )
+    {
+        AssetPath path( name.GetFile(), "main" );
+        return Load< ShaderType >( path, nullptr );
+    }
+
+    return Load< ShaderType >( name, nullptr );
+}
 
 }	// sw
 

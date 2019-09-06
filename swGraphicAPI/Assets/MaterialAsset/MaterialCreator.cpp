@@ -20,13 +20,11 @@ namespace sw
 //
 Nullable< Resource* >	    MaterialCreator::Create		    ( const AssetPath& assetName, IAssetCreateInfo&& createInfo )
 {
-    //TypeID type = createInfo.get_type();
-    //if( type == TypeID::get< MaterialInitData >() )
-    //    return CreateConstantsBuffer( assetName, static_cast< ConstantBufferInitData& >( createInfo ) );
-    //else if( type == TypeID::get< VertexBufferInitData >() )
-    //    return CreateVertexBuffer( assetName, static_cast< VertexBufferInitData& >( createInfo ) );
-    //else if( type == TypeID::get< IndexBufferInitData >() )
-    //    return CreateIndexBuffer( assetName, static_cast< IndexBufferInitData& >( createInfo ) );
+    TypeID type = createInfo.get_type();
+    if( type == TypeID::get< MaterialInitData >() )
+    {
+
+    }
 
     return "[MaterialCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported.";
 }
@@ -76,6 +74,12 @@ TypeID						MaterialCreator::GetAssetType	            () const
     return TypeID::get< MaterialAsset >();
 }
 
+// ================================ //
+//
+MaterialCreatorPtr			MaterialCreator::CreateCreator			()
+{
+    return std::make_shared< MaterialCreator >();
+}
 
 
 }	// sw
