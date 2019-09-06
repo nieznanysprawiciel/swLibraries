@@ -287,7 +287,7 @@ inline void				Path::MakeAbsolute	()
 /**@brief */
 inline bool				Path::HasFileName() const
 {
-	return !m_path.str().empty();
+	return !m_path.empty();
 }
 
 /**@brief */
