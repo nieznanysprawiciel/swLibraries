@@ -19,6 +19,10 @@ namespace sw
 {
 
 /**@defgroup Exceptions
+
+Library functions providing utilities for error handling. This library uses Alexandrescu Expected
+approach, to return value or Exception as return type.
+
 @ingroup Helpers*/
 
 

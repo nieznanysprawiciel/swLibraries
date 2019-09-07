@@ -23,7 +23,7 @@ Nullable< Resource* >	    MaterialCreator::Create		    ( const AssetPath& assetN
     TypeID type = createInfo.get_type();
     if( type == TypeID::get< MaterialInitData >() )
     {
-
+        return new MaterialAsset( assetName, std::move( static_cast< MaterialInitData&& >( createInfo ) ) );
     }
 
     return "[MaterialCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported.";

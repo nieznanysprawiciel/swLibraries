@@ -10,6 +10,8 @@
 
 #include "swGraphicAPI/Resources/MeshResources.h"
 
+#include "swCommonLib/Common/Buffers/BufferRange.h"
+
 
 namespace sw
 {
@@ -87,7 +89,7 @@ public:
 
     Nullable< TexturePtr >                      LoadTexture                 ( const AssetPath& name );
 
-    ///@name Shader loading functions.
+    /// @name Shader loading functions.
     /// Load shader file. Parameter name can contain shader entrypoint as internal path.
     /// If internal path is empty, default entrpoint (main) will be added.
     ///@{
@@ -97,6 +99,19 @@ public:
     Nullable< ControlShaderPtr >                LoadControlShader			( const AssetPath& name );
     Nullable< EvaluationShaderPtr >             LoadEvaluationShader		( const AssetPath& name );
     Nullable< ComputeShaderPtr >                LoadComputeShader		    ( const AssetPath& name );
+
+    ///@}
+
+    /// @name Buffers creation functions.
+    ///@{
+    Nullable< BufferPtr >			            CreateVertexBuffer			( const AssetPath& name, BufferRange buffer, uint32 elementSize );
+    Nullable< BufferPtr >			            CreateIndexBuffer			( const AssetPath& name, BufferRange buffer, uint32 elementSize );
+    
+    /**@brief Creates constants buffer with element of size of whole buffer.
+    @note Function doesn't set buffer data type.*/
+    Nullable< BufferPtr >			            CreateConstantsBuffer		( const AssetPath& name, BufferRange buffer );
+    Nullable< BufferPtr >			            CreateConstantsBuffer		( const AssetPath& name, BufferRange buffer, uint32 elementSize );
+    Nullable< BufferPtr >			            CreateConstantsBuffer		( const AssetPath& name, BufferRange buffer, uint32 elementSize, TypeID elementType );
 
     ///@}
 

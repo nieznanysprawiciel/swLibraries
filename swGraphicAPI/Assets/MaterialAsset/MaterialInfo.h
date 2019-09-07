@@ -25,6 +25,8 @@ struct ParametricBufferInfo
 	TypeID  		BufferType;		///< Type of buffer, which must be bound to material by actor.
 	uint32			BufferSize;		///< Buffer size in bytes.
 
+    // ================================ //
+    //
 	ParametricBufferInfo()
 		: BufferType( rttr::type::get_by_name( "" ) )
 	{}

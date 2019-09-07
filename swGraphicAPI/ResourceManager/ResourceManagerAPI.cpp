@@ -92,6 +92,37 @@ Nullable< ComputeShaderPtr >        ResourceManagerAPI::LoadComputeShader       
     return LoadShader< ComputeShader >( name );
 }
 
+//====================================================================================//
+//			Buffer creation	
+//====================================================================================//
+
+// ================================ //
+//
+Nullable< BufferPtr >               ResourceManagerAPI::CreateConstantsBuffer       ( const AssetPath& name, BufferRange buffer )
+{
+    return CreateConstantsBuffer( name, buffer, (uint32)buffer.DataSize );
+}
+
+// ================================ //
+//
+Nullable< BufferPtr >               ResourceManagerAPI::CreateConstantsBuffer       ( const AssetPath& name, BufferRange buffer, uint32 elementSize )
+{
+    return CreateConstantsBuffer( name, buffer, elementSize, TypeID::get_by_name( "" ) );
+}
+
+// ================================ //
+//
+Nullable< BufferPtr >               ResourceManagerAPI::CreateConstantsBuffer       ( const AssetPath& name, BufferRange buffer, uint32 elementSize, TypeID elementType )
+{
+    ConstantBufferInitData initData;
+    initData.Data = buffer.DataPtr;
+    initData.ElementSize = elementSize;
+    initData.DataType = elementType;
+    initData.NumElements = (uint32 )buffer.DataSize / elementSize;
+
+    return CreateAsset< Buffer >( name, std::move( initData ) );
+}
+
 
 }	// sw
 

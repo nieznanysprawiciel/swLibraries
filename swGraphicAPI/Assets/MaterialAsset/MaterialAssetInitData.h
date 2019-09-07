@@ -21,6 +21,7 @@ namespace sw
 {
 
 class MaterialAsset;
+class nResourceManager;
 
 
 /**@brief Struct contains data needed to initialize material.
@@ -49,9 +50,15 @@ public:
 	void operator=		( MaterialInitData&& other );
 
 public:
+
+    /**@brief Creates buffer using ShadingData.*/
+    ReturnResult        AutoCreateBuffer    ( const AssetPath& materialName, nResourceManager* rm );
+    AssetPath           DefaultBufferName   ( const AssetPath& materialName ) const;
+
+public:
     // ================================ //
     //
-    virtual TypeID		GetAssetType	() const override { return TypeID::get< MaterialAsset >(); }
+    virtual TypeID		GetAssetType	    () const override { return TypeID::get< MaterialAsset >(); }
 };
 
 
@@ -93,6 +100,8 @@ inline void		MaterialInitData::operator=         ( MaterialInitData&& other )
 	for( int i = 0; i < MAX_MATERIAL_TEXTURES; ++i )
 		Textures[ i ] = std::move( other.Textures[ i ] );
 }
+
+
 
 }	// sw
 

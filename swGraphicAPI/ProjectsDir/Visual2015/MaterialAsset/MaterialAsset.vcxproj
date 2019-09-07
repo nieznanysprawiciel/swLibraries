@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Assets\MaterialAsset\MaterialAsset.cpp" />
+    <ClCompile Include="..\..\..\Assets\MaterialAsset\MaterialAssetInitData.cpp" />
     <ClCompile Include="..\..\..\Assets\MaterialAsset\MaterialCreator.cpp" />
     <ClCompile Include="..\..\..\Assets\MaterialAsset\ShadingModels.cpp" />
     <ClCompile Include="..\..\..\Assets\MaterialAsset\stdafx.cpp">

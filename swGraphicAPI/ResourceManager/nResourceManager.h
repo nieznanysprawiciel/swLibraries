@@ -124,18 +124,8 @@ public:
 	///@detail You can create assets in code using these functions. Remember to give unique names for your assets.
 	///Engine uses convention, that all generated resources have :: before name, to distinguish them from assets loaded from files.
 	///@{
-	ResourcePtr< Buffer >			CreateVertexBuffer			( const AssetPath& name, const void* buffer, unsigned int elementSize, unsigned int vertCount );
-	ResourcePtr< Buffer >			CreateVertexBuffer			( const AssetPath& name, const VertexBufferInitData& data );
-	ResourcePtr< Buffer >			CreateIndexBuffer			( const AssetPath& name, const void* buffer, unsigned int elementSize, unsigned int vertCount );
-	ResourcePtr< Buffer >			CreateIndexBuffer			( const AssetPath& name, const IndexBufferInitData& data );
-	ResourcePtr< Buffer >			CreateConstantsBuffer		( const AssetPath& name, const void* buffer, unsigned int size );
-	ResourcePtr< Buffer >			CreateConstantsBuffer		( const AssetPath& name, const ConstantBufferInitData& data );
-
-	ResourcePtr< BlendingState >	CreateBlendingState			( const AssetPath& name, const BlendingInfo& info );
-	ResourcePtr< RasterizerState >	CreateRasterizerState		( const AssetPath& name, const RasterizerStateInfo& info );
-	ResourcePtr< DepthStencilState >CreateDepthStencilState		( const AssetPath& name, const DepthStencilInfo& info );
-
 	sw::Nullable< ResourcePointer >	CreateGenericAsset			( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo );
+
 	///@}
 
 	RenderTarget*					AddRenderTarget				( RenderTarget* renderTarget, const std::wstring& name );

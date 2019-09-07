@@ -26,8 +26,8 @@ private:
 public:
 	ShadingModelBase();
 
-	virtual Size		GetShadingModelSize		() = 0;
-	virtual uint8*		GetShadingModelData		() = 0;
+	virtual Size		GetSize		            () = 0;
+	virtual uint8*		GetData		            () = 0;
 	virtual TypeID		GetShadingModelType		() = 0;
 	virtual TypeID		GetShadingModelPtrType	() = 0;
 
@@ -51,11 +51,12 @@ public:
 public:
 	explicit			ShadingModelData		();
 	explicit			ShadingModelData		( ShadingModelStruct model );
+
 	void				StaticValidate			();
 
 
-	virtual Size		GetShadingModelSize		() override { return sizeof( ShadingModelStruct ); }
-	virtual uint8*		GetShadingModelData		() override { return reinterpret_cast<uint8*>( &Data ); }
+	virtual Size		GetSize		            () override { return sizeof( ShadingModelStruct ); }
+	virtual uint8*		GetData		            () override { return reinterpret_cast<uint8*>( &Data ); }
 	virtual TypeID		GetShadingModelType		() override { return rttr::type::get< ShadingModelStruct >(); }
 	virtual TypeID		GetShadingModelPtrType	() override { return rttr::type::get< ShadingModelStruct* >(); }
 

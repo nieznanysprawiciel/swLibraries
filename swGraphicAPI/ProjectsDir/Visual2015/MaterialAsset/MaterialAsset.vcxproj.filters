@@ -21,6 +21,9 @@
     <ClCompile Include="..\..\..\Assets\MaterialAsset\MaterialCreator.cpp">
       <Filter>MaterialAsset</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Assets\MaterialAsset\MaterialAssetInitData.cpp">
+      <Filter>MaterialAsset</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Assets\MaterialAsset\stdafx.h">

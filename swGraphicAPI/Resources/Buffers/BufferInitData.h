@@ -36,7 +36,7 @@ struct BufferInitData : public sw::IAssetCreateInfo
 	const uint8*	Data;			///< Pointer must be valid only in time of creation.
 	uint32			NumElements;
 	uint32			ElementSize;
-	rttr::type		DataType;		///< [Optional] Type of single element in buffer.
+	TypeID  		DataType;		///< [Optional] Type of single element in buffer.
 	ResourceUsage	Usage;
 
 
