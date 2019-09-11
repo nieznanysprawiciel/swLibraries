@@ -12,6 +12,7 @@
 #include "swGraphicAPI/Resources/Textures/TextureInitData.h"
 #include "swGraphicAPI/ResourceManager/Loaders/TextureLoadInfo.h"
 #include "swGraphicAPI/ResourceManager/Exceptions/LoaderException.h"
+#include "swGraphicAPI/ResourceManager/Loaders/Tools/CanLoad.h"
 
 #include "swCommonLib/Common/Exceptions/Common/FileNotFoundException.h"
 #include "swCommonLib/Common/Buffers/BufferTyped.h"
@@ -70,23 +71,13 @@ bool											SoilTextureLoader::CanLoad				( const AssetPath& filePath, TypeID
 		".dds",
 	};
 
-	// Get extension in lowercase. Note that we deal with multibytes character and something can be wrong with this.
-	auto extension = filePath.GetFile().GetExtension();
-	std::transform( extension.begin(), extension.end(), extension.begin(), ::tolower );
-
-	if( std::find( std::begin( allowedExtensions ), std::end( allowedExtensions ), extension ) == std::end( allowedExtensions ) )
-		return false;
-
 	TypeID allowedTypes[] =
 	{
 		TypeID::get< Texture >(),
 		TypeID::get< Resource >()
 	};
 
-	if( std::find( std::begin( allowedTypes ), std::end( allowedTypes ), resourceType ) == std::end( allowedTypes ) )
-		return false;
-
-	return true;
+	return DefaultCanLoad( filePath, resourceType, allowedExtensions, allowedTypes );
 }
 
 // ================================ //
@@ -94,7 +85,7 @@ bool											SoilTextureLoader::CanLoad				( const AssetPath& filePath, TypeID
 ReturnResult									SoilTextureLoader::ValidateParameters	( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc )
 {
 	if( assetDesc->get_type() != TypeID::get< TextureLoadInfo >() )
-		return LoaderException::Create( "SoilTextureLoader", "Unsupported descriptor type[ " + assetDesc->get_type().get_name().to_string() + " ].", filePath, resourceType );
+		return LoaderException::Create( "SoilTextureLoader", "Unsupported descriptor type [ " + assetDesc->get_type().get_name().to_string() + " ].", filePath, resourceType );
 
 	auto loadInfo = static_cast< const TextureLoadInfo* >( assetDesc );
 	

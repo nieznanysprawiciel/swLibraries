@@ -54,6 +54,7 @@
     <ClInclude Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\ShaderLoader.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\TextureLoadInfo.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\Tools\CanLoad.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\Tools\LoadingContext.h" />
     <ClInclude Include="..\..\..\ResourceManager\nResourceContainer.h" />
     <ClInclude Include="..\..\..\ResourceManager\nResourceManager.h" />
