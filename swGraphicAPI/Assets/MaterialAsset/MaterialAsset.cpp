@@ -12,7 +12,7 @@
 
 RTTR_REGISTRATION
 {
-
+    rttr::registration::class_< std::vector< sw::ParametricBufferInfo > >( "ParametricBuffers" );
 
 	rttr::registration::class_< sw::ParametricBufferInfo >( "ParametricBufferInfo" )
 		.property( "ShaderType", &sw::ParametricBufferInfo::ShaderType )

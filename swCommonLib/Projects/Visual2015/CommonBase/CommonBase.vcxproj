@@ -68,6 +68,7 @@
     <ClInclude Include="..\..\..\Common\Traits.h" />
     <ClInclude Include="..\..\..\Common\TypesDefinitions.h" />
     <ClInclude Include="..\..\..\Common\UPtr.h" />
+    <ClInclude Include="..\..\..\Common\Version.h" />
     <ClInclude Include="..\..\..\System\Dir.h" />
     <ClInclude Include="..\..\..\System\File.h" />
     <ClInclude Include="..\..\..\System\Filesystem\filesystem\fwd.h" />

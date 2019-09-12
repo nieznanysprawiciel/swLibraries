@@ -197,5 +197,8 @@
     <ClInclude Include="..\..\..\Common\Exceptions\Common\InvalidCodeLogicException.h">
       <Filter>Common\Exceptions\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Common\Version.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

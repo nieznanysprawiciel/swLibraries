@@ -101,4 +101,6 @@ private:
 	Texture*		GetTexture8() const { return m_textures[ 7 ].Ptr(); }
 };
 
+DEFINE_RESOURCE_PTR_TYPE( MaterialAsset );
+
 }	// sw

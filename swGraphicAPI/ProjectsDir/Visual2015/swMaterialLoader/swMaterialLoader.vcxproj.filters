@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="PrecompiledHeader">
+      <UniqueIdentifier>{8306bee6-aa94-4c1a-992b-8989e6043e57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Loader">
+      <UniqueIdentifier>{2d83aa22-ea2b-48e3-83a0-1d804a855171}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Loaders\swMaterialLoader\stdafx.cpp">
+      <Filter>PrecompiledHeader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Loaders\swMaterialLoader\swMaterialLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Loaders\swMaterialLoader\stdafx.h">
+      <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\swMaterialLoader\swMaterialLoader.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Loaders\swMaterialLoader\swMaterialLoader.inl">
+      <Filter>Loader</Filter>
+    </None>
+  </ItemGroup>
+</Project>

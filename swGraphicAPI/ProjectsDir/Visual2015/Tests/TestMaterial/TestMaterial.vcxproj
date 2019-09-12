@@ -22,6 +22,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestMaterial\main.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestMaterial\TestCreation.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestMaterial\TestSWMaterialSaver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\Serialization\Serialization.vcxproj">
@@ -38,6 +39,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\MockAssets\MockAssets.vcxproj">
       <Project>{fc28f28c-c54c-4f0c-bf70-43e7f4e7192e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\swMaterialLoader\swMaterialLoader.vcxproj">
+      <Project>{572003b3-3cc2-438e-9436-6b6ef9dc7bf5}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -25,7 +25,12 @@ struct PhongMaterial
 	DirectX::XMFLOAT3		Emissive;
 	float					Power;
 
-	inline void SetNullMaterial();
+    // ================================ //
+    //
+    explicit PhongMaterial()
+    {   SetNullMaterial();    }
+	
+    inline void SetNullMaterial();
 };
 
 

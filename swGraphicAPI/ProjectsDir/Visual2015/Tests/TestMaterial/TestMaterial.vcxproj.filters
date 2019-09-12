@@ -10,5 +10,8 @@
     <ClCompile Include="..\..\..\..\Tests\TestMaterial\TestCreation.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestMaterial\TestSWMaterialSaver.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
