@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Common\Converters.cpp" />
+    <ClCompile Include="..\..\..\Common\Converters\Convert.cpp" />
     <ClCompile Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.cpp" />
     <ClCompile Include="..\..\..\Common\Exceptions\Common\InvalidCodeLogicException.cpp" />
     <ClCompile Include="..\..\..\Common\Exceptions\ExceptionsList.cpp" />
@@ -41,6 +41,7 @@
     <ClInclude Include="..\..\..\Common\Buffers\StackBuffer.h" />
     <ClInclude Include="..\..\..\Common\Config\ConfigHelper.h" />
     <ClInclude Include="..\..\..\Common\Converters.h" />
+    <ClInclude Include="..\..\..\Common\Converters\Convert.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Common\InvalidCodeLogicException.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\ErrorsCollector.h" />

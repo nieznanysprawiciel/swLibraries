@@ -39,9 +39,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Common\Converters.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Common\Properties\Properties.cpp">
       <Filter>Common\Properties</Filter>
     </ClCompile>
@@ -78,11 +75,11 @@
     <ClCompile Include="..\..\..\Common\Version.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Common\Converters\Convert.cpp">
+      <Filter>Common\Converters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Common\Converters.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Common\MemoryChunk.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -204,6 +201,12 @@
       <Filter>Common\Exceptions\Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Version.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Converters\Convert.h">
+      <Filter>Common\Converters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Converters.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
