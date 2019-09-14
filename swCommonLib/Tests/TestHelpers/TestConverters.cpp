@@ -20,7 +20,7 @@ using namespace sw;
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Converters.FromString.Enum", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Converters.FromString.Enum", "[Converters]" )
 {
     auto result1 = Convert::FromString< TriStateEnum >( "Middle" );
     auto result2 = Convert::FromString< TriStateEnum >( "Up" );
@@ -36,7 +36,7 @@ TEST_CASE( "Common.Helpers.Converters.FromString.Enum", "[Nullable]" )
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Converters.FromString.Enum.InvalidString", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Converters.FromString.Enum.InvalidString", "[Converters]" )
 {
     auto result = Convert::FromString< TriStateEnum >( "bad" );
     REQUIRE_FALSE( result.IsValid() );
@@ -44,7 +44,7 @@ TEST_CASE( "Common.Helpers.Converters.FromString.Enum.InvalidString", "[Nullable
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Converters.FromString.Enum.InvalidString.Default", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Converters.FromString.Enum.InvalidString.Default", "[Converters]" )
 {
     TriStateEnum result = Convert::FromString< TriStateEnum >( "bad", TriStateEnum::Middle );
     CHECK( result == TriStateEnum::Middle );
@@ -52,7 +52,7 @@ TEST_CASE( "Common.Helpers.Converters.FromString.Enum.InvalidString.Default", "[
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Converters.ToString.Enum", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Converters.ToString.Enum", "[Converters]" )
 {
     auto str = Convert::ToString( TriStateEnum::Middle );
     CHECK( str == "Middle" );
@@ -65,7 +65,7 @@ TEST_CASE( "Common.Helpers.Converters.ToString.Enum", "[Nullable]" )
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Converters.FromString.wstring", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Converters.FromString.wstring", "[Converters]" )
 {
     auto result1 = Convert::FromString< std::wstring >( "Middle" );
     REQUIRE_IS_VALID( result1 );
@@ -75,7 +75,7 @@ TEST_CASE( "Common.Helpers.Converters.FromString.wstring", "[Nullable]" )
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Converters.ToString.wstring", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Converters.ToString.wstring", "[Converters]" )
 {
     auto str = Convert::ToString( std::wstring( L"Middle" ) );
     CHECK( str == "Middle" );
@@ -88,7 +88,7 @@ TEST_CASE( "Common.Helpers.Converters.ToString.wstring", "[Nullable]" )
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.uint32", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.uint32", "[Converters]" )
 {
     auto result1 = Convert::FromString< uint32 >( "3" );
     auto result2 = Convert::FromString< uint32 >( "1445" );
@@ -104,7 +104,7 @@ TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.uint32", "[Nullable]
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.uint32.ExceedsLimits", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.uint32.ExceedsLimits", "[Converters]" )
 {
     auto result1 = Convert::FromString< uint32 >( "-3" );
     auto result2 = Convert::FromString< uint32 >( "4294967296" );
@@ -114,7 +114,7 @@ TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.uint32.ExceedsLimits
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.int", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.int32", "[Converters]" )
 {
     auto result1 = Convert::FromString< int32 >( "3" );
     auto result2 = Convert::FromString< int32 >( "1445" );
@@ -128,3 +128,61 @@ TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.int", "[Nullable]" )
     CHECK( result3.Get() == 2047483647 );
 }
 
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.int32.ExceedsLimits", "[Converters]" )
+{
+    auto result1 = Convert::FromString< int32 >( "2547483647" );
+    auto result2 = Convert::FromString< int32 >( "-2147483649" );
+    REQUIRE_FALSE( result1.IsValid() );
+    REQUIRE_FALSE( result2.IsValid() );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.uint64", "[Converters]" )
+{
+    auto result1 = Convert::FromString< uint64 >( "3" );
+    auto result2 = Convert::FromString< uint64 >( "1445" );
+    auto result3 = Convert::FromString< uint64 >( "18446744073709551614" );
+    REQUIRE_IS_VALID( result1 );
+    REQUIRE_IS_VALID( result2 );
+    REQUIRE_IS_VALID( result3 );
+
+    CHECK( result1.Get() == 3 );
+    CHECK( result2.Get() == 1445 );
+    CHECK( result3.Get() == 18446744073709551614 );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.uint64.ExceedsLimits", "[Converters]" )
+{
+    auto result1 = Convert::FromString< uint64 >( "-1" );
+    auto result2 = Convert::FromString< uint64 >( "18446744073709551617" );
+    REQUIRE_FALSE( result1.IsValid() );
+    REQUIRE_FALSE( result2.IsValid() );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.bool", "[Converters]" )
+{
+    auto result1 = Convert::FromString< bool >( "true" );
+    auto result2 = Convert::FromString< bool >( "false" );
+    REQUIRE_IS_VALID( result1 );
+    REQUIRE_IS_VALID( result2 );
+
+    CHECK( result1.Get() == true );
+    CHECK( result2.Get() == false );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.bool.InvalidString", "[Converters]" )
+{
+    auto result1 = Convert::FromString< bool >( "not-bool" );
+    auto result2 = Convert::FromString< bool >( "3709551617" );
+    REQUIRE_FALSE( result1.IsValid() );
+    REQUIRE_FALSE( result2.IsValid() );
+}

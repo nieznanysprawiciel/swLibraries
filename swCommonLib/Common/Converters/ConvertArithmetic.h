@@ -136,10 +136,14 @@ inline sw::Nullable< ElementType >      ConvertArithmetic   ( const std::string&
     auto value = ConvertArithmeticImpl< ElementType >( attribValue, &checkEndPtr );
     auto errnoVal = errno;
 
-    if( value == std::numeric_limits< ElementType >::max() ||       // Max value for type indicates coversion error.
-        checkEndPtr == attribValue ||       // If we are on the begining, no conversion was performed.
+    if( checkEndPtr == attribValue ||       // If we are on the begining, no conversion was performed.
         *checkEndPtr != '\0' ||             // If we didn't reached terminator character, this means error.
         errno == ERANGE )
+        return ::impl::ConversionException();
+
+    // Max value for type indicates coversion error. But not for bool.
+    if( value == std::numeric_limits< ElementType >::max() &&
+        !std::is_same< ElementType, bool >::value )
         return ::impl::ConversionException();
 
     return value;
