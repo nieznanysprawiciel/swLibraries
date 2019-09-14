@@ -12,7 +12,7 @@
 struct ExampleRealFormatHeader
 {
 	char			HeaderLetters[ 3 ];
-	Version			Version;
+	sw::Version		Version;
 
 // ================================ //
 //

@@ -28,6 +28,7 @@
     <ClCompile Include="..\..\..\Common\Multithreading\ThreadsLatch.cpp" />
     <ClCompile Include="..\..\..\Common\Object.cpp" />
     <ClCompile Include="..\..\..\Common\Properties\Properties.cpp" />
+    <ClCompile Include="..\..\..\Common\Version.cpp" />
     <ClCompile Include="..\..\..\System\Dir.cpp" />
     <ClCompile Include="..\..\..\System\File.cpp" />
     <ClCompile Include="..\..\..\System\Filesystem\filesystem\path.cpp" />

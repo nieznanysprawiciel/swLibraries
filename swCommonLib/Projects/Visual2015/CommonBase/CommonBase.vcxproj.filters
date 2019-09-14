@@ -34,6 +34,9 @@
     <Filter Include="Common\Exceptions\Common">
       <UniqueIdentifier>{a561dd66-9f10-4e4c-9833-55bcc4299c7f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Converters">
+      <UniqueIdentifier>{bc3f8288-f5bd-4840-a5d8-5044cf33e6e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Common\Converters.cpp">
@@ -71,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Common\Exceptions\Common\InvalidCodeLogicException.cpp">
       <Filter>Common\Exceptions\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\Version.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
