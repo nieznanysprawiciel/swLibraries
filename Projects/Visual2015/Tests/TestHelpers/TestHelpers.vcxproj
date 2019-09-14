@@ -23,6 +23,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestHelpers\main.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestHelpers\TestErrorsCollector.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestHelpers\TestNullable.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestHelpers\TestVersion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CommonBase\CommonBase.vcxproj">
