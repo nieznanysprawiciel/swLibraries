@@ -209,5 +209,14 @@
     <ClInclude Include="..\..\..\Common\Converters.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Common\Converters\ConvertArithmetic.h">
+      <Filter>Common\Converters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Converters\ConvertTraits.h">
+      <Filter>Common\Converters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Converters\ConvertEnums.h">
+      <Filter>Common\Converters</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

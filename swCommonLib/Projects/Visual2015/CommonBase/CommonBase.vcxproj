@@ -42,6 +42,9 @@
     <ClInclude Include="..\..\..\Common\Config\ConfigHelper.h" />
     <ClInclude Include="..\..\..\Common\Converters.h" />
     <ClInclude Include="..\..\..\Common\Converters\Convert.h" />
+    <ClInclude Include="..\..\..\Common\Converters\ConvertArithmetic.h" />
+    <ClInclude Include="..\..\..\Common\Converters\ConvertEnums.h" />
+    <ClInclude Include="..\..\..\Common\Converters\ConvertTraits.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Common\InvalidCodeLogicException.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\ErrorsCollector.h" />
