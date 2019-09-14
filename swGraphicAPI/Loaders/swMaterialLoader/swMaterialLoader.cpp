@@ -15,7 +15,10 @@
 
 #include "swGraphicAPI/Assets/MaterialAsset/ShadingModelData.h"
 #include "swGraphicAPI/Assets/MaterialAsset/PhongMaterialData.h"
+
 #include "swGraphicAPI/ResourceManager/Loaders/Tools/CanLoad.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/LoadPath.h"
+#include "swGraphicAPI/ResourceManager/Exceptions/LoaderException.h"
 
 
 namespace sw
@@ -90,7 +93,7 @@ struct STRINGS_0_1_0
     static const std::string		SHADING_MODEL_WRAPPER_TYPE_STRING;
 };
 
-const std::string		STRINGS_0_1_0::FILE_HEADER_STRING		    = "SWMaterial";
+const std::string		STRINGS_0_1_0::FILE_HEADER_STRING		    = "swMaterial";
 const std::string		STRINGS_0_1_0::VERSION                      = "Version";
 
 const std::string		STRINGS_0_1_0::FILE_PATH_STRING			    = "FilePath";
@@ -117,16 +120,17 @@ const uint32 cMaxMaterialTextures = 5;
 //
 //// ================================ //
 ////
-//
-//Nullable< MaterialInitData >		SWMaterialLoader::LoadMaterial	( const filesystem::Path& fileName )
+//Nullable< MaterialInitData >		SWMaterialLoader::LoadMaterial	( const LoadPath& path )
 //{
 //	IDeserializer		deser( std::make_unique< EngineSerializationContext >() );
 //
-//	if( !deser.LoadFromFile( fileName.String(), ParsingMode::ParseInsitu ) )
-//		return Nullable< MaterialInitData >( deser.GetError() );
+//	if( !deser.LoadFromFile( path.GetFileTranslated().String(), ParsingMode::ParseInsitu ) )
+//        return LoaderException::Create( "swMaterialLoader", "Deserialization failed: " + deser.GetError() + " ].", path, TypeID::get< MaterialAsset >() );
 //
 //	if( deser.EnterObject( STRINGS_0_1_0::FILE_HEADER_STRING ) )
 //	{
+//        auto versionStr = deser.GetAttribute( STRINGS_0_1_0::VERSION, "" );
+//        Version version = Version::
 //		uint32 versionMajor = deser.GetAttribute( STRINGS_0_1_0::VERSION_MAJOR_STRING, 0 );
 //		uint32 versionMinor = deser.GetAttribute( STRINGS_0_1_0::VERSION_MINOR_STRING, 0 );
 //
@@ -138,14 +142,14 @@ const uint32 cMaxMaterialTextures = 5;
 //		else
 //		{
 //			std::string errorString =  "File version " + Convert::ToString( versionMajor ) + "." + Convert::ToString( versionMinor ) + " not supported. Maximal version " + Convert::ToString( m_versionMajor ) + "." + Convert::ToString( m_versionMinor );
-//			return Nullable< MaterialInitData >( std::move( errorString ) );
+//            return LoaderException::Create( "swMaterialLoader", errorString, path, TypeID::get< MaterialAsset >() );
 //		}
 //
 //
 //		deser.Exit();
 //	}
 //
-//	return Nullable< MaterialInitData >( "Invalid .swmat file. Header not found." );
+//    return LoaderException::Create( "swMaterialLoader", "Invalid .swmat file. Header not found.", path, TypeID::get< MaterialAsset >() );
 //}
 //
 //// ================================ //
@@ -420,7 +424,7 @@ void                                SWMaterialLoader::WriteTexture      ( ISeria
     ser.EnterObject( STRINGS_0_1_0::TEXTURE_STRING );
 
     if( tex )
-        ser.SetAttribute( STRINGS_0_1_0::FILE_PATH_STRING, tex->GetFilePath().String() );
+        ser.SetAttribute( STRINGS_0_1_0::FILE_PATH_STRING, tex->GetAssetPath().String() );
 
     ser.Exit();
 }
@@ -434,8 +438,6 @@ void                                SWMaterialLoader::WriteShadingModel         
 
     rttr::variant shadingDataPtr( (void* )shadingData->GetData() );
     shadingDataPtr.unsafe_convert_void( shadingModelPtrType );
-
-    //rttr::variant shadingDataVariant( shade)
 
     ser.EnterObject( STRINGS_0_1_0::SHADING_DATA_STRING );
 
