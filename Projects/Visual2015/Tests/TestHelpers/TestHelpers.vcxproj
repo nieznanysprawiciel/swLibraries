@@ -21,6 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestHelpers\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestHelpers\TestConverters.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestHelpers\TestErrorsCollector.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestHelpers\TestNullable.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestHelpers\TestVersion.cpp" />
@@ -28,6 +29,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\CommonBase\CommonBase.vcxproj">
       <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SerializerXML\SerializerXML.vcxproj">
+      <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\TestClassHierarchy\TestClassHierarchy.vcxproj">
       <Project>{33db1307-8edb-4abd-b861-39a58d37b489}</Project>

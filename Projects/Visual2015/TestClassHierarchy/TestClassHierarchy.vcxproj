@@ -22,6 +22,9 @@
     <ProjectReference Include="..\Reflection\Reflection.vcxproj">
       <Project>{59fa8028-2346-4246-854f-14dcfab6ab56}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Serialization\Serialization.vcxproj">
+      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\TestUtils\CatchUtils\ExtendedMacros.h" />
