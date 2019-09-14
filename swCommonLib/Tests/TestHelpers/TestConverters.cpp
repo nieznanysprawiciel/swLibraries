@@ -186,3 +186,16 @@ TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.bool.InvalidString",
     REQUIRE_FALSE( result1.IsValid() );
     REQUIRE_FALSE( result2.IsValid() );
 }
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.float", "[Converters]" )
+{
+    auto result1 = Convert::FromString< float >( "0.5342" );
+    auto result2 = Convert::FromString< float >( "-0.111" );
+    REQUIRE_IS_VALID( result1 );
+    REQUIRE_IS_VALID( result2 );
+
+    CHECK( result1.Get() == 0.5342f );
+    CHECK( result2.Get() == -0.111f );
+}

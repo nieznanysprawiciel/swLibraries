@@ -121,6 +121,14 @@ inline double		ConvertArithmeticImpl< double >         ( const char* valueBegin,
 
 // ================================ //
 //
+template<>
+inline float		ConvertArithmeticImpl< float >          ( const char* valueBegin, char** checkEndPtr )
+{
+    return (float)ConvertArithmeticImpl< double >( valueBegin, checkEndPtr );
+}
+
+// ================================ //
+//
 template< typename ElementType >
 inline sw::Nullable< ElementType >      ConvertArithmetic   ( const std::string& str )
 {
