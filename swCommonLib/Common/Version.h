@@ -57,28 +57,22 @@ struct Version
         , Build( build )
     {}
 
-    /**@brief */
-    Version				( const std::string& version )
-    {
-        std::sscanf( version.c_str(), "%d.%d.%d.%d", &Major, &Minor, &Patch, &Build );
-        if( Major < 0 ) Major = 0;
-        if( Minor < 0 ) Minor = 0;
-        if( Patch < 0 ) Patch = 0;
-        if( Build < 0 ) Build = 0;
-    }
 
     /**@brief Creates Version from string.*/
-    static Nullable< Version >      From        ( const std::string& versionStr );
+    static Nullable< Version >      From                ( const std::string& versionStr );
+
+    /**@brief */
+    bool                            IsCompatibileWith   ( const Version& version2 ) const;
 
     /**@brief Version comparision.*/
-    bool                            operator<   ( const Version& other );
+    bool                            operator<           ( const Version& other );
 
     /**@brief Version comparision.*/
-    bool                            operator==  ( const Version& other );
+    bool                            operator==          ( const Version& other );
 
     /**@brief Conversts to string.
     String has the same fromat as Version::From function expects as input.*/
-    std::string                     ToString     () const;
+    std::string                     ToString            () const;
 
     /**@brief */
     friend std::ostream& operator<<		( std::ostream& stream, const Version& ver );

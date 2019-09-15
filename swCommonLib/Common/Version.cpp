@@ -29,16 +29,11 @@ Nullable< Version >         Version::From       ( const std::string& versionStr 
 
     if( std::regex_match( versionStr, match, impl::sVersionRegex ) )
     {
-        /// @todo Replace with code below in future.
-        Version version;
-        std::sscanf( versionStr.c_str(), "%d.%d.%d.%d", &version.Major, &version.Minor, &version.Patch, &version.Build );
-        return version;
-
-        //// If it already matched regex, it should be convertible to uint32.
-        //return Version( Convert::FromString< uint32 >( match[ 1 ], 0 ),
-        //                Convert::FromString< uint32 >( match[ 2 ], 0 ),
-        //                Convert::FromString< uint32 >( match[ 3 ], 0 ),
-        //                Convert::FromString< uint32 >( match[ 4 ], 0 ) );
+        // If it already matched regex, it should be convertible to uint32.
+        return Version( Convert::FromString< uint32 >( match[ 1 ], 0 ),
+                        Convert::FromString< uint32 >( match[ 2 ], 0 ),
+                        Convert::FromString< uint32 >( match[ 3 ], 0 ),
+                        Convert::FromString< uint32 >( match[ 4 ], 0 ) );
     }
     else
     {
