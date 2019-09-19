@@ -57,12 +57,18 @@ struct Version
         , Build( build )
     {}
 
+    // ================================ //
+    //
+    explicit Version    ( uint32 major, uint32 minor, uint32 patch )
+        : Major( major )
+        , Minor( minor )
+        , Patch( patch )
+        , Build( 0 )
+    {}
+
 
     /**@brief Creates Version from string.*/
     static Nullable< Version >      From                ( const std::string& versionStr );
-
-    /**@brief */
-    bool                            IsCompatibileWith   ( const Version& version2 ) const;
 
     /**@brief Version comparision.*/
     bool                            operator<           ( const Version& other );
@@ -73,6 +79,9 @@ struct Version
     /**@brief Conversts to string.
     String has the same fromat as Version::From function expects as input.*/
     std::string                     ToString            () const;
+
+    /**@brief Checks compatibility between two versions.*/
+    bool                            IsBackwardCompatibileWith   ( const Version& olderVersion ) const;
 
     /**@brief */
     friend std::ostream& operator<<		( std::ostream& stream, const Version& ver );

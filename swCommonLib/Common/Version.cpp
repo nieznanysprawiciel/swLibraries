@@ -43,6 +43,31 @@ Nullable< Version >         Version::From       ( const std::string& versionStr 
 
 // ================================ //
 //
+bool                        Version::IsBackwardCompatibileWith  ( const Version& olderVersion ) const
+{
+    // If one of versions is below zero, we can't count
+    // on compatibility between versions if they aren't equal.
+    if( olderVersion.Major == 0 ||
+        Major == 0 )
+    {
+        if( olderVersion.Major == Major &&
+            olderVersion.Minor == Minor )
+            return true;
+        return false;
+    }
+
+    // Major version change breaks compatibility.
+    if( olderVersion.Major != Major )
+        return false;
+
+    if( olderVersion.Minor > Minor )
+        return false;
+
+    return true;
+}
+
+// ================================ //
+//
 std::string                 Version::ToString   () const
 {
     return  Convert::ToString( Major ) + "." +
