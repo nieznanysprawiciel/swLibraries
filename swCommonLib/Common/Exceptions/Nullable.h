@@ -159,6 +159,9 @@ public:
 typedef Nullable< void > ReturnResult;
 
 
+#define ReturnIfInvalid( nullable )		if( !nullable.IsValid() ) return nullable.GetError();
+
+
 // ========================================================================= //
 // Implementation
 // ========================================================================= //

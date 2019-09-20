@@ -32,7 +32,7 @@ TEST_CASE( "GraphicAPI.Assets.Material.Creation.PS_VS_only", "[GraphicAPI][SoilT
     initInfo.PixelShader = api.LoadPixelShader( "$(TestAssets)/shaders/hlsl/MinimalShader.psh" ).Get();
     initInfo.VertexShader = api.LoadVertexShader( "$(TestAssets)/shaders/hlsl/MinimalShader.vsh" ).Get();
     initInfo.ShadingData = std::make_shared< ShadingModelData< PhongMaterial > >();
-    REQUIRE_IS_VALID( initInfo.AutoCreateBuffer( "::Generated/test-material-1", rm.get() ) );
+    REQUIRE_IS_VALID( initInfo.AutoCreateBuffer( "::Generated/test-material-1", RMLoaderAPI( rm.get() ) ) );
 
     auto resource = api.CreateAsset< MaterialAsset >( "::Generated/test-material-1", std::move( initInfo ) );
     REQUIRE_IS_VALID( resource );
@@ -64,7 +64,7 @@ TEST_CASE( "GraphicAPI.Assets.Material.Creation.AutoCreateBuffer.NullptrShadingM
     rm->RegisterAssetCreator( MaterialCreator::CreateCreator() );
 
     MaterialInitData initInfo;
-    auto result = initInfo.AutoCreateBuffer( "::Generated/test-material-1", rm.get() );
+    auto result = initInfo.AutoCreateBuffer( "::Generated/test-material-1", RMLoaderAPI( rm.get() ) );
     REQUIRE_FALSE( result.IsValid() );
 }
 

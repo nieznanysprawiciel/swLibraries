@@ -14,7 +14,7 @@
 namespace sw
 {
 
-const Version currentVersion = "1.0.0.0";
+const Version currentVersion = Version( 1, 0, 0, 0 );
 
 // ================================ //
 //

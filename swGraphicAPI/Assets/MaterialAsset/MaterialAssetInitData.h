@@ -46,13 +46,11 @@ public:
 // ================================ //
 // This should be generated automatically, but Visual studio 2013 can't :(
 	MaterialInitData	() {}
-	MaterialInitData	( MaterialInitData&& other );
-	void operator=		( MaterialInitData&& other );
 
 public:
 
     /**@brief Creates buffer using ShadingData.*/
-    ReturnResult        AutoCreateBuffer    ( const AssetPath& materialName, nResourceManager* rm );
+    ReturnResult        AutoCreateBuffer    ( const AssetPath& materialName, RMLoaderAPI& rm );
     AssetPath           DefaultBufferName   ( const AssetPath& materialName ) const;
 
 public:
@@ -61,45 +59,6 @@ public:
     virtual TypeID		GetAssetType	    () const override { return TypeID::get< MaterialAsset >(); }
 };
 
-
-
-//====================================================================================//
-//			Implementation	
-//====================================================================================//
-
-#define MOVE_FIELD( param ) param = std::move( other.##param );
-
-// ================================ //
-//
-inline          MaterialInitData::MaterialInitData  ( MaterialInitData&& other )
-{
-	MOVE_FIELD( VertexShader );
-	MOVE_FIELD( PixelShader );
-	MOVE_FIELD( GeometryShader );
-	MOVE_FIELD( TesselationControlShader );
-	MOVE_FIELD( TesselationEvaluationShader );
-	MOVE_FIELD( AdditionalBuffers );
-	MOVE_FIELD( ShadingData );
-
-	for( int i = 0; i < MAX_MATERIAL_TEXTURES; ++i )
-		Textures[ i ] = std::move( other.Textures[ i ] );
-}
-
-// ================================ //
-//
-inline void		MaterialInitData::operator=         ( MaterialInitData&& other )
-{
-	MOVE_FIELD( VertexShader );
-	MOVE_FIELD( PixelShader );
-	MOVE_FIELD( GeometryShader );
-	MOVE_FIELD( TesselationControlShader );
-	MOVE_FIELD( TesselationEvaluationShader );
-	MOVE_FIELD( AdditionalBuffers );
-	MOVE_FIELD( ShadingData );
-
-	for( int i = 0; i < MAX_MATERIAL_TEXTURES; ++i )
-		Textures[ i ] = std::move( other.Textures[ i ] );
-}
 
 
 

@@ -49,6 +49,20 @@ public:
     using ResourceManagerAPI::Load;
     using ResourceManagerAPI::GetCached;
     using ResourceManagerAPI::CreateGenericAsset;
+    using ResourceManagerAPI::CreateAsset;
+
+    using ResourceManagerAPI::LoadTexture;
+
+    using ResourceManagerAPI::CreateConstantsBuffer;
+
+    using ResourceManagerAPI::LoadVertexShader;
+    using ResourceManagerAPI::LoadPixelShader;
+    using ResourceManagerAPI::LoadGeometryShader;
+    using ResourceManagerAPI::LoadControlShader;
+    using ResourceManagerAPI::LoadEvaluationShader;
+    using ResourceManagerAPI::LoadComputeShader;
+    using ResourceManagerAPI::LoadShader;
+
 };
 
 

@@ -14,6 +14,8 @@
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoader.h"
 
+#include "swGraphicAPI/ResourceManager/Loaders/Tools/LoadingContext.h"
+
 #include "swGraphicAPI/Assets/MaterialAsset/MaterialAssetInitData.h"
 #include "swGraphicAPI/Assets/MaterialAsset/MaterialAsset.h"
 
@@ -32,7 +34,7 @@ public:
 	virtual                         ~SWMaterialLoader   ();
 
     virtual bool					CanLoad				( const AssetPath& filePath, TypeID resourceType )															override;
-    virtual LoadingResult			Load				( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )		override;
+    virtual LoadingResult			Load				( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI context )		override;
     virtual ReturnResult			Prefetch			( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )		override;
 
 public:
@@ -43,17 +45,19 @@ public:
 private:
 	typedef std::pair< const char*, const char* > ShaderLoadInfo;
 
-	Nullable< MaterialInitData >		LoadMaterial_Version1	( IDeserializer* deser );
+    LoadingResult		                LoadMaterial_Version1	( const LoadPath& path, IDeserializer* deser, LoadingContext& context );
 
-	Nullable< MaterialInitData >		LoadShaders				( IDeserializer* deser, Nullable< MaterialInitData >& init );
-	Nullable< MaterialInitData >		LoadTextures			( IDeserializer* deser, Nullable< MaterialInitData >& init );
-	Nullable< MaterialInitData >		LoadShadingData			( IDeserializer* deser, Nullable< MaterialInitData >& init );
-	Nullable< MaterialInitData >		LoadAdditionalBuffers	( IDeserializer* deser, Nullable< MaterialInitData >& init );
+    LoadingResult                       CreateMaterial          ( const LoadPath& path, Nullable< MaterialInitData >& init, LoadingContext& context );
 
-	ShaderLoadInfo						DeserializeShader		( IDeserializer* deser, const std::string& shaderNameString );
+	Nullable< MaterialInitData >		LoadShaders				( IDeserializer* deser, Nullable< MaterialInitData >& init, LoadingContext& context );
+	Nullable< MaterialInitData >		LoadTextures			( IDeserializer* deser, Nullable< MaterialInitData >& init, LoadingContext& context );
+	Nullable< MaterialInitData >		LoadShadingData			( IDeserializer* deser, Nullable< MaterialInitData >& init, LoadingContext& context );
+	Nullable< MaterialInitData >		LoadAdditionalBuffers	( IDeserializer* deser, Nullable< MaterialInitData >& init, LoadingContext& context );
+
+    AssetPath   						DeserializeShader		( IDeserializer* deser, const std::string& shaderNameString );
 
 	template< typename ShaderType >
-	Nullable< ResourcePtr< ShaderType > >	LoadShader			( IDeserializer* deser, const std::string& shaderNameString );
+	Nullable< ResourcePtr< ShaderType > >	LoadShader			( IDeserializer* deser, const std::string& shaderNameString, LoadingContext& context );
 
 protected:
 

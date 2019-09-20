@@ -19,17 +19,15 @@ namespace sw
 
 // ================================ //
 //
-ReturnResult                MaterialInitData::AutoCreateBuffer      ( const AssetPath& materialName, nResourceManager* rm )
+ReturnResult                MaterialInitData::AutoCreateBuffer      ( const AssetPath& materialName, RMLoaderAPI& rmAPI )
 {
     if( ShadingData.get() != nullptr )
     {
-        auto rmAPI = ResourceManagerAPI( rm );
-
         BufferRange bufferInfo( ShadingData->GetData(), ShadingData->GetSize() );
 
         auto result = rmAPI.CreateConstantsBuffer( DefaultBufferName( materialName ),
                                                    bufferInfo,
-                                                   ShadingData->GetSize(),
+                                                   (uint32)ShadingData->GetSize(),
                                                    ShadingData->GetShadingModelType() );
 
         if( result.IsValid() )

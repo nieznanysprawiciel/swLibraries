@@ -44,6 +44,9 @@ public:
 	inline void			Add						( ExceptionsListPtr list );
 	inline void			Add						( const ErrorsCollector& collector );
 
+    template< typename ErrorType >
+    inline void			Add						( const std::shared_ptr< ErrorType >& exception );
+
 	/**@brief Checks if returned result was success. Adds exception, if it wasnt't.
 	
 	Proposed usage:
@@ -102,7 +105,7 @@ inline void			ErrorsCollector::Add			( ExceptionPtr newException )
 		}
 		else if( m_multipleRaised )
 		{
-			ExceptionsListPtr list = std::static_pointer_cast<ExceptionsList>( m_exception );
+			ExceptionsListPtr list = std::static_pointer_cast< ExceptionsList >( m_exception );
 			list->AddException( newException );
 		}
 		else
@@ -173,6 +176,14 @@ inline ExceptionsListPtr		ErrorsCollector::GetExceptionsList		() const
 		return std::static_pointer_cast< ExceptionsList >( m_exception );
 
 	return nullptr;
+}
+
+// ================================ //
+//
+template< typename ErrorType >
+inline void                     ErrorsCollector::Add                    ( const std::shared_ptr< ErrorType >& exception )
+{
+    Add( std::static_pointer_cast< Exception >( exception ) );
 }
 
 // ================================ //
