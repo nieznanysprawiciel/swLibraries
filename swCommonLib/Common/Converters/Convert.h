@@ -60,6 +60,11 @@ public:
 	static inline sw::Nullable< typename std::enable_if< std::is_same< DstType, std::wstring >::value, std::wstring >::type >
 										FromString      	        ( const std::string& value );
 
+public:
+
+    /**@brief Type conversion to string using rttr.*/
+    template< typename Type >
+    static inline std::string           ToString                    ();
 };
 
 
@@ -165,5 +170,16 @@ static inline sw::Nullable< typename std::enable_if< std::is_arithmetic< DstType
 }
 
 
+//====================================================================================//
+//			Type conversion to string	
+//====================================================================================//
+
+// ================================ //
+//
+template< typename Type >
+inline std::string          Convert::ToString           ()
+{
+    return TypeID::get< Type >().get_name().to_string();
+}
 
 

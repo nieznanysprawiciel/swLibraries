@@ -84,7 +84,7 @@ inline bool             LoadingContext::CollectAssetOrWarn      ( const Nullable
     // Sanity check.
     if( asset.Get() == nullptr )
     {
-        std::string message = "Asset returned in Nullable shouldn't be nullptr. Asset type: [" + TypeID::get< AssetType >().get_name().to_string() + "].";
+        std::string message = "Asset returned in Nullable shouldn't be nullptr. Asset type: [" + Convert::ToString< AssetType >() + "].";
         Warnings.Add( InvalidCodeLogicException::Create( std::move( message ), __FILE__, __LINE__ ) );
     }
 

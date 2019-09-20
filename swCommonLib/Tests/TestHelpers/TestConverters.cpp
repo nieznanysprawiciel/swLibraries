@@ -199,3 +199,11 @@ TEST_CASE( "Common.Helpers.Converters.FromString.Arithmetic.float", "[Converters
     CHECK( result1.Get() == 0.5342f );
     CHECK( result2.Get() == -0.111f );
 }
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Converters.ToString.Type", "[Converters]" )
+{
+    auto str = Convert::ToString< TriStateEnum >();
+    CHECK( str == "TriStateEnum" );
+}
