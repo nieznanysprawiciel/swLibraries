@@ -22,6 +22,11 @@
     <ClCompile Include="..\..\..\Serialization\Serializers\SerializerXML\Deserializer.cpp" />
     <ClCompile Include="..\..\..\Serialization\Serializers\SerializerXML\Serializer.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonBase\CommonBase.vcxproj">
+      <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{91CC6D16-F22C-434A-95E0-35EE857054C7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
