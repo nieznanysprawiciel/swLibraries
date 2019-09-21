@@ -60,8 +60,11 @@ bool			IDeserializer::LoadFromFile		( const std::string& fileName, ParsingMode m
 {
 	std::ifstream file( fileName, std::ios::binary | std::ios::ate );
 
-	if( file.fail() )
-		return false;
+    if( file.fail() )
+    {
+        impl->errorString = "File not found";
+        return false;
+    }
 	
 	// Szukamy koñca pliku, a potem wracamy na pocz¹tek.
 	std::streambuf* rawBuffer = file.rdbuf();
@@ -101,7 +104,7 @@ bool			IDeserializer::LoadFromFile		( const std::string& fileName, ParsingMode m
 		impl->errorString = "Error: ";
 		impl->errorString += e.what();
 		impl->errorString += " Offset: ";
-		impl->errorString += std::to_string( static_cast<PtrOffset>( e.where<char>() - impl->fileContent ) );
+		impl->errorString += std::to_string( static_cast< PtrOffset >( e.where< char >() - impl->fileContent ) );
 
 		return false;
 	}
