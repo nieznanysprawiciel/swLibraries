@@ -43,8 +43,8 @@ public:
 
 public:
 
-// ================================ //
-// This should be generated automatically, but Visual studio 2013 can't :(
+    // ================================ //
+    //
 	MaterialInitData	() {}
 
 public:

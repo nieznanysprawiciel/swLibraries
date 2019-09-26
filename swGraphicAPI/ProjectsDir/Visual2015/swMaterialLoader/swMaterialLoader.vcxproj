@@ -40,9 +40,6 @@
     <ClInclude Include="..\..\..\Loaders\swMaterialLoader\swMaterialLoader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Loaders\swMaterialLoader\swMaterialLoader.inl" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MaterialAsset\MaterialAsset.vcxproj">
       <Project>{85ba6bd1-9cdc-451f-adf8-a8cde6443eaf}</Project>
     </ProjectReference>

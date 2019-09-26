@@ -24,9 +24,4 @@
       <Filter>Loader</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\Loaders\swMaterialLoader\swMaterialLoader.inl">
-      <Filter>Loader</Filter>
-    </None>
-  </ItemGroup>
 </Project>

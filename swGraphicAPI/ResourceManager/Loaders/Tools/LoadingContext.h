@@ -77,15 +77,17 @@ inline bool             LoadingContext::CollectAssetOrWarn      ( const Nullable
 {
     if( Warnings.Success( asset ) )
     {
+        // Sanity check.
+        if( asset.Get() == nullptr )
+        {
+            std::string message = "Asset returned in Nullable shouldn't be nullptr. Asset type: [" + Convert::ToString< AssetType >() + "].";
+            Warnings.Add( InvalidCodeLogicException::Create( std::move( message ), __FILE__, __LINE__ ) );
+            
+            return false;
+        }
+
         AssetsCollection.push_back( asset.Get().Ptr() );
         return true;
-    }
-
-    // Sanity check.
-    if( asset.Get() == nullptr )
-    {
-        std::string message = "Asset returned in Nullable shouldn't be nullptr. Asset type: [" + Convert::ToString< AssetType >() + "].";
-        Warnings.Add( InvalidCodeLogicException::Create( std::move( message ), __FILE__, __LINE__ ) );
     }
 
     return false;

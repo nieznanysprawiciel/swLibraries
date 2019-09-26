@@ -43,9 +43,8 @@ public:
     void							SaveMaterial	    ( const filesystem::Path& fileName, MaterialAsset* mat );
 
 private:
-	typedef std::pair< const char*, const char* > ShaderLoadInfo;
 
-    LoadingResult		                LoadMaterial_Version1	( const LoadPath& path, IDeserializer* deser, LoadingContext& context );
+    LoadingResult		                LoadMaterial_Version0	( const LoadPath& path, IDeserializer* deser, LoadingContext& context );
 
     LoadingResult                       CreateMaterial          ( const LoadPath& path, Nullable< MaterialInitData >& init, LoadingContext& context );
 
@@ -54,10 +53,13 @@ private:
 	Nullable< MaterialInitData >		LoadShadingData			( IDeserializer* deser, Nullable< MaterialInitData >& init, LoadingContext& context );
 	Nullable< MaterialInitData >		LoadAdditionalBuffers	( IDeserializer* deser, Nullable< MaterialInitData >& init, LoadingContext& context );
 
-    AssetPath   						DeserializeShader		( IDeserializer* deser, const std::string& shaderNameString );
+    Nullable< AssetPath >               DeserializeShader		( IDeserializer* deser, const std::string& shaderNameString );
 
 	template< typename ShaderType >
-	Nullable< ResourcePtr< ShaderType > >	LoadShader			( IDeserializer* deser, const std::string& shaderNameString, LoadingContext& context );
+	Nullable< ResourcePtr< ShaderType > >	LoadShader			( const AssetPath& shaderPath, LoadingContext& context );
+
+    template< typename ShaderType >
+    ResourcePtr< ShaderType >               LoadOptionalShader  ( IDeserializer* deser, const std::string& shaderNameString, LoadingContext& context );
 
 protected:
 

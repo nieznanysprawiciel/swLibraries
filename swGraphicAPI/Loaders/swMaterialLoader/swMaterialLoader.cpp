@@ -7,7 +7,6 @@
 
 
 #include "swMaterialLoader.h"
-#include "swMaterialLoader.inl"
 
 #include "swCommonLib/Common/Converters.h"
 #include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
@@ -115,7 +114,7 @@ const uint32 cMaxMaterialTextures = 5;
 //
 LoadingResult       SWMaterialLoader::Load              ( const LoadPath& path, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
-    IDeserializer		deser( std::make_unique< EngineSerializationContext >() );
+    IDeserializer		deser( std::make_unique< SerializationContext >() );
 
     if( !deser.LoadFromFile( path.GetFileTranslated().String(), ParsingMode::ParseInsitu ) )
         return LoaderException::Create( "swMaterialLoader", "Deserialization failed: " + deser.GetError() + " ].", path, TypeID::get< MaterialAsset >() );
@@ -129,8 +128,8 @@ LoadingResult       SWMaterialLoader::Load              ( const LoadPath& path, 
 
         if( loaderVersion.IsBackwardCompatibileWith( version ) )
         {
-            if( version.Get().Major == 1 )
-                return LoadMaterial_Version1( path , &deser, LoadingContext( factory ) );
+            if( version.Get().Major == 0 )
+                return LoadMaterial_Version0( path , &deser, LoadingContext( factory ) );
         }
         else
         {
@@ -146,7 +145,7 @@ LoadingResult       SWMaterialLoader::Load              ( const LoadPath& path, 
 
 // ================================ //
 // @todo Maybe we should tell AssetsManager to release resources, if something went wrong.
-LoadingResult		                SWMaterialLoader::LoadMaterial_Version1	( const LoadPath& path, IDeserializer* deser, LoadingContext& context )
+LoadingResult		                SWMaterialLoader::LoadMaterial_Version0	( const LoadPath& path, IDeserializer* deser, LoadingContext& context )
 {
 	Nullable< MaterialInitData >	data = Nullable< MaterialInitData >( MaterialInitData () );
 
@@ -170,13 +169,15 @@ LoadingResult		                SWMaterialLoader::LoadMaterial_Version1	( const L
 //
 LoadingResult                        SWMaterialLoader::CreateMaterial    ( const LoadPath& path, Nullable< MaterialInitData >& init, LoadingContext& context )
 {
-    ReturnIfInvalid( init );
+    if( !init.IsValid() )
+        return LoaderException::Create( "swMaterialLoader", init.GetErrorReason(), path, TypeID::get< MaterialAsset >() );
 
     init.Get().AutoCreateBuffer( path.GetOriginalPath(), context.Factory );
 
     auto result = context.Factory.CreateAsset< MaterialAsset >( path.GetOriginalPath(), std::move( init ).Get() );
     if( result.IsValid() )
     {
+        context.CollectAsset( result.Get() );
         return { std::move( context.AssetsCollection ), context.Warnings.GetException() };
     }
 
@@ -186,48 +187,105 @@ LoadingResult                        SWMaterialLoader::CreateMaterial    ( const
 // ================================ //
 //
 template< typename ShaderType >
-inline Nullable< ResourcePtr< ShaderType > >	SWMaterialLoader::LoadShader	( IDeserializer* deser, const std::string& shaderNameString, LoadingContext& context )
+inline Nullable< ResourcePtr< ShaderType > >	SWMaterialLoader::LoadShader	( const AssetPath& shaderPath, LoadingContext& context )
 {
-    AssetPath shaderPath = DeserializeShader( deser, shaderNameString );
-
     if( !shaderPath.GetFile().HasFileName() )
-        return Nullable< ResourcePtr< ShaderType > >( shaderNameString + " path is not set." );
-
-    if( !shaderPath.GetInternalPath().HasFileName() )
-        return Nullable< ResourcePtr< ShaderType > >( shaderNameString + " entry function is not set." );
-
+        return Nullable< ResourcePtr< ShaderType > >( Convert::ToString< ShaderType >() + " path is not set." );
 
     auto shaderLoadResult = context.Factory.LoadShader< ShaderType >( shaderPath );
     if( !shaderLoadResult.IsValid() )
-        return Nullable< ResourcePtr< ShaderType > >( shaderNameString + " file could not be loaded." );
+        return Nullable< ResourcePtr< ShaderType > >( Convert::ToString< ShaderType >() + " file could not be loaded." );
 
     return shaderLoadResult;
 }
 
 // ================================ //
 //
-Nullable< MaterialInitData >		SWMaterialLoader::LoadShaders		( IDeserializer* deser, Nullable< MaterialInitData >& init, LoadingContext& context )
+Nullable< AssetPath >               SWMaterialLoader::DeserializeShader	    ( IDeserializer* deser, const std::string& shaderNameString )
+{
+    const char* shaderFile = nullptr;
+    const char* shaderEntry = nullptr;
+
+    if( deser->EnterObject( shaderNameString ) )
+    {
+        shaderEntry = deser->GetAttribute( STRINGS_0_1_0::SHADER_ENTRY_STRING, ( const char* )nullptr );
+        shaderFile = deser->GetAttribute( STRINGS_0_1_0::FILE_PATH_STRING, ( const char* )nullptr );
+
+        deser->Exit();
+
+        if( shaderFile && shaderFile )
+            return AssetPath( shaderFile, shaderEntry );
+
+        // If there's no entrypoint, default main function will be loaded.
+        if( shaderFile )
+            return AssetPath( shaderFile, filesystem::Path() );
+    }
+
+    return "No shader.";
+}
+
+// ================================ //
+//
+template< typename ShaderType >
+ResourcePtr< ShaderType >           SWMaterialLoader::LoadOptionalShader    ( IDeserializer* deser, const std::string& shaderNameString, LoadingContext& context )
+{
+    auto shaderPath = DeserializeShader( deser, shaderNameString );
+
+    // Note: It's ok, if shader doesn't exist.
+    if( shaderPath.IsValid() )
+    {
+        auto shader = LoadShader< ShaderType >( shaderPath.Get(), context );
+
+        // Here we expect, that shader will be loaded correctly, because we found entry
+        // in swmat file. If somethinf was wrong we threat this only as warning.
+        if( context.CollectAssetOrWarn( shader ) )
+            return std::move( shader ).Get();
+    }
+
+    return nullptr;
+}
+
+// ================================ //
+//
+Nullable< MaterialInitData >		SWMaterialLoader::LoadShaders		    ( IDeserializer* deser, Nullable< MaterialInitData >& init, LoadingContext& context )
 {
 	ReturnIfInvalid( init );
 
-	auto vertexShader = LoadShader< VertexShader >( deser, STRINGS_0_1_0::VERTEX_SHADER_STRING, context );
-	auto pixelShader = LoadShader< PixelShader >( deser, STRINGS_0_1_0::PIXEL_SHADER_STRING, context );
+    auto vertexShaderPath = DeserializeShader( deser, STRINGS_0_1_0::VERTEX_SHADER_STRING );
+    if( !vertexShaderPath.IsValid() )
+        return "Can't deserialize vertex shader.";
 
-	// Vertex shader and pixel shader must be set.
-	ReturnIfInvalid( vertexShader );
-	ReturnIfInvalid( pixelShader );
+	auto vertexShader = LoadShader< VertexShader >( vertexShaderPath.Get(), context );
+    if( vertexShader.IsValid() )
+    {
+        context.CollectAsset( vertexShader.Get() );
+        init.Get().VertexShader = std::move( vertexShader ).Get();
+    }
+    else
+    {
+        return vertexShader.GetError();
+    }
 
-	init.Get().VertexShader = std::move( vertexShader ).Get();
-	init.Get().PixelShader = std::move( pixelShader ).Get();
+    auto pixelShaderPath = DeserializeShader( deser, STRINGS_0_1_0::PIXEL_SHADER_STRING );
+    if( !pixelShaderPath.IsValid() )
+        return "Can't deserialize pixel shader.";
 
-	auto geometryShader = LoadShader< GeometryShader >( deser, STRINGS_0_1_0::GEOMETRY_SHADER_STRING, context );
-	auto evaluationShader = LoadShader< EvaluationShader >( deser, STRINGS_0_1_0::EVALUATION_SHADER_STRING, context );
-	auto controlShader = LoadShader< ControlShader >( deser, STRINGS_0_1_0::CONTROL_SHADER_STRING, context );
+    auto pixelShader = LoadShader< PixelShader >( pixelShaderPath.Get(), context );
+    if( pixelShader.IsValid() )
+    {
+        context.CollectAsset( pixelShader.Get() );
+        init.Get().PixelShader = std::move( pixelShader ).Get();
+    }
+    else
+    {
+        return pixelShader.GetError();
+    }
+
 
 	// Note: We don't check if shader was created. Nullptrs are acceptable value.
-	init.Get().GeometryShader = std::move( geometryShader.Get() );
-	init.Get().TesselationEvaluationShader = std::move( evaluationShader.Get() );
-	init.Get().TesselationControlShader = std::move( controlShader.Get() );
+    init.Get().GeometryShader = LoadOptionalShader< GeometryShader >( deser, STRINGS_0_1_0::GEOMETRY_SHADER_STRING, context );
+    init.Get().TesselationEvaluationShader = LoadOptionalShader< EvaluationShader >( deser, STRINGS_0_1_0::EVALUATION_SHADER_STRING, context );
+    init.Get().TesselationControlShader = LoadOptionalShader< ControlShader >( deser, STRINGS_0_1_0::CONTROL_SHADER_STRING, context );
 
 	return std::move( init );
 }
@@ -364,24 +422,6 @@ Nullable< MaterialInitData >		SWMaterialLoader::LoadAdditionalBuffers	( IDeseria
 }
 
 
-
-// ================================ //
-//
-AssetPath	                        SWMaterialLoader::DeserializeShader	    ( IDeserializer* deser, const std::string& shaderNameString )
-{
-	const char* shaderFile = nullptr;
-	const char* shaderEntry = nullptr;
-
-	if( deser->EnterObject( shaderNameString ) )
-	{
-		shaderEntry = deser->GetAttribute( STRINGS_0_1_0::SHADER_ENTRY_STRING, ( const char* )nullptr );
-		shaderFile = deser->GetAttribute( STRINGS_0_1_0::FILE_PATH_STRING, ( const char* )nullptr );
-
-		deser->Exit();
-	}
-
-	return AssetPath( shaderFile, shaderEntry );
-}
 
 //====================================================================================//
 //			Material Saver	
