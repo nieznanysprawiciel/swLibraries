@@ -21,6 +21,58 @@
 
 using namespace sw;
 
+//====================================================================================//
+//			Material test utils	
+//====================================================================================//
+
+// ================================ //
+//
+ReturnResult            Compare         ( MaterialAssetPtr mat, MaterialAssetPtr reference )
+{
+    if( mat->GetMaterialBuffer()->GetElementSize() != reference->GetMaterialBuffer()->GetElementSize() )
+        return "MaterialBuffer sizes differ";
+
+    if( mat->GetMaterialBuffer()->GetElementCount() != reference->GetMaterialBuffer()->GetElementCount() )
+        return "MaterialBuffer elements count differs";
+
+    // Compare shaders.
+    if( mat->GetVertexShader() != reference->GetVertexShader() )
+        return "VertexShader differs";
+
+    if( mat->GetPixelShader() != reference->GetPixelShader() )
+        return "PixelShader differs";
+
+    if( mat->GetGeometryShader() != reference->GetGeometryShader() )
+        return "GeometryShader differs";
+
+    if( mat->GetTessControlShader() != reference->GetTessControlShader() )
+        return "ControlShader differs";
+
+    if( mat->GetTessEvaluationShader() != reference->GetTessEvaluationShader() )
+        return "EvaluationShader differs";
+
+    // Compare textures.
+    for( int i = 0; i < 5; i++ )
+    {
+        if( mat->GetTexture( i ) != reference->GetTexture( i ) )
+            return "Texture on index " + Convert::ToString( i ) + " differes.";
+    }
+
+    if( TypeID::get( mat->GetDescriptor().ShadingData.get() ) != TypeID::get( reference->GetDescriptor().ShadingData.get() ) )
+        return "Type of ShadingData differs";
+
+    if( mat->GetDescriptor().ParametricBuffers.size() != reference->GetDescriptor().ParametricBuffers.size() )
+        return "Sizes of ParametricBuffers differ";
+
+    for( Size i = 0; i < mat->GetDescriptor().ParametricBuffers.size(); i++ )
+    {
+        if( mat->GetDescriptor().ParametricBuffers[ i ] != reference->GetDescriptor().ParametricBuffers[ i ] )
+            return "Parametric buffers differ on index " + Convert::ToString( i );
+    }
+
+    return Result::Success;
+}
+
 
 // ================================ //
 //
@@ -29,14 +81,29 @@ filesystem::Path        Translate       ( nResourceManager* rm, filesystem::Path
     return rm->GetPathsManager()->Translate( path );
 }
 
+// ================================ //
+//
+std::unique_ptr< nResourceManager >			CreateResourceManagerWithMaterials	()
+{
+    auto rm = CreateResourceManagerWithMocksAndDefaults();
+
+    rm->RegisterAssetCreator( MaterialCreator::CreateCreator() );
+    rm->RegisterLoader( std::make_shared< SWMaterialLoader >() );
+
+    return std::move( rm );
+}
+
+
+//====================================================================================//
+//			Test cases	
+//====================================================================================//
+
 
 // ================================ //
 // 
 TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Saver.PS_VS_only", "[GraphicAPI][swMaterialLoader]" )
 {
-    auto rm = CreateResourceManagerWithMocksAndDefaults();
-    rm->RegisterAssetCreator( MaterialCreator::CreateCreator() );
-    rm->RegisterLoader( std::make_shared< SWMaterialLoader >() );
+    auto rm = CreateResourceManagerWithMaterials();
     auto api = ResourceManagerAPI( rm.get() );
 
     MaterialInitData initInfo;
@@ -52,6 +119,8 @@ TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Saver.PS_VS_only", "[GraphicAPI]
 
     auto material = api.Load< MaterialAsset >( "$(TestWorkingDir)/swMaterialLoader/Material-PS_VS_only.swmat", nullptr );
     REQUIRE_IS_VALID( material );
+
+    REQUIRE( material.Get()->GetMaterialBuffer() != nullptr );
 
     // Validate shaders.
     REQUIRE( material.Get()->GetPixelShader() != nullptr );
@@ -70,4 +139,6 @@ TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Saver.PS_VS_only", "[GraphicAPI]
 
     CHECK( material.Get()->GetDescriptor().ParametricBuffers.size() == 0 );
     CHECK( material.Get()->GetDescriptor().ShadingData.get() != nullptr );
+
+    REQUIRE_IS_VALID( Compare( material, resource ) );
 }

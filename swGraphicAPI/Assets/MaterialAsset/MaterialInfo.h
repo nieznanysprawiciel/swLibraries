@@ -37,8 +37,6 @@ struct ParametricBufferInfo
 
 
 
-
-
 /**@brief Material description.
 
 This structure describes parameters buffers, that this material requires.
@@ -58,8 +56,9 @@ struct MaterialInfo
 
 
 
-
-
+//====================================================================================//
+//			Implementation	
+//====================================================================================//
 
 // ================================ //
 //
@@ -82,6 +81,27 @@ inline void			ParametricBufferInfo::SetBufferType( std::string name )
 	if( newType.is_valid() )
 		BufferType = newType;
 }
+
+//====================================================================================//
+//			Operators	
+//====================================================================================//
+
+// ================================ //
+//
+inline bool                 operator==          ( const ParametricBufferInfo& info1, const ParametricBufferInfo& info2 )
+{
+    return std::tie( info1.BufferSize, info1.ShaderType, info1.BufferType )
+        == std::tie( info2.BufferSize, info2.ShaderType, info2.BufferType );
+}
+
+// ================================ //
+//
+inline bool                 operator!=          ( const ParametricBufferInfo& info1, const ParametricBufferInfo& info2 )
+{
+    return !( info1 == info2 );
+}
+
+
 
 }	// sw
 

@@ -38,9 +38,9 @@ public:
 
 	explicit			Buffer			( const AssetPath& assetPath, unsigned int elementSize, unsigned int elementCount );
 
-	inline unsigned int GetStride		() { return m_elementSize; }		///<Zwraca rozmiar pojedynczego elementu w buforze.
-	inline unsigned int	GetElementSize	() { return m_elementSize; }		///<Zwraca rozmiar pojedynczego elementu w buforze.
-	inline unsigned int GetElementCount	() { return m_elementCount; }		///<Zwraca liczbê elementów w buforze.
+	inline unsigned int GetStride		() const { return m_elementSize; }
+	inline unsigned int	GetElementSize	() const { return m_elementSize; }
+	inline unsigned int GetElementCount	() const { return m_elementCount; }
 };
 
 DEFINE_RESOURCE_PTR_TYPE( Buffer );
