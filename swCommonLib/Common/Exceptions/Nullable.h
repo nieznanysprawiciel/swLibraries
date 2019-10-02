@@ -61,6 +61,14 @@ public:
 
 
 /**@brief Alexandrescu Expected type for error handling.
+
+@todo Rethink exceptions handling. We can't throw typed exceptions, because
+we use std::shared_ptr instead of std::exception_ptr. It's not posible to copy
+polymorphic type and throw exception wants to do this.
+
+@todo We should wrap exception throwing inside macro. If exceptions are disabled
+we should handle fails different way.
+
 @ingroup Exceptions*/
 template< typename ContentType >
 class Nullable
@@ -333,8 +341,8 @@ Nullable< ContentType >&		Nullable< ContentType >::operator=		( const Nullable< 
 template< typename ContentType >
 inline const ContentType&		Nullable< ContentType >::Get          () const&
 { 
-    if( !m_isValid ) 
-        throw Error;
+    if( !m_isValid )
+        throw RuntimeException( Error->ErrorMessage() );
     return Content; 
 }
 
@@ -343,8 +351,13 @@ inline const ContentType&		Nullable< ContentType >::Get          () const&
 template< typename ContentType >
 inline ContentType&			    Nullable< ContentType >::Get          () &
 { 
-	if( !m_isValid )
-		throw Error;
+    if( !m_isValid )
+    {
+        // Note: we lose exception type information, but throw statement copies
+        // exception and we can't copy polymorphic type, so this is best option at least for now.
+        /// @todo We should rethink exceptions handling in future.
+        throw RuntimeException( Error->ErrorMessage() );
+    }
     return Content; 
 }
 
@@ -354,7 +367,7 @@ template< typename ContentType >
 inline ContentType&&			Nullable< ContentType >::Get          () &&
 { 
 	if( !m_isValid )
-		throw Error;
+        throw RuntimeException( Error->ErrorMessage() );
     return std::move( Content );
 }
 
