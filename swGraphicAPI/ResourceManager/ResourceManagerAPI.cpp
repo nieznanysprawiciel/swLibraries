@@ -10,6 +10,7 @@
 #include "ResourceManagerAPI.h"
 
 #include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/Loaders/TextureLoadInfo.h"
 
 
 namespace sw
@@ -43,7 +44,7 @@ Nullable< ResourcePointer >			ResourceManagerAPI::CreateGenericAsset			( const A
 //
 Nullable< TexturePtr >              ResourceManagerAPI::LoadTexture                 ( const AssetPath& name )
 {
-    return Load< Texture >( name, nullptr );
+    return Load< Texture >( name, &TextureLoadInfo() );
 }
 
 //====================================================================================//
