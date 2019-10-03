@@ -89,6 +89,7 @@ std::unique_ptr< nResourceManager >			CreateResourceManagerWithMaterials	()
 
     rm->RegisterAssetCreator( MaterialCreator::CreateCreator() );
     rm->RegisterLoader( std::make_shared< SWMaterialLoader >() );
+    rm->RegisterLoader( std::make_shared< SoilTextureLoader >() );
 
     return std::move( rm );
 }
@@ -139,6 +140,42 @@ TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Saver.PS_VS_only", "[GraphicAPI]
 
     CHECK( material.Get()->GetDescriptor().ParametricBuffers.size() == 0 );
     CHECK( material.Get()->GetDescriptor().ShadingData.get() != nullptr );
+
+    REQUIRE_IS_VALID( Compare( material, resource ) );
+}
+
+// ================================ //
+//
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Saver.2Textures", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    MaterialInitData initInfo;
+    initInfo.PixelShader = api.LoadPixelShader( "$(TestAssets)/shaders/hlsl/MinimalShader.psh" ).Get();
+    initInfo.VertexShader = api.LoadVertexShader( "$(TestAssets)/shaders/hlsl/MinimalShader.vsh" ).Get();
+    initInfo.ShadingData = std::make_shared< ShadingModelData< PhongMaterial > >();
+    initInfo.Textures[ 0 ] = api.LoadTexture( "$(TestAssets)/texture/random-pixels.jpg" ).Get();
+    initInfo.Textures[ 2 ] = api.LoadTexture( "$(TestAssets)/texture/big-lightweight.png" ).Get();
+    REQUIRE_IS_VALID( initInfo.AutoCreateBuffer( "::Generated/test-material-2", RMLoaderAPI( rm.get() ) ) );
+
+    auto resource = api.CreateAsset< MaterialAsset >( "::Generated/test-material-2", std::move( initInfo ) );
+    REQUIRE_IS_VALID( resource );
+
+    SWMaterialLoader().SaveMaterial( Translate( rm.get(), "$(TestWorkingDir)/swMaterialLoader/Material-2Textures.swmat" ), resource.Get().Ptr() );
+
+    auto material = api.Load< MaterialAsset >( "$(TestWorkingDir)/swMaterialLoader/Material-2Textures.swmat", nullptr );
+    REQUIRE_IS_VALID( material );
+
+    CHECK( material.Get()->GetTexture( 0 ) != nullptr );
+    CHECK( material.Get()->GetTexture( 2 ) != nullptr );
+
+    CHECK( material.Get()->GetTexture( 1 ) == nullptr );
+    CHECK( material.Get()->GetTexture( 3 ) == nullptr );
+    CHECK( material.Get()->GetTexture( 4 ) == nullptr );
+
+    CHECK( material.Get()->GetTexture( 0 )->GetFilePath() == "$(TestAssets)/texture/random-pixels.jpg" );
+    CHECK( material.Get()->GetTexture( 2 )->GetFilePath() == "$(TestAssets)/texture/big-lightweight.png" );
 
     REQUIRE_IS_VALID( Compare( material, resource ) );
 }
