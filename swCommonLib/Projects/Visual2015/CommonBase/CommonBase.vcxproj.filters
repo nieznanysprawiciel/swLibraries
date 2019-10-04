@@ -224,5 +224,8 @@
     <ClInclude Include="..\..\..\Common\Macros\ForEach.h">
       <Filter>Common\Macros</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Common\Macros\GenerateOperators.h">
+      <Filter>Common\Macros</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
