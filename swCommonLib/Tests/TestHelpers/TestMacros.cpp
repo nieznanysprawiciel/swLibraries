@@ -40,6 +40,7 @@ struct Test
 };
 
 GENERATE_EQUALITY_OPERATORS( Test, x, y, z );
+GENERATE_ORDERING_OPERATORS( Test, x, y, z );
 
 
 // ================================ //
@@ -62,4 +63,17 @@ TEST_CASE( "Common.Helpers.Macros.GENERATE_NOT_EQUAL_OPERATOR", "[Version]" )
     Test test2 = { 1, 3, 2 };
 
     CHECK( test1 != test2 );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Macros.GENERATE_ORDERING_OPERATORS", "[Version]" )
+{
+    Test test1 = { 1, 2, 3 };
+    Test test2 = { 1, 3, 2 };
+
+    CHECK( test1 < test2 );
+    CHECK( test1 <= test2 );
+    CHECK( !( test1 > test2 ) );
+    CHECK( !( test1 >= test2 ) );
 }

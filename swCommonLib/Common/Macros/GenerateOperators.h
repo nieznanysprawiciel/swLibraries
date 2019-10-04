@@ -17,7 +17,7 @@ namespace sw
 #define _APPEND_INSTANCE_OBJ2( member ) _APPEND_INSTANCE( obj2, member )
 
 #define _GENERATE_OPERATOR( OP, ClassType, ... ) \
-bool            operator##OP( const ClassType& obj1, const ClassType& obj2 )  \
+inline bool     operator##OP( const ClassType& obj1, const ClassType& obj2 )\
 {                                                                           \
     return std::tie( FOR_EACH( _APPEND_INSTANCE_OBJ1, __VA_ARGS__ ) )       \
         OP std::tie( FOR_EACH( _APPEND_INSTANCE_OBJ2, __VA_ARGS__ ) );      \
@@ -37,6 +37,20 @@ Pass all class members as variadic parameters.*/
 #define GENERATE_EQUALITY_OPERATORS( ClassType, ... ) \
     _GENERATE_OPERATOR( ==, ClassType, __VA_ARGS__ )  \
     _GENERATE_OPERATOR( !=, ClassType, __VA_ARGS__ )
+
+/**@brief Generates whole family of operators <, <=, >, >= function for ClassType.
+Pass all class members as variadic parameters.*/
+#define GENERATE_ORDERING_OPERATORS( ClassType, ... ) \
+    _GENERATE_OPERATOR( <, ClassType, __VA_ARGS__ )   \
+    _GENERATE_OPERATOR( <=, ClassType, __VA_ARGS__ )  \
+    _GENERATE_OPERATOR( >, ClassType, __VA_ARGS__ )   \
+    _GENERATE_OPERATOR( >=, ClassType, __VA_ARGS__ )
+
+/**@brief Generates all comparision operators.
+Pass all class members as variadic parameters.*/
+#define GENERATE_RELATIONAL_OPERATORS( ClassType, ... ) \
+    GENERATE_ORDERING_OPERATORS( ClassType, ... )       \
+    GENERATE_EQUALITY_OPERATORS( ClassType, ... )
 
 }	// sw
 
