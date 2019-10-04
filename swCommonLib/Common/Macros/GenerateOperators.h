@@ -48,9 +48,9 @@ Pass all class members as variadic parameters.*/
 
 /**@brief Generates all comparision operators.
 Pass all class members as variadic parameters.*/
-#define GENERATE_RELATIONAL_OPERATORS( ClassType, ... ) \
-    GENERATE_ORDERING_OPERATORS( ClassType, ... )       \
-    GENERATE_EQUALITY_OPERATORS( ClassType, ... )
+#define GENERATE_RELATIONAL_OPERATORS( ClassType, ... )     \
+    GENERATE_ORDERING_OPERATORS( ClassType, __VA_ARGS__ )   \
+    GENERATE_EQUALITY_OPERATORS( ClassType, __VA_ARGS__ )
 
 }	// sw
 
