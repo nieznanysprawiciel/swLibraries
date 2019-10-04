@@ -205,14 +205,14 @@ TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Saver.ShadingModel", "[GraphicAP
     shadingModel->Data.Specular = DirectX::XMFLOAT4( 0.6f, 0.7f, 0.75f, 0.9f );
     shadingModel->Data.Power = 13.0f;
     
-    REQUIRE_IS_VALID( initInfo.AutoCreateBuffer( "::Generated/test-material-2", RMLoaderAPI( rm.get() ) ) );
+    REQUIRE_IS_VALID( initInfo.AutoCreateBuffer( "::Generated/test-material-3", RMLoaderAPI( rm.get() ) ) );
 
-    auto resource = api.CreateAsset< MaterialAsset >( "::Generated/test-material-2", std::move( initInfo ) );
+    auto resource = api.CreateAsset< MaterialAsset >( "::Generated/test-material-3", std::move( initInfo ) );
     REQUIRE_IS_VALID( resource );
 
-    SWMaterialLoader().SaveMaterial( Translate( rm.get(), "$(TestWorkingDir)/swMaterialLoader/Material-2Textures.swmat" ), resource.Get().Ptr() );
+    SWMaterialLoader().SaveMaterial( Translate( rm.get(), "$(TestWorkingDir)/swMaterialLoader/Material-ShadingData.swmat" ), resource.Get().Ptr() );
 
-    auto material = api.Load< MaterialAsset >( "$(TestWorkingDir)/swMaterialLoader/Material-2Textures.swmat", nullptr );
+    auto material = api.Load< MaterialAsset >( "$(TestWorkingDir)/swMaterialLoader/Material-ShadingData.swmat", nullptr );
     REQUIRE_IS_VALID( material );
 
     auto& desc = material.Get()->GetDescriptor();
