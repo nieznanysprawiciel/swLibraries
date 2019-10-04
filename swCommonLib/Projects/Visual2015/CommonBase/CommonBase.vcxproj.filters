@@ -37,6 +37,9 @@
     <Filter Include="Common\Converters">
       <UniqueIdentifier>{bc3f8288-f5bd-4840-a5d8-5044cf33e6e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Macros">
+      <UniqueIdentifier>{f0fcd031-f63d-4102-98a8-3ff30ae6411d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Common\Properties\Properties.cpp">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Converters\ConvertEnums.h">
       <Filter>Common\Converters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Macros\ForEach.h">
+      <Filter>Common\Macros</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

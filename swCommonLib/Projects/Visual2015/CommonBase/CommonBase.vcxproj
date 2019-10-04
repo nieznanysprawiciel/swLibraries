@@ -52,6 +52,7 @@
     <ClInclude Include="..\..\..\Common\Exceptions\ExceptionsList.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Nullable.h" />
     <ClInclude Include="..\..\..\Common\Logging\Logger.h" />
+    <ClInclude Include="..\..\..\Common\Macros\ForEach.h" />
     <ClInclude Include="..\..\..\Common\MemoryChunk.h" />
     <ClInclude Include="..\..\..\Common\MemoryLeaks.h" />
     <ClInclude Include="..\..\..\Common\Multithreading\QueueMT.h" />
