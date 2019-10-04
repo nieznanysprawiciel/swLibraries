@@ -226,5 +226,7 @@ TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Saver.ShadingModel", "[GraphicAP
     CHECK( shadingData->Data.Specular == DirectX::XMFLOAT4( 0.6f, 0.7f, 0.75f, 0.9f ) );
     CHECK( shadingData->Data.Power == 13.0f );
 
+    CHECK( material.Get()->GetMaterialBuffer()->GetElementSize() == shadingData->GetSize() );
+
     REQUIRE_IS_VALID( Compare( material, resource ) );
 }
