@@ -7,7 +7,7 @@
 
 
 #include "swCommonLib/Common/TypesDefinitions.h"
-
+#include "swCommonLib/Common/Macros/GenerateOperators.h"
 
 
 namespace sw
@@ -35,6 +35,7 @@ struct ParametricBufferInfo
 	void			SetBufferType		( std::string name );
 };
 
+GENERATE_EQUALITY_OPERATORS( ParametricBufferInfo, ShaderType, BufferType, BufferSize );
 
 
 /**@brief Material description.
@@ -80,25 +81,6 @@ inline void			ParametricBufferInfo::SetBufferType( std::string name )
 	auto newType = rttr::type::get( name );
 	if( newType.is_valid() )
 		BufferType = newType;
-}
-
-//====================================================================================//
-//			Operators	
-//====================================================================================//
-
-// ================================ //
-//
-inline bool                 operator==          ( const ParametricBufferInfo& info1, const ParametricBufferInfo& info2 )
-{
-    return std::tie( info1.BufferSize, info1.ShaderType, info1.BufferType )
-        == std::tie( info2.BufferSize, info2.ShaderType, info2.BufferType );
-}
-
-// ================================ //
-//
-inline bool                 operator!=          ( const ParametricBufferInfo& info1, const ParametricBufferInfo& info2 )
-{
-    return !( info1 == info2 );
 }
 
 
