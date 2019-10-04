@@ -16,6 +16,7 @@
 #include "swGraphicAPI/Loaders/swMaterialLoader/swMaterialLoader.h"
 
 #include "swGraphicAPI/MockAssets/Utils.h"
+#include "swCommonLib/Common/Macros/GenerateOperators.h"
 
 
 
@@ -24,6 +25,10 @@ using namespace sw;
 //====================================================================================//
 //			Material test utils	
 //====================================================================================//
+
+GENERATE_RELATIONAL_OPERATORS( DirectX::XMFLOAT3, x, y, z );
+GENERATE_RELATIONAL_OPERATORS( DirectX::XMFLOAT4, x, y, z, w );
+
 
 // ================================ //
 //
@@ -176,6 +181,50 @@ TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Saver.2Textures", "[GraphicAPI][
 
     CHECK( material.Get()->GetTexture( 0 )->GetFilePath() == "$(TestAssets)/texture/random-pixels.jpg" );
     CHECK( material.Get()->GetTexture( 2 )->GetFilePath() == "$(TestAssets)/texture/big-lightweight.png" );
+
+    REQUIRE_IS_VALID( Compare( material, resource ) );
+}
+
+// ================================ //
+//
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Saver.ShadingModel", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    MaterialInitData initInfo;
+    initInfo.PixelShader = api.LoadPixelShader( "$(TestAssets)/shaders/hlsl/MinimalShader.psh" ).Get();
+    initInfo.VertexShader = api.LoadVertexShader( "$(TestAssets)/shaders/hlsl/MinimalShader.vsh" ).Get();
+    
+    auto shadingModel = std::make_shared< ShadingModelData< PhongMaterial > >();
+    initInfo.ShadingData = shadingModel;
+
+    shadingModel->Data.Diffuse = DirectX::XMFLOAT4( 0.2f, 0.3f, 0.4f, 0.5f );
+    shadingModel->Data.Ambient = DirectX::XMFLOAT4( 0.1f, 0.14f, 0.17f, 0.19f );
+    shadingModel->Data.Emissive = DirectX::XMFLOAT3( 0.32f, 0.35f, 0.47f );
+    shadingModel->Data.Specular = DirectX::XMFLOAT4( 0.6f, 0.7f, 0.75f, 0.9f );
+    shadingModel->Data.Power = 13.0f;
+    
+    REQUIRE_IS_VALID( initInfo.AutoCreateBuffer( "::Generated/test-material-2", RMLoaderAPI( rm.get() ) ) );
+
+    auto resource = api.CreateAsset< MaterialAsset >( "::Generated/test-material-2", std::move( initInfo ) );
+    REQUIRE_IS_VALID( resource );
+
+    SWMaterialLoader().SaveMaterial( Translate( rm.get(), "$(TestWorkingDir)/swMaterialLoader/Material-2Textures.swmat" ), resource.Get().Ptr() );
+
+    auto material = api.Load< MaterialAsset >( "$(TestWorkingDir)/swMaterialLoader/Material-2Textures.swmat", nullptr );
+    REQUIRE_IS_VALID( material );
+
+    auto& desc = material.Get()->GetDescriptor();
+    REQUIRE( desc.ShadingData->GetShadingModelType() == TypeID::get< PhongMaterial >() );
+
+    auto shadingData = std::static_pointer_cast< ShadingModelData< PhongMaterial > >( desc.ShadingData );
+
+    CHECK( shadingData->Data.Diffuse == DirectX::XMFLOAT4( 0.2f, 0.3f, 0.4f, 0.5f ) );
+    CHECK( shadingData->Data.Ambient == DirectX::XMFLOAT4( 0.1f, 0.14f, 0.17f, 0.19f ) );
+    CHECK( shadingData->Data.Emissive == DirectX::XMFLOAT3( 0.32f, 0.35f, 0.47f ) );
+    CHECK( shadingData->Data.Specular == DirectX::XMFLOAT4( 0.6f, 0.7f, 0.75f, 0.9f ) );
+    CHECK( shadingData->Data.Power == 13.0f );
 
     REQUIRE_IS_VALID( Compare( material, resource ) );
 }
