@@ -16,6 +16,7 @@
 #include "swGraphicAPI/Loaders/swMaterialLoader/swMaterialLoader.h"
 
 #include "swGraphicAPI/MockAssets/Utils.h"
+#include "swGraphicAPI/Tests/TestMaterial/Utils.h"
 #include "swCommonLib/Common/Macros/GenerateOperators.h"
 
 
@@ -32,73 +33,10 @@ GENERATE_RELATIONAL_OPERATORS( DirectX::XMFLOAT4, x, y, z, w );
 
 // ================================ //
 //
-ReturnResult            Compare         ( MaterialAssetPtr mat, MaterialAssetPtr reference )
-{
-    if( mat->GetMaterialBuffer()->GetElementSize() != reference->GetMaterialBuffer()->GetElementSize() )
-        return "MaterialBuffer sizes differ";
-
-    if( mat->GetMaterialBuffer()->GetElementCount() != reference->GetMaterialBuffer()->GetElementCount() )
-        return "MaterialBuffer elements count differs";
-
-    // Compare shaders.
-    if( mat->GetVertexShader() != reference->GetVertexShader() )
-        return "VertexShader differs";
-
-    if( mat->GetPixelShader() != reference->GetPixelShader() )
-        return "PixelShader differs";
-
-    if( mat->GetGeometryShader() != reference->GetGeometryShader() )
-        return "GeometryShader differs";
-
-    if( mat->GetTessControlShader() != reference->GetTessControlShader() )
-        return "ControlShader differs";
-
-    if( mat->GetTessEvaluationShader() != reference->GetTessEvaluationShader() )
-        return "EvaluationShader differs";
-
-    // Compare textures.
-    for( int i = 0; i < 5; i++ )
-    {
-        if( mat->GetTexture( i ) != reference->GetTexture( i ) )
-            return "Texture on index " + Convert::ToString( i ) + " differes.";
-    }
-
-    if( TypeID::get( mat->GetDescriptor().ShadingData.get() ) != TypeID::get( reference->GetDescriptor().ShadingData.get() ) )
-        return "Type of ShadingData differs";
-
-    if( mat->GetDescriptor().ParametricBuffers.size() != reference->GetDescriptor().ParametricBuffers.size() )
-        return "Sizes of ParametricBuffers differ";
-
-    for( Size i = 0; i < mat->GetDescriptor().ParametricBuffers.size(); i++ )
-    {
-        if( mat->GetDescriptor().ParametricBuffers[ i ] != reference->GetDescriptor().ParametricBuffers[ i ] )
-            return "Parametric buffers differ on index " + Convert::ToString( i );
-    }
-
-    return Result::Success;
-}
-
-
-// ================================ //
-//
 filesystem::Path        Translate       ( nResourceManager* rm, filesystem::Path path )
 {
     return rm->GetPathsManager()->Translate( path );
 }
-
-// ================================ //
-//
-std::unique_ptr< nResourceManager >			CreateResourceManagerWithMaterials	()
-{
-    auto rm = CreateResourceManagerWithMocksAndDefaults();
-
-    rm->RegisterAssetCreator( MaterialCreator::CreateCreator() );
-    rm->RegisterLoader( std::make_shared< SWMaterialLoader >() );
-    rm->RegisterLoader( std::make_shared< SoilTextureLoader >() );
-
-    return std::move( rm );
-}
-
 
 //====================================================================================//
 //			Test cases	

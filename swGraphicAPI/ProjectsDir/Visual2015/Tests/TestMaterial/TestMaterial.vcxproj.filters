@@ -13,5 +13,13 @@
     <ClCompile Include="..\..\..\..\Tests\TestMaterial\TestSWMaterialSaver.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestMaterial\TestSWMaterialLoader.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Tests\TestMaterial\Utils.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -22,6 +22,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestMaterial\main.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestMaterial\TestCreation.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestMaterial\TestSWMaterialLoader.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestMaterial\TestSWMaterialSaver.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +47,9 @@
     <ProjectReference Include="..\..\swMaterialLoader\swMaterialLoader.vcxproj">
       <Project>{572003b3-3cc2-438e-9436-6b6ef9dc7bf5}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Tests\TestMaterial\Utils.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0FCBB0B0-0459-47F1-B93F-70E6BA6CA1A8}</ProjectGuid>
