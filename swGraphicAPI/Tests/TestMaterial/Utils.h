@@ -78,6 +78,9 @@ inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMaterials	
     rm->RegisterLoader( std::make_shared< SWMaterialLoader >() );
     rm->RegisterLoader( std::make_shared< SoilTextureLoader >() );
 
+    auto pm = rm->GetPathsManager();
+    pm->RegisterAlias( "$(MaterialAssets)", "$(TestAssets)/material/" );
+
     return std::move( rm );
 }
 

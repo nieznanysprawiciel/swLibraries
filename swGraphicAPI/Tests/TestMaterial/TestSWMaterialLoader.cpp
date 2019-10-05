@@ -24,8 +24,68 @@
 using namespace sw;
 
 
+//====================================================================================//
+//			Negative tests	
+//====================================================================================//
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Format.NoHeader", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto material = api.Load< MaterialAsset >( "$(MaterialAssets)/no-header.swmat", nullptr );
+    REQUIRE( !material.IsValid() );
+}
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Format.NoMaterialAsset", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto material = api.Load< MaterialAsset >( "$(MaterialAssets)/no-MaterialAsset.swmat", nullptr );
+    REQUIRE( !material.IsValid() );
+}
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Format.InvalidXML", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto material = api.Load< MaterialAsset >( "$(MaterialAssets)/invalid-xml.swmat", nullptr );
+    REQUIRE( !material.IsValid() );
+}
 
 
+//====================================================================================//
+//			Shaders tests	
+//====================================================================================//
 
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Shaders.NoPixelShader", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto material = api.Load< MaterialAsset >( "$(MaterialAssets)/no-ps.swmat", nullptr );
+    REQUIRE( !material.IsValid() );
+}
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Shaders.NoVertexShader", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto material = api.Load< MaterialAsset >( "$(MaterialAssets)/no-vs.swmat", nullptr );
+    REQUIRE( !material.IsValid() );
+}
 
 
