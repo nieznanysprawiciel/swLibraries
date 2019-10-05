@@ -126,6 +126,9 @@ LoadingResult       SWMaterialLoader::Load              ( const LoadPath& path, 
         auto versionStr = deser.GetAttribute( STRINGS_0_1_0::VERSION, "" );
         auto version = Version::From( versionStr );
 
+        if( !version.IsValid() )
+            return LoaderException::Create( "swMaterialLoader", "Can't parse version string.", path, TypeID::get< MaterialAsset >() );
+
         if( loaderVersion.IsBackwardCompatibileWith( version ) )
         {
             if( version.Get().Major == 0 )

@@ -61,6 +61,17 @@ TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Format.InvalidXML", "[Gra
     REQUIRE( !material.IsValid() );
 }
 
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Format.InvalidVersion", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto material = api.Load< MaterialAsset >( "$(MaterialAssets)/invalid-version.swmat", nullptr );
+    REQUIRE( !material.IsValid() );
+}
+
 
 //====================================================================================//
 //			Shaders tests	
