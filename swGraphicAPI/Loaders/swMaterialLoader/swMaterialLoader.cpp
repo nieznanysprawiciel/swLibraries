@@ -19,6 +19,8 @@
 #include "swGraphicAPI/ResourceManager/PathTranslators/LoadPath.h"
 #include "swGraphicAPI/ResourceManager/Exceptions/LoaderException.h"
 
+#include "swCommonLib/External/fmt/format.h"
+
 
 namespace sw
 {
@@ -193,7 +195,7 @@ template< typename ShaderType >
 inline Nullable< ResourcePtr< ShaderType > >	SWMaterialLoader::LoadShader	( const AssetPath& shaderPath, LoadingContext& context )
 {
     if( !shaderPath.GetFile().HasFileName() )
-        return Nullable< ResourcePtr< ShaderType > >( Convert::ToString< ShaderType >() + " path is not set." );
+        return Nullable< ResourcePtr< ShaderType > >( fmt::format( "{} path is not set.", Convert::ToString< ShaderType >() ) );
 
     auto shaderLoadResult = context.Factory.LoadShader< ShaderType >( shaderPath );
     if( !shaderLoadResult.IsValid() )
