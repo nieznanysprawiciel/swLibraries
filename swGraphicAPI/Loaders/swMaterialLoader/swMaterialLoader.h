@@ -25,6 +25,19 @@ namespace sw
 
 
 /**@brief Loads .swmat files.
+
+@todo Handle relative paths of textures and shaders. Caller can choose if he wants
+to use path aliases or relative paths.
+
+@todo Add tests of ParametricBuffers. Create some utilities to use them in renderers.
+
+@todo More elegant handling of shading models. There's should be no need to register
+ShadingModelData wrapper. Material file should contain only shading model structure name
+defined by user.
+
+@todo Extract asset saver interface. Saver should support versioning. It should be able to
+save older material format version.
+
 @ingroup Loaders*/
 class SWMaterialLoader : public IAssetLoader
 {
