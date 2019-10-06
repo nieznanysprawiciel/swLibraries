@@ -99,4 +99,35 @@ TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Shaders.NoVertexShader", 
     REQUIRE( !material.IsValid() );
 }
 
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Shaders.NotExistingPS", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
 
+    auto material = api.Load< MaterialAsset >( "$(MaterialAssets)/not-existing-ps.swmat", nullptr );
+    REQUIRE( !material.IsValid() );
+}
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Shaders.NotExistingVS", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto material = api.Load< MaterialAsset >( "$(MaterialAssets)/not-existing-vs.swmat", nullptr );
+    REQUIRE( !material.IsValid() );
+}
+
+// ================================ //
+// No <GeometryShader/> key in xml. Loader should produce valid Material.
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Shaders.NoGeometryShaderEntry", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto material = api.Load< MaterialAsset >( "$(MaterialAssets)/no-gs-entry.swmat", nullptr );
+    REQUIRE_IS_VALID( material );
+}
