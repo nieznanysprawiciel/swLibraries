@@ -131,3 +131,60 @@ TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Shaders.NoGeometryShaderE
     auto material = api.Load< MaterialAsset >( "$(MaterialAssets)/no-gs-entry.swmat", nullptr );
     REQUIRE_IS_VALID( material );
 }
+
+
+//====================================================================================//
+//			Textures	
+//====================================================================================//
+
+// ================================ //
+// Material file contains one valid texture, but doesn't contains empty <Texture/> entries.
+// Loader should produce valid material with one texture under index 0.
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Textures.SingleTextureEntry", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto material = api.Load< MaterialAsset >( "$(MaterialAssets)/single-texture-entry.swmat", nullptr );
+    REQUIRE_IS_VALID( material );
+
+    CHECK( material.Get()->GetTexture( 0 ) != nullptr );
+    CHECK( material.Get()->GetTexture( 0 )->GetFilePath() == "$(TestAssets)/texture/random-pixels.jpg" );
+    CHECK( material.Get()->GetTexture( 0 )->GetAssetPath().GetInternalPath() == "" );
+
+    // Validate textures expected to be nullptrs.
+    for( int i = 1; i < MAX_MATERIAL_TEXTURES; i++ )
+        CHECK( material.Get()->GetTexture( i ) == nullptr );
+}
+
+// ================================ //
+// Material file contains no <Textures></Textures> entry.
+// Loader should produce valid material without textures.
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Textures.NoTexturesEntry", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto material = api.Load< MaterialAsset >( "$(MaterialAssets)/no-textures-entry.swmat", nullptr );
+    REQUIRE_IS_VALID( material );
+
+    // Validate textures expected to be nullptrs.
+    for( int i = 0; i < MAX_MATERIAL_TEXTURES; i++ )
+        CHECK( material.Get()->GetTexture( i ) == nullptr );
+}
+
+// ================================ //
+// File references not existing texture. Loader should produce valid
+// material without requested texture. Warning is reported.
+TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Loader.Textures.NotExistingTexture", "[GraphicAPI][swMaterialLoader]" )
+{
+    auto rm = CreateResourceManagerWithMaterials();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto material = api.Load< MaterialAsset >( "$(MaterialAssets)/not-existing-texture.swmat", nullptr );
+    REQUIRE_IS_VALID( material );
+
+    // Validate textures expected to be nullptrs.
+    for( int i = 0; i < MAX_MATERIAL_TEXTURES; i++ )
+        CHECK( material.Get()->GetTexture( i ) == nullptr );
+}

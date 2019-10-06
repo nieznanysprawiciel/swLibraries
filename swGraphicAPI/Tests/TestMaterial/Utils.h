@@ -47,7 +47,7 @@ inline ReturnResult            Compare         ( MaterialAssetPtr mat, MaterialA
         return "EvaluationShader differs";
 
     // Compare textures.
-    for( int i = 0; i < 5; i++ )
+    for( int i = 0; i < MAX_MATERIAL_TEXTURES; i++ )
     {
         if( mat->GetTexture( i ) != reference->GetTexture( i ) )
             return "Texture on index " + Convert::ToString( i ) + " differes.";

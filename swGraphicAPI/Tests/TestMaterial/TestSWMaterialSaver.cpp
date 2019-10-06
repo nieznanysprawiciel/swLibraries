@@ -78,7 +78,7 @@ TEST_CASE( "GraphicAPI.Loaders.swMaterialLoader.Saver.PS_VS_only", "[GraphicAPI]
     CHECK( material.Get()->GetTessEvaluationShader() == nullptr );
 
     // Validate textures
-    for( int i = 0; i < 5; i++ )
+    for( int i = 0; i < MAX_MATERIAL_TEXTURES; i++ )
         CHECK( material.Get()->GetTexture( i ) == nullptr );
 
     CHECK( material.Get()->GetDescriptor().ParametricBuffers.size() == 0 );
