@@ -5,9 +5,12 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
+#include "swCommonLib/Common/Converters/Convert.h"
+
 #include "swCommonLib/Common/Macros/ForEach.h"
 #include "swCommonLib/Common/Macros/DefineFmtFormatter.h"
 #include "swCommonLib/External/fmt/format.h"
+#include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Enums/TriStateEnum.h"
 
 #include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
@@ -50,6 +53,8 @@ struct Test3
 };
 DEFINE_DEFAULT_FMT_STRUCT_FORMATTER( Test3, x, y, z );
 
+DEFINE_FMT_FORMATTER_ENUM( sw::TriStateEnum );
+
 
 //====================================================================================//
 //			Test cases	
@@ -78,3 +83,19 @@ TEST_CASE( "Common.Helpers.Macros.DEFINE_DEFAULT_FMT_STRUCT_FORMATTER", "[Versio
     Test3 test = { 1, 2, 3 };
     CHECK( fmt::format( "{}", test ) == "[ x=1, y=2, z=3 ]" );
 }
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Macros.DEFINE_FMT_FORMATTER_ENUM", "[Version]" )
+{
+    sw::TriStateEnum test = sw::TriStateEnum::Middle;
+    CHECK( fmt::format( "{}", test ) == "Middle" );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Macros.DEFINE_FMT_FORMATTER.TypeID", "[Version]" )
+{
+    CHECK( fmt::format( "{}", TypeID::get< sw::TriStateEnum >() ) == "TriStateEnum" );
+}
+

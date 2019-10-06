@@ -11,6 +11,7 @@
 #include <type_traits>
 
 #include "swCommonLib/Common/Exceptions/Nullable.h"
+#include "swCommonLib/Common/Macros/DefineFmtFormatter.h"
 #include "ConvertTraits.h"
 
 
@@ -181,5 +182,7 @@ inline std::string          Convert::ToString           ()
 {
     return TypeID::get< Type >().get_name().to_string();
 }
+
+DEFINE_FMT_FORMATTER( TypeID, "{}", get_name().to_string() );
 
 

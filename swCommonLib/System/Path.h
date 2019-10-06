@@ -16,6 +16,7 @@ wiêc nie da siê tego zaimplementowac w pe³ni przenoœnie.
 #include <codecvt>
 
 #include "swCommonLib/Common/Converters.h"
+#include "swCommonLib/Common/Macros/DefineFmtFormatter.h"
 
 
 namespace filesystem
@@ -351,3 +352,6 @@ inline Path										Path::ClipFromRoot		( int num ) const
 //}
 
 }
+
+DEFINE_FMT_FORMATTER( filesystem::Path, "{}", String() );
+
