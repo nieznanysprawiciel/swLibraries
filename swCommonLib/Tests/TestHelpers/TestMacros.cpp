@@ -23,8 +23,8 @@
 //
 TEST_CASE( "Common.Helpers.Macros.FOR_EACH", "[Version]" )
 {
-    CHECK( STR( FOR_EACH( APPEND_TEST, x, y, z ) ) == "testx,testy,testz" );
-    CHECK( STR( FOR_EACH( APPEND_TEST, x, y, z, u, v ) ) == "testx,testy,testz,testu,testv" );
+    CHECK( STR( FOR_EACH( APPEND_TEST, x, y, z ) ) == "testx, testy, testz" );
+    CHECK( STR( FOR_EACH( APPEND_TEST, x, y, z, u, v ) ) == "testx, testy, testz, testu, testv" );
 }
 
 

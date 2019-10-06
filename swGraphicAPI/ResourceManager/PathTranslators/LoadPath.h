@@ -89,7 +89,7 @@ inline LoadPath					LoadPath::operator/			( const filesystem::Path& path ) const
 //
 inline std::string				LoadPath::Print				() const
 {
-	return "Path: [" + m_originalPath.String() + "] translated to: [" + m_translatedPath.String() + "].";
+	return "Path: [" + m_originalPath.String() + "] translated to: [" + m_translatedPath.String() + "]";
 }
 
 // ================================ //
