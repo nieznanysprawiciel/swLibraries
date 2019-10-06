@@ -7,7 +7,6 @@
 
 
 
-#include "swCommonLib/Common/ObjectDeleter.h"
 #include "swCommonLib/System/Path.h"
 #include "swCommonLib/Common/TypesDefinitions.h"
 #include "swCommonLib/Common/MemoryChunk.h"
@@ -182,7 +181,6 @@ This class is platform independent. Inherit it while implementing chosen graphic
 class Texture : public Resource
 {
 	RTTR_ENABLE( Resource );
-	friend ObjectDeleter<Texture>;
 private:
 protected:
 

@@ -24,6 +24,7 @@ namespace sw
 @ingroup Resources*/
 
 
+class RenderTarget;
 
 
 static const std::string RENDER_TARGET_COLOR_BUFFER_NAME = "color";

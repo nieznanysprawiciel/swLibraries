@@ -1,16 +1,15 @@
 #pragma once
-
-/**@file ResourceContainer.h
+/**
+@file ResourceContainer.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
-
-
-@brief Zawiera deklaracjê szblonu klasy kontenera dla assetów.
+@copyright File is part of Sleeping Wombat Libraries.
 */
 
-///@todo Dodaæ IDki obok œcie¿ek.
-///@todo Kontrner powinien obs³ugiwaæ œcie¿ki, jako obiekty typu Path zamiast wstringów.
-//#include "swCommonLib/Common/System/Path.h"
+
+
+#include "swCommonLib/System/Path.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
+
 
 #include <map>
 #include <vector>
@@ -19,98 +18,116 @@
 #include "swGraphicAPI/Resources/ResourcePtr.h"
 
 
-/**
-@brief Szablon klasy do przechowywania assetów.
+namespace sw
+{
 
-Wszystkie assety s¹ identyfikowane po nazwie, która najczêœciej jest nazw¹ pliku, z którego asset
-pochodzi. Mapa zapewnia logarytmiczny czas dostêpu po nazwie. Istnieje te¿ mo¿liwoœæ odwo³ania siê
-po identyfikatorze, wtedy czas dostêpu jest liniowy (chyba ¿e iterowanie po kolejnych elementacj mapy
-nie odbywa siê liniowo.*/
-template < class TYPE >
+
+
+
+/**@brief Container for resources.
+
+Resources are identified by their path.*/
+template< class ResourceType >
 class ResourceContainer
 {
 	friend class AssetsManager;
 	friend class ResourceManager;
+	friend class nResourceManager;
 private:
-	unsigned int count;		///<Indentyfikator jaki zostanie przydzielony kolejnemy elementowi
+
+	ResourceID		m_counter;		///< Identifier for next resource.
 
 protected:
-	std::map<std::wstring, TYPE*> container;	///<Kontener zawieraj¹cy assety powiazane z ich nazw¹
+	std::map< AssetPath, ResourceType* >		m_resMap;	///< Maps assets names/paths to Resources.
 
-	// Kasowanie obiektów
-	int		ForceRemove			( const std::wstring& name );
-	int		ForceRemove			( unsigned int id );
-	void	ForceRemoveAll		();
-	void	ReleaseMemory		( TYPE* );
+
+protected:
+
+	// Deleting objects.
+	bool			ForceRemove			( const AssetPath& name );
+	bool			ForceRemove			( ResourceID id );
+	void			ForceRemoveAll		();
+	void			ReleaseMemory		( ResourceType* );
+
 public:
 	ResourceContainer();
 	~ResourceContainer();
 
-	// Kasowanie obiektów
-	int		Remove				( const std::wstring& name );
-	int		Remove				( unsigned int id );
-	int		RemoveUnused		();
+	// Deleting objects.
+	bool			Remove				( const AssetPath& name );
+	bool			Remove				( ResourceID id );
+	Size			RemoveUnused		();
 
-	// Dodawanie obiektów
-	void	UnsafeAdd			( const std::wstring& name, TYPE* resource );
+	// Adding objects
+	void			UnsafeAdd			( const AssetPath& name, ResourceType* resource );
+	bool			SafeAdd				( const AssetPath& name, ResourceType* resource );
 
-	// Dostêp do obiektów
-	TYPE*	get					( unsigned int id );
-	inline unsigned int			GetNextId() { return count; }	///<Zwraca identyfikator, który zostanie przydzielony kolejnemu elementowi
+	// Resources access.
+	ResourceType*	Get					( ResourceID id );
 
 	/**@brief Zwraca element na podstawie jego nazwy
 	@param[in] name Nazwa elementu, który chcemy dostaæ
 	@return WskaŸnik na obiekt assetu*/
-	inline TYPE* get( const std::wstring& name )
+	inline ResourceType*		Get		( const AssetPath& name )
 	{
-		auto iter = container.find( name );
-		if ( iter != container.end() )
+		auto iter = m_resMap.find( name );
+		if( iter != m_resMap.end() )
 			return iter->second;
 		return nullptr;
 	}
 
 	/**@brief Finds resource matching given descriptor.
-	
+
 	Resource must implement GetDescriptor function.
 	Descriptor must implement operator==.
-	
+
 	Function finds resource in linear time. Use only for small containers.*/
 	template< typename DescType >
-	TYPE*	Find				( const DescType& desc );
+	ResourceType*				Find		( const DescType& desc );
 
-	// Listowanie obiektów.
-	std::vector< sw::ResourcePtr< TYPE > >		List();
+	// Listing resources.
+	template< typename ResourceCastType >
+	std::vector< ResourcePtr< ResourceCastType > >		List() const;
+
+	inline uint32				GetNextId() { return count; }	///< Returns idetifier for next resource of this type.
 };
 
-template <class TYPE>
-ResourceContainer<TYPE>::ResourceContainer()
-{
-	count = 1;
-}
 
-/**@brief Destruktor zwalnia wszystkie elementy w mapie (tak¿e pamiêæ po nich)*/
-template <class TYPE>
-ResourceContainer<TYPE>::~ResourceContainer( )
+//====================================================================================//
+//			Implementation	
+//====================================================================================//
+
+
+// ================================ //
+//
+template< class ResourceType >
+ResourceContainer< ResourceType >::ResourceContainer()
+	:	m_counter( 1 )
+{}
+
+/**@brief Releases all assets.*/
+template< class ResourceType >
+ResourceContainer< ResourceType >::~ResourceContainer()
 {
-	for ( auto iter = container.begin( ); iter != container.end( ); iter++ )
+	for( auto iter = m_resMap.begin(); iter != m_resMap.end(); iter++ )
 	{
 		ReleaseMemory( iter->second );
 	}
-	container.clear();
+	m_resMap.clear();
 }
 
-/**@brief Zwraca element na podstawie identyfikatora.
+/**@brief Returns resource base on identifier.
 
-Wyszukiwanie po identyfikatorze jest liniowe, a po nazwie logarytmiczne.
-Jednak¿e porównania stringów mog¹ siê okazaæ bardziej kosztowne.
-@param[in] id Identyfikator elementu.
-@return WskaŸnik na poszukiwany element.*/
-template <class TYPE>
-TYPE*			ResourceContainer<TYPE>::get	( unsigned int id )
+Searching in linear time.
+
+@param[in] id Resource identifier.
+@return Resource pointer*/
+template< class ResourceType >
+ResourceType*			ResourceContainer< ResourceType >::Get				( ResourceID id )
 {
-	for ( auto iter = container.begin(); iter != container.end(); iter++ )
+	for( auto iter = m_resMap.begin(); iter != m_resMap.end(); iter++ )
 	{
-		if ( iter->second->GetID() == id )
+		if( iter->second->GetID() == id )
 			return iter->second;
 	}
 	return nullptr;
@@ -118,13 +135,13 @@ TYPE*			ResourceContainer<TYPE>::get	( unsigned int id )
 
 // ================================ //
 //
-template< class TYPE >
+template< class ResourceType >
 template< typename DescType >
-inline TYPE*	ResourceContainer< TYPE >::Find	( const DescType& desc )
+inline ResourceType*	ResourceContainer< ResourceType >::Find				( const DescType& desc )
 {
-	static_assert( std::is_member_function_pointer< decltype( &TYPE::GetDescriptor ) >::value, "TYPE must implement GetDescriptor function." );
+	static_assert( std::is_member_function_pointer< decltype( &ResourceType::GetDescriptor ) >::value, "ResourceType must implement GetDescriptor function." );
 
-	for( auto& resource : container )
+	for( auto& resource : m_resMap )
 	{
 		if( resource.second->GetDescriptor() == desc )
 			return resource.second;
@@ -134,122 +151,109 @@ inline TYPE*	ResourceContainer< TYPE >::Find	( const DescType& desc )
 
 
 //-------------------------------------------------------------------------------//
-//							dodawanie obiektów
+//							Adding elements
 //-------------------------------------------------------------------------------//
 
-/*Dodaje element do kontanera + nadaje mu unikalny identyfikator.
-Je¿eli element ju¿ istnia³, to po prostu nie zostanie wstawiony, dlatego
-przed uzyciem warto pobraæ element o danej nazwie, ¿eby sprawdziæ
-czy dodawanie jest konieczne.*/
-// Mo¿e kiedyœ zrobie wstawianie ze sprawdzaniem, na razie nie wydaje siê potrzebne
 
 
-/**@brief Dodaje element do kontanera + nadaje mu unikalny identyfikator.
-
-Je¿eli element ju¿ istnia³, to zostanie nadpisany nowym, dlatego nale¿y
-zawsze przed u¿yciem sprawdziæ czy pod tak¹ nazw¹, coœ ju¿ siê nie 
-znajduje.
-@param[in] name Nazwa elementu, pod jak¹ zostanie dodany.
-@param[in] resource Element dodania.*/
-template <class TYPE>
-void ResourceContainer<TYPE>::UnsafeAdd( const std::wstring& name, TYPE* resource )
+/**@brief Adds resource without checking it's existance.
+Resource will be overwritten if it existed.*/
+template< class ResourceType >
+void					ResourceContainer< ResourceType >::UnsafeAdd		( const AssetPath& name, ResourceType* resource )
 {
-	if ( !resource )
-		return;	//Nie mo¿emy potem ustawiæ id
+	if( !resource )
+		return;
 
-	container[name] = resource;
+	m_resMap[ name ] = resource;
+	resource->SetID( m_counter++ );
+}
 
-	++count;			// Inkrementujemy licznik
+/**@brief Adds resource only if it didn't existed.*/
+template< class ResourceType >
+inline bool				ResourceContainer< ResourceType >::SafeAdd			( const AssetPath& name, ResourceType* resource )
+{
+	if( !resource )
+		return false;
+
+	auto insertResult = m_resMap.insert( std::make_pair( name, resource ) );
+	
+	// Check if element existed.
+	if( insertResult.second == false )
+		return false;
+
+	return true;
 }
 
 //-------------------------------------------------------------------------------//
-//							kasowanie obiektów
+//							Removing resources
 //-------------------------------------------------------------------------------//
-/**@brief Zwalnia obiekt podany w parametrze.
 
-Kasowanie pamiêci nie jest mo¿liwe przy pomocy operatora delete,
-poniewa¿ destruktory w tych klasach s¹ prywatne. Dlatego trzeba zrobiæ to 
-za poœrednictwem obiektu, który ma uprawnienia do tego.
 
-@param[in] object Objekt do skasowania.
-*/
-template <class TYPE>
-void ResourceContainer<TYPE>::ReleaseMemory( TYPE* object )
+/**@brief Release resource.*/
+template< class ResourceType >
+void					ResourceContainer< ResourceType >::ReleaseMemory		( ResourceType* object )
 {
-	// Destruktor jest prywatny, wiêc nie mo¿emy kasowaæ obiektu bezpoœrednio.
-	sw::ObjectDeleterKey<TYPE> key;							// Tworzymy klucz.
-	sw::ObjectDeleter<TYPE> model_deleter( key );			// Tworzymy obiekt kasuj¹cy i podajemy mu nasz klucz.
-	model_deleter.delete_object( object );				// Kasujemy obiekt za poœrednictwem klucza.
+	object->Delete( ResourceAccessKey< ResourceType >() );
 }
 
-/**@brief Usuwa element o podanej nazwie, je¿eli nie ma do niego odwo³añ.
-
-@param[in] name nazwa elementu do usuniêcia.
-@return Zwracana wartoœæ:
-- 0	-	w przypadku powodzenia,
-- -1	-	nie znaleziono elementu,
-- 1	-	nie da siê usun¹æ, bo jest w u¿yciu*/
-template <class TYPE>
-int ResourceContainer<TYPE>::Remove( const std::wstring& name )
+/**@brief Removes resource if it's posible.
+@return Returns false if resource doesn't exist or it still has references.*/
+template< class ResourceType >
+bool					ResourceContainer< ResourceType >::Remove				( const AssetPath& name )
 {
-	auto iter = container.find( name );
-	if ( iter != container.end() )
-		return -1;		// Nie znaleŸliœmy elementu
+	auto iter = m_resMap.find( name );
+	if( iter != m_resMap.end() )
+		return false;
 
-	if ( !iter->second->CanDelete() )
-		return 1;		// Nie mo¿emy skasowaæ, bo s¹ odwo³ania
+	if( !iter->second->CanDelete() )
+		return false;
 
-	ReleaseMemory( iter->second );		// Zwalniamy pamiêæ spod wskaŸnika
-	container.erase( iter );	// Kasujemy element z mapy
+	ReleaseMemory( iter->second );
+	m_resMap.erase( iter );
 
-	return 0;			// Wychodzimy z powodzeniem
+	return true;
 }
 
 
-/**@brief Usuwa element o podanym indeksie, je¿eli nie ma do niego odwo³añ.
-
-@param[in] id Identyfikator elementu
-@return Zwracana wartoœæ:
-- 0	-	w przypadku powodzenia,
-- -1	-	nie znaleziono elementu,
-- 1	-	nie da siê usun¹æ, bo jest w u¿yciu*/
-template <class TYPE>
-int ResourceContainer<TYPE>::Remove( unsigned int id )
+/**@brief Removes resource if it's posible.
+@return Returns false if resource doesn't exist or it still has references.*/
+template <class ResourceType>
+bool					ResourceContainer< ResourceType >::Remove				( ResourceID id )
 {
-	for ( auto iter = container.begin( ); iter != container.end( ); iter++ )
+	for( auto iter = m_resMap.begin(); iter != m_resMap.end(); iter++ )
 	{
-		if ( iter->second->GetID() == id )
+		if( iter->second->GetID() == id )
 		{
-			// Sprawdzamy czy nie ma jakichœ odwo³añ do obiektu
-			if ( !iter->second->CanDelete() )
-				return 1;				// S¹ odwo³ania, wiêc nie kasujemy
+			if( !iter->second->CanDelete() )
+				return false;
 
-			ReleaseMemory( iter->second );		// Zwalniamy pamiêæ spod wskaŸnika
-			container.erase( iter );	// Kasujemy element z mapy
+			ReleaseMemory( iter->second );
+			m_resMap.erase( iter );
 
-			return 0;					// Zwracamy 0 jako powodzenie operacji
+			return true;
 		}
 	}
-	return -1;		// Nie znaleŸliœmy elementu
+	return false;
 }
 
-/**@brief Kasuje wszystkie elementy w kontenerze, które nie s¹ u¿ywane przez
-¿aden obiekt. Kasowanie jest w pe³ni bezpieczne.
-
-@return Zwraca liczbê usuniêtych elementów.*/
-template <class TYPE>
-int ResourceContainer<TYPE>::RemoveUnused()
+/**@brief Removes all resources witout references.
+@return Returns number of deleted elements.*/
+template< class ResourceType >
+Size					ResourceContainer< ResourceType >::RemoveUnused			()
 {
 	int count = 0;
-	for ( auto iter = container.begin(); iter != container.end(); iter++ )
-	{// Iterujemy po ca³ej mapie
-		if ( iter->second->CanDelete() )
+	for( auto iter = m_resMap.begin(); iter != m_resMap.end(); )
+	{
+		if( iter->second->CanDelete() )
 		{
-			// Mo¿emy skasowaæ obiekt, bo nikt go nie u¿ywa
-			ReleaseMemory( iter->second );		// Zwalniamy pamiêæ spod wskaŸnika
-			container.erase( iter );	// Kasujemy element z mapy
+			ReleaseMemory( iter->second );
+			iter = m_resMap.erase( iter );
 
 			++count;
+		}
+		else
+		{
+			iter++;
 		}
 	}
 
@@ -257,67 +261,60 @@ int ResourceContainer<TYPE>::RemoveUnused()
 }
 
 
-/**@brief Wymusza skasowanie podanego elementu, nawet je¿eli jest u¿ywany
-
-@param[in] name Nazwa elementu do usuniêcia.
-@return Zwracana wartoœæ:
-- 0	-	w przypadku powodzenia,
-- -1	-	nie znaleziono elementu*/
-template <class TYPE>
-int ResourceContainer<TYPE>::ForceRemove( const std::wstring& name )
+/**@brief Removes resource even if it's reference count is greater then 0.
+@return Returns false if resource doesn't exist.*/
+template< class ResourceType >
+bool					ResourceContainer< ResourceType >::ForceRemove			( const AssetPath& name )
 {
-	auto iter = container.find( name );
-	if ( iter != container.end( ) )
-		return -1;		// Nie znaleŸliœmy elementu
+	auto iter = m_resMap.find( name );
+	if( iter != m_resMap.end() )
+		return false;
 
-	delete iter->second;		// Zwalniamy pamiêæ spod wskaŸnika
-	return 0;
+	delete iter->second;
+	return true;
 }
 
-/**@brief Wymusza skasowanie podanego elementu
-
-@param[in] id Identyfkator elementu do usuniêcia
-@return Zwracana wartoœæ:
-- 0	-	w przypadku powodzenia,
-- -1	-	nie znaleziono elementu*/
-template <class TYPE>
-int ResourceContainer<TYPE>::ForceRemove( unsigned int id )
+/**@brief Removes resource even if it's reference count is greater then 0.
+@return Returns false if resource doesn't exist.*/
+template< class ResourceType >
+bool					ResourceContainer< ResourceType >::ForceRemove			( ResourceID id )
 {
-	for ( auto iter = container.begin( ); iter != container.end( ); iter++ )
+	for( auto iter = m_resMap.begin(); iter != m_resMap.end(); iter++ )
 	{
-		if ( iter->second->GetID( ) == id )
+		if( iter->second->GetID() == id )
 		{
-			delete iter->second;		// Zwalniamy pamiêæ spod wskaŸnika
-			return 0;
+			delete iter->second;
+			return true;
 		}
 	}
-	return -1;		// Nie znaleziono elementu
+	return false;
 }
 
-/**@brief Kasuje wszystkie elementy niezale¿nie od tego czy by³y u¿ywane,
-a nastêpnie czyœci mapê.*/
-template <class TYPE>
-void ResourceContainer<TYPE>::ForceRemoveAll( )
+/**@brief removes all elements.*/
+template< class ResourceType >
+void					ResourceContainer< ResourceType >::ForceRemoveAll		()
 {
-	for ( auto iter = container.begin(); iter != container.end(); iter++ )
-	{// Iterujemy po ca³ej mapie
-		delete iter->second;		// Zwalniamy pamiêæ spod wskaŸnika
-	}
-	container.clear();
-}
-
-/**@brief Listuje wszystkie assety danego typu.*/
-template< class TYPE >
-inline std::vector< sw::ResourcePtr< TYPE > > ResourceContainer< TYPE >::List()
-{
-	std::vector< sw::ResourcePtr< TYPE > > resourcesList;
-	resourcesList.reserve( container.size() );
-
-	for( auto iter = container.begin(); iter != container.end(); iter++ )
+	for( auto iter = m_resMap.begin(); iter != m_resMap.end(); iter++ )
 	{
-		resourcesList.push_back( sw::ResourcePtr< TYPE >( iter->second ) );
+		delete iter->second;
+	}
+	m_resMap.clear();
+}
+
+/**@brief Lists all elements in ResourceContainer.*/
+template< class ResourceType >
+template< typename ResourceCastType >
+inline std::vector< ResourcePtr< ResourceCastType > >		ResourceContainer< ResourceType >::List	() const
+{
+	std::vector< ResourcePtr< ResourceCastType > > resourcesList;
+	resourcesList.reserve( m_resMap.size() );
+
+	for( auto iter = m_resMap.begin(); iter != m_resMap.end(); iter++ )
+	{
+		resourcesList.push_back( ResourcePtr< ResourceCastType >( iter->second ) );
 	}
 
 	return resourcesList;
 }
+}	// sw
 

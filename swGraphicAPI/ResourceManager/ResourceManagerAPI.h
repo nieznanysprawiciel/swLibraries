@@ -16,7 +16,7 @@
 namespace sw
 {
 
-class nResourceManager;
+class ResourceManager;
 
 
 /**@brief ResourceManager API and additional functions.
@@ -30,10 +30,10 @@ class ResourceManagerAPI
 {
 protected:
 
-    nResourceManager*       m_resourceManager;		///< Pointer to synchronous resource manager.
+    ResourceManager*       m_resourceManager;		///< Pointer to synchronous resource manager.
 
 public:
-    explicit		ResourceManagerAPI		( nResourceManager* resourceManager );
+    explicit		ResourceManagerAPI		( ResourceManager* resourceManager );
     virtual			~ResourceManagerAPI		() = default;
 
 public:
@@ -64,11 +64,11 @@ public:
     assets referenced by file, but placed in other files.*/
     ResourcePointer								GetCachedGeneric			( const AssetPath& name, TypeID type );
 
-    /**@copydoc nResourceManager::LoadGeneric*/
+    /**@copydoc ResourceManager::LoadGeneric*/
     sw::Nullable< ResourcePointer >				LoadGeneric					( const AssetPath& assetName, const IAssetLoadInfo* desc, TypeID type );
 
     /**Typed version of LoadGeneric.
-    @copydoc nResourceManager::LoadGeneric*/
+    @copydoc ResourceManager::LoadGeneric*/
     template< typename AssetType >
     sw::Nullable< ResourcePtr< AssetType > >	Load						( const AssetPath& assetName, const IAssetLoadInfo* desc );
 
@@ -77,11 +77,11 @@ public:
     template< typename AssetType >
     ResourcePtr< AssetType >					GetCached					( const AssetPath& name );
 
-    /**@copydoc nResourceManager::CreateGenericAsset*/
+    /**@copydoc ResourceManager::CreateGenericAsset*/
     sw::Nullable< ResourcePointer >				CreateGenericAsset			( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo );
 
     /**Typed version of CreateGenericAsset.
-    @copydoc nResourceManager::CreateGenericAsset*/
+    @copydoc ResourceManager::CreateGenericAsset*/
     template< typename AssetType >
     sw::Nullable< ResourcePtr< AssetType > >	CreateAsset			        ( const AssetPath& name, IAssetCreateInfo&& createInfo );
 

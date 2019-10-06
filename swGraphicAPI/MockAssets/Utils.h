@@ -6,7 +6,7 @@
 */
 
 
-#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 
 
 #include "swGraphicAPI/MockAssets/MockAssetCreator.h"
@@ -29,9 +29,9 @@ namespace sw
 
 // ================================ //
 //
-inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMocks				()
+inline std::unique_ptr< ResourceManager >			CreateResourceManagerWithMocks				()
 {
-	std::unique_ptr< nResourceManager > rm = std::make_unique< nResourceManager >();
+	std::unique_ptr< ResourceManager > rm = std::make_unique< ResourceManager >();
 
 	auto pm = rm->GetPathsManager();
 	pm->RegisterAlias( "$(TestAssets)", "../TestAssets/" );
@@ -59,7 +59,7 @@ inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMocks				(
 
 // ================================ //
 //
-inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMocksAndDefaults	()
+inline std::unique_ptr< ResourceManager >			CreateResourceManagerWithMocksAndDefaults	()
 {
 	auto rm = CreateResourceManagerWithMocks();
 
@@ -78,7 +78,7 @@ inline std::unique_ptr< nResourceManager >			CreateResourceManagerWithMocksAndDe
 
 // ================================ //
 //
-inline std::unique_ptr< nResourceManager >			CreateRMWithDefaultsMocksSoil				()
+inline std::unique_ptr< ResourceManager >			CreateRMWithDefaultsMocksSoil				()
 {
 	auto rm = CreateResourceManagerWithMocksAndDefaults();
 

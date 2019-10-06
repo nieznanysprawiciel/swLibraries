@@ -11,7 +11,7 @@
 namespace sw
 {
 
-class nResourceManager;
+class ResourceManager;
 
 
 
@@ -25,12 +25,12 @@ class RMAsyncThread
 {
 private:
 
-	nResourceManager*		m_resourceManager;
+	ResourceManager*		m_resourceManager;
 	AssetsThread			m_assetsThread;
 
 protected:
 public:
-	explicit		RMAsyncThread		( nResourceManager* manager );
+	explicit		RMAsyncThread		( ResourceManager* manager );
 					~RMAsyncThread		() = default;
 
 public:

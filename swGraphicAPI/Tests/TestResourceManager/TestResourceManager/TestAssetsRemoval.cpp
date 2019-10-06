@@ -6,7 +6,7 @@
 */
 
 
-#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 
 #include "swGraphicAPI/MockAssets/Utils.h"
 
@@ -98,7 +98,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.AssetsRemoval.FreeUnusedAssets.CheckLeaks
 {
 	auto creator = MockAssetCreator::CreateCreator();		// Creator must live longer then ResourceManager since it tracks references of created assets.
 
-	nResourceManager rm;		rm.RegisterAssetCreator( creator );
+	ResourceManager rm;		rm.RegisterAssetCreator( creator );
 
 	MockAssetCreateInfo init;
 

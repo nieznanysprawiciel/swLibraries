@@ -5,7 +5,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 #include "swGraphicAPI/ResourceManager/ResourceManagerAPI.h"
 #include "swGraphicAPI/Assets/MaterialAsset/MaterialAsset.h"
 #include "swGraphicAPI/Assets/MaterialAsset/MaterialAssetInitData.h"
@@ -33,7 +33,7 @@ GENERATE_RELATIONAL_OPERATORS( DirectX::XMFLOAT4, x, y, z, w );
 
 // ================================ //
 //
-filesystem::Path        Translate       ( nResourceManager* rm, filesystem::Path path )
+filesystem::Path        Translate       ( ResourceManager* rm, filesystem::Path path )
 {
     return rm->GetPathsManager()->Translate( path );
 }

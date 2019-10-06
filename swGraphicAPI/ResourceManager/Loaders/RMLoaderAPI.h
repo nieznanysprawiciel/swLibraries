@@ -16,7 +16,7 @@ namespace sw
 {
 
 
-class nResourceManager;
+class ResourceManager;
 
 
 
@@ -35,7 +35,7 @@ class RMLoaderAPI : protected ResourceManagerAPI
 protected:
 public:
 
-    explicit		RMLoaderAPI			( nResourceManager* manager )
+    explicit		RMLoaderAPI			( ResourceManager* manager )
         : ResourceManagerAPI( manager )
     {}
 	

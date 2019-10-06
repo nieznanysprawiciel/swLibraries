@@ -9,7 +9,6 @@
 
 
 
-#include "swCommonLib/Common/ObjectDeleter.h"
 #include "swCommonLib/System/Path.h"
 
 #include "swGraphicAPI/Resources/ResourceObject.h"

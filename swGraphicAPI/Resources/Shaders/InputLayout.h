@@ -7,7 +7,6 @@
 
 
 #include "swGraphicAPI/Resources/Shaders/IShaderInputLayout.h"
-#include "swCommonLib/Common/ObjectDeleter.h"
 
 
 
@@ -24,7 +23,6 @@ namespace sw
 class ShaderInputLayout : public IShaderInputLayout
 {
 	RTTR_ENABLE( IShaderInputLayout );
-	friend ObjectDeleter< ShaderInputLayout >;
 private:
 protected:
 

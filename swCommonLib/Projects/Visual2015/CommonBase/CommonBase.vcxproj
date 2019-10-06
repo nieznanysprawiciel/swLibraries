@@ -68,7 +68,6 @@
     <ClInclude Include="..\..\..\Common\Multithreading\UniqueLock.h" />
     <ClInclude Include="..\..\..\Common\Nullable.h" />
     <ClInclude Include="..\..\..\Common\Object.h" />
-    <ClInclude Include="..\..\..\Common\ObjectDeleter.h" />
     <ClInclude Include="..\..\..\Common\Properties\Containers\ICollection.h" />
     <ClInclude Include="..\..\..\Common\Properties\IEnableProperty.h" />
     <ClInclude Include="..\..\..\Common\Properties\Properties.h" />

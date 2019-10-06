@@ -92,9 +92,6 @@
     <ClInclude Include="..\..\..\Common\Nullable.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Common\ObjectDeleter.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Common\RTTR.h">
       <Filter>Common</Filter>
     </ClInclude>

@@ -5,7 +5,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 #include "swGraphicAPI/ResourceManager/ResourceManagerAPI.h"
 #include "swGraphicAPI/Assets/MaterialAsset/MaterialAsset.h"
 #include "swGraphicAPI/Assets/MaterialAsset/MaterialAssetInitData.h"

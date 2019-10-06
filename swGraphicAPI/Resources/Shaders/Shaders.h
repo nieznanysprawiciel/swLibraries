@@ -7,7 +7,6 @@
 
 #include "swGraphicAPI/Resources/Shaders/IShader.h"
 
-#include "swCommonLib/Common/ObjectDeleter.h"
 #include "swCommonLib/System/Path.h"
 
 
@@ -52,7 +51,6 @@ enum class ShaderType : uint8
 class VertexShader : public IShader
 {
 	RTTR_ENABLE( IShader );
-	friend ObjectDeleter< VertexShader >;
 private:
 protected:
 	virtual		~VertexShader	() = default;
@@ -74,7 +72,6 @@ DEFINE_RESOURCE_PTR_TYPE( VertexShader );
 class PixelShader : public IShader
 {
 	RTTR_ENABLE( IShader );
-	friend ObjectDeleter< PixelShader >;
 private:
 protected:
 	virtual		~PixelShader	() = default;
@@ -96,7 +93,6 @@ DEFINE_RESOURCE_PTR_TYPE( PixelShader );
 class GeometryShader : public IShader
 {
 	RTTR_ENABLE( IShader );
-	friend ObjectDeleter<GeometryShader>;
 private:
 protected:
 	virtual		~GeometryShader	() = default;
@@ -118,7 +114,6 @@ DEFINE_RESOURCE_PTR_TYPE( GeometryShader );
 class ControlShader : public IShader
 {
 	RTTR_ENABLE( IShader );
-	friend ObjectDeleter< ControlShader >;
 private:
 protected:
 	virtual		~ControlShader	() = default;
@@ -140,7 +135,6 @@ DEFINE_RESOURCE_PTR_TYPE( ControlShader );
 class EvaluationShader : public IShader
 {
 	RTTR_ENABLE( IShader );
-	friend ObjectDeleter< EvaluationShader >;
 private:
 protected:
 	virtual		~EvaluationShader	() = default;
@@ -162,7 +156,6 @@ DEFINE_RESOURCE_PTR_TYPE( EvaluationShader );
 class ComputeShader : public IShader
 {
 	RTTR_ENABLE( IShader );
-	friend ObjectDeleter<ComputeShader>;
 private:
 protected:
 	virtual		~ComputeShader		() = default;

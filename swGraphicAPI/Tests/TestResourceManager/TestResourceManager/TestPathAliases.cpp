@@ -6,7 +6,7 @@
 */
 
 
-#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 
 #include "swGraphicAPI/MockAssets/Utils.h"
 #include "swCommonLib/Common/Multithreading/ThreadsBarrier.h"

@@ -22,7 +22,7 @@
 
 #include "swGraphicAPI/Resources/MeshResources.h"
 #include "swGraphicAPI/Rendering/GraphicAPIConstants.h"
-#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 #include "swGraphicAPI/Resources/ResourcesFactory.h"
 #include "swGraphicAPI/Resources/SwapChain.h"
 

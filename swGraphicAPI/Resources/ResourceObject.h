@@ -19,6 +19,7 @@ namespace sw
 
 
 class Resource;
+class ResourceManager;
 
 typedef uint32 ResourceID;
 template< class ResourceType > class ResourceContainer;
@@ -29,7 +30,7 @@ template< class ResourceType > class ResourceContainer;
 template< typename ResType >
 class ResourceAccessKey
 {
-	friend class nResourceManager;
+	friend class sw::ResourceManager;
 	friend class sw::ResourceContainer< ResType >;
 
 private:

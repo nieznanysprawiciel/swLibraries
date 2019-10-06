@@ -9,7 +9,7 @@
 #include "MaterialAssetInitData.h"
 #include "swGraphicAPI/Assets/MaterialAsset/MaterialAsset.h"
 
-#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 #include "swGraphicAPI/ResourceManager/ResourceManagerAPI.h"
 
 

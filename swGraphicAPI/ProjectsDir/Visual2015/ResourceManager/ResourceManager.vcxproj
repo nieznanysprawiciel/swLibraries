@@ -56,8 +56,6 @@
     <ClInclude Include="..\..\..\ResourceManager\Loaders\TextureLoadInfo.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\Tools\CanLoad.h" />
     <ClInclude Include="..\..\..\ResourceManager\Loaders\Tools\LoadingContext.h" />
-    <ClInclude Include="..\..\..\ResourceManager\nResourceContainer.h" />
-    <ClInclude Include="..\..\..\ResourceManager\nResourceManager.h" />
     <ClInclude Include="..\..\..\ResourceManager\PathTranslators\AssetPath.h" />
     <ClInclude Include="..\..\..\ResourceManager\PathTranslators\LoadPath.h" />
     <ClInclude Include="..\..\..\ResourceManager\PathTranslators\PathsManager.h" />
@@ -100,6 +98,7 @@
     <ClCompile Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\PathTranslators\AssetPath.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\PathTranslators\PathsManager.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="..\..\..\Resources\Buffers\Buffer.cpp" />
     <ClCompile Include="..\..\..\Resources\Resource.cpp" />
     <ClCompile Include="..\..\..\Resources\Textures\RenderTarget.cpp" />
@@ -124,8 +123,6 @@
     <ClCompile Include="..\..\..\ResourceManager\Cache\CacheManager.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\Cache\MemoryCache.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\Loaders\ShaderLoader.cpp" />
-    <ClCompile Include="..\..\..\ResourceManager\nResourceManager.cpp" />
-    <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\ResourceManagerAPI.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

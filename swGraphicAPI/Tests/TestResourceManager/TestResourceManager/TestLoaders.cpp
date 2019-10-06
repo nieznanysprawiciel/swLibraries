@@ -7,7 +7,7 @@
 */
 
 
-#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 
 
 #include "swGraphicAPI/MockAssets/MockAssetCreator.h"
@@ -26,7 +26,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.RegisterLoader", "[GraphicAPI]" )
 {
 	auto loader = std::make_shared< MockAssetLoader >();
 
-	nResourceManager rm;
+	ResourceManager rm;
 	bool registerResult = rm.RegisterLoader( loader );
 
 	REQUIRE( registerResult == true );

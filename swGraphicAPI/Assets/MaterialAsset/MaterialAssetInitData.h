@@ -21,7 +21,7 @@ namespace sw
 {
 
 class MaterialAsset;
-class nResourceManager;
+class ResourceManager;
 
 
 /**@brief Struct contains data needed to initialize material.

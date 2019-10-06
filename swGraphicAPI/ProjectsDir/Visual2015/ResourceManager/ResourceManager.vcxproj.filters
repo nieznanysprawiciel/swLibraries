@@ -81,12 +81,6 @@
     <ClInclude Include="..\..\..\Rendering\IGraphicAPIInitializer.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ResourceManager\ResourceContainer.h">
-      <Filter>ResourceManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ResourceManager\ResourceManager.h">
-      <Filter>ResourceManager</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Resources\MeshResources.h">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -110,9 +104,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\IAssetCreateInfo.h">
       <Filter>ResourceManager\AssetCreators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ResourceManager\nResourceManager.h">
-      <Filter>ResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ResourceManager\Cache\IAssetCache.h">
       <Filter>ResourceManager\Cache</Filter>
@@ -161,9 +152,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\ResourceManager\PathTranslators\Translator.h">
       <Filter>ResourceManager\PathTranslators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ResourceManager\nResourceContainer.h">
-      <Filter>ResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\LoadBarrier.h">
       <Filter>ResourceManager\AsyncLoad</Filter>
@@ -279,16 +267,16 @@
     <ClInclude Include="..\..\..\ResourceManager\Loaders\Tools\CanLoad.h">
       <Filter>ResourceManager\Loaders\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\ResourceContainer.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\ResourceManager.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
-      <Filter>ResourceManager</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\stdafx.cpp">
       <Filter>PrecompiledHeader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\ResourceManager\nResourceManager.cpp">
-      <Filter>ResourceManager</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\Cache\MemoryCache.cpp">
       <Filter>ResourceManager\Cache</Filter>
@@ -375,6 +363,9 @@
       <Filter>ResourceManager\AsyncLoad</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\ResourceManagerAPI.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
       <Filter>ResourceManager</Filter>
     </ClCompile>
   </ItemGroup>

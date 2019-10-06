@@ -6,7 +6,7 @@
 */
 
 
-#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 #include "swGraphicAPI/ResourceManager/Loaders/TextureLoadInfo.h"
 #include "swGraphicAPI/ResourceManager/Exceptions/LoaderException.h"
 

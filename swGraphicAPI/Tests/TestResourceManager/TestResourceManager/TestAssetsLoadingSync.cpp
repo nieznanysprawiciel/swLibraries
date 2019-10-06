@@ -7,7 +7,7 @@
 */
 
 
-#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 
 
 #include "swGraphicAPI/MockAssets/MockAssetCreator.h"
@@ -61,7 +61,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.LoadNotExisting", "[GraphicAP
 // 
 TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.NotRegisteredLoader", "[GraphicAPI]" )
 {
-	std::unique_ptr< nResourceManager > rm = std::make_unique< nResourceManager >();
+	std::unique_ptr< ResourceManager > rm = std::make_unique< ResourceManager >();
 
 	MockAssetLoadInfo info;
 	auto resource = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );

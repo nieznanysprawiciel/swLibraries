@@ -5,8 +5,6 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swCommonLib/Common/ObjectDeleter.h"
-
 #include "swGraphicAPI/Resources/Buffers/IBuffer.h"
 #include "swGraphicAPI/Resources/Buffers/BufferInitData.h"
 
@@ -27,7 +25,6 @@ It can be vertex, index or constant buffer.
 class Buffer : public IBuffer
 {
 	RTTR_ENABLE( IBuffer )
-	friend ObjectDeleter< Buffer >;
 protected:
 
 	unsigned int		m_elementSize;			///< Element size.

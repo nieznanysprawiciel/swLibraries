@@ -15,7 +15,7 @@ namespace sw
 
 // ================================ //
 //
-RMAsyncThread::RMAsyncThread	( nResourceManager* manager )
+RMAsyncThread::RMAsyncThread	( ResourceManager* manager )
 	:	m_resourceManager( manager )
 	,	m_assetsThread( manager )		// This will start thread.
 {}

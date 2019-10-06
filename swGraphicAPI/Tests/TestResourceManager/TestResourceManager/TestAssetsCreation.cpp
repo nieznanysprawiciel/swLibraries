@@ -7,7 +7,7 @@
 */
 
 
-#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 
 
 #include "swGraphicAPI/Resources/Buffers/BufferInitData.h"
@@ -36,7 +36,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.RegisterAssetCreator", "[GraphicAPI]" )
 {
 	auto creator = MockAssetCreator::CreateCreator();		// Creator must live longer then ResourceManager since it tracks references of created assets.
 
-	nResourceManager rm;
+	ResourceManager rm;
 	
 	bool regResult = rm.RegisterAssetCreator( creator );
 	REQUIRE( regResult == true );
@@ -54,7 +54,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.RegisterAssetCreator", "[GraphicAPI]" )
 // 
 TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.SingleAsset", "[GraphicAPI]" )
 {
-	nResourceManager rm;
+	ResourceManager rm;
 
 	BufferTyped< RandomStruct > buffer( 10 );
 	
@@ -75,7 +75,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.SingleAsset", "[GraphicAPI]" 
 TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.TwoAssetsSameName", "[GraphicAPI]" )
 {
 	auto creator = MockAssetCreator::CreateCreator();		// Creator must live longer then ResourceManager since it tracks references of created assets.
-	nResourceManager rm;		rm.RegisterAssetCreator( creator );
+	ResourceManager rm;		rm.RegisterAssetCreator( creator );
 
 	MockAssetCreateInfo init;
 	
@@ -95,7 +95,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.TwoAssetsSameName", "[Graphic
 // Can't create asset when creator isn't registered.
 TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.AssetWithoutCreator", "[GraphicAPI]" )
 {
-	nResourceManager rm;
+	ResourceManager rm;
 
 	MockAssetCreateInfo init;
 	
@@ -111,7 +111,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.TypeOtherThenDeclared", "[Gra
 {
 	auto creator = MockAssetCreator::CreateCreator();		// Creator must live longer then ResourceManager since it tracks references of created assets.
 
-	nResourceManager rm;
+	ResourceManager rm;
 	
 	bool regResult = rm.RegisterAssetCreator( creator );
 	REQUIRE( regResult == true );

@@ -9,7 +9,7 @@
 
 #include "ResourceManagerAPI.h"
 
-#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 #include "swGraphicAPI/ResourceManager/Loaders/TextureLoadInfo.h"
 
 
@@ -18,7 +18,7 @@ namespace sw
 
 // ================================ //
 //
-ResourceManagerAPI::ResourceManagerAPI( nResourceManager* resourceManager )
+ResourceManagerAPI::ResourceManagerAPI( ResourceManager* resourceManager )
 	:	m_resourceManager( resourceManager )
 {}
 

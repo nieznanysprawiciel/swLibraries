@@ -9,7 +9,7 @@
 
 #include "swGraphicAPI/ResourceManager/Loaders/LoadingResult.h"
 
-#include "swGraphicAPI/ResourceManager/nResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 #include "swGraphicAPI/MockAssets/MockAssetCreator.h"
 #include "swGraphicAPI/MockAssets/MockAsset.h"
 
@@ -104,7 +104,7 @@ TEST_CASE( "GraphicAPI.Loading.LoadingResult.Constructor.ExceptionAndWarning", "
 TEST_CASE( "GraphicAPI.Loading.LoadingResult.Constructor.SingleResource", "[GraphicAPI]" )
 {
 	auto creator = MockAssetCreator::CreateCreator();		// Creator must live longer then ResourceManager since it tracks references of created assets.
-	nResourceManager rm;		rm.RegisterAssetCreator( creator );
+	ResourceManager rm;		rm.RegisterAssetCreator( creator );
 
 	MockAssetCreateInfo init;
 
