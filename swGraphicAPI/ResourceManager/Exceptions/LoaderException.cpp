@@ -7,7 +7,7 @@
 
 #include "LoaderException.h"
 
-#include "swCommonLib/External/fmt/format.h"
+#include "swCommonLib/Common/fmt.h"
 
 
 
@@ -35,7 +35,6 @@ LoaderExceptionPtr		LoaderException::Create					( std::string loaderName, std::s
 //
 std::string				LoaderException::ErrorMessage			() const
 {
-    //return fmt::format( "[{}] {}, {}, type [{}]." );
 	return LoaderHeader()
 		+ RuntimeException::ErrorMessage()
 		+ ResourceInfo();
@@ -45,14 +44,14 @@ std::string				LoaderException::ErrorMessage			() const
 //
 std::string				LoaderException::LoaderHeader			() const
 {
-	return "[" + m_loaderName + "] ";
+	return fmt::format( "[{}] ", m_loaderName );
 }
 
 // ================================ //
 //
 std::string				LoaderException::ResourceInfo			() const
 {
-	return " " + m_path.Print() + ", type [" + m_resourceType.get_name().to_string() + "].";
+    return fmt::format( " {}, type [{}].", m_path, m_resourceType );
 }
 
 

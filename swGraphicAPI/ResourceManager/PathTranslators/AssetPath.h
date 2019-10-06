@@ -67,6 +67,14 @@ public:
 	static Nullable< AssetPath >		FromString		( const std::string& assetPath );
 };
 
+}   // sw
+
+DEFINE_FMT_FORMATTER( sw::AssetPath, "{}::{}", GetFile(), GetInternalPath() );
+
+
+
+namespace sw
+{
 
 //====================================================================================//
 //			Implementation	
@@ -105,7 +113,7 @@ inline				AssetPath::AssetPath		( const char* assetPath )
 //
 inline std::string	AssetPath::String			() const
 {
-	return GetFile().String() + "::" + GetInternalPath().String();
+	return fmt::format( "{}", *this );
 }
 
 // ================================ //

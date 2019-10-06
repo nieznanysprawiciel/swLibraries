@@ -19,7 +19,7 @@
 #include "swGraphicAPI/ResourceManager/PathTranslators/LoadPath.h"
 #include "swGraphicAPI/ResourceManager/Exceptions/LoaderException.h"
 
-#include "swCommonLib/External/fmt/format.h"
+#include "swCommonLib/Common/fmt.h"
 
 
 namespace sw

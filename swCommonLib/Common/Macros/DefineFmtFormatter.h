@@ -6,7 +6,7 @@
 */
 
 #include "ForEach.h"
-#include "swCommonLib/External/fmt/format.h"
+#include "swCommonLib/Common/fmt.h"
 
 
 #define _MAKE_STR( x ) #x

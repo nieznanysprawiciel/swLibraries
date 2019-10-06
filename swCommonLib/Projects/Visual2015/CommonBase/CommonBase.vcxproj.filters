@@ -230,5 +230,8 @@
     <ClInclude Include="..\..\..\Common\Macros\DefineFmtFormatter.h">
       <Filter>Common\Macros</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Common\fmt.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -51,6 +51,7 @@
     <ClInclude Include="..\..\..\Common\Exceptions\Exception.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\ExceptionsList.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Nullable.h" />
+    <ClInclude Include="..\..\..\Common\fmt.h" />
     <ClInclude Include="..\..\..\Common\Logging\Logger.h" />
     <ClInclude Include="..\..\..\Common\Macros\DefineFmtFormatter.h" />
     <ClInclude Include="..\..\..\Common\Macros\ForEach.h" />

@@ -9,7 +9,7 @@
 
 #include "swCommonLib/Common/Macros/ForEach.h"
 #include "swCommonLib/Common/Macros/DefineFmtFormatter.h"
-#include "swCommonLib/External/fmt/format.h"
+#include "swCommonLib/Common/fmt.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Enums/TriStateEnum.h"
 
 #include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
