@@ -125,5 +125,31 @@ Nullable< BufferPtr >               ResourceManagerAPI::CreateConstantsBuffer   
 }
 
 
+//====================================================================================//
+//			Pipeline states creation	
+//====================================================================================//
+
+// ================================ //
+//
+Nullable< BlendingStatePtr >        ResourceManagerAPI::CreateBlendingState         ( const AssetPath& name, const BlendingInfo& info )
+{
+    return CreateAsset< BlendingState >( name, BlendingInfo( info ) );
+}
+
+// ================================ //
+//
+Nullable< RasterizerStatePtr >      ResourceManagerAPI::CreateRasterizerState       ( const AssetPath& name, const RasterizerStateInfo& info )
+{
+    return CreateAsset< RasterizerState >( name, RasterizerStateInfo( info ) );
+}
+
+// ================================ //
+//
+Nullable< DepthStencilStatePtr >    ResourceManagerAPI::CreateDepthStencilState     ( const AssetPath& name, const DepthStencilInfo& info )
+{
+    return CreateAsset< DepthStencilState >( name, DepthStencilInfo( info ) );
+}
+
+
 }	// sw
 

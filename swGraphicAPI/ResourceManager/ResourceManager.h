@@ -124,7 +124,7 @@ protected:
 public:
 
 	/**@brief This constructor creates default cache and AssetsFactory.*/
-	explicit		ResourceManager		();
+	explicit		ResourceManager		    ();
 	virtual			~ResourceManager		();
 
 

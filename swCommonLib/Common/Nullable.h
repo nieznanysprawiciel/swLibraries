@@ -85,5 +85,5 @@ struct Nullable
 
 };
 
-#define ReturnIfInvalid( nullable )		if( !nullable.IsValid ) return std::move( nullable.ErrorString );
+
 

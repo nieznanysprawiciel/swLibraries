@@ -21,15 +21,13 @@
 
 
 
-class ResourceManager;
-
 
 
 namespace sw
 {
 
 
-class AssetsManager;
+class ResourceManager;
 
 
 class BufferCreator;
@@ -51,8 +49,6 @@ binding. In future this could change to virtual class.
 */
 class ResourcesFactory
 {
-	friend class ::ResourceManager;
-	friend class AssetsManager;
 	friend class sw::BufferCreator;
 
 	friend class sw::ShaderCreator< VertexShader >;

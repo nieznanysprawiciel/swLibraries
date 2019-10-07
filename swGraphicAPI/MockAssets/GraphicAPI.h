@@ -7,7 +7,7 @@
 
 
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
-#include "swGraphicAPI/ResourceManager/ResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManagerAPI.h"
 #include "swGraphicAPI/ResourceManager/Loaders/ShaderLoader.h"
 #include "swGraphicAPI/ResourceManager/Loaders/RenderTargetLoader.h"
 #include "swGraphicAPI/Loaders/SoilTextureLoader/SoilTextureLoader.h"
@@ -22,7 +22,8 @@
 struct Graphic
 {
 	sw::IGraphicAPIInitializer*		API;
-	ResourceManager*				RM;
+	sw::ResourceManager*            RM;
+    sw::ResourceManagerAPI          RMApi = sw::ResourceManagerAPI( nullptr );
 
 // ================================ //
 //
@@ -61,7 +62,8 @@ inline Graphic&			GetGraphic	()
 
 	if( !graphic.RM )
 	{
-		graphic.RM = new ResourceManager();
+		graphic.RM = new sw::ResourceManager();
+        graphic.RMApi = sw::ResourceManagerAPI( graphic.RM );
 	}
 
 	return graphic;

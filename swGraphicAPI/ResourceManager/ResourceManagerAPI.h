@@ -113,6 +113,11 @@ public:
     Nullable< BufferPtr >			            CreateConstantsBuffer		( const AssetPath& name, BufferRange buffer, uint32 elementSize );
     Nullable< BufferPtr >			            CreateConstantsBuffer		( const AssetPath& name, BufferRange buffer, uint32 elementSize, TypeID elementType );
 
+    Nullable< BlendingStatePtr >	            CreateBlendingState			( const AssetPath& name, const BlendingInfo& info );
+    Nullable< RasterizerStatePtr >	            CreateRasterizerState		( const AssetPath& name, const RasterizerStateInfo& info );
+    Nullable< DepthStencilStatePtr >            CreateDepthStencilState		( const AssetPath& name, const DepthStencilInfo& info );
+
+
     ///@}
 
 protected:
