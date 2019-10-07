@@ -94,6 +94,52 @@ Nullable< ComputeShaderPtr >        ResourceManagerAPI::LoadComputeShader       
 }
 
 //====================================================================================//
+//			Shader creation	
+//====================================================================================//
+
+// ================================ //
+//
+Nullable< VertexShaderPtr >         ResourceManagerAPI::CreateVertexShader          ( const AssetPath& name, std::string code )
+{
+    return CreateShader< VertexShader >( name, std::move( code ) );
+}
+
+// ================================ //
+//
+Nullable< PixelShaderPtr >          ResourceManagerAPI::CreatePixelShader           ( const AssetPath& name, std::string code )
+{
+    return CreateShader< PixelShader >( name, std::move( code ) );
+}
+
+// ================================ //
+//
+Nullable< GeometryShaderPtr >       ResourceManagerAPI::CreateGeometryShader        ( const AssetPath& name, std::string code )
+{
+    return CreateShader< GeometryShader >( name, std::move( code ) );
+}
+
+// ================================ //
+//
+Nullable< ControlShaderPtr >        ResourceManagerAPI::CreateControlShader         ( const AssetPath& name, std::string code )
+{
+    return CreateShader< ControlShader >( name, std::move( code ) );
+}
+
+// ================================ //
+//
+Nullable< EvaluationShaderPtr >     ResourceManagerAPI::CreateEvaluationShader      ( const AssetPath& name, std::string code )
+{
+    return CreateShader< EvaluationShader >( name, std::move( code ) );
+}
+
+// ================================ //
+//
+Nullable< ComputeShaderPtr >        ResourceManagerAPI::CreateComputeShader         ( const AssetPath& name, std::string code )
+{
+    return CreateShader< ComputeShader >( name, std::move( code ) );
+}
+
+//====================================================================================//
 //			Buffer creation	
 //====================================================================================//
 

@@ -9,6 +9,7 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreateInfo.h"
 
 #include "swGraphicAPI/Resources/MeshResources.h"
+#include "swGraphicAPI/Resources/Shaders/ShaderInitData.h"
 
 #include "swCommonLib/Common/Buffers/BufferRange.h"
 
@@ -102,6 +103,22 @@ public:
 
     ///@}
 
+
+    /// @name Shader creation
+    /// Generate shaders and create them from code. To load shaders from file use
+    /// loading functions.
+    ///@{
+    Nullable< VertexShaderPtr >                 CreateVertexShader          ( const AssetPath& name, std::string code );
+    Nullable< PixelShaderPtr >                  CreatePixelShader           ( const AssetPath& name, std::string code );
+    Nullable< GeometryShaderPtr >               CreateGeometryShader        ( const AssetPath& name, std::string code );
+    Nullable< ControlShaderPtr >                CreateControlShader			( const AssetPath& name, std::string code );
+    Nullable< EvaluationShaderPtr >             CreateEvaluationShader		( const AssetPath& name, std::string code );
+    Nullable< ComputeShaderPtr >                CreateComputeShader		    ( const AssetPath& name, std::string code );
+
+    template< typename ShaderType >
+    Nullable< ResourcePtr< ShaderType > >       CreateShader                ( const AssetPath& name, std::string code );
+    ///@}
+
     /// @name Buffers creation functions.
     ///@{
     Nullable< BufferPtr >			            CreateVertexBuffer			( const AssetPath& name, BufferRange buffer, uint32 elementSize );
@@ -113,12 +130,17 @@ public:
     Nullable< BufferPtr >			            CreateConstantsBuffer		( const AssetPath& name, BufferRange buffer, uint32 elementSize );
     Nullable< BufferPtr >			            CreateConstantsBuffer		( const AssetPath& name, BufferRange buffer, uint32 elementSize, TypeID elementType );
 
+    ///@}
+
+
+    /// @name Pipeline State creation
+    ///@{
     Nullable< BlendingStatePtr >	            CreateBlendingState			( const AssetPath& name, const BlendingInfo& info );
     Nullable< RasterizerStatePtr >	            CreateRasterizerState		( const AssetPath& name, const RasterizerStateInfo& info );
     Nullable< DepthStencilStatePtr >            CreateDepthStencilState		( const AssetPath& name, const DepthStencilInfo& info );
 
-
     ///@}
+
 
 protected:
 
@@ -182,6 +204,22 @@ inline sw::Nullable< ResourcePtr< AssetType > >     ResourceManagerAPI::CreateAs
         return creationResult.GetError();
 }
 
+// ================================ //
+//
+template< typename ShaderType >
+inline Nullable< ResourcePtr< ShaderType > >        ResourceManagerAPI::CreateShader    ( const AssetPath& name, std::string code )
+{
+    ShaderCodeInitData init( ShaderInitData::GetFromTypeID( TypeID::get< ShaderType >() ), std::move( code ) );
+
+    // Check if InternalPath contains anything. We should use entrypoint
+    // from AssetPath, if it's posible or use default otherwise.
+    if( !name.GetInternalPath().HasFileName() )
+    {
+        init.EntryFunction = name.GetInternalPath().String();
+    }
+
+    return CreateAsset< ShaderType >( name, std::move( init ) );
+}
 
 //====================================================================================//
 //			Private helper functions	
@@ -189,7 +227,7 @@ inline sw::Nullable< ResourcePtr< AssetType > >     ResourceManagerAPI::CreateAs
 
 // ================================ //
 //
-template<typename ShaderType>
+template< typename ShaderType >
 inline Nullable< ResourcePtr< ShaderType > >        ResourceManagerAPI::LoadShader      ( const AssetPath& name )
 {
     // Check if InternalPath contains anything. If not we should append
