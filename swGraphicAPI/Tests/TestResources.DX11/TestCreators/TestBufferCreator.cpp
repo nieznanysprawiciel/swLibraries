@@ -52,7 +52,6 @@ TEST_CASE( "GraphicAPI.DX11.BufferCreator.ConstantBuffer.Create", "[GraphicAPI]"
 	CHECK( bufferPtr->GetElementCount() == 10 );
 }
 
-
 // ================================ //
 // 
 TEST_CASE( "GraphicAPI.DX11.BufferCreator.IndexBuffer.Create", "[GraphicAPI]" )
@@ -77,7 +76,6 @@ TEST_CASE( "GraphicAPI.DX11.BufferCreator.IndexBuffer.Create", "[GraphicAPI]" )
 	CHECK( bufferPtr->GetElementCount() == 10 );
 }
 
-
 // ================================ //
 // 
 TEST_CASE( "GraphicAPI.DX11.BufferCreator.VertexBuffer.Create", "[GraphicAPI]" )
@@ -101,3 +99,26 @@ TEST_CASE( "GraphicAPI.DX11.BufferCreator.VertexBuffer.Create", "[GraphicAPI]" )
 	CHECK( bufferPtr->GetElementSize() == sizeof( Struct16Bytes ) );
 	CHECK( bufferPtr->GetElementCount() == 10 );
 }
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.DX11.BufferCreator.ConstantBuffer.Create.NullptrInit", "[GraphicAPI]" )
+{
+    AssetsFactory factory;
+
+    ConstantBufferInitData init;
+    init.ElementSize = 16;
+    init.NumElements = 2;
+    init.Data = nullptr;
+
+    auto result = factory.CreateAsset( "::/BufferFromMemory/Constants", TypeID::get< Buffer >(), std::move( init ) );
+    REQUIRE_IS_VALID( result );
+
+    REQUIRE( result.Get() != nullptr );
+
+    Buffer* bufferPtr = static_cast< Buffer* >( result.Get() );
+
+    CHECK( bufferPtr->GetElementSize() == 16 );
+    CHECK( bufferPtr->GetElementCount() == 2 );
+}
+
