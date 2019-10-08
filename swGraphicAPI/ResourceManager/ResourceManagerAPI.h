@@ -117,6 +117,8 @@ public:
     Nullable< EvaluationShaderPtr >             CreateEvaluationShader		( const AssetPath& name, std::string code );
     Nullable< ComputeShaderPtr >                CreateComputeShader		    ( const AssetPath& name, std::string code );
 
+    Nullable< ShaderInputLayoutPtr >            CreateLayout                ( const AssetPath& name, InputLayoutDescriptor descriptor );
+
     template< typename ShaderType >
     Nullable< ResourcePtr< ShaderType > >       CreateShader                ( const AssetPath& name, std::string code );
     ///@}

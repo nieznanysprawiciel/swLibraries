@@ -83,21 +83,21 @@ protected:
 	/// Derived classes should use these API functions to set rendering state.
 	/// They shouldn't have direct access to rendering structures.
 	///@{
-	bool					DefaultRebuildResources	( ResourceManager* rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry );
+	bool					DefaultRebuildResources	( ResourceManagerAPI rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry );
 
 	bool					UpdateBrushShader		( ShaderProvider* sp, Brush* brush );
-	bool					UpdateBrushTexture		( ResourceManager* rm, Brush* brush );
-	bool					UpdateBrushConstants	( ResourceManager* rm, Brush* brush );
+	bool					UpdateBrushTexture		( ResourceManagerAPI rm, Brush* brush );
+	bool					UpdateBrushConstants	( ResourceManagerAPI rm, Brush* brush );
 
 	bool					UpdatePenShader			( ShaderProvider* sp, Brush* pen );
-	bool					UpdatePenTexture		( ResourceManager* rm, Brush* pen );
-	bool					UpdatePenConstants		( ResourceManager* rm, Brush* pen );
+	bool					UpdatePenTexture		( ResourceManagerAPI rm, Brush* pen );
+	bool					UpdatePenConstants		( ResourceManagerAPI rm, Brush* pen );
 
 	bool					UpdateVertexShader		( ShaderProvider* sp, Geometry* geometry );
-	bool					UpdateGeometry			( ResourceManager* rm, Geometry* geometry );
-	bool					UpdateGeometryConstants	( ResourceManager* rm, Geometry* geometry );
+	bool					UpdateGeometry			( ResourceManagerAPI rm, Geometry* geometry );
+	bool					UpdateGeometryConstants	( ResourceManagerAPI rm, Geometry* geometry );
 
-	bool					CreateAndSetLayout		( ResourceManager* rm, ShaderProvider* sp, Geometry* geometry );
+	bool					CreateAndSetLayout		( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry );
 	///@}
 
 	///@name Rendering functions.
@@ -122,7 +122,7 @@ protected:
 private:
 
 	bool					UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData );
-	bool					UpdateTextureImpl		( ResourceManager* rm, Brush* brush, impl::BrushRenderingData& brushData );
+	bool					UpdateTextureImpl		( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData );
 
 	void					UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::BrushRenderingData& brushData );
 	void					UpdateCBContentImpl		( IRenderer* renderer, Buffer* buffer, BufferRange bufferData );

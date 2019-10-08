@@ -23,7 +23,7 @@ void			FakeDrawing::Render					( IRenderer* renderer )
 
 // ================================ //
 //
-void			FakeDrawing::RebuildResources		( ResourceManager* resourceManager, ShaderProvider* sp )
+void			FakeDrawing::RebuildResources		( ResourceManagerAPI resourceManager, ShaderProvider* sp )
 {}
 
 

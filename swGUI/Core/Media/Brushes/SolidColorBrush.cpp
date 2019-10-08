@@ -37,24 +37,24 @@ BufferRange				SolidColorBrush::BufferData			()
 
 // ================================ //
 //
-std::string				SolidColorBrush::ShaderFunctionFile	()
+AssetPath				SolidColorBrush::ShaderFunctionFile	()
 {
 	return "$(CoreGUI-Shader-Dir)/Brush/SolidColorBrush.psh";
 }
 
 // ================================ //
 //
-std::wstring			SolidColorBrush::TextureSource		()
+AssetPath   			SolidColorBrush::TextureSource		()
 {
 	// Brush doesn't use textures.
-	return L"";
+	return "";
 }
 
 // ================================ //
 //
-std::wstring			SolidColorBrush::ConstantsName		()
+AssetPath   			SolidColorBrush::ConstantsName		()
 {
-	return L"sw::gui::SolidColorBrush::CB";
+	return "::sw::gui::SolidColorBrush::CB";
 }
 
 }	// gui

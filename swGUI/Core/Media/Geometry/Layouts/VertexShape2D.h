@@ -26,17 +26,13 @@ struct VertexShape2D
 // ================================ //
 //
 template<>
-InputLayoutDescriptorUPtr		CreateLayoutDescriptor< VertexShape2D >	();
+InputLayoutDescriptor   		CreateLayoutDescriptor< VertexShape2D >	();
 
 // ================================ //
 //
 template<>
-const std::wstring&				GetLayoutName< VertexShape2D >			();
+const AssetPath&				GetLayoutName< VertexShape2D >			();
 
-// ================================ //
-//
-template<>
-std::string						GetLayoutExampleShader< VertexShape2D >	();
 
 }	// gui
 }	// sw

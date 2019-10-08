@@ -118,7 +118,7 @@ std::string			RectangleGeometry::ShaderFunctionFile	()
 
 // ================================ //
 //
-std::wstring		RectangleGeometry::GeometryName		()
+std::string		    RectangleGeometry::GeometryName		()
 {
 	std::string geomName = "RectangleGeometry-[Width="
 							+ Convert::ToString( m_width ) + "][Height="

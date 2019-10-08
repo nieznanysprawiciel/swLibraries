@@ -29,17 +29,12 @@ namespace gui
 // ================================ //
 //
 template< typename VertexStruct >
-InputLayoutDescriptorUPtr		CreateLayoutDescriptor	();
+InputLayoutDescriptor   		CreateLayoutDescriptor	();
 
 // ================================ //
 //
 template< typename VertexStruct >
-const std::wstring&				GetLayoutName			();
-
-// ================================ //
-//
-template< typename VertexStruct >
-std::string						GetLayoutExampleShader	();
+const AssetPath&				GetLayoutName			();
 
 
 //====================================================================================//
@@ -49,7 +44,7 @@ std::string						GetLayoutExampleShader	();
 // ================================ //
 //
 template< typename VertexStruct >
-InputLayoutDescriptorUPtr		CreateLayoutDescriptor	()
+InputLayoutDescriptor   		CreateLayoutDescriptor	()
 {
 	assert( !"Implement me in specializations." );
 	return nullptr;
@@ -58,20 +53,12 @@ InputLayoutDescriptorUPtr		CreateLayoutDescriptor	()
 // ================================ //
 //
 template< typename VertexStruct >
-const std::wstring&				GetLayoutName			()
-{
-	assert( !"Implement me in specializations." );
-	return L"";
-}
-
-// ================================ //
-//
-template< typename VertexStruct >
-std::string						GetLayoutExampleShader	()
+const AssetPath&				GetLayoutName			()
 {
 	assert( !"Implement me in specializations." );
 	return "";
 }
+
 
 
 }	// gui

@@ -16,34 +16,26 @@ namespace sw {
 namespace gui
 {
 
-const std::wstring		VertexShape2D_LayoutName = L"::sw::gui::VertexShape2D";
+const AssetPath		VertexShape2D_LayoutName = "::sw::gui::VertexShape2D";
 
 // ================================ //
 //
 template<>
-InputLayoutDescriptorUPtr		CreateLayoutDescriptor< VertexShape2D >	()
+InputLayoutDescriptor   		CreateLayoutDescriptor< VertexShape2D >	()
 {
-	InputLayoutDescriptor* desc = ResourcesFactory::CreateInputLayoutDescriptor( GetLayoutName< VertexShape2D >() );
-	desc->AddRow( "POSITION", ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT, 0, 0, false, 0 );
-	desc->AddRow( "TEXCOORD", ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT, 0, 16, false, 0 );
+	InputLayoutDescriptor desc;
+    desc.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT );
+    desc.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT );
 
-	return std::unique_ptr< InputLayoutDescriptor >( desc );
+	return std::move( desc );
 }
 
 // ================================ //
 //
 template<>
-const std::wstring&				GetLayoutName< VertexShape2D >			()
+const AssetPath&				GetLayoutName< VertexShape2D >			()
 {
 	return VertexShape2D_LayoutName;
-}
-
-// ================================ //
-//
-template<>
-std::string						GetLayoutExampleShader< VertexShape2D >	()
-{
-	return "$(CoreGUI-Shader-Dir)/Layouts/VertexShape2D.vsh";
 }
 
 

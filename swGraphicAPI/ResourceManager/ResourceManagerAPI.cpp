@@ -154,6 +154,13 @@ Nullable< ComputeShaderPtr >        ResourceManagerAPI::CreateComputeShader     
     return CreateShader< ComputeShader >( name, std::move( code ) );
 }
 
+// ================================ //
+//
+Nullable< ShaderInputLayoutPtr>     ResourceManagerAPI::CreateLayout                ( const AssetPath& name, InputLayoutDescriptor descriptor )
+{
+    return CreateAsset< ShaderInputLayout >( name, std::move( descriptor ) );
+}
+
 //====================================================================================//
 //			Buffer creation	
 //====================================================================================//
