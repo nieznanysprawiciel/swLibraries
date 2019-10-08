@@ -161,6 +161,19 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.Move.Exception", "[Nullable]" )
 	CHECK( nullableAnimal.GetError() != nullptr );
 }
 
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.Nullable.operator&&", "[Nullable]" )
+{
+    ReturnResult invalid( "Something wrong..." );
+    ReturnResult valid = Result::Success;
+
+    auto result = invalid && valid;
+    CHECK( result.IsValid() == false );
+    CHECK( result.GetErrorReason() == "Something wrong..." );
+}
+
+
 
 //====================================================================================//
 //			Test Nullable impl helpers	

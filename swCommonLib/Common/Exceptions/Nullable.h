@@ -157,11 +157,15 @@ public:
 	template< typename ExceptionType >
 							Nullable			( std::shared_ptr< ExceptionType > error );
 
-    bool                    IsValid             ();
-    std::string             GetErrorReason      ();
-    ErrorType				GetError            ();
+    Nullable< void >& operator=			( const Nullable< void >& that );
+
+    bool                    IsValid             () const;
+    std::string             GetErrorReason      () const;
+    ErrorType				GetError            () const;
 
 };
+
+Nullable< void >            operator&&		    ( const Nullable< void >& that, const Nullable< void >& second );
 
 
 typedef Nullable< void > ReturnResult;
@@ -459,17 +463,43 @@ inline Nullable< void >::Nullable			( Result result )
 	: m_isValid( result == Result::Success ), Error( nullptr )
 {}
 
+// ================================ //
+//
+inline Nullable< void >&        Nullable< void >::operator=         ( const Nullable< void >& that )
+{
+    m_isValid = that.IsValid();
+    Error = that.Error;
+
+    return *this;
+}
 
 // ================================ //
 //
-inline bool						Nullable< void >::IsValid() 
+inline Nullable< void >         operator&&                          ( const Nullable< void >& obj1, const Nullable< void >& obj2 )
+{
+    if( obj1.IsValid() && obj2.IsValid() )
+        return Result::Success;
+
+    /// @todo Maybe we should handle situation, when both are errors.
+    if( !obj1.IsValid() )
+        return obj1.GetError();
+
+    if( !obj2.IsValid() )
+        return obj1.GetError();
+
+    return Result::Success;
+}
+
+// ================================ //
+//
+inline bool						Nullable< void >::IsValid           () const
 {
     return m_isValid;
 }
 
 // ================================ //
 //
-inline std::string				Nullable< void >::GetErrorReason  () 
+inline std::string				Nullable< void >::GetErrorReason    () const
 {
 	if( Error )
 		return Error->ErrorMessage();
@@ -478,7 +508,7 @@ inline std::string				Nullable< void >::GetErrorReason  ()
 
 // ================================ //
 //
-inline typename Nullable< void >::ErrorType		Nullable< void >::GetError ()
+inline typename Nullable< void >::ErrorType		Nullable< void >::GetError () const
 {
     if( m_isValid )
         assert( false ); // FIXME: error handling(?)
