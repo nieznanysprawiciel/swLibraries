@@ -13,6 +13,7 @@
 
 #include "swCommonLib/Common/Buffers/StackBuffer.h"
 #include "swCommonLib/Common/Buffers/BufferRange.h"
+#include "swCommonLib/Common/Buffers/BufferRaw.h"
 
 
 namespace sw
@@ -123,7 +124,15 @@ public:
     /// @name Buffers creation functions.
     ///@{
     Nullable< BufferPtr >			            CreateVertexBuffer			( const AssetPath& name, BufferRange buffer, uint32 elementSize );
+    Nullable< BufferPtr >			            CreateVertexBuffer			( const AssetPath& name, BufferRange buffer, uint32 elementSize, TypeID elementType );
+    Nullable< BufferPtr >			            CreateVertexBuffer			( const AssetPath& name, const BufferRaw& buffer, uint32 elementSize );
+
     Nullable< BufferPtr >			            CreateIndexBuffer			( const AssetPath& name, BufferRange buffer, uint32 elementSize );
+    Nullable< BufferPtr >			            CreateIndexBuffer			( const AssetPath& name, BufferRange buffer, uint32 elementSize, TypeID elementType );
+    Nullable< BufferPtr >			            CreateIndexBuffer			( const AssetPath& name, const BufferRaw& buffer, uint32 elementSize );
+
+    template< typename IndexType >
+    Nullable< BufferPtr >			            CreateIndexBuffer			( const AssetPath& name, BufferRange buffer );
     
     /**@brief Creates constants buffer with element of size of whole buffer.
     @note Function doesn't set buffer data type.*/
@@ -186,13 +195,8 @@ inline ResourcePtr< AssetType >						ResourceManagerAPI::GetCached		( const Asse
 {
     auto resource = GetCachedGeneric( name, TypeID::get< AssetType >() );
 
-    /// @todo It would be nice if Nullable could make this conversion by itself.
-    /// It's imposible, because we store ResorucePtr in Nullable and wrappers
-    /// types aren't related.
-    if( resource.IsValid() )
-        return ResourcePtr< AssetType >( static_cast< AssetType* >( resource.Get().Ptr() ) );
-    else
-        return resource.GetError();
+    // Cast to typed asset.
+    return ResourcePtr< AssetType >( static_cast< AssetType* >( resource.Ptr() ) );
 }
 
 // ================================ //
@@ -226,6 +230,14 @@ inline Nullable< ResourcePtr< ShaderType > >        ResourceManagerAPI::CreateSh
     }
 
     return CreateAsset< ShaderType >( name, std::move( init ) );
+}
+
+// ================================ //
+//
+template< typename IndexType >
+inline Nullable< BufferPtr >                        ResourceManagerAPI::CreateIndexBuffer       ( const AssetPath& name, BufferRange buffer )
+{
+    return CreateIndexBuffer( name, buffer, sizeof( IndexType ), TypeID::get< IndexType >() );
 }
 
 // ================================ //

@@ -24,6 +24,21 @@ ResourceManagerAPI::ResourceManagerAPI( ResourceManager* resourceManager )
 
 // ================================ //
 //
+ResourcePointer                     ResourceManagerAPI::GetGeneric                  ( const AssetPath& name, TypeID type )
+{
+    return m_resourceManager->GetGeneric( name, type );
+}
+
+// ================================ //
+//
+ResourcePointer                     ResourceManagerAPI::GetCachedGeneric            ( const AssetPath& name, TypeID type )
+{
+    /// @todo Call creation from cache, when caching mechanism is ready.
+    return m_resourceManager->GetGeneric( name, type );
+}
+
+// ================================ //
+//
 sw::Nullable< ResourcePointer >		ResourceManagerAPI::LoadGeneric				    ( const AssetPath& assetName, const IAssetLoadInfo* desc, TypeID type )
 {
     return m_resourceManager->LoadGeneric( assetName, desc, type );
@@ -142,6 +157,72 @@ Nullable< ComputeShaderPtr >        ResourceManagerAPI::CreateComputeShader     
 //====================================================================================//
 //			Buffer creation	
 //====================================================================================//
+
+// ================================ //
+//
+Nullable< BufferPtr >               ResourceManagerAPI::CreateVertexBuffer          ( const AssetPath& name, BufferRange buffer, uint32 elementSize )
+{
+    return CreateVertexBuffer( name, buffer, elementSize, TypeID::get_by_name( "" ) );
+}
+
+// ================================ //
+//
+Nullable< BufferPtr >               ResourceManagerAPI::CreateVertexBuffer          ( const AssetPath& name, BufferRange buffer, uint32 elementSize, TypeID elementType )
+{
+    VertexBufferInitData initData;
+    initData.Data = buffer.DataPtr;
+    initData.ElementSize = elementSize;
+    initData.DataType = elementType;
+    initData.NumElements = (uint32)buffer.DataSize / elementSize;
+
+    return CreateAsset< Buffer >( name, std::move( initData ) );
+}
+
+// ================================ //
+//
+Nullable< BufferPtr >               ResourceManagerAPI::CreateVertexBuffer          ( const AssetPath& name, const BufferRaw& buffer, uint32 elementSize )
+{
+    VertexBufferInitData initData;
+    initData.Data = buffer.GetData();
+    initData.ElementSize = elementSize;
+    initData.DataType = buffer.GetType();
+    initData.NumElements = (uint32)buffer.GetSize() / elementSize;
+
+    return CreateAsset< Buffer >( name, std::move( initData ) );
+}
+
+// ================================ //
+//
+Nullable< BufferPtr >               ResourceManagerAPI::CreateIndexBuffer           ( const AssetPath& name, BufferRange buffer, uint32 elementSize )
+{
+    return CreateIndexBuffer( name, buffer, elementSize, TypeID::get_by_name( "" ) );
+}
+
+// ================================ //
+//
+Nullable< BufferPtr >               ResourceManagerAPI::CreateIndexBuffer           ( const AssetPath& name, BufferRange buffer, uint32 elementSize, TypeID elementType )
+{
+    IndexBufferInitData initData;
+    initData.Data = buffer.DataPtr;
+    initData.ElementSize = elementSize;
+    initData.DataType = elementType;
+    initData.NumElements = (uint32)buffer.DataSize / elementSize;
+
+    return CreateAsset< Buffer >( name, std::move( initData ) );
+}
+
+// ================================ //
+//
+Nullable< BufferPtr >               ResourceManagerAPI::CreateIndexBuffer           ( const AssetPath& name, const BufferRaw& buffer, uint32 elementSize )
+{
+    IndexBufferInitData initData;
+    initData.Data = buffer.GetData();
+    initData.ElementSize = elementSize;
+    initData.DataType = buffer.GetType();
+    initData.NumElements = (uint32)buffer.GetSize() / elementSize;
+
+    return CreateAsset< Buffer >( name, std::move( initData ) );
+}
 
 // ================================ //
 //
