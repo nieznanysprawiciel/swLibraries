@@ -40,13 +40,6 @@ namespace sw
 
 // ================================ //
 //
-Texture*						ResourcesFactory::CreateTextureFromMemory		( const MemoryChunk& texData, sw::TextureInfo&& texInfo )
-{
-	return TextureObject::CreateFromMemory( texData, std::move( texInfo ) );
-}
-
-// ================================ //
-//
 sw::Nullable< VertexShader* >		ResourcesFactory::CreateVertexShader			( const AssetPath& fileName, const std::string& code, const std::string& entrypoint )
 {
 	return VertexShaderObject::CreateFromCode( fileName, code, entrypoint );
@@ -80,47 +73,6 @@ sw::Nullable< Texture* >			ResourcesFactory::CreateTextureFromMemory		( const As
 	return TextureObject::CreateFromMemory( name, texData, std::move( texInfo ) );
 }
 
-
-/**@brief Tworzy obiekt vertex shadera.
-
-@param[in] fileName Nazwa pliku z kodem shadera.
-@param[in] shaderName Nazwa funkcji, od której ma siê rozpocz¹æ wykonanie programu shadera.
-@param[in] shaderModel Shader model.
-@return Zwraca obiekt vertex shadera lub nullptr w przypadku niepowodzenia.*/
-VertexShader*		ResourcesFactory::CreateVertexShaderFromFile( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel )
-{
-	auto shader = VertexShaderObject::CreateFromFile( fileName, shaderName, shaderModel );
-	if( shader )
-	{
-		//shader->SetFileName( fileName );
-		shader->SetShaderName( shaderName );
-	}
-	return shader;
-}
-
-/**@brief Tworzy obiekt vertex shadera oraz layout wierzcho³ka.
-
-@param[in] fileName Nazwa pliku z kodem shadera.
-@param[in] shaderName Nazwa funkcji, od której ma siê rozpocz¹æ wykonanie programu shadera.
-@param[out] layout Zwraca obiekt layoutu.
-@param[in] layoutDesc Deskryptor opisuj¹cy layout.
-@param[in] shaderModel Shader model.
-@return Zwraca obiekt vertex shadera lub nullptr w przypadku niepowodzenia.*/
-VertexShader*		ResourcesFactory::CreateVertexShaderFromFile	( const std::wstring& fileName,
-																	  const std::string& shaderName,
-																	  ShaderInputLayout** layout,
-																	  InputLayoutDescriptor* layoutDesc,
-																	  const char* shaderModel/* = "vs_4_0"*/ )
-{
-	auto shader = VertexShaderObject::CreateFromFile( fileName, shaderName, layout, layoutDesc, shaderModel );
-	if( shader )
-	{
-		//shader->SetFileName( fileName );
-		shader->SetShaderName( shaderName );
-	}
-	return shader;
-}
-
 /**@brief Creates BlendingState.*/
 sw::Nullable< BlendingState* >		ResourcesFactory::CreateBlendingState		( const AssetPath& name, const BlendingInfo& info )
 {
@@ -139,52 +91,6 @@ sw::Nullable< DepthStencilState* >	ResourcesFactory::CreateDepthStencilState	( c
 	return DepthStencilStateObject::Create( name, info );
 }
 
-
-/**@brief Tworzy obekt pixel shadera.
-@param[in] fileName Nazwa pliku z kodem shadera.
-@param[in] shaderName Nazwa funkcji, od której ma siê rozpocz¹æ wykonanie programu shadera.
-@param[in] shaderModel Shader model.
-@return Zwraca obiekt vertex shadera lub nullptr w przypadku niepowodzenia.*/
-PixelShader*		ResourcesFactory::CreatePixelShaderFromFile( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel )
-{
-	auto shader = PixelShaderObject::CreateFromFile( fileName, shaderName, shaderModel );
-	if( shader )
-	{
-		//shader->SetFileName( fileName );
-		shader->SetShaderName( shaderName );
-	}
-	return shader;
-}
-
-/**@brief */
-GeometryShader*		ResourcesFactory::CreateGeometryShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel )
-{
-	return nullptr;
-}
-
-/**@brief */
-EvaluationShader*	ResourcesFactory::CreateEvaluationShaderFromFile	( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel )
-{
-	return nullptr;
-}
-
-/**@brief */
-ControlShader*		ResourcesFactory::CreateControlShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel )
-{
-	return nullptr;
-}
-
-/**@brief Tworzy obekt compute shadera.
-@param[in] fileName Nazwa pliku z kodem shadera.
-@param[in] shaderName Nazwa funkcji, od której ma siê rozpocz¹æ wykonanie programu shadera.
-@param[in] shaderModel Shader model.
-@return Zwraca obiekt vertex shadera lub nullptr w przypadku niepowodzenia.*/
-ComputeShader*		ResourcesFactory::CreateComputeShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel )
-{
-	return ComputeShaderObject::CreateFromFile( fileName, shaderName, shaderModel );
-}
-
-
 /**@brief Tworzy bufor na podstawie sanych w pamiêci.
 
 @param[in] name Buffer name or file path.
@@ -199,7 +105,7 @@ sw::Nullable< Buffer* >					ResourcesFactory::CreateBufferFromMemory		( const As
 /**Tworzy object RenderTarget z bufora tylnego ekranu.
 
 @return Zwraca object RenderTarget.*/
-RenderTarget*						ResourcesFactory::CreateScreenRenderTarget		()
+RenderTarget*						    ResourcesFactory::CreateScreenRenderTarget		()
 {
 	return sw::MockRenderTarget::CreateScreenRenderTarget();
 }
@@ -216,12 +122,6 @@ SwapChain*								ResourcesFactory::CreateScreenSwapChain			( RenderTarget* scre
 IGraphicAPIInitializer*					ResourcesFactory::CreateAPIInitializer			()
 {
 	return new sw::MockInitializer();
-}
-
-/**Tworzy obiekt deskryptora layoutu.*/
-InputLayoutDescriptor*					ResourcesFactory::CreateInputLayoutDescriptor	( const std::wstring& layoutName )
-{
-	return new sw::MockInputLayoutDescriptor( layoutName );
 }
 
 // ================================ //

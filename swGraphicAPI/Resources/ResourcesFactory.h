@@ -79,28 +79,10 @@ private:
 	static sw::Nullable< RasterizerState* >		CreateRasterizerState			( const AssetPath& name, const RasterizerStateInfo& info );
 	static sw::Nullable< DepthStencilState* >	CreateDepthStencilState			( const AssetPath& name, const DepthStencilInfo& info );
 
-
-	static Texture*								CreateTextureFromMemory			( const MemoryChunk& texData, sw::TextureInfo&& texInfo );
-
-	static VertexShader*					CreateVertexShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "vs_4_0" );
-	static PixelShader*						CreatePixelShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "ps_4_0" );
-	static GeometryShader*					CreateGeometryShaderFromFile	( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "gs_4_0" );
-	static EvaluationShader*				CreateEvaluationShaderFromFile	( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "hs_4_0" );
-	static ControlShader*					CreateControlShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "ds_4_0" );
-	static ComputeShader*					CreateComputeShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel = "cs_4_0" );
-
-
-	static VertexShader*			CreateVertexShaderFromFile		( const std::wstring& fileName,
-																	  const std::string& shaderName,
-																	  ShaderInputLayout** layout,
-																	  InputLayoutDescriptor* layout_desc,
-																	  const char* shaderModel = "vs_4_0" );
-
 public:
 	static IGraphicAPIInitializer*				CreateAPIInitializer			();
 	static RenderTarget*						CreateScreenRenderTarget		();
 	static SwapChain*							CreateScreenSwapChain			( RenderTarget* screenRT );
-	static InputLayoutDescriptor*				CreateInputLayoutDescriptor		( const std::wstring& layoutName );
 	static sw::Nullable< RenderTarget* >		CreateRenderTarget				( const AssetPath& name, const RenderTargetDescriptor& renderTargetDescriptor );
 };
 
