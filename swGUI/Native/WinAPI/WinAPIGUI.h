@@ -1,4 +1,10 @@
 #pragma once
+/**
+@file WinAPIGUI.h
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 
 #include "swGUI/Native/INativeGUI.h"
@@ -10,15 +16,6 @@
 #undef XBUTTON2
 
 
-
-//struct tagMSG;
-//typedef tagMSG MSG;
-//
-//struct HWND__;
-//typedef HWND__* HWND;
-//
-//typedef UINT_PTR            WPARAM;
-//typedef LONG_PTR            LPARAM;
 
 
 
@@ -58,7 +55,7 @@ public:
 
 
 	virtual bool				MainLoop		( bool blockingMode )											override;
-	virtual bool				Init			( const NativeGUIInitData& initData )							override;
+	virtual ReturnResult    	Init			( const NativeGUIInitData& initData )							override;
 	virtual sw::input::IInput*	UseNativeInput	( INativeWindow* nativeWindow )									override;
 	virtual sw::input::IInput*	UseNativeInput	( INativeWindow* nativeWindow, input::InputInitInfo& initInfo )	override;
 	virtual INativeWindow*		CreateWindow	( NativeWindowDescriptor& descriptor )							override;

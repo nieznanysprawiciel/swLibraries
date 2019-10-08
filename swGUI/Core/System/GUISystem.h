@@ -256,6 +256,7 @@ You don't have to write main function. Instead use project templates for differe
 To use gui implement Application class.
 
 @todo Supply project templates.
+@todo Use more unique pointers in implementation. We should clearly communicate pointers ownership.
 */
 class GUISystem
 {
@@ -342,11 +343,11 @@ public:
 
 	/**@brief Calls CreateNativeHostWindow with default values.
 	@see GUISystem::CreateNativeHostWindow*/
-	HostWindow*		CreateNativeHostWindow		( uint16 width, uint16 height, const std::string& windowTitle );
+	Nullable< HostWindow* >		CreateNativeHostWindow		( uint16 width, uint16 height, const std::string& windowTitle );
 	/**@brief Creates host window based on native window.
 	Window will be added to windows list.
 	@note windowDesc can change. For instance: if you set AdjustSize to true, function will return real window size.*/
-	HostWindow*		CreateNativeHostWindow		( NativeWindowDescriptor& windowDesc );
+    Nullable< HostWindow* >		CreateNativeHostWindow		( NativeWindowDescriptor& windowDesc );
 
 
 private:
