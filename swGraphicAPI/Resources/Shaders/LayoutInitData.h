@@ -66,28 +66,19 @@ class InputLayoutDescriptor : public sw::IAssetCreateInfo
 	RTTR_REGISTRATION_FRIEND;
 private:
 
-	std::wstring					m_inputLayoutName;
 	std::vector< sw::LayoutEntry >	m_entries;
 
 protected:
 public:
-	explicit InputLayoutDescriptor		( const std::wstring& layoutName )
-		:	m_inputLayoutName( layoutName )
-	{}
-
+    explicit InputLayoutDescriptor		() = default;
 	virtual ~InputLayoutDescriptor		() = default;
 
-	/**@brief Adds Input layout entry.
-	@deprecated This function remained for compatibility with previous version of creating input layouts.*/
-	virtual void			AddRow		( const char* semanticName, ResourceFormat format, unsigned int inputSlot, unsigned int byteOffset, bool perInstance, unsigned int instanceDataStep ) {};
 
 	/**@brief Adds shader input layout entry.
 	This function will fill not specified data with apropriate values.*/
 	void					AddEntry				( sw::AttributeSemantic semanticName, ResourceFormat format );
 	void					AddEntry				( sw::AttributeSemantic semanticName, ResourceFormat format, uint16 inputSlot );
 	void					AddEntryPerInstance		( sw::AttributeSemantic semanticName, ResourceFormat format, uint16 inputSlot, uint32 instanceDataStep );
-
-	const std::wstring&		GetName					() { return m_inputLayoutName; }
 
 	virtual TypeID			GetAssetType			() const override;
 

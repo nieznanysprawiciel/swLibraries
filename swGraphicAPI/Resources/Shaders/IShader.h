@@ -22,9 +22,6 @@ class IShader : public Resource
 	RTTR_ENABLE( Resource )
 private:
 protected:
-
-	std::string				m_shaderEntry;			///< Name of main shader function;
-
 protected:
 
 	explicit		IShader		( const AssetPath& assetPath ) : Resource( assetPath ) {}
@@ -32,12 +29,9 @@ protected:
 
 public:
 
-	const std::string&		GetShaderEntry			() const { return m_shaderEntry; }
-
-
 	virtual bool			ReloadFromFile			() = 0;
 	virtual bool			ReloadFromBinFile		() = 0;
-	virtual void			SaveShaderBinFile		( const std::wstring& file_name ) = 0;
+	virtual void			SaveShaderBinFile		( const filesystem::Path& fileName ) = 0;
 };
 
 }	// sw

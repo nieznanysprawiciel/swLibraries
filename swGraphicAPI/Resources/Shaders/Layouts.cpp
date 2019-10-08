@@ -36,7 +36,6 @@ RTTR_REGISTRATION
 		.property( "InstanceDataStep", &sw::LayoutEntry::InstanceDataStep );
 
 	rttr::registration::class_< sw::InputLayoutDescriptor >( "sw::InputLayoutDescriptor" )
-		.property( "Name", &sw::InputLayoutDescriptor::m_inputLayoutName )
 		.property( "Entries", &sw::InputLayoutDescriptor::m_entries );
 
 }

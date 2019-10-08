@@ -16,7 +16,6 @@
 #include "DX11Buffer.h"
 #include "DX11Texture.h"
 #include "DX11RenderTarget.h"
-#include "DX11InputLayoutDescriptor.h"
 #include "DX11InputLayout.h"
 #include "DX11SwapChain.h"
 #include "DX11PipelineState.h"

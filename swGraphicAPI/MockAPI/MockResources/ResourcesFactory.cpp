@@ -13,7 +13,6 @@
 #include "MockBuffer.h"
 #include "MockTexture.h"
 #include "MockRenderTarget.h"
-#include "MockInputLayoutDescriptor.h"
 #include "MockInputLayout.h"
 #include "MockSwapChain.h"
 #include "MockPipelineState.h"

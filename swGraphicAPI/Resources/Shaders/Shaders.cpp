@@ -20,8 +20,7 @@ RTTR_REGISTRATION
 
 	// Shader
 	rttr::registration::class_< ShaderInputLayout >( "sw::ShaderInputLayout" );
-	rttr::registration::class_< IShader >( "sw::IShader" )
-		.property_readonly( "MainFunction", &IShader::GetShaderEntry );
+    rttr::registration::class_< IShader >( "sw::IShader" );
 
 	rttr::registration::class_< PixelShader >( "sw::PixelShader" );
 	rttr::registration::class_< VertexShader >( "sw::VertexShader" );
