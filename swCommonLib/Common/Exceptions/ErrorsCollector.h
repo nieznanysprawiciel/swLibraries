@@ -64,6 +64,46 @@ public:
 	template< typename ReturnType >
 	inline bool			Success					( const Nullable< ReturnType >& result );
 
+    /**@brief Checks if returned result was success. Moves value of Nullable if it was valid.
+    Returns defaultVal, if it was invalid, and collects error.
+    
+    This function is meant to defer error handling or collect warning.
+    
+    Proposed usage:
+    @code
+    ReturnResult        SomeClass::Function()
+    {
+        ErrorsCollector collector;
+
+        member_pointer1 = collector.OnError( SomeFunction1(), nullptr ) );
+        member_pointer2 = collector.OnError( SomeFunction2(), nullptr ) );
+
+        return collector.Get();
+    }
+    @endcode
+
+    Note that this helps us avoid cubersome ifs that check errors like this:
+
+    @code
+    ReturnResult        SomeClass::Function()
+    {
+        ErrorsCollector collector;
+
+        auto result1 = SomeFunction1();
+        if( result1.IsValid() )
+            member_pointer1 = result1.Get();
+
+        auto result2 = SomeFunction1();
+        if( result2.IsValid() )
+            member_pointer2 = result2.Get();
+
+        return collector.Get();
+    }
+    @endcode
+    */
+    template< typename ReturnType >
+    inline ReturnType   OnError					( Nullable< ReturnType >&& result, ReturnType defaultVal );
+
 	inline				operator ReturnResult	();
 	inline ReturnResult Get						();
 
@@ -196,6 +236,18 @@ inline bool						ErrorsCollector::Success				( const Nullable< ReturnType >& res
 
 	Add( result.GetError() );
 	return false;
+}
+
+// ================================ //
+//
+template< typename ReturnType >
+inline ReturnType               ErrorsCollector::OnError                  ( Nullable< ReturnType >&& result, ReturnType defaultVal )
+{
+    if( result.IsValid() )
+        return std::move( result ).Get();
+
+    Add( result.GetError() );
+    return std::move( defaultVal );
 }
 
 }	// sw
