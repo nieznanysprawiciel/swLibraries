@@ -296,36 +296,36 @@ public:
 protected:
 	///@name User overrides
 	///@{
-	virtual	bool	Initialize		();
-	virtual bool	OnInitialized	() = 0;
-	virtual void	OnClosing		() = 0;
-	virtual void	OnIdle			( const FrameTime& frameTime ) = 0;
+	virtual	ReturnResult	Initialize		();
+	virtual ReturnResult	OnInitialized	() = 0;
+	virtual void	        OnClosing		() = 0;
+	virtual void	        OnIdle			( const FrameTime& frameTime ) = 0;
 	///@}
 
 	///@name Default initialization functions
 	///@todo Use ReturnResult in initialization functions and return exceptions.
 	///@{
-	bool			DefaultInitWithoutWindow	();
-	bool			DefaultInit					( uint16 width, uint16 height, const std::string& windowTitle );
-	bool			DefaultInitNativeGUI		();
-	bool			DefaultInitGraphicAPI		( bool debug, bool singleThreaded );
-	bool			DefaultInitRenderingSystem	();
-	bool			DefaultInitFirstWindow		( uint16 width, uint16 height, const std::string& windowTitle, bool show );
-	bool			DefaultInitPathsManager		();
-	bool			DefaultInitResourceManager	();
-	bool			InitResourceManager			( ResourceManager* resourceManager );
+	ReturnResult	        DefaultInitWithoutWindow	();
+    ReturnResult			DefaultInit					( uint16 width, uint16 height, const std::string& windowTitle );
+    ReturnResult			DefaultInitNativeGUI		();
+    ReturnResult			DefaultInitGraphicAPI		( bool debug, bool singleThreaded );
+    ReturnResult			DefaultInitRenderingSystem	();
+    ReturnResult			DefaultInitFirstWindow		( uint16 width, uint16 height, const std::string& windowTitle, bool show );
+    ReturnResult			DefaultInitPathsManager		();
+    ReturnResult			DefaultInitResourceManager	();
+    ReturnResult			InitResourceManager			( ResourceManager* resourceManager );
 
-	bool			DefaultInitCorePaths		();
-	bool			DefaultInitDependentPaths	();
+    ReturnResult			DefaultInitCorePaths		();
+    ReturnResult			DefaultInitDependentPaths	();
 
-	bool			ResourceManagerInitImpl		( ResourceManager* resourceManager );
+    ReturnResult			ResourceManagerInitImpl		( ResourceManager* resourceManager );
 	///@}
 
 public:
 
 	///@name Main functions
 	///@{
-	bool			Init			();
+    ReturnResult	Init			();
 	int				MainLoop		();
 	bool			MainLoopCore	();
 	void			HandleEvents	( const FrameTime& frameTime );

@@ -47,7 +47,7 @@ public:
 public:
 
 	virtual BufferRange			BufferData			() override;
-	virtual AssetPath			ShaderFunctionFile	() override;
+	virtual filesystem::Path	ShaderFunctionFile	() override;
 	virtual AssetPath   		TextureSource		() override;
 	virtual AssetPath   		ConstantsName		() override;
 };

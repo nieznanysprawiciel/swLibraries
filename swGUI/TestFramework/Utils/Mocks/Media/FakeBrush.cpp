@@ -29,23 +29,23 @@ BufferRange				FakeBrush::BufferData			()
 
 // ================================ //
 //
-std::string				FakeBrush::ShaderFunctionFile	()
+filesystem::Path		FakeBrush::ShaderFunctionFile	()
 {	
 	return m_shaderFun;
 }
 
 // ================================ //
 //
-std::wstring			FakeBrush::TextureSource		()
+AssetPath			    FakeBrush::TextureSource		()
 {
 	return m_textureFile;
 }
 
 // ================================ //
 //
-std::wstring			FakeBrush::ConstantsName		()
+AssetPath   			FakeBrush::ConstantsName		()
 {
-	return L"::FakeBrush-Constants";
+	return "::FakeBrush-Constants";
 }
 
 // ================================ //
@@ -58,7 +58,7 @@ void					FakeBrush::SetShaderFunction	( const std::string& shaderFun )
 
 // ================================ //
 //
-void					FakeBrush::SetTextureFile		( const std::wstring& tex )
+void					FakeBrush::SetTextureFile		( const std::string& tex )
 {
 	m_textureFile = tex;
 	InvalidateTexture();

@@ -21,7 +21,7 @@ namespace gui
 //
 FakeGeometry::FakeGeometry( Geometry::ConstantBufferMode cbMode )
 	:	Geometry( cbMode )
-	,	m_geomName( L"InitGeom" )
+	,	m_geomName( "InitGeom" )
 {
 	InvalidateShader();
 	InvalidateConstants();
@@ -59,35 +59,35 @@ GeometryData	FakeGeometry::Generate		()
 
 // ================================ //
 //
-BufferRange		FakeGeometry::BufferData	()
+BufferRange		        FakeGeometry::BufferData	()
 {
 	return m_buffer.GetView();
 }
 
 // ================================ //
 //
-std::string		FakeGeometry::ShaderFunctionFile	()
+filesystem::Path		FakeGeometry::ShaderFunctionFile	()
 {
 	return m_shaderFun;
 }
 
 // ================================ //
 //
-std::wstring	FakeGeometry::GeometryName			()
+std::string	            FakeGeometry::GeometryName			()
 {
 	return m_geomName;
 }
 
 // ================================ //
 //
-std::wstring	FakeGeometry::ConstantsName			()
+AssetPath	        FakeGeometry::ConstantsName			()
 {
-	return L"FakeGeometry";
+	return AssetPath( "", "FakeGeometry" );
 }
 
 // ================================ //
 //
-void			FakeGeometry::ChangeGeometry		( const std::wstring& geomName )
+void			FakeGeometry::ChangeGeometry		( const std::string& geomName )
 {
 	m_geomName = geomName;
 	InvalidateGeometry();

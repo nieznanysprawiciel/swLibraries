@@ -111,7 +111,7 @@ BufferRange			RectangleGeometry::BufferData		()
 
 // ================================ //
 //
-std::string			RectangleGeometry::ShaderFunctionFile	()
+filesystem::Path    RectangleGeometry::ShaderFunctionFile	()
 {
 	return "$(CoreGUI-Shader-Dir)/Geometry/ForwardAttributes.vsh";
 }
@@ -125,15 +125,15 @@ std::string		    RectangleGeometry::GeometryName		()
 							+ Convert::ToString( m_height ) + "][StrokeThickness="
 							+ Convert::ToString( m_strokeThickness ) + "]";
 
-	return Convert::FromString< std::wstring >( geomName, L"" );
+	return geomName;
 }
 
 // ================================ //
 //
-std::wstring		RectangleGeometry::ConstantsName	()
+AssetPath   		RectangleGeometry::ConstantsName	()
 {
 	// Rectangle doesn't use contants buffer.
-	return std::wstring();
+	return AssetPath();
 }
 
 }	// gui

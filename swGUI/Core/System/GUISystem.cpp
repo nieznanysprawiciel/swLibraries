@@ -154,7 +154,7 @@ void				GUISystem::CloseLogic		()
 //====================================================================================//
 
 /**@brief Invoke this function in application entry point (main).*/
-bool				GUISystem::Init()
+ReturnResult		GUISystem::Init()
 {
 	bool result = true;
 
@@ -171,13 +171,13 @@ bool				GUISystem::Init()
 
 If you need specific gui initialization in your application override this function.
 You can set different GraphicApi or input api.*/
-bool				GUISystem::Initialize()
+ReturnResult		GUISystem::Initialize()
 {
 	return DefaultInit( 1024, 768, "Window Tittle" );
 }
 
 /**@brief Makes initialization but leaves window creation for user.*/
-bool				GUISystem::DefaultInitWithoutWindow	()
+ReturnResult		GUISystem::DefaultInitWithoutWindow	()
 {
 	bool result = true;
 
@@ -191,7 +191,7 @@ bool				GUISystem::DefaultInitWithoutWindow	()
 }
 
 /**@brief Default GUI system initialization function.*/
-bool				GUISystem::DefaultInit				( uint16 width, uint16 height, const std::string& windowTitle )
+ReturnResult    	GUISystem::DefaultInit				( uint16 width, uint16 height, const std::string& windowTitle )
 {
 	bool result = true;
 
@@ -206,7 +206,7 @@ bool				GUISystem::DefaultInit				( uint16 width, uint16 height, const std::stri
 
 Native GUI object is set in constructor. Here we initialize it.
 Function creates native input object.*/
-bool				GUISystem::DefaultInitNativeGUI		()
+ReturnResult		GUISystem::DefaultInitNativeGUI		()
 {
 	NativeGUIInitData nativeGUIInit;
 	nativeGUIInit.FocusChanged = fastdelegate::MakeDelegate( this, &GUISystem::OnFocusChanged );
@@ -215,7 +215,7 @@ bool				GUISystem::DefaultInitNativeGUI		()
 }
 
 /**@brief Default graphic api initialization.*/
-bool				GUISystem::DefaultInitGraphicAPI	( bool debug, bool singleThreaded )
+ReturnResult		GUISystem::DefaultInitGraphicAPI	( bool debug, bool singleThreaded )
 {
 	// ResourceFactory creates api which is linked as library.
 	m_graphicApi = ResourcesFactory::CreateAPIInitializer();
@@ -234,7 +234,7 @@ bool				GUISystem::DefaultInitGraphicAPI	( bool debug, bool singleThreaded )
 /**@brief Initializes rendering system.
 
 @note m_resourceManager and m_graphicApi must be already initialized;*/
-bool				GUISystem::DefaultInitRenderingSystem	()
+ReturnResult    	GUISystem::DefaultInitRenderingSystem	()
 {
 	if( !m_graphicApi )
 		return false;
@@ -250,7 +250,7 @@ bool				GUISystem::DefaultInitRenderingSystem	()
 
 // ================================ //
 //
-bool				GUISystem::DefaultInitFirstWindow		( uint16 width, uint16 height, const std::string& windowTitle, bool show )
+ReturnResult    	GUISystem::DefaultInitFirstWindow		( uint16 width, uint16 height, const std::string& windowTitle, bool show )
 {
 	// Note: we must always initialize first focus window. This is probably hack, but OnFocusChanged delegate won't be invoked.
 	m_focusedWindow = CreateNativeHostWindow( width, height, windowTitle );
@@ -267,7 +267,7 @@ bool				GUISystem::DefaultInitFirstWindow		( uint16 width, uint16 height, const 
 
 // ================================ //
 //
-bool				GUISystem::DefaultInitPathsManager		()
+ReturnResult		GUISystem::DefaultInitPathsManager		()
 {
 	bool result = true;
 
@@ -279,7 +279,7 @@ bool				GUISystem::DefaultInitPathsManager		()
 
 // ================================ //
 //
-bool				GUISystem::DefaultInitCorePaths			()
+ReturnResult		GUISystem::DefaultInitCorePaths			()
 {
 	m_pathsManager->RegisterAlias( "$(TMP)", m_nativeGUI->GetOS()->GetTempDir() );
 	m_pathsManager->RegisterAlias( "$(CoreGUI-Dir)", m_nativeGUI->GetOS()->GetApplicationDir() );
@@ -289,7 +289,7 @@ bool				GUISystem::DefaultInitCorePaths			()
 
 // ================================ //
 //
-bool				GUISystem::DefaultInitDependentPaths	()
+ReturnResult		GUISystem::DefaultInitDependentPaths	()
 {
 	/// @todo This should set hlsl or glsl directory depending on used graphic API.
 	m_pathsManager->RegisterAlias( "$(CoreGUI-Shader-Dir)", "$(CoreGUI-Dir)/Shaders/hlsl" );
@@ -298,14 +298,14 @@ bool				GUISystem::DefaultInitDependentPaths	()
 }
 
 /**@brief Function creates ResourceManager and calls default initialization.*/
-bool				GUISystem::DefaultInitResourceManager	()
+ReturnResult		GUISystem::DefaultInitResourceManager	()
 {
 	m_resourceManager = new ResourceManager();
 	return ResourceManagerInitImpl( m_resourceManager );
 }
 
 /**@brief This functions sets ResourceManager from parameter and calls default initialization.*/
-bool				GUISystem::InitResourceManager			( ResourceManager* resourceManager )
+ReturnResult		GUISystem::InitResourceManager			( ResourceManager* resourceManager )
 {
 	m_resourceManager = resourceManager;
 	return ResourceManagerInitImpl( m_resourceManager );
@@ -313,7 +313,7 @@ bool				GUISystem::InitResourceManager			( ResourceManager* resourceManager )
 
 // ================================ //
 //
-bool				GUISystem::ResourceManagerInitImpl		( ResourceManager* resourceManager )
+ReturnResult		GUISystem::ResourceManagerInitImpl		( ResourceManager* resourceManager )
 {
 	// Empty for future use
 	return true;
