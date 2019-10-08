@@ -22,6 +22,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\BuffersTest\BufferTypedTest.cpp" />
     <ClCompile Include="..\..\..\..\Tests\BuffersTest\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\BuffersTest\TestStackBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CommonBase\CommonBase.vcxproj">
