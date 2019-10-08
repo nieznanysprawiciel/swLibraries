@@ -11,6 +11,7 @@
 #include "swGraphicAPI/Resources/MeshResources.h"
 #include "swGraphicAPI/Resources/Shaders/ShaderInitData.h"
 
+#include "swCommonLib/Common/Buffers/StackBuffer.h"
 #include "swCommonLib/Common/Buffers/BufferRange.h"
 
 
@@ -130,6 +131,12 @@ public:
     Nullable< BufferPtr >			            CreateConstantsBuffer		( const AssetPath& name, BufferRange buffer, uint32 elementSize );
     Nullable< BufferPtr >			            CreateConstantsBuffer		( const AssetPath& name, BufferRange buffer, uint32 elementSize, TypeID elementType );
 
+    /**@brief Creates buffer from local structure allocated on stack.
+    @note Function sets buffer data type. Data type is not necessary to work, but it helps
+    for debugging and type retrospection in editor. It is recommended to use typed functions.*/
+    template< typename DataStruct >
+    Nullable< BufferPtr >			            CreateConstantsBuffer		( const AssetPath& name, const StackBufferA< DataStruct >& buffer );
+
     ///@}
 
 
@@ -219,6 +226,14 @@ inline Nullable< ResourcePtr< ShaderType > >        ResourceManagerAPI::CreateSh
     }
 
     return CreateAsset< ShaderType >( name, std::move( init ) );
+}
+
+// ================================ //
+//
+template< typename DataStruct >
+inline Nullable< BufferPtr >                        ResourceManagerAPI::CreateConstantsBuffer   ( const AssetPath& name, const StackBufferA< DataStruct >& buffer )
+{
+    return CreateConstantsBuffer( name, buffer.GetView(), (uint32)buffer.GetSize(), TypeID::get< DataStruct >() );
 }
 
 //====================================================================================//

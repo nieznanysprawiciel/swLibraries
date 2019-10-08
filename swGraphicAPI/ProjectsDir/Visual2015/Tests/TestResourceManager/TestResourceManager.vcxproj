@@ -176,6 +176,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestListAssets.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestLoaders.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestPathAliases.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestResourceManagerAPI.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourcePtr.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\Tests\TestMockCompositeAsset.cpp" />
   </ItemGroup>
