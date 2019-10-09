@@ -17,11 +17,20 @@ namespace gui
 /**@brief Mock brush for tests.*/
 class FakeBrush : public Brush
 {
+public:
+    struct Params
+    {
+        float       FakeLevel;
+    };
+
+
 private:
 protected:
 
 	std::string			m_shaderFun;
 	std::string		    m_textureFile;
+
+    StackBufferA< Params >      m_constants;
 
 public:
 

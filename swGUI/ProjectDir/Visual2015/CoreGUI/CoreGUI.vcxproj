@@ -260,6 +260,9 @@
     <ProjectReference Include="..\..\..\..\swGraphicAPI\ProjectsDir\Visual2015\ResourceManager\ResourceManager.vcxproj">
       <Project>{9f71f0da-1d72-4e96-93b7-5ac2c9cb6ede}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\swGraphicAPI\ProjectsDir\Visual2015\SoilTextureLoader\SoilTextureLoader.vcxproj">
+      <Project>{7275758b-1abc-4b28-bb42-cbdbcd2584d1}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\SolidColorBrush.psh">

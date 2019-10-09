@@ -12,6 +12,8 @@
 #include "swGraphicAPI/Resources/ResourcesFactory.h"
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
 
+#include "swGraphicAPI/Loaders/SoilTextureLoader/SoilTextureLoader.h"
+
 #include "swInputLibrary/InputCore/Debugging/EventCapture.h"
 
 #include <map>
@@ -318,6 +320,11 @@ ReturnResult		GUISystem::InitResourceManager			( ResourceManager* resourceManage
 ReturnResult		GUISystem::ResourceManagerInitImpl		( ResourceManager* resourceManager )
 {
     m_pathsManager = m_resourceManager->GetPathsManager();
+
+    // GUI needs Textures loader to work.
+    ///< @todo What to do if user adds his own Texture loader? We must avoid conflicts between them.
+    resourceManager->RegisterLoader( std::make_shared< SoilTextureLoader >() );
+
 	return Result::Success;
 }
 

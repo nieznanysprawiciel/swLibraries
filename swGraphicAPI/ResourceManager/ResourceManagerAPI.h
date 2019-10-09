@@ -284,10 +284,10 @@ inline Nullable< BufferDescType >                   ResourceManagerAPI::CreateBu
 {
     if( data == nullptr ||
         dataSize == 0 )
-        return fmt::format( "Trying to create constant bufffer {} using empty BufferRange.", name );
+        return fmt::format( "Trying to create constant bufffer [{}] using empty BufferRange.", name );
 
     if( elementSize == 0 )
-        return fmt::format( "Trying to create constant bufffer {} using [elementSize=0].", name );
+        return fmt::format( "Trying to create constant bufffer [{}] using [elementSize=0].", name );
 
     BufferDescType initData;
     initData.Data = data;

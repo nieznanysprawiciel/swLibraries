@@ -24,7 +24,7 @@ FakeBrush::FakeBrush()
 //
 BufferRange				FakeBrush::BufferData			()
 {
-	return BufferRange();
+	return m_constants.GetView();
 }
 
 // ================================ //
