@@ -49,6 +49,9 @@ public:
 
 private:
 
+    template< typename ShaderType >
+    ResourcePtr< ShaderType >       GenerateShader          ( const filesystem::Path& templatePath, const filesystem::Path& customFunPath ) const;
+
 	std::string						BuildShaderSource		( const filesystem::Path& templatePath, const filesystem::Path& brushFunPath ) const;
 };
 

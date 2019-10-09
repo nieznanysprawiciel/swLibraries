@@ -43,4 +43,28 @@ TEST_CASE( "GUI.ShaderProvider.GenerateVS", "[GUISystem][RenderingSystem]" )
 	CHECK( shader.Ptr() != nullptr );
 }
 
+// ================================ //
+// ShaderProvider shouldn't generate the same shader twice.
+TEST_CASE( "GUI.ShaderProvider.GenerateVS.SecondTime", "[GUISystem][RenderingSystem]" )
+{
+    TestFramework framework( 0, nullptr );	framework.Init();
+    ShaderProvider sp( framework.GetResourceManagerAPI(), framework.GetPathsManager() );
+
+    auto shader1 = sp.GenerateVS( "WorkingDir-RenderingSystem/shaders/FakeTemplate.vs", "WorkingDir-RenderingSystem/shaders/FakeGeom.vs" );
+    auto shader2 = sp.GenerateVS( "WorkingDir-RenderingSystem/shaders/FakeTemplate.vs", "WorkingDir-RenderingSystem/shaders/FakeGeom.vs" );
+    CHECK( shader1 == shader2 );
+}
+
+// ================================ //
+// ShaderProvider shouldn't generate the same shader twice.
+TEST_CASE( "GUI.ShaderProvider.GeneratePS.SecondTime", "[GUISystem][RenderingSystem]" )
+{
+    TestFramework framework( 0, nullptr );	framework.Init();
+    ShaderProvider sp( framework.GetResourceManagerAPI(), framework.GetPathsManager() );
+
+    auto shader1 = sp.GeneratePS( "WorkingDir-RenderingSystem/shaders/FakeTemplate.ps", "WorkingDir-RenderingSystem/shaders/FakeGeom.ps" );
+    auto shader2 = sp.GeneratePS( "WorkingDir-RenderingSystem/shaders/FakeTemplate.ps", "WorkingDir-RenderingSystem/shaders/FakeGeom.ps" );
+    CHECK( shader1 == shader2 );
+}
+
 

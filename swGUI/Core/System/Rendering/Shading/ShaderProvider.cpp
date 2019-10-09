@@ -48,19 +48,35 @@ const filesystem::Path&				ShaderProvider::GetBasicVSTemplate		() const
 }
 
 // ================================ //
+// At this moment PixelShader and VertexShader generation works the same,
+// so we can use common function.
+template< typename ShaderType >
+inline ResourcePtr< ShaderType >    ShaderProvider::GenerateShader      (   const filesystem::Path& templatePath,
+                                                                            const filesystem::Path& customFunPath ) const
+{
+    AssetPath tmpShaderFile( fmt::format( "$(TMP)/shaders/{}+{}", templatePath.GetFileName(), customFunPath.GetFileName() ), "main" );
+
+    auto cachedShader = m_resourceManager.GetCached< ShaderType >( tmpShaderFile );
+    if( cachedShader )
+        return cachedShader;
+
+    // Shader didn't exist, so we must build it.
+    auto shaderSource = BuildShaderSource( templatePath, customFunPath );
+    if( shaderSource.empty() )
+        return nullptr;         /// @todo Better error handling. Maybe we should return Nullable.
+
+    // Note: We save this shader only for debuggins purpose. Shader is created from string.
+    filesystem::File::Save( m_pathsManager->Translate( tmpShaderFile.GetFile() ), shaderSource );
+
+    return m_resourceManager.CreateShader< ShaderType >( tmpShaderFile, std::move( shaderSource ) ).Get();
+}
+
+// ================================ //
 //
 PixelShaderPtr          			ShaderProvider::GeneratePS			(	const filesystem::Path& templatePath,
 																			const filesystem::Path& brushFunPath ) const
 {
-	auto shaderSource = BuildShaderSource( templatePath, brushFunPath );
-	if( shaderSource.empty() )
-		return nullptr;         /// @todo Better error handling. Maybe we should return Nullable.
-
-	// Note: We save this shader only for debuggins purpose. Shader is created from string.
-	filesystem::Path tmpShaderFile = m_pathsManager->Translate( "$(TMP)/shaders/" + templatePath.GetFileName() + "+" + brushFunPath.GetFileName() );
-	filesystem::File::Save( tmpShaderFile, shaderSource );
-	
-	return m_resourceManager.CreatePixelShader( AssetPath( tmpShaderFile, "main" ), std::move( shaderSource ) ).Get();
+    return GenerateShader< PixelShader >( templatePath, brushFunPath );
 }
 
 // ================================ //
@@ -68,15 +84,7 @@ PixelShaderPtr          			ShaderProvider::GeneratePS			(	const filesystem::Path
 VertexShaderPtr         			ShaderProvider::GenerateVS			( const filesystem::Path& templatePath,
 																		  const filesystem::Path& geomFunPath ) const
 {
-	auto shaderSource = BuildShaderSource( templatePath, geomFunPath );
-	if( shaderSource.empty() )
-        return nullptr;         /// @todo Better error handling. Maybe we should return Nullable.
-
-    // Note: We save this shader only for debuggins purpose. Shader is created from string.
-	filesystem::Path tmpShaderFile = m_pathsManager->Translate( "$(TMP)/shaders/" + templatePath.GetFileName() + "+" + geomFunPath.GetFileName() );
-	filesystem::File::Save( tmpShaderFile, shaderSource );
-	
-    return m_resourceManager.CreateVertexShader( AssetPath( tmpShaderFile, "main" ), std::move( shaderSource ) ).Get();
+    return GenerateShader< VertexShader >( templatePath, geomFunPath );
 }
 
 // ================================ //
