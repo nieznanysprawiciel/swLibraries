@@ -33,8 +33,9 @@ TEST_CASE( "GraphicAPI.ResourceManager.RegisterLoader", "[GraphicAPI]" )
 
 	auto loaders = rm.ListLoaders();
 
-	REQUIRE( loaders.size() == 1 );
-	CHECK( loaders[ 0 ] == loader );
+    // RM registers 2 loaders by itself.
+	REQUIRE( loaders.size() == 3 );
+	CHECK( std::find( loaders.begin(), loaders.end(), loader ) != loaders.end() );
 }
 
 
