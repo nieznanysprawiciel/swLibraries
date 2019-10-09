@@ -199,7 +199,8 @@ public:
 	@todo Do something with this when rendering will use event queues.*/
 	virtual bool						UpdateData		( uint8* dataPtr, uint16 mipLevel, uint16 arrayIdx ) = 0;
 
-	/**@brief Copies texture data from graphic card to memory chunk.*/
+	/**@brief Copies texture data from graphic card to memory chunk.
+    @deprecated Use BufferRaw instead of MemoryChunk.*/
 	virtual MemoryChunk					CopyData		() const = 0;
 	virtual const TextureInfo&			GetDescriptor	() const = 0;		///< Gets texture descriptor.
 

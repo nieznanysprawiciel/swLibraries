@@ -33,26 +33,23 @@
 #include <DirectXMath.h>
 
 
-//definicje
-/** @def WRONG_ID
-B³êdny identyfikator assetu w klasie @ref Resource.*/
-#define WRONG_ID						0
+
 
 /**@defgroup Resources Resources
 @ingroup ResourcesManagment
 @ingroup GraphicAPI
 @brief Low level resources that depend on graphic API.
 
-Zasoby s¹ silnie zale¿ne od u¿ywanej platformy sprzêtowej. W celu oddzielenia referencji do
-API graficznego od @ref EngineCore, wszystkie obiekty silnika u¿ywaj¹ jedynie klas bazowych, które
-s¹ implementowane przez poszczególne API graficzne. Aby zobaczyæ konkretne implementacje tych klas
-zobacz @ref GraphicAPI.
+Resources are strongly dependent from platform and graphic API used. This library gives you
+abstraction layer over platform specific things. All graphic APIs are encapsulated in common
+interfaces. Dependent libraries use only base classes. To create Resources @ref ResourcesFactory
+class is used.
 
-Zasoby nigdy nie s¹ tworzone bezpoœrednio. Zamiast tego u¿ywa siê klasy @ref ResourcesFactory, któr¹
-implementuje konkretne API graficzne.
+Resources can be shared by many objects. ResourceManager class is created to manage them and release
+them when necessary. in future this class will be responsible for caching.
 
-Poniewa¿ zasoby mog¹ byæ wspó³dzielone przez wiele obiektów w silniku, istnieje mechanizm zliczania
-odwo³añ do obiektów implementowany przez klasê @ref Resource.*/
+Note that Resources from this library are tightly related to device Resources. Except low level
+Resources developer can define his own hiher level Assets, that are managed by @ref ResourceManager too.*/
 
 
 
@@ -66,26 +63,6 @@ typedef uint16 Index16;
 typedef uint32 Index32;
 typedef uint8 Index8;
 
-
-/**@brief Meaning of texture indicies.
-
-@ingroup Textures
-
-@deprecated I don't think it's good way to handle textures semantic.
-
-These are values used by default shaders. You don't have to use this convention
-when you write your own shaders.*/
-enum TextureUse
-{
-	TEX_DIFFUSE			///<Tekstura dla kana³u diffuse
-	, TEX_SPECULAR		///<Tekstura dla kana³u specular
-	, TEX_EMISSIVE		///< Texture for emmisive channel
-	, TEX_BUMP_MAP		///<Bump mapa
-	, TEX_DISPLACEMENT_MAP		///<Tekstura przemieszczeñ wierzcho³ków, w przypadku u¿ywania teselacji wierzcho³ków
-	, TEX_OTHER1		///<Tekstura o dowolnym znaczeniu
-	, TEX_OTHER2		///<Tekstura o dowolnym znaczeniu
-	, TEX_LIGHTMAP		///<Lightmapa
-};
 
 
 }	// sw
