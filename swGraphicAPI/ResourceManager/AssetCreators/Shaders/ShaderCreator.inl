@@ -49,14 +49,15 @@ Nullable< Resource* >				ShaderCreator< ShaderObjectType >::CreateShader		( cons
 template< typename ShaderObjectType >
 inline Nullable< Resource* >		ShaderCreator< ShaderObjectType >::Create			( const AssetPath& assetName, IAssetCreateInfo&& createInfo )
 {
-	if( TypeID::get( createInfo ) == TypeID::get< ShaderInitData >() )
+    auto type = TypeID::get( createInfo );
+	if( type == TypeID::get< ShaderInitData >() )
 	{
 		auto& init = static_cast< ShaderInitData&& >( createInfo );
 		std::string code = filesystem::File::Load( assetName.GetFile() );
 		
 		return CreateShader( assetName, init.Type, code, init.EntryFunction );
 	}
-	else if( TypeID::get( createInfo ) == TypeID::get< ShaderCodeInitData >() )
+	else if( type == TypeID::get< ShaderCodeInitData >() )
 	{
 		auto& init = static_cast< ShaderCodeInitData&& >( createInfo );
 
@@ -64,7 +65,7 @@ inline Nullable< Resource* >		ShaderCreator< ShaderObjectType >::Create			( cons
 	}
 	else
 	{
-		return "[ShaderCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported yet.";
+        return fmt::format( "[ShaderCreator] IAssetCreateInfo of type [{}] not supported.", type );
 	}
 }
 

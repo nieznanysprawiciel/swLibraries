@@ -14,6 +14,21 @@ namespace sw
 {
 
 
+/**@brief Adds existing RenderTarget.
+Hack for SwapChain RenderTargets that are created through GraphicAPI.*/
+struct RenderTargetExistingInitInfo : public sw::IAssetCreateInfo
+{
+private:
+    RTTR_ENABLE( sw::IAssetCreateInfo );
+public:
+
+    RenderTargetPtr     RT;
+
+public:
+    virtual TypeID		GetAssetType	() const override { return TypeID::get< RenderTarget >(); }
+};
+
+
 
 /**@brief Creates RenderTarget.
 

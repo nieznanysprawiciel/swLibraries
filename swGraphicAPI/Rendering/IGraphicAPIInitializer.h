@@ -2,9 +2,7 @@
 /**
 @file IGraphicAPIInitializer.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
-
-@brief Deklaracja interfejsu IGraphicAPIInitializer.
+@copyright File is part of Sleeping Wombat Libraries.
 */
 
 #include "swGraphicAPI/Rendering/IRenderer.h"
@@ -27,7 +25,7 @@ namespace sw
 */
 
 
-/**@brief Przechowuje informacje potrzebne do SwapChaina. Parametr dla funkcji IGraphicAPIInitializer::CreateSwapChain.
+/**@brief Stores information for SwapChain initialization. Parameter for function IGraphicAPIInitializer::CreateSwapChain.
 @ingroup GraphicAPI*/
 struct SwapChainInitData
 {
@@ -43,7 +41,7 @@ struct SwapChainInitData
 
 // ================================ //
 //
-	SwapChainInitData()
+	explicit SwapChainInitData()
 	{
 		DefaultSettings();
 	}
@@ -86,12 +84,10 @@ struct GraphicAPIInitData
 	}
 };
 
-/**@brief Interfejs klasy do inicjowania API graficznego.
+/**@brief Graphic API interface.
 
-Klasa powinna zostaæ zainicjowana przez dziedziczace API graficzne.
-Podstawowymi funkcjonalnoœciami klasy jest:
-- zainicjowanie i zwolnienie API
-- stworzenie rendererów*/
+@todo Use Nullable in functions that can fail.
+@ingroup GraphicAPI*/
 class IGraphicAPIInitializer
 {
 private:
@@ -104,9 +100,6 @@ public:
 	virtual ReturnResult	InitAPI					( const GraphicAPIInitData& initData ) = 0;
 	virtual void			ReleaseAPI				() = 0;
 	virtual void*			GetRenderTargetHandle	( RenderTarget* renderTarget ) = 0;
-
-	// Future
-	// virtual std::wstring	GetErrorString() = 0;
 };
 
 }	// sw

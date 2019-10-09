@@ -24,7 +24,7 @@ Nullable< Resource* >		DepthStencilStateCreator::Create		( const AssetPath& asse
 	if( type == TypeID::get< DepthStencilInfo >() )
 		return ResourcesFactory::CreateDepthStencilState( assetName, static_cast< DepthStencilInfo& >( createInfo ) );
 
-	return "[DepthStencilStateCreator] IAssetCreateInfo of type [" + type.get_name().to_string() + "] not supported.";
+    return fmt::format( "[DepthStencilStateCreator] IAssetCreateInfo of type [{}] not supported.", type );
 }
 
 // ================================ //

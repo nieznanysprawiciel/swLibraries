@@ -28,7 +28,7 @@ Nullable< Resource* >	BufferCreator::Create		( const AssetPath& assetName, IAsse
 	else if( type == TypeID::get< IndexBufferInitData >() )
 		return CreateIndexBuffer( assetName, static_cast< IndexBufferInitData& >( createInfo ) );
 
-	return "[BufferCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported.";
+    return fmt::format( "[BufferCreator] IAssetCreateInfo of type [{}] not supported.", type );
 }
 
 // ================================ //

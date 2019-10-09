@@ -66,7 +66,7 @@ Nullable< Resource* >		TextureCreator::Create		( const AssetPath& assetName, IAs
 		return typedInitData.Tex.Ptr();
 	}
 
-	return "[TextureCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported.";
+    return fmt::format( "[TextureCreator] IAssetCreateInfo of type [{}] not supported.", type );
 }
 
 // ================================ //

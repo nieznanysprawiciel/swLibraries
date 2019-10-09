@@ -24,7 +24,7 @@ Nullable< Resource* >		BlendingStateCreator::Create		( const AssetPath& assetNam
 	if( type == TypeID::get< BlendingInfo >() )
 		return ResourcesFactory::CreateBlendingState( assetName, static_cast< BlendingInfo& >( createInfo ) );
 
-	return "[BlendingStateCreator] IAssetCreateInfo of type [" + type.get_name().to_string() + "] not supported.";
+    return fmt::format( "[BlendingStateCreator] IAssetCreateInfo of type [{}] not supported.", type );
 }
 
 // ================================ //

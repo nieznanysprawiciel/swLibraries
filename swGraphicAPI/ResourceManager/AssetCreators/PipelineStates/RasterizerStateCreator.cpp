@@ -24,7 +24,7 @@ Nullable< Resource* >		RasterizerStateCreator::Create		( const AssetPath& assetN
 	if( type == TypeID::get< RasterizerStateInfo >() )
 		return ResourcesFactory::CreateRasterizerState( assetName, static_cast< RasterizerStateInfo& >( createInfo ) );
 
-	return "[RasterizerStateCreator] IAssetCreateInfo of type [" + type.get_name().to_string() + "] not supported.";
+    return fmt::format( "[RasterizerStateCreator] IAssetCreateInfo of type [{}] not supported.", type );
 }
 
 // ================================ //

@@ -19,9 +19,14 @@ namespace sw
 //
 Nullable< Resource* >		LayoutCreator::Create			( const AssetPath& assetName, IAssetCreateInfo&& createInfo )
 {
-	auto init = static_cast< InputLayoutDescriptor* >( &createInfo );
+    TypeID type = createInfo.get_type();
+    if( type == TypeID::get< InputLayoutDescriptor >() )
+    {
+        auto init = static_cast< InputLayoutDescriptor&& >( createInfo );
+        return ResourcesFactory::CreateInputLayout( assetName, init );
+    }
 
-	return ResourcesFactory::CreateInputLayout( assetName, *init );
+    return fmt::format( "[LayoutCreator] IAssetCreateInfo of type [{}] not supported.", type );
 }
 
 // ================================ //

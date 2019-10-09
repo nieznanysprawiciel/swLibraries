@@ -10,6 +10,7 @@
 
 #include "swCommonLib/Common/Converters.h"
 #include "swCommonLib/Common/Buffers/BufferTyped.h"
+#include "swCommonLib/Common/fmt.h"
 
 #include "swGraphicAPI/Resources/Textures/RenderTarget.h"
 
@@ -28,8 +29,12 @@ Nullable< Resource* >		RenderTargetCreator::Create		( const AssetPath& assetName
 	{
 		return ResourcesFactory::CreateRenderTarget( assetName, static_cast< RenderTargetDescriptor& >( createInfo ) );
 	}
+    else if( type == TypeID::get < RenderTargetExistingInitInfo >() )
+    {
+        return static_cast< RenderTargetExistingInitInfo& >( createInfo ).RT.Ptr();
+    }
 
-	return "[RenderTargetCreator] IAssetCreateInfo of type [" + TypeID::get( createInfo ).get_name().to_string() + "] not supported.";
+	return fmt::format( "[RenderTargetCreator] IAssetCreateInfo of type [{}] not supported.", type );
 }
 
 // ================================ //
