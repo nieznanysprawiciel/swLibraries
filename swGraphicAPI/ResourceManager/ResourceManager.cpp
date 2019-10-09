@@ -11,6 +11,9 @@
 #include "swGraphicAPI/ResourceManager/Exceptions/ResourceManagerException.h"
 #include "swGraphicAPI/ResourceManager/PathTranslators/LoadPath.h"
 
+#include "swGraphicAPI/ResourceManager/Loaders/RenderTargetLoader.h"
+#include "swGraphicAPI/ResourceManager/Loaders/ShaderLoader.h"
+
 #include "swCommonLib/Common/Multithreading/UniqueLock.h"
 
 
@@ -23,6 +26,9 @@ ResourceManager::ResourceManager()
 	:	m_pathsManager( new PathsManager() )
 {
 	m_assetsFactory = AssetsFactoryOPtr( new AssetsFactory() );
+
+    // Register default loaders for basic types.
+    RegisterBasicLoaders();
 }
 
 // ================================ //
@@ -33,6 +39,18 @@ ResourceManager::~ResourceManager()
 	m_resources.clear();
 }
 
+// ================================ //
+//
+void                                    ResourceManager::RegisterBasicLoaders       ()
+{
+    RegisterLoader( std::make_shared< RenderTargetLoader >() );
+    RegisterLoader( std::make_shared< ShaderLoader >() );
+}
+
+
+//====================================================================================//
+//			Getting assets	
+//====================================================================================//
 
 // ================================ //
 //

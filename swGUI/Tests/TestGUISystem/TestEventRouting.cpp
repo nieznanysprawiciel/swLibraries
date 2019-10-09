@@ -89,7 +89,7 @@ void		CheckUIElement5	( UIElement* sender, ValidationEventArgs* e )
 //====================================================================================//
 
 
-TEST_CASE( "Tunnel Events Routing" )
+TEST_CASE( "GUI.Events.TunnelEventsRouting" )
 {
 	CleanGlobals();
 
@@ -254,7 +254,7 @@ TEST_CASE( "Tunnel Events Routing" )
 
 
 
-TEST_CASE( "Tunnel Bubble Routing" )
+TEST_CASE( "GUI.Events.TunnelBubbleRouting" )
 {
 	CleanGlobals();
 

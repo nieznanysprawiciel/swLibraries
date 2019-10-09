@@ -222,6 +222,8 @@ protected:
 
 	filesystem::Path							Translate			( const filesystem::Path& path );
 	AssetPath									Translate			( const AssetPath& name );
+
+    void                                        RegisterBasicLoaders();
 };
 
 

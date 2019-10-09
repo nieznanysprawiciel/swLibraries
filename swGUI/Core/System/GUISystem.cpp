@@ -242,7 +242,7 @@ ReturnResult    	GUISystem::DefaultInitRenderingSystem	()
 	if( !m_resourceManager )
         return "RenderingSystem initialization: precondition failed: ResourceManager is nullptr.";
 
-	IRendererOPtr renderer = std::unique_ptr< IRenderer >( m_graphicApi->CreateRenderer( RendererUsage::USE_AS_IMMEDIATE ) );
+	IRendererOPtr renderer( m_graphicApi->CreateRenderer( RendererUsage::USE_AS_IMMEDIATE ) );
 	m_renderingSystem = std::unique_ptr< RenderingSystem >( new RenderingSystem( m_resourceManager, m_pathsManager, std::move( renderer ) ) );
 
 	return m_renderingSystem->InitializeRenderingSystem();

@@ -69,7 +69,7 @@ void		ValidationDelegate4	( UIElement* sender, ValidationEventArgs* e )
 //====================================================================================//
 
 
-TEST_CASE( "Raising direct events" )
+TEST_CASE( "GUI.Events.RaisingDirectEvents" )
 {
 	CleanCounters();
 
@@ -104,7 +104,7 @@ TEST_CASE( "Raising direct events" )
 }
 
 
-TEST_CASE( "Adding/removing delegates" )
+TEST_CASE( "GUI.Events.Adding/RemovingDelegates" )
 {
 	CleanCounters();
 
