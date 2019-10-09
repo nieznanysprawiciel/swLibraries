@@ -257,6 +257,8 @@ To use gui implement Application class.
 
 @todo Supply project templates.
 @todo Use more unique pointers in implementation. We should clearly communicate pointers ownership.
+@todo ResourceManager can be created in GUI or it can be provided by developer for shared usage.
+We need clear semantic, who is owner of pointer.
 */
 class GUISystem
 {
@@ -273,7 +275,7 @@ protected:
 	INativeGUI*					m_nativeGUI;		///< Native window system used to display main application window.
 
 	ResourceManager*			m_resourceManager;	///< Resources.
-	PathsManagerOPtr			m_pathsManager;
+	PathsManager*   			m_pathsManager;     ///< It's only copy of PathsManager from ResourceManager.
 	RenderingSystemOPtr			m_renderingSystem;	///< All rendering connceted functionalities.
 
 	std::vector< HostWindow* >	m_windows;

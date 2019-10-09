@@ -39,7 +39,6 @@ GUISystem::GUISystem		( int argc, char** argv, INativeGUI* gui )
 	,	m_focusedWindow( nullptr )
 	,	m_resourceManager( nullptr )
 	,	m_renderingSystem( nullptr )
-	,	m_pathsManager( new PathsManager )
 {
 	m_instance = this;
 }
@@ -52,7 +51,6 @@ GUISystem::GUISystem		( int argc, char** argv, INativeGUI* gui, SetTestMode test
 	,	m_focusedWindow( nullptr )
 	,	m_resourceManager( nullptr )
 	,	m_renderingSystem( nullptr )
-	,	m_pathsManager( new PathsManager )
 {
 	m_instance = this;
 
@@ -243,7 +241,7 @@ ReturnResult    	GUISystem::DefaultInitRenderingSystem	()
         return "RenderingSystem initialization: precondition failed: ResourceManager is nullptr.";
 
 	IRendererOPtr renderer = std::unique_ptr< IRenderer >( m_graphicApi->CreateRenderer( RendererUsage::USE_AS_IMMEDIATE ) );
-	m_renderingSystem = std::unique_ptr< RenderingSystem >( new RenderingSystem( m_resourceManager, m_pathsManager.get(), std::move( renderer ) ) );
+	m_renderingSystem = std::unique_ptr< RenderingSystem >( new RenderingSystem( m_resourceManager, m_pathsManager, std::move( renderer ) ) );
 
 	return m_renderingSystem->InitializeRenderingSystem();
 }
@@ -319,7 +317,7 @@ ReturnResult		GUISystem::InitResourceManager			( ResourceManager* resourceManage
 //
 ReturnResult		GUISystem::ResourceManagerInitImpl		( ResourceManager* resourceManager )
 {
-	// Empty for future use
+    m_pathsManager = m_resourceManager->GetPathsManager();
 	return Result::Success;
 }
 

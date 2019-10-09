@@ -12,6 +12,7 @@
 
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
+#include "swGraphicAPI/ResourceManager/Loaders/RenderTargetLoader.h"
 
 #include "swInputLibrary/InputCore/Helpers/InputDispatcher.h"
 
@@ -51,12 +52,12 @@ HostWindow::HostWindow( INativeWindow* nativeWindow, input::IInput* input, Resou
 	init.WindowWidth = m_nativeWindow->GetClientWidth();
 
 	m_swapChain = graphicApi->CreateSwapChain( init );
-	assert( m_swapChain.Ptr() );
+	assert( m_swapChain.Ptr() );        ///< @todo Error handling.
 
-	m_renderTarget = m_swapChain->GetRenderTarget();
-	assert( m_renderTarget.Ptr() );
+    RenderTargetFromSwapChain swapchainInit;
+    swapchainInit.Chain = m_swapChain.Ptr();
 
-	resourceManager->AddRenderTarget( m_renderTarget.Ptr(), Convert::FromString< std::wstring >( "::" + m_nativeWindow->GetTitle(), L"" ) );
+	resourceManager->LoadGeneric( "::" + m_nativeWindow->GetTitle(), &swapchainInit, TypeID::get< RenderTarget >() ).Get();     ///< @todo Throws on fail. Error handling.
 }
 
 // ================================ //

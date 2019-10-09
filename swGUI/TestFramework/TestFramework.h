@@ -112,7 +112,7 @@ public:
 	virtual			~TestFramework		() = default;
 
 
-	virtual	bool				Initialize			();
+	virtual	ReturnResult    	Initialize			();
 
 
 public:
@@ -139,7 +139,7 @@ public:
     ResourceManagerAPI          GetResourceManagerAPI	() { return ResourceManagerAPI( m_resourceManager ); }
 
 	/**@brief Gets PathsManager instance used by GUISystem.*/
-	PathsManager*				GetPathsManager		    () { return m_pathsManager.get(); }
+	PathsManager*				GetPathsManager		    () { return m_pathsManager; }
 
 	/**@brief Calls main loop but returns after making full step.*/
 	bool						TesterMainStep		    ();
@@ -153,11 +153,11 @@ public:
 private:
 
 	// Inherited via GUISystem
-	virtual bool	OnInitialized			() override { return true; };
-	virtual void	OnClosing				() override {};
-	virtual void	OnIdle					( const FrameTime& frameTime ) override {};
+	virtual ReturnResult	OnInitialized			() override { return Result::Success; };
+	virtual void	        OnClosing				() override {};
+	virtual void	        OnIdle					( const FrameTime& frameTime ) override {};
 
-	bool			OverridePaths			();
+    ReturnResult	        OverridePaths			();
 };
 
 

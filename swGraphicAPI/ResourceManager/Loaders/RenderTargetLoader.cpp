@@ -11,6 +11,7 @@
 #include "swGraphicAPI/Resources/Textures/RenderTarget.h"
 #include "swGraphicAPI/Resources/Textures/Texture.h"
 #include "swGraphicAPI/ResourceManager/AssetCreators/Textures/TextureCreator.h"
+#include "swGraphicAPI/ResourceManager/AssetCreators/Textures/RenderTargetCreator.h"
 
 #include "swGraphicAPI/ResourceManager/Loaders/Tools/LoadingContext.h"
 
@@ -49,26 +50,48 @@ void											AddTextureIfNotNull					( TexturePtr tex, LoadingContext& context
 //
 LoadingResult									RenderTargetLoader::Load			( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
-	// Translate load info to descriptor used in creators.
-	const RenderTargetLoadInfo* loadInfo = static_cast< const RenderTargetLoadInfo* >( assetDesc );
-	auto descriptor = loadInfo->ToDescriptor();
+    RenderTargetPtr rt = nullptr;
 
-	auto resourceNullable = factory.CreateGenericAsset( filePath.GetOriginalPath(), resourceType, std::move( descriptor ) );
+    if( assetDesc->get_type() == TypeID::get< RenderTargetLoadInfo >() )
+    {
+        // Translate load info to descriptor used in creators.
+        const RenderTargetLoadInfo* loadInfo = static_cast< const RenderTargetLoadInfo* >( assetDesc );
 
-	// Creation failed.
-	if( !resourceNullable.IsValid() )
-		return { resourceNullable.GetError() };
+        auto resourceNullable = factory.CreateAsset< RenderTarget >( filePath.GetOriginalPath(), loadInfo->ToDescriptor() );
 
-	// Add associated textures to ResourceManager.
-	RenderTargetPtr rt = static_cast< RenderTarget* >( resourceNullable.Get().Ptr() );
+        // Creation failed.
+        if( !resourceNullable.IsValid() )
+            return { resourceNullable.GetError() };
 
+        rt = resourceNullable.Get();
+    }
+    else if( assetDesc->get_type() == TypeID::get< RenderTargetFromSwapChain >() )
+    {
+        const auto* loadInfo = static_cast< const RenderTargetFromSwapChain* >( assetDesc );
+
+        RenderTargetExistingInitInfo init;
+        init.RT = loadInfo->Chain->GetRenderTarget();
+
+        auto resourceNullable = factory.CreateAsset< RenderTarget >( filePath.GetOriginalPath(), std::move( init ) );
+
+        // Creation failed.
+        if( !resourceNullable.IsValid() )
+            return { resourceNullable.GetError() };
+
+        rt = resourceNullable.Get();
+    }
+    else
+    {
+        return { fmt::format( "Unsupported descriptor type [{}].", assetDesc->get_type() ) };
+    }
+
+    // Add associated textures to ResourceManager.
 	TexturePtr color = rt->GetColorBuffer();
 	TexturePtr depth = rt->GetDepthBuffer();
 	TexturePtr stencil = rt->GetStencilBuffer();
 
 	ErrorsCollector warnings;
 	LoadingContext context( factory );
-
 
 	context.CollectAsset( rt );
 
