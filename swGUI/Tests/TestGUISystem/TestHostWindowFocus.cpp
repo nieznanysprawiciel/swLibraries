@@ -1,3 +1,4 @@
+#include "swGUI/Tests/TestGUISystem/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
 /**
 @file TestHostWindowFocus.cpp

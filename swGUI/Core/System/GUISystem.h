@@ -7,14 +7,17 @@
 
 
 
-
 #include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
+
+#include "swGraphicAPI/ResourceManager/PathTranslators/PathsManager.h"
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
+
 #include "swGUI/Native/INativeGUI.h"
 #include "Events/EventsSystem.h"
+
 #include "swGUI/Core/System/Rendering/RenderingSystem.h"
 #include "swGUI/Core/System/Config/GUISystemConfig.h"
-#include "swGraphicAPI/ResourceManager/PathTranslators/PathsManager.h"
 #include "swGUI/Core/System/Time/Clock.h"
 
 #include "HostWindow.h"

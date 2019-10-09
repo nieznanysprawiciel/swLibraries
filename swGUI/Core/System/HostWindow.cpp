@@ -54,6 +54,8 @@ HostWindow::HostWindow( INativeWindow* nativeWindow, input::IInput* input, Resou
 	m_swapChain = graphicApi->CreateSwapChain( init );
 	assert( m_swapChain.Ptr() );        ///< @todo Error handling.
 
+    m_renderTarget = m_swapChain->GetRenderTarget();
+
     RenderTargetFromSwapChain swapchainInit;
     swapchainInit.Chain = m_swapChain.Ptr();
 

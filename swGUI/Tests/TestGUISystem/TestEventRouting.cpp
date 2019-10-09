@@ -1,4 +1,11 @@
+#include "swGUI/Tests/TestGUISystem/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+/**
+@file TestEventRouting.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 #include "swGUI/Core/Controls/UIElement.h"
 #include "swGUI/Core/System/Events/IEventArgs.h"

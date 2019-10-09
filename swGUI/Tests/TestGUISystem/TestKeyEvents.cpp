@@ -1,4 +1,11 @@
+#include "swGUI/Tests/TestGUISystem/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+/**
+@file TestKeyEvents.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 #include "swGUI/TestFramework/TestFramework.h"
 

@@ -75,7 +75,10 @@ void	MockRenderer::SetRenderTarget	( const SetRenderTargetExCommand& command )
 // ================================ //
 //
 void	MockRenderer::ClearRenderTarget	( const ClearRenderTargetCommand& command )
-{}
+{
+    if( command.RenderTarget == nullptr )
+        throw RuntimeException( "[ClearRenderTarget] RenderTarget is set to nullptr." );
+}
 
 // ================================ //
 //

@@ -252,10 +252,12 @@ ReturnResult    	GUISystem::DefaultInitRenderingSystem	()
 //
 ReturnResult    	GUISystem::DefaultInitFirstWindow		( uint16 width, uint16 height, const std::string& windowTitle, bool show )
 {
-	// Note: we must always initialize first focus window. This is probably hack, but OnFocusChanged delegate won't be invoked.
 	auto windowResult = CreateNativeHostWindow( width, height, windowTitle );
     if( windowResult.IsValid() )
     {
+        m_focusedWindow = windowResult.Get();
+
+        // Note: we must always initialize first focus window. This is probably hack, but OnFocusChanged delegate won't be invoked.
         m_focusedWindow->GotFocus();
 
         if( show )

@@ -4,6 +4,9 @@
     <Filter Include="TestGUISystem">
       <UniqueIdentifier>{47ebe612-bf6c-4392-b037-13742779c680}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PrecompiledHeader">
+      <UniqueIdentifier>{899ea516-212a-456e-9d1d-08e06971c9b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestEventRouting.cpp">
@@ -22,5 +25,16 @@
     <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestMouseEvents.cpp">
       <Filter>TestGUISystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestGUISystem\TestHostWindow.cpp">
+      <Filter>TestGUISystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestGUISystem\stdafx.cpp">
+      <Filter>PrecompiledHeader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Tests\TestGUISystem\stdafx.h">
+      <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
