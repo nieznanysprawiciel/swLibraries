@@ -59,6 +59,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestResourceManagerAPI.cpp">
       <Filter>Tests\TestResourceManager</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\stdafx.cpp">
+      <Filter>PrecompiledHeader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
@@ -79,5 +82,13 @@
     <Filter Include="Tests\TestLoaders">
       <UniqueIdentifier>{8b4a4068-6d30-412e-9ac0-bb4c5be6935d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PrecompiledHeader">
+      <UniqueIdentifier>{8e63f9f2-ea10-4edb-ada4-fe702d4fd5da}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Tests\TestResourceManager\stdafx.h">
+      <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

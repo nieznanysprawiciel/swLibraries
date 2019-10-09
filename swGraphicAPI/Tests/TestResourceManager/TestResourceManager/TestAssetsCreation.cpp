@@ -1,5 +1,5 @@
+#include "swGraphicAPI/Tests/TestResourceManager/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
-
 /**
 @file TestAssetsCreation.cpp
 @author nieznanysprawiciel

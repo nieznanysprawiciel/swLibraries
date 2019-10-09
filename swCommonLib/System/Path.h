@@ -73,6 +73,7 @@ public:
 
 	bool					IsRelative		() const;
 	bool					IsAbsolut		() const;
+    bool                    IsEmpty         () const;
 
 	/**@brief Checks if file or directory exists on filesystem.*/
 	bool					Exists			() const;
@@ -301,6 +302,12 @@ inline bool				Path::HasExtension() const
 inline bool				Path::IsRelative() const
 {
 	return !IsAbsolut();
+}
+
+/**@brief */
+inline bool				Path::IsEmpty() const
+{
+    return m_path.empty();
 }
 
 /**@brief */

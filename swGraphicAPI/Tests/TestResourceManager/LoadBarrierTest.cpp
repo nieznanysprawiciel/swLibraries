@@ -1,4 +1,11 @@
+#include "swGraphicAPI/Tests/TestResourceManager/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+/**
+@file LoadBarrierTest.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 #include "swCommonLib/Common/Multithreading/ThreadsBarrier.h"
 

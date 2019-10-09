@@ -109,7 +109,7 @@ inline filesystem::Path			LoadPath::Translate			( const filesystem::Path& path, 
 
 	// @todo If working directory changes this code translates to another path.
 	// Is this expected behavior in this case?
-	if( translated.IsRelative() )
+	if( translated.IsRelative() && !translated.IsEmpty() )
 		translated = filesystem::Path::WorkingDirectory() / translated;
 
 	translated.Normalize();
