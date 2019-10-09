@@ -42,4 +42,55 @@ TEST_CASE( "GraphicAPI.ResourceManager.API.Buffer.FromStackBuffer", "[GraphicAPI
     CHECK( buffer.Get()->GetElementCount() == 1 );
 }
 
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.ResourceManager.API.Buffer.FromBufferRange.EmptyBufferRange", "[GraphicAPI]" )
+{
+    auto rm = CreateResourceManagerWithMocks();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto range = BufferRange( nullptr, 0 );
+
+    auto buffer = api.CreateConstantsBuffer( "::/Buffer/FromBufferRange/EmptyBufferRange/Constants", range );
+    REQUIRE( !buffer.IsValid() );
+}
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.ResourceManager.API.Buffer.FromBufferRange.ElementSize=0", "[GraphicAPI]" )
+{
+    auto rm = CreateResourceManagerWithMocks();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto data = StackBufferA< Struct16Bytes >();
+
+    auto buffer = api.CreateVertexBuffer( "::/VertexBuffer/FromBufferRangw/EmptyBufferRange", data.GetView(), 0 );
+    REQUIRE( !buffer.IsValid() );
+}
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.ResourceManager.API.VertexBuffer.FromBufferRange.EmptyBufferRange", "[GraphicAPI]" )
+{
+    auto rm = CreateResourceManagerWithMocks();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto range = BufferRange( nullptr, 0 );
+
+    auto buffer = api.CreateVertexBuffer( "::/VertexBuffer/FromBufferRangw/EmptyBufferRange", range, 0 );
+    REQUIRE( !buffer.IsValid() );
+}
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.ResourceManager.API.IndexBuffer.FromBufferRange.EmptyBufferRange", "[GraphicAPI]" )
+{
+    auto rm = CreateResourceManagerWithMocks();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    auto data = StackBufferA< Struct16Bytes >();
+
+    auto buffer = api.CreateVertexBuffer( "::/IndexBuffer/FromBufferRangw/EmptyBufferRange", data.GetView(), 0 );
+    REQUIRE( !buffer.IsValid() );
+}
 

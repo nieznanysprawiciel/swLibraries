@@ -176,26 +176,22 @@ Nullable< BufferPtr >               ResourceManagerAPI::CreateVertexBuffer      
 //
 Nullable< BufferPtr >               ResourceManagerAPI::CreateVertexBuffer          ( const AssetPath& name, BufferRange buffer, uint32 elementSize, TypeID elementType )
 {
-    VertexBufferInitData initData;
-    initData.Data = buffer.DataPtr;
-    initData.ElementSize = elementSize;
-    initData.DataType = elementType;
-    initData.NumElements = (uint32)buffer.DataSize / elementSize;
+    auto initData = CreateBufferDescriptor< VertexBufferInitData >( name, buffer.DataPtr, (uint32)buffer.DataSize, elementSize, elementType );
 
-    return CreateAsset< Buffer >( name, std::move( initData ) );
+    if( !initData.IsValid() )
+        return initData.GetError();
+    return CreateAsset< Buffer >( name, std::move( initData ).Get() );
 }
 
 // ================================ //
 //
 Nullable< BufferPtr >               ResourceManagerAPI::CreateVertexBuffer          ( const AssetPath& name, const BufferRaw& buffer, uint32 elementSize )
 {
-    VertexBufferInitData initData;
-    initData.Data = buffer.GetData();
-    initData.ElementSize = elementSize;
-    initData.DataType = buffer.GetType();
-    initData.NumElements = (uint32)buffer.GetSize() / elementSize;
+    auto initData = CreateBufferDescriptor< VertexBufferInitData >( name, buffer.GetData(), (uint32)buffer.GetSize(), elementSize, buffer.GetType() );
 
-    return CreateAsset< Buffer >( name, std::move( initData ) );
+    if( !initData.IsValid() )
+        return initData.GetError();
+    return CreateAsset< Buffer >( name, std::move( initData ).Get() );
 }
 
 // ================================ //
@@ -209,26 +205,22 @@ Nullable< BufferPtr >               ResourceManagerAPI::CreateIndexBuffer       
 //
 Nullable< BufferPtr >               ResourceManagerAPI::CreateIndexBuffer           ( const AssetPath& name, BufferRange buffer, uint32 elementSize, TypeID elementType )
 {
-    IndexBufferInitData initData;
-    initData.Data = buffer.DataPtr;
-    initData.ElementSize = elementSize;
-    initData.DataType = elementType;
-    initData.NumElements = (uint32)buffer.DataSize / elementSize;
-
-    return CreateAsset< Buffer >( name, std::move( initData ) );
+    auto initData = CreateBufferDescriptor< IndexBufferInitData >( name, buffer.DataPtr, (uint32)buffer.DataSize, elementSize, elementType );
+    
+    if( !initData.IsValid() )
+        return initData.GetError();
+    return CreateAsset< Buffer >( name, std::move( initData ).Get() );
 }
 
 // ================================ //
 //
 Nullable< BufferPtr >               ResourceManagerAPI::CreateIndexBuffer           ( const AssetPath& name, const BufferRaw& buffer, uint32 elementSize )
 {
-    IndexBufferInitData initData;
-    initData.Data = buffer.GetData();
-    initData.ElementSize = elementSize;
-    initData.DataType = buffer.GetType();
-    initData.NumElements = (uint32)buffer.GetSize() / elementSize;
+    auto initData = CreateBufferDescriptor< IndexBufferInitData >( name, buffer.GetData(), (uint32)buffer.GetSize(), elementSize, buffer.GetType() );
 
-    return CreateAsset< Buffer >( name, std::move( initData ) );
+    if( !initData.IsValid() )
+        return initData.GetError();
+    return CreateAsset< Buffer >( name, std::move( initData ).Get() );
 }
 
 // ================================ //
@@ -249,13 +241,11 @@ Nullable< BufferPtr >               ResourceManagerAPI::CreateConstantsBuffer   
 //
 Nullable< BufferPtr >               ResourceManagerAPI::CreateConstantsBuffer       ( const AssetPath& name, BufferRange buffer, uint32 elementSize, TypeID elementType )
 {
-    ConstantBufferInitData initData;
-    initData.Data = buffer.DataPtr;
-    initData.ElementSize = elementSize;
-    initData.DataType = elementType;
-    initData.NumElements = (uint32 )buffer.DataSize / elementSize;
+    auto initData = CreateBufferDescriptor< ConstantBufferInitData >( name, buffer.DataPtr, (uint32)buffer.DataSize, elementSize, elementType );
 
-    return CreateAsset< Buffer >( name, std::move( initData ) );
+    if( !initData.IsValid() )
+        return initData.GetError();
+    return CreateAsset< Buffer >( name, std::move( initData ).Get() );
 }
 
 

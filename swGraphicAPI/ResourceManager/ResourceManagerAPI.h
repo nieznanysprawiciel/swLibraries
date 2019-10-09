@@ -164,6 +164,9 @@ protected:
 
     template< typename ShaderType >
     Nullable< ResourcePtr< ShaderType > >       LoadShader                  ( const AssetPath& name );
+
+    template< typename BufferDescType >
+    Nullable< BufferDescType >                  CreateBufferDescriptor      ( const AssetPath& name, const uint8* data, uint32 dataSize, uint32 elementSize, TypeID elementType );
 };
 
 
@@ -268,6 +271,31 @@ inline Nullable< ResourcePtr< ShaderType > >        ResourceManagerAPI::LoadShad
     }
 
     return Load< ShaderType >( name, nullptr );
+}
+
+// ================================ //
+//
+template< typename BufferDescType >
+inline Nullable< BufferDescType >                   ResourceManagerAPI::CreateBufferDescriptor      ( const AssetPath& name,
+                                                                                                      const uint8* data,
+                                                                                                      uint32 dataSize,
+                                                                                                      uint32 elementSize,
+                                                                                                      TypeID elementType )
+{
+    if( data == nullptr ||
+        dataSize == 0 )
+        return fmt::format( "Trying to create constant bufffer {} using empty BufferRange.", name );
+
+    if( elementSize == 0 )
+        return fmt::format( "Trying to create constant bufffer {} using [elementSize=0].", name );
+
+    BufferDescType initData;
+    initData.Data = data;
+    initData.ElementSize = elementSize;
+    initData.DataType = elementType;
+    initData.NumElements = dataSize / elementSize;
+
+    return initData;
 }
 
 }	// sw
