@@ -171,6 +171,10 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.operator&&", "[Nullable]" )
     auto result = invalid && valid;
     CHECK( result.IsValid() == false );
     CHECK( result.GetErrorReason() == "Something wrong..." );
+
+    auto result2 = valid && invalid;
+    CHECK( result2.IsValid() == false );
+    CHECK( result2.GetErrorReason() == "Something wrong..." );
 }
 
 

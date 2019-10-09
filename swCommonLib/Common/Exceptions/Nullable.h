@@ -485,7 +485,7 @@ inline Nullable< void >         operator&&                          ( const Null
         return obj1.GetError();
 
     if( !obj2.IsValid() )
-        return obj1.GetError();
+        return obj2.GetError();
 
     return Result::Success;
 }
