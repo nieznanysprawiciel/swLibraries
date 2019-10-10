@@ -28,7 +28,28 @@
         </swCommonLib>
         <swGraphicAPI Version="0.53.0" Tag="Version-0.53.0" >
             <ChangeLog>
-
+                <Change>ResourceManager redesign.</Change>
+                <Change>Split assets loading and assets creation.</Change>
+                <Change>Loaders can take own defined, additional descriptor.</Change>
+                <Change>Loaders return Nullable with all assets loaded and collected warnings.</Change>
+                <Change>PathsManager allows to create path aliases and use them in all RM paths. No need for absolute paths.</Change>
+                <Change>AssetPath class added, which consists of filesystem and internal path. Developer can reference asset inside file.</Change>
+                <Change>Asynchronous assets loading. Protection from loading the same file twice.</Change>
+                <Change>Shaders creation from source code (not only from file).</Change>
+                <Change>Layout creation doesn't require providing shader.</Change>
+                <Change>Layout descriptos doesn't depend on graphicAPI implementation.</Change>
+                <Change>ResourceManager can release unused Resources.</Change>
+                <Change>Implement creators for graphic API types.</Change>
+                <Change>Moved MipMapGenerator from SWEngine. Mipmap generation in creator.</Change>
+                <Change>Added MaterialAsset from SWEngine.</Change>
+                <Change>TextureLoader based on SOIL library.</Change>
+                <Change>swMaterialLoader and Saver - implementation of own xml format.</Change>
+                <Change>ResourceManager uses Nullable to return errors.</Change>
+                <Change>Using BufferRaw instead of MemoyChunk.</Change>
+                <Change>Renamed Resources objects to shorter names.</Change>
+                <Change>Macro for defining resource pointer. No need for long templates, for example BufferPtr.</Change>
+                <Change>Libraries content moved to sw namespace.</Change>
+                <Change>Some enums renamed to shorter and more elgant names.</Change>
             </ChangeLog>   
         </swGraphicAPI>
         <swInputLibrary Version="0.91.0" Tag="Version-0.91.0" >
