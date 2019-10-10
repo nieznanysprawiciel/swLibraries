@@ -12,7 +12,7 @@
 
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
-#include "swGraphicAPI/ResourceManager/Loaders/RenderTargetLoader.h"
+#include "swGraphicAPI/ResourceManager/Loaders/RenderTargetLoadInfo.h"
 
 #include "swInputLibrary/InputCore/Helpers/InputDispatcher.h"
 

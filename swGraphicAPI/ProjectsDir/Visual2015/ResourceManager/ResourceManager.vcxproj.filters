@@ -273,6 +273,9 @@
     <ClInclude Include="..\..\..\ResourceManager\ResourceManager.h">
       <Filter>ResourceManager</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\RenderTargetLoadInfo.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\ResourceManager\stdafx.cpp">
