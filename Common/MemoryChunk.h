@@ -4,7 +4,8 @@
 
 #include <vector>
 
-/**@brief Klasa przechowuje pamiêæ o dowolnym przeznaczeniu.*/
+/**@brief Klasa przechowuje pamiêæ o dowolnym przeznaczeniu.
+@deprecated Use classes from swCommonLib/Common/Buffers/ instead.*/
 class MemoryChunk
 {
 private:

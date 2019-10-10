@@ -16,6 +16,7 @@ wiêc nie da siê tego zaimplementowac w pe³ni przenoœnie.
 #include <codecvt>
 
 #include "swCommonLib/Common/Converters.h"
+#include "swCommonLib/Common/Macros/DefineFmtFormatter.h"
 
 
 namespace filesystem
@@ -63,6 +64,7 @@ public:
 	Path					GetDirectory	() const;
 
 	void					Normalize		();
+	void					MakeAbsolute	();
 
 
 	//bool					HasRoot			() const;
@@ -71,6 +73,7 @@ public:
 
 	bool					IsRelative		() const;
 	bool					IsAbsolut		() const;
+    bool                    IsEmpty         () const;
 
 	/**@brief Checks if file or directory exists on filesystem.*/
 	bool					Exists			() const;
@@ -79,6 +82,13 @@ public:
 
 public:
 	//const experimental::path&		GetStdPath		() const;
+
+public:
+
+	///@note This function may change or disapear in future.
+	const std::vector< std::string >&		GetTokens			() const;
+
+	Path									ClipFromRoot		( int num ) const;
 };
 
 
@@ -217,11 +227,57 @@ inline Path				Path::GetDirectory() const
 		return Path( *this );
 }
 
-/**@brief Normalizuje œcie¿kê.
+/**@brief Normalizes path.
 @attention Obecna implementacja mo¿e nie dzia³aæ do koñca.*/
 inline void				Path::Normalize()
 {
-	//m_path = experimental::complete( m_path );
+	auto& tokens = m_path.get_tokens();
+	std::string normalized = "";
+
+	// Avoid reallocating string all the time.
+	size_t maxLen = 0;
+	for( auto& token : tokens )
+		maxLen += token.size();
+
+	normalized.reserve( maxLen );
+	normalized = *tokens.crbegin();
+
+	size_t tokensToOmit = 0;
+	for( auto i = ++tokens.crbegin(); i != tokens.crend(); ++i )
+	{
+		if( *i == ".." )
+		{
+			tokensToOmit++;
+		}
+		else
+		{
+			if( tokensToOmit == 0 )
+			{
+				// Add token to path from back to beginning.
+				normalized = *i + "/" + normalized;
+			}
+			else
+			{
+				tokensToOmit--;
+			}
+		}
+	}
+
+	// Add all .. signs that remained to the beginning.
+	while( tokensToOmit > 0 )
+	{
+		normalized = "../" + normalized;
+		tokensToOmit--;
+	}
+
+	m_path = path_impl( normalized );
+}
+
+// ================================ //
+//
+inline void				Path::MakeAbsolute	()
+{
+	m_path.make_absolute();
 }
 
 ///**@brief */
@@ -233,7 +289,7 @@ inline void				Path::Normalize()
 /**@brief */
 inline bool				Path::HasFileName() const
 {
-	return !m_path.str().empty();
+	return !m_path.empty();
 }
 
 /**@brief */
@@ -246,6 +302,12 @@ inline bool				Path::HasExtension() const
 inline bool				Path::IsRelative() const
 {
 	return !IsAbsolut();
+}
+
+/**@brief */
+inline bool				Path::IsEmpty() const
+{
+    return m_path.empty();
 }
 
 /**@brief */
@@ -275,6 +337,20 @@ inline Path				operator/( const Path& path1, const Path& path2 )
 	return newPath;
 }
 
+// ================================ //
+//
+inline const std::vector< std::string >&		Path::GetTokens	() const
+{
+	return m_path.get_tokens();
+}
+
+// ================================ //
+//
+inline Path										Path::ClipFromRoot		( int num ) const
+{
+	return Path( m_path.clip_from_root( num ) );
+}
+
 ///**@brief Returns standard library path.
 //Use only if you must.*/
 //inline const experimental::path&	Path::GetStdPath() const
@@ -283,3 +359,6 @@ inline Path				operator/( const Path& path1, const Path& path2 )
 //}
 
 }
+
+DEFINE_FMT_FORMATTER( filesystem::Path, "{}", String() );
+

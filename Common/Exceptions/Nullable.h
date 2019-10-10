@@ -29,9 +29,47 @@ enum class Result : uint8
 };
 
 
+namespace impl
+{
+
+// ================================ //
+//	
+template< typename From, typename To >
+struct IsBaseConversion
+{
+	// ================================ //
+	// Note: Visual Studio can't handle constexpr functions in std::enable_if
+	static constexpr inline bool		Value		()
+	{
+		using DecayedFrom = std::remove_pointer< typename From >::type;
+		using DecayedTo = std::remove_pointer< typename To >::type;
+	
+		return	!std::is_same< DecayedFrom, DecayedTo >::value &&
+				std::is_base_of< DecayedTo, DecayedFrom >::value;// &&
+				std::is_pointer< From >::value &&
+				std::is_pointer< To >::value;
+	}
+
+public:
+
+	const static bool value = IsBaseConversion::Value();
+};
+
+
+}	// impl
+
+
 
 /**@brief Alexandrescu Expected type for error handling.
-@ingroup Helpers*/
+
+@todo Rethink exceptions handling. We can't throw typed exceptions, because
+we use std::shared_ptr instead of std::exception_ptr. It's not posible to copy
+polymorphic type and throw exception wants to do this.
+
+@todo We should wrap exception throwing inside macro. If exceptions are disabled
+we should handle fails different way.
+
+@ingroup Exceptions*/
 template< typename ContentType >
 class Nullable
 {
@@ -55,25 +93,37 @@ public:
 							Nullable			( const ContentType& content );
                             Nullable			( const ErrorType& error );
 							Nullable			( const std::string& error );
-                            Nullable			( const Nullable< ContentType > & that );
+                            Nullable			( const Nullable< ContentType >& that );
                             ~Nullable			();
 
 	template< typename ExceptionType >
 							Nullable			( std::shared_ptr< ExceptionType > error );
 
-    bool                    IsValid             ();
-    std::string             GetErrorReason      ();
-    ErrorType				GetError            ();
+	template< typename DerivedClass, typename std::enable_if< impl::IsBaseConversion< DerivedClass, ContentType >::value >::type* = nullptr >
+							Nullable			( Nullable< DerivedClass >&& other );
 
-    bool						operator==          ( const ContentType & that );
-    bool						operator!=          ( const ContentType & that );
-	Nullable< ContentType >&	operator=			( const Nullable< ContentType > & that );
+    bool                    IsValid             () const;
+    std::string             GetErrorReason      () const;
+    ErrorType				GetError            () const;
 
-    const ContentType &				Get			() const;
-    operator const ContentType &				() const;
+    bool						operator==          ( const ContentType& that );
+    bool						operator!=          ( const ContentType& that );
+	Nullable< ContentType >&	operator=			( const Nullable< ContentType >& that );
 
-	ContentType &					Get			();
-    operator ContentType &						();
+    const ContentType &				Get			() const&;
+    operator const ContentType &				() const&;
+
+	ContentType &					Get			() &;
+    operator ContentType &						() &;
+
+	ContentType &&					Get			() &&;
+    operator ContentType &&						() && = delete;
+
+public:
+
+	template< typename Type, typename std::enable_if< impl::IsBaseConversion< ContentType, Type >::value, void >::type* = nullptr >
+	Nullable< Type >				Move		();
+
 
 public:
 
@@ -84,7 +134,7 @@ public:
 
 
 /**@brief Alexandrescu Expected type for error handling.
-@ingroup Helpers*/
+@ingroup Exceptions*/
 template<>
 class Nullable< void >
 {
@@ -107,14 +157,21 @@ public:
 	template< typename ExceptionType >
 							Nullable			( std::shared_ptr< ExceptionType > error );
 
-    bool                    IsValid             ();
-    std::string             GetErrorReason      ();
-    ErrorType				GetError            ();
+    Nullable< void >& operator=			( const Nullable< void >& that );
+
+    bool                    IsValid             () const;
+    std::string             GetErrorReason      () const;
+    ErrorType				GetError            () const;
 
 };
 
+Nullable< void >            operator&&		    ( const Nullable< void >& that, const Nullable< void >& second );
+
 
 typedef Nullable< void > ReturnResult;
+
+
+#define ReturnIfInvalid( nullable )		if( !nullable.IsValid() ) return nullable.GetError();
 
 
 // ========================================================================= //
@@ -160,8 +217,8 @@ inline Nullable< ContentType >::Nullable			( const std::string& error )
 // ================================ //
 //
 template< typename ContentType >
-inline Nullable< ContentType >::Nullable			( const Nullable< ContentType > & that ) 
-    : m_isValid( that.m_isValid ) 
+inline Nullable< ContentType >::Nullable			( const Nullable< ContentType >& that ) 
+    : m_isValid( that.m_isValid )
 { 
     if( m_isValid ) 
         new( &Content ) ContentType( that.Content ); 
@@ -182,6 +239,35 @@ inline Nullable< ContentType >::Nullable			( std::shared_ptr< ExceptionType > er
 // ================================ //
 //
 template< typename ContentType >
+template< typename DerivedClass, typename std::enable_if< impl::IsBaseConversion< DerivedClass, ContentType >::value >::type* >
+inline Nullable< ContentType >::Nullable			( Nullable< DerivedClass >&& other )
+	: m_isValid( other.IsValid() )
+	, Error( nullptr )
+{
+	if( m_isValid )
+		Content = std::move( other ).Get();
+	else
+		Error = other.GetError();
+}
+
+// ================================ //
+//
+template< typename ContentType >
+template< typename Type, typename std::enable_if< impl::IsBaseConversion< ContentType, Type >::value, void >::type* >
+inline Nullable< Type >			Nullable< ContentType >::Move	()
+{
+	bool wasValid = IsValid();
+	//m_isValid = false;		// We don't change validity. We don't want to call Error destructor on Nullable destruction.
+
+	if( wasValid )
+		return Nullable< Type >( std::move( Content ) );
+	else
+		return Nullable< Type >( Error );		// Error is shared_ptr, we don't have to move.
+}
+
+// ================================ //
+//
+template< typename ContentType >
 inline Nullable< ContentType >::~Nullable       () 
 {
     if( m_isValid ) 
@@ -193,7 +279,7 @@ inline Nullable< ContentType >::~Nullable       ()
 // ================================ //
 //
 template< typename ContentType >
-inline bool						Nullable< ContentType >::IsValid() 
+inline bool						Nullable< ContentType >::IsValid		() const
 {
     return m_isValid;
 }
@@ -201,15 +287,17 @@ inline bool						Nullable< ContentType >::IsValid()
 // ================================ //
 //
 template< typename ContentType >
-inline std::string				Nullable< ContentType >::GetErrorReason  () 
+inline std::string				Nullable< ContentType >::GetErrorReason  () const
 { 
-    return Error->ErrorMessage(); 
+	if( Error )
+		return Error->ErrorMessage();
+	return "Unknown error";
 }
 
 // ================================ //
 //
 template< typename ContentType >
-inline typename Nullable< ContentType >::ErrorType		Nullable< ContentType >::GetError ()
+inline typename Nullable< ContentType >::ErrorType		Nullable< ContentType >::GetError () const
 {
     if( m_isValid )
         assert( false ); // FIXME: error handling(?)
@@ -255,27 +343,42 @@ Nullable< ContentType >&		Nullable< ContentType >::operator=		( const Nullable< 
 // ================================ //
 //
 template< typename ContentType >
-inline const ContentType &		Nullable< ContentType >::Get          () const
+inline const ContentType&		Nullable< ContentType >::Get          () const&
 { 
-    if( !m_isValid ) 
-        assert( false );  // FIXME: error handling(?)
+    if( !m_isValid )
+        throw RuntimeException( Error->ErrorMessage() );
     return Content; 
 }
 
 // ================================ //
 //
 template< typename ContentType >
-inline ContentType &			Nullable< ContentType >::Get          () 
+inline ContentType&			    Nullable< ContentType >::Get          () &
+{ 
+    if( !m_isValid )
+    {
+        // Note: we lose exception type information, but throw statement copies
+        // exception and we can't copy polymorphic type, so this is best option at least for now.
+        /// @todo We should rethink exceptions handling in future.
+        throw RuntimeException( Error->ErrorMessage() );
+    }
+    return Content; 
+}
+
+// ================================ //
+//
+template< typename ContentType >
+inline ContentType&&			Nullable< ContentType >::Get          () &&
 { 
 	if( !m_isValid )
-		throw Error;
-    return Content; 
+        throw RuntimeException( Error->ErrorMessage() );
+    return std::move( Content );
 }
 
 // ================================ //
 //
 template< typename ContentType >
-inline Nullable< ContentType >::operator const ContentType &		() const
+inline Nullable< ContentType >::operator const ContentType &		() const &
 { 
     return Get(); 
 }
@@ -283,10 +386,18 @@ inline Nullable< ContentType >::operator const ContentType &		() const
 // ================================ //
 //
 template< typename ContentType >
-inline Nullable< ContentType >::operator ContentType &				()
+inline Nullable< ContentType >::operator ContentType &				() &
 { 
     return Get(); 
 }
+
+//// ================================ //
+////
+//template< typename ContentType >
+//inline Nullable< ContentType >::operator ContentType &&				() &&
+//{ 
+//    return std::move( Get() );
+//}
 
 //====================================================================================//
 //			Creating Nullable from error	
@@ -352,24 +463,52 @@ inline Nullable< void >::Nullable			( Result result )
 	: m_isValid( result == Result::Success ), Error( nullptr )
 {}
 
+// ================================ //
+//
+inline Nullable< void >&        Nullable< void >::operator=         ( const Nullable< void >& that )
+{
+    m_isValid = that.IsValid();
+    Error = that.Error;
+
+    return *this;
+}
 
 // ================================ //
 //
-inline bool						Nullable< void >::IsValid() 
+inline Nullable< void >         operator&&                          ( const Nullable< void >& obj1, const Nullable< void >& obj2 )
+{
+    if( obj1.IsValid() && obj2.IsValid() )
+        return Result::Success;
+
+    /// @todo Maybe we should handle situation, when both are errors.
+    if( !obj1.IsValid() )
+        return obj1.GetError();
+
+    if( !obj2.IsValid() )
+        return obj2.GetError();
+
+    return Result::Success;
+}
+
+// ================================ //
+//
+inline bool						Nullable< void >::IsValid           () const
 {
     return m_isValid;
 }
 
 // ================================ //
 //
-inline std::string				Nullable< void >::GetErrorReason  () 
-{ 
-    return Error->ErrorMessage(); 
+inline std::string				Nullable< void >::GetErrorReason    () const
+{
+	if( Error )
+		return Error->ErrorMessage();
+	return "Unknown error";
 }
 
 // ================================ //
 //
-inline typename Nullable< void >::ErrorType		Nullable< void >::GetError ()
+inline typename Nullable< void >::ErrorType		Nullable< void >::GetError () const
 {
     if( m_isValid )
         assert( false ); // FIXME: error handling(?)

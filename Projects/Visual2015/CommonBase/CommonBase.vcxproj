@@ -19,22 +19,43 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Common\Converters.cpp" />
+    <ClCompile Include="..\..\..\Common\Converters\Convert.cpp" />
+    <ClCompile Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.cpp" />
+    <ClCompile Include="..\..\..\Common\Exceptions\Common\InvalidCodeLogicException.cpp" />
+    <ClCompile Include="..\..\..\Common\Exceptions\ExceptionsList.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\Semaphore.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\ThreadsBarrier.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\ThreadsLatch.cpp" />
     <ClCompile Include="..\..\..\Common\Object.cpp" />
     <ClCompile Include="..\..\..\Common\Properties\Properties.cpp" />
+    <ClCompile Include="..\..\..\Common\Version.cpp" />
     <ClCompile Include="..\..\..\System\Dir.cpp" />
     <ClCompile Include="..\..\..\System\File.cpp" />
     <ClCompile Include="..\..\..\System\Filesystem\filesystem\path.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Common\Buffers\BufferRange.h" />
+    <ClInclude Include="..\..\..\Common\Buffers\BufferRaw.h" />
+    <ClInclude Include="..\..\..\Common\Buffers\BufferTyped.h" />
+    <ClInclude Include="..\..\..\Common\Buffers\IndexedGeometryBuffer.h" />
+    <ClInclude Include="..\..\..\Common\Buffers\StackBuffer.h" />
     <ClInclude Include="..\..\..\Common\Config\ConfigHelper.h" />
     <ClInclude Include="..\..\..\Common\Converters.h" />
+    <ClInclude Include="..\..\..\Common\Converters\Convert.h" />
+    <ClInclude Include="..\..\..\Common\Converters\ConvertArithmetic.h" />
+    <ClInclude Include="..\..\..\Common\Converters\ConvertEnums.h" />
+    <ClInclude Include="..\..\..\Common\Converters\ConvertTraits.h" />
+    <ClInclude Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.h" />
+    <ClInclude Include="..\..\..\Common\Exceptions\Common\InvalidCodeLogicException.h" />
+    <ClInclude Include="..\..\..\Common\Exceptions\ErrorsCollector.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Exception.h" />
+    <ClInclude Include="..\..\..\Common\Exceptions\ExceptionsList.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\Nullable.h" />
+    <ClInclude Include="..\..\..\Common\fmt.h" />
     <ClInclude Include="..\..\..\Common\Logging\Logger.h" />
+    <ClInclude Include="..\..\..\Common\Macros\DefineFmtFormatter.h" />
+    <ClInclude Include="..\..\..\Common\Macros\ForEach.h" />
+    <ClInclude Include="..\..\..\Common\Macros\GenerateOperators.h" />
     <ClInclude Include="..\..\..\Common\MemoryChunk.h" />
     <ClInclude Include="..\..\..\Common\MemoryLeaks.h" />
     <ClInclude Include="..\..\..\Common\Multithreading\QueueMT.h" />
@@ -47,7 +68,6 @@
     <ClInclude Include="..\..\..\Common\Multithreading\UniqueLock.h" />
     <ClInclude Include="..\..\..\Common\Nullable.h" />
     <ClInclude Include="..\..\..\Common\Object.h" />
-    <ClInclude Include="..\..\..\Common\ObjectDeleter.h" />
     <ClInclude Include="..\..\..\Common\Properties\Containers\ICollection.h" />
     <ClInclude Include="..\..\..\Common\Properties\IEnableProperty.h" />
     <ClInclude Include="..\..\..\Common\Properties\Properties.h" />
@@ -56,6 +76,7 @@
     <ClInclude Include="..\..\..\Common\Traits.h" />
     <ClInclude Include="..\..\..\Common\TypesDefinitions.h" />
     <ClInclude Include="..\..\..\Common\UPtr.h" />
+    <ClInclude Include="..\..\..\Common\Version.h" />
     <ClInclude Include="..\..\..\System\Dir.h" />
     <ClInclude Include="..\..\..\System\File.h" />
     <ClInclude Include="..\..\..\System\Filesystem\filesystem\fwd.h" />

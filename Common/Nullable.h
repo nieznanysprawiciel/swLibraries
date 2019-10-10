@@ -14,6 +14,7 @@ enum class NullableInit
 
 
 /**@brief Returns value or error.
+@deprecated Use new Nullable placed in Common/Exceptions/Nullable.h
 @ingroup Helpers*/
 template< typename ResultType >
 struct Nullable
@@ -84,5 +85,5 @@ struct Nullable
 
 };
 
-#define ReturnIfInvalid( nullable )		if( !nullable.IsValid ) return std::move( nullable.ErrorString );
+
 

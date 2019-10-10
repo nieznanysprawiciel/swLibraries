@@ -12,7 +12,7 @@
 struct ExampleRealFormatHeader
 {
 	char			HeaderLetters[ 3 ];
-	Version			Version;
+	sw::Version		Version;
 
 // ================================ //
 //
@@ -24,7 +24,7 @@ struct ExampleRealFormatHeader
 
 		Version.Major = 3;
 		Version.Minor = 123;
-		Version.Revision = 1111;
+		Version.Patch = 1111;
 		Version.Build = 120542;
 	}
 };

@@ -43,6 +43,8 @@ inline void			QueueMT< ContentType >::Push	( const ContentType& element )
 {
 	std::lock_guard< std::mutex > guard( m_accesslock );
 	m_queue.push( element );
+
+	m_condition.notify_one();
 }
 
 /**@brief */
@@ -51,6 +53,8 @@ inline void			QueueMT< ContentType >::Push	( ContentType&& element )
 {
 	std::lock_guard< std::mutex > guard( m_accesslock );
 	m_queue.push( std::move( element ) );
+
+	m_condition.notify_one();
 }
 
 
