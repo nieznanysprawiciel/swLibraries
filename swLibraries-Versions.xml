@@ -1,4 +1,57 @@
 <swLibraries-Releases>
+    <Release Version="0.13.0" Tag="Version-0.13.0" >
+        <swCommonLib Version="0.52.0" Tag="Version-0.52.0" >
+            <ChangeLog>
+                <Change>Added fmt library for strings formating.</Change>
+                <Change>BufferRaw - empty buffer creation.</Change>
+                <Change>Nullable can be created from Nullable of derived class.</Change>
+                <Change>ErrorsCollector - added Success function that collects exception and returns bool.</Change>
+                <Change>FileNotFoundException added.</Change>
+                <Change>InvalidCodeLogicException added.</Change>
+                <Change>Helper REQUIRE_IS_VALID test macro, which prints Nullable error message on failure.</Change>
+                <Change>BufferTyped can take ownership of memory.</Change>
+                <Change>Path normalization implemented.</Change>
+                <Change>Fix QueueMT notifications.</Change>
+                <Change>Nullable throws stored exceptions, if Get is used in invalid object.</Change>
+                <Change>ReturnResult can be combined using logical and operator.</Change>
+                <Change>Version structure moved in direction of semantic versioning.</Change>
+                <Change>Added Converters returning Nullable.</Change>
+                <Change>Implemented converters for arithmentic types.</Change>
+                <Change>Converter TypeID and template for type.</Change>
+                <Change>Fix: Serializers create directory, when writing to file.</Change>
+                <Change>Macos added: FOR_EACH, operators generation, fmt formatter generation.</Change>
+                <Change>Removed ObjectDeleter.</Change>
+                <Change>Removed old implementation of Nullable.</Change>
+                <Change>Fix: alignement in StackBufferA - in some cases it doubled size of structure.</Change>
+                <Change>Fix: Path::IsEmpty stopped returning false in all cases.</Change>
+            </ChangeLog>
+        </swCommonLib>
+        <swGraphicAPI Version="0.53.0" Tag="Version-0.53.0" >
+            <ChangeLog>
+
+            </ChangeLog>   
+        </swGraphicAPI>
+        <swInputLibrary Version="0.91.0" Tag="Version-0.91.0" >
+            <ChangeLog>
+                <Change>Added fmt to Paths.props file.</Change>
+            </ChangeLog>
+        </swInputLibrary>
+        <swGUI Version="0.12.0" Tag="Version-0.12.0" >
+            <ChangeLog>
+                <Change>Added fmt to Paths.props file.</Change>
+                <Change>Updated code to work with new ResourceManager</Change>
+                <Change>ShaderProvider generates shaders in memory.</Change>
+                <Change>ShaderProvider doesn't generate shader, if it is cached in RM.</Change>
+                <Change>Initialization functions use ReturnResult instead of bool.</Change>
+            </ChangeLog>
+        </swGUI>
+        <swGeometrics Version="0.03.0" Tag="Version-0.03.0" >
+            <ChangeLog>
+                <Change>Fix compilation - add Reflection library to props.</Change>
+                <Change>Added fmt to Paths.props file.</Change>
+            </ChangeLog>
+        </swGeometrics>
+    </Release>
     <Release Version="0.12.1" Tag="Version-0.12.1" >
         <swCommonLib Version="0.51.0" Tag="Version-0.51.0" />
         <swGraphicAPI Version="0.52.0" Tag="Version-0.52.0" />
