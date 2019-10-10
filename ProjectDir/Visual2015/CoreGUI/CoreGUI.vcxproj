@@ -74,8 +74,6 @@
   <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -88,8 +86,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -103,8 +99,6 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -121,8 +115,6 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -142,8 +134,8 @@
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\IPanel.h" />
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.h" />
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.h" />
-    <ClInclude Include="..\..\..\Core\Controls\IControl.h" />
-    <ClInclude Include="..\..\..\Core\Controls\TopLevelControl.h" />
+    <ClInclude Include="..\..\..\Core\Controls\Shapes\Rectangle.h" />
+    <ClInclude Include="..\..\..\Core\Controls\Shapes\Shape.h" />
     <ClInclude Include="..\..\..\Core\Controls\UIElement.h" />
     <ClInclude Include="..\..\..\Core\Controls\Visual.h" />
     <ClInclude Include="..\..\..\Core\Cultures\CultureInfo.h" />
@@ -153,11 +145,17 @@
     <ClInclude Include="..\..\..\Core\Media\Brushes\LinearGradient.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\RadialGradient.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\SolidColorBrush.h" />
+    <ClInclude Include="..\..\..\Core\Media\Geometry\Geometry.h" />
+    <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\Layouts.h" />
+    <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.h" />
+    <ClInclude Include="..\..\..\Core\Media\Geometry\RectangleGeometry.h" />
     <ClInclude Include="..\..\..\Core\Media\Media.h" />
+    <ClInclude Include="..\..\..\Core\stdafx.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\AccessKey.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\CommonTypes.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\Thickness.h" />
     <ClInclude Include="..\..\..\Core\System\Config\GUISystemConfig.h" />
+    <ClInclude Include="..\..\..\Core\System\Config\PathsManager.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\Binding.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\BindingInfo.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\BindingMode.h" />
@@ -187,7 +185,15 @@
     <ClInclude Include="..\..\..\Core\System\HostLogic.h" />
     <ClInclude Include="..\..\..\Core\System\HostWindow.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\DrawingContext.h" />
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\DrawingGroup.h" />
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\Drawing.h" />
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.h" />
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\IDrawing.h" />
+    <ClInclude Include="..\..\..\Core\System\Rendering\RenderingHelpers.h" />
+    <ClInclude Include="..\..\..\Core\System\Rendering\RenderingParams.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\RenderingSystem.h" />
+    <ClInclude Include="..\..\..\Core\System\Rendering\Shading\ShaderBuilder.h" />
+    <ClInclude Include="..\..\..\Core\System\Rendering\Shading\ShaderProvider.h" />
     <ClInclude Include="..\..\..\Core\System\Time\Clock.h" />
     <ClInclude Include="..\..\..\Core\System\Time\FrameTime.h" />
     <ClInclude Include="..\..\..\Native\INativeGUI.h" />
@@ -200,8 +206,22 @@
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\IPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.cpp" />
-    <ClCompile Include="..\..\..\Core\Controls\IControl.cpp" />
+    <ClCompile Include="..\..\..\Core\Controls\Shapes\Rectangle.cpp" />
+    <ClCompile Include="..\..\..\Core\Controls\Shapes\Shape.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
+    <ClCompile Include="..\..\..\Core\Controls\Visual.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Brushes\Brush.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Brushes\SolidColorBrush.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Geometry\RectangleGeometry.cpp" />
+    <ClCompile Include="..\..\..\Core\System\Config\PathsManager.cpp" />
+    <ClCompile Include="..\..\..\Core\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\..\Core\System\DataBinding\Binding.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\BindingInfo.cpp" />
     <ClCompile Include="..\..\..\Core\System\DataBinding\BindingsList.cpp" />
@@ -224,15 +244,59 @@
     <ClCompile Include="..\..\..\Core\System\HostLogic.cpp" />
     <ClCompile Include="..\..\..\Core\System\HostWindow.cpp" />
     <ClCompile Include="..\..\..\Core\System\Initializers.cpp" />
+    <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\Drawing.cpp" />
+    <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.cpp" />
+    <ClCompile Include="..\..\..\Core\System\Rendering\RenderingHelpers.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\RenderingSystem.cpp" />
+    <ClCompile Include="..\..\..\Core\System\Rendering\Shading\ShaderBuilder.cpp" />
+    <ClCompile Include="..\..\..\Core\System\Rendering\Shading\ShaderProvider.cpp" />
     <ClCompile Include="..\..\..\Core\System\Time\Clock.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\swGeometrics\ProjectDir\Visual2015\BasicShapes\BasicShapes.vcxproj">
+      <Project>{b70c60c2-29eb-4302-80ef-9d396749d545}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\swGeometrics\ProjectDir\Visual2015\GeometricsCore\GeometricsCore.vcxproj">
+      <Project>{5476cbf5-f7f9-488f-b55c-b6331b82c54a}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\swGraphicAPI\ProjectsDir\Visual2015\ResourceManager\ResourceManager.vcxproj">
       <Project>{9f71f0da-1d72-4e96-93b7-5ac2c9cb6ede}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\SolidColorBrush.psh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Geometry\ForwardAttributes.vsh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Layouts\VertexShape2D.vsh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Templates\Basic.psh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Templates\Basic.vsh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <None Include="..\..\..\Core\System\DataBinding\DependencyObject.inl" />
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl" />
   </ItemGroup>

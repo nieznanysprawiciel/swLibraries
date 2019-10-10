@@ -1,3 +1,12 @@
+/**
+@file WrapPanel.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+#include "swGUI/Core/stdafx.h"
+
+
+
 #include "WrapPanel.h"
 
 
@@ -13,7 +22,7 @@ namespace gui
 {
 
 
-WrapPanel::WrapPanel( IControl* parent )
+WrapPanel::WrapPanel( UIElement* parent )
 	: IPanel( parent )
 { }
 

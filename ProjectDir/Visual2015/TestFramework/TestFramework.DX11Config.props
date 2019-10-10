@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\Paths.props" />
+  <PropertyGroup Label="UserMacros">
+    <TestFrameworkDX11Name>TestFramework.DX11</TestFrameworkDX11Name>
+    <TestFrameworkDX11LibDir>$(LibDir)$(TestFrameworkDX11Name)\</TestFrameworkDX11LibDir>
+    <TestFrameworkDX11SourceDir>$(SourceDir)$(TestFrameworkDX11Name)\</TestFrameworkDX11SourceDir>
+    <TestFrameworkDX11FileName>$(TestFrameworkDX11Name)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)</TestFrameworkDX11FileName>
+    <TestFrameworkDX11BuildDir>$(BuildDir)$(TestFrameworkDX11Name)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</TestFrameworkDX11BuildDir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <IntDir>$(TestFrameworkDX11BuildDir)</IntDir>
+    <TargetName>$(TestFrameworkDX11FileName)</TargetName>
+    <OutDir>$(TestFrameworkDX11LibDir)</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeaderFile>swGUI/TestFramework/stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>

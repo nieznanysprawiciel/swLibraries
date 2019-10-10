@@ -1,3 +1,5 @@
+#include "swGUI/Core/stdafx.h"
+
 #include "MouseWheelEventArgs.h"
 
 

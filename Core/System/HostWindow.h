@@ -7,7 +7,6 @@
 
 #include "HostLogic.h"
 #include "swGUI/Native/INativeWindow.h"
-#include "swGUI/Core/Controls/TopLevelControl.h"
 #include "swGUI/Core/System/Time/FrameTime.h"
 
 #include "swInputLibrary/InputCore/IInput.h"
@@ -85,15 +84,14 @@ public:
 
 
 	// Inherited via UIElement
-	virtual bool		HitTest			( const Position& point )		override;
-	virtual void		OnRender		( DrawingContext& context )		override;
-	virtual Size2D		Measure			( Size2D availableSize )		override;
-	virtual void		Arrange			( Rect& finalRect )				override;
-	virtual Size		GetNumChildren	() const						override;
-	virtual UIElement*	GetUIChild		( Size idx ) const				override;
-	virtual bool		AddChild		( UIElementOPtr&& child )		override;
+	virtual bool					HitTest			( const Position& point )		override;
+	virtual Size2D					Measure			( Size2D availableSize )		override;
+	virtual void					Arrange			( Rect& finalRect )				override;
+	virtual IDrawing*				QueryDrawing	() const						override;
 
-
+	virtual Size					GetNumChildren	() const						override;
+	virtual Visual*					GetVisualChild	( Size idx ) const				override;
+	virtual bool					AddChild		( UIElementOPtr&& child )		override;
 };
 
 DEFINE_OPTR_TYPE( HostWindow );

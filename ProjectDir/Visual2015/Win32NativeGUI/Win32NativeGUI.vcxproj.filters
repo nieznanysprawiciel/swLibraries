@@ -21,12 +21,21 @@
     <ClInclude Include="..\..\..\Native\WinAPI\WinAPIGUI.h">
       <Filter>Win32</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Native\INativeOS.h">
+      <Filter>Native</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Native\WinAPI\WindowsOS.h">
+      <Filter>Win32</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Native\WinAPI\Win32ApiWindow.cpp">
       <Filter>Win32</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Native\WinAPI\WinAPIGUI.cpp">
+      <Filter>Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Native\WinAPI\WindowsOS.cpp">
       <Filter>Win32</Filter>
     </ClCompile>
   </ItemGroup>

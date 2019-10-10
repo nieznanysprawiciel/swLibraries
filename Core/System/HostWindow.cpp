@@ -1,3 +1,11 @@
+/**
+@file HostWindow.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+#include "swGUI/Core/stdafx.h"
+
+
 #include "HostWindow.h"
 
 #include "swCommonLib/Common/Converters.h"
@@ -223,11 +231,6 @@ bool				HostWindow::HitTest				( const Position& point )
 
 // ================================ //
 //
-void				HostWindow::OnRender			( DrawingContext& context )
-{}
-
-// ================================ //
-//
 Size2D				HostWindow::Measure				( Size2D availableSize )
 {
 	return Size2D();
@@ -242,21 +245,28 @@ void				HostWindow::Arrange				( Rect & finalRect )
 //
 Size				HostWindow::GetNumChildren		() const
 {
-	return Size();
+	return m_hostLogic.GetNumChildren();
 }
 
 // ================================ //
 //
-UIElement*			HostWindow::GetUIChild			( Size idx ) const
+Visual*				HostWindow::GetVisualChild		( Size idx ) const
 {
-	return nullptr;
+	return m_hostLogic.GetChild( idx );
 }
 
 // ================================ //
 //
 bool				HostWindow::AddChild			( UIElementOPtr&& child )
 {
-	return false;
+	return m_hostLogic.AddChild( std::move( child ) );
+}
+
+// ================================ //
+//
+IDrawing*			HostWindow::QueryDrawing		() const
+{
+	return nullptr;
 }
 
 

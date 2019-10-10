@@ -86,6 +86,17 @@ namespace sw {
 namespace gui
 {
 
+namespace impl
+{
+
+// ================================ //
+//
+filesystem::Path		FindCoreGUISourcePath			( const filesystem::Path& binaryPath );
+
+}
+
+
+
 
 /**@brief Class used as application entry point in tests.
 
@@ -121,8 +132,17 @@ public:
 	/**@brief Get window that has currently focus. Can return nullptr.*/
 	HostWindow*					GetFocusWindow		() { return m_focusedWindow; }
 
+	/**@brief Returns ResourceManager.*/
+	ResourceManager*			GetResourceManager	() { return m_resourceManager; }
+
+	/**@brief Gets PathsManager instance used by GUISystem.*/
+	PathsManager*				GetPathsManager		() { return m_pathsManager.get(); }
+
 	/**@brief Calls main loop but returns after making full step.*/
 	bool						TesterMainStep		();
+
+	/**@brief Returns internal RenderingSystem object.*/
+	RenderingSystem*			GetRenderingSystem	() { return m_renderingSystem.get(); }
 
 	using GUISystem::CreateNativeHostWindow;
 	///@}
@@ -133,6 +153,8 @@ private:
 	virtual bool	OnInitialized			() override { return true; };
 	virtual void	OnClosing				() override {};
 	virtual void	OnIdle					( const FrameTime& frameTime ) override {};
+
+	bool			OverridePaths			();
 };
 
 

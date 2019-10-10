@@ -1,3 +1,11 @@
+/**
+@file IPanel.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+#include "swGUI/Core/stdafx.h"
+
+
 #include "IPanel.h"
 
 
@@ -13,8 +21,8 @@ namespace gui
 {
 
 
-IPanel::IPanel( IControl* parent )
-	: IControl( parent )
+IPanel::IPanel( UIElement* parent )
+	: UIElement( parent )
 { }
 
 IPanel::~IPanel()

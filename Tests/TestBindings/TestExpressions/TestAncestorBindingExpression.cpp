@@ -39,12 +39,13 @@ std::unique_ptr< gui::UIElement >		CreateControlsTree1	()
 
 // ================================ //
 //
-gui::UIElement *		GetMostBottomControl	( gui::UIElement * control )
+gui::UIElement *		GetMostBottomControl	( gui::UIElement* control )
 {
-	while( control->GetNumChildren() != 0 )
-		control = control->GetUIChild( 0 );
+	gui::Visual* visual = control;
+	while( visual->GetNumChildren() != 0 )
+		visual = visual->GetVisualChild( 0 );
 
-	return control;
+	return static_cast< gui::UIElement* >( visual );
 }
 
 //====================================================================================//

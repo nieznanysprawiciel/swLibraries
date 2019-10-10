@@ -1,3 +1,11 @@
+/**
+@file GUISystem.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+#include "swGUI/Core/stdafx.h"
+
+
 #include "GUISystem.h"
 
 #include "swInputLibrary/InputCore/KeyboardState.h"
@@ -31,6 +39,7 @@ GUISystem::GUISystem		( int argc, char** argv, INativeGUI* gui )
 	,	m_focusedWindow( nullptr )
 	,	m_resourceManager( nullptr )
 	,	m_renderingSystem( nullptr )
+	,	m_pathsManager( new PathsManager )
 {
 	m_instance = this;
 }
@@ -43,6 +52,7 @@ GUISystem::GUISystem		( int argc, char** argv, INativeGUI* gui, SetTestMode test
 	,	m_focusedWindow( nullptr )
 	,	m_resourceManager( nullptr )
 	,	m_renderingSystem( nullptr )
+	,	m_pathsManager( new PathsManager )
 {
 	m_instance = this;
 
@@ -116,12 +126,18 @@ void				GUISystem::HandleEvents		( const FrameTime& frameTime )
 void				GUISystem::RenderGUI		( const FrameTime& frameTime )
 {
 	if( m_guiConfig.RedrawOnlyFocused && m_focusedWindow )
+	{
+		m_renderingSystem->RenderTree( m_focusedWindow );
 		m_focusedWindow->GetSwapChain()->Present( GetSyncInterval() );
+	}
 
 	if( !m_guiConfig.RedrawOnlyFocused )
 	{
 		for( auto window : m_windows )
+		{
+			m_renderingSystem->RenderTree( window );
 			window->GetSwapChain()->Present( GetSyncInterval() );
+		}
 	}
 }
 
@@ -166,7 +182,8 @@ bool				GUISystem::DefaultInitWithoutWindow	()
 	bool result = true;
 
 	result = result && DefaultInitResourceManager();
-	result = result && DefaultInitGraphicAPI( false, true );
+	result = result && DefaultInitPathsManager();
+	result = result && DefaultInitGraphicAPI( m_guiConfig.DebugGraphics, true );
 	result = result && DefaultInitNativeGUI();
 	result = result && DefaultInitRenderingSystem();
 
@@ -226,9 +243,9 @@ bool				GUISystem::DefaultInitRenderingSystem	()
 		return false;
 
 	IRendererOPtr renderer = std::unique_ptr< IRenderer >( m_graphicApi->CreateRenderer( RendererUsage::USE_AS_IMMEDIATE ) );
-	m_renderingSystem = std::unique_ptr< RenderingSystem >( new RenderingSystem( m_resourceManager, std::move( renderer ) ) );
+	m_renderingSystem = std::unique_ptr< RenderingSystem >( new RenderingSystem( m_resourceManager, m_pathsManager.get(), std::move( renderer ) ) );
 
-	return true;
+	return m_renderingSystem->InitializeRenderingSystem();
 }
 
 // ================================ //
@@ -245,6 +262,38 @@ bool				GUISystem::DefaultInitFirstWindow		( uint16 width, uint16 height, const 
 	else
 		m_focusedWindow->GetNativeWindow()->Hide();
 
+	return true;
+}
+
+// ================================ //
+//
+bool				GUISystem::DefaultInitPathsManager		()
+{
+	bool result = true;
+
+	result = result && DefaultInitCorePaths();
+	result = result && DefaultInitDependentPaths();
+
+	return result;
+}
+
+// ================================ //
+//
+bool				GUISystem::DefaultInitCorePaths			()
+{
+	m_pathsManager->RegisterAlias( "$(TMP)", m_nativeGUI->GetOS()->GetTempDir() );
+	m_pathsManager->RegisterAlias( "$(CoreGUI-Dir)", m_nativeGUI->GetOS()->GetApplicationDir() );
+
+	return true;
+}
+
+// ================================ //
+//
+bool				GUISystem::DefaultInitDependentPaths	()
+{
+	/// @todo This should set hlsl or glsl directory depending on used graphic API.
+	m_pathsManager->RegisterAlias( "$(CoreGUI-Shader-Dir)", "$(CoreGUI-Dir)/Shaders/hlsl" );
+	
 	return true;
 }
 

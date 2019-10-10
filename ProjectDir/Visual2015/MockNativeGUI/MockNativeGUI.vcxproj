@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Native\MockNativeGUI\MockGUI.cpp" />
+    <ClCompile Include="..\..\..\Native\MockNativeGUI\MockOS.cpp" />
     <ClCompile Include="..\..\..\Native\MockNativeGUI\MockWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Native\MockNativeGUI\MockGUI.h" />
+    <ClInclude Include="..\..\..\Native\MockNativeGUI\MockOS.h" />
     <ClInclude Include="..\..\..\Native\MockNativeGUI\MockWindow.h" />
   </ItemGroup>
   <ItemGroup>

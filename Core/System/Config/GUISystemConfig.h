@@ -24,6 +24,7 @@ public:
 	bool			IsTestMode			: 1;		///< Check this flag in initialization to add test features. Note that if we want testing to be reliable,
 													///< the behaviour of the application should be the same. Use this flag only to add state capturing objects
 													///< or other mock functionalities. Use wise.
+	bool			DebugGraphics		: 1;		///< Set debug mode while initializing graphic API.
 
 public:
 
@@ -31,6 +32,8 @@ public:
 		:	UseBlockingMode( true )
 		,	UseVSync( true )
 		,	RedrawOnlyFocused( true )
+		,	IsTestMode( false )
+		,	DebugGraphics( false )
 	{}
 
 };

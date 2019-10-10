@@ -2,6 +2,7 @@
 
 
 #include "swGUI/Native/INativeGUI.h"
+#include "WindowsOS.h"
 
 #include <Windows.h>
 #undef CreateWindow
@@ -46,7 +47,9 @@ namespace gui
 class WinAPIGUI : public INativeGUI
 {
 private:
+
 	NativeGUIInitData				m_initData;
+	WindowsOS						m_os;
 
 protected:
 public:
@@ -54,13 +57,13 @@ public:
 	virtual				~WinAPIGUI	() = default;
 
 
-// Inherited via INativeGUI
 	virtual bool				MainLoop		( bool blockingMode )											override;
 	virtual bool				Init			( const NativeGUIInitData& initData )							override;
 	virtual sw::input::IInput*	UseNativeInput	( INativeWindow* nativeWindow )									override;
 	virtual sw::input::IInput*	UseNativeInput	( INativeWindow* nativeWindow, input::InputInitInfo& initInfo )	override;
 	virtual INativeWindow*		CreateWindow	( NativeWindowDescriptor& descriptor )							override;
 	virtual void				EndApplication	()																override;
+	virtual INativeOS*			GetOS			()																override;
 
 	static WinAPIGUI*			Create			();
 

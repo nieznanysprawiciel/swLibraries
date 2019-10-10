@@ -16,7 +16,7 @@ class WrapPanel : public IPanel
 private:
 protected:
 public:
-	WrapPanel		( IControl* parent );
+	explicit		WrapPanel		( UIElement* parent );
 	virtual			~WrapPanel		();
 
 };
