@@ -12,7 +12,7 @@
 
 
 namespace sw {
-namespace geometrics
+namespace geom
 {
 
 
@@ -45,7 +45,7 @@ Operator < for VertexType must be defined.
 };
 
 
-}	// geometrics
+}	// geom
 }	// sw
 
 #include "Converter.inl"

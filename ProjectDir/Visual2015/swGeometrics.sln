@@ -5,6 +5,12 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeometricsCore", "GeometricsCore\GeometricsCore.vcxproj", "{5476CBF5-F7F9-488F-B55C-B6331B82C54A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B2CB111F-B72B-4EAD-811B-C42C339F2456}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGenerationFramework", "Tests\TestGenerationFramework\TestGenerationFramework.vcxproj", "{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BasicShapes", "BasicShapes\BasicShapes.vcxproj", "{B70C60C2-29EB-4302-80EF-9D396749D545}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,8 +27,27 @@ Global
 		{5476CBF5-F7F9-488F-B55C-B6331B82C54A}.Release|x64.Build.0 = Release|x64
 		{5476CBF5-F7F9-488F-B55C-B6331B82C54A}.Release|x86.ActiveCfg = Release|Win32
 		{5476CBF5-F7F9-488F-B55C-B6331B82C54A}.Release|x86.Build.0 = Release|Win32
+		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}.Debug|x64.ActiveCfg = Debug|x64
+		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}.Debug|x64.Build.0 = Debug|x64
+		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}.Debug|x86.ActiveCfg = Debug|Win32
+		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}.Debug|x86.Build.0 = Debug|Win32
+		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}.Release|x64.ActiveCfg = Release|x64
+		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}.Release|x64.Build.0 = Release|x64
+		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}.Release|x86.ActiveCfg = Release|Win32
+		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E}.Release|x86.Build.0 = Release|Win32
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Debug|x64.ActiveCfg = Debug|x64
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Debug|x64.Build.0 = Debug|x64
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Debug|x86.ActiveCfg = Debug|Win32
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Debug|x86.Build.0 = Debug|Win32
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Release|x64.ActiveCfg = Release|x64
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Release|x64.Build.0 = Release|x64
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Release|x86.ActiveCfg = Release|Win32
+		{B70C60C2-29EB-4302-80EF-9D396749D545}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9EAE76BB-BDCB-48D0-9DE3-11A16475957E} = {B2CB111F-B72B-4EAD-811B-C42C339F2456}
 	EndGlobalSection
 EndGlobal

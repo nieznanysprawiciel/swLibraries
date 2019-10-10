@@ -16,7 +16,7 @@
 
 
 namespace sw {
-namespace geometrics
+namespace geom
 {
 
 /**@brief Functor for comparing indicies which reference verticies in specifued vector.
@@ -97,6 +97,6 @@ inline std::vector< IndexType >								Converter::MakeIndexed( const std::vector
 	return indicies;
 }
 
-}	// geometrics
+}	// geom
 }	// sw
 

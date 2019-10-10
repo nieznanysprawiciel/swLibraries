@@ -19,31 +19,35 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\GeometricsCore\Generators\Generator.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\Generators\Validation.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\Processors\Converter.inl">
-      <FileType>CppHeader</FileType>
-    </ClInclude>
-    <ClCompile Include="..\..\..\GeometricsCore\stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    <ClCompile Include="..\..\..\BasicShapes\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClInclude Include="..\..\..\GeometricsCore\Types\Accessors\DefaultAccessors.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\Types\IndexTypes.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\GeneratorTraits.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\ProcessorTraits.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\Types\VertexLayouts\VertexShape2D.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\GeometricsCore\Processors\Converter.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\stdafx.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\targetver.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\Types\IndexedGeometry.h" />
+    <ClInclude Include="..\..\..\BasicShapes\CoordsUV\PlanarUV.h" />
+    <ClInclude Include="..\..\..\BasicShapes\Shapes2D\Circle.h" />
+    <ClInclude Include="..\..\..\BasicShapes\Shapes2D\Rectangle.h" />
+    <ClInclude Include="..\..\..\BasicShapes\Shapes2D\RectangleWIthBorder.h" />
+    <ClInclude Include="..\..\..\BasicShapes\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
+      <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\GeometricsCore\GeometricsCore.vcxproj">
+      <Project>{5476cbf5-f7f9-488f-b55c-b6331b82c54a}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\BasicShapes\Shapes2D\Circle.inl" />
+    <None Include="..\..\..\BasicShapes\Shapes2D\Rectangle.inl" />
+    <None Include="..\..\..\BasicShapes\Shapes2D\RectangleWithBorder.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5476CBF5-F7F9-488F-B55C-B6331B82C54A}</ProjectGuid>
+    <ProjectGuid>{B70C60C2-29EB-4302-80EF-9D396749D545}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Geometric</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
@@ -82,19 +86,19 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="GeometricsCoreConfiguration.props" />
+    <Import Project="BasicShapesConfiguration.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="GeometricsCoreConfiguration.props" />
+    <Import Project="BasicShapesConfiguration.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="GeometricsCoreConfiguration.props" />
+    <Import Project="BasicShapesConfiguration.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="GeometricsCoreConfiguration.props" />
+    <Import Project="BasicShapesConfiguration.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
