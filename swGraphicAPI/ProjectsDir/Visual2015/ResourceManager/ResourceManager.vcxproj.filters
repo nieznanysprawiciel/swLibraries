@@ -150,9 +150,6 @@
     <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\LayoutCreator.h">
       <Filter>ResourceManager\AssetCreators\Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ResourceManager\PathTranslators\Translator.h">
-      <Filter>ResourceManager\PathTranslators</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\LoadBarrier.h">
       <Filter>ResourceManager\AsyncLoad</Filter>
     </ClInclude>

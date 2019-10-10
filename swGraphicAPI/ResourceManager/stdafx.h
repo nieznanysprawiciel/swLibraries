@@ -29,6 +29,14 @@
 #include "swGraphicAPI/Resources/ResourcesFactory.h"
 #include "swGraphicAPI/Resources/SwapChain.h"
 
+#include "swGraphicAPI/ResourceManager/PathTranslators/LoadPath.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
+
+#include "swGraphicAPI/ResourceManager/Loaders/IAssetLoader.h"
+#include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
+
+#include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreator.h"
+
 #undef min
 #undef max
 #undef RegisterClass
