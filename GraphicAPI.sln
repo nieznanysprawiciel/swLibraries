@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DX11API", "ProjectsDir\Visual2015\DX11API\DX11API.vcxproj", "{44643D7F-1C71-41C1-B452-B2DC5E088A58}"
 EndProject
@@ -18,6 +18,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommonBase", "..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj", "{9ABCBAB4-05B4-47C5-B5D8-F201559FD096}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MockAPI", "ProjectsDir\Visual2015\MockAPI\MockAPI.vcxproj", "{EEEFAB61-F404-4957-AC24-A3BF81C5E4ED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{32AA682D-E5EE-4813-AFE8-E45D2EE62ED3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestResources.DX11", "ProjectsDir\Visual2015\Tests\TestResources\TestResources.DX11.vcxproj", "{22358F79-365C-477A-B485-1746C79EF6AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +87,14 @@ Global
 		{EEEFAB61-F404-4957-AC24-A3BF81C5E4ED}.Release|x64.Build.0 = Release|x64
 		{EEEFAB61-F404-4957-AC24-A3BF81C5E4ED}.Release|x86.ActiveCfg = Release|Win32
 		{EEEFAB61-F404-4957-AC24-A3BF81C5E4ED}.Release|x86.Build.0 = Release|Win32
+		{22358F79-365C-477A-B485-1746C79EF6AA}.Debug|x64.ActiveCfg = Debug|x64
+		{22358F79-365C-477A-B485-1746C79EF6AA}.Debug|x64.Build.0 = Debug|x64
+		{22358F79-365C-477A-B485-1746C79EF6AA}.Debug|x86.ActiveCfg = Debug|Win32
+		{22358F79-365C-477A-B485-1746C79EF6AA}.Debug|x86.Build.0 = Debug|Win32
+		{22358F79-365C-477A-B485-1746C79EF6AA}.Release|x64.ActiveCfg = Release|x64
+		{22358F79-365C-477A-B485-1746C79EF6AA}.Release|x64.Build.0 = Release|x64
+		{22358F79-365C-477A-B485-1746C79EF6AA}.Release|x86.ActiveCfg = Release|Win32
+		{22358F79-365C-477A-B485-1746C79EF6AA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,5 +104,6 @@ Global
 		{561754CB-295D-4D69-8DBC-BC069D1A636A} = {52A72E42-6F26-49E5-97D1-36CCA72C6139}
 		{91CC6D16-F22C-434A-95E0-35EE857054C7} = {52A72E42-6F26-49E5-97D1-36CCA72C6139}
 		{9ABCBAB4-05B4-47C5-B5D8-F201559FD096} = {52A72E42-6F26-49E5-97D1-36CCA72C6139}
+		{22358F79-365C-477A-B485-1746C79EF6AA} = {32AA682D-E5EE-4813-AFE8-E45D2EE62ED3}
 	EndGlobalSection
 EndGlobal
