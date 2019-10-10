@@ -2,8 +2,10 @@
 /**
 @file MockInputLayout.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
+#include "swCommonLib/Common/Exceptions/Nullable.h"
 
 #include "swGraphicAPI/Resources/MeshResources.h"
 
@@ -20,10 +22,14 @@ class MockInputLayout : public ShaderInputLayout
 	RTTR_ENABLE( ShaderInputLayout );
 private:
 protected:
-	~MockInputLayout();
-public:
-	MockInputLayout();
 
+	virtual			~MockInputLayout		();
+
+public:
+	explicit		MockInputLayout			( const AssetPath& fileName );
+
+
+	static sw::Nullable< MockInputLayout* >		CreateLayout		( const AssetPath& fileName, const InputLayoutDescriptor& layoutDesc );
 };
 
 }	// sw

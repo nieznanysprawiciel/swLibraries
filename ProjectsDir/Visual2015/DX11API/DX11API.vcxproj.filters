@@ -30,9 +30,6 @@
     <ClInclude Include="..\..\..\DX11API\DX11Resources\DX11InputLayout.h">
       <Filter>DX11API\DX11Resources</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\DX11API\DX11Resources\DX11InputLayoutDescriptor.h">
-      <Filter>DX11API\DX11Resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\DX11API\DX11Resources\DX11PipelineState.h">
       <Filter>DX11API\DX11Resources</Filter>
     </ClInclude>
@@ -69,6 +66,9 @@
     <ClInclude Include="..\..\..\DX11API\DX11Resources\DX11Compiler.h">
       <Filter>DX11API\DX11Resources</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\DX11API\DX11Initializer\DX11DebugLayer.h">
+      <Filter>DX11API\DX11Initializer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\DX11API\stdafx.cpp">
@@ -81,9 +81,6 @@
       <Filter>DX11API\DX11Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\DX11API\DX11Resources\DX11InputLayout.cpp">
-      <Filter>DX11API\DX11Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\DX11API\DX11Resources\DX11InputLayoutDescriptor.cpp">
       <Filter>DX11API\DX11Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\DX11API\DX11Resources\DX11PipelineState.cpp">
@@ -124,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\DX11API\DX11Resources\DX11Compiler.cpp">
       <Filter>DX11API\DX11Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\DX11API\DX11Initializer\DX11DebugLayer.cpp">
+      <Filter>DX11API\DX11Initializer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

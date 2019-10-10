@@ -19,38 +19,127 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\ImageGenerators\CheckerboardGenerator.h" />
     <ClInclude Include="..\..\..\Rendering\GraphicAPIConstants.h" />
     <ClInclude Include="..\..\..\Rendering\IGraphicAPIInitializer.h" />
     <ClInclude Include="..\..\..\Rendering\IRenderer.h" />
     <ClInclude Include="..\..\..\Rendering\RenderCommands.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\AssetsFactory.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Buffers\BufferCreator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\IAssetCreateInfo.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\IAssetCreator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\BlendingStateCreator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\DepthStencilStateCreator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\RasterizerStateCreator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\LayoutCreator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\MipMapGenerator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\Resampler\resampler.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\TextureCreator.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\AssetLoadRequest.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\AssetLoadResponse.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\AssetsThread.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\LoadBarrier.h" />
+    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncThread.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Cache\CacheManager.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Cache\IAssetCache.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Cache\MemoryCache.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Exceptions\LoaderException.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\IAssetLoader.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\IAssetLoadInfo.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\LoadingResult.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\RenderTargetLoadInfo.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\ShaderLoader.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\TextureLoadInfo.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\Tools\CanLoad.h" />
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\Tools\LoadingContext.h" />
+    <ClInclude Include="..\..\..\ResourceManager\PathTranslators\AssetPath.h" />
+    <ClInclude Include="..\..\..\ResourceManager\PathTranslators\LoadPath.h" />
+    <ClInclude Include="..\..\..\ResourceManager\PathTranslators\PathsManager.h" />
     <ClInclude Include="..\..\..\ResourceManager\ResourceContainer.h" />
     <ClInclude Include="..\..\..\ResourceManager\ResourceManager.h" />
+    <ClInclude Include="..\..\..\ResourceManager\ResourceManagerAPI.h" />
     <ClInclude Include="..\..\..\ResourceManager\stdafx.h" />
-    <ClInclude Include="..\..\..\Resources\BlendingState.h" />
-    <ClInclude Include="..\..\..\Resources\BufferInitData.h" />
-    <ClInclude Include="..\..\..\Resources\DepthStencilState.h" />
-    <ClInclude Include="..\..\..\Resources\IBuffer.h" />
-    <ClInclude Include="..\..\..\Resources\IRenderTarget.h" />
-    <ClInclude Include="..\..\..\Resources\IShader.h" />
-    <ClInclude Include="..\..\..\Resources\IShaderInputLayout.h" />
+    <ClInclude Include="..\..\..\Resources\Buffers\Buffer.h" />
+    <ClInclude Include="..\..\..\Resources\Buffers\BufferInitData.h" />
+    <ClInclude Include="..\..\..\Resources\Buffers\IBuffer.h" />
     <ClInclude Include="..\..\..\Resources\MeshResources.h" />
-    <ClInclude Include="..\..\..\Resources\RasterizerState.h" />
+    <ClInclude Include="..\..\..\Resources\PipelineStates\BlendingState.h" />
+    <ClInclude Include="..\..\..\Resources\PipelineStates\DepthStencilState.h" />
+    <ClInclude Include="..\..\..\Resources\PipelineStates\RasterizerState.h" />
     <ClInclude Include="..\..\..\Resources\ResourceObject.h" />
     <ClInclude Include="..\..\..\Resources\ResourcePtr.h" />
     <ClInclude Include="..\..\..\Resources\ResourcesFactory.h" />
+    <ClInclude Include="..\..\..\Resources\Shaders\Exceptions\CompilationException.h" />
+    <ClInclude Include="..\..\..\Resources\Shaders\InputLayout.h" />
+    <ClInclude Include="..\..\..\Resources\Shaders\IShader.h" />
+    <ClInclude Include="..\..\..\Resources\Shaders\IShaderInputLayout.h" />
+    <ClInclude Include="..\..\..\Resources\Shaders\LayoutInitData.h" />
+    <ClInclude Include="..\..\..\Resources\Shaders\ShaderInitData.h" />
+    <ClInclude Include="..\..\..\Resources\Shaders\Shaders.h" />
     <ClInclude Include="..\..\..\Resources\SwapChain.h" />
-    <ClInclude Include="..\..\..\Resources\Texture.h" />
+    <ClInclude Include="..\..\..\Resources\Textures\IRenderTarget.h" />
+    <ClInclude Include="..\..\..\Resources\Textures\RenderTarget.h" />
+    <ClInclude Include="..\..\..\Resources\Textures\Texture.h" />
+    <ClInclude Include="..\..\..\Resources\Textures\TextureInitData.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\ImageGenerators\CheckerboardGenerator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\AssetsFactory.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Buffers\BufferCreator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncThread.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\Exceptions\LoaderException.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\PathTranslators\AssetPath.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\PathTranslators\PathsManager.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="..\..\..\Resources\Buffers\Buffer.cpp" />
+    <ClCompile Include="..\..\..\Resources\Resource.cpp" />
+    <ClCompile Include="..\..\..\Resources\Textures\RenderTarget.cpp" />
+    <ClCompile Include="..\..\..\Resources\Textures\Texture.cpp" />
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.inl">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\BlendingStateCreator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\DepthStencilStateCreator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\RasterizerStateCreator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Shaders\LayoutCreator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\MipMapGenerator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\Resampler\resampler.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\TextureCreator.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\AssetsThread.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\LoadBarrier.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\Cache\CacheManager.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\Cache\MemoryCache.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\Loaders\ShaderLoader.cpp" />
+    <ClCompile Include="..\..\..\ResourceManager\ResourceManagerAPI.cpp" />
     <ClCompile Include="..\..\..\ResourceManager\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\..\Resources\MeshResources.cpp" />
-    <ClCompile Include="..\..\..\Resources\Texture.cpp" />
+    <ClCompile Include="..\..\..\Resources\Shaders\Layouts.cpp" />
+    <ClCompile Include="..\..\..\Resources\Shaders\Shaders.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
+      <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\Serialization\Serialization.vcxproj">
+      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9F71F0DA-1D72-4E96-93B7-5AC2C9CB6EDE}</ProjectGuid>

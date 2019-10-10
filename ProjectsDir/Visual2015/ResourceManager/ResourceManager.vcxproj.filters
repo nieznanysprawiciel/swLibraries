@@ -13,6 +13,60 @@
     <Filter Include="PrecompiledHeader">
       <UniqueIdentifier>{789ce426-c09f-475d-b42f-e620b8e9891a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceManager\Cache">
+      <UniqueIdentifier>{bc9fe5a8-2e78-4796-a29c-78593ee7afc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\AssetCreators">
+      <UniqueIdentifier>{109aaa4d-08d9-462a-8def-3baa551804f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\AssetCreators\Shaders">
+      <UniqueIdentifier>{1a78c6dc-95f4-453b-92c6-342673921141}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\AssetCreators\Buffers">
+      <UniqueIdentifier>{608b6d99-86e8-495a-8c5d-2030e8876186}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\AssetCreators\Textures">
+      <UniqueIdentifier>{af417ba2-7ad0-4576-ab21-44410c74d482}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\AssetCreators\PipelineStates">
+      <UniqueIdentifier>{8b4595d8-4173-4632-821e-0f4dd58752ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Buffers">
+      <UniqueIdentifier>{5a78aff8-47ef-4094-99c6-ed51954842f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Shaders">
+      <UniqueIdentifier>{c8277046-d812-4e99-8acc-4f5b150b05d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Textures">
+      <UniqueIdentifier>{44631b0d-5d6a-46c8-a140-d29af5d801ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\PipelineStates">
+      <UniqueIdentifier>{650d0f75-9ccb-45b3-9bdd-f330d291cd90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\AsyncLoad">
+      <UniqueIdentifier>{e42ecf68-a8c0-4bbf-8458-bf16bf57e47a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\Loaders">
+      <UniqueIdentifier>{0acb497f-3d98-4a47-97da-9cc0b816e03b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\PathTranslators">
+      <UniqueIdentifier>{17bac032-4543-4380-bd48-d3b8e5062c6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\AssetCreators\Textures\Resampler">
+      <UniqueIdentifier>{21fab0d8-65c8-4533-b6cc-5729b33f10f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImageGenerators">
+      <UniqueIdentifier>{8f4f8bec-efb3-4307-9487-87df7f7e3d68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\Exceptions">
+      <UniqueIdentifier>{5e98a667-2f6c-4093-b4fa-01a668ca6254}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceManager\Loaders\Tools">
+      <UniqueIdentifier>{0cb0ceaf-52eb-44c8-a34c-864f5632aee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Shaders\Exceptions">
+      <UniqueIdentifier>{bd89a30a-b372-406b-a238-ec8a712fc45a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Rendering\IRenderer.h">
@@ -27,37 +81,7 @@
     <ClInclude Include="..\..\..\Rendering\IGraphicAPIInitializer.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\ResourceManager\ResourceContainer.h">
-      <Filter>ResourceManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\ResourceManager\ResourceManager.h">
-      <Filter>ResourceManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Resources\BlendingState.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Resources\BufferInitData.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Resources\DepthStencilState.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Resources\IBuffer.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Resources\IRenderTarget.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Resources\IShader.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Resources\IShaderInputLayout.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Resources\MeshResources.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Resources\RasterizerState.h">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Resources\ResourceObject.h">
@@ -75,22 +99,274 @@
     <ClInclude Include="..\..\..\ResourceManager\stdafx.h">
       <Filter>PrecompiledHeader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Resources\Texture.h">
-      <Filter>Resources</Filter>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\IAssetCreator.h">
+      <Filter>ResourceManager\AssetCreators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\IAssetCreateInfo.h">
+      <Filter>ResourceManager\AssetCreators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Cache\IAssetCache.h">
+      <Filter>ResourceManager\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Cache\MemoryCache.h">
+      <Filter>ResourceManager\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Buffers\BufferCreator.h">
+      <Filter>ResourceManager\AssetCreators\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.h">
+      <Filter>ResourceManager\AssetCreators\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Shaders\ShaderInitData.h">
+      <Filter>Resources\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Shaders\Shaders.h">
+      <Filter>Resources\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Cache\CacheManager.h">
+      <Filter>ResourceManager\Cache</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\AssetsThread.h">
+      <Filter>ResourceManager\AsyncLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\AssetLoadRequest.h">
+      <Filter>ResourceManager\AsyncLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\ShaderCreator.inl">
+      <Filter>ResourceManager\AssetCreators\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\AssetLoadResponse.h">
+      <Filter>ResourceManager\AsyncLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\ShaderLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Shaders\LayoutInitData.h">
+      <Filter>Resources\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Shaders\InputLayout.h">
+      <Filter>Resources\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Shaders\LayoutCreator.h">
+      <Filter>ResourceManager\AssetCreators\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\LoadBarrier.h">
+      <Filter>ResourceManager\AsyncLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\AssetsFactory.h">
+      <Filter>ResourceManager\AssetCreators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\BlendingStateCreator.h">
+      <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\RasterizerStateCreator.h">
+      <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\DepthStencilStateCreator.h">
+      <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\MipMapGenerator.h">
+      <Filter>ResourceManager\AssetCreators\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\Resampler\resampler.h">
+      <Filter>ResourceManager\AssetCreators\Textures\Resampler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\TextureCreator.h">
+      <Filter>ResourceManager\AssetCreators\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ImageGenerators\CheckerboardGenerator.h">
+      <Filter>ImageGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Textures\Texture.h">
+      <Filter>Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Shaders\IShader.h">
+      <Filter>Resources\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Shaders\IShaderInputLayout.h">
+      <Filter>Resources\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Buffers\BufferInitData.h">
+      <Filter>Resources\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Buffers\IBuffer.h">
+      <Filter>Resources\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Buffers\Buffer.h">
+      <Filter>Resources\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Textures\TextureInitData.h">
+      <Filter>Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\PipelineStates\BlendingState.h">
+      <Filter>Resources\PipelineStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\PipelineStates\DepthStencilState.h">
+      <Filter>Resources\PipelineStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\PipelineStates\RasterizerState.h">
+      <Filter>Resources\PipelineStates</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Textures\IRenderTarget.h">
+      <Filter>Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Textures\RenderTarget.h">
+      <Filter>Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.h">
+      <Filter>ResourceManager\AssetCreators\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.h">
+      <Filter>ResourceManager\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\IAssetLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\IAssetLoadInfo.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\RMLoaderAPI.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\PathTranslators\AssetPath.h">
+      <Filter>ResourceManager\PathTranslators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\LoadingResult.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\Tools\LoadingContext.h">
+      <Filter>ResourceManager\Loaders\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Resources\Shaders\Exceptions\CompilationException.h">
+      <Filter>Resources\Shaders\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\TextureLoadInfo.h">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Exceptions\LoaderException.h">
+      <Filter>ResourceManager\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\PathTranslators\PathsManager.h">
+      <Filter>ResourceManager\PathTranslators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\PathTranslators\LoadPath.h">
+      <Filter>ResourceManager\PathTranslators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncThread.h">
+      <Filter>ResourceManager\AsyncLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\ResourceManagerAPI.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\Tools\CanLoad.h">
+      <Filter>ResourceManager\Loaders\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\ResourceContainer.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\ResourceManager.h">
+      <Filter>ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\ResourceManager\Loaders\RenderTargetLoadInfo.h">
+      <Filter>ResourceManager\Loaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
-      <Filter>ResourceManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Resources\MeshResources.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\ResourceManager\stdafx.cpp">
       <Filter>PrecompiledHeader</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Resources\Texture.cpp">
+    <ClCompile Include="..\..\..\ResourceManager\Cache\MemoryCache.cpp">
+      <Filter>ResourceManager\Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Buffers\BufferCreator.cpp">
+      <Filter>ResourceManager\AssetCreators\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Resources\Shaders\Shaders.cpp">
+      <Filter>Resources\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\AssetsThread.cpp">
+      <Filter>ResourceManager\AsyncLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\Loaders\ShaderLoader.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Shaders\LayoutCreator.cpp">
+      <Filter>ResourceManager\AssetCreators\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\LoadBarrier.cpp">
+      <Filter>ResourceManager\AsyncLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\Cache\CacheManager.cpp">
+      <Filter>ResourceManager\Cache</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\AssetsFactory.cpp">
+      <Filter>ResourceManager\AssetCreators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Resources\Shaders\Layouts.cpp">
+      <Filter>Resources\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\BlendingStateCreator.cpp">
+      <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\RasterizerStateCreator.cpp">
+      <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\PipelineStates\DepthStencilStateCreator.cpp">
+      <Filter>ResourceManager\AssetCreators\PipelineStates</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\MipMapGenerator.cpp">
+      <Filter>ResourceManager\AssetCreators\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\Resampler\resampler.cpp">
+      <Filter>ResourceManager\AssetCreators\Textures\Resampler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\TextureCreator.cpp">
+      <Filter>ResourceManager\AssetCreators\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ImageGenerators\CheckerboardGenerator.cpp">
+      <Filter>ImageGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Resources\Textures\Texture.cpp">
+      <Filter>Resources\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Resources\Buffers\Buffer.cpp">
+      <Filter>Resources\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Resources\Textures\RenderTarget.cpp">
+      <Filter>Resources\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AssetCreators\Textures\RenderTargetCreator.cpp">
+      <Filter>ResourceManager\AssetCreators\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\Exceptions\ResourceManagerException.cpp">
+      <Filter>ResourceManager\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\PathTranslators\AssetPath.cpp">
+      <Filter>ResourceManager\PathTranslators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Resources\Resource.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\Loaders\RenderTargetLoader.cpp">
+      <Filter>ResourceManager\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\Exceptions\LoaderException.cpp">
+      <Filter>ResourceManager\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\PathTranslators\PathsManager.cpp">
+      <Filter>ResourceManager\PathTranslators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\AsyncLoad\RMAsyncThread.cpp">
+      <Filter>ResourceManager\AsyncLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\ResourceManagerAPI.cpp">
+      <Filter>ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\ResourceManager\ResourceManager.cpp">
+      <Filter>ResourceManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,10 +11,14 @@
 
 RTTR_REGISTRATION
 {
-	rttr::registration::class_< DX11RasterizerState >( "DX11RasterizerState" );
-	rttr::registration::class_< DX11DepthStencilState >( "DX11DepthStencilState" );
-	rttr::registration::class_< DX11BlendingState >( "DX11BlendingState" );
+	rttr::registration::class_< sw::DX11RasterizerState >( "sw::DX11RasterizerState" );
+	rttr::registration::class_< sw::DX11DepthStencilState >( "sw::DX11DepthStencilState" );
+	rttr::registration::class_< sw::DX11BlendingState >( "sw::DX11BlendingState" );
 }
+
+
+namespace sw
+{
 
 
 
@@ -22,28 +26,23 @@ RTTR_REGISTRATION
 //			RasterizerState	
 //====================================================================================//
 
-DX11RasterizerState::DX11RasterizerState( ComPtr< ID3D11RasterizerState > state, const RasterizerStateInfo& info )
-	:	m_state( state )
-	,	m_info( info )
-{ }
+DX11RasterizerState::DX11RasterizerState		( const AssetPath& assetPath, ComPtr< ID3D11RasterizerState > state, const RasterizerStateInfo& info )
+	: RasterizerState( assetPath )
+	, m_state( state )
+	, m_info( info )
+{}
+
 
 // ================================ //
 //
-std::string						DX11RasterizerState::GetResourceName() const
-{
-	return std::string();
-}
-
-// ================================ //
-//
-const RasterizerStateInfo&		DX11RasterizerState::GetDescriptor()
+const RasterizerStateInfo&						DX11RasterizerState::GetDescriptor		() const
 {
 	return m_info;
 }
 
 // ================================ //
 //
-DX11RasterizerState*			DX11RasterizerState::Create		( const RasterizerStateInfo& info )
+sw::Nullable< DX11RasterizerState* >			DX11RasterizerState::Create				( const AssetPath& assetPath, const RasterizerStateInfo& info )
 {
 	D3D11_RASTERIZER_DESC desc;
 	desc.CullMode = DX11ConstantsMapper::Get( info.CullMode );
@@ -60,9 +59,9 @@ DX11RasterizerState*			DX11RasterizerState::Create		( const RasterizerStateInfo&
 	ComPtr< ID3D11RasterizerState > state;
 	auto result = device->CreateRasterizerState( &desc, state.GetAddressOf() );
 	if( FAILED( result ) )
-		return nullptr;
+		return "[DX11RasterizerState] Creation failed.";
 
-	return new DX11RasterizerState( state, info );
+	return new DX11RasterizerState( assetPath, state, info );
 }
 
 
@@ -71,28 +70,22 @@ DX11RasterizerState*			DX11RasterizerState::Create		( const RasterizerStateInfo&
 //			DepthStencilState	
 //====================================================================================//
 
-DX11DepthStencilState::DX11DepthStencilState( ComPtr< ID3D11DepthStencilState > state, const DepthStencilInfo& info )
-	:	m_state( state )
-	,	m_info( info )
-{ }
+DX11DepthStencilState::DX11DepthStencilState	( const AssetPath& assetPath, ComPtr< ID3D11DepthStencilState > state, const DepthStencilInfo& info )
+	: DepthStencilState( assetPath )
+	, m_state( state )
+	, m_info( info )
+{}
 
 // ================================ //
 //
-std::string						DX11DepthStencilState::GetResourceName() const
-{
-	return std::string();
-}
-
-// ================================ //
-//
-const DepthStencilInfo&			DX11DepthStencilState::GetDescriptor()
+const DepthStencilInfo&							DX11DepthStencilState::GetDescriptor	() const
 {
 	return m_info;
 }
 
 // ================================ //
 //
-DX11DepthStencilState*			DX11DepthStencilState::Create			( const DepthStencilInfo& info )
+sw::Nullable< DX11DepthStencilState* >			DX11DepthStencilState::Create			( const AssetPath& assetPath, const DepthStencilInfo& info )
 {
 	D3D11_DEPTH_STENCIL_DESC desc;
 	desc.DepthEnable = info.EnableDepthTest;
@@ -113,9 +106,9 @@ DX11DepthStencilState*			DX11DepthStencilState::Create			( const DepthStencilInf
 	ComPtr< ID3D11DepthStencilState > state;
 	auto result = device->CreateDepthStencilState( &desc, state.GetAddressOf() );
 	if( FAILED( result ) )
-		return nullptr;
+		return "[DX11DepthStencilState] Creation failed.";
 
-	return new DX11DepthStencilState( state, info );
+	return new DX11DepthStencilState( assetPath, state, info );
 }
 
 
@@ -124,28 +117,22 @@ DX11DepthStencilState*			DX11DepthStencilState::Create			( const DepthStencilInf
 //			BlendingState	
 //====================================================================================//
 
-DX11BlendingState::DX11BlendingState( ComPtr< ID3D11BlendState > state, const BlendingInfo& info )
-	:	m_state( state )
-	,	m_info( info )
+DX11BlendingState::DX11BlendingState	( const AssetPath& assetPath, ComPtr< ID3D11BlendState > state, const BlendingInfo& info )
+	: BlendingState( assetPath )
+	, m_state( state )
+	, m_info( info )
 {}
 
 // ================================ //
 //
-std::string						DX11BlendingState::GetResourceName() const
-{
-	return std::string();
-}
-
-// ================================ //
-//
-const BlendingInfo&				DX11BlendingState::GetDescriptor()
+const BlendingInfo&						DX11BlendingState::GetDescriptor	() const
 {
 	return m_info;
 }
 
 // ================================ //
 //
-DX11BlendingState*				DX11BlendingState::Create		( const BlendingInfo & info )
+sw::Nullable< DX11BlendingState* >		DX11BlendingState::Create			( const AssetPath& assetPath, const BlendingInfo& info )
 {
 	D3D11_BLEND_DESC desc;
 	desc.IndependentBlendEnable = false;
@@ -164,7 +151,11 @@ DX11BlendingState*				DX11BlendingState::Create		( const BlendingInfo & info )
 	ComPtr< ID3D11BlendState > state;
 	auto result = device->CreateBlendState( &desc, state.GetAddressOf() );
 	if( FAILED( result ) )
-		return nullptr;
+		return "[DX11BlendingState] Creation failed.";
 
-	return new DX11BlendingState( state, info );
+	return new DX11BlendingState( assetPath, state, info );
 }
+
+}	// sw
+
+

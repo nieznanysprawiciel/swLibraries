@@ -2,13 +2,18 @@
 /**
 @file IRenderer.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
 
 
 #include "swGraphicAPI/Resources/MeshResources.h"
 #include "RenderCommands.h"
 
+
+
+namespace sw
+{
 
 /**@brief Sposób u¿ycia renderera.
 
@@ -38,27 +43,28 @@ public:
 	virtual bool IsValid() = 0;
 
 
-	virtual void		Draw					( const DrawCommand& command )						= 0;
-	virtual void		DrawInstanced			( const DrawInstancedCommand& command )				= 0;
+	virtual void		Draw					( const DrawCommand& command ) = 0;
+	virtual void		DrawInstanced			( const DrawInstancedCommand& command ) = 0;
 
-	virtual void		SetRenderTarget			( const SetRenderTargetCommand& command )			= 0;
-	virtual void		SetRenderTarget			( const SetRenderTargetExCommand& command )			= 0;
-	virtual void		ClearRenderTarget		( const ClearRenderTargetCommand& command )			= 0;
+	virtual void		SetRenderTarget			( const SetRenderTargetCommand& command ) = 0;
+	virtual void		SetRenderTarget			( const SetRenderTargetExCommand& command ) = 0;
+	virtual void		ClearRenderTarget		( const ClearRenderTargetCommand& command ) = 0;
 
-	virtual void		UpdateBuffer			( const UpdateBufferCommand& command )				= 0;
-	virtual void		BindBuffer				( const BindBufferCommand& command )				= 0;
-	virtual void		UpdateAndBindBuffer		( const UpdateBindBuffer& command )					= 0;
+	virtual void		UpdateBuffer			( const UpdateBufferCommand& command ) = 0;
+	virtual void		BindBuffer				( const BindBufferCommand& command ) = 0;
+	virtual void		UpdateAndBindBuffer		( const UpdateBindBuffer& command ) = 0;
 
-	virtual void		SetDefaultBuffers		( const SetDefaultBuffersCommand& command )			= 0;
-	
-	virtual void		SetShaderState			( const SetShaderStateCommand& command )			= 0;
-	virtual void		SetShaderState			( const SetShaderStateExCommand& command )			= 0;
-	virtual void		SetShaderState			( const SetRenderStateCommand& command )			= 0;
-	virtual void		SetShaderState			( const SetRenderStateExCommand& command )			= 0;
+	virtual void		SetDefaultBuffers		( const SetDefaultBuffersCommand& command ) = 0;
 
-	virtual void		CopyTexture				( const CopyTextureCommand& command )				= 0;
+	virtual void		SetShaderState			( const SetShaderStateCommand& command ) = 0;
+	virtual void		SetShaderState			( const SetShaderStateExCommand& command ) = 0;
+	virtual void		SetShaderState			( const SetRenderStateCommand& command ) = 0;
+	virtual void		SetShaderState			( const SetRenderStateExCommand& command ) = 0;
 
-	virtual void		FlushCommands			()													= 0;
+	virtual void		CopyTexture				( const CopyTextureCommand& command ) = 0;
+
+	virtual void		FlushCommands			() = 0;
 };
 
 
+}	// sw

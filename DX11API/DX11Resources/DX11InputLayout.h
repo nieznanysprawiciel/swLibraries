@@ -2,24 +2,44 @@
 /**
 @file DX11InputLayout.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
 
+
+#include "swCommonLib/Common/Exceptions/Nullable.h"
+
 #include "swGraphicAPI/Resources/MeshResources.h"
+#include "swGraphicAPI/Resources/Shaders/LayoutInitData.h"
 #include "DX11Initializer/DX11APIObjects.h"
 
-/**@brief Implementacja layout w DirectX 11.
+
+
+namespace sw
+{
+
+
+/**@brief DirectX 11 implementation of input layout.
 @ingroup DX11API*/
 class DX11InputLayout : public ShaderInputLayout, protected DX11APIObjects
 {
 	RTTR_ENABLE( ShaderInputLayout );
 private:
-	ID3D11InputLayout*				m_vertexLayout;
-protected:
-	~DX11InputLayout();
-public:
-	DX11InputLayout( ID3D11InputLayout* layout );
 
-	inline ID3D11InputLayout*		Get() { return m_vertexLayout; }
+	ComPtr< ID3D11InputLayout >			m_vertexLayout;
+
+protected:
+
+	virtual			~DX11InputLayout		();
+
+public:
+
+	explicit									DX11InputLayout		( const AssetPath& fileName, ID3D11InputLayout* layout );
+
+	static sw::Nullable< DX11InputLayout* >		CreateLayout		( const AssetPath& fileName, const InputLayoutDescriptor& layoutDesc );
+
+public:
+
+	inline ID3D11InputLayout*					Get					() { return m_vertexLayout.Get(); }
 };
 
+}	// sw

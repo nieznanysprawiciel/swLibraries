@@ -5,11 +5,13 @@
 @copyright File is part of graphic engine SWEngine.
 */
 
+#include "swCommonLib/Common/Exceptions/Nullable.h"
+
 #include "DX11Initializer/DX11APIObjects.h"
 
-#include "swGraphicAPI/Resources/BlendingState.h"
-#include "swGraphicAPI/Resources/DepthStencilState.h"
-#include "swGraphicAPI/Resources/RasterizerState.h"
+#include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
+#include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
+#include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
 
 
 // ComPtr
@@ -18,28 +20,43 @@ using namespace Microsoft::WRL;
 
 
 
+namespace sw
+{
+
+
+//====================================================================================//
+//				DX11RasterizerState
+//====================================================================================//
+
+
 /**@brief RasterizerState DirectX11.
 @ingroup DX11API*/
 class DX11RasterizerState : public RasterizerState, protected DX11APIObjects
 {
 	RTTR_ENABLE( RasterizerState );
 private:
+
 	ComPtr< ID3D11RasterizerState >		m_state;
 	RasterizerStateInfo					m_info;
 
 protected:
-	~DX11RasterizerState() = default;
+
+	virtual		~DX11RasterizerState() = default;
+
 public:
-	explicit	DX11RasterizerState	( ComPtr< ID3D11RasterizerState > state, const RasterizerStateInfo& info );
-	
-	ID3D11RasterizerState*				Get	()	{ return m_state.Get(); }
+	explicit	DX11RasterizerState	( const AssetPath& assetPath, ComPtr< ID3D11RasterizerState > state, const RasterizerStateInfo& info );
+
+	ID3D11RasterizerState*								Get	() { return m_state.Get(); }
 
 	// Inherited via RasterizerState
-	virtual std::string					GetResourceName	() const override;
-	virtual const RasterizerStateInfo&	GetDescriptor	() override;
+	virtual const RasterizerStateInfo&					GetDescriptor	() const override;
 
-	static DX11RasterizerState*			Create			( const RasterizerStateInfo& info );
+	static sw::Nullable< DX11RasterizerState* >			Create			(  const AssetPath& assetPath, const RasterizerStateInfo& info );
 };
+
+//====================================================================================//
+//				DX11DepthStencilState
+//====================================================================================//
 
 
 /**@brief Depth stencil state DirectX11.
@@ -54,16 +71,20 @@ private:
 protected:
 	~DX11DepthStencilState() = default;
 public:
-	explicit	DX11DepthStencilState	( ComPtr< ID3D11DepthStencilState > state, const DepthStencilInfo& info );
-	
-	ID3D11DepthStencilState*			Get	()	{ return m_state.Get(); }
+	explicit	DX11DepthStencilState	( const AssetPath& assetPath, ComPtr< ID3D11DepthStencilState > state, const DepthStencilInfo& info );
+
+	ID3D11DepthStencilState*							Get	() { return m_state.Get(); }
 
 	// Inherited via DepthStencilState
-	virtual std::string					GetResourceName	() const override;
-	virtual const DepthStencilInfo&		GetDescriptor	() override;
+	virtual const DepthStencilInfo&						GetDescriptor	() const override;
 
-	static DX11DepthStencilState*		Create			( const DepthStencilInfo& info );
+	static sw::Nullable< DX11DepthStencilState* >		Create			( const AssetPath& assetPath, const DepthStencilInfo& info );
 };
+
+
+//====================================================================================//
+//				DX11BlendingState
+//====================================================================================//
 
 
 /**@brief Blending state DirectX11.
@@ -72,20 +93,27 @@ class DX11BlendingState : public BlendingState, public DX11APIObjects
 {
 	RTTR_ENABLE( BlendingState );
 private:
+
 	ComPtr< ID3D11BlendState >	m_state;
 	BlendingInfo				m_info;
 
 protected:
-	~DX11BlendingState() = default;
+
+	virtual		~DX11BlendingState	() = default;
+
 public:
-	explicit	DX11BlendingState	( ComPtr< ID3D11BlendState > state, const BlendingInfo& info );
-	
-	ID3D11BlendState*				Get	()	{ return m_state.Get(); }
+	explicit	DX11BlendingState	( const AssetPath& assetPath, ComPtr< ID3D11BlendState > state, const BlendingInfo& info );
+
+
+	ID3D11BlendState*								Get	() { return m_state.Get(); }
 
 	// Inherited via BlendingState
-	virtual std::string				GetResourceName	() const override;
-	virtual const BlendingInfo&		GetDescriptor	() override;
+	virtual const BlendingInfo&						GetDescriptor	() const override;
 
-	static DX11BlendingState*		Create			( const BlendingInfo& info );
+	static sw::Nullable< DX11BlendingState* >		Create			( const AssetPath& assetPath, const BlendingInfo& info );
 };
+
+
+}	// sw
+
 

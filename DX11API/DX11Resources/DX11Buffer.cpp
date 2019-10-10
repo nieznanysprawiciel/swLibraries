@@ -9,53 +9,51 @@
 #include "DX11Initializer/DX11ConstantsMapper.h"
 
 #include "swCommonLib/Common/Converters.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
 
-#include "swCommonLib/Common/MemoryLeaks.h"
 
 
 RTTR_REGISTRATION
 {
-	rttr::registration::class_< DX11Buffer >( "DX11Buffer" );
+	rttr::registration::class_< sw::DX11Buffer >( "sw::DX11Buffer" );
 }
 
 
-
-DX11Buffer::DX11Buffer( const std::wstring& name, const BufferInfo& descriptor, ID3D11Buffer* buff )
-	:	BufferObject( descriptor.ElementSize, descriptor.NumElements ), m_buffer( buff )
-	,	m_descriptor( descriptor )
+namespace sw
 {
-	m_descriptor.Name = name;
 
+// ================================ //
+//
+DX11Buffer::DX11Buffer			( const AssetPath& name, const BufferInfo& descriptor, ID3D11Buffer* buff )
+	: Buffer( name, descriptor.ElementSize, descriptor.NumElements ), m_buffer( buff )
+	, m_descriptor( descriptor )
+{
 	if( IsDebugLayerEnabled() )
-	{	
-		std::string nameStr = Convert::ToString< std::wstring >( name );
-		SetDebugName( m_buffer, nameStr );
+	{
+		std::string nameStr = name.String();
+		SetDebugName( m_buffer.Get(), nameStr );
 	}
 }
 
+// ================================ //
+//
 DX11Buffer::~DX11Buffer()
 {
-	if( m_buffer )
-		m_buffer->Release();
 	m_buffer = nullptr;
 }
 
 
-/**@brief Tworzy bufor wierzcho³ków, indeksów lub sta³ych o podanych parametrach.
-
-@param[in] name Buffer name or file path.
-@param[in] data Pointer to initialization data. Memory can be released after call.
-@param[in] bufferInfo Buffer descriptor.
-@return WskaŸnik na DX11Buffer w przypadku powodzenia lub nullptr, je¿eli coœ pójdzie nie tak.*/
-DX11Buffer*		DX11Buffer::CreateFromMemory	( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
+// ================================ //
+//
+sw::Nullable< Buffer* >				DX11Buffer::CreateFromMemory	( const AssetPath& name, const uint8* data, const BufferInfo& bufferInfo )
 {
 	ResourceBinding bindFlag;
 	if( bufferInfo.BufferType == BufferType::VertexBuffer )
-		bindFlag = ResourceBinding::BIND_RESOURCE_VERTEX_BUFFER;
+		bindFlag = ResourceBinding::RB_VertexBuffer;
 	else if( bufferInfo.BufferType == BufferType::IndexBuffer )
-		bindFlag = ResourceBinding::BIND_RESOURCE_INDEX_BUFFER;
+		bindFlag = ResourceBinding::RB_IndexBuffer;
 	else if( bufferInfo.BufferType == BufferType::ConstantBuffer )
-		bindFlag = ResourceBinding::BIND_RESOURCE_CONSTANT_BUFFER;
+		bindFlag = ResourceBinding::RB_ConstantsBuffer;
 
 	// Wype³niamy deskryptor bufora
 	D3D11_BUFFER_DESC bufferDesc;
@@ -78,7 +76,7 @@ DX11Buffer*		DX11Buffer::CreateFromMemory	( const std::wstring& name, const uint
 	ID3D11Buffer* newBuffer;
 	result = device->CreateBuffer( &bufferDesc, initDataPtr, &newBuffer );
 	if( FAILED( result ) )
-		return nullptr;
+		return "[DX11Buffer] Buffer creation failed.";
 
 	DX11Buffer* newBufferObject = new DX11Buffer( name, bufferInfo, newBuffer );
 	return newBufferObject;
@@ -97,7 +95,7 @@ D3D11_USAGE_STAGING lub D3D11_USAGE_DEFAULT. Trzeba sprawdziæ flagi i robiæ kopi
 @attention Funkcja nie nadaje siê do wykonania wielow¹tkowego. U¿ywa DeviceContextu do kopiowania danych
 w zwi¹zku z czym wymaga synchronizacji z innymi funkcjami renderuj¹cymi.
 */
-MemoryChunk DX11Buffer::CopyData()
+MemoryChunk									DX11Buffer::CopyData()
 {
 	// Trzeba stworzyæ nowy bufor
 	D3D11_BUFFER_DESC bufferDesc;
@@ -114,7 +112,7 @@ MemoryChunk DX11Buffer::CopyData()
 		return MemoryChunk();
 
 	// Kopiowanie zawartoœci miêdzy buforami
-	device_context->CopyResource( newBuffer, m_buffer );
+	device_context->CopyResource( newBuffer, m_buffer.Get() );
 
 	D3D11_MAPPED_SUBRESOURCE data;
 	result = device_context->Map( newBuffer, 0, D3D11_MAP::D3D11_MAP_READ, 0, &data );
@@ -129,3 +127,7 @@ MemoryChunk DX11Buffer::CopyData()
 
 	return std::move( memoryChunk );
 }
+
+
+}	// sw
+

@@ -1,18 +1,21 @@
 /**
 @file MeshResources.cpp
 @author nieznanysprawiciel
-@copyright File is part of graphic engine SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
 #include "swGraphicAPI/ResourceManager/stdafx.h"
 
 
 #include "swGraphicAPI/Resources/ResourcesFactory.h"
-#include "RasterizerState.h"
-#include "BlendingState.h"
-#include "DepthStencilState.h"
+#include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
+#include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
+#include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
 
 #include "swCommonLib/Common/MemoryLeaks.h"
 
+
+
+using namespace sw;
 
 
 RTTR_REGISTRATION
@@ -24,15 +27,15 @@ RTTR_REGISTRATION
 //====================================================================================//
 	
 
-	rttr::registration::enumeration< ResourceUsage >( "ResourceUsage" )
+	rttr::registration::enumeration< ResourceUsage >( "sw::ResourceUsage" )
 	(
-		rttr::value( "Default", ResourceUsage::RESOURCE_USAGE_DEFAULT ),
-		rttr::value( "Dynamic", ResourceUsage::RESOURCE_USAGE_DYNAMIC ),
-		rttr::value( "Staging", ResourceUsage::RESOURCE_USAGE_STAGING ),
-		rttr::value( "Static", ResourceUsage::RESOURCE_USAGE_STATIC )
+		rttr::value( "Default", ResourceUsage::Default ),
+		rttr::value( "Dynamic", ResourceUsage::Dynamic ),
+		rttr::value( "Staging", ResourceUsage::Staging ),
+		rttr::value( "Static", ResourceUsage::Static )
 	);
 
-	rttr::registration::enumeration< BlendOperation >( "BlendOperation" )
+	rttr::registration::enumeration< BlendOperation >( "sw::BlendOperation" )
 	(
 		rttr::value( "Add", BlendOperation::Add ),
 		rttr::value( "Subtract", BlendOperation::Subtract ),
@@ -42,7 +45,7 @@ RTTR_REGISTRATION
 	);
 
 
-	rttr::registration::enumeration< BlendFactor >( "BlendFactor" )
+	rttr::registration::enumeration< BlendFactor >( "sw::BlendFactor" )
 	(
 		rttr::value( "Zero", BlendFactor::Zero ),
 		rttr::value( "One", BlendFactor::One ),
@@ -58,20 +61,20 @@ RTTR_REGISTRATION
 		rttr::value( "InverseBlendFactor", BlendFactor::InverseBlendFactor )
 	);
 
-	rttr::registration::enumeration< CullMode >( "CullMode" )
+	rttr::registration::enumeration< CullMode >( "sw::CullMode" )
 	(
 		rttr::value( "Front", CullMode::Front ),
 		rttr::value( "Back", CullMode::Back ),
 		rttr::value( "None", CullMode::None )
 	);
 
-	rttr::registration::enumeration< FillMode >( "FillMode" )
+	rttr::registration::enumeration< FillMode >( "sw::FillMode" )
 	(
 		rttr::value( "Solid", FillMode::Solid ),
 		rttr::value( "Wireframe", FillMode::Wireframe )
 	);
 
-	rttr::registration::enumeration< ResourceFormat >( "ResourceFormat" )
+	rttr::registration::enumeration< ResourceFormat >( "sw::ResourceFormat" )
 	(
 		rttr::value( "Unknown", ResourceFormat::RESOURCE_FORMAT_UNKNOWN ),
 		rttr::value( "R32G32B32A32_TYPELESS", ResourceFormat::RESOURCE_FORMAT_R32G32B32A32_TYPELESS ),
@@ -194,7 +197,7 @@ RTTR_REGISTRATION
 		rttr::value( "V408", ResourceFormat::RESOURCE_FORMAT_V408 )
 	);
 
-	rttr::registration::enumeration< ShaderType >( "ShaderType" )
+	rttr::registration::enumeration< ShaderType >( "sw::ShaderType" )
 	(
 		rttr::value( "VertexShader", ShaderType::VertexShader ),
 		rttr::value( "PixelShader", ShaderType::PixelShader ),
@@ -205,7 +208,7 @@ RTTR_REGISTRATION
 	);
 
 	
-	rttr::registration::enumeration< BufferType >( "BufferType" )
+	rttr::registration::enumeration< BufferType >( "sw::BufferType" )
 	(
 		rttr::value( "VertexBuffer", BufferType::VertexBuffer ),
 		rttr::value( "IndexBuffer", BufferType::IndexBuffer ),
@@ -213,40 +216,40 @@ RTTR_REGISTRATION
 	);
 
 	
-	rttr::registration::enumeration< PrimitiveTopology >( "PrimitiveTopology" )
+	rttr::registration::enumeration< PrimitiveTopology >( "sw::PrimitiveTopology" )
 	(
-		rttr::value( "Points", PrimitiveTopology::PRIMITIVE_TOPOLOGY_POINTLIST ),
-		rttr::value( "Lines", PrimitiveTopology::PRIMITIVE_TOPOLOGY_LINELIST ),
-		rttr::value( "LinesAdjacency", PrimitiveTopology::PRIMITIVE_TOPOLOGY_LINELIST_ADJ ),
-		rttr::value( "LineStrip", PrimitiveTopology::PRIMITIVE_TOPOLOGY_LINESTRIP ),
-		rttr::value( "LineStripAdjacency", PrimitiveTopology::PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ ),
-		rttr::value( "Triangles", PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST ),
-		rttr::value( "TrianglesAdjacency", PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ ),
-		rttr::value( "TriangleStrip", PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLESTRIP ),
-		rttr::value( "TriangleStripAdjacency", PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ )
+		rttr::value( "Points", PrimitiveTopology::Points ),
+		rttr::value( "Lines", PrimitiveTopology::Lines ),
+		rttr::value( "LinesAdjacency", PrimitiveTopology::LinesAdjacency ),
+		rttr::value( "LineStrip", PrimitiveTopology::LineStrip ),
+		rttr::value( "LineStripAdjacency", PrimitiveTopology::LineStripAdjacency ),
+		rttr::value( "Triangles", PrimitiveTopology::Triangles ),
+		rttr::value( "TrianglesAdjacency", PrimitiveTopology::TrianglesAdjacency ),
+		rttr::value( "TriangleStrip", PrimitiveTopology::TriangleStrip ),
+		rttr::value( "TriangleStripAdjacency", PrimitiveTopology::TriangleStripAdjacency )
 	);
 
 //====================================================================================//
 //			Resources	
 //====================================================================================//
 
-	rttr::registration::class_< ResourceObject >( "ResourceObject" )
-		.property_readonly( "ID", &ResourceObject::m_uniqueId )
+	rttr::registration::class_< Resource >( "sw::Resource" )
+		.property_readonly( "ID", &Resource::m_uniqueId )
 		( 
 			rttr::metadata( MetaDataType::AllowInSaveFile, false),
 			rttr::metadata( MetaDataType::Serialize, false )
 		)
-		.property_readonly( "References", &ResourceObject::m_objectReferences )
+		.property_readonly( "References", &Resource::m_objectReferences )
 		( 
 			rttr::metadata( MetaDataType::AllowInSaveFile, false),
 			rttr::metadata( MetaDataType::Serialize, false )
 		);
 
-	rttr::registration::class_< SwapChain >( "SwapChain" );
+	rttr::registration::class_< SwapChain >( "sw::SwapChain" );
 
 
 	// Blending
-	rttr::registration::class_< BlendingInfo >( "BlendingInfo" )
+	rttr::registration::class_< BlendingInfo >( "sw::BlendingInfo" )
 		.property_readonly( "CustomBlendFactor", &BlendingInfo::CustomBlendFactor ) BIND_AS_PTR
 		.property_readonly( "EnableBlending", &BlendingInfo::EnableBlending )
 		.property_readonly( "ColorOperation", &BlendingInfo::ColorOperation )
@@ -256,12 +259,12 @@ RTTR_REGISTRATION
 		.property_readonly( "SrcAlphaBlend", &BlendingInfo::SrcAlphaBlend )
 		.property_readonly( "DstAlphaBlend", &BlendingInfo::DstAlphaBlend );
 
-	rttr::registration::class_< BlendingState >( "BlendingState" )
+	rttr::registration::class_< BlendingState >( "sw::BlendingState" )
 		.property_readonly( "Descriptor", &BlendingState::GetDescriptor ) BIND_AS_PTR;
 
 
 	// Rasterizer
-	rttr::registration::class_< RasterizerStateInfo >( "RasterizerStateInfo" )
+	rttr::registration::class_< RasterizerStateInfo >( "sw::RasterizerStateInfo" )
 		.property_readonly( "CullMode", &RasterizerStateInfo::CullMode )
 		.property_readonly( "FillMode", &RasterizerStateInfo::FillMode )
 		.property_readonly( "IsClockwise", &RasterizerStateInfo::IsClockwise )
@@ -271,167 +274,20 @@ RTTR_REGISTRATION
 		.property_readonly( "DepthBias", &RasterizerStateInfo::DepthBias );
 
 
-	rttr::registration::class_< RasterizerState >( "RasterizerState" )
+	rttr::registration::class_< RasterizerState >( "sw::RasterizerState" )
 		.property_readonly( "Descriptor", &RasterizerState::GetDescriptor ) BIND_AS_PTR;
 
 
 	// Depth/Stencil
-	rttr::registration::class_< DepthStencilInfo >( "DepthStencilInfo" )
+	rttr::registration::class_< DepthStencilInfo >( "sw::DepthStencilInfo" )
 		.property_readonly( "EnableDepthTest", &DepthStencilInfo::EnableDepthTest )
 		.property_readonly( "EnableStencilTest", &DepthStencilInfo::EnableStencilTest );
 
-	rttr::registration::class_< DepthStencilState >( "DepthStencilState" )
+	rttr::registration::class_< DepthStencilState >( "sw::DepthStencilState" )
 		.property_readonly( "Descriptor", &RasterizerState::GetDescriptor ) BIND_AS_PTR;
 
 
-	// Buffer
-	rttr::registration::class_< BufferObject >( "BufferObject" )
-		.property_readonly( "Descriptor", &BufferObject::GetDescriptor ) BIND_AS_PTR;
 
-	rttr::registration::class_< BufferInfo >( "BufferInfo" )
-		.property_readonly( "BufferName", &BufferInfo::GetName )
-		.property_readonly( "NumberElements", &BufferInfo::NumElements )
-		.property_readonly( "ElementSize", &BufferInfo::ElementSize )
-		.property_readonly( "Usage", &BufferInfo::Usage )
-		.property_readonly( "BufferType", &BufferInfo::BufferType )
-		.property_readonly( "Topology", &BufferInfo::Topology )
-		.property_readonly( "4 Bytes Index Size", &BufferInfo::Use4BytesIndex )
-		.property_readonly( "VertexLayout", &BufferInfo::VertexLayout );
-
-
-	rttr::registration::class_< ShaderInputLayout >( "ShaderInputLayout" );
-	rttr::registration::class_< IShader >( "IShader" )
-		.property_readonly( "FilePath", &IShader::GetShaderFile )
-		.property_readonly( "MainFunction", &IShader::GetShaderEntry );
-
-	rttr::registration::class_< PixelShader >( "PixelShader" );
-	rttr::registration::class_< VertexShader >( "VertexShader" );
-
-	rttr::registration::class_< RenderTargetObject >( "RenderTargetObject" )
-		.property( "ColorBuffer", &RenderTargetObject::m_colorBuffer )
-		.property( "DepthBuffer", &RenderTargetObject::m_depthBuffer )
-		.property( "StencilBuffer", &RenderTargetObject::m_stencilBuffer );
-
-	rttr::registration::class_< MaterialObject >( "MaterialObject" )
-		.property( "Diffuse", &MaterialObject::Diffuse ) BIND_AS_PTR
-		.property( "Specular", &MaterialObject::Specular ) BIND_AS_PTR
-		.property( "Ambient", &MaterialObject::Ambient ) BIND_AS_PTR
-		.property( "Emissive", &MaterialObject::Emissive ) BIND_AS_PTR
-		.property( "SpecularPower", &MaterialObject::Power );
 
 }
-
-
-//----------------------------------------------------------------------------------------------//
-//								PixelShader														//
-//----------------------------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------------------------//
-//								VertexShader													//
-//----------------------------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------------------------//
-//								RenderTargetObject												//
-//----------------------------------------------------------------------------------------------//
-
-
-RenderTargetObject::RenderTargetObject( TextureObject* colorBuffer, TextureObject* depthBuffer, TextureObject* stencilBuffer )
-	:	m_colorBuffer( colorBuffer )
-	,	m_depthBuffer( depthBuffer )
-	,	m_stencilBuffer( stencilBuffer )
-{
-	//if( m_colorBuffer )
-	//	m_colorBuffer->AddAssetReference();
-	//if( m_depthBuffer )
-	//	m_depthBuffer->AddAssetReference();
-	//if( m_stencilBuffer )
-	//	m_stencilBuffer->AddAssetReference();
-}
-
-/**@brief Destruktor kasuje obiekty tekstury g³êbokoœci i bufora koloru, je¿eli nie s¹ u¿ywane.
-Je¿eli istniej¹ odwo³ania do tych obiektów, to nie s¹ one kasowane, a jedynie usuwa siê odwo³ania
-pochodz¹ce od RenderTargetObject.*/
-RenderTargetObject::~RenderTargetObject()
-{
-	//if( m_colorBuffer )
-	//{
-	//	m_colorBuffer->DeleteAssetReference();
-	//	//if( m_colorBuffer->CanDelete() )
-	//	//	ObjectDeleter<TextureObject>::delete_object( m_colorBuffer, ObjectDeleterKey<TextureObject>() );
-	//}
-	//if( m_depthBuffer )
-	//{
-	//	m_depthBuffer->DeleteAssetReference();
-	//	//if( m_depthBuffer->CanDelete() )
-	//	//	ObjectDeleter<TextureObject>::delete_object( m_depthBuffer, ObjectDeleterKey<TextureObject>() );
-	//}
-	//if( m_stencilBuffer )
-	//{
-	//	m_stencilBuffer->DeleteAssetReference();
-	//	//if( m_stencilBuffer->CanDelete() )
-	//	//	ObjectDeleter<TextureObject>::delete_object( m_stencilBuffer, ObjectDeleterKey<TextureObject>() );
-	//}
-}
-
-std::string		RenderTargetObject::GetResourceName() const
-{
-	if( m_colorBuffer )
-		return m_colorBuffer->GetFilePath().String();
-	if( m_depthBuffer )
-		return m_depthBuffer->GetFilePath().String();
-	if( m_stencilBuffer )
-		return m_stencilBuffer->GetFilePath().String();
-	return "";
-}
-
-//----------------------------------------------------------------------------------------------//
-//								BufferObject													//
-//----------------------------------------------------------------------------------------------//
-
-BufferObject::BufferObject( unsigned int elementSize, unsigned int elementCount )
-	:	m_elementSize( elementSize ),
-		m_elementCount( elementCount )
-{
-}
-
-
-//----------------------------------------------------------------------------------------------//
-//								MaterialObject													//
-//----------------------------------------------------------------------------------------------//
-
-MaterialObject::MaterialObject( const MaterialObject* material )
-: ResourceObject(WRONG_ID)
-{
-	memcpy( this, material, sizeof(MaterialObject) );
-}
-
-/**@brief Ustawia materia³ na wartoœci domyœlne dla silnika.
-
-Te wartoœci s¹ najbardziej neutralne, w przypadku gdy nie ma materia³u, a jest ustawiona tekstura.
-Wtedy shadery wymana¿aj¹ jasnoœæ piksela przez 1.0 i nic sie nie zmienia.*/
-void MaterialObject::SetNullMaterial( )
-{
-	Diffuse.x = 1.0f;
-	Diffuse.y = 1.0f;
-	Diffuse.z = 1.0f;
-	Diffuse.w = 1.0f;
-
-	Ambient.x = 1.0f;
-	Ambient.y = 1.0f;
-	Ambient.z = 1.0f;
-	Ambient.w = 1.0f;
-
-	Specular.x = 1.0f;
-	Specular.y = 1.0f;
-	Specular.z = 1.0f;
-	Specular.w = 1.0f;
-
-	Emissive.x = 0.0f;
-	Emissive.y = 0.0f;
-	Emissive.z = 0.0f;
-	Emissive.w = 0.0f;
-
-	Power = 1.0f;
-}
-
 

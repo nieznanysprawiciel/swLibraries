@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\LoadBarrierTest.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetsFactory.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestCreators\TestBufferCreator.cpp">
+      <Filter>Tests\TestCreators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsCreation.cpp">
+      <Filter>Tests\TestResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestAssetPath.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsLoadingSync.cpp">
+      <Filter>Tests\TestResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsRemoval.cpp">
+      <Filter>Tests\TestResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestLoaders.cpp">
+      <Filter>Tests\TestResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoadingResult.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\Utils\Tests\TestMockCompositeAsset.cpp">
+      <Filter>Utils\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestListAssets.cpp">
+      <Filter>Tests\TestResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourcePtr.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoaders\TestShaderLoader.cpp">
+      <Filter>Tests\TestLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoaders\TestRenderTargetLoader.cpp">
+      <Filter>Tests\TestLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestPathsManager.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestPathAliases.cpp">
+      <Filter>Tests\TestResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestLoadPath.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestAssetsLoadingAsync.cpp">
+      <Filter>Tests\TestResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResourceManager\TestResourceManagerAPI.cpp">
+      <Filter>Tests\TestResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\stdafx.cpp">
+      <Filter>PrecompiledHeader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{f8dd9c62-3b53-4454-b5c2-62c03f7ce92e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\TestCreators">
+      <UniqueIdentifier>{7b4ee1f2-f121-450a-98af-c4a4eea8dfe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\TestResourceManager">
+      <UniqueIdentifier>{f3325ed5-4f61-4279-b87d-bab254a9d0b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{da4ff1f4-13fd-4ca4-a081-d19ca9701d69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\Tests">
+      <UniqueIdentifier>{3ffcb99c-ce8b-4abb-9b50-7208a7495431}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\TestLoaders">
+      <UniqueIdentifier>{8b4a4068-6d30-412e-9ac0-bb4c5be6935d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PrecompiledHeader">
+      <UniqueIdentifier>{8e63f9f2-ea10-4edb-ada4-fe702d4fd5da}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Tests\TestResourceManager\stdafx.h">
+      <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -29,7 +29,6 @@
 #include "DX11Resources/DX11Buffer.h"
 #include "DX11Resources/DX11ComputeShader.h"
 #include "DX11Resources/DX11InputLayout.h"
-#include "DX11Resources/DX11InputLayoutDescriptor.h"
 #include "DX11Resources/DX11PixelShader.h"
 #include "DX11Resources/DX11RenderTarget.h"
 #include "DX11Resources/DX11SwapChain.h"

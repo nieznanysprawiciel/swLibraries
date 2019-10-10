@@ -1,8 +1,9 @@
 /**
 @file DX11SwapChain.cpp
 @author nieznanysprawiciel
-@copyright File is part of graphic engine SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
 #include "swGraphicAPI/DX11API/stdafx.h"
 
 
@@ -11,17 +12,24 @@
 
 RTTR_REGISTRATION
 {
-	rttr::registration::class_< DX11SwapChain >( "DX11SwapChain" );
+	rttr::registration::class_< sw::DX11SwapChain >( "sw::DX11SwapChain" );
 }
 
 
+namespace sw
+{
 
+
+// ================================ //
+//
 DX11SwapChain::DX11SwapChain( IDXGISwapChain* chain, DX11RenderTarget* windowRT )
-	:	SwapChain( windowRT )
-	,	m_swapChain( chain )
-{ }
+	: SwapChain( windowRT )
+	, m_swapChain( chain )
+{}
 
 
+// ================================ //
+//
 DX11SwapChain::~DX11SwapChain()
 {
 	if( m_swapChain )
@@ -48,10 +56,13 @@ void	DX11SwapChain::Resize( uint16 newWidth, uint16 newHeight )
 @todo Wersja troszkê niew³aœciwa. SwapChain jest ju¿ stworzony wczeœniej przy zwyk³ej inicjalizacji DX11APIObjects.
 Tutaj jest jedynie tworzony obiekt silnikowy, który potrafi to obs³u¿yæ. Trzeba to zmieniæ, ¿eby ca³e tworzenie
 render targetu odbywa³o siê tutaj.*/
-DX11SwapChain* DX11SwapChain::CreateScreenSwapChain( RenderTargetObject* screenRT )
+DX11SwapChain* DX11SwapChain::CreateScreenSwapChain( RenderTarget* screenRT )
 {
-	DX11SwapChain* swapChainObject = new DX11SwapChain( swap_chain, static_cast< DX11RenderTarget* >( screenRT ) );
+	DX11SwapChain* swapChainObject = new DX11SwapChain( swap_chain, static_cast<DX11RenderTarget*>( screenRT ) );
 
 	swap_chain = nullptr;
 	return swapChainObject;
 }
+
+}	// sw
+

@@ -1,8 +1,10 @@
 /**
 @file ResourcesFactory.cpp
 @author nieznanysprawiciel
-@copyright File is part of graphic engine SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
+
 #include "swGraphicAPI/DX11API/stdafx.h"
 
 #include "swGraphicAPI/Resources/ResourcesFactory.h"
@@ -14,158 +16,115 @@
 #include "DX11Buffer.h"
 #include "DX11Texture.h"
 #include "DX11RenderTarget.h"
-#include "DX11InputLayoutDescriptor.h"
 #include "DX11InputLayout.h"
 #include "DX11SwapChain.h"
 #include "DX11PipelineState.h"
 
 #include "swCommonLib/Common/MemoryLeaks.h"
 
-typedef DX11Texture				Texture;
+
+namespace sw
+{
+
+
+typedef DX11Texture				TextureObject;
 typedef DX11VertexShader		VertexShaderObject;
 typedef DX11PixelShader			PixelShaderObject;
-typedef DX11Buffer				Buffer;
+typedef DX11Buffer				BufferObject;
 typedef DX11ComputeShader		ComputeShaderObject;
 typedef DX11DepthStencilState	DepthStencilStateObject;
 typedef DX11RasterizerState		RasterizerStateObject;
 typedef DX11BlendingState		BlendingStateObject;
 
-/**@brief Tworzy teksturê z podanego deskryptora.*/
-TextureObject*			ResourcesFactory::CreateTextureFromMemory	( const MemoryChunk& texData, TextureInfo&& texInfo )
+
+
+// ================================ //
+//
+sw::Nullable< VertexShader* >		ResourcesFactory::CreateVertexShader			( const AssetPath& fileName, const std::string& code, const std::string& entrypoint )
 {
-	return Texture::CreateFromMemory( texData, std::move( texInfo ) );
+	return VertexShaderObject::CreateFromCode( fileName, code, entrypoint );
 }
 
-
-/**@brief Tworzy obiekt vertex shadera.
-
-@param[in] fileName Nazwa pliku z kodem shadera.
-@param[in] shaderName Nazwa funkcji, od której ma siê rozpocz¹æ wykonanie programu shadera.
-@param[in] shaderModel Shader model.
-@return Zwraca obiekt vertex shadera lub nullptr w przypadku niepowodzenia.*/
-VertexShader*		ResourcesFactory::CreateVertexShaderFromFile( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel )
+// ================================ //
+//
+sw::Nullable< PixelShader* >		ResourcesFactory::CreatePixelShader				( const AssetPath& fileName, const std::string& code, const std::string& entrypoint )
 {
-	auto shader = VertexShaderObject::CreateFromFile( fileName, shaderName, shaderModel );
-	if( shader )
-	{
-		shader->SetFileName( fileName );
-		shader->SetShaderName( shaderName );
-	}
-	return shader;
+	return PixelShaderObject::CreateFromCode( fileName, code, entrypoint );
 }
 
-/**@brief Tworzy obiekt vertex shadera oraz layout wierzcho³ka.
-
-@param[in] fileName Nazwa pliku z kodem shadera.
-@param[in] shaderName Nazwa funkcji, od której ma siê rozpocz¹æ wykonanie programu shadera.
-@param[out] layout Zwraca obiekt layoutu.
-@param[in] layoutDesc Deskryptor opisuj¹cy layout.
-@param[in] shaderModel Shader model.
-@return Zwraca obiekt vertex shadera lub nullptr w przypadku niepowodzenia.*/
-VertexShader*		ResourcesFactory::CreateVertexShaderFromFile	( const std::wstring& fileName,
-																		const std::string& shaderName,
-																		ShaderInputLayout** layout,
-																		InputLayoutDescriptor* layoutDesc,
-																		const char* shaderModel/* = "vs_4_0"*/ )
+// ================================ //
+//
+sw::Nullable< ComputeShader* >		ResourcesFactory::CreateComputeShader			( const AssetPath& fileName, const std::string& code, const std::string& entrypoint )
 {
-	auto shader = VertexShaderObject::CreateFromFile( fileName, shaderName, layout, layoutDesc, shaderModel );
-	if( shader )
-	{
-		shader->SetFileName( fileName );
-		shader->SetShaderName( shaderName );
-	}
-	return shader;
+	return ComputeShaderObject::CreateFromCode( fileName, code, entrypoint );
+}
+
+// ================================ //
+//
+sw::Nullable< ShaderInputLayout* >	ResourcesFactory::CreateInputLayout				( const AssetPath& name, const InputLayoutDescriptor& layoutDesc )
+{
+	return DX11InputLayout::CreateLayout( name, layoutDesc );
+}
+
+// ================================ //
+//
+sw::Nullable< Texture* >			ResourcesFactory::CreateTextureFromMemory		( const AssetPath& fileName, const BufferRaw& texData, sw::TextureInfo&& texInfo )
+{
+	return TextureObject::CreateFromMemory( fileName, texData, std::move( texInfo ) );
 }
 
 /**@brief Creates BlendingState.*/
-BlendingState*		ResourcesFactory::CreateBlendingState		( const BlendingInfo& info )
+sw::Nullable< BlendingState* >		ResourcesFactory::CreateBlendingState		( const AssetPath& name, const BlendingInfo& info )
 {
-	return BlendingStateObject::Create( info );
+	return BlendingStateObject::Create( name, info );
 }
 
 /**@brief Creates RasterizerState*/
-RasterizerState*	ResourcesFactory::CreateRasterizerState		( const RasterizerStateInfo& info )
+sw::Nullable< RasterizerState* >	ResourcesFactory::CreateRasterizerState		( const AssetPath& name, const RasterizerStateInfo& info )
 {
-	return RasterizerStateObject::Create( info );
+	return RasterizerStateObject::Create( name, info );
 }
 
 /**@brief Creates DepthStencilState.*/
-DepthStencilState*	ResourcesFactory::CreateDepthStencilState	( const DepthStencilInfo& info )
+sw::Nullable< DepthStencilState* >	ResourcesFactory::CreateDepthStencilState	( const AssetPath& name, const DepthStencilInfo& info )
 {
-	return DepthStencilStateObject::Create( info );
+	return DepthStencilStateObject::Create( name, info );
 }
 
-
-/**@brief Tworzy obekt pixel shadera.
-@param[in] fileName Nazwa pliku z kodem shadera.
-@param[in] shaderName Nazwa funkcji, od której ma siê rozpocz¹æ wykonanie programu shadera.
-@param[in] shaderModel Shader model.
-@return Zwraca obiekt vertex shadera lub nullptr w przypadku niepowodzenia.*/
-PixelShader*		ResourcesFactory::CreatePixelShaderFromFile( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel )
+// ================================ //
+//
+sw::Nullable< Buffer* >			    ResourcesFactory::CreateBufferFromMemory		( const AssetPath& name, const uint8* data, const BufferInfo& bufferInfo )
 {
-	auto shader = PixelShaderObject::CreateFromFile( fileName, shaderName, shaderModel );
-	if( shader )
-	{
-		shader->SetFileName( fileName );
-		shader->SetShaderName( shaderName );
-	}
-	return shader;
+	return BufferObject::CreateFromMemory( name, data, bufferInfo );
 }
 
-/**@brief Tworzy obekt compute shadera.
-@param[in] fileName Nazwa pliku z kodem shadera.
-@param[in] shaderName Nazwa funkcji, od której ma siê rozpocz¹æ wykonanie programu shadera.
-@param[in] shaderModel Shader model.
-@return Zwraca obiekt vertex shadera lub nullptr w przypadku niepowodzenia.*/
-ComputeShader*		ResourcesFactory::CreateComputeShaderFromFile		( const std::wstring& fileName, const std::string& shaderName, const char* shaderModel )
-{
-	return ComputeShaderObject::CreateFromFile( fileName, shaderName, shaderModel );
-}
+/**@brief Creates RenderTarget from screen buffer.
 
-
-/**@brief Tworzy bufor na podstawie sanych w pamiêci.
-
-@param[in] name Buffer name or file path.
-@param[in] data Pointer to initialization data. Memory can be released after call.
-@param[in] bufferInfo Buffer descriptor.
-@return Zwraca wskaŸnik na obiekt bufora lub nullptr w przypadku niepowodzenia.*/
-BufferObject*			ResourcesFactory::CreateBufferFromMemory		( const std::wstring& name, const uint8* data, const BufferInfo& bufferInfo )
-{
-	return Buffer::CreateFromMemory( name, data, bufferInfo );
-}
-
-/**Tworzy object RenderTargetObject z bufora tylnego ekranu.
-
-@return Zwraca object RenderTargetObject.*/
-RenderTargetObject*		ResourcesFactory::CreateScreenRenderTarget()
+@return Returns RenderTarget.*/
+RenderTarget*					    ResourcesFactory::CreateScreenRenderTarget()
 {
 	return DX11RenderTarget::CreateScreenRenderTarget();
 }
 
 // ================================ //
 //
-SwapChain*				ResourcesFactory::CreateScreenSwapChain( RenderTargetObject* screenRT )
+SwapChain*						    ResourcesFactory::CreateScreenSwapChain			( RenderTarget* screenRT )
 {
 	return DX11SwapChain::CreateScreenSwapChain( screenRT );
 }
 
 // ================================ //
 //
-IGraphicAPIInitializer*		ResourcesFactory::CreateAPIInitializer()
+IGraphicAPIInitializer*			    ResourcesFactory::CreateAPIInitializer			()
 {
 	return new DX11Initializer();
 }
 
-/**Tworzy obiekt deskryptora layoutu.*/
-InputLayoutDescriptor*		ResourcesFactory::CreateInputLayoutDescriptor( const std::wstring& layoutName )
-{
-	return new DX11InputLayoutDescriptor( layoutName );
-}
-
 // ================================ //
 //
-RenderTargetObject*			ResourcesFactory::CreateRenderTarget( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor )
+sw::Nullable< RenderTarget* >	    ResourcesFactory::CreateRenderTarget			( const AssetPath& name, const RenderTargetDescriptor& renderTargetDescriptor )
 {
 	return DX11RenderTarget::CreateRenderTarget( name, renderTargetDescriptor );
 }
 
+}	// sw

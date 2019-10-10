@@ -24,7 +24,6 @@
     <ClCompile Include="..\..\..\MockAPI\MockResources\MockBuffer.cpp" />
     <ClCompile Include="..\..\..\MockAPI\MockResources\MockComputeShader.cpp" />
     <ClCompile Include="..\..\..\MockAPI\MockResources\MockInputLayout.cpp" />
-    <ClCompile Include="..\..\..\MockAPI\MockResources\MockInputLayoutDescriptor.cpp" />
     <ClCompile Include="..\..\..\MockAPI\MockResources\MockPipelineState.cpp" />
     <ClCompile Include="..\..\..\MockAPI\MockResources\MockPixelShader.cpp" />
     <ClCompile Include="..\..\..\MockAPI\MockResources\MockRenderTarget.cpp" />
@@ -39,7 +38,6 @@
     <ClInclude Include="..\..\..\MockAPI\MockResources\MockBuffer.h" />
     <ClInclude Include="..\..\..\MockAPI\MockResources\MockComputeShader.h" />
     <ClInclude Include="..\..\..\MockAPI\MockResources\MockInputLayout.h" />
-    <ClInclude Include="..\..\..\MockAPI\MockResources\MockInputLayoutDescriptor.h" />
     <ClInclude Include="..\..\..\MockAPI\MockResources\MockPipelineState.h" />
     <ClInclude Include="..\..\..\MockAPI\MockResources\MockPixelShader.h" />
     <ClInclude Include="..\..\..\MockAPI\MockResources\MockRenderTarget.h" />

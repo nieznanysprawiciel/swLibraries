@@ -6,9 +6,14 @@
 */
 
 #include "swGraphicAPI/Resources/MeshResources.h"
-#include "swGraphicAPI/Resources/BlendingState.h"
-#include "swGraphicAPI/Resources/DepthStencilState.h"
-#include "swGraphicAPI/Resources/RasterizerState.h"
+#include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
+#include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
+#include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
+
+
+namespace sw
+{
+
 
 /**@defgroup RenderingCommands Rendering commands
 Commands for @ref IRenderer class.
@@ -36,13 +41,13 @@ If you want your custom settings use @ref SetRenderTargetExCommand.
 @ingroup RenderingCommands*/
 struct SetRenderTargetCommand : public RendererCommand
 {
-	RenderTargetObject*		RenderTargets[ MAX_BOUND_RENDER_TARGETS ];	///< Render targets. If you want to use only one slot, set other to nullptr.
-	RenderTargetObject*		DepthStencil;		///< Renderer will extract depth stencil from this render target. You can use one of objects from RenderTargets array.
+	RenderTarget*		RenderTargets[ MAX_BOUND_RENDER_TARGETS ];	///< Render targets. If you want to use only one slot, set other to nullptr.
+	RenderTarget*		DepthStencil;		///< Renderer will extract depth stencil from this render target. You can use one of objects from RenderTargets array.
 	RasterizerState*		RasterizerState;
 	BlendingState*			BlendingState;
 	DepthStencilState*		DepthStencilState;
-	BufferObject*			CameraBuffer;		///< Buffer updated once per render target (or even once per frame). Buffer is bound to both pixel and vertex shader.
-	BufferObject*			LightBuffer;		///< Buffer updated once per render target (or even once per frame). Buffer is bound only to pixel shader.
+	Buffer*			CameraBuffer;		///< Buffer updated once per render target (or even once per frame). Buffer is bound to both pixel and vertex shader.
+	Buffer*			LightBuffer;		///< Buffer updated once per render target (or even once per frame). Buffer is bound only to pixel shader.
 };
 
 
@@ -94,7 +99,7 @@ struct SetRenderTargetExCommand : public SetRenderTargetCommand
 @ingroup RenderingCommands*/
 struct ClearRenderTargetCommand : public RendererCommand
 {
-	RenderTargetObject*		RenderTarget;
+	RenderTarget*		RenderTarget;
 	DirectX::XMFLOAT4		ClearColor;
 	float					DepthValue;
 	uint8					StencilValue;
@@ -109,8 +114,8 @@ If mesh doesn't have index buffer, set IndexBuffer field to nullptr.
 @ingroup RenderingCommands*/
 struct DrawCommand : public RendererCommand
 {
-	BufferObject*			VertexBuffer;
-	BufferObject*			IndexBufer;
+	Buffer*			VertexBuffer;
+	Buffer*			IndexBufer;
 	ShaderInputLayout*		Layout;
 	uint32					BufferOffset;
 	uint32					NumVertices;
@@ -124,7 +129,7 @@ struct DrawCommand : public RendererCommand
 @ingroup RenderingCommands*/
 struct DrawInstancedCommand : public DrawCommand
 {
-	BufferObject*		PerInstanceBuffer;		///< Per instance transformation.
+	Buffer*		PerInstanceBuffer;		///< Per instance transformation.
 	uint16				NumInstances;
 };
 
@@ -138,7 +143,7 @@ struct SetShaderStateCommand : public RendererCommand
 {
 	VertexShader*		VertexShader;
 	PixelShader*		PixelShader;
-	TextureObject*		Textures[ sMaxTextures ];
+	Texture*		Textures[ sMaxTextures ];
 	uint8				BindToShader[ sMaxTextures ];		///< Use @ref ShaderType flag. @note ShaderType::ComputeShader will be ignored.
 };
 
@@ -159,19 +164,19 @@ struct SetShaderStateExCommand : public SetShaderStateCommand
 @ingroup RenderingCommands*/
 struct SetDefaultBuffersCommand : public RendererCommand
 {
-	BufferObject*		TransformBuffer;
-	BufferObject*		MaterialBuffer;
-	BufferObject*		BonesTransforms;
+	Buffer*		TransformBuffer;
+	Buffer*		MaterialBuffer;
+	Buffer*		BonesTransforms;
 };
 
-/**@brief 
+/**@brief
 
 @ingroup RenderingCommands*/
 struct SetRenderStateCommand : public SetShaderStateCommand, SetDefaultBuffersCommand
 {};
 
 
-/**@brief 
+/**@brief
 
 @ingroup RenderingCommands*/
 struct SetRenderStateExCommand : public SetShaderStateExCommand, SetDefaultBuffersCommand
@@ -183,8 +188,8 @@ struct SetRenderStateExCommand : public SetShaderStateExCommand, SetDefaultBuffe
 @ingroup RenderingCommands*/
 struct CopyTextureCommand : public RendererCommand
 {
-	TextureObject*		SourceTexture;
-	TextureObject*		DestinationTexture;
+	Texture*		SourceTexture;
+	Texture*		DestinationTexture;
 };
 
 /**@brief Binds additional buffers.
@@ -196,7 +201,7 @@ will override this setting.
 @ingroup RenderingCommands*/
 struct BindBufferCommand : public RendererCommand
 {
-	BufferObject*		Buffer;
+	Buffer*		Buffer;
 	uint8				BufferSlot;
 	uint8				BindToShader;		///< Use @ref ShaderType flag. @note ShaderType::ComputeShader will be ignored.
 };
@@ -207,7 +212,7 @@ struct BindBufferCommand : public RendererCommand
 @ingroup RenderingCommands*/
 struct UpdateBufferCommand : public RendererCommand
 {
-	BufferObject*		Buffer;
+	Buffer*		Buffer;
 	uint8*				FillData;
 	uint32				Size;		///< Size in bytes.
 };
@@ -221,3 +226,8 @@ struct UpdateBindBuffer : public BindBufferCommand
 	uint8*				FillData;
 	uint32				Size;		///< Size in bytes.
 };
+
+}	// sw
+
+
+

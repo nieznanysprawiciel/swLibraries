@@ -5,7 +5,7 @@
 @copyright Plik jest czêœci¹ silnika graficznego SWEngine.
 */
 
-#include "swCommonLib/Common/Nullable.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
 
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
 #include "swGraphicAPI/Resources/SwapChain.h"
@@ -34,12 +34,12 @@ public:
 
 	virtual IRenderer*		CreateRenderer			( RendererUsage usage ) override;
 	virtual SwapChain*		CreateSwapChain			( const SwapChainInitData& swapChainData ) override;
-	virtual bool			InitAPI					( const GraphicAPIInitData& initData ) override;
+	virtual ReturnResult	InitAPI					( const GraphicAPIInitData& initData ) override;
 	virtual void			ReleaseAPI				() override;
-	virtual void*			GetRenderTargetHandle	( RenderTargetObject* renderTarget ) override;
+	virtual void*			GetRenderTargetHandle	( RenderTarget* renderTarget ) override;
 
 private:
-	Nullable< bool >		InitDevices				( const GraphicAPIInitData& initData );
+	ReturnResult			InitDevices				( const GraphicAPIInitData& initData );
 };
 
 }	// sw

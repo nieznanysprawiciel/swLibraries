@@ -1,12 +1,11 @@
 #pragma once
-
-/**@file DX11APIObjects.h
+/**
+@file DX11APIObjects.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
-
-@brief Zawiera deklaracjê klasy DX11APIObjects i DX11AuxiliaryObjects s³u¿¹cych do
-inicjowania i przechowywania obiektów DirectXa.
+@copyright File is part of Sleeping Wombat Libraries.
 */
+
+
 
 #include <string>
 
@@ -14,6 +13,13 @@ inicjowania i przechowywania obiektów DirectXa.
 //#include "d3dx11.h"
 #include <d3d11.h>
 #pragma warning( default : 4005 )
+
+
+#include "DX11DebugLayer.h"
+
+
+namespace sw
+{
 
 
 typedef ID3D11DeviceContext DeviceContext;
@@ -66,7 +72,12 @@ class DX11APIObjects
 protected:
 	static DX11APIObjects*			this_ptr;		///<Wa¿ne, ¿eby nie zainicjowac obiektu wielokrotnie.
 
+protected:
+
 	static bool						m_useDebugLayer;
+	static DX11DebugLayer			m_debugLayer;
+
+protected:
 
 	static unsigned int				_window_width;
 	static unsigned int				_window_height;
@@ -109,13 +120,13 @@ protected:	//public:	Inicjalizacje powinien zrobiæ obiekt, który dzidziczy po te
 	void set_rasterizer_desc			( const D3D11_RASTERIZER_DESC& rasterizer_desc );
 
 	// Pobieranie deskryptorów
-	static DXGI_SWAP_CHAIN_DESC					get_swap_chain_desc()		{ return _swap_chain_desc; }
-	static D3D11_VIEWPORT						get_viewport_desc()			{ return _view_port_desc; }
+	static DXGI_SWAP_CHAIN_DESC					get_swap_chain_desc() { return _swap_chain_desc; }
+	static D3D11_VIEWPORT						get_viewport_desc() { return _view_port_desc; }
 	static D3D_FEATURE_LEVEL					get_current_feature_level() { return _current_feature_level; }
-	static D3D11_TEXTURE2D_DESC					get_z_buffer_desc()			{ return _z_buffer_desc; }
-	static D3D11_DEPTH_STENCIL_VIEW_DESC		get_z_buffer_view_desc()	{ return _z_buffer_view_desc; }
-	static D3D11_SAMPLER_DESC					get_sampler_desc()			{ return _sampler_desc; }
-	static D3D11_RASTERIZER_DESC				get_rasterizer_desc()		{ return _rasterizer_desc; }
+	static D3D11_TEXTURE2D_DESC					get_z_buffer_desc() { return _z_buffer_desc; }
+	static D3D11_DEPTH_STENCIL_VIEW_DESC		get_z_buffer_view_desc() { return _z_buffer_view_desc; }
+	static D3D11_SAMPLER_DESC					get_sampler_desc() { return _sampler_desc; }
+	static D3D11_RASTERIZER_DESC				get_rasterizer_desc() { return _rasterizer_desc; }
 
 
 	// Funkcje inicjuj¹ce
@@ -166,3 +177,4 @@ protected:
 };
 
 
+}	// sw

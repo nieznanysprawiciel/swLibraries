@@ -1,9 +1,22 @@
 #pragma once
+/**
+@file DX11Utils.h
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 #include "DX11APIObjects.h"
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
 
 #include <d3d11_1.h>
+
+
+#include <string>
+
+
+namespace sw
+{
 
 
 /**@brief Helper functions for DirecX objects managment.*/
@@ -18,8 +31,8 @@ public:
 
 public:
 
-	static DXGI_SWAP_CHAIN_DESC			CreateSwapChainDesc		( const SwapChainInitData& swapChainData);
-	static DXGI_SWAP_CHAIN_DESC1		CreateSwapChainDesc1	( const SwapChainInitData& swapChainData);
+	static DXGI_SWAP_CHAIN_DESC			CreateSwapChainDesc		( const SwapChainInitData& swapChainData );
+	static DXGI_SWAP_CHAIN_DESC1		CreateSwapChainDesc1	( const SwapChainInitData& swapChainData );
 
 public:
 
@@ -34,7 +47,12 @@ private:
 
 	template< typename FactoryType >
 	static ComPtr< FactoryType >				GetFactory				();
+
+public:
+
+	static std::string							ErrorString				( HRESULT result );
 };
 
 
+}	// sw
 

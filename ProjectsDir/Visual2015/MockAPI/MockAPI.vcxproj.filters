@@ -24,9 +24,6 @@
     <ClCompile Include="..\..\..\MockAPI\MockResources\MockInputLayout.cpp">
       <Filter>MockAPI\MockResources</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\MockAPI\MockResources\MockInputLayoutDescriptor.cpp">
-      <Filter>MockAPI\MockResources</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\MockAPI\MockResources\MockPipelineState.cpp">
       <Filter>MockAPI\MockResources</Filter>
     </ClCompile>
@@ -63,9 +60,6 @@
       <Filter>MockAPI\MockResources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\MockAPI\MockResources\MockInputLayout.h">
-      <Filter>MockAPI\MockResources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\MockAPI\MockResources\MockInputLayoutDescriptor.h">
       <Filter>MockAPI\MockResources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\MockAPI\MockResources\MockPipelineState.h">
