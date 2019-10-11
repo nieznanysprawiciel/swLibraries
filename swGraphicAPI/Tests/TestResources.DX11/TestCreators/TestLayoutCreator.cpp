@@ -26,7 +26,7 @@ TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.Position", "[GraphicAP
 	AssetsFactory factory;
 	
 	InputLayoutDescriptor init;
-	init.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT );
+	init.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT, 0 );
 
 
 	auto result = factory.CreateAsset( "::/Layout", TypeID::get< ShaderInputLayout >(), std::move( init ) );
@@ -42,9 +42,9 @@ TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.Blending", "[GraphicAP
 	AssetsFactory factory;
 	
 	InputLayoutDescriptor init;
-	init.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT );
-	init.AddEntry( AttributeSemantic::BlendIndicies, ResourceFormat::RESOURCE_FORMAT_B8G8R8A8_UNORM );
-	init.AddEntry( AttributeSemantic::BlendWeights, ResourceFormat::RESOURCE_FORMAT_R32G32B32A32_FLOAT );
+	init.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT, 0 );
+	init.AddEntry( AttributeSemantic::BlendIndicies, ResourceFormat::RESOURCE_FORMAT_B8G8R8A8_UNORM, 12 );
+	init.AddEntry( AttributeSemantic::BlendWeights, ResourceFormat::RESOURCE_FORMAT_R32G32B32A32_FLOAT, 16 );
 
 	auto result = factory.CreateAsset( "::/Layout", TypeID::get< ShaderInputLayout >(), std::move( init ) );
 	REQUIRE_IS_VALID( result );
@@ -59,8 +59,8 @@ TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.Color", "[GraphicAPI]"
 	AssetsFactory factory;
 	
 	InputLayoutDescriptor init;
-	init.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT );
-	init.AddEntry( AttributeSemantic::Color, ResourceFormat::RESOURCE_FORMAT_R32G32B32A32_FLOAT );
+	init.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT, 0 );
+	init.AddEntry( AttributeSemantic::Color, ResourceFormat::RESOURCE_FORMAT_R32G32B32A32_FLOAT, 12 );
 
 	auto result = factory.CreateAsset( "::/Layout", TypeID::get< ShaderInputLayout >(), std::move( init ) );
 	REQUIRE_IS_VALID( result );
@@ -75,8 +75,8 @@ TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.Coordinates", "[Graphi
 	AssetsFactory factory;
 	
 	InputLayoutDescriptor init;
-	init.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT );
-	init.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT );
+	init.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT, 0 );
+	init.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT, 12 );
 
 	auto result = factory.CreateAsset( "::/Layout", TypeID::get< ShaderInputLayout >(), std::move( init ) );
 	REQUIRE_IS_VALID( result );
@@ -91,10 +91,10 @@ TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.NormalBinormalTangent"
 	AssetsFactory factory;
 	
 	InputLayoutDescriptor init;
-	init.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT );
-	init.AddEntry( AttributeSemantic::Normal, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT );
-	init.AddEntry( AttributeSemantic::Tangent, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT );
-	init.AddEntry( AttributeSemantic::Binormal, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT );
+	init.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT, 0 );
+	init.AddEntry( AttributeSemantic::Normal, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT, 12 );
+	init.AddEntry( AttributeSemantic::Tangent, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT, 24 );
+	init.AddEntry( AttributeSemantic::Binormal, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT, 24 );
 
 	auto result = factory.CreateAsset( "::/Layout", TypeID::get< ShaderInputLayout >(), std::move( init ) );
 	REQUIRE_IS_VALID( result );
@@ -109,8 +109,8 @@ TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.PointSize", "[GraphicA
 	AssetsFactory factory;
 	
 	InputLayoutDescriptor init;
-	init.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT );
-	init.AddEntry( AttributeSemantic::PointSize, ResourceFormat::RESOURCE_FORMAT_R32_FLOAT );
+	init.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT, 0 );
+	init.AddEntry( AttributeSemantic::PointSize, ResourceFormat::RESOURCE_FORMAT_R32_FLOAT, 12 );
 
 	auto result = factory.CreateAsset( "::/Layout", TypeID::get< ShaderInputLayout >(), std::move( init ) );
 	REQUIRE_IS_VALID( result );

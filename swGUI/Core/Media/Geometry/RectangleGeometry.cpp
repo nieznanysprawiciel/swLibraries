@@ -120,12 +120,7 @@ filesystem::Path    RectangleGeometry::ShaderFunctionFile	()
 //
 std::string		    RectangleGeometry::GeometryName		()
 {
-	std::string geomName = "RectangleGeometry-[Width="
-							+ Convert::ToString( m_width ) + "][Height="
-							+ Convert::ToString( m_height ) + "][StrokeThickness="
-							+ Convert::ToString( m_strokeThickness ) + "]";
-
-	return geomName;
+    return fmt::format( "RectangleGeometry-[Width={}][Height={}][StrokeThickness={}]", m_width, m_height, m_strokeThickness );
 }
 
 // ================================ //

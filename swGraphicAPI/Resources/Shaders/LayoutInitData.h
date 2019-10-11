@@ -76,17 +76,17 @@ public:
 
 	/**@brief Adds shader input layout entry.
 	This function will fill not specified data with apropriate values.*/
-	void					AddEntry				( sw::AttributeSemantic semanticName, ResourceFormat format );
-	void					AddEntry				( sw::AttributeSemantic semanticName, ResourceFormat format, uint16 inputSlot );
-	void					AddEntryPerInstance		( sw::AttributeSemantic semanticName, ResourceFormat format, uint16 inputSlot, uint32 instanceDataStep );
+	void					AddEntry				( AttributeSemantic semanticName, ResourceFormat format, uint16 offset );
+	void					AddEntry				( AttributeSemantic semanticName, ResourceFormat format, uint16 offset, uint16 inputSlot );
+	void					AddEntryPerInstance		( AttributeSemantic semanticName, ResourceFormat format, uint16 offset, uint16 inputSlot, uint32 instanceDataStep );
 
 	virtual TypeID			GetAssetType			() const override;
 
-	const std::vector< sw::LayoutEntry >&			GetEntries		() const { return m_entries; }
+	const std::vector< LayoutEntry >&			    GetEntries		() const { return m_entries; }
 
 protected:
 
-	void					AddEntryImpl			( sw::AttributeSemantic semanticName, ResourceFormat format, uint16 inputSlot, bool perInstance, uint32 instanceDataStep );
+	void					AddEntryImpl			( AttributeSemantic semanticName, ResourceFormat format, uint16 offset, uint16 inputSlot, bool perInstance, uint32 instanceDataStep );
 };
 
 }	// sw

@@ -12,6 +12,8 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/Shaders/ShaderCreator.h"
 #include "swGraphicAPI/Resources/Shaders/ShaderInitData.h"
 
+#include "swGraphicAPI/MockAssets/Utils.h"
+
 
 using namespace sw;
 
@@ -54,7 +56,7 @@ TEST_CASE( "GraphicAPI.AssetsFactory.CreateAsset", "[GraphicAPI]" )
 	ShaderInitData init( ShaderType::VertexShader );
 
 	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/MinimalShader.vsh", TypeID::get< VertexShader >(), std::move( init ) );
-	REQUIRE( result.IsValid() == true );
+	REQUIRE_IS_VALID( result );
 
 	CHECK( result.Get() != nullptr );
 }
