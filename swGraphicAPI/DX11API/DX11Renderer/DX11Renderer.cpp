@@ -24,14 +24,33 @@ namespace sw
 {
 
 
+#ifdef _DEBUG
+    #define ThrowIfNull( ptr, message )				\
+    if( !ptr )										\
+    {												\
+	    throw std::runtime_error( message );        \
+	    return;										\
+    }
+#else
+    #define ThrowIfNull( ptr, message )				\
+    if( !ptr )										\
+    {												\
+	    assert( false );							\
+	    return;										\
+    }
+#endif
 
-#define ThrowIfNull( ptr, message )				\
-if( !ptr )										\
-{												\
-	assert( false );							\
-	return;										\
-}
-//throw new std::runtime_error( message );
+
+#ifdef _DEBUG
+#define ValidatePipeline( ctx )                     \
+    if( IsDebugLayerEnabled() )                     \
+    {                                               \
+        if( FAILED( debug_interface->ValidateContext( ctx ) ) )  \
+            throw std::runtime_error( "Invalid pipeline state before draw call" );   \
+    }
+#else
+    #define ValidatePipeline( ctx )
+#endif
 
 
 /**@brief Klasa bêdzie renderowaæ w trybie immediate albo deferred.
@@ -94,6 +113,8 @@ void	DX11Renderer::Draw				( const DrawCommand& command )
 	DX11Renderer::SetVertexBuffer( command.VertexBuffer, 0 );
 	SetIndexBuffer( command.IndexBufer, 0, command.ExtendedIndex );
 
+    ValidatePipeline( m_localDeviceContext );
+
 	if( indexBuffer )
 		m_localDeviceContext->DrawIndexed( command.NumVertices, command.BufferOffset, command.BaseVertex );
 	else
@@ -120,6 +141,8 @@ void	DX11Renderer::DrawInstanced		( const DrawInstancedCommand& command )
 	uint32 offsets[ 2 ] = { 0, 0 };
 
 	m_localDeviceContext->IASetVertexBuffers( 0, 2, inputBuffer, strides, offsets );
+
+    ValidatePipeline( m_localDeviceContext );
 
 	if( indexBuffer )
 		m_localDeviceContext->DrawIndexedInstanced( command.NumVertices, command.NumInstances, command.BufferOffset, command.BaseVertex, 0 );

@@ -32,6 +32,8 @@ TestFramework::TestFramework		( int argc, char** argv )
 //
 ReturnResult			TestFramework::Initialize		()
 {
+    m_guiConfig.DebugGraphics = true;
+
     ReturnResult result = Result::Success;
 	
 	result = result && DefaultInitWithoutWindow();
@@ -49,7 +51,7 @@ input::EventCapturePtr	TestFramework::GetEventCapturer	( HostWindow* window )
 		auto input = window->GetInput();
 		if( input )
 		{
-			input::DebugInput* debugInput = static_cast<input::DebugInput*>( input );
+			input::DebugInput* debugInput = static_cast< input::DebugInput* >( input );
 			return debugInput->GetEventCapture();
 		}
 	}
@@ -71,6 +73,21 @@ input::IInput*			TestFramework::GetInput			( HostWindow* window )
 bool					TestFramework::TesterMainStep	()
 {
 	return !MainLoopCore();
+}
+
+// ================================ //
+//
+void                    TestFramework::Clean            ()
+{
+    for( auto window : m_windows )
+    {
+        delete window;
+    }
+
+    m_windows.clear();
+    m_focusedWindow = nullptr;
+
+    m_resourceManager->FreeUnusedAssets();
 }
 
 // ================================ //

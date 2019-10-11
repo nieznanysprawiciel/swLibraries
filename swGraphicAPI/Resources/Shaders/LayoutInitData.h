@@ -55,8 +55,6 @@ struct LayoutEntry
 
 /**@brief Describes vertex shader layout.
 
-@todo Move to sw namespace
-
 @ingroup Buffers
 @ingroup Shaders
 @ingroup Resources*/
