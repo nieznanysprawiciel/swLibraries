@@ -17,7 +17,7 @@ using namespace sw::gui;
 TEST_CASE( "GUI.Rendering.Brush.GradientBrush.AddingGradientStops", "[GUISystem][RenderingSystem][Drawing]" )
 {
 	TestFramework framework( 0, nullptr );	framework.Init();
-	LinearGradientPtr brush = std::make_shared< LinearGradient >();
+    LinearGradientBrushPtr brush = std::make_shared< LinearGradientBrush >();
 
 	auto constsName = brush->ConstantsName();
 
@@ -35,7 +35,7 @@ TEST_CASE( "GUI.Rendering.Brush.GradientBrush.AddingGradientStops", "[GUISystem]
 TEST_CASE( "GUI.Rendering.Brush.GradientBrush.RemovingGradientStops", "[GUISystem][RenderingSystem][Drawing]" )
 {
 	TestFramework framework( 0, nullptr );	framework.Init();
-	LinearGradientPtr brush = std::make_shared< LinearGradient >();
+    LinearGradientBrushPtr brush = std::make_shared< LinearGradientBrush >();
 
 	brush->AddGradientStop( GradientStop( 0xFFFF00FF, 0.0f ) );
 	brush->AddGradientStop( GradientStop( 0xFFFF00FF, 0.0f ) );
