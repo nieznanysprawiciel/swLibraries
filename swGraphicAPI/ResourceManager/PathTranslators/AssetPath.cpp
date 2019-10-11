@@ -15,20 +15,15 @@
 namespace sw
 {
 
-
-namespace impl
-{
-	std::regex		sAssetPathRegex( "^(.*?)(?:::(.*))?$" );
-}
-
-
 // ================================ //
 //
 Nullable< AssetPath >			AssetPath::FromString		( const std::string& assetPath )
 {
+    static std::regex sAssetPathRegex( "^(.*?)(?:::(.*))?$" );
+
 	std::smatch match;
 
-	if( std::regex_match( assetPath, match, impl::sAssetPathRegex ) )
+	if( std::regex_match( assetPath, match, sAssetPathRegex ) )
 	{
 		// Ignore first match, it represents full match, that is full string.
 		return AssetPath( match[ 1 ], match[ 2 ] );

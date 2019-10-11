@@ -107,6 +107,31 @@ TEST_CASE( "GraphicAPI.AssetPath.FromString.TwoSeparators", "[GraphicAPI]" )
 	CHECK( path.GetInternalPath() == "materials::checker" );
 }
 
+// ================================ //
+///
+TEST_CASE( "GraphicAPI.AssetPath.FromString.3Separators", "[GraphicAPI]" )
+{
+    auto nullablePath = AssetPath::FromString( "C://temp/newfolder/file.mesh::gui::materials::checker" );
+
+    REQUIRE( nullablePath.IsValid() == true );
+    auto path = nullablePath.Get();
+
+    CHECK( path.GetFile() == "C://temp/newfolder/file.mesh" );
+    CHECK( path.GetInternalPath() == "gui::materials::checker" );
+}
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.AssetPath.FromString.OnlyInternalPath.3Separators", "[GraphicAPI]" )
+{
+    auto nullablePath = AssetPath::FromString( "::gui::materials::checker" );
+
+    REQUIRE( nullablePath.IsValid() == true );
+    auto path = nullablePath.Get();
+
+    CHECK( path.GetFile() == "" );
+    CHECK( path.GetInternalPath() == "gui::materials::checker" );
+}
 
 //====================================================================================//
 //			Operators
