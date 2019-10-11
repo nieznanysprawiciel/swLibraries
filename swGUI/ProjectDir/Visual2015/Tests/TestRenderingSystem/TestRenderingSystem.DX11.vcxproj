@@ -46,6 +46,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem.DX11\TestLayouts.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem.DX11\TestPenShaderCompilation.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem.DX11\TestRenderingSystem.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem.DX11\TestWindowRendering.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{38A2726D-373C-42CE-B596-5226F04520D5}</ProjectGuid>

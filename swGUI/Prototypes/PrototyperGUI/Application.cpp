@@ -137,7 +137,7 @@ If you need specific gui initialization in your application override this functi
 You can set different GraphicApi or input api.*/
 sw::ReturnResult		Application::Initialize()
 {
-	m_guiConfig.DebugGraphics = false;
+	m_guiConfig.DebugGraphics = true;
 
     sw::ReturnResult result = sw::Result::Success;
 
