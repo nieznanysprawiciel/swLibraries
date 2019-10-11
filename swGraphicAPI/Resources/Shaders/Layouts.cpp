@@ -47,23 +47,23 @@ namespace sw
 
 // ================================ //
 //
-void			InputLayoutDescriptor::AddEntry					( sw::AttributeSemantic semanticName, ResourceFormat format )
+void			InputLayoutDescriptor::AddEntry					( AttributeSemantic semanticName, ResourceFormat format, uint16 offset )
 {
-	AddEntryImpl( semanticName, format, 0, false, 0 );
+	AddEntryImpl( semanticName, format, offset, 0, false, 0 );
 }
 
 // ================================ //
 //
-void			InputLayoutDescriptor::AddEntry					( sw::AttributeSemantic semanticName, ResourceFormat format, uint16 inputSlot )
+void			InputLayoutDescriptor::AddEntry					( AttributeSemantic semanticName, ResourceFormat format, uint16 offset, uint16 inputSlot )
 {
-	AddEntryImpl( semanticName, format, inputSlot, false, 0 );
+	AddEntryImpl( semanticName, format, offset, inputSlot, false, 0 );
 }
 
 // ================================ //
 //
-void			InputLayoutDescriptor::AddEntryPerInstance		( sw::AttributeSemantic semanticName, ResourceFormat format, uint16 inputSlot, uint32 instanceDataStep )
+void			InputLayoutDescriptor::AddEntryPerInstance		( AttributeSemantic semanticName, ResourceFormat format, uint16 offset, uint16 inputSlot, uint32 instanceDataStep )
 {
-	AddEntryImpl( semanticName, format, inputSlot, true, instanceDataStep );
+	AddEntryImpl( semanticName, format, offset, inputSlot, true, instanceDataStep );
 }
 
 
@@ -76,7 +76,7 @@ TypeID			InputLayoutDescriptor::GetAssetType				() const
 
 // ================================ //
 //
-void			InputLayoutDescriptor::AddEntryImpl				( sw::AttributeSemantic semanticName, ResourceFormat format, uint16 inputSlot, bool perInstance, uint32 instanceDataStep )
+void			InputLayoutDescriptor::AddEntryImpl				( AttributeSemantic semanticName, ResourceFormat format, uint16 offset, uint16 inputSlot, bool perInstance, uint32 instanceDataStep )
 {
 	sw::LayoutEntry entry;
 	entry.SemanticName = semanticName;
@@ -84,6 +84,7 @@ void			InputLayoutDescriptor::AddEntryImpl				( sw::AttributeSemantic semanticNa
 	entry.InputSlot = inputSlot;
 	entry.PerInstance = perInstance;
 	entry.InstanceDataStep = instanceDataStep;
+    entry.ByteOffset = offset;
 
 	m_entries.push_back( entry );
 }

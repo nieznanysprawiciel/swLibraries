@@ -24,8 +24,8 @@ template<>
 InputLayoutDescriptor   		CreateLayoutDescriptor< VertexShape2D >	()
 {
 	InputLayoutDescriptor desc;
-    desc.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT );
-    desc.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT );
+    desc.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT, offsetof( VertexShape2D, Position ) );
+    desc.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT, offsetof( VertexShape2D, UV ) );
 
 	return std::move( desc );
 }
