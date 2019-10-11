@@ -34,7 +34,7 @@ path_impl		path_impl::make_absolute() const
 	std::wstring value = wstr(), out( MAX_PATH, '\0' );
 	DWORD length = GetFullPathNameW( value.c_str(), MAX_PATH, &out[ 0 ], NULL );
 	if( length == 0 )
-		throw std::runtime_error( "Internal error in realpath(): " + std::to_string( GetLastError() ) );
+		throw std::runtime_error( "Internal error in GetFullPathNameW(): " + std::to_string( GetLastError() ) );
 	return path_impl( out.substr( 0, length ) );
 #endif
 }

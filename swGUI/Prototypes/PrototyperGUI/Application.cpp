@@ -135,12 +135,12 @@ Application::Application	( int argc, char** argv, sw::gui::INativeGUI* gui )
 
 If you need specific gui initialization in your application override this function.
 You can set different GraphicApi or input api.*/
-bool		Application::Initialize()
+sw::ReturnResult		Application::Initialize()
 {
 	m_guiConfig.DebugGraphics = false;
 
-	bool result = true;
-	
+    sw::ReturnResult result = sw::Result::Success;
+
 	result = result && DefaultInit( 1024, 768, "Window Tittle" );
 	result = result && OverridePaths();
 
@@ -149,30 +149,35 @@ bool		Application::Initialize()
 
 // ================================ //
 //
-bool		Application::OverridePaths	()
+sw::ReturnResult        Application::OverridePaths	()
 {
 	auto coreGUISourcePath = FindCoreGUISourcePath( m_nativeGUI->GetOS()->GetApplicationDir() );
 
-	return m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" ).IsValid();
+	return m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" );
 }
 
 /**@brief Function is called when GUI initialization is completed.
 
 In this function you should initialize your application logic.
 */
-bool		Application::OnInitialized()
+sw::ReturnResult		Application::OnInitialized()
 {
-	// In this function sizeofs basic classes are printed. Test purposes only.
-	PrintSizeofs();
+    // In this function sizeofs basic classes are printed. Test purposes only.
+    PrintSizeofs();
 
-	HostWindow* window = CreateNativeHostWindow( 500, 500, "Additional window" );
-	window->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
-	m_windows[ 0 ]->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
+    auto window = CreateNativeHostWindow( 500, 500, "Additional window" );
+    if( window.IsValid() )
+    {
+        window.Get()->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
+        m_windows[ 0 ]->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
 
-	//AddControls( window );
-	AddControls( m_windows[ 0 ] );
+	    //AddRectangle( window );
+        AddControls( m_windows[ 0 ] );
 
-	return true;
+        return sw::Result::Success;
+    }
+    else
+	    return window.GetError();
 }
 
 /**@brief Function invoked when application is going to close itself.*/

@@ -96,7 +96,7 @@ GeometryData		RectangleGeometry::Generate			()
 	geomData.FillIdxEnd = (uint32)rect.GetNumberFillIndicies();
 	geomData.BorderIdxEnd = (uint32)rect.GetNumberFillIndicies() + (uint32)rect.GetNumberBorderIndicies();
 	geomData.ExtendedIB = false;
-	geomData.Topology = PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	geomData.Topology = PrimitiveTopology::Triangles;
 
 	return std::move( geomData );
 }
@@ -111,29 +111,29 @@ BufferRange			RectangleGeometry::BufferData		()
 
 // ================================ //
 //
-std::string			RectangleGeometry::ShaderFunctionFile	()
+filesystem::Path    RectangleGeometry::ShaderFunctionFile	()
 {
 	return "$(CoreGUI-Shader-Dir)/Geometry/ForwardAttributes.vsh";
 }
 
 // ================================ //
 //
-std::wstring		RectangleGeometry::GeometryName		()
+std::string		    RectangleGeometry::GeometryName		()
 {
 	std::string geomName = "RectangleGeometry-[Width="
 							+ Convert::ToString( m_width ) + "][Height="
 							+ Convert::ToString( m_height ) + "][StrokeThickness="
 							+ Convert::ToString( m_strokeThickness ) + "]";
 
-	return Convert::FromString< std::wstring >( geomName, L"" );
+	return geomName;
 }
 
 // ================================ //
 //
-std::wstring		RectangleGeometry::ConstantsName	()
+AssetPath   		RectangleGeometry::ConstantsName	()
 {
 	// Rectangle doesn't use contants buffer.
-	return std::wstring();
+	return AssetPath();
 }
 
 }	// gui

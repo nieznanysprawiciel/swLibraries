@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+ 
+  <PropertyGroup Label="UserMacros">
+    <ReflectionName>Reflection</ReflectionName>
+    <ReflectionLibDir>$(swGeometricsSourceInclude)swCommonLib\Projects\ReleaseDir\LibDir\$(ReflectionName)\$(PlatformToolset)\$(PlatformShortName)\$(Configuration)\</ReflectionLibDir>
+	<ReflectionFileName>$(ReflectionName)</ReflectionFileName>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <_PropertySheetDisplayName>LinkReflection</_PropertySheetDisplayName>
+  </PropertyGroup>
+  
+  <ItemDefinitionGroup>
+  
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(swGeometricsSourceInclude)swCommonLib/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+	  <PreprocessorDefinitions>RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+	 
+    <Link>
+		<AdditionalLibraryDirectories>$(ReflectionLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+		<AdditionalDependencies>$(ReflectionFileName).lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+	
+    <PostBuildEvent>
+      <Command>copy $(ReflectionLibDir)$(ReflectionFileName).dll $(OutDir)$(ReflectionName).dll %(Command)</Command>
+      <Message>Copy Reflection.dll to output directory.</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+</Project>

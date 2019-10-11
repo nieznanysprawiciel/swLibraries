@@ -40,7 +40,7 @@ namespace impl
 template< typename StructType, Size align >
 constexpr Size			ComputePadding	()
 {
-	return align - sizeof( StructType ) % align;
+	return ( align - sizeof( StructType ) % align ) % align;
 }
 
 // ================================ //
@@ -51,6 +51,20 @@ constexpr Size			SizeofWithPadding	()
 	return sizeof( StructType ) + ComputePadding< StructType, align >();
 }
 
+// ================================ //
+// Inherit this struct to force padding.
+template< Size size >
+struct PaddingStruct
+{
+    uint8			Padding[ size ];
+};
+
+// ================================ //
+//
+template<>
+struct PaddingStruct< 0 >
+{};
+
 
 }	// impl
 
@@ -60,13 +74,10 @@ constexpr Size			SizeofWithPadding	()
 
 You can use this structure for storing constants buffers data, since they need to be 16 bytes multiply.*/
 template< typename StructType, Size align = 16 >
-class StackBufferA : public StructType
+class StackBufferA : public StructType, impl::PaddingStruct< impl::ComputePadding< StructType, align >() >
 {
 	typedef StackBufferA< StructType, align >* ThisType;
 private:
-
-	uint8			Padding[ impl::ComputePadding< StructType, align >() ];
-
 public:
 
 	explicit		StackBufferA()

@@ -157,7 +157,6 @@
     <ClInclude Include="..\..\..\Core\System\CommonTypes\CommonTypes.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\Thickness.h" />
     <ClInclude Include="..\..\..\Core\System\Config\GUISystemConfig.h" />
-    <ClInclude Include="..\..\..\Core\System\Config\PathsManager.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\Binding.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\BindingInfo.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\BindingMode.h" />
@@ -221,7 +220,6 @@
     <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\RectangleGeometry.cpp" />
-    <ClCompile Include="..\..\..\Core\System\Config\PathsManager.cpp" />
     <ClCompile Include="..\..\..\Core\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -267,6 +265,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\swGraphicAPI\ProjectsDir\Visual2015\ResourceManager\ResourceManager.vcxproj">
       <Project>{9f71f0da-1d72-4e96-93b7-5ac2c9cb6ede}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\swGraphicAPI\ProjectsDir\Visual2015\SoilTextureLoader\SoilTextureLoader.vcxproj">
+      <Project>{7275758b-1abc-4b28-bb42-cbdbcd2584d1}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

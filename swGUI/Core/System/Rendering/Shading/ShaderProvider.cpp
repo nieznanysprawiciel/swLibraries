@@ -28,7 +28,7 @@ namespace impl
 
 // ================================ //
 //
-ShaderProvider::ShaderProvider		( ResourceManager* resManager, const PathsManager* pathsManager )
+ShaderProvider::ShaderProvider		( ResourceManagerAPI resManager, const PathsManager* pathsManager )
 	:	m_resourceManager( resManager )
 	,	m_pathsManager( pathsManager )
 {}
@@ -48,37 +48,43 @@ const filesystem::Path&				ShaderProvider::GetBasicVSTemplate		() const
 }
 
 // ================================ //
-//
-ResourcePtr< PixelShader >			ShaderProvider::GeneratePS			(	const filesystem::Path& templatePath,
-																			const filesystem::Path& brushFunPath ) const
+// At this moment PixelShader and VertexShader generation works the same,
+// so we can use common function.
+template< typename ShaderType >
+inline ResourcePtr< ShaderType >    ShaderProvider::GenerateShader      (   const filesystem::Path& templatePath,
+                                                                            const filesystem::Path& customFunPath ) const
 {
-	auto shaderSource = BuildShaderSource( templatePath, brushFunPath );
-	if( shaderSource.empty() )
-		return nullptr;
+    AssetPath tmpShaderFile( fmt::format( "$(TMP)/shaders/{}+{}", templatePath.GetFileName(), customFunPath.GetFileName() ), "main" );
 
-	// @todo Note that we could create shader from string, if ResourceManager API would support such things.
-	// This feature will come in next more generic version of ResourceManager. For now we must be satisfied with this solution.
-	filesystem::Path tmpShaderFile = m_pathsManager->Translate( "$(TMP)/shaders/" + templatePath.GetFileName() + "+" + brushFunPath.GetFileName() );
-	filesystem::File::Save( tmpShaderFile, shaderSource );
-	
-	return m_resourceManager->LoadPixelShader( tmpShaderFile.WString(), "main" );
+    auto cachedShader = m_resourceManager.GetCached< ShaderType >( tmpShaderFile );
+    if( cachedShader )
+        return cachedShader;
+
+    // Shader didn't exist, so we must build it.
+    auto shaderSource = BuildShaderSource( templatePath, customFunPath );
+    if( shaderSource.empty() )
+        return nullptr;         /// @todo Better error handling. Maybe we should return Nullable.
+
+    // Note: We save this shader only for debuggins purpose. Shader is created from string.
+    filesystem::File::Save( m_pathsManager->Translate( tmpShaderFile.GetFile() ), shaderSource );
+
+    return m_resourceManager.CreateShader< ShaderType >( tmpShaderFile, std::move( shaderSource ) ).Get();
 }
 
 // ================================ //
 //
-ResourcePtr< VertexShader >			ShaderProvider::GenerateVS			( const filesystem::Path& templatePath,
+PixelShaderPtr          			ShaderProvider::GeneratePS			(	const filesystem::Path& templatePath,
+																			const filesystem::Path& brushFunPath ) const
+{
+    return GenerateShader< PixelShader >( templatePath, brushFunPath );
+}
+
+// ================================ //
+//
+VertexShaderPtr         			ShaderProvider::GenerateVS			( const filesystem::Path& templatePath,
 																		  const filesystem::Path& geomFunPath ) const
 {
-	auto shaderSource = BuildShaderSource( templatePath, geomFunPath );
-	if( shaderSource.empty() )
-		return nullptr;
-
-	// @todo Note that we could create shader from string, if ResourceManager API would support such things.
-	// This feature will come in next more generic version of ResourceManager. For now we must be satisfied with this solution.
-	filesystem::Path tmpShaderFile = m_pathsManager->Translate( "$(TMP)/shaders/" + templatePath.GetFileName() + "+" + geomFunPath.GetFileName() );
-	filesystem::File::Save( tmpShaderFile, shaderSource );
-	
-	return m_resourceManager->LoadVertexShader( tmpShaderFile.WString(), "main" );
+    return GenerateShader< VertexShader >( templatePath, geomFunPath );
 }
 
 // ================================ //

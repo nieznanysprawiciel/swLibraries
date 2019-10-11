@@ -9,9 +9,9 @@
 
 
 #include "swGraphicAPI/Resources/MeshResources.h"
-#include "swGraphicAPI/Resources/BlendingState.h"
-#include "swGraphicAPI/Resources/RasterizerState.h"
-#include "swGraphicAPI/Resources/DepthStencilState.h"
+#include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
+#include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
+#include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
 #include "swGraphicAPI/Rendering/IRenderer.h"
 
 class MockRenderer;
@@ -75,10 +75,10 @@ public:
 
 private:
 
-	bool                SetVertexBuffer         ( BufferObject* buffer, unsigned int offset );
-	void				SetIndexBuffer			( BufferObject* buffer, unsigned int offset, bool extendedIndex );
-	void				SetRenderTarget			( RenderTargetObject* const targets[ MAX_BOUND_RENDER_TARGETS ], RenderTargetObject* depthStencil );
-	void				SetTextures				( TextureObject* const texturesArray[ MAX_BOUND_RENDER_TARGETS ], const uint8 shaderTypes[ MAX_BOUND_RENDER_TARGETS ] );
+	bool                SetVertexBuffer         ( Buffer* buffer, unsigned int offset );
+	void				SetIndexBuffer			( Buffer* buffer, unsigned int offset, bool extendedIndex );
+	void				SetRenderTarget			( RenderTarget* const targets[ MAX_BOUND_RENDER_TARGETS ], RenderTarget* depthStencil );
+	void				SetTextures				( Texture* const texturesArray[ MAX_BOUND_RENDER_TARGETS ], const uint8 shaderTypes[ MAX_BOUND_RENDER_TARGETS ] );
 };
 
 }	// sw

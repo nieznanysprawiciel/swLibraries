@@ -6,6 +6,14 @@
 typedef void*	WindowHandler;
 
 
+
+
+namespace sw
+{
+
+
+/**@brief Descripto of SwapChain
+@ingroup Resources*/
 struct SwapChainDescriptor
 {
 	WindowHandler			WindowHandle;
@@ -19,28 +27,29 @@ struct SwapChainDescriptor
 
 
 	SwapChainDescriptor()
-		:	SamplesCount( 1 )
-		,	SamplesQuality( 0 )
-		,	AllowFullscreen( true )
-		,	Format( ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM )
-		,	WindowHandle( nullptr )
-		,	NumBuffers( 1 )
+		: SamplesCount( 1 )
+		, SamplesQuality( 0 )
+		, AllowFullscreen( true )
+		, Format( ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM )
+		, WindowHandle( nullptr )
+		, NumBuffers( 1 )
 	{}
 };
 
 
-
-class SwapChain : public ResourceObject
+/**@brief 
+@ingroup Resources*/
+class SwapChain : public Resource
 {
 	RTTR_ENABLE()
 protected:
 
-	ResourcePtr< RenderTargetObject >	m_renderTarget;
+	ResourcePtr< RenderTarget >	m_renderTarget;
 
 protected:
-	SwapChain( RenderTargetObject* windowRT )
-		:	ResourceObject( WRONG_ID )
-		,	m_renderTarget( windowRT )
+	explicit			SwapChain		( RenderTarget* windowRT )
+		: Resource( CreateName( windowRT ) )
+		, m_renderTarget( windowRT )
 	{
 		assert( windowRT );
 	}
@@ -50,13 +59,33 @@ public:
 	{}
 
 
-	virtual void			Present			( int syncInterval )					= 0;
-	virtual void			Resize			( uint16 newWidth, uint16 newHeight )	= 0;
+	virtual void			Present			( int syncInterval ) = 0;
+	virtual void			Resize			( uint16 newWidth, uint16 newHeight ) = 0;
 
 
-	ResourcePtr< RenderTargetObject >		GetRenderTarget	()		{ return m_renderTarget; }
+	ResourcePtr< RenderTarget >		GetRenderTarget	() { return m_renderTarget; }
 
-	// Inherited via ResourceObject
-	virtual std::string		GetResourceName	() const override		{ return "SwapChain: " + m_renderTarget->GetResourceName(); }
+	// Inherited via Resource
+	virtual std::string		GetResourceName	() const override { return "SwapChain: " + m_renderTarget->GetResourceName(); }
+
+private:
+
+	AssetPath				CreateName		( RenderTarget* rt ) const;
 };
 
+
+//====================================================================================//
+//			Implementation
+//====================================================================================//
+
+// ================================ //
+//
+inline AssetPath		SwapChain::CreateName		( RenderTarget* rt ) const
+{
+	auto rtPath = rt->GetAssetPath();
+	auto swapChainPath = rtPath.GetInternalPath() / "SwpaChain";
+
+	return AssetPath( rtPath.GetFile(), swapChainPath );
+}
+
+}	// sw

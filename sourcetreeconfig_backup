@@ -44,3 +44,66 @@
     </SubtreeLink>
   </SubtreeLinks>
 </RepositoryCustomSettings>
+
+{
+  "$id": "1",
+  "AutoRefresh": true,
+  "AutoRefreshRemotes": true,
+  "CommitTextLinks": [],
+  "DraftCommitMsg": "",
+  "IncomingSavedCount": 0,
+  "LastCheckedRemotes": "2019-10-10T13:46:49.1340647+02:00",
+  "LastUsedView": 1,
+  "LogBranchFilterIndex": 0,
+  "OutgoingSavedCount": 0,
+  "SidebarExpandedItems": [
+    "Branches",
+    "Remotes",
+    "Stashes",
+    "Subtrees"
+  ],
+  "SidebarWidth": 210.0,
+  "SubtreeLinks": [],
+  "RemoteProjectLinks": [
+    {
+      "$id": "2",
+      "BaseUrl": "https://www.github.com",
+      "Identifier": "nieznanysprawiciel/swLibraries",
+      "RemoteName": "origin",
+      "Type": 0,
+      "Username": "nieznanysprawiciel",
+      "CloneUrl": null,
+      "ProjectUrl": null,
+      "AccountId": "",
+      "AvatarUrl": null,
+      "DisplayName": "origin: https://www.github.com"
+    }
+  ],
+  "SubtreeLinks" : [
+    {
+       "SourcePathUrl": "git@github.com:nieznanysprawiciel/swCommonLib.git",
+       "Prefix": "swCommonLib",
+       "Refspec": "swLibraries-Development"
+    },
+    {
+       "SourcePathUrl": "git@github.com:nieznanysprawiciel/swGraphicAPI.git",
+       "Prefix": "swGraphicAPI",
+       "Refspec": "swLibraries-Development"
+    },
+    {
+       "SourcePathUrl": "git@github.com:nieznanysprawiciel/swInputLibrary.git",
+       "Prefix": "swInputLibrary",
+       "Refspec": "swLibraries-Development"
+    },
+    {
+       "SourcePathUrl": "git@github.com:nieznanysprawiciel/swGUI.git",
+       "Prefix": "swGUI",
+       "Refspec": "swLibraries-Development"
+    },
+    {
+       "SourcePathUrl": "git@github.com:nieznanysprawiciel/swGeometrics.git",
+       "Prefix": "swGeometrics",
+       "Refspec": "swLibraries-Development"
+    }
+  ]
+}

@@ -15,7 +15,8 @@
 #include "swGUI/Core/Media/Geometry/Layouts/VertexShape2D.h"
 #include "swCommonLib/Common/Buffers/IndexedGeometryBuffer.h"
 
-#include "swCommonLib/Common/Converters.h"
+#include "swCommonLib/Common/fmt.h"
+
 
 
 namespace sw {
@@ -93,7 +94,7 @@ GeometryData		EllipseGeometry::Generate			()
 	geomData.FillIdxEnd = (uint32)ellipse.GetNumberFillIndicies();
 	geomData.BorderIdxEnd = (uint32)ellipse.GetNumberFillIndicies() + (uint32)ellipse.GetNumberBorderIndicies();
 	geomData.ExtendedIB = false;
-	geomData.Topology = PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	geomData.Topology = PrimitiveTopology::Triangles;
 
 	return std::move( geomData );
 }
@@ -108,29 +109,24 @@ BufferRange			EllipseGeometry::BufferData							()
 
 // ================================ //
 //
-std::string			EllipseGeometry::ShaderFunctionFile					()
+filesystem::Path    EllipseGeometry::ShaderFunctionFile					()
 {
 	return "$(CoreGUI-Shader-Dir)/Geometry/ForwardAttributes.vsh";
 }
 
 // ================================ //
 //
-std::wstring		EllipseGeometry::GeometryName						()
+std::string		    EllipseGeometry::GeometryName						()
 {
-	std::string geomName = "EllipseGeometry-[Width="
-							+ Convert::ToString( m_width ) + "][Height="
-							+ Convert::ToString( m_height ) + "][StrokeThickness="
-							+ Convert::ToString( m_strokeThickness ) + "]";
-
-	return Convert::FromString< std::wstring >( geomName, L"" );
+    return fmt::format( "EllipseGeometry-[Width={}][Height={}][StrokeThickness={}]", m_width, m_height, m_strokeThickness );
 }
 
 // ================================ //
 //
-std::wstring		EllipseGeometry::ConstantsName						()
+AssetPath   		EllipseGeometry::ConstantsName						()
 {
 	// Rectangle doesn't use contants buffer.
-	return std::wstring();
+	return AssetPath();
 }
 
 }	// gui

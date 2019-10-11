@@ -95,12 +95,12 @@ INativeWindow*	MockGUI::CreateWindow		( NativeWindowDescriptor& descriptor )
 
 
 /**@copydoc INativeGUI::Init*/
-bool		MockGUI::Init				( const NativeGUIInitData& initData )
+ReturnResult    MockGUI::Init				( const NativeGUIInitData& initData )
 {
 	assert( !initData.FocusChanged.empty() );
 
 	m_initData = initData;
-	return true;
+	return Result::Success;
 }
 
 

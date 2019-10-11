@@ -54,5 +54,12 @@ sw::Animal::Animal	( const std::string & name )
 
 // ================================ //
 //
+sw::Animal::Animal	( const std::string& name, uint16 age )
+	:	m_name( name )
+	,	m_age( age )
+{}
+
+// ================================ //
+//
 sw::Animal::~Animal()
 {}

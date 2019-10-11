@@ -1,19 +1,25 @@
 #include "swCommonLib/External/Catch/catch.hpp"
+/**
+@file TestBlendingState.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
 
 
-#include "GraphicAPI.h"
+
+#include "swGraphicAPI/MockAssets/GraphicAPI.h"
 
 
 // ================================ //
 //
-TEST_CASE( "GraphicAPI.Resources.BlendingState.Creation", "[GraphicAPI][Resources]" )
+TEST_CASE( "GraphicAPI.DX11.Resources.BlendingState.Creation", "[GraphicAPI][Resources]" )
 {
 	auto& graphic = GetGraphic();
 
-	BlendingInfo blendDesc;
+	sw::BlendingInfo blendDesc;
 	blendDesc.EnableBlending = true;
 
-	auto blendingState = graphic.RM->CreateBlendingState( L"TransparentBlendState", blendDesc );
+	auto blendingState = graphic.RMApi.CreateBlendingState( "::TransparentBlendState", blendDesc );
 
 	CHECK( blendingState != nullptr );
 }

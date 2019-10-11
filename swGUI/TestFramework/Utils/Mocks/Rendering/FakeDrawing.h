@@ -42,7 +42,7 @@ public:
 
 	
 	virtual void			Render					( IRenderer* renderer ) override;
-	virtual void			RebuildResources		( ResourceManager* resourceManager, ShaderProvider* sp );
+	virtual void			RebuildResources		( ResourceManagerAPI resourceManager, ShaderProvider* sp );
 
 };
 

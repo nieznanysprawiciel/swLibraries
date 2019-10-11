@@ -31,11 +31,17 @@
     <Filter Include="Common\Buffers">
       <UniqueIdentifier>{9e6aceb0-23e1-46a1-8b54-c5882da45a8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Exceptions\Common">
+      <UniqueIdentifier>{a561dd66-9f10-4e4c-9833-55bcc4299c7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Converters">
+      <UniqueIdentifier>{bc3f8288-f5bd-4840-a5d8-5044cf33e6e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Macros">
+      <UniqueIdentifier>{f0fcd031-f63d-4102-98a8-3ff30ae6411d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Common\Converters.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Common\Properties\Properties.cpp">
       <Filter>Common\Properties</Filter>
     </ClCompile>
@@ -63,11 +69,20 @@
     <ClCompile Include="..\..\..\Common\Exceptions\ExceptionsList.cpp">
       <Filter>Common\Exceptions</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.cpp">
+      <Filter>Common\Exceptions\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\Exceptions\Common\InvalidCodeLogicException.cpp">
+      <Filter>Common\Exceptions\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\Version.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\Converters\Convert.cpp">
+      <Filter>Common\Converters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Common\Converters.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Common\MemoryChunk.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -75,9 +90,6 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Nullable.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Common\ObjectDeleter.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Common\RTTR.h">
@@ -181,6 +193,42 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Buffers\IndexedGeometryBuffer.h">
       <Filter>Common\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.h">
+      <Filter>Common\Exceptions\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Exceptions\Common\InvalidCodeLogicException.h">
+      <Filter>Common\Exceptions\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Version.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Converters\Convert.h">
+      <Filter>Common\Converters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Converters.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Converters\ConvertArithmetic.h">
+      <Filter>Common\Converters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Converters\ConvertTraits.h">
+      <Filter>Common\Converters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Converters\ConvertEnums.h">
+      <Filter>Common\Converters</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Macros\ForEach.h">
+      <Filter>Common\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Macros\GenerateOperators.h">
+      <Filter>Common\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Macros\DefineFmtFormatter.h">
+      <Filter>Common\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\fmt.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

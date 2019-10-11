@@ -43,10 +43,10 @@ public:
 	virtual			~LinearGradientBrush		() = default;
 
 
-	virtual	BufferRange		BufferData			() override;
-	virtual std::string		ShaderFunctionFile	() override;
+	virtual	BufferRange		    BufferData			() override;
+	virtual filesystem::Path	ShaderFunctionFile	() override;
 
-	void					SetGradientAxis		( Point start, Point end );
+	void					    SetGradientAxis		( Point start, Point end );
 
 protected:
 

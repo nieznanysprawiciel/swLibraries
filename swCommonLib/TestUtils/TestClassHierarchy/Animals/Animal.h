@@ -33,9 +33,13 @@ private:
 protected:
 public:
 	explicit		Animal		() = default;
-	explicit		Animal		( const std::string & name );
+	explicit		Animal		( const std::string& name );
+	explicit		Animal		( const std::string& name, uint16 age );
 	virtual			~Animal		();
 
+
+	std::string				GetName		() const { return m_name;  }
+	uint16					GetAge		() const { return m_age; }
 };
 
 

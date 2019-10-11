@@ -1,9 +1,23 @@
 #pragma once
+/**
+@file ResourcePtr.h
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
+
 
 #include <type_traits>
 
+// Included to register wrapper_mapper in rttr
+#include "swCommonLib/Common/RTTR.h"
 
-class ResourceObject;
+
+namespace sw
+{
+
+
+class Resource;
 
 
 /**@brief Wrapper for low level resources and high level assets.
@@ -18,99 +32,183 @@ template< typename ResourceType >
 class ResourcePtr
 {
 private:
+
 	ResourceType*		m_resource;
 
 public:
-	ResourcePtr()
-	{
-		static_assert( std::is_base_of< ResourceObject, ResourceType >::value, "Template parameter type must inherit from ResourceObject" );
-		m_resource = nullptr;
-	}
 
-	ResourcePtr( ResourceType* ptr )
-	{
-		static_assert( std::is_base_of< ResourceObject, ResourceType >::value, "Template parameter type must inherit from ResourceObject" );
-		m_resource = ptr;
-	}
+	explicit			ResourcePtr		();
+						ResourcePtr		( ResourceType* ptr );
+						ResourcePtr		( const ResourcePtr& other );
+						ResourcePtr		( ResourcePtr&& other );
 
-	~ResourcePtr()
-	{
-		ReleaseResource();
-	}
+						~ResourcePtr	();
+public:
+	
+	void				operator=			( ResourceType* ptr );
+	void				operator=			( const ResourcePtr< ResourceType >& ptr );
+	ResourceType*		operator*			();
+	ResourceType*		operator->			();
+	const ResourceType* operator*			() const;
+	const ResourceType* operator->			() const;
+						operator void*		() const;
 
-	ResourcePtr( const ResourcePtr& other )
-	{
-		m_resource = nullptr;
-		AssignPointer( other.m_resource );
-	}
+	void				ReleaseResource		();
+	void				AssignPointer		( ResourceType* ptr );
 
-	ResourcePtr( ResourcePtr&& other )
-	{
-		if( this != &other)
-		{
-			m_resource = other.m_resource;
-			other.m_resource = nullptr;
-		}
-	}
-
-	void operator=( ResourceType* ptr )
-	{
-		ReleaseResource();
-		AssignPointer( ptr );
-	}
-
-	void operator=( const ResourcePtr< ResourceType >& ptr )
-	{
-		ReleaseResource();
-		AssignPointer( ptr.m_resource );
-	}
-
-	operator void*() const
-	{
-		return m_resource;
-	}
-
-	ResourceType* operator*()
-	{
-		return m_resource;
-	}
-
-	ResourceType* operator->()
-	{
-		return m_resource;
-	}
-
-	const ResourceType* operator*() const
-	{
-		return m_resource;
-	}
-
-	const ResourceType* operator->() const
-	{
-		return m_resource;
-	}
-
-	void ReleaseResource()
-	{
-		if( m_resource )
-			m_resource->DeleteObjectReference();
-		m_resource = nullptr;
-	}
-
-	void AssignPointer( ResourceType* ptr )
-	{
-		if( ptr )
-		{
-			m_resource = ptr;
-			m_resource->AddObjectReference();
-		}
-	}
-
-	ResourceType*	Ptr	() const
-	{ return m_resource; }
+	ResourceType*		Ptr					() const;
 
 };
 
+#define DEFINE_RESOURCE_PTR_TYPE( type )			typedef ResourcePtr< type > type ## Ptr;
+
+
+//====================================================================================//
+//			Implementation	
+//====================================================================================//
+
+// ================================ //
+//
+template< typename ResourceType >
+inline ResourcePtr< ResourceType >::ResourcePtr		()
+{
+	static_assert( std::is_base_of< Resource, ResourceType >::value, "Template parameter type must inherit from Resource" );
+	m_resource = nullptr;
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+inline ResourcePtr< ResourceType >::ResourcePtr		( ResourceType* ptr )
+	: m_resource( nullptr )
+{
+	static_assert( std::is_base_of< Resource, ResourceType >::value, "Template parameter type must inherit from Resource" );
+	AssignPointer( ptr );
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+inline ResourcePtr< ResourceType >::~ResourcePtr	()
+{
+	ReleaseResource();
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+inline ResourcePtr< ResourceType >::ResourcePtr		( const ResourcePtr& other )
+{
+	m_resource = nullptr;
+	AssignPointer( other.m_resource );
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+inline ResourcePtr< ResourceType >::ResourcePtr		( ResourcePtr&& other )
+{
+	if( this != &other )
+	{
+		m_resource = other.m_resource;
+		other.m_resource = nullptr;
+	}
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+void					ResourcePtr< ResourceType >::operator=			( ResourceType* ptr )
+{
+	ReleaseResource();
+	AssignPointer( ptr );
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+void					ResourcePtr< ResourceType >::operator=			( const ResourcePtr< ResourceType >& ptr )
+{
+	ReleaseResource();
+	AssignPointer( ptr.m_resource );
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+inline					ResourcePtr< ResourceType >::operator void*		() const
+{
+	return m_resource;
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+ResourceType*			ResourcePtr< ResourceType >::operator*			()
+{
+	return m_resource;
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+ResourceType*			ResourcePtr< ResourceType >::operator->			()
+{
+	return m_resource;
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+const ResourceType*		ResourcePtr< ResourceType >::operator*			() const
+{
+	return m_resource;
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+const ResourceType*		ResourcePtr< ResourceType >::operator->			() const
+{
+	return m_resource;
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+inline void				ResourcePtr< ResourceType >::ReleaseResource	()
+{
+	if( m_resource )
+		m_resource->DeleteObjectReference();
+	m_resource = nullptr;
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+inline void				ResourcePtr< ResourceType >::AssignPointer		( ResourceType* ptr )
+{
+	if( ptr )
+	{
+		m_resource = ptr;
+		m_resource->AddObjectReference();
+	}
+}
+
+// ================================ //
+//
+template< typename ResourceType >
+inline ResourceType*	ResourcePtr< ResourceType >::Ptr				() const
+{
+	return m_resource;
+}
+
+}	// sw
+
+
+//====================================================================================//
+//			Register in rttr as wrapper
+//====================================================================================//
 
 
 namespace rttr
@@ -120,10 +218,10 @@ namespace rttr
 
 
 template< typename T >
-struct wrapper_mapper< ResourcePtr< T > >
+struct wrapper_mapper< sw::ResourcePtr< T > >
 {
-    using wrapped_type  = decltype( std::declval< ResourcePtr< T > >().Ptr() );
-    using type          = ResourcePtr< T >;
+    using wrapped_type  = decltype( std::declval< sw::ResourcePtr< T > >().Ptr() );
+    using type          = sw::ResourcePtr< T >;
 
     inline static wrapped_type	get		( const type& obj )
     {
@@ -132,7 +230,7 @@ struct wrapper_mapper< ResourcePtr< T > >
 
     inline static type			create	( const wrapped_type& value )
     {
-       return ResourcePtr< T >( value );
+       return sw::ResourcePtr< T >( value );
     } 
 };
 

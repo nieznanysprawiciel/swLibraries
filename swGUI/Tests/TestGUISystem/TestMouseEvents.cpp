@@ -1,4 +1,11 @@
+#include "swGUI/Tests/TestGUISystem/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+/**
+@file TestMouseEvents.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 #include "swGUI/TestFramework/TestFramework.h"
 
@@ -133,14 +140,14 @@ void		CheckVectorsContent					( const std::vector< input::Mouse::PhysicalButtons
 
 // ================================ //
 //
-TEST_CASE( "MouseButtonUp/MouseButtonDown event" )
+TEST_CASE( "GUI.Events.MouseButtonUp/MouseButtonDown" )
 {
 	// Initialize framework.
 	TestFramework framework( 0, nullptr );
 	framework.Init();
 
 	// Create main window (fake window) and get input::EventCapture. 
-	HostWindow* window = framework.CreateNativeHostWindow( 400, 400, "TestWindow" );
+	HostWindow* window = framework.CreateNativeHostWindow( 400, 400, "TestWindow" ).Get();
 	input::EventCapturePtr eventCapturer = framework.GetEventCapturer( window );
 
 	// Set focus to window.
@@ -274,14 +281,14 @@ void		AddMouseMove		( input::EventCapture* eventCapturer, std::vector< float >& 
 
 // ================================ //
 //
-TEST_CASE( "MouseMove event" )
+TEST_CASE( "GUI.Events.MouseMove" )
 {
 	// Initialize framework.
 	TestFramework framework( 0, nullptr );
 	framework.Init();
 
 	// Create main window (fake window) and get input::EventCapture. 
-	HostWindow* window = framework.CreateNativeHostWindow( 400, 400, "TestWindow" );
+	HostWindow* window = framework.CreateNativeHostWindow( 400, 400, "TestWindow" ).Get();
 	input::EventCapturePtr eventCapturer = framework.GetEventCapturer( window );
 
 	// Set focus to window.

@@ -104,7 +104,7 @@ INativeWindow*	WinAPIGUI::CreateWindow		( NativeWindowDescriptor& descriptor )
 
 
 /**@brief Registers window class.*/
-void		WinAPIGUI::RegisterWindowClass()
+void		    WinAPIGUI::RegisterWindowClass()
 {
 	WNDCLASSEX wcex;
 
@@ -129,7 +129,7 @@ void		WinAPIGUI::RegisterWindowClass()
 
 
 /**@brief Gets last win api error and prints to debug window.*/
-void		WinAPIGUI::PrintLastError()
+void		    WinAPIGUI::PrintLastError()
 {
 	LPVOID messageBuffer;
 	DWORD error = GetLastError();
@@ -154,14 +154,14 @@ WinAPIGUI*			GetNativeAPIPointer	( HWND window )
 
 
 /**@copydoc INativeGUI::Init*/
-bool		WinAPIGUI::Init				( const NativeGUIInitData& initData )
+ReturnResult    WinAPIGUI::Init				( const NativeGUIInitData& initData )
 {
 	assert( !initData.FocusChanged.empty() );
 
 	m_initData = initData;
 	RegisterWindowClass();
 
-	return true;
+	return Result::Success;
 }
 
 
@@ -171,7 +171,7 @@ bool		WinAPIGUI::Init				( const NativeGUIInitData& initData )
 //====================================================================================//
 
 /**@brief Core functionality of main loop function.*/
-bool		WinAPIGUI::MainLoopCore             ( MSG* msg )
+bool		    WinAPIGUI::MainLoopCore             ( MSG* msg )
 {
 	TranslateMessage( msg );
 

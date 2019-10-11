@@ -21,13 +21,21 @@
 #include "swCommonLib/Common/RTTR.h"
 
 #include "swGraphicAPI/Resources/MeshResources.h"
-#include "swGraphicAPI/Resources/BlendingState.h"
-#include "swGraphicAPI/Resources/DepthStencilState.h"
-#include "swGraphicAPI/Resources/RasterizerState.h"
+#include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
+#include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
+#include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
 #include "swGraphicAPI/Rendering/GraphicAPIConstants.h"
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
 #include "swGraphicAPI/Resources/ResourcesFactory.h"
 #include "swGraphicAPI/Resources/SwapChain.h"
+
+#include "swGraphicAPI/ResourceManager/PathTranslators/LoadPath.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
+
+#include "swGraphicAPI/ResourceManager/Loaders/IAssetLoader.h"
+#include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
+
+#include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreator.h"
 
 #undef min
 #undef max

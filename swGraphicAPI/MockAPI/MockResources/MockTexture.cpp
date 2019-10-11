@@ -29,8 +29,9 @@ void MockTexture::Construct()
 
 
 /**@brief */
-MockTexture::MockTexture( TextureInfo&& texInfo )
-	: m_descriptor( std::move( texInfo ) )
+MockTexture::MockTexture( const AssetPath& name, TextureInfo&& texInfo )
+	:	Texture( name )
+	,	m_descriptor( std::move( texInfo ) )
 {
 	Construct();
 }
@@ -44,36 +45,39 @@ MockTexture::~MockTexture()
 {}
 
 
-/**@copydoc TextureObject::GetDescriptor.*/
-const TextureInfo&			MockTexture::GetDescriptor() const
+/**@copydoc Texture::GetDescriptor.*/
+const TextureInfo&				MockTexture::GetDescriptor() const
 {
 	return m_descriptor;
 }
 
-/**@copydoc TextureObject::GetFilePath.*/
-const filesystem::Path&		MockTexture::GetFilePath() const
-{
-	return m_descriptor.FilePath;
-}
-
-
 /**@brief */
-MockTexture*	MockTexture::CreateFromMemory( const MemoryChunk& texData, TextureInfo&& texInfo )
+MockTexture*					MockTexture::CreateFromMemory	( const MemoryChunk& texData, TextureInfo&& texInfo )
 {
 	if( texData.IsNull() )
 		return nullptr;
 
-	return new MockTexture( std::move( texInfo ) );
+	return new MockTexture( AssetPath( texInfo.FilePath, "" ), std::move( texInfo ) );
+}
+
+// ================================ //
+//
+sw::Nullable< MockTexture* >	MockTexture::CreateFromMemory	( const AssetPath& name, const BufferRaw& texData, TextureInfo&& texInfo )
+{
+	if( texData.GetData() == nullptr )
+		return nullptr;
+
+	return new MockTexture( name, std::move( texInfo ) );
 }
 
 /**@brief */
-bool			MockTexture::UpdateData			( uint8* dataPtr, uint16 mipLevel, uint16 arrayIdx )
+bool							MockTexture::UpdateData			( uint8* dataPtr, uint16 mipLevel, uint16 arrayIdx )
 {
 	return true;
 }
 
 /**@brief */
-MemoryChunk					MockTexture::CopyData() const
+MemoryChunk						MockTexture::CopyData			() const
 {
 	MemoryChunk memoryChunk( m_descriptor.MemorySize );
 	return std::move( memoryChunk );

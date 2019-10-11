@@ -33,7 +33,7 @@ BufferRange			LinearGradientBrush::BufferData			()
 
 // ================================ //
 //
-std::string			LinearGradientBrush::ShaderFunctionFile	()
+filesystem::Path	LinearGradientBrush::ShaderFunctionFile	()
 {
 	return "$(CoreGUI-Shader-Dir)/Brush/LinearGradientBrush.psh";
 }

@@ -17,7 +17,7 @@
   <PropertyGroup Label="UserMacros">
     <ReflectionName>Reflection</ReflectionName>
     <ReflectionLibDir>$(swguiSourceInclude)swCommonLib\Projects\ReleaseDir\LibDir\$(ReflectionName)\$(PlatformToolset)\$(PlatformShortName)\$(Configuration)\</ReflectionLibDir>
-	 <ReflectionFileName>$(ReflectionName)</ReflectionFileName>
+	<ReflectionFileName>$(ReflectionName)</ReflectionFileName>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -28,7 +28,7 @@
   
     <ClCompile>
       <AdditionalIncludeDirectories>$(swguiSourceInclude);$(swguiSourceInclude)swCommonLib/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-	  <PreprocessorDefinitions>RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+	  <PreprocessorDefinitions>FMT_HEADER_ONLY;RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
 	 
     <Link>

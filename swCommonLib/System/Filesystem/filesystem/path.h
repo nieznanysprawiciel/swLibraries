@@ -62,7 +62,7 @@ public:
 
     size_t length() const { return m_path.size(); }
 
-    bool empty() const { return m_path.empty(); }
+    bool empty() const { return m_path.size() == 1 && m_path[ 0 ].empty(); }
 
     bool is_absolute() const { return m_absolute; }
 
@@ -192,25 +192,28 @@ public:
     bool operator!=(const path_impl &p) const { return p.m_path != m_path; }
 
 protected:
-    static std::vector<std::string> tokenize(const std::string &string, const std::string &delim) {
-        std::string::size_type lastPos = 0, pos = string.find_first_of(delim, lastPos);
+    static std::vector<std::string> tokenize(const std::string &string, const std::string &delim)
+    {    
         std::vector<std::string> tokens;
+        
+        std::string::size_type lastPos = 0;
+        std::string::size_type pos = string.find_first_of( delim, lastPos );
 
-        while (lastPos != std::string::npos) {
-            if (pos != lastPos)
-                tokens.push_back(string.substr(lastPos, pos - lastPos));
+        while( lastPos != std::string::npos ) {
+            if( pos != lastPos )
+                tokens.push_back( string.substr( lastPos, pos - lastPos ) );
             lastPos = pos;
-            if (lastPos == std::string::npos || lastPos + 1 == string.length())
+            if( lastPos == std::string::npos || lastPos + 1 == string.length() )
                 break;
-            pos = string.find_first_of(delim, ++lastPos);
+            pos = string.find_first_of( delim, ++lastPos );
         }
 
         return tokens;
     }
 
 protected:
-    path_type m_type;
     std::vector<std::string> m_path;
+    path_type m_type;
     bool m_absolute;
 
 

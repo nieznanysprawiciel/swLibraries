@@ -12,6 +12,8 @@
 #include "swGraphicAPI/Resources/ResourcesFactory.h"
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
 
+#include "swGraphicAPI/Loaders/SoilTextureLoader/SoilTextureLoader.h"
+
 #include "swInputLibrary/InputCore/Debugging/EventCapture.h"
 
 #include <map>
@@ -23,7 +25,7 @@ namespace sw {
 namespace gui
 {
 
-/// @todo This should be moved domewhere else.
+/// @todo This should be moved somewhere else.
 INativeGUI*			CreateNativeGUI();
 
 
@@ -39,7 +41,6 @@ GUISystem::GUISystem		( int argc, char** argv, INativeGUI* gui )
 	,	m_focusedWindow( nullptr )
 	,	m_resourceManager( nullptr )
 	,	m_renderingSystem( nullptr )
-	,	m_pathsManager( new PathsManager )
 {
 	m_instance = this;
 }
@@ -52,7 +53,6 @@ GUISystem::GUISystem		( int argc, char** argv, INativeGUI* gui, SetTestMode test
 	,	m_focusedWindow( nullptr )
 	,	m_resourceManager( nullptr )
 	,	m_renderingSystem( nullptr )
-	,	m_pathsManager( new PathsManager )
 {
 	m_instance = this;
 
@@ -156,9 +156,9 @@ void				GUISystem::CloseLogic		()
 //====================================================================================//
 
 /**@brief Invoke this function in application entry point (main).*/
-bool				GUISystem::Init()
+ReturnResult		GUISystem::Init()
 {
-	bool result = true;
+    ReturnResult result = Result::Success;
 
 	result = result && Initialize();		// Initialize subsystems.
 	result = result && OnInitialized();		// User initialization.
@@ -173,15 +173,15 @@ bool				GUISystem::Init()
 
 If you need specific gui initialization in your application override this function.
 You can set different GraphicApi or input api.*/
-bool				GUISystem::Initialize()
+ReturnResult		GUISystem::Initialize()
 {
 	return DefaultInit( 1024, 768, "Window Tittle" );
 }
 
 /**@brief Makes initialization but leaves window creation for user.*/
-bool				GUISystem::DefaultInitWithoutWindow	()
+ReturnResult		GUISystem::DefaultInitWithoutWindow	()
 {
-	bool result = true;
+	ReturnResult result = Result::Success;
 
 	result = result && DefaultInitResourceManager();
 	result = result && DefaultInitPathsManager();
@@ -193,9 +193,9 @@ bool				GUISystem::DefaultInitWithoutWindow	()
 }
 
 /**@brief Default GUI system initialization function.*/
-bool				GUISystem::DefaultInit				( uint16 width, uint16 height, const std::string& windowTitle )
+ReturnResult    	GUISystem::DefaultInit				( uint16 width, uint16 height, const std::string& windowTitle )
 {
-	bool result = true;
+    ReturnResult result = Result::Success;
 
 	result = result && DefaultInitWithoutWindow();
 	result = result && DefaultInitFirstWindow( width, height, windowTitle, true );
@@ -208,7 +208,7 @@ bool				GUISystem::DefaultInit				( uint16 width, uint16 height, const std::stri
 
 Native GUI object is set in constructor. Here we initialize it.
 Function creates native input object.*/
-bool				GUISystem::DefaultInitNativeGUI		()
+ReturnResult		GUISystem::DefaultInitNativeGUI		()
 {
 	NativeGUIInitData nativeGUIInit;
 	nativeGUIInit.FocusChanged = fastdelegate::MakeDelegate( this, &GUISystem::OnFocusChanged );
@@ -217,7 +217,7 @@ bool				GUISystem::DefaultInitNativeGUI		()
 }
 
 /**@brief Default graphic api initialization.*/
-bool				GUISystem::DefaultInitGraphicAPI	( bool debug, bool singleThreaded )
+ReturnResult		GUISystem::DefaultInitGraphicAPI	( bool debug, bool singleThreaded )
 {
 	// ResourceFactory creates api which is linked as library.
 	m_graphicApi = ResourcesFactory::CreateAPIInitializer();
@@ -228,7 +228,7 @@ bool				GUISystem::DefaultInitGraphicAPI	( bool debug, bool singleThreaded )
 	graphicApiData.UseDebugLayer = debug;
 
 	auto result = m_graphicApi->InitAPI( graphicApiData );
-	assert( result );
+	assert( result.IsValid() );
 
 	return result;
 }
@@ -236,42 +236,48 @@ bool				GUISystem::DefaultInitGraphicAPI	( bool debug, bool singleThreaded )
 /**@brief Initializes rendering system.
 
 @note m_resourceManager and m_graphicApi must be already initialized;*/
-bool				GUISystem::DefaultInitRenderingSystem	()
+ReturnResult    	GUISystem::DefaultInitRenderingSystem	()
 {
 	if( !m_graphicApi )
-		return false;
+		return "RenderingSystem initialization: precondition failed: GraphicAPI is nullptr.";
 
 	if( !m_resourceManager )
-		return false;
+        return "RenderingSystem initialization: precondition failed: ResourceManager is nullptr.";
 
-	IRendererOPtr renderer = std::unique_ptr< IRenderer >( m_graphicApi->CreateRenderer( RendererUsage::USE_AS_IMMEDIATE ) );
-	m_renderingSystem = std::unique_ptr< RenderingSystem >( new RenderingSystem( m_resourceManager, m_pathsManager.get(), std::move( renderer ) ) );
+	IRendererOPtr renderer( m_graphicApi->CreateRenderer( RendererUsage::USE_AS_IMMEDIATE ) );
+	m_renderingSystem = std::unique_ptr< RenderingSystem >( new RenderingSystem( m_resourceManager, m_pathsManager, std::move( renderer ) ) );
 
 	return m_renderingSystem->InitializeRenderingSystem();
 }
 
 // ================================ //
 //
-bool				GUISystem::DefaultInitFirstWindow		( uint16 width, uint16 height, const std::string& windowTitle, bool show )
+ReturnResult    	GUISystem::DefaultInitFirstWindow		( uint16 width, uint16 height, const std::string& windowTitle, bool show )
 {
-	// Note: we must always initialize first focus window. This is probably hack, but OnFocusChanged delegate won't be invoked.
-	m_focusedWindow = CreateNativeHostWindow( width, height, windowTitle );
-	assert( m_focusedWindow );
-	m_focusedWindow->GotFocus();
+	auto windowResult = CreateNativeHostWindow( width, height, windowTitle );
+    if( windowResult.IsValid() )
+    {
+        m_focusedWindow = windowResult.Get();
 
-	if( show )
-		m_focusedWindow->GetNativeWindow()->Show();
-	else
-		m_focusedWindow->GetNativeWindow()->Hide();
+        // Note: we must always initialize first focus window. This is probably hack, but OnFocusChanged delegate won't be invoked.
+        m_focusedWindow->GotFocus();
 
-	return true;
+        if( show )
+            m_focusedWindow->GetNativeWindow()->Show();
+        else
+            m_focusedWindow->GetNativeWindow()->Hide();
+
+        return Result::Success;
+    }
+
+    return windowResult.GetError();
 }
 
 // ================================ //
 //
-bool				GUISystem::DefaultInitPathsManager		()
+ReturnResult		GUISystem::DefaultInitPathsManager		()
 {
-	bool result = true;
+    ReturnResult result = Result::Success;
 
 	result = result && DefaultInitCorePaths();
 	result = result && DefaultInitDependentPaths();
@@ -281,33 +287,33 @@ bool				GUISystem::DefaultInitPathsManager		()
 
 // ================================ //
 //
-bool				GUISystem::DefaultInitCorePaths			()
+ReturnResult		GUISystem::DefaultInitCorePaths			()
 {
-	m_pathsManager->RegisterAlias( "$(TMP)", m_nativeGUI->GetOS()->GetTempDir() );
-	m_pathsManager->RegisterAlias( "$(CoreGUI-Dir)", m_nativeGUI->GetOS()->GetApplicationDir() );
+    ReturnResult result = Result::Success;
 
-	return true;
+    result = result && m_pathsManager->RegisterAlias( "$(TMP)", m_nativeGUI->GetOS()->GetTempDir() );
+    result = result && m_pathsManager->RegisterAlias( "$(CoreGUI-Dir)", m_nativeGUI->GetOS()->GetApplicationDir() );
+
+	return result;
 }
 
 // ================================ //
 //
-bool				GUISystem::DefaultInitDependentPaths	()
+ReturnResult		GUISystem::DefaultInitDependentPaths	()
 {
 	/// @todo This should set hlsl or glsl directory depending on used graphic API.
-	m_pathsManager->RegisterAlias( "$(CoreGUI-Shader-Dir)", "$(CoreGUI-Dir)/Shaders/hlsl" );
-	
-	return true;
+	return m_pathsManager->RegisterAlias( "$(CoreGUI-Shader-Dir)", "$(CoreGUI-Dir)/Shaders/hlsl" );
 }
 
 /**@brief Function creates ResourceManager and calls default initialization.*/
-bool				GUISystem::DefaultInitResourceManager	()
+ReturnResult		GUISystem::DefaultInitResourceManager	()
 {
 	m_resourceManager = new ResourceManager();
 	return ResourceManagerInitImpl( m_resourceManager );
 }
 
 /**@brief This functions sets ResourceManager from parameter and calls default initialization.*/
-bool				GUISystem::InitResourceManager			( ResourceManager* resourceManager )
+ReturnResult		GUISystem::InitResourceManager			( ResourceManager* resourceManager )
 {
 	m_resourceManager = resourceManager;
 	return ResourceManagerInitImpl( m_resourceManager );
@@ -315,10 +321,15 @@ bool				GUISystem::InitResourceManager			( ResourceManager* resourceManager )
 
 // ================================ //
 //
-bool				GUISystem::ResourceManagerInitImpl		( ResourceManager* resourceManager )
+ReturnResult		GUISystem::ResourceManagerInitImpl		( ResourceManager* resourceManager )
 {
-	// Empty for future use
-	return true;
+    m_pathsManager = m_resourceManager->GetPathsManager();
+
+    // GUI needs Textures loader to work.
+    ///< @todo What to do if user adds his own Texture loader? We must avoid conflicts between them.
+    resourceManager->RegisterLoader( std::make_shared< SoilTextureLoader >() );
+
+	return Result::Success;
 }
 
 //====================================================================================//
@@ -377,7 +388,7 @@ void				GUISystem::OnFocusChanged				( INativeWindow* window, bool value )
 
 // ================================ //
 //
-HostWindow*			GUISystem::CreateNativeHostWindow	( uint16 width, uint16 height, const std::string& windowTitle )
+Nullable< HostWindow* >     GUISystem::CreateNativeHostWindow	( uint16 width, uint16 height, const std::string& windowTitle )
 {
 	NativeWindowDescriptor init( windowTitle );
 	init.Height = height;
@@ -388,13 +399,13 @@ HostWindow*			GUISystem::CreateNativeHostWindow	( uint16 width, uint16 height, c
 
 // ================================ //
 //
-HostWindow*			GUISystem::CreateNativeHostWindow	( NativeWindowDescriptor& windowDesc )
+Nullable< HostWindow* >     GUISystem::CreateNativeHostWindow	( NativeWindowDescriptor& windowDesc )
 {
 	auto nativeWindow = m_nativeGUI->CreateWindow( windowDesc );
 	
 	assert( nativeWindow );
 	if( !nativeWindow )
-		return nullptr;
+		return fmt::format( "Failed to create native window [{}].", windowDesc.WindowTitle );
 
 	// In test mode we need to send event manually.
 	input::InputInitInfo initInfo;
@@ -415,7 +426,7 @@ HostWindow*			GUISystem::CreateNativeHostWindow	( NativeWindowDescriptor& window
 //====================================================================================//
 
 /**@copydoc EngineObject::MemorySize*/
-Size				GUISystem::GetMemorySize()
+Size                GUISystem::GetMemorySize()
 {
 	Size size = sizeof( HostWindow );
 	size += m_windows.capacity() * sizeof( HostWindow* );

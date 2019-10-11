@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestBlendingState.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestShaderCreator.cpp">
+      <Filter>Tests\TestCreators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestBufferCreator.cpp">
+      <Filter>Tests\TestCreators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestLayoutCreator.cpp">
+      <Filter>Tests\TestCreators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestBlendingStateCreator.cpp">
+      <Filter>Tests\TestCreators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestRasterizerStateCreator.cpp">
+      <Filter>Tests\TestCreators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestDepthStencilStateCreator.cpp">
+      <Filter>Tests\TestCreators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestTextureCreator.cpp">
+      <Filter>Tests\TestCreators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestRenderTargetCreator.cpp">
+      <Filter>Tests\TestCreators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestLoaders\TestShaderLoader.cpp">
+      <Filter>Tests\TestLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestLoaders\TestRenderTargetLoader.cpp">
+      <Filter>Tests\TestLoaders</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{08c08f31-9bff-467c-b6e4-a110c5bddae9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\TestCreators">
+      <UniqueIdentifier>{a7b7edd7-b4cd-4f61-a20f-8aa3024371fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\TestLoaders">
+      <UniqueIdentifier>{f06c9516-1a7c-449c-a40b-c8ac070afd54}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

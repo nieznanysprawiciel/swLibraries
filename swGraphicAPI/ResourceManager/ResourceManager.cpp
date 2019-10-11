@@ -1,534 +1,393 @@
 /**
 @file ResourceManager.cpp
 @author nieznanysprawiciel
-@copyright File is part of graphic engine SWEngine.
+@copyright File is part of Sleeping Wombat Libraries.
 */
-
 #include "swGraphicAPI/ResourceManager/stdafx.h"
+
+
 #include "ResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceContainer.h"
+#include "swGraphicAPI/ResourceManager/Exceptions/ResourceManagerException.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/LoadPath.h"
 
-#include "swCommonLib/Common/ObjectDeleter.h"
-#include "swCommonLib/Common/Converters.h"
-#include "swCommonLib/System/Path.h"
+#include "swGraphicAPI/ResourceManager/Loaders/RenderTargetLoader.h"
+#include "swGraphicAPI/ResourceManager/Loaders/ShaderLoader.h"
 
-#include "swGraphicAPI/Resources/ResourcesFactory.h"
-
-
-
-#include "swCommonLib/Common/MemoryLeaks.h"
+#include "swCommonLib/Common/Multithreading/UniqueLock.h"
 
 
-using namespace DirectX;
+namespace sw
+{
 
-//-------------------------------------------------------------------------------//
-//							wersja DirectX11
-//-------------------------------------------------------------------------------//
-
+// ================================ //
+//
 ResourceManager::ResourceManager()
-{}
-
-
-
-ResourceManager::~ResourceManager( )
-{}
-
-
-
-
-/** @brief Znajduje Loader pasuj¹cy do pliku podanego w parametrze.
-@param[in] path Œcie¿ka do pliku, dla której szukamy loadera.
-@return WskaŸnik na odpowiedni loader lub nullptr, je¿eli nie znaleziono pasuj¹cego.*/
-//ILoader* ResourceManager::FindLoader( const std::wstring& path )
-//{
-//	for ( unsigned int i = 0; i <  m_loader.size( ); ++i )
-//	if ( m_loader[i]->can_load( path ) )
-//		return m_loader[i];
-//	return nullptr;
-//}
-
-
-
-
-/**@brief Tworzy nowy render target.
-
-Funkcja dodaje stworzony obiekt do tablicy m_renderTarget. Je¿eli tekstury
-bufora colorów, g³êbokoœci i stencilu nie s¹ nullptrami, to i one s¹ dodawane do tablicy m_texture.
-
-Tekstury te maj¹ nazwy jak render target + dodany jest cz³on
-- ::color
-- ::depth
-- ::stencil
-
-@todo Przy dodawaniu tekstur nie jest sprawdzane czy one ju¿ istniej¹. Trzeba albo to sprawdzaæ, albo zapewniæ
-np. jak¹œ polityk¹ nazewnictwa, ¿e w ten sposób nie nadpisujemy istniej¹cej tekstury.
-
-@param[in] name Nazwa identyfikuj¹ca render target.
-@param[in] renderTargetDescriptor Deskryptor opisuj¹cy parametry render targetu.
-@return Zwraca stworzony obiekt lub nullptr w przypadku niepowodzenia. Je¿eli render target ju¿ istnia³, to zwracany jest istniej¹cy obiekt.
-*/
-RenderTargetObject* ResourceManager::CreateRenderTarget( const std::wstring& name, const RenderTargetDescriptor& renderTargetDescriptor )
+	:	m_pathsManager( new PathsManager() )
 {
-	RenderTargetObject* newRenderTarget = m_renderTarget.get( name );
-	if( !newRenderTarget )
-	{
-		newRenderTarget = ResourcesFactory::CreateRenderTarget( name, renderTargetDescriptor );
-		if( !newRenderTarget )	return nullptr;
+	m_assetsFactory = AssetsFactoryOPtr( new AssetsFactory() );
 
-		m_renderTarget.UnsafeAdd( name, newRenderTarget );
+    // Register default loaders for basic types.
+    RegisterBasicLoaders();
+}
+
+// ================================ //
+//
+ResourceManager::~ResourceManager()
+{
+	// It would happen later, but we want to release Resources before creators and loaders.
+	m_resources.clear();
+}
+
+// ================================ //
+//
+void                                    ResourceManager::RegisterBasicLoaders       ()
+{
+    RegisterLoader( std::make_shared< RenderTargetLoader >() );
+    RegisterLoader( std::make_shared< ShaderLoader >() );
+}
+
+
+//====================================================================================//
+//			Getting assets	
+//====================================================================================//
+
+// ================================ //
+//
+ResourcePointer							ResourceManager::GetGeneric				( const AssetPath& name, TypeID type )
+{
+	// Lock as Reader.
+	ReaderUniqueLock< ReaderWriterLock > lock( m_rwLock );
+
+	return FindResource( name, type );
+}
+
+//====================================================================================//
+//			Loading	
+//====================================================================================//
+
+
+sw::Nullable< ResourcePointer >			ResourceManager::LoadGeneric				( const AssetPath& name, const IAssetLoadInfo* desc, TypeID type )
+{
+	auto loadPath = LoadPath( name, m_pathsManager.get() );
+	return LoadGeneric( loadPath, desc, type );
+}
+
+// ================================ //
+/// @note If asset loading fails and we call LoadGeneric function again, LoadGeneric will try to load it
+/// for the second time. This will cause performance problem, when something is wrong with important asset
+/// loaded by multiple entities, because even failed loading is heavy operation.
+sw::Nullable< ResourcePointer >			ResourceManager::LoadGeneric				( const LoadPath& loadPath, const IAssetLoadInfo* desc, TypeID type )
+{
+	// Lock as Reader. Try to find resource and request asset atomically.
+	ReaderUniqueLock< ReaderWriterLock > lock( m_rwLock );
+
+	auto resource = FindResource( loadPath.GetOriginalPath(), type );
+	if( !resource )
+	{
+		WaitingAsset* assetLock = nullptr;
+		bool isLoadingInProgress = false;
+
+		// We want to lock on absolute path without aliases. Otherwise two paths can point to the same asset.
+		std::tie( assetLock, isLoadingInProgress ) = LockFileForLoading( loadPath );
+
+		// Unlock as Reader. Here we either have locked asset for this thread or asset was already
+		// locked and we must wait until other thread will load it completly.
+		lock.Unlock();
+
+		if( isLoadingInProgress )
+		{
+			auto result = m_waitingAssets.WaitUntilLoaded( assetLock );
+
+			// Loading could fail. If this is the case, we return error stored in WaitingAsset.
+			// Note that we must store error in WaitingAsset to avoid reloading the same file again.
+			// All threads that waited for asset, have no other way to get to know loading result.
+			if( result.IsValid() )
+			{
+				// Asset loader could load requested file but there's no guarantee that requested asset was loaded too.
+				// For example name contains path to material inside mesh file. Loader loads entire mesh, but material wasn't necessary.
+				// If asset was loaded, next call to LoadGeneric will take it from m_resources map. If it wasn't - next call will try to load
+				// specific asset (not entire file). If it returns nullptr, it means that asset can't be loaded.
+				//
+				// @todo Consider situation when first found loader isn't able to load file, but next could. Should we handle this? Maybe use some loader flags.
+				return LoadGeneric( loadPath, desc, type );
+			}
+
+			return result.GetError();
+		}
+		else
+		{
+			return LoadingImpl( loadPath, desc, type );
+		}
+	}
+
+	return resource;
+}
+
+// ================================ //
+//
+LoadingResult							ResourceManager::LoadFileGeneric			( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID type )
+{
+	return LoadingResult();
+}
+
+// ================================ //
+//
+LoadingResult							ResourceManager::LoadFileGeneric			( const AssetPath& assetName, IAssetLoadInfo* desc, TypeID type, IAssetLoader* loader )
+{
+	return LoadingResult();
+}
+
+//====================================================================================//
+//			Assets creation	
+//====================================================================================//
+
+
+// ================================ //
+//
+sw::Nullable< ResourcePointer >			ResourceManager::CreateGenericAsset		( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo )
+{
+	auto asset = m_assetsFactory->CreateAsset( name, assetType, std::move( createInfo ) );
+	
+	// If asset is valid we need to add it to m_resources.
+	if( asset.IsValid() )
+	{
+		// Create this pointer here to increment reference counter. Assets factory returns raw C pointers.
+		// After adding asset to m_resources, it can be released any time by other threads.
+		ResourcePointer assetPointer = asset.Get();
+
+		auto result = AddGenericResource( name, assetType, assetPointer );
 		
-		auto colorBuff = newRenderTarget->GetColorBuffer();
-		if( colorBuff )
-			m_texture.UnsafeAdd( Convert::FromString( colorBuff->GetFilePath().String(), std::wstring() ), colorBuff );
+		// Note: Asset under this name could already exist and it won't be added in AddGenericResource function.
+		if( result.IsValid() )
+			return assetPointer;
+		else
+		{
+			// We must manually remove asset here, because it wasn't added to resources list.
+			// @todo It would be better not to create asset in first place if we can't add it to resources list.
+			// There are some solutions for that:
+			// - Create asset under m_rwLock as writer - but creation would last long and we don't want to stop other threads.
+			// - Check if asset can be added as reader and then add as writer - this suffers from race conditions but this way we could
+			//   avoid most of not necessary creations.
+			// - Use LoadBarrier (separate then in loader) - I don't know if it is reasonable, because we don't want to use asset created by others.
+			assetPointer->Delete( ResourceAccessKey< Resource >() );
 
-		auto depthBuffer = newRenderTarget->GetDepthBuffer();
-		if( depthBuffer )
-			m_texture.UnsafeAdd( Convert::FromString( depthBuffer->GetFilePath().String(), std::wstring() ), depthBuffer );
-
-		auto stencilBuffer = newRenderTarget->GetStencilBuffer();
-		if( stencilBuffer )
-			m_texture.UnsafeAdd( Convert::FromString( stencilBuffer->GetFilePath().String(), std::wstring() ), stencilBuffer );
-	}
-
-	return newRenderTarget;
-}
-
-
-
-/**@brief Dodaje renderTarget do ResourceManagera, je¿eli jeszcze nie istnia³.
-@note Funkcja nie dodaje odwo³ania do obiektu, bo nie zak³ada, ¿e ktoœ go od razu u¿yje.
-W ka¿dym miejscu, gdzie zostanie przypisany zwrócony obiekt, nale¿y pamiêtaæ o dodaniu odwo³ania oraz
-skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
-
-@note Je¿eli renderTarget ju¿ istnia³ (jego nazwa), to ten podany w parametrze nie zostanie dodany.
-Oznacza to, ¿e za jego zwolnienie odpowiada ten, kto go stworzy³. Trzeba zawsze sprawdziæ czy
-zwrócona wartoœæ jest tym samym co podaliœmy.
-
-@todo Nie mo¿e tak zostaæ, ¿e ktoœ dodaje renderTarget i musi sprawdziæ czy nie dosta³ innego. Nie mo¿na
-te¿ zmuszaæ kogoœ do zwalniania pamiêci po renderTargecie. Wogóle dodawanie renderTargetów musi siê odbywaæ jakoœ inaczej.
-Najlepiej, ¿eby by³y one tworzone przez ResourceManager, ale wtedy trzeba wymyœleæ sposób dodawania renderTargetu zwi¹zanego z buforem okna.
-
-@param[in] renderTarget renderTarget, który ma zostaæ dodany.
-@param[in] name Nazwa renderTargetu. Do materia³u bêdzie mo¿na siê odwo³aæ podaj¹c ci¹g znaków
-@return Zwraca wskaŸnik na dodany renderTarget.*/
-RenderTargetObject* ResourceManager::AddRenderTarget( RenderTargetObject* renderTarget, const std::wstring& name )
-{
-	RenderTargetObject* newRenderTarget = m_renderTarget.get( name );
-	if ( !newRenderTarget )
-		m_renderTarget.UnsafeAdd( name, renderTarget );	// Dodaliœmy materia³
-
-	return newRenderTarget;
-}
-
-/**@brief Dodaje vertex shader do ResourceManagera. Je¿eli obiekt ju¿ istnia³, to nie jest tworzony nowy.
-@note Funkcja nie dodaje odwo³ania do obiektu, bo nie zak³ada, ¿e ktoœ go od razu u¿yje.
-W ka¿dym miejscu, gdzie zostanie przypisany zwrócony obiekt, nale¿y pamiêtaæ o dodaniu odwo³ania oraz
-skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
-
-@param[in] fileName Nazwa pliku, w którym znajduje siê vertex shader.
-@param[in] shaderEntry Nazwa funkcji od której ma siê zacz¹æ wykonywanie shadera.
-@return Zwraca obiekt dodanego shadera. Zwraca nullptr, je¿eli shadera nie uda³o siê skompilowaæ.*/
-VertexShader* ResourceManager::LoadVertexShader( const std::wstring& fileName, const std::string& shaderEntry )
-{
-	VertexShader* shader = m_vertexShader.get( fileName );
-	if ( !shader )
-	{
-		// Nie by³o shadera, trzeba go stworzyæ i dodaæ
-		shader = ResourcesFactory::CreateVertexShaderFromFile( fileName, shaderEntry );
-		if ( !shader )		// shader móg³ mieæ z³y format, a nie chcemy dodawaæ nullptra do ResourceManagera
-			return nullptr;
-
-		m_vertexShader.UnsafeAdd( fileName, shader );	// Dodaliœmy teksturê
-	}
-
-	return shader;
-}
-
-/**@brief Dodaje vertex shader do ResourceManagera. Je¿eli obiekt ju¿ istnia³, to nie jest tworzony nowy.
-Tworzy te¿ layout wierzcho³ka zwi¹zany z tym shaderem i zwraca go w zmiennej layout.
-
-Je¿eli vertex shader wczeœniej istnia³, to stworzenie layoutu wymaga ponownego skompilowania shadera. Shader taki jest potem
-kasowany i nie zostaje zdublowany w ResourceManagerze, ale niepotrzebna praca zostaje w³o¿ona. Jest wiêc zadaniem programisty, ¿eby
-do takich rzeczy dochodzi³o jak najrzadziej.
-
-@note Funkcja nie dodaje odwo³ania do obiektu, bo nie zak³ada, ¿e ktoœ go od razu u¿yje.
-W ka¿dym miejscu, gdzie zostanie przypisany zwrócony obiekt, nale¿y pamiêtaæ o dodaniu odwo³ania oraz
-skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
-
-@param[in] fileName Nazwa pliku, w którym znajduje siê vertex shader.
-@param[in] shaderEntry Nazwa funkcji od której ma siê zacz¹æ wykonywanie shadera.
-@param[out] layout W zmiennej umieszczany jest wskaŸnik na layout wierzcho³ka. Nawet je¿eli shader siê nie skompilowa³, to pole mo¿e mieæ wartoœæ inn¹ ni¿ nullptr.
-Dzieje siê tak wtedy, gdy layout istnia³ ju¿ wczeœniej.
-@attention Je¿eli vertex shader wczeœniej istnia³, to stworzenie layoutu wymaga ponownego skompilowania shadera. Shader taki jest potem 
-kasowany i nie zostaje zdublowany w ResourceManagerze, ale niepotrzebna praca zostaje w³o¿ona. Jest wiêc zadaniem programisty, ¿eby
-do takich rzeczy dochodzi³o jak najrzadziej.
-@param[in] layoutDesc Deskryptor opisujacy tworzony layout.
-@return Zwraca obiekt dodanego shadera. Zwraca nullptr, je¿eli shadera nie uda³o siê skompilowaæ.*/
-VertexShader* ResourceManager::LoadVertexShader( const std::wstring& fileName,
-													const std::string& shaderEntry,
-													ShaderInputLayout** layout,
-													InputLayoutDescriptor* layoutDesc )
-{
-	/// @todo Ten kod to jakiœ totalny shit. Jak komuœ siê bêdzie nudzi³o kiedyœ (ha ha), to mo¿e niech poprawi.
-	*layout = nullptr;
-	VertexShader* shader = m_vertexShader.get( fileName );
-	VertexShader* newShader = nullptr;
-	ShaderInputLayout* inputLayout = m_vertexLayout.get( layoutDesc->GetName() );
-
-
-	// Tworzymy potrzebne obiekty
-	if( !inputLayout )
-	{
-		// Tworzymy shader niezale¿nie czy istnieje. Inaczej nie moglibyœmy stworzyæ layoutu.
-		// Shader zostanie potem usuniêty.
-		newShader = ResourcesFactory::CreateVertexShaderFromFile( fileName, shaderEntry, layout, layoutDesc );
-		if ( !newShader )		// shader móg³ mieæ z³y format, a nie chcemy dodawaæ nullptra do ResourceManagera
-			return nullptr;		// layout te¿ jest nullptrem, nie trzeba siê martwiæ.
-	}
-	else if( !shader )
-	{
-		// Layout istnieje, ale shader nie.
-		newShader = ResourcesFactory::CreateVertexShaderFromFile( fileName, shaderEntry );
-		*layout = inputLayout;	// Je¿eli layout istnia³, to przepisujemy go na wyjœcie. Je¿eli nie to i tak bêdzie nullptr.
-		if ( !newShader )		// shader móg³ mieæ z³y format, a nie chcemy dodawaæ nullptra do ResourceManagera
-			return nullptr;
+			return result.GetError();
+		}
 	}
 	else
-	{// Wszystkie obiekty istania³y ju¿ wczeœniej.
-		*layout = inputLayout;
-		return shader;
-	}
-
-	// Nowo powsta³e obiekty musz¹ zostaæ dodane do kontenerów.
-	if ( !shader )
 	{
-		// Nie by³o shadera, trzeba go dodaæ
-		m_vertexShader.UnsafeAdd( fileName, newShader );	// Dodaliœmy shader
-		shader = newShader;
+		return asset.GetError();
 	}
-	else
-	{	// Shader ju¿ by³, wiêc kasujemy nowy
-		// Destruktor jest prywatny, wiêc nie mo¿emy kasowaæ obiektu bezpoœrednio.
-		ObjectDeleter< VertexShader>::delete_object( shader, ObjectDeleterKey< VertexShader>() );
-	}
-
-	if( !inputLayout )	// Layoutu nie by³o wczeœniej wiêc dodajemy.
-		m_vertexLayout.UnsafeAdd( layoutDesc->GetName(), *layout );
-
-	return shader;
-}
-
-
-/**@brief Dodaje pixel shader do ResourceManagera. Je¿eli obiekt ju¿ istnia³, to nie jest tworzony nowy.
-@note Funkcja nie dodaje odwo³ania do obiektu, bo nie zak³ada, ¿e ktoœ go od razu u¿yje.
-W ka¿dym miejscu, gdzie zostanie przypisany zwrócony obiekt, nale¿y pamiêtaæ o dodaniu odwo³ania oraz
-skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
-
-@param[in] fileName Nazwa pliku, w którym znajduje siê pixel shader.
-@param[in] shaderEntry Nazwa funkcji od której ma siê zacz¹æ wykonywanie shadera.
-@return Zwraca obiekt dodanego shadera. Zwraca nullptr, je¿eli shadera nie uda³o siê skompilowaæ.*/
-PixelShader* ResourceManager::LoadPixelShader				( const std::wstring& fileName, const std::string& shaderEntry )
-{
-	PixelShader* shader = m_pixelShader.get( fileName );
-	if ( !shader )
-	{
-		// Nie by³o shadera, trzeba go stworzyæ i dodaæ
-		shader = ResourcesFactory::CreatePixelShaderFromFile( fileName, shaderEntry );
-		if ( !shader )		// shader móg³ mieæ z³y format, a nie chcemy dodawaæ nullptra do ResourceManagera
-			return nullptr;
-
-		m_pixelShader.UnsafeAdd( fileName, shader );	// Dodaliœmy teksturê
-	}
-
-	return shader;
-}
-
-GeometryShader*		ResourceManager::LoadGeometryShader	( const std::wstring& fileName, const std::string& shaderEntry )
-{
-	//GeometryShader* shader = m_geometryShader.get( fileName );
-	//if ( !shader )
-	//{
-	//	// Nie by³o shadera, trzeba go stworzyæ i dodaæ
-	//	shader = ResourcesFactory::CreatePixelShaderFromFile( fileName, shaderEntry );
-	//	if ( !shader )		// shader móg³ mieæ z³y format, a nie chcemy dodawaæ nullptra do ResourceManagera
-	//		return nullptr;
-
-	//	m_geometryShader.UnsafeAdd( fileName, shader );	// Dodaliœmy teksturê
-	//}
-
-	//return shader;
-	assert( !"Implements me" );
-	return nullptr;
-}
-
-ControlShader*		ResourceManager::LoadControlShader	( const std::wstring& fileName, const std::string& shaderEntry )
-{
-	assert( !"Implements me" );
-	return nullptr;
-}
-
-EvaluationShader*	ResourceManager::LoadEvaluationShader	( const std::wstring& fileName, const std::string& shaderEntry )
-{
-	assert( !"Implements me" );
-	return nullptr;
-}
-
-/**@brief Dodaje teksturê do ModelManagera, je¿eli jeszcze nie istnia³a.
-@note Funkcja nie dodaje odwo³ania do obiektu, bo nie zak³ada, ¿e ktoœ go od razu u¿yje.
-W ka¿dym miejscu, gdzie zostanie przypisany zwrócony obiekt, nale¿y pamiêtaæ o dodaniu odwo³ania oraz
-skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
-
-@param[in] fileName Œcie¿ka do tekstury
-
-@return Zwraca wskaŸnik na dodan¹ teksturê lub nullptr, je¿eli nie da³o siê wczytaæ.*/
-TextureObject* ResourceManager::LoadTexture( const std::wstring& fileName )
-{
-	TextureObject* tex = m_texture.get( fileName );
-	if ( !tex )
-	{
-		// Nie by³o tekstury, trzeba j¹ stworzyæ i dodaæ
-		TextureInfo texInfo;
-		texInfo.FilePath = filesystem::Path( fileName );
-		texInfo.GenerateMipMaps = true;
-		texInfo.MipMapFilter = MipMapFilter::Lanczos4;
-
-		MemoryChunk texData = LoadTextureImpl( texInfo.FilePath, texInfo );
-
-		tex = ResourcesFactory::CreateTextureFromMemory( texData, std::move( texInfo ) );
-		if ( !tex )		// Tekstura mog³a mieæ z³y format, a nie chcemy dodawaæ nullptra do ResourceManagera
-			return nullptr;
-
-		m_texture.UnsafeAdd( fileName, tex );	// Dodaliœmy teksturê
-	}
-
-	return tex;
-}
-
-/**@brief Dodaje do ResourceManagera bufor wierzcho³ków.
-Je¿eli pod tak¹ nazw¹ istnieje jakiœ bufor, to zostanie zwrócony wskaŸnik na niego.
-@note Funkcja nie dodaje odwo³ania do obiektu, bo nie zak³ada, ¿e ktoœ go od razu u¿yje.
-W ka¿dym miejscu, gdzie zostanie przypisany zwrócony obiekt, nale¿y pamiêtaæ o dodaniu odwo³ania oraz
-skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
-
-@param[in] name Nazwa bufora, po której mo¿na siê bêdzie odwo³aæ.
-@param[in] buffer WskaŸnik na bufor z danym, które maj¹ byæ przeniesione do bufora DirectXowego.
-@param[in] elementSize Rozmiar pojedynczego elementu w buforze.
-@param[in] vertCount Liczba wierzcho³ków/indeksów w buforze.
-@return Dodany bufor wierzcho³ków. Zwraca nullptr, je¿eli nie uda³o siê stworzyæ bufora.*/
-ResourcePtr< BufferObject > ResourceManager::CreateVertexBuffer( const std::wstring& name, const void* buffer, unsigned int elementSize, unsigned int vertCount )
-{
-	VertexBufferInitData initData;
-	initData.Data = (const uint8*)buffer;
-	initData.ElementSize = elementSize;
-	initData.NumElements = vertCount;
-	
-	return CreateVertexBuffer( name, initData );
-}
-
-/**@brief Creates vetex buffer.
-
-@return Returns buffer or nullptr if name already exists or buffer creation failed.*/
-ResourcePtr<BufferObject>	ResourceManager::CreateVertexBuffer		( const std::wstring& name, const VertexBufferInitData& data )
-{
-	BufferObject* vertexBuff = m_vertexBuffer.get( name );
-	if ( vertexBuff )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return ResourcePtr<BufferObject>();
-	
-	
-	vertexBuff = ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() );
-	if ( !vertexBuff )		// Bufor móg³ siê nie stworzyæ, a nie chcemy dodawaæ nullptra do ResourceManagera
-		return nullptr;
-
-	m_vertexBuffer.UnsafeAdd( name, vertexBuff );	// Dodaliœmy bufor
-	return ResourcePtr<BufferObject>( vertexBuff );
-}
-
-/**@brief Dodaje do ResourceManagera bufor indeksów.
-Je¿eli pod tak¹ nazw¹ istnieje jakiœ bufor, to zostanie zwrócony wskaŸnik na niego.
-@note Funkcja nie dodaje odwo³ania do obiektu, bo nie zak³ada, ¿e ktoœ go od razu u¿yje.
-W ka¿dym miejscu, gdzie zostanie przypisany zwrócony obiekt, nale¿y pamiêtaæ o dodaniu odwo³ania oraz
-skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
-
-@param[in] name Nazwa bufora, po której mo¿na siê bêdzie odwo³aæ.
-@param[in] buffer WskaŸnik na bufor z danym, które maj¹ byæ przeniesione do bufora DirectXowego.
-@param[in] elementSize Rozmiar pojedynczego elementu w buforze.
-@param[in] vertCount Liczba wierzcho³ków/indeksów w buforze.
-@return Dodany bufor indeksów. Zwraca nullptr, je¿eli nie uda³o siê stworzyæ bufora.*/
-ResourcePtr< BufferObject > ResourceManager::CreateIndexBuffer( const std::wstring& name, const void* buffer, unsigned int elementSize, unsigned int vertCount )
-{
-	IndexBufferInitData initData;
-	initData.Data = (const uint8*)buffer;
-	initData.ElementSize = elementSize;
-	initData.NumElements = vertCount;
-
-	return CreateIndexBuffer( name, initData );
-}
-
-/**@brief Vreates index buffer.
-
-@return Returns buffer or nullptr if name already exists or buffer creation failed.*/
-ResourcePtr<BufferObject>	ResourceManager::CreateIndexBuffer		( const std::wstring& name, const IndexBufferInitData& data )
-{
-	BufferObject* indexBuff = m_indexBuffer.get( name );
-	if ( indexBuff )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return ResourcePtr<BufferObject>();
-	
-	
-	indexBuff = ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() );
-	if ( !indexBuff )		// Bufor móg³ siê nie stworzyæ, a nie chcemy dodawaæ nullptra do ResourceManagera
-		return nullptr;
-
-	m_indexBuffer.UnsafeAdd( name, indexBuff );	// Dodaliœmy bufor
-	return ResourcePtr<BufferObject>( indexBuff );
-}
-
-/**@brief Dodaje do ResourceManagera bufor sta³ch dla shadera.
-Je¿eli pod tak¹ nazw¹ istnieje jakiœ bufor, to zostanie zwrócony wskaŸnik na niego.
-@note Funkcja nie dodaje odwo³ania do obiektu, bo nie zak³ada, ¿e ktoœ go od razu u¿yje.
-W ka¿dym miejscu, gdzie zostanie przypisany zwrócony obiekt, nale¿y pamiêtaæ o dodaniu odwo³ania oraz
-skasowaniu go, gdy obiekt przestanie byæ u¿ywany.
-
-@param[in] name Nazwa bufora, po której mo¿na siê bêdzie odwo³aæ.
-@param[in] buffer WskaŸnik na bufor z danym, które maj¹ byæ przeniesione do bufora DirectXowego.
-@param[in] size Rozmiar bufora.
-@return Dodany bufor indeksów. Zwraca nullptr, je¿eli nie uda³o siê stworzyæ bufora.*/
-ResourcePtr< BufferObject >	ResourceManager::CreateConstantsBuffer( const std::wstring& name, const void* buffer, unsigned int size )
-{
-	ConstantBufferInitData initData;
-	initData.Data = (const uint8*)buffer;
-	initData.ElementSize = size;
-	initData.NumElements = 1;
-
-	return CreateConstantsBuffer( name, initData );
-}
-
-/**@brief Creates constant buffer.
-
-@return Returns buffer or nullptr if name already exists or buffer creation failed.*/
-ResourcePtr<BufferObject>	ResourceManager::CreateConstantsBuffer		( const std::wstring& name, const ConstantBufferInitData& data )
-{
-	BufferObject* constBuff = m_constantBuffer.get( name );
-	if ( constBuff )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return ResourcePtr<BufferObject>();
-	
-	
-	constBuff = ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() );
-	if ( !constBuff )		// Bufor móg³ siê nie stworzyæ, a nie chcemy dodawaæ nullptra do ResourceManagera
-		return nullptr;
-
-	m_constantBuffer.UnsafeAdd( name, constBuff );	// Dodaliœmy bufor
-	return ResourcePtr<BufferObject>( constBuff );
-}
-
-/**@brief Created BlendingState object.
-
-@return If object named name exist, returns nullptr.*/
-ResourcePtr< BlendingState >	ResourceManager::CreateBlendingState	( const std::wstring& name, const BlendingInfo& info )
-{
-	auto resource = m_blendingState.get( name );
-	if ( resource )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return ResourcePtr< BlendingState >();
-
-	resource = ResourcesFactory::CreateBlendingState( info );
-	m_blendingState.UnsafeAdd( name, resource );
-
-	return ResourcePtr< BlendingState >( resource );
-}
-
-/**@brief Created RasterizerState object.
-
-@return If object named name exist, returns nullptr.*/
-ResourcePtr< RasterizerState >	ResourceManager::CreateRasterizerState	( const std::wstring& name, const RasterizerStateInfo& info )
-{
-	auto resource = m_rasterizerState.get( name );
-	if ( resource )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return ResourcePtr< RasterizerState >();
-
-	resource = ResourcesFactory::CreateRasterizerState( info );
-	m_rasterizerState.UnsafeAdd( name, resource );
-
-	return ResourcePtr< RasterizerState >( resource );
-}
-
-/**@brief Created DepthStencilState object.
-
-@return If object named name exist, returns nullptr.*/
-ResourcePtr< DepthStencilState >	ResourceManager::CreateDepthStencilState	( const std::wstring& name, const DepthStencilInfo& info )
-{
-	auto resource = m_depthStencilState.get( name );
-	if ( resource )	// Je¿eli znaleŸliœmy bufor, to zwracamy nullptr
-		return ResourcePtr< DepthStencilState >();
-
-	resource = ResourcesFactory::CreateDepthStencilState( info );
-	m_depthStencilState.UnsafeAdd( name, resource );
-
-	return ResourcePtr< DepthStencilState >( resource );
 }
 
 //====================================================================================//
-//			Listowanie assetów
+//				Releasing resources
+//====================================================================================//
+
+// ================================ //
+//
+void									ResourceManager::FreeUnusedAssets			()
+{
+	WriterUniqueLock< ReaderWriterLock > lock( m_rwLock );
+	
+	// Assets can depend on other Assets. The simplest way to free Resources is to iterate multiple times.
+	Size removedAssets = 0;		
+	
+	do
+	{
+		removedAssets = 0;
+		for( auto& container : m_resources )
+		{
+			removedAssets += container.second.RemoveUnused();
+		}
+
+	} while( removedAssets > 0 );
+}
+
+//====================================================================================//
+//			Listing assets	
+//====================================================================================//
+
+// ================================ //
+//
+std::vector< ResourcePointer >			ResourceManager::ListAssets				( TypeID assetType ) const
+{
+	return ListAssetsTyped< Resource >( assetType );
+}
+
+//====================================================================================//
+//			Loaders, creators, registration
 //====================================================================================//
 
 
-/**@brief Listowanie buforów wierzcho³ków.*/
-std::vector< ResourcePtr< BufferObject > >		ResourceManager::ListVertexBuffers()
+// ================================ //
+//
+bool									ResourceManager::RegisterAssetCreator		( IAssetCreatorPtr creator )
 {
-	return m_vertexBuffer.List();
+	return m_assetsFactory->RegisterCreator( creator );
 }
 
-/**@brief Listowanie buforów indeksów.*/
-std::vector< ResourcePtr< BufferObject > >		ResourceManager::ListIndexBuffers()
+// ================================ //
+//
+bool									ResourceManager::RegisterLoader			( IAssetLoaderPtr loader )
 {
-	return m_indexBuffer.List();
+	m_loaders.push_back( loader );
+	return true;
 }
 
-/**@brief Listowanie buforów sta³ych.*/
-std::vector< ResourcePtr< BufferObject > >		ResourceManager::ListConstantBuffers()
+// ================================ //
+//
+LoadersVec								ResourceManager::ListLoaders				() const
 {
-	return m_constantBuffer.List();
+	return m_loaders;
 }
 
-/**@brief Listowanie layoutów wierzcho³ków.*/
-std::vector< ResourcePtr< ShaderInputLayout > > ResourceManager::ListShaderLayouts()
+
+//====================================================================================//
+//			Internal implementation	
+//====================================================================================//
+
+
+// ================================ //
+//
+ResourcePtr< Resource >					ResourceManager::FindResource				( const AssetPath& name, TypeID assetType )
 {
-	return m_vertexLayout.List();
+	auto translatedPath = Translate( name );
+
+	auto containerIter = m_resources.find( assetType );
+	if( containerIter != m_resources.end() )
+	{
+		ResourceContainer< Resource >& container = containerIter->second;
+		return container.Get( translatedPath );
+	}
+
+	return ResourcePtr< Resource >();
 }
 
-/**@brief Listowanie tekstur.*/
-std::vector< ResourcePtr< TextureObject > >		ResourceManager::ListTextures()
+// ================================ //
+//
+IAssetLoader*							ResourceManager::FindLoader				( const AssetPath& assetName, TypeID assetType )
 {
-	return m_texture.List();
+	for( auto& loader : m_loaders )
+	{
+		if( loader->CanLoad( assetName, assetType ) )
+			return loader.get();
+	}
+
+	return nullptr;
 }
 
-/**@brief Listowanie vertex shaderów.*/
-std::vector< ResourcePtr< VertexShader > >		ResourceManager::ListVertexShaders()
+// ================================ //
+//
+std::pair< WaitingAsset*, bool >		ResourceManager::LockFileForLoading		( const LoadPath& loadPath )
 {
-	return m_vertexShader.List();
+	// We want to lock on absolute path without aliases. Otherwise two paths can point to the same asset.
+	return m_waitingAssets.RequestAsset( loadPath.GetTranslatedPath().GetFile() );
 }
 
-/**@brief Listowanie pixel shaderów.*/
-std::vector< ResourcePtr< PixelShader > >		ResourceManager::ListPixelShaders()
+// ================================ //
+//
+ResourcePtr< Resource >					ResourceManager::FindRequestedAsset		( const LoadPath& loadPath, TypeID assetType, const AssetsVec& loadedAssets )
 {
-	return m_pixelShader.List();
+	std::string assetNameStr = loadPath.GetOriginalPath().String();
+
+	for( auto loadedAsset : loadedAssets )
+	{
+		if( loadedAsset->GetResourceName() == assetNameStr &&
+			loadedAsset->GetType().is_derived_from( assetType ) )
+			return loadedAsset;
+	}
+
+	// There's no asset that has the same name. We could return first asset in raw maybe...
+	if( loadedAssets.size() > 0 )
+		return loadedAssets[ 0 ];
+
+	return nullptr;
 }
 
-/**@brief Listowanie render targetów.*/
-std::vector< ResourcePtr< RenderTargetObject > > ResourceManager::ListRenderTargets()
+// ================================ //
+//
+sw::Nullable< ResourcePointer >			ResourceManager::LoadingImpl				( const LoadPath& loadPath, const IAssetLoadInfo* desc, TypeID assetType )
 {
-	return m_renderTarget.List();
+	// @attention: Remember to remove asset lock before each return statement.
+	// Otherwise assetName will be locked for loading for always. 
+
+	auto resource = m_cacheManager.LoadFromCache( loadPath.GetTranslatedPath(), assetType );
+	if( !resource )
+	{
+		auto loader = FindLoader( loadPath.GetOriginalPath(), assetType );
+		if( loader )
+		{
+			auto loadingResult = loader->Load( loadPath, assetType, desc, RMLoaderAPI( this ) );
+
+			if( !loadingResult.Assets.IsValid() )
+			{
+				// Remove asset lock.
+				m_waitingAssets.LoadingFailed( loadPath.GetFileTranslated(), loadingResult.Assets.GetError() );
+				return loadingResult.Assets.GetError();
+			}
+
+			resource = FindRequestedAsset( loadPath, assetType, loadingResult.Assets );
+		}
+		else
+		{
+			auto exception = std::make_shared< ResourceManagerException >( "Loader for asset not found. ", loadPath.Print(), assetType );
+
+			// Remove asset lock.
+			m_waitingAssets.LoadingFailed( loadPath.GetFileTranslated(), exception );
+			return exception;
+		}
+	}
+
+	// Remove asset lock.
+	m_waitingAssets.LoadingCompleted( loadPath.GetFileTranslated() );
+
+	return resource;
 }
 
-/**@brief Implementation of texture loading.
-
-This is hack function. Resource manager have no texture loading function beacause
-it needs separate library for this. Derived classes will implement it, but in future
-this must change. ResourceManager must be fully operational class. Otherwise GUI 
-won't load textures.*/
-MemoryChunk ResourceManager::LoadTextureImpl( const filesystem::Path& filePath, TextureInfo& texInfo )
+// ================================ //
+//
+ReturnResult							ResourceManager::AddGenericResource		( const AssetPath& name, TypeID assetType, ResourcePointer resource )
 {
-	MemoryChunk fakeChunk( 1024 );
+	if( !resource )
+		return std::make_shared< ResourceManagerException >( "Trying to add nullptr resource.", name.String(), assetType );
 
-	//assert( !"Implement me" );
-	return fakeChunk;
+	auto translatedName = Translate( name );
+
+	// Check if asset already exists in m_resources. Note that even if asset exists, that doesn't
+	// mean that it is the same asset. It could be generated by user (and have different content) or it could be loaded
+	// and postprocessed using different parameters.
+
+	// Lock as Writer, because we want to add Resource atomically.
+	WriterUniqueLock< ReaderWriterLock > lock( m_rwLock );
+
+	ResourceContainer< Resource >& container = m_resources[ assetType ];
+	bool inserted = container.SafeAdd( translatedName, resource.Ptr() );
+
+	if( !inserted )
+		return std::make_shared< ResourceManagerException >( "Can't add asset, because it already existed.", name.String(), assetType );
+
+	return Result::Success;
 }
 
+// ================================ //
+//
+filesystem::Path						ResourceManager::Translate					( const filesystem::Path& path )
+{
+	return LoadPath::Translate( path, m_pathsManager.get() );
+}
+
+// ================================ //
+//
+AssetPath								ResourceManager::Translate					( const AssetPath& name )
+{
+	return LoadPath::Translate( name, m_pathsManager.get() );
+}
+
+
+
+
+
+}	// sw
 

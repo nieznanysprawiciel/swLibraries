@@ -34,7 +34,7 @@ public:
 	explicit			BufferTyped		( Size numElements );
 	explicit			BufferTyped		( BufferRaw&& rawBuffer );
 	explicit			BufferTyped		( const BufferTyped& buffer ) = delete;
-	explicit			BufferTyped		( BufferTyped&& buffer );
+						BufferTyped		( BufferTyped&& buffer );
 
 						~BufferTyped	();
 
@@ -42,11 +42,17 @@ public:
 	BufferTyped< ContentType, Alloc >&		operator=		( const BufferTyped& ) = delete;
 	BufferTyped< ContentType, Alloc >&		operator=		( BufferTyped&& );
 
+private:
+
+	/**@brief Stealing constructor takes ownership of memory.*/
+	explicit			BufferTyped		( ContentType*&& data, Size numElements );
+
 public:
 
 	TypeID				GetType			() const		{ return TypeID::get< ContentType >(); }
 	Size				GetSize			() const		{ return m_count * sizeof( ContentType ); }
 	Size				ElementsCount	() const		{ return m_count; }
+	Size				ElementSize		() const		{ return sizeof( ContentType ); }
 	uint8*				GetRawData		()				{ return reinterpret_cast< uint8* >( m_data ); }
 	const uint8*		GetRawData		() const		{ return reinterpret_cast< const uint8* >( m_data ); }
 	bool				IsValid			() const		{ return m_data != nullptr; }
@@ -60,6 +66,14 @@ public:
 
 	/**@brief Creates raw buffer. Note that new buffer will be owner of memory and this object ends empty.*/
 	BufferRaw			MoveToRawBuffer	();
+
+public:
+	static BufferRaw	CreateEmpty		();
+
+public:
+
+	/**@brief Takes ownership of memory.*/
+	static BufferTyped< ContentType, Alloc >		StealMemory			( ContentType*&& data, Size numElements );
 };
 
 
@@ -124,6 +138,17 @@ inline		BufferTyped< ContentType, Alloc >::BufferTyped	( BufferTyped< ContentTyp
 // ================================ //
 //
 template< typename ContentType, class Alloc >
+inline		BufferTyped< ContentType, Alloc >::BufferTyped	( ContentType*&& data, Size numElements )
+	:	m_data( std::move( data ) )
+	,	m_count( numElements )
+{
+	data = nullptr;
+	// Don't allocate.
+}
+
+// ================================ //
+//
+template< typename ContentType, class Alloc >
 inline BufferTyped< ContentType, Alloc >&			BufferTyped< ContentType, Alloc >::operator=( BufferTyped< ContentType, Alloc >&& other )
 {
 	m_data = other.m_data;
@@ -174,6 +199,23 @@ inline BufferRaw			BufferTyped< ContentType, Alloc >::MoveToRawBuffer	()
 	m_count = 0;
 
 	return rawBuffer;
+}
+
+// ================================ //
+//
+template< typename ContentType, class Alloc >
+inline BufferRaw			BufferTyped< ContentType, Alloc >::CreateEmpty		()
+{
+	BufferTyped< ContentType > buffer( 0 );
+	return buffer.MoveToRawBuffer();
+}
+
+// ================================ //
+//
+template< typename ContentType, class Alloc >
+inline BufferTyped< ContentType, Alloc >			BufferTyped< ContentType, Alloc >::StealMemory			( ContentType*&& data, Size numElements )
+{
+	return BufferTyped< ContentType, Alloc >( std::move( data ), numElements );
 }
 
 

@@ -47,9 +47,9 @@ public:
 public:
 
 	virtual BufferRange			BufferData			() override;
-	virtual std::string			ShaderFunctionFile	() override;
-	virtual std::wstring		TextureSource		() override;
-	virtual std::wstring		ConstantsName		() override;
+	virtual filesystem::Path	ShaderFunctionFile	() override;
+	virtual AssetPath   		TextureSource		() override;
+	virtual AssetPath   		ConstantsName		() override;
 };
 
 DEFINE_PTR_TYPE( SolidColorBrush );

@@ -42,7 +42,7 @@ struct GeometryData
 		, IndexBuffer( std::move( indexBuffer ) )
 		, FillIdxEnd( 0 )
 		, BorderIdxEnd( 0 )
-		, Topology( PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST )
+		, Topology( PrimitiveTopology::Triangles )
 		, ExtendedIB( false )
 	{}
 };
@@ -117,12 +117,12 @@ public:
 	///@{
 
 	/**@brief Generates geometry with current parameters.*/
-	virtual	GeometryData	Generate			() = 0;
+	virtual	GeometryData	    Generate			() = 0;
 	
 	/**@brief Returns BufferRange of new content of constant buffer.
 	@note Geometry object is still owner of returned memory and it shouldn't be freed after return from this function.
 	It is recommended to use @ref StackBuffer in Geometry implementation.*/
-	virtual	BufferRange		BufferData			() = 0;
+	virtual	BufferRange		    BufferData			() = 0;
 
 	/**@brief Returns file name containing function used in Vertex Shader.
 	
@@ -136,18 +136,18 @@ public:
 	This way geometry can be generated once for multiple parameters of shape to avoid data transfers between
 	CPU and GPU. You should override @ref Geometry::GeometryName function, to return the same name, if Vertex
 	Buffer shouldn't be updated.*/
-	virtual std::string		ShaderFunctionFile	() = 0;
+	virtual filesystem::Path    ShaderFunctionFile	() = 0;
 
 	/**@brief Returns key used to store/find geometry buffers (VB and IB) in resources.
 	
 	This function should return name of buffer based on shape parameters. You can use the same
 	geometry for different parameters and modify it in Vertex Shader. If you want to use the same
 	buffer for different parameters ranges, return the same name from this function for these ranges.*/
-	virtual std::wstring	GeometryName		() = 0;
+	virtual std::string   	    GeometryName		() = 0;
 
 
 	/**@brief Returns key used to store/find contant buffer in resources.*/
-	virtual std::wstring	ConstantsName		() = 0;
+	virtual AssetPath   	    ConstantsName		() = 0;
 	///@}
 
 

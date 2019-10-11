@@ -1,4 +1,10 @@
 #pragma once
+/**
+@file Application.h
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 #include "swGUI/Core/System/GUISystem.h"
 
@@ -17,12 +23,12 @@ public:
 
 protected:
 
-	virtual	bool	Initialize		() override;
-	virtual bool	OnInitialized	() override;
-	virtual void	OnClosing		() override;
-	virtual void	OnIdle			( const sw::gui::FrameTime& frameTime ) override;
+	virtual	sw::ReturnResult	Initialize		() override;
+	virtual sw::ReturnResult	OnInitialized	() override;
+	virtual void	            OnClosing		() override;
+	virtual void	            OnIdle			( const sw::gui::FrameTime& frameTime ) override;
 
-	bool			OverridePaths	();
+    sw::ReturnResult            OverridePaths	();
 
 };
 

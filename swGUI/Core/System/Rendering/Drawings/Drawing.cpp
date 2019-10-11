@@ -27,12 +27,12 @@ Drawing::Drawing()
 	m_geometryData.BorderEnd = 0;
 	m_geometryData.ExtendedIB = false;
 	m_geometryData.FillEnd = 0;
-	m_geometryData.Topology = PrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	m_geometryData.Topology = PrimitiveTopology::Triangles;
 }
 
 // ================================ //
 //
-bool			Drawing::DefaultRebuildResources	( ResourceManager* rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry )
+bool			Drawing::DefaultRebuildResources	( ResourceManagerAPI rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry )
 {
 	bool result = true;
 
@@ -64,25 +64,25 @@ bool			Drawing::UpdateBrushShader			( ShaderProvider* sp, Brush* brush )
 
 // ================================ //
 //
-bool			Drawing::UpdateBrushTexture			( ResourceManager* rm, Brush* brush )
+bool			Drawing::UpdateBrushTexture			( ResourceManagerAPI rm, Brush* brush )
 {
 	return UpdateTextureImpl( rm, brush, m_brushData );
 }
 
 // ================================ //
 //
-bool			Drawing::UpdateBrushConstants		( ResourceManager* rm, Brush* brush )
+bool			Drawing::UpdateBrushConstants		( ResourceManagerAPI rm, Brush* brush )
 {
 	if( ( !m_brushData.BrushConstants && brush->UsesConstantBuffer() ) 
 		|| brush->NeedsBufferChange() )
 	{
-		std::wstring name = brush->ConstantsName();
+		AssetPath name = brush->ConstantsName();
 
-		ResourcePtr< BufferObject > constantsBuffer = rm->GetConstantBuffer( name );
+		ResourcePtr< Buffer > constantsBuffer = rm.GetCached< Buffer >( name );
 		if( !constantsBuffer )
 		{
 			auto bufferRange = brush->BufferData();
-			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, (uint32)bufferRange.DataSize );
+			constantsBuffer = rm.CreateConstantsBuffer( name, bufferRange ).Get();      /// @todo What in case of error?
 		}
 
 		if( brush->NeedsBufferChange() )
@@ -104,25 +104,25 @@ bool			Drawing::UpdatePenShader			( ShaderProvider* sp, Brush* pen )
 
 // ================================ //
 //
-bool			Drawing::UpdatePenTexture			( ResourceManager* rm, Brush* pen )
+bool			Drawing::UpdatePenTexture			( ResourceManagerAPI rm, Brush* pen )
 {
 	return UpdateTextureImpl( rm, pen, m_penData );
 }
 
 // ================================ //
 //
-bool			Drawing::UpdatePenConstants			( ResourceManager* rm, Brush* pen )
+bool			Drawing::UpdatePenConstants			( ResourceManagerAPI rm, Brush* pen )
 {
 	if( ( !m_penData.BrushConstants && pen->UsesConstantBuffer() )
 		|| pen->NeedsBufferChange() )
 	{
-		std::wstring name = pen->ConstantsName();
+		AssetPath name = pen->ConstantsName();
 
-		ResourcePtr< BufferObject > constantsBuffer = rm->GetConstantBuffer( name );
+		ResourcePtr< Buffer > constantsBuffer = rm.GetCached< Buffer >( name );
 		if( !constantsBuffer )
 		{
 			auto bufferRange = pen->BufferData();
-			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, (uint32)bufferRange.DataSize );
+			constantsBuffer = rm.CreateConstantsBuffer( name, bufferRange ).Get();      /// @todo What in case of error?
 		}
 
 		if( pen->NeedsBufferChange() )
@@ -153,14 +153,17 @@ bool			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry )
 
 // ================================ //
 //
-bool			Drawing::UpdateGeometry				( ResourceManager* rm, Geometry* geometry )
+bool			Drawing::UpdateGeometry				( ResourceManagerAPI rm, Geometry* geometry )
 {
 	if( geometry->NeedsGeometryUpdate() )
 	{
-		std::wstring name = geometry->GeometryName();
+		std::string name = geometry->GeometryName();
 
-		ResourcePtr< BufferObject > vertexBuffer = rm->GetVertexBuffer( name );
-		ResourcePtr< BufferObject > indexBuffer = rm->GetIndexBuffer( name );
+        AssetPath vbName = AssetPath( "", name + "/vertex" );
+        AssetPath ibName = AssetPath( "", name + "/index" );
+
+		BufferPtr vertexBuffer = rm.GetCached< Buffer >( vbName );
+		BufferPtr indexBuffer = rm.GetCached< Buffer >( ibName );
 
 		/// @todo Optimise. We should generate data only if necessary. Introduce Asset for geometric
 		/// data that will hold all information needed for rendering.
@@ -172,8 +175,8 @@ bool			Drawing::UpdateGeometry				( ResourceManager* rm, Geometry* geometry )
 			auto indexSize = data.ExtendedIB ? sizeof( Index32 ) : sizeof( Index16 );
 			auto vertexSize = sizeof( VertexShape2D );
 
-			vertexBuffer = rm->CreateVertexBuffer( name, data.VertexBuffer.GetData(), (uint32)vertexSize, uint32( data.VertexBuffer.GetSize() / indexSize ) );
-			indexBuffer = rm->CreateIndexBuffer( name, data.IndexBuffer.GetData(), (uint32)indexSize, uint32( data.IndexBuffer.GetSize() / indexSize ) );
+			vertexBuffer = rm.CreateVertexBuffer( vbName, data.VertexBuffer, (uint32)vertexSize ).Get();    /// @todo What in case of error?
+			indexBuffer = rm.CreateIndexBuffer( ibName, data.IndexBuffer, (uint32)indexSize ).Get();        /// @todo What in case of error?
 		}
 
 		m_geometryData.VertexBuffer = vertexBuffer;
@@ -193,17 +196,17 @@ bool			Drawing::UpdateGeometry				( ResourceManager* rm, Geometry* geometry )
 
 // ================================ //
 //
-bool			Drawing::UpdateGeometryConstants	( ResourceManager* rm, Geometry* geometry )
+bool			Drawing::UpdateGeometryConstants	( ResourceManagerAPI rm, Geometry* geometry )
 {
 	if( !m_geometryData.GeometryConstants && geometry->UsesConstantBuffer() )
 	{
-		std::wstring name = geometry->ConstantsName();
+		AssetPath name = geometry->ConstantsName();
 
-		ResourcePtr< BufferObject > constantsBuffer = rm->GetConstantBuffer( name );
+		BufferPtr constantsBuffer = rm.GetCached< Buffer >( name );
 		if( !constantsBuffer )
 		{
 			auto bufferRange = geometry->BufferData();
-			constantsBuffer = rm->CreateConstantsBuffer( name, bufferRange.DataPtr, (uint32)bufferRange.DataSize );
+			constantsBuffer = rm.CreateConstantsBuffer( name, bufferRange ).Get();      /// @todo What in case of error?
 		}
 
 		m_geometryData.GeometryConstants = constantsBuffer;
@@ -216,22 +219,12 @@ bool			Drawing::UpdateGeometryConstants	( ResourceManager* rm, Geometry* geometr
 // ================================ //
 //
 template< typename VertexStruct >
-ResourcePtr< ShaderInputLayout >		CreateLayout	( ResourceManager* rm, ShaderProvider* sp )
+ShaderInputLayoutPtr		        CreateLayout	( ResourceManagerAPI rm, ShaderProvider* sp )
 {
-	auto layout = rm->GetLayout( GetLayoutName< VertexStruct >() );
+	auto layout = rm.GetCached< ShaderInputLayout >( GetLayoutName< VertexStruct >() );
 	if( !layout )
 	{
-		auto pm = sp->GetPathsManager();
-		auto exampleShaderPath = pm->Translate( GetLayoutExampleShader< VertexStruct >() );
-
-		rm->LoadVertexShader( exampleShaderPath.WString(), "main", &layout, CreateLayoutDescriptor< VertexStruct >().get() );
-
-		if( !layout )
-		{
-			// We should handle this error better.
-			throw std::exception( "Drawing::CreateLayout - Creating layout failed. Chack if example shader exists." );
-			return nullptr;
-		}
+		layout = rm.CreateLayout( GetLayoutName< VertexStruct >(), CreateLayoutDescriptor< VertexStruct >() ).Get();     /// @todo What in case of error?
 	}
 
 	return layout;
@@ -240,7 +233,7 @@ ResourcePtr< ShaderInputLayout >		CreateLayout	( ResourceManager* rm, ShaderProv
 
 // ================================ //
 //
-bool			Drawing::CreateAndSetLayout			( ResourceManager* rm, ShaderProvider* sp, Geometry* geometry )
+bool			Drawing::CreateAndSetLayout			( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry )
 {
 	if( !m_geometryData.Layout )
 	{
@@ -273,16 +266,16 @@ bool			Drawing::UpdateShaderImpl			( ShaderProvider* sp, Brush* brush, impl::Bru
 
 // ================================ //
 //
-bool			Drawing::UpdateTextureImpl			( ResourceManager* rm, Brush* brush, impl::BrushRenderingData& brushData )
+bool			Drawing::UpdateTextureImpl			( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData )
 {
 	if( brush->NeedsTextureUpdate() )
 	{
-		std::wstring textureSource = brush->TextureSource();
+        AssetPath textureSource = brush->TextureSource();
 
 		// If texture was alredy loaded it will use it.
 		///@todo WPF supports not only textures loaded from disk, but also textures from resources
 		///referenced by URL. We should change this implementation in future probably.
-		brushData.Texture = rm->LoadTexture( textureSource );
+		brushData.Texture = rm.LoadTexture( textureSource ).Get();      /// @todo What in case of error?
 
 		brush->TextureUpdated();
 		return true;
@@ -360,7 +353,7 @@ void			Drawing::UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::
 
 // ================================ //
 //
-void			Drawing::UpdateCBContentImpl		( IRenderer* renderer, BufferObject* buffer, BufferRange bufferData )
+void			Drawing::UpdateCBContentImpl		( IRenderer* renderer, Buffer* buffer, BufferRange bufferData )
 {
 	UpdateBufferCommand cmd;
 	cmd.Buffer = buffer;

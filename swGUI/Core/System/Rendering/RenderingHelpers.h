@@ -42,22 +42,22 @@ public:
 
 	/**@brief Default clear command.
 	This command doesn't clear stencil buffer.*/
-	void					ClearRenderTargetAndDepth	( RenderTargetObject* target, const DirectX::XMFLOAT4& color, float depth );
+	void					ClearRenderTargetAndDepth	( RenderTarget* target, const DirectX::XMFLOAT4& color, float depth );
 
 	/**@brief Set render target.
 	Ignores buffers and sets them to nullptr.*/
-	void					SetRenderTarget				( RenderTargetObject* target, RasterizerState* rasterizerState, BlendingState* blendingState, DepthStencilState* depthStencilState );
+	void					SetRenderTarget				( RenderTarget* target, RasterizerState* rasterizerState, BlendingState* blendingState, DepthStencilState* depthStencilState );
 
 	/**@brief Updates buffer with data.*/
 	template< typename BufferDataType >
-	inline void				UpdateBuffer				( BufferObject* buffer, BufferDataType& data );
+	inline void				UpdateBuffer				( Buffer* buffer, BufferDataType& data );
 
 	/**@brief Updates buffer using StackBuffer.*/
 	template< typename BufferDataType >
-	inline void				UpdateBuffer				( BufferObject* buffer, StackBufferA< BufferDataType >& data );
+	inline void				UpdateBuffer				( Buffer* buffer, StackBufferA< BufferDataType >& data );
 
 	/**@brief Binds buffer.*/
-	void					BindBuffer					( BufferObject* buffer, uint8 slot, uint8 shaderFlag );
+	void					BindBuffer					( Buffer* buffer, uint8 slot, uint8 shaderFlag );
 
 	/**@brief Draw without using buffer.*/
 	void					DrawBufferLess				( uint32 numVerticies, PrimitiveTopology topology );
@@ -68,29 +68,29 @@ public:
 
 	/**@brief Default clear command.
 	This command doesn't clear stencil buffer.*/
-	static void					ClearRenderTargetAndDepth	( IRenderer* renderer, RenderTargetObject* target, const DirectX::XMFLOAT4& color, float depth );
+	static void					ClearRenderTargetAndDepth	( IRenderer* renderer, RenderTarget* target, const DirectX::XMFLOAT4& color, float depth );
 
 	/**@brief Set render target.
 	Ignores buffers and sets them to nullptr.*/
-	static void					SetRenderTarget				( IRenderer* renderer, RenderTargetObject* target, RasterizerState* rasterizerState, BlendingState* blendingState, DepthStencilState* depthStencilState );
+	static void					SetRenderTarget				( IRenderer* renderer, RenderTarget* target, RasterizerState* rasterizerState, BlendingState* blendingState, DepthStencilState* depthStencilState );
 
 	/**@brief Updates buffer with data.*/
 	template< typename BufferDataType >
-	static inline void			UpdateBuffer				( IRenderer* renderer, BufferObject* buffer, BufferDataType& data );
+	static inline void			UpdateBuffer				( IRenderer* renderer, Buffer* buffer, BufferDataType& data );
 
 	/**@brief Updates buffer using StackBuffer.*/
 	template< typename BufferDataType >
-	static inline void			UpdateBuffer				( IRenderer* renderer, BufferObject* buffer, StackBufferA< BufferDataType >& data );
+	static inline void			UpdateBuffer				( IRenderer* renderer, Buffer* buffer, StackBufferA< BufferDataType >& data );
 
 	/**@brief Binds buffer.*/
-	static void					BindBuffer					( IRenderer* renderer, BufferObject* buffer, uint8 slot, uint8 shaderFlag );
+	static void					BindBuffer					( IRenderer* renderer, Buffer* buffer, uint8 slot, uint8 shaderFlag );
 
 	/**@brief Draw without using buffer.*/
 	static void					DrawBufferLess				( IRenderer* renderer, uint32 numVerticies, PrimitiveTopology topology );
 
 	/**@brief Set texture in command.
 	@param[in] bindShader Flags @ref ShaderType can be combined with operator|.*/
-	static void					SetTexture					( SetShaderStateCommand& command, TextureObject* texture, uint8 bindingPoint, uint8 bindShader );
+	static void					SetTexture					( SetShaderStateCommand& command, Texture* texture, uint8 bindingPoint, uint8 bindShader );
 
 	/**@brief Set all textures to nullptr.*/
 	static void					ClearTextureState			( SetShaderStateCommand& command );
@@ -102,7 +102,7 @@ public:
 // ================================ //
 //
 template< typename BufferDataType >
-inline void			RenderingHelper::UpdateBuffer			( BufferObject* buffer, BufferDataType& data )
+inline void			RenderingHelper::UpdateBuffer			( Buffer* buffer, BufferDataType& data )
 {
 	UpdateBuffer( m_renderer, buffer, data );
 }
@@ -110,7 +110,7 @@ inline void			RenderingHelper::UpdateBuffer			( BufferObject* buffer, BufferData
 // ================================ //
 //
 template< typename BufferDataType >
-inline void			RenderingHelper::UpdateBuffer			( BufferObject* buffer, StackBufferA< BufferDataType >& data )
+inline void			RenderingHelper::UpdateBuffer			( Buffer* buffer, StackBufferA< BufferDataType >& data )
 {
 	UpdateBuffer< BufferDataType >( m_renderer, buffer, data );
 }
@@ -118,7 +118,7 @@ inline void			RenderingHelper::UpdateBuffer			( BufferObject* buffer, StackBuffe
 // ================================ //
 //
 template< typename BufferDataType >
-inline void			RenderingHelper::UpdateBuffer			( IRenderer* renderer, BufferObject* buffer, BufferDataType& data )
+inline void			RenderingHelper::UpdateBuffer			( IRenderer* renderer, Buffer* buffer, BufferDataType& data )
 {
 	UpdateBufferCommand updateCommand;
 	updateCommand.Buffer = buffer;
@@ -131,7 +131,7 @@ inline void			RenderingHelper::UpdateBuffer			( IRenderer* renderer, BufferObjec
 // ================================ //
 //
 template< typename BufferDataType >
-inline void			RenderingHelper::UpdateBuffer			( IRenderer* renderer, BufferObject* buffer, StackBufferA< BufferDataType >& data )
+inline void			RenderingHelper::UpdateBuffer			( IRenderer* renderer, Buffer* buffer, StackBufferA< BufferDataType >& data )
 {
 	UpdateBufferCommand updateCommand;
 	updateCommand.Buffer = buffer;

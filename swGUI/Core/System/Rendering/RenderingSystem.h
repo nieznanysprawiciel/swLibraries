@@ -8,14 +8,16 @@
 
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
 #include "swGraphicAPI/Rendering/IRenderer.h"
-#include "swGraphicAPI/ResourceManager/ResourceManager.h"
 
-#include "swGraphicAPI/Resources/RasterizerState.h"
-#include "swGraphicAPI/Resources/DepthStencilState.h"
-#include "swGraphicAPI/Resources/BlendingState.h"
+#include "swGraphicAPI/ResourceManager/ResourceManager.h"
+#include "swGraphicAPI/ResourceManager/ResourceManagerAPI.h"
+
+#include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
+#include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
+#include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
 
 #include "swGUI/Core/System/Rendering/Shading/ShaderProvider.h"
-#include "swGUI/Core/System/Config/PathsManager.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/PathsManager.h"
 
 #include "swGUI/Core/Controls/Visual.h"
 #include "swGUI/Core/System/Rendering/Drawings/IDrawing.h"
@@ -27,9 +29,12 @@
 @ingroup GUICore*/
 
 
-DEFINE_OPTR_TYPE( IRenderer );
 
 namespace sw {
+
+DEFINE_OPTR_TYPE( IRenderer );
+
+
 namespace gui
 {
 
@@ -45,20 +50,20 @@ class RenderingSystem
 private:
 
 	IRendererOPtr		m_renderer;
-	ResourceManager*	m_resourceManager;
+	ResourceManagerAPI	m_resourceManager;
 	ShaderProvider		m_shaderProvider;
 
 private:
 
 	// Rendering state objects
-	ResourcePtr< RasterizerState >		m_rasterizerState;
-	ResourcePtr< DepthStencilState >	m_depthState;
+	RasterizerStatePtr          m_rasterizerState;
+	DepthStencilStatePtr        m_depthState;
 
-	ResourcePtr< BlendingState >		m_transparentBlendState;
-	ResourcePtr< BlendingState >		m_opaqueBlendState;
+	BlendingStatePtr            m_transparentBlendState;
+	BlendingStatePtr            m_opaqueBlendState;
 
-	ResourcePtr< BufferObject >			m_renderingSystemBuffer;
-	ResourcePtr< BufferObject >			m_visualBuffer;
+	BufferPtr                   m_renderingSystemBuffer;
+	BufferPtr                   m_visualBuffer;
 
 protected:
 public:
@@ -85,11 +90,11 @@ public:
 
 	///@}
 
-	bool			InitializeRenderingSystem	();
+    ReturnResult    InitializeRenderingSystem	();
 
 private:
 
-	void			InitializeGraphicState		( ResourceManager* rm );
+    ReturnResult    InitializeGraphicState		( ResourceManagerAPI rm );
 
 
 	void			SetRenderTarget				( IRenderer* renderer, HostWindow* visual );

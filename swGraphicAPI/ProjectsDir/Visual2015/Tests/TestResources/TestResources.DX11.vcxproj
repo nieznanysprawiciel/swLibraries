@@ -22,9 +22,16 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\main.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestBlendingState.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\Tests\TestResources.DX11\GraphicAPI.h" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestBlendingStateCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestBufferCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestDepthStencilStateCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestLayoutCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestRasterizerStateCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestRenderTargetCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestShaderCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestCreators\TestTextureCreator.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestLoaders\TestRenderTargetLoader.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestLoaders\TestShaderLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DX11API\DX11API.vcxproj">

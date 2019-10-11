@@ -1,7 +1,14 @@
 #pragma once
+/**
+@file Exception.h
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 
 #include "swCommonLib/Common/TypesDefinitions.h"
+#include "swCommonLib/Common/RTTR.h"
 
 #include <exception>
 #include <string>
@@ -12,6 +19,10 @@ namespace sw
 {
 
 /**@defgroup Exceptions
+
+Library functions providing utilities for error handling. This library uses Alexandrescu Expected
+approach, to return value or Exception as return type.
+
 @ingroup Helpers*/
 
 
@@ -19,6 +30,7 @@ namespace sw
 @ingroup Exceptions*/
 class Exception : public std::exception
 {
+	RTTR_ENABLE();
 private:
 protected:
 public:
@@ -44,6 +56,7 @@ DEFINE_PTR_TYPE( Exception )
 @ingroup Exceptions*/
 class RuntimeException : public Exception
 {
+	RTTR_ENABLE( Exception );
 private:
 protected:
 
@@ -53,8 +66,8 @@ public:
 
 	// ================================ //
 	//
-	explicit		RuntimeException		( const std::string& message )
-		: m_errorMessage( message )
+	explicit		RuntimeException		( std::string message )
+		: m_errorMessage( std::move( message ) )
 	{}
 
 	virtual			~RuntimeException		() = default;

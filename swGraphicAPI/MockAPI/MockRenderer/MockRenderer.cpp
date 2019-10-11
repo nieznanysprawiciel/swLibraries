@@ -75,7 +75,10 @@ void	MockRenderer::SetRenderTarget	( const SetRenderTargetExCommand& command )
 // ================================ //
 //
 void	MockRenderer::ClearRenderTarget	( const ClearRenderTargetCommand& command )
-{}
+{
+    if( command.RenderTarget == nullptr )
+        throw RuntimeException( "[ClearRenderTarget] RenderTarget is set to nullptr." );
+}
 
 // ================================ //
 //
@@ -133,7 +136,7 @@ void	MockRenderer::FlushCommands		()
 
 // ================================ //
 //
-bool    MockRenderer::SetVertexBuffer   ( BufferObject* buffer, unsigned int offset )
+bool    MockRenderer::SetVertexBuffer   ( Buffer* buffer, unsigned int offset )
 {
 	if( buffer )
 	{
@@ -150,17 +153,17 @@ bool    MockRenderer::SetVertexBuffer   ( BufferObject* buffer, unsigned int off
 
 // ================================ //
 // Buffer can be nullptr.
-void	MockRenderer::SetIndexBuffer	( BufferObject* buffer, unsigned int offset, bool extendedIndex )
+void	MockRenderer::SetIndexBuffer	( Buffer* buffer, unsigned int offset, bool extendedIndex )
 {}
 
 // ================================ //
 //
-void	MockRenderer::SetRenderTarget	( RenderTargetObject* const targets[ MAX_BOUND_RENDER_TARGETS ], RenderTargetObject* depthStencil )
+void	MockRenderer::SetRenderTarget	( RenderTarget* const targets[ MAX_BOUND_RENDER_TARGETS ], RenderTarget* depthStencil )
 {}
 
 // ================================ //
 //
-void	MockRenderer::SetTextures		( TextureObject* const texturesArray[ MAX_BOUND_RENDER_TARGETS ], const uint8 shaderTypes[ MAX_BOUND_RENDER_TARGETS ] )
+void	MockRenderer::SetTextures		( Texture* const texturesArray[ MAX_BOUND_RENDER_TARGETS ], const uint8 shaderTypes[ MAX_BOUND_RENDER_TARGETS ] )
 {}
 
 }	// sw

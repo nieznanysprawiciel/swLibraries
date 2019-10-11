@@ -37,7 +37,7 @@ void				GeometryDrawing::Render					( IRenderer* renderer )
 
 // ================================ //
 //
-void				GeometryDrawing::RebuildResources		( ResourceManager* rm, ShaderProvider* sp )
+void				GeometryDrawing::RebuildResources		( ResourceManagerAPI rm, ShaderProvider* sp )
 {
 	DefaultRebuildResources( rm, sp, m_brush.get(), m_pen.get(), m_geometry.get() );
 }

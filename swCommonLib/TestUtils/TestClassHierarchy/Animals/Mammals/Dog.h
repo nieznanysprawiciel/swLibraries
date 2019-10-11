@@ -21,10 +21,21 @@ private:
 protected:
 public:
 	explicit		Dog			() = default;
+	explicit		Dog			( std::string name, uint16 age, std::string race );
 	virtual			~Dog		() = default;
 
 };
 
+//====================================================================================//
+//			Implementation	
+//====================================================================================//
+
+// ================================ //
+//
+inline Dog::Dog		( std::string name, uint16 age, std::string race )
+	:	Mammal( name, age )
+	,	m_race( race )
+{}
 
 
 }	// sw

@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="PrecompiledHeader">
+      <UniqueIdentifier>{4616c4f0-0712-45ca-9d03-0e7b1bdeb25f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SOIL">
+      <UniqueIdentifier>{3bf8129d-3423-47de-8dfd-1e338b428ce8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Loader">
+      <UniqueIdentifier>{57a3e8ea-1cbc-4612-a0c8-3783b3f29f6d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Loaders\SoilTextureLoader\stdafx.cpp">
+      <Filter>PrecompiledHeader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Loaders\SoilTextureLoader\SOIL\etc1_utils.cpp">
+      <Filter>SOIL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Loaders\SoilTextureLoader\SOIL\image_DXT.c">
+      <Filter>SOIL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Loaders\SoilTextureLoader\SOIL\image_helper.c">
+      <Filter>SOIL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Loaders\SoilTextureLoader\SoilTextureLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\stdafx.h">
+      <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\etc1_utils.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\image_DXT.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\image_helper.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\jo_jpeg.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\pkm_helper.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\pvr_helper.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\stb_image.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\stb_image_write.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\stbi_DDS.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\stbi_DDS_c.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\stbi_ext.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\stbi_ext_c.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\stbi_pkm.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\stbi_pkm_c.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\stbi_pvr.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SOIL\stbi_pvr_c.h">
+      <Filter>SOIL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Loaders\SoilTextureLoader\SoilTextureLoader.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

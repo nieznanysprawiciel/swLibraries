@@ -7,14 +7,17 @@
 
 
 
-
 #include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
+
+#include "swGraphicAPI/ResourceManager/PathTranslators/PathsManager.h"
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
+
 #include "swGUI/Native/INativeGUI.h"
 #include "Events/EventsSystem.h"
+
 #include "swGUI/Core/System/Rendering/RenderingSystem.h"
 #include "swGUI/Core/System/Config/GUISystemConfig.h"
-#include "swGUI/Core/System/Config/PathsManager.h"
 #include "swGUI/Core/System/Time/Clock.h"
 
 #include "HostWindow.h"
@@ -256,6 +259,9 @@ You don't have to write main function. Instead use project templates for differe
 To use gui implement Application class.
 
 @todo Supply project templates.
+@todo Use more unique pointers in implementation. We should clearly communicate pointers ownership.
+@todo ResourceManager can be created in GUI or it can be provided by developer for shared usage.
+We need clear semantic, who is owner of pointer.
 */
 class GUISystem
 {
@@ -272,7 +278,7 @@ protected:
 	INativeGUI*					m_nativeGUI;		///< Native window system used to display main application window.
 
 	ResourceManager*			m_resourceManager;	///< Resources.
-	PathsManagerOPtr			m_pathsManager;
+	PathsManager*   			m_pathsManager;     ///< It's only copy of PathsManager from ResourceManager.
 	RenderingSystemOPtr			m_renderingSystem;	///< All rendering connceted functionalities.
 
 	std::vector< HostWindow* >	m_windows;
@@ -296,36 +302,36 @@ public:
 protected:
 	///@name User overrides
 	///@{
-	virtual	bool	Initialize		();
-	virtual bool	OnInitialized	() = 0;
-	virtual void	OnClosing		() = 0;
-	virtual void	OnIdle			( const FrameTime& frameTime ) = 0;
+	virtual	ReturnResult	Initialize		();
+	virtual ReturnResult	OnInitialized	() = 0;
+	virtual void	        OnClosing		() = 0;
+	virtual void	        OnIdle			( const FrameTime& frameTime ) = 0;
 	///@}
 
 	///@name Default initialization functions
 	///@todo Use ReturnResult in initialization functions and return exceptions.
 	///@{
-	bool			DefaultInitWithoutWindow	();
-	bool			DefaultInit					( uint16 width, uint16 height, const std::string& windowTitle );
-	bool			DefaultInitNativeGUI		();
-	bool			DefaultInitGraphicAPI		( bool debug, bool singleThreaded );
-	bool			DefaultInitRenderingSystem	();
-	bool			DefaultInitFirstWindow		( uint16 width, uint16 height, const std::string& windowTitle, bool show );
-	bool			DefaultInitPathsManager		();
-	bool			DefaultInitResourceManager	();
-	bool			InitResourceManager			( ResourceManager* resourceManager );
+	ReturnResult	        DefaultInitWithoutWindow	();
+    ReturnResult			DefaultInit					( uint16 width, uint16 height, const std::string& windowTitle );
+    ReturnResult			DefaultInitNativeGUI		();
+    ReturnResult			DefaultInitGraphicAPI		( bool debug, bool singleThreaded );
+    ReturnResult			DefaultInitRenderingSystem	();
+    ReturnResult			DefaultInitFirstWindow		( uint16 width, uint16 height, const std::string& windowTitle, bool show );
+    ReturnResult			DefaultInitPathsManager		();
+    ReturnResult			DefaultInitResourceManager	();
+    ReturnResult			InitResourceManager			( ResourceManager* resourceManager );
 
-	bool			DefaultInitCorePaths		();
-	bool			DefaultInitDependentPaths	();
+    ReturnResult			DefaultInitCorePaths		();
+    ReturnResult			DefaultInitDependentPaths	();
 
-	bool			ResourceManagerInitImpl		( ResourceManager* resourceManager );
+    ReturnResult			ResourceManagerInitImpl		( ResourceManager* resourceManager );
 	///@}
 
 public:
 
 	///@name Main functions
 	///@{
-	bool			Init			();
+    ReturnResult	Init			();
 	int				MainLoop		();
 	bool			MainLoopCore	();
 	void			HandleEvents	( const FrameTime& frameTime );
@@ -342,11 +348,11 @@ public:
 
 	/**@brief Calls CreateNativeHostWindow with default values.
 	@see GUISystem::CreateNativeHostWindow*/
-	HostWindow*		CreateNativeHostWindow		( uint16 width, uint16 height, const std::string& windowTitle );
+	Nullable< HostWindow* >		CreateNativeHostWindow		( uint16 width, uint16 height, const std::string& windowTitle );
 	/**@brief Creates host window based on native window.
 	Window will be added to windows list.
 	@note windowDesc can change. For instance: if you set AdjustSize to true, function will return real window size.*/
-	HostWindow*		CreateNativeHostWindow		( NativeWindowDescriptor& windowDesc );
+    Nullable< HostWindow* >		CreateNativeHostWindow		( NativeWindowDescriptor& windowDesc );
 
 
 private:

@@ -1,107 +1,141 @@
 #pragma once
-/**@file ResourceObject.h
+/**
+@file Resource.h
 @author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
-
-@brief Plik zawiera deklaracjê i definicjê klasy ResourceObject s³u¿¹c¹
-do zliczania odwo³añ do obiektu.*/
-
-#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
-//#include <atomic>
-
-
-/**@brief Klasa u³atwiaj¹ca zarz¹dzanie odwo³aniami do assetów.
-@ingroup GraphicAPI
-
-Obiekty assetów (np. MaterialObject, TextureObject, VertexShader, PixelShader itp.) wymagaj¹ jakiegoœ systemu zapewniaj¹cego wspó³dzielenie miêdzy innymi obiektami.
-
-Do ka¿dego pojedynczego obiektu mog¹ istnieæ wilokrotne odwo³ania w klasie MeshAsset,
-a tak¿e w obiektach dziedzicz¹cych po @ref StaticActor oraz w modu³ach silnika.
-Z tego wzglêdu istnieje zmienna m_objectReferences, która zlicza odwo³ania do obiektów.
-
-¯aden obiekt nie powinien byæ kasowany, dopóki istniej¹ do niego odwo³ania.
-
-Zmienna m_uniqueId jest na pocz¹tku ustawiana na 0. Jej faktyczne ustawienie odbywa robi klasa ResourceContainer.
-Jest to wymagane do u³atwienia obs³ugi wielow¹tkowoœci. Inaczej mog³yby siê pokrywaæ identyfikatory.
-
-@todo Zliczanie referencji w ResourceObject nie nadaje siê do wielow¹tkowoœci. Poprawiæ w odpowiednim momencie.
+@copyright File is part of Sleeping Wombat Libraries.
 */
 
-class ResourceObject	: public sw::EngineObject
+
+#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swGraphicAPI/Resources/ResourcePtr.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
+//#include <atomic>
+
+#include <string>
+
+
+namespace sw
 {
-	RTTR_ENABLE( sw::EngineObject );
-	RTTR_REGISTRATION_FRIEND
+
+
+class Resource;
+class ResourceManager;
+
+typedef uint32 ResourceID;
+template< class ResourceType > class ResourceContainer;
+
+
+
+/**@brief Class Restricts access to some functions only for chosen classes.*/
+template< typename ResType >
+class ResourceAccessKey
+{
+	friend class sw::ResourceManager;
+	friend class sw::ResourceContainer< ResType >;
+
 private:
-	unsigned int			m_objectReferences;	///< Liczba assetów, które sie odwo³uj¹. @todo To powinien byæ std::atomic_uint, ale wtedy nie kompiluje siê z CLRem.
-	unsigned int			m_uniqueId;			///< Unikalny identyfikator zasobu.
-
-protected:
-	virtual ~ResourceObject() = default;		///<Nie ka¿dy mo¿e skasowaæ obiekt
-
+	ResourceAccessKey() = default;							///< Only friend class can create key.
+	ResourceAccessKey( const ResourceAccessKey& ) {}		///< Only friend class can create key.
+	ResourceAccessKey( const ResourceAccessKey&& ) {}		///< Only friend class can create key.
 public:
-	/**
-	Ustawia zerow¹ liczbê odwo³añ.*/
-	ResourceObject( int id )
-	{
-		m_objectReferences = 0;
-		m_uniqueId = id;
-	}
-
-
-	inline void SetID( unsigned int id ) { m_uniqueId = id; }	///<Ustawia identyfikator obiektu
-
-	///sprawdza czy mo¿na zwolniæ zmienn¹
-	inline bool CanDelete( unsigned int& objectRef );
-	inline bool CanDelete();
-
-	/**Funkcje s³u¿¹ce do zarz¹dzania odwo³aniami.
-	Nale¿y pilnowaæ, aby wszystkie funkcje, które modyfikuj¹ jakiekolwiek przypisania obiektów
-	do tekstur, materia³ów i meshy, modyfikowa³y równie¿ iloœæ odwo³añ.
-	U¿ytkownik silnika powinien mieæ udostêpnion¹ wartstwê poœredniczac¹, ¿eby nie musia³
-	pamiêtaæ o odwo³aniach.*/
-	inline void AddAssetReference()		{ ++m_objectReferences; }	///< Dodaje odwo³anie plikowe do assetu
-	inline void AddObjectReference()	{ ++m_objectReferences; }	///< Dodaje odwo³anie bezpoœrednie obiektu do assetu
-	inline void DeleteAssetReference()	{ --m_objectReferences; }	///< Kasuje odwo³anie plikowe do assetu
-	inline void DeleteObjectReference()	{ --m_objectReferences; }	///< Kasuje odwo³anie bezpoœrednie obiektu do assetu
-
-	inline unsigned int GetID()			{ return m_uniqueId; }		///< Zwraca identyfikator nadany assetowi
-
-	virtual std::string GetResourceName() const = 0;				///< Zwraca nazwê zasobu. To mo¿e byæ nazwa pliku, na podstawie którego stworzono zasób, ale zasadniczo interpretacja jest dowolna.
 };
 
 
 
+/**@brief Base class for all assets and resources. It supports reference counting.
+@ingroup GraphicAPI
+
+Resource can be referenced from multiple actors or other assets. All references should remember to increment and decrement
+reference counter to avoid deletion. Use class ResourcePtr for this purpose.
+
+@todo Zliczanie referencji w Resource nie nadaje siê do wielow¹tkowoœci. Poprawiæ w odpowiednim momencie.
+@todo Rename ResourceObject.h to Resoruce.h
+*/
+class Resource : public EngineObject
+{
+	RTTR_ENABLE( EngineObject );
+	RTTR_REGISTRATION_FRIEND
+private:
+
+	uint32			m_references;			///< Number of references to this Resource. (@todo This should be atomic, but atomics won't compile with CLR).
+	std::string		m_name;			
+
+protected:
+
+	virtual				~Resource		() = default;
+
+public:
+	
+	explicit			Resource		( const AssetPath& assetPath )
+		:	m_references( 0 )
+		,	m_name( assetPath.String() )
+	{}
+
+
+	/**@brief Checks if Resource can be deleted - that means how many references objects has.
+	param[out] objectRef Will be set to number of references.*/
+	inline bool			CanDelete		( uint32& objectRef ) const;
+	inline bool			CanDelete		() const;
+
+	inline void			Delete			( ResourceAccessKey< Resource > ) { delete this; }
+
+	/**@brief Reference counting functions.
+	Use ResourcePtr to manage reference count.*/
+	inline void			AddAssetReference		() { ++m_references; }
+	inline void			AddObjectReference		() { ++m_references; }
+	inline void			DeleteAssetReference	() { --m_references; }
+	inline void			DeleteObjectReference	() { --m_references; }
+
+	/**@brief Returns name of resource.
+	Default implementation returns AssetPath converted to string.*/
+	virtual std::string			GetResourceName			() const;
+
+	/**@brief Returns AssetPath object.*/
+	virtual AssetPath			GetAssetPath			() const;
+
+	/**@brief Returns Resource path in filesystem*/
+	virtual filesystem::Path	GetFilePath				() const;
+
+public:
+
+	/**@brief Override in derived classes, if objects is suitable to be cached.*/
+	virtual bool		IsCacheable				() const { return false; }
+
+protected:
+
+	void				SetAssetPath			( const AssetPath& assetPath )		{ m_name = assetPath.String(); }
+};
+
+typedef ResourcePtr< Resource > ResourcePointer;
+
 
 //----------------------------------------------------------------------------------------------//
-//									ResourceObject											//
+//									Resource													//
 //----------------------------------------------------------------------------------------------//
 
 //==============================================================================================//
 
 
-
-/**@brief Funkcja informuje czy obiekt s¹ obiektu, które odwo³uj¹ siê do assetu.
-
-@param[out] file_ref W zmiennej zostanie umieszczona liczba referencji plikowych.
-@param[out] other_ref W zmiennej zostanie umieszczona liczba referencji bezpoœrednich od obiektów.
-@return Zwraca wartoœæ logiczn¹ mówi¹c¹ czy asset nadaje siê do usuniêcia.
-*/
-inline bool ResourceObject::CanDelete( unsigned int& objectRef )
+// ================================ //
+//
+inline bool						Resource::CanDelete			( uint32& objectRef ) const
 {
-	objectRef = m_objectReferences;
+	objectRef = m_references;
 
-	if( m_objectReferences == 0 )
+	if( m_references == 0 )
 		return true;
 	return false;
 }
 
-/**@brief Funkcja informuje czy obiekt s¹ obiektu, które odwo³uj¹ siê do assetu.
-
-@return Zwraca wartoœæ logiczn¹ mówi¹c¹ czy asset nadaje siê do usuniêcia.
-*/
-inline bool ResourceObject::CanDelete()
+// ================================ //
+//
+inline bool						Resource::CanDelete			() const
 {
-	if( m_objectReferences == 0 )
+	if( m_references == 0 )
 		return true;
 	return false;
 }
+
+
+}	// sw
+

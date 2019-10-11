@@ -12,6 +12,7 @@
 
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
+#include "swGraphicAPI/ResourceManager/Loaders/RenderTargetLoadInfo.h"
 
 #include "swInputLibrary/InputCore/Helpers/InputDispatcher.h"
 
@@ -38,7 +39,7 @@ namespace gui
 
 // ================================ //
 //
-HostWindow::HostWindow( INativeWindow* nativeWindow, input::IInput* input, ResourceManager* resourceManager, IGraphicAPIInitializer* graphicApi )
+HostWindow::HostWindow( INativeWindow* nativeWindow, input::IInput* input, ResourceManager* resourceManager, sw::IGraphicAPIInitializer* graphicApi )
 	:	m_input( input )
 	,	m_nativeWindow( nativeWindow )
 	,	m_resourceManager( resourceManager )
@@ -51,12 +52,14 @@ HostWindow::HostWindow( INativeWindow* nativeWindow, input::IInput* input, Resou
 	init.WindowWidth = m_nativeWindow->GetClientWidth();
 
 	m_swapChain = graphicApi->CreateSwapChain( init );
-	assert( m_swapChain.Ptr() );
+	assert( m_swapChain.Ptr() );        ///< @todo Error handling.
 
-	m_renderTarget = m_swapChain->GetRenderTarget();
-	assert( m_renderTarget.Ptr() );
+    m_renderTarget = m_swapChain->GetRenderTarget();
 
-	resourceManager->AddRenderTarget( m_renderTarget.Ptr(), Convert::FromString< std::wstring >( "::" + m_nativeWindow->GetTitle(), L"" ) );
+    RenderTargetFromSwapChain swapchainInit;
+    swapchainInit.Chain = m_swapChain.Ptr();
+
+	resourceManager->LoadGeneric( "::" + m_nativeWindow->GetTitle(), &swapchainInit, TypeID::get< RenderTarget >() ).Get();     ///< @todo Throws on fail. Error handling.
 }
 
 // ================================ //
@@ -105,7 +108,7 @@ const std::string&	HostWindow::GetControlName		( const UIElement* control ) cons
 
 // ================================ //
 //
-ResourcePtr< RenderTargetObject >	HostWindow::GetRenderTarget()
+ResourcePtr< RenderTarget >	HostWindow::GetRenderTarget()
 {
 	return m_renderTarget;
 }

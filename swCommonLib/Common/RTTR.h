@@ -4,7 +4,7 @@
 #undef max
 #undef min
 
-#include "swCommonLib/Common//TypesDefinitions.h"
+#include "swCommonLib/Common/TypesDefinitions.h"
 
 #include "swCommonLib/Reflection/src/rttr/type.h"
 #include "swCommonLib/Reflection/src/rttr/rttr_enable.h"
@@ -185,5 +185,4 @@ class StaticActor : public Object
 
 #define BIND_AS_PTR		( rttr::policy::prop::bind_as_ptr )
 #define BIND_AS_REF		( rttr::policy::prop::as_reference_wrapper )
-
 

@@ -38,11 +38,13 @@ public:
 	// Inherited via Geometry
 	virtual bool				HitTest				( const Point& point )		override;
 	virtual bool				HitTest				( const Rect& rectangle )	override;
+
 	virtual GeometryData		Generate			()							override;
 	virtual BufferRange			BufferData			()							override;
-	virtual std::string			ShaderFunctionFile	()							override;
-	virtual std::wstring		GeometryName		()							override;
-	virtual std::wstring		ConstantsName		()							override;
+
+	virtual filesystem::Path    ShaderFunctionFile	()							override;
+	virtual std::string		    GeometryName		()							override;
+	virtual AssetPath		    ConstantsName		()							override;
 
 };
 

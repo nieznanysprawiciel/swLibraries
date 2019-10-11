@@ -8,6 +8,7 @@
 #include "GradientBrush.h"
 
 #include "swCommonLib/Common/Buffers/BufferTyped.h"
+#include "swCommonLib/Common/fmt.h"
 
 
 #include <algorithm>
@@ -54,18 +55,18 @@ void						GradientBrush::RemoveGradientStop	( Size idx )
 
 // ================================ //
 //
-std::wstring				GradientBrush::ConstantsName		()
+AssetPath   				GradientBrush::ConstantsName		()
 {
 	auto expSize = ExpectedBufferSize();
-	return L"sw::gui::GradientBrush::CB[Size=" + Convert::FromString< std::wstring >( Convert::ToString( expSize ), L"" ) + L"]";
+	return fmt::format( "::sw::gui::GradientBrush::CB[Size={}]", expSize );
 }
 
 // ================================ //
 //
-std::wstring				GradientBrush::TextureSource		()
+AssetPath   				GradientBrush::TextureSource		()
 {
 	// No texture by default.
-	return std::wstring();
+	return AssetPath();
 }
 
 

@@ -1,7 +1,17 @@
 #pragma once
+/**
+@file DX11Utils.inl
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
+
 
 #include "DX11Utils.h"
 
+
+namespace sw
+{
 
 //====================================================================================//
 //			Implementation	
@@ -29,3 +39,4 @@ inline ComPtr< FactoryType >		DX11Utils::GetFactory		()
 	return nullptr;
 }
 
+}	// sw

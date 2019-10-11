@@ -52,8 +52,8 @@ public:
 	virtual			~GradientBrush		() = default;
 
 
-	virtual std::wstring		ConstantsName		();
-	virtual std::wstring		TextureSource		() override;
+	virtual AssetPath   		ConstantsName		();
+	virtual AssetPath   		TextureSource		() override;
 
 public:
 

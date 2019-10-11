@@ -44,12 +44,73 @@ public:
 	inline void			Add						( ExceptionsListPtr list );
 	inline void			Add						( const ErrorsCollector& collector );
 
+    template< typename ErrorType >
+    inline void			Add						( const std::shared_ptr< ErrorType >& exception );
+
+	/**@brief Checks if returned result was success. Adds exception, if it wasnt't.
+	
+	Proposed usage:
+	@code
+	ErrorsCollector collector;
+
+	auto result = SomeFunction();
+	if( collector.Success( result ) )
+	{
+		// Do something with result here, because it's valid.
+		result.Get();
+	}
+	@endcode
+	*/
+	template< typename ReturnType >
+	inline bool			Success					( const Nullable< ReturnType >& result );
+
+    /**@brief Checks if returned result was success. Moves value of Nullable if it was valid.
+    Returns defaultVal, if it was invalid, and collects error.
+    
+    This function is meant to defer error handling or collect warning.
+    
+    Proposed usage:
+    @code
+    ReturnResult        SomeClass::Function()
+    {
+        ErrorsCollector collector;
+
+        member_pointer1 = collector.OnError( SomeFunction1(), nullptr ) );
+        member_pointer2 = collector.OnError( SomeFunction2(), nullptr ) );
+
+        return collector.Get();
+    }
+    @endcode
+
+    Note that this helps us avoid cubersome ifs that check errors like this:
+
+    @code
+    ReturnResult        SomeClass::Function()
+    {
+        ErrorsCollector collector;
+
+        auto result1 = SomeFunction1();
+        if( result1.IsValid() )
+            member_pointer1 = result1.Get();
+
+        auto result2 = SomeFunction1();
+        if( result2.IsValid() )
+            member_pointer2 = result2.Get();
+
+        return collector.Get();
+    }
+    @endcode
+    */
+    template< typename ReturnType >
+    inline ReturnType   OnError					( Nullable< ReturnType >&& result, ReturnType defaultVal );
+
 	inline				operator ReturnResult	();
 	inline ReturnResult Get						();
 
 	inline bool			IsList					() const { return m_multipleRaised; }
 
 	inline ExceptionsListPtr	GetExceptionsList	() const;
+	inline ExceptionPtr			GetException		() const { return m_exception; }
 };
 
 //====================================================================================//
@@ -84,7 +145,7 @@ inline void			ErrorsCollector::Add			( ExceptionPtr newException )
 		}
 		else if( m_multipleRaised )
 		{
-			ExceptionsListPtr list = std::static_pointer_cast<ExceptionsList>( m_exception );
+			ExceptionsListPtr list = std::static_pointer_cast< ExceptionsList >( m_exception );
 			list->AddException( newException );
 		}
 		else
@@ -157,6 +218,37 @@ inline ExceptionsListPtr		ErrorsCollector::GetExceptionsList		() const
 	return nullptr;
 }
 
+// ================================ //
+//
+template< typename ErrorType >
+inline void                     ErrorsCollector::Add                    ( const std::shared_ptr< ErrorType >& exception )
+{
+    Add( std::static_pointer_cast< Exception >( exception ) );
+}
+
+// ================================ //
+//
+template< typename ReturnType >
+inline bool						ErrorsCollector::Success				( const Nullable< ReturnType >& result )
+{
+	if( result.IsValid() )
+		return true;
+
+	Add( result.GetError() );
+	return false;
+}
+
+// ================================ //
+//
+template< typename ReturnType >
+inline ReturnType               ErrorsCollector::OnError                  ( Nullable< ReturnType >&& result, ReturnType defaultVal )
+{
+    if( result.IsValid() )
+        return std::move( result ).Get();
+
+    Add( result.GetError() );
+    return std::move( defaultVal );
+}
 
 }	// sw
 

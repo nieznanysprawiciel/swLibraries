@@ -17,12 +17,20 @@ namespace gui
 /**@brief Mock brush for tests.*/
 class FakeBrush : public Brush
 {
+public:
+    struct Params
+    {
+        float       FakeLevel;
+    };
+
+
 private:
 protected:
 
 	std::string			m_shaderFun;
-	std::wstring		m_textureFile;
-	std::wstring		m_cBuffer;
+	std::string		    m_textureFile;
+    std::string		    m_cBuffer;
+    StackBufferA< Params >      m_constants;
 
 public:
 
@@ -33,9 +41,9 @@ public:
 
 
 	virtual BufferRange				BufferData				() override;
-	virtual std::string				ShaderFunctionFile		() override;
-	virtual std::wstring			TextureSource			() override;
-	virtual std::wstring			ConstantsName			() override;
+	virtual filesystem::Path    	ShaderFunctionFile		() override;
+	virtual AssetPath			    TextureSource			() override;
+	virtual AssetPath			    ConstantsName			() override;
 
 public:
 
@@ -47,8 +55,8 @@ public:
 public:
 
 	void							SetShaderFunction		( const std::string& shaderFun );
-	void							SetTextureFile			( const std::wstring& tex );
-	void							ChangeConstsBuffer		( const std::wstring& newBuffer );
+	void							SetTextureFile			( const std::string& tex );
+	void							ChangeConstsBuffer		( const std::string& newBuffer );
 };
 
 DEFINE_PTR_TYPE( FakeBrush )

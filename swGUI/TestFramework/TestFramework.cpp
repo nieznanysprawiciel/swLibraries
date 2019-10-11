@@ -30,9 +30,9 @@ TestFramework::TestFramework		( int argc, char** argv )
 
 // ================================ //
 //
-bool					TestFramework::Initialize		()
+ReturnResult			TestFramework::Initialize		()
 {
-	bool result = true;
+    ReturnResult result = Result::Success;
 	
 	result = result && DefaultInitWithoutWindow();
 	result = result && OverridePaths();
@@ -75,11 +75,11 @@ bool					TestFramework::TesterMainStep	()
 
 // ================================ //
 //
-bool					TestFramework::OverridePaths	()
+ReturnResult			TestFramework::OverridePaths	()
 {
 	auto coreGUISourcePath = impl::FindCoreGUISourcePath( m_nativeGUI->GetOS()->GetApplicationDir() );
 
-	return m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" ).IsValid();
+	return m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" );
 }
 
 

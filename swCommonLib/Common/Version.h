@@ -6,83 +6,87 @@
 */
 
 #include "swCommonLib/Common/TypesDefinitions.h"
+#include "swCommonLib/Common/Converters.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
 
 #include <string>
 
 
+namespace sw
+{
+
+
 /**@brief Standard version structure.
 
-Based on: http://sourcey.com/comparing-version-strings-in-cpp/
+Version follows semantic versioning guidlines:
+https://semver.org/
+
+* Major changes when you make incompatibile API changes.
+* Minor changes whne functionalities are added with backward compatibility.
+* Patch changes when bug fixes are made without changes to API.
+* Build is optional number that you can add to identify your builds, releases or whatever you want.
+
+The exception from above rules are versions with Major equal to zero. This means
+that library is still in development process, API is unstable and everything can change between version.
+
 */
 struct Version
 {
-	uint32			Major;
-	uint32			Minor;
-	uint32			Revision;
-	uint32			Build;
+    uint32			Major;
+    uint32			Minor;
+    uint32			Patch;
+    uint32			Build;
 
-// ================================ //
-//
-	/**@brief Contructs Lowest version.*/
-	Version()
-	{
-		Major = 1;
-		Minor = 0;
-		Revision = 0;
-		Build = 0;
-	}
+    // ================================ //
+    //
+        /**@brief Contructs Lowest version.*/
+    explicit Version    ()
+    {
+        Major = 0;
+        Minor = 1;
+        Patch = 0;
+        Build = 0;
+    }
 
-	/**@brief */
-	Version				( const std::string& version )
-	{
-		std::sscanf( version.c_str(), "%d.%d.%d.%d", &Major, &Minor, &Revision, &Build );
-		if( Major < 0 ) Major = 0;
-		if( Minor < 0 ) Minor = 0;
-		if( Revision < 0 ) Revision = 0;
-		if( Build < 0 ) Build = 0;
-	}
+    // ================================ //
+    //
+    explicit Version    ( uint32 major, uint32 minor, uint32 patch, uint32 build )
+        : Major( major )
+        , Minor( minor )
+        , Patch( patch )
+        , Build( build )
+    {}
 
-	/**@brief Version comparision.*/
-	bool operator<		( const Version& other )
-	{
-		if( Major < other.Major )
-			return true;
-		else if( Major == other.Major )
-		{
-			if( Minor < other.Minor )
-				return true;
-			else if( Minor == other.Minor )
-			{
-				if( Revision < other.Revision )
-					return true;
-				else if( Build == other.Build && Build < other.Build )
-					return true;
-			}
-		}
+    // ================================ //
+    //
+    explicit Version    ( uint32 major, uint32 minor, uint32 patch )
+        : Major( major )
+        , Minor( minor )
+        , Patch( patch )
+        , Build( 0 )
+    {}
 
-		return false;
-	}
 
-	/**@brief Version comparision.*/
-	bool operator==		( const Version& other )
-	{
-		return Major == other.Major
-			&& Minor == other.Minor
-			&& Revision == other.Revision
-			&& Build == other.Build;
-	}
+    /**@brief Creates Version from string.*/
+    static Nullable< Version >      From                ( const std::string& versionStr );
 
-	/**@brief */
-	friend std::ostream& operator<<		( std::ostream& stream, const Version& ver )
-	{
-		stream << ver.Major;
-		stream << '.';
-		stream << ver.Minor;
-		stream << '.';
-		stream << ver.Revision;
-		stream << '.';
-		stream << ver.Build;
-		return stream;
-	}
+    /**@brief Version comparision.*/
+    bool                            operator<           ( const Version& other );
+
+    /**@brief Version comparision.*/
+    bool                            operator==          ( const Version& other );
+
+    /**@brief Conversts to string.
+    String has the same fromat as Version::From function expects as input.*/
+    std::string                     ToString            () const;
+
+    /**@brief Checks compatibility between two versions.*/
+    bool                            IsBackwardCompatibileWith   ( const Version& olderVersion ) const;
+
+    /**@brief */
+    friend std::ostream& operator<<		( std::ostream& stream, const Version& ver );
 };
+
+
+}	// sw
 

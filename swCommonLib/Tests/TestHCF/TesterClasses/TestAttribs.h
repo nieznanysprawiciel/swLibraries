@@ -10,7 +10,7 @@
 struct VoxtreeHeader
 {
 	char		VoxtreeLetters[ 7 ];		///< Letters "voxtree" can be used to check if file contains proper format.
-	Version		VoxtreeVersion;				///< Version of this file format.
+	sw::Version	VoxtreeVersion;				///< Version of this file format.
 	Size		GridSize;
 	Size		FreeIndirectOffset;			///< Offset to first free indirect pointer.
 

@@ -17,10 +17,21 @@ RTTR_REGISTRATION
 namespace sw
 {
 
-MockInputLayout::MockInputLayout()
+// ================================ //
+//
+MockInputLayout::MockInputLayout	( const AssetPath& fileName )
+	:	ShaderInputLayout( fileName )
 {}
 
+// ================================ //
+//
+sw::Nullable< MockInputLayout* >		MockInputLayout::CreateLayout		( const AssetPath& fileName, const InputLayoutDescriptor& layoutDesc )
+{
+	return new MockInputLayout( fileName );
+}
 
+// ================================ //
+//
 MockInputLayout::~MockInputLayout()
 {}
 
