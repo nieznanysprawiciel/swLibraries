@@ -39,7 +39,7 @@ void				EllipseGeometry::SetWidth			( float width )
 
 // ================================ //
 //
-void				EllipseGeometry::SetHeight		( float height )
+void				EllipseGeometry::SetHeight		    ( float height )
 {
 	m_height = height;
 	InvalidateGeometry();
