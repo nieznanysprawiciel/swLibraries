@@ -35,9 +35,9 @@ Note that verticies layout in Vertex Buffer doesn't matter since indicies refere
 from 0 position. That means that fill verticies can be used by border too.*/
 struct GeometryRenderingData
 {
-	ResourcePtr< BufferObject >			VertexBuffer;		///< Vertex Buffer containing both fill and border verticies.
-	ResourcePtr< BufferObject >			IndexBuffer;		///< Index Buffer containing both fill and border indicies.
-	ResourcePtr< BufferObject >			GeometryConstants;	///< Constant buffer bound to Vertex Shader.
+	ResourcePtr< Buffer >			VertexBuffer;		///< Vertex Buffer containing both fill and border verticies.
+	ResourcePtr< Buffer >			IndexBuffer;		///< Index Buffer containing both fill and border indicies.
+	ResourcePtr< Buffer >			GeometryConstants;	///< Constant buffer bound to Vertex Shader.
 	ResourcePtr< VertexShader >			VertexShader;		///< Vertex Shader.
 	ResourcePtr< ShaderInputLayout >	Layout;				///< Bertex layout.
 	uint32								FillEnd;			///< End of fill indicies in buffer.
@@ -51,8 +51,8 @@ struct GeometryRenderingData
 struct BrushRenderingData
 {
 	ResourcePtr< PixelShader >		PixelShader;		///< Pixel Shader.
-	ResourcePtr< BufferObject >		BrushConstants;		///< Constant buffer bound to Pixel Shader.
-	ResourcePtr< TextureObject >	Texture;			///< Optional texture bound to Pixel Shader.
+	ResourcePtr< Buffer >		BrushConstants;		///< Constant buffer bound to Pixel Shader.
+	ResourcePtr< Texture >	Texture;			///< Optional texture bound to Pixel Shader.
 };
 
 
@@ -83,21 +83,21 @@ protected:
 	/// Derived classes should use these API functions to set rendering state.
 	/// They shouldn't have direct access to rendering structures.
 	///@{
-	bool					DefaultRebuildResources	( ResourceManager* rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry );
+	bool					DefaultRebuildResources	( ResourceManagerAPI rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry );
 
 	bool					UpdateBrushShader		( ShaderProvider* sp, Brush* brush );
-	bool					UpdateBrushTexture		( ResourceManager* rm, Brush* brush );
-	bool					UpdateBrushConstants	( ResourceManager* rm, Brush* brush );
+	bool					UpdateBrushTexture		( ResourceManagerAPI rm, Brush* brush );
+	bool					UpdateBrushConstants	( ResourceManagerAPI rm, Brush* brush );
 
 	bool					UpdatePenShader			( ShaderProvider* sp, Brush* pen );
-	bool					UpdatePenTexture		( ResourceManager* rm, Brush* pen );
-	bool					UpdatePenConstants		( ResourceManager* rm, Brush* pen );
+	bool					UpdatePenTexture		( ResourceManagerAPI rm, Brush* pen );
+	bool					UpdatePenConstants		( ResourceManagerAPI rm, Brush* pen );
 
 	bool					UpdateVertexShader		( ShaderProvider* sp, Geometry* geometry );
-	bool					UpdateGeometry			( ResourceManager* rm, Geometry* geometry );
-	bool					UpdateGeometryConstants	( ResourceManager* rm, Geometry* geometry );
+	bool					UpdateGeometry			( ResourceManagerAPI rm, Geometry* geometry );
+	bool					UpdateGeometryConstants	( ResourceManagerAPI rm, Geometry* geometry );
 
-	bool					CreateAndSetLayout		( ResourceManager* rm, ShaderProvider* sp, Geometry* geometry );
+	bool					CreateAndSetLayout		( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry );
 	///@}
 
 	///@name Rendering functions.
@@ -122,10 +122,10 @@ protected:
 private:
 
 	bool					UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData );
-	bool					UpdateTextureImpl		( ResourceManager* rm, Brush* brush, impl::BrushRenderingData& brushData );
+	bool					UpdateTextureImpl		( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData );
 
 	void					UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::BrushRenderingData& brushData );
-	void					UpdateCBContentImpl		( IRenderer* renderer, BufferObject* buffer, BufferRange bufferData );
+	void					UpdateCBContentImpl		( IRenderer* renderer, Buffer* buffer, BufferRange bufferData );
 
 	void					RenderImpl				( IRenderer* renderer, impl::GeometryRenderingData& geom, impl::BrushRenderingData& brush, uint32 start, uint32 end );
 

@@ -1,4 +1,11 @@
+#include "swGUI/Tests/TestGUISystem/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+/**
+@file TestHostWindowFocus.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 #include "swGUI/TestFramework/TestFramework.h"
 #include "swGUI/Native/MockNativeGUI/MockGUI.h"
@@ -10,13 +17,13 @@ using namespace sw::gui;
 // ================================ //
 // Replicates situation, when operating system changes window focus.
 // This test checks case with single window.
-TEST_CASE( "SingleWindowFocus", "[GUISystem][HostWindow][Focus]" )
+TEST_CASE( "GUI.Windows.HostWindow.SingleWindowFocus", "[GUISystem][HostWindow][Focus]" )
 {
 	// Initialize framework.
 	TestFramework framework( 0, nullptr );	framework.Init();
 	MockGUI* mockNativeGUI = static_cast< MockGUI* >( framework.GetNativeGUI() );
 
-	HostWindow* window = framework.CreateNativeHostWindow( 400, 400, "TestWindow" );
+	HostWindow* window = framework.CreateNativeHostWindow( 400, 400, "TestWindow" ).Get();
 	
 	// IF we created window after default initialization, no one has focus.
 	REQUIRE( framework.GetFocusWindow() == nullptr );
@@ -32,14 +39,14 @@ TEST_CASE( "SingleWindowFocus", "[GUISystem][HostWindow][Focus]" )
 // Replicates situation, when operating system changes window focus.
 // This test checks focus behavior of two windows present in system.
 // Test written for properly sent native events.
-TEST_CASE( "TwoWindowsFocus.ProperNativeEvents", "[GUISystem][HostWindow][Focus]" )
+TEST_CASE( "GUI.Windows.HostWindow.TwoWindowsFocus.ProperNativeEvents", "[GUISystem][HostWindow][Focus]" )
 {
 	// Initialize framework.
 	TestFramework framework( 0, nullptr );	framework.Init();
 	MockGUI* mockNativeGUI = static_cast< MockGUI* >( framework.GetNativeGUI() );
 
-	HostWindow* window1 = framework.CreateNativeHostWindow( 400, 400, "TestWindow1" );
-	HostWindow* window2 = framework.CreateNativeHostWindow( 400, 400, "TestWindow2" );
+	HostWindow* window1 = framework.CreateNativeHostWindow( 400, 400, "TestWindow1" ).Get();
+	HostWindow* window2 = framework.CreateNativeHostWindow( 400, 400, "TestWindow2" ).Get();
 	
 	// IF we created window after default initialization, no one has focus.
 	REQUIRE( framework.GetFocusWindow() == nullptr );
@@ -63,14 +70,14 @@ TEST_CASE( "TwoWindowsFocus.ProperNativeEvents", "[GUISystem][HostWindow][Focus]
 // Replicates situation, when operating system changes window focus.
 // This test checks focus behavior of two windows present in system.
 // Native systems forgets to send lost focus message to window.
-TEST_CASE( "TwoWindowsFocus.NoLostFocusEvent", "[GUISystem][HostWindow][Focus]" )
+TEST_CASE( "GUI.Windows.HostWindow.TwoWindowsFocus.NoLostFocusEvent", "[GUISystem][HostWindow][Focus]" )
 {
 	// Initialize framework.
 	TestFramework framework( 0, nullptr );	framework.Init();
 	MockGUI* mockNativeGUI = static_cast<MockGUI*>( framework.GetNativeGUI() );
 
-	HostWindow* window1 = framework.CreateNativeHostWindow( 400, 400, "TestWindow1" );
-	HostWindow* window2 = framework.CreateNativeHostWindow( 400, 400, "TestWindow2" );
+	HostWindow* window1 = framework.CreateNativeHostWindow( 400, 400, "TestWindow1" ).Get();
+	HostWindow* window2 = framework.CreateNativeHostWindow( 400, 400, "TestWindow2" ).Get();
 
 	// IF we created window after default initialization, no one has focus.
 	REQUIRE( framework.GetFocusWindow() == nullptr );
@@ -87,14 +94,14 @@ TEST_CASE( "TwoWindowsFocus.NoLostFocusEvent", "[GUISystem][HostWindow][Focus]" 
 // ================================ //
 // Replicates situation, when operating system changes window focus.
 // In this case system sends set focus message to window which already has focus.
-TEST_CASE( "TwoWindowsFocus.SetFocusForWindowWithFocus", "[GUISystem][HostWindow][Focus]" )
+TEST_CASE( "GUI.Windows.HostWindow.TwoWindowsFocus.SetFocusForWindowWithFocus", "[GUISystem][HostWindow][Focus]" )
 {
 	// Initialize framework.
 	TestFramework framework( 0, nullptr );	framework.Init();
 	MockGUI* mockNativeGUI = static_cast<MockGUI*>( framework.GetNativeGUI() );
 
-	HostWindow* window1 = framework.CreateNativeHostWindow( 400, 400, "TestWindow1" );
-	HostWindow* window2 = framework.CreateNativeHostWindow( 400, 400, "TestWindow2" );
+	HostWindow* window1 = framework.CreateNativeHostWindow( 400, 400, "TestWindow1" ).Get();
+	HostWindow* window2 = framework.CreateNativeHostWindow( 400, 400, "TestWindow2" ).Get();
 
 	// IF we created window after default initialization, no one has focus.
 	REQUIRE( framework.GetFocusWindow() == nullptr );
@@ -111,14 +118,14 @@ TEST_CASE( "TwoWindowsFocus.SetFocusForWindowWithFocus", "[GUISystem][HostWindow
 // ================================ //
 // Replicates situation, when operating system changes window focus.
 // In this case system sends lost focus message to window which didn't have focus.
-TEST_CASE( "TwoWindowsFocus.LostFocusForWindowWithoutFocus", "[GUISystem][HostWindow][Focus]" )
+TEST_CASE( "GUI.Windows.HostWindow.TwoWindowsFocus.LostFocusForWindowWithoutFocus", "[GUISystem][HostWindow][Focus]" )
 {
 	// Initialize framework.
 	TestFramework framework( 0, nullptr );	framework.Init();
 	MockGUI* mockNativeGUI = static_cast<MockGUI*>( framework.GetNativeGUI() );
 
-	HostWindow* window1 = framework.CreateNativeHostWindow( 400, 400, "TestWindow1" );
-	HostWindow* window2 = framework.CreateNativeHostWindow( 400, 400, "TestWindow2" );
+	HostWindow* window1 = framework.CreateNativeHostWindow( 400, 400, "TestWindow1" ).Get();
+	HostWindow* window2 = framework.CreateNativeHostWindow( 400, 400, "TestWindow2" ).Get();
 
 	// IF we created window after default initialization, no one has focus.
 	REQUIRE( framework.GetFocusWindow() == nullptr );

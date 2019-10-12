@@ -1,4 +1,11 @@
+#include "swGUI/Tests/TestGUISystem/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+/**
+@file TestRegistration.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 #include "swGUI/Core/Controls/UIElement.h"
 #include "swGUI/Core/System/Events/IEventArgs.h"
@@ -69,7 +76,7 @@ void		ValidationDelegate4	( UIElement* sender, ValidationEventArgs* e )
 //====================================================================================//
 
 
-TEST_CASE( "Raising direct events" )
+TEST_CASE( "GUI.Events.RaisingDirectEvents" )
 {
 	CleanCounters();
 
@@ -104,7 +111,7 @@ TEST_CASE( "Raising direct events" )
 }
 
 
-TEST_CASE( "Adding/removing delegates" )
+TEST_CASE( "GUI.Events.Adding/RemovingDelegates" )
 {
 	CleanCounters();
 

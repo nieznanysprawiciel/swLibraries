@@ -30,6 +30,8 @@ struct NativeGUIInitData
 
 
 /**@brief Interface encasulates native GUI system.
+
+@todo Use Nullable in functions that can fail.
 @ingroup NativeGUI*/
 class INativeGUI
 {
@@ -44,9 +46,8 @@ public:
 	@return Returns true if application should close.*/
 	virtual bool					MainLoop		( bool blockingMode ) = 0;
 
-	/**@brief Initializes native GUI.
-	@return Returns false if initialization failed.*/
-	virtual bool					Init			( const NativeGUIInitData& initData ) = 0;
+	/**@brief Initializes native GUI.*/
+	virtual ReturnResult			Init			( const NativeGUIInitData& initData ) = 0;
 
 	/**@brief Initalize native api for window in parameter and return IInput object.
 	GUI can use native input api for specific gui system or provide different

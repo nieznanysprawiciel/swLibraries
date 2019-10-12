@@ -112,7 +112,7 @@ public:
 	virtual			~TestFramework		() = default;
 
 
-	virtual	bool				Initialize			();
+	virtual	ReturnResult    	Initialize			();
 
 
 public:
@@ -121,28 +121,31 @@ public:
 	///@{
 
 	/**@brief Returns event capturer which can emulate events.*/
-	input::EventCapturePtr		GetEventCapturer	( HostWindow* window );
+	input::EventCapturePtr		GetEventCapturer	    ( HostWindow* window );
 
 	/**@brief Returns input object for window.*/
-	input::IInput*				GetInput			( HostWindow* window );
+	input::IInput*				GetInput			    ( HostWindow* window );
 
 	/**@brief Returns native gui manager.*/
-	INativeGUI*					GetNativeGUI		() { return m_nativeGUI; }
+	INativeGUI*					GetNativeGUI		    () { return m_nativeGUI; }
 
 	/**@brief Get window that has currently focus. Can return nullptr.*/
-	HostWindow*					GetFocusWindow		() { return m_focusedWindow; }
+	HostWindow*					GetFocusWindow		    () { return m_focusedWindow; }
 
 	/**@brief Returns ResourceManager.*/
-	ResourceManager*			GetResourceManager	() { return m_resourceManager; }
+	ResourceManager*			GetResourceManager	    () { return m_resourceManager; }
+
+    /**@brief Returns ResourceManager.*/
+    ResourceManagerAPI          GetResourceManagerAPI	() { return ResourceManagerAPI( m_resourceManager ); }
 
 	/**@brief Gets PathsManager instance used by GUISystem.*/
-	PathsManager*				GetPathsManager		() { return m_pathsManager.get(); }
+	PathsManager*				GetPathsManager		    () { return m_pathsManager; }
 
 	/**@brief Calls main loop but returns after making full step.*/
-	bool						TesterMainStep		();
+	bool						TesterMainStep		    ();
 
 	/**@brief Returns internal RenderingSystem object.*/
-	RenderingSystem*			GetRenderingSystem	() { return m_renderingSystem.get(); }
+	RenderingSystem*			GetRenderingSystem	    () { return m_renderingSystem.get(); }
 
 	using GUISystem::CreateNativeHostWindow;
 	///@}
@@ -150,11 +153,11 @@ public:
 private:
 
 	// Inherited via GUISystem
-	virtual bool	OnInitialized			() override { return true; };
-	virtual void	OnClosing				() override {};
-	virtual void	OnIdle					( const FrameTime& frameTime ) override {};
+	virtual ReturnResult	OnInitialized			() override { return Result::Success; };
+	virtual void	        OnClosing				() override {};
+	virtual void	        OnIdle					( const FrameTime& frameTime ) override {};
 
-	bool			OverridePaths			();
+    ReturnResult	        OverridePaths			();
 };
 
 

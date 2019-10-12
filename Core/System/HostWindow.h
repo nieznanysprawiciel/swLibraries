@@ -14,8 +14,13 @@
 #include <vector>
 #include <map>
 
-class IGraphicAPIInitializer;
 
+
+
+namespace sw
+{
+	class IGraphicAPIInitializer;
+}	// sw
 
 
 namespace sw {
@@ -39,7 +44,7 @@ private:
 	input::IInput*				m_input;
 	ResourceManager*			m_resourceManager;
 
-	ResourcePtr< RenderTargetObject >	m_renderTarget;
+	ResourcePtr< RenderTarget >	m_renderTarget;
 	ResourcePtr< SwapChain >			m_swapChain;
 
 	HostLogic					m_hostLogic;
@@ -47,7 +52,7 @@ private:
 protected:
 public:
 
-	explicit		HostWindow	( INativeWindow* nativeWindow, input::IInput* input, ResourceManager* resourceManager, IGraphicAPIInitializer* graphicApi );
+	explicit		HostWindow	( INativeWindow* nativeWindow, input::IInput* input, ResourceManager* resourceManager, sw::IGraphicAPIInitializer* graphicApi );
 	virtual			~HostWindow	();
 
 
@@ -57,7 +62,7 @@ public:
 	const std::string&	GetControlName		( const UIElement* control ) const;
 
 
-	ResourcePtr< RenderTargetObject >	GetRenderTarget		();
+	ResourcePtr< RenderTarget >	GetRenderTarget		();
 	ResourcePtr< SwapChain >			GetSwapChain		();
 
 	INativeWindow*						GetNativeWindow		();

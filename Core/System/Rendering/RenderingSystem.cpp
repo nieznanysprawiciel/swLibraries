@@ -25,7 +25,7 @@ namespace gui
 RenderingSystem::RenderingSystem			( ResourceManager* resourceManager, PathsManager* pathsManager, IRendererOPtr&& renderer )
 	:	m_resourceManager( resourceManager )
 	,	m_renderer( std::move( renderer ) )
-	,	m_shaderProvider( resourceManager, pathsManager )
+	,	m_shaderProvider( ResourceManagerAPI( resourceManager ), pathsManager )
 {}
 
 // ================================ //
@@ -43,27 +43,28 @@ void				RenderingSystem::RenderTree			( HostWindow* host )
 
 // ================================ //
 //
-bool				RenderingSystem::InitializeRenderingSystem	()
+ReturnResult        RenderingSystem::InitializeRenderingSystem	()
 {
-	InitializeGraphicState( m_resourceManager );
-	return true;
+	return InitializeGraphicState( m_resourceManager );
 }
 
 // ================================ //
 //
-void				RenderingSystem::InitializeGraphicState		( ResourceManager* rm )
+ReturnResult        RenderingSystem::InitializeGraphicState		( ResourceManagerAPI rm )
 {
+    ErrorsCollector collector;
+
 	RasterizerStateInfo rasterizerDesc;
 	rasterizerDesc.CullMode = CullMode::None;
 	rasterizerDesc.IsClockwise = true;
 
-	m_rasterizerState = rm->CreateRasterizerState( L"sw::gui::DefaultRasterizerState", rasterizerDesc );
+    m_rasterizerState = collector.OnError( rm.CreateRasterizerState( "::sw::gui::DefaultRasterizerState", rasterizerDesc ), RasterizerStatePtr() );
 
 	DepthStencilInfo depthDesc;
 	depthDesc.EnableDepthTest = false;		// Painter algorithm. We never check depth value and always write new pixel.
 	depthDesc.EnableStencilTest = false;
 
-	m_depthState = rm->CreateDepthStencilState( L"sw::gui::DefaultDepthState", depthDesc );
+    m_depthState = collector.OnError( rm.CreateDepthStencilState( "::sw::gui::DefaultDepthState", depthDesc ), DepthStencilStatePtr() );
 
 	BlendingInfo blendDesc;
 	blendDesc.EnableBlending = true;
@@ -74,14 +75,16 @@ void				RenderingSystem::InitializeGraphicState		( ResourceManager* rm )
 	blendDesc.DstAlphaBlend = BlendFactor::One;
 	blendDesc.SrcAlphaBlend = BlendFactor::One;
 
-	m_transparentBlendState = rm->CreateBlendingState( L"sw::gui::TransparentBlendState", blendDesc );
+    m_transparentBlendState = collector.OnError( rm.CreateBlendingState( "::sw::gui::TransparentBlendState", blendDesc ), BlendingStatePtr() );
 
 	blendDesc.EnableBlending = false;
 
-	m_opaqueBlendState = rm->CreateBlendingState( L"sw::gui::OpaqueBlendState", blendDesc );
+	m_opaqueBlendState = collector.OnError( rm.CreateBlendingState( "::sw::gui::OpaqueBlendState", blendDesc ), BlendingStatePtr() );
 
-	m_renderingSystemBuffer = rm->CreateConstantsBuffer( L"sw::gui::RenderingSystemConstants", nullptr, sizeof( StackBufferA< RenderingSystemParams > ) );
-	m_visualBuffer = rm->CreateConstantsBuffer( L"sw::gui::VisualConstants", nullptr, sizeof( StackBufferA< RenderingParams > ) );
+	m_renderingSystemBuffer = collector.OnError( rm.CreateConstantsBuffer( "::sw::gui::RenderingSystemConstants", StackBufferA< RenderingSystemParams >() ), BufferPtr() );
+	m_visualBuffer = collector.OnError( rm.CreateConstantsBuffer( "::sw::gui::VisualConstants", StackBufferA< RenderingParams >() ), BufferPtr() );
+
+    return collector.Get();
 }
 
 

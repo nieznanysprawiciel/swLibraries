@@ -21,7 +21,7 @@ TEST_CASE( "GUI.Rendering.DX11.Drawing.Layout.VertexShape2D", "[GUISystem][Rende
 	TestFramework* framework = GetGlobalTestFramework();
 	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
 
-	REQUIRE( drawing->CreateAndSetLayout( framework->GetResourceManager(), framework->GetRenderingSystem()->GetShaderProvider(), nullptr ) == true );
+	REQUIRE( drawing->CreateAndSetLayout( framework->GetResourceManagerAPI(), framework->GetRenderingSystem()->GetShaderProvider(), nullptr ) == true );
 
 	auto& renderingData = CLASS_TESTER( Drawing )::GetGeometryRenderingData( drawing.get() );
 	CHECK( renderingData.Layout != nullptr );

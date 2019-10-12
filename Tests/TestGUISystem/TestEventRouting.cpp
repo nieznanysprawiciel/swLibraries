@@ -1,4 +1,11 @@
+#include "swGUI/Tests/TestGUISystem/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+/**
+@file TestEventRouting.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 #include "swGUI/Core/Controls/UIElement.h"
 #include "swGUI/Core/System/Events/IEventArgs.h"
@@ -89,7 +96,7 @@ void		CheckUIElement5	( UIElement* sender, ValidationEventArgs* e )
 //====================================================================================//
 
 
-TEST_CASE( "Tunnel Events Routing" )
+TEST_CASE( "GUI.Events.TunnelEventsRouting" )
 {
 	CleanGlobals();
 
@@ -254,7 +261,7 @@ TEST_CASE( "Tunnel Events Routing" )
 
 
 
-TEST_CASE( "Tunnel Bubble Routing" )
+TEST_CASE( "GUI.Events.TunnelBubbleRouting" )
 {
 	CleanGlobals();
 

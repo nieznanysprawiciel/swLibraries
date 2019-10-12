@@ -23,14 +23,14 @@ namespace gui
 
 // ================================ //
 //
-void					RenderingHelper::ClearRenderTargetAndDepth		( RenderTargetObject* target, const DirectX::XMFLOAT4& color, float depth )
+void					RenderingHelper::ClearRenderTargetAndDepth		( RenderTarget* target, const DirectX::XMFLOAT4& color, float depth )
 {
 	ClearRenderTargetAndDepth( m_renderer, target, color, depth );
 }
 
 // ================================ //
 //
-void					RenderingHelper::SetRenderTarget				( RenderTargetObject* target,
+void					RenderingHelper::SetRenderTarget				( RenderTarget* target,
 																		  RasterizerState* rasterizerState,
 																		  BlendingState* blendingState,
 																		  DepthStencilState* depthStencilState )
@@ -40,7 +40,7 @@ void					RenderingHelper::SetRenderTarget				( RenderTargetObject* target,
 
 // ================================ //
 //
-void					RenderingHelper::BindBuffer						( BufferObject* buffer, uint8 slot, uint8 shaderFlag )
+void					RenderingHelper::BindBuffer						( Buffer* buffer, uint8 slot, uint8 shaderFlag )
 {
 	if( buffer )
 		BindBuffer( m_renderer, buffer, slot, shaderFlag );
@@ -55,7 +55,7 @@ void					RenderingHelper::DrawBufferLess					( uint32 numVerticies, PrimitiveTop
 
 // ================================ //
 //
-void					RenderingHelper::ClearRenderTargetAndDepth		( IRenderer* renderer, RenderTargetObject* target, const DirectX::XMFLOAT4& color, float depth )
+void					RenderingHelper::ClearRenderTargetAndDepth		( IRenderer* renderer, RenderTarget* target, const DirectX::XMFLOAT4& color, float depth )
 {
 	ClearRenderTargetCommand clearCommand;
 	clearCommand.ClearDepth = true;
@@ -71,7 +71,7 @@ void					RenderingHelper::ClearRenderTargetAndDepth		( IRenderer* renderer, Rend
 // ================================ //
 //
 void					RenderingHelper::SetRenderTarget				( IRenderer* renderer,
-																		  RenderTargetObject* target,
+																		  RenderTarget* target,
 																		  RasterizerState* rasterizerState,
 																		  BlendingState* blendingState,
 																		  DepthStencilState* depthStencilState )
@@ -93,7 +93,7 @@ void					RenderingHelper::SetRenderTarget				( IRenderer* renderer,
 
 // ================================ //
 //
-void					RenderingHelper::BindBuffer						( IRenderer* renderer, BufferObject* buffer, uint8 slot, uint8 shaderFlag )
+void					RenderingHelper::BindBuffer						( IRenderer* renderer, Buffer* buffer, uint8 slot, uint8 shaderFlag )
 {
 	BindBufferCommand command;
 	command.BindToShader = shaderFlag;
@@ -122,7 +122,7 @@ void					RenderingHelper::DrawBufferLess					( IRenderer* renderer, uint32 numVe
 
 // ================================ //
 //
-void					RenderingHelper::SetTexture						( SetShaderStateCommand& command, TextureObject* texture, uint8 bindingPoint, uint8 bindShader )
+void					RenderingHelper::SetTexture						( SetShaderStateCommand& command, Texture* texture, uint8 bindingPoint, uint8 bindShader )
 {
 	assert( bindingPoint < 8 );
 	command.Textures[ bindingPoint ] = texture;

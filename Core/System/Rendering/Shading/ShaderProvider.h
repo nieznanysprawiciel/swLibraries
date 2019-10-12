@@ -9,8 +9,8 @@
 #include "swCommonLib/System/Path.h"
 
 #include "swGraphicAPI/Resources/MeshResources.h"
+#include "swGraphicAPI/ResourceManager/PathTranslators/PathsManager.h"
 
-#include "swGUI/Core/System/Config/PathsManager.h"
 #include "ShaderBuilder.h"
 
 
@@ -24,7 +24,7 @@ class ShaderProvider
 {
 private:
 
-	mutable ResourceManager*	m_resourceManager;
+	mutable ResourceManagerAPI	m_resourceManager;
 	const PathsManager*			m_pathsManager;
 
 	ShaderBuilder				m_shaderBuilder;
@@ -32,7 +32,7 @@ private:
 protected:
 public:
 
-	explicit		ShaderProvider		( ResourceManager* resManager, const PathsManager* pathsManager );
+	explicit		ShaderProvider		( ResourceManagerAPI resManager, const PathsManager* pathsManager );
 					~ShaderProvider		() = default;
 
 public:
@@ -42,12 +42,15 @@ public:
 
 public:
 
-	ResourcePtr< PixelShader >		GeneratePS				( const filesystem::Path& templatePath, const filesystem::Path& brushFunPath ) const;
-	ResourcePtr< VertexShader >		GenerateVS				( const filesystem::Path& templatePath, const filesystem::Path& geomFunPath ) const;
+    PixelShaderPtr             		GeneratePS				( const filesystem::Path& templatePath, const filesystem::Path& brushFunPath ) const;
+    VertexShaderPtr		            GenerateVS				( const filesystem::Path& templatePath, const filesystem::Path& geomFunPath ) const;
 
 	const PathsManager*				GetPathsManager			() const { return m_pathsManager; }
 
 private:
+
+    template< typename ShaderType >
+    ResourcePtr< ShaderType >       GenerateShader          ( const filesystem::Path& templatePath, const filesystem::Path& customFunPath ) const;
 
 	std::string						BuildShaderSource		( const filesystem::Path& templatePath, const filesystem::Path& brushFunPath ) const;
 };
