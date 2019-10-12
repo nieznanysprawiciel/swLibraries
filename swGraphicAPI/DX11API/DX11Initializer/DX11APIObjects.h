@@ -150,7 +150,7 @@ protected:
 protected:
 
 	void			SetDebugName		( ID3D11DeviceChild* child, const std::string& name );
-	bool			IsDebugLayerEnabled	();
+	static bool		IsDebugLayerEnabled	();
 };
 
 

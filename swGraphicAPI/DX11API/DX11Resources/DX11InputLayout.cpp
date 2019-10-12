@@ -8,6 +8,10 @@
 #include "DX11InputLayout.h"
 #include "DX11Compiler.h"
 
+#include "swGraphicAPI/DX11API/DX11Initializer/DX11Utils.h"
+
+#include <string.h>
+
 
 
 RTTR_REGISTRATION
@@ -23,9 +27,10 @@ namespace sw
 
 // ================================ //
 //
-DX11InputLayout::DX11InputLayout		( const AssetPath& fileName, ID3D11InputLayout* layout )
+DX11InputLayout::DX11InputLayout		( const AssetPath& fileName, ID3D11InputLayout* layout, InputLayoutDescriptor desc )
 	:	ShaderInputLayout( fileName )
 	,	m_vertexLayout( layout )
+    ,   m_descriptor( std::move( desc ) )
 {}
 
 // ================================ //
@@ -74,8 +79,9 @@ private:
 	std::string					GenerateMain			() const;
 	std::string					GenerateInputStruct		( const LayoutVec& layout ) const;
 	std::string					GenerateAttribute		( const D3D11_INPUT_ELEMENT_DESC& attribute ) const;
+    std::string					GenerateSemanticName	( const D3D11_INPUT_ELEMENT_DESC& attribute ) const;
 	std::string					InputStructName			() const { return "InputVS"; }
-	std::string					MapSemanticToType		( DXGI_FORMAT format ) const;
+	std::string					MapSemanticToType		( const char* semantic ) const;
 };
 
 
@@ -118,26 +124,27 @@ D3D11_INPUT_ELEMENT_DESC		DX11LayoutTranslator::Translate		( const sw::LayoutEnt
 
 // ================================ //
 //
+static std::tuple< sw::AttributeSemantic, const char*, const char* > SemanticsMap[] =
+{
+    std::make_tuple( sw::AttributeSemantic::Position, "POSITION", "float4" ),
+    std::make_tuple( sw::AttributeSemantic::Normal, "NORMAL", "float3" ),
+    std::make_tuple( sw::AttributeSemantic::Tangent, "TANGENT", "float3" ),
+    std::make_tuple( sw::AttributeSemantic::Binormal, "BINORMAL", "float3" ),
+    std::make_tuple( sw::AttributeSemantic::BlendIndicies, "BLENDINDICES", "uint" ),
+    std::make_tuple( sw::AttributeSemantic::BlendWeights, "BLENDWEIGHT", "float" ),
+    std::make_tuple( sw::AttributeSemantic::Color, "COLOR", "float4" ),
+    std::make_tuple( sw::AttributeSemantic::Texcoord, "TEXCOORD", "float2" ),
+    std::make_tuple( sw::AttributeSemantic::PositionTransformed, "POSITIONT", "float4" ),
+    std::make_tuple( sw::AttributeSemantic::PointSize, "PSIZE", "float" )
+};
+
+// ================================ //
+//
 const char*						DX11LayoutTranslator::Translate		( sw::AttributeSemantic semantic ) const
 {
-
-	static std::pair< sw::AttributeSemantic, const char* > SemanticsMap[] =
-	{
-		std::make_pair( sw::AttributeSemantic::Position, "POSITION" ),
-		std::make_pair( sw::AttributeSemantic::Normal, "NORMAL" ),
-		std::make_pair( sw::AttributeSemantic::Tangent, "TANGENT" ),
-		std::make_pair( sw::AttributeSemantic::Binormal, "BINORMAL" ),
-		std::make_pair( sw::AttributeSemantic::BlendIndicies, "BLENDINDICES" ),
-		std::make_pair( sw::AttributeSemantic::BlendWeights, "BLENDWEIGHT" ),
-		std::make_pair( sw::AttributeSemantic::Color, "COLOR" ),
-		std::make_pair( sw::AttributeSemantic::Texcoord, "TEXCOORD" ),
-		std::make_pair( sw::AttributeSemantic::PositionTransformed, "POSITIONT" ),
-		std::make_pair( sw::AttributeSemantic::PointSize, "PSIZE" )
-	};
-
-	for( auto& pair : SemanticsMap )
-		if( pair.first == semantic )
-			return pair.second;
+	for( auto& tuple : SemanticsMap )
+		if( std::get< 0 >( tuple ) == semantic )
+			return std::get< 1 >( tuple );
 
 	return "";
 }
@@ -176,8 +183,8 @@ Size							DX11LayoutTranslator::CountSemantic	( const char* semanticName ) cons
 std::string						DX11LayoutTranslator::GenerateMain	() const
 {
 	std::string main;
-	main = "struct OutputVS {};\n";
-	main += "OutputVS main()\n";
+	main = "struct OutputVS {};\n\n";
+	main += "OutputVS main( " + InputStructName() + " input )\n";
 	main += "{\n";
 	main += "return (OutputVS)0;\n";
 	main += "}\n";
@@ -198,7 +205,7 @@ std::string						DX11LayoutTranslator::GenerateInputStruct	( const LayoutVec& la
 		layoutStruct += "\n";
 	}
 
-	layoutStruct += "\n};\n";
+	layoutStruct += "\n};\n\n";
 
 	return layoutStruct;
 }
@@ -207,11 +214,10 @@ std::string						DX11LayoutTranslator::GenerateInputStruct	( const LayoutVec& la
 //
 std::string						DX11LayoutTranslator::GenerateAttribute		( const D3D11_INPUT_ELEMENT_DESC& attribute ) const
 {
-	std::string fullSemanticStr = attribute.SemanticName + Convert::ToString( attribute.SemanticIndex );
+    std::string fullSemanticStr = GenerateSemanticName( attribute );
+	std::string attributeEntry = "\t";
 
-	std::string attributeEntry;
-
-	attributeEntry = MapSemanticToType( attribute.Format );
+	attributeEntry = MapSemanticToType( attribute.SemanticName );
 	attributeEntry += " m" + fullSemanticStr + " : " + fullSemanticStr + ";";
 
 	return attributeEntry;
@@ -219,23 +225,19 @@ std::string						DX11LayoutTranslator::GenerateAttribute		( const D3D11_INPUT_EL
 
 // ================================ //
 //
-std::string						DX11LayoutTranslator::MapSemanticToType		( DXGI_FORMAT format ) const
+std::string                     DX11LayoutTranslator::GenerateSemanticName  ( const D3D11_INPUT_ELEMENT_DESC& attribute ) const
 {
-	switch( format )
-	{
-		case DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UINT:
-			return "uint4";
-		case DXGI_FORMAT::DXGI_FORMAT_R8G8_UINT:
-			return "uint2";
-		case DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT:
-			return "float4";
-		case DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT:
-			return "float3";
-		case DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT:
-			return "float2";
-		case DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT:
-			return "float";
-	}
+    return attribute.SemanticName + Convert::ToString( attribute.SemanticIndex );
+}
+
+// ================================ //
+//
+std::string						DX11LayoutTranslator::MapSemanticToType		( const char* semantic ) const
+{
+    for( auto& tuple : SemanticsMap )
+        if( strcmp( std::get< 1 >( tuple ), semantic ) == 0 )
+            return std::get< 2 >( tuple );
+
 	return "float4";
 }
 
@@ -249,17 +251,18 @@ sw::Nullable< DX11InputLayout* >			DX11InputLayout::CreateLayout		( const AssetP
 	std::string shaderCode = layoutTranslator.GenerateShader();
 	sw::CompilationConfig config( ShaderType::VertexShader );
 
-#ifdef _DEBUG
-	config.Debug = true;
-#endif
+    if( IsDebugLayerEnabled() )
+    {
+        config.Debug = true;
+    }
 
 	auto compiledBlob = sw::DX11Compiler::CompileShader( shaderCode, "main", config );
 
 	if( !compiledBlob.IsValid() )
 	{
-#ifdef _DEBUG
-		OutputDebugStringA( compiledBlob.GetErrorReason().c_str() );
-#endif
+        if( IsDebugLayerEnabled() )
+    		OutputDebugStringA( compiledBlob.GetErrorReason().c_str() );
+
 		return compiledBlob.GetError();
 	}
 
@@ -267,13 +270,19 @@ sw::Nullable< DX11InputLayout* >			DX11InputLayout::CreateLayout		( const AssetP
 	auto DX11layout = layoutTranslator.GetDX11LayoutDesc();
 
 	ID3D11InputLayout* DX11layoutInterface = nullptr;
-
 	HRESULT result = device->CreateInputLayout( DX11layout.data(), (UINT)DX11layout.size(), compiledShader->GetBufferPointer(), compiledShader->GetBufferSize(), &DX11layoutInterface );
 
 	if( FAILED( result ) )
-		return "[DX11InputLayout] Can't create layout.";
+		return fmt::format( "[DX11InputLayout] Can't create layout. {}", DX11Utils::ErrorString( result ) );
 
-	return new DX11InputLayout( fileName, DX11layoutInterface );
+	return new DX11InputLayout( fileName, DX11layoutInterface, layoutDesc );
+}
+
+// ================================ //
+//
+const InputLayoutDescriptor&                DX11InputLayout::GetDescriptor      () const
+{
+    return m_descriptor;
 }
 
 
