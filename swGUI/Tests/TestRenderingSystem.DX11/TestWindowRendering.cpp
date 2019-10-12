@@ -11,9 +11,7 @@
 #include "swGUI/Native/MockNativeGUI/MockGUI.h"
 
 #include "swGUI/Core/Controls/Shapes/Rectangle.h"
-#include "swGUI/Core/Controls/Shapes/Ellipse.h"
 #include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
-#include "swGUI/Core/Media/Brushes/LinearGradientBrush.h"
 
 
 using namespace sw;
