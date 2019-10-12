@@ -19,15 +19,21 @@ namespace sw
 
 // ================================ //
 //
-MockInputLayout::MockInputLayout	( const AssetPath& fileName )
+MockInputLayout::MockInputLayout	( const AssetPath& fileName, InputLayoutDescriptor layoutDesc )
 	:	ShaderInputLayout( fileName )
+    ,   m_desc( std::move( layoutDesc ) )
 {}
 
 // ================================ //
 //
 sw::Nullable< MockInputLayout* >		MockInputLayout::CreateLayout		( const AssetPath& fileName, const InputLayoutDescriptor& layoutDesc )
 {
-	return new MockInputLayout( fileName );
+	return new MockInputLayout( fileName, layoutDesc );
+}
+
+const InputLayoutDescriptor&            MockInputLayout::GetDescriptor      () const
+{
+    return m_desc;
 }
 
 // ================================ //

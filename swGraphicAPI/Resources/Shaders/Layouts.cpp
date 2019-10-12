@@ -35,8 +35,9 @@ RTTR_REGISTRATION
 		.property( "IsPerInstance", &sw::LayoutEntry::PerInstance )
 		.property( "InstanceDataStep", &sw::LayoutEntry::InstanceDataStep );
 
-	rttr::registration::class_< sw::InputLayoutDescriptor >( "sw::InputLayoutDescriptor" )
-		.property( "Entries", &sw::InputLayoutDescriptor::m_entries );
+    rttr::registration::class_< sw::InputLayoutDescriptor >( "sw::InputLayoutDescriptor" )
+        .property( "Entries", &sw::InputLayoutDescriptor::m_entries );
+        
 
 }
 

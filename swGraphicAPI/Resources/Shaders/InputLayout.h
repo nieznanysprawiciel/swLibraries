@@ -7,7 +7,7 @@
 
 
 #include "swGraphicAPI/Resources/Shaders/IShaderInputLayout.h"
-
+#include "swGraphicAPI/Resources/Shaders/LayoutInitData.h"
 
 
 
@@ -30,6 +30,10 @@ protected:
 
 public:
 	explicit		ShaderInputLayout		( const AssetPath& assetPath ) : IShaderInputLayout( assetPath ) {}
+
+public:
+
+    virtual const InputLayoutDescriptor&        GetDescriptor       () const = 0;
 };
 
 DEFINE_RESOURCE_PTR_TYPE( ShaderInputLayout );
