@@ -20,29 +20,31 @@ struct OutputVS
 //
 cbuffer RenderingSystemConsts : register( b0 )
 {
-	float2		_RenderingSystemConsts_ViewportSize;
+	float2		_swViewportSize;
 }
 
 // ================================ //
 //
 cbuffer VisualConsts : register( b1 )
 {
-	float2		_VisualConstants_Offset;
+	float2		_swVisualOffset;
 }
+
+#UserCode
 
 // ================================ //
 //
-float4			TransformVertex		( float2 pos )
+float4			swTransformVertex		( float2 pos )
 {
 	// GUI uses coordinates system with y-axis directed to bottom.
 	// We have to inverse offset for directX.
-	float2 offset = _VisualConstants_Offset;
+	float2 offset = _swVisualOffset;
 	offset.y = -offset.y;
 
 	float2 offsetedPos = pos + offset;
 
 	// Rescale object from screen size to [-1.0, 1.0] range.
-	float2 halfViewportSize = _RenderingSystemConsts_ViewportSize / 2.0f;
+	float2 halfViewportSize = _swViewportSize / 2.0f;
 
 	float4 vertex = { 0.0, 0.0, 0.5, 1.0 };
 	vertex.xy = offsetedPos / halfViewportSize;
@@ -65,7 +67,7 @@ OutputVS		main	( InputVS input )
 	output.Pos = GeometryFunctionPos( input.Pos, input.Tex );
 	output.Tex = GeometryFunctionTex( input.Pos, input.Tex );
 
-	output.Pos = TransformVertex( output.Pos.xy );
+	output.Pos = swTransformVertex( output.Pos.xy );
 
 	return output;
 }

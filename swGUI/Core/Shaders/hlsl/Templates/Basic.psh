@@ -19,14 +19,13 @@ float2		TransformToDirectX			( float2 tex )
 	return directxTex;
 }
 
+#UserCode
 
 // ================================ //
 //
 float4		main	( OutputVS input ) : SV_Target
 {
-	float2 directxTex = TransformToDirectX( input.Tex );
-
-	float4 color = BrushFunction( input.Pos, directxTex );
+	float4 color = BrushFunction( input.Pos, input.Tex );
 
 	return color;
 }
