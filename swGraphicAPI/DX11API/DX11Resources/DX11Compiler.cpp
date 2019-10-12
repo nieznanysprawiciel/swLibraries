@@ -63,15 +63,6 @@ HRESULT									CreateShader< ID3D11ComputeShader >	( ID3D11Device* device, ID3D
 // ================================ //
 //
 template< typename ShaderType, typename DXShaderType >
-static Nullable< ShaderType* >			CreateShader			( ID3D11Device* device, const std::wstring& fileName, const std::string& shaderName, const CompilationConfig& config )
-{
-	std::string code = filesystem::File::Load( fileName );
-	return CreateShader< ShaderType, DXShaderType >( device, code, shaderName, config );
-}
-
-// ================================ //
-//
-template< typename ShaderType, typename DXShaderType >
 static Nullable< ShaderType* >			CreateShader			( ID3D11Device* device, const std::string& code, const std::string& entrypoint, const CompilationConfig& config )
 {
 	auto compilationResult = DX11Compiler::CompileShader( code, entrypoint, config );
@@ -113,35 +104,6 @@ Nullable< DX11PixelShader* >			DX11Compiler::CreatePixelShader				( const std::s
 Nullable< DX11ComputeShader* >			DX11Compiler::CreateComputeShader			( const std::string& code, const std::string& entrypoint, const CompilationConfig& config )
 {
 	return CreateShader< DX11ComputeShader, ID3D11ComputeShader >( device, code, entrypoint, config );
-}
-
-// ================================ //
-//
-Nullable< DX11VertexShader* >			DX11Compiler::CreateVertexShader		( const std::wstring& fileName, const std::string& shaderName, const CompilationConfig& config )
-{
-	return CreateShader< DX11VertexShader, ID3D11VertexShader >( device, fileName, shaderName, config );
-}
-
-// ================================ //
-//
-Nullable< DX11PixelShader* >			DX11Compiler::CreatePixelShader			( const std::wstring& fileName, const std::string& shaderName, const CompilationConfig& config )
-{
-	return CreateShader< DX11PixelShader, ID3D11PixelShader >( device, fileName, shaderName, config );
-}
-
-// ================================ //
-//
-Nullable< DX11ComputeShader* >			DX11Compiler::CreateComputeShader		( const std::wstring& fileName, const std::string& shaderName, const CompilationConfig & config )
-{
-	return CreateShader< DX11ComputeShader, ID3D11ComputeShader >( device, fileName, shaderName, config );
-}
-
-// ================================ //
-//
-Nullable< ComPtr< ID3D10Blob > >		DX11Compiler::CompileShader				( const std::wstring& fileName, const std::string& shaderName, const CompilationConfig& config )
-{
-	std::string code = filesystem::File::Load( fileName );
-	return CompileShader( code, shaderName, config );
 }
 
 // ================================ //
