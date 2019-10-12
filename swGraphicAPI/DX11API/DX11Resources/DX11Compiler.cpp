@@ -5,6 +5,8 @@
 */
 #include "swGraphicAPI/DX11API/stdafx.h"
 #include "DX11Compiler.h"
+#include "swGraphicAPI/DX11API/DX11Initializer/DX11Utils.h"
+
 
 #include <d3dcompiler.h>
 
@@ -12,6 +14,7 @@
 #include "swCommonLib/System/File.h"
 
 #include "swGraphicAPI/Resources/Shaders/Exceptions/CompilationException.h"
+
 
 
 namespace sw
@@ -81,7 +84,7 @@ static Nullable< ShaderType* >			CreateShader			( ID3D11Device* device, const st
 		HRESULT result = CreateShader< DXShaderType >( device, compiledShader.Get(), &shader );
 
 		if( FAILED( result ) )
-			return "Creating shader failed.";
+            return fmt::format( "[DX11Compiler] Creating shader failed. {}", DX11Utils::ErrorString( result ) );
 
 		return new ShaderType( AssetPath( "", "" ), shader );
 	}
