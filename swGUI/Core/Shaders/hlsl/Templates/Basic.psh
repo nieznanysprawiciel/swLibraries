@@ -8,10 +8,16 @@ struct OutputVS
 	noperspective	float2 Tex : TEXCOORD;
 };
 
+// ================================ //
+//
+cbuffer RenderingSystemConsts : register( b0 )
+{
+    float2		_swViewportSize;
+}
 
 // ================================ //
 //
-float2		TransformToDirectX			( float2 tex )
+float2		swTransformToDirectX			( float2 tex )
 {
 	float2 directxTex = tex;
 	directxTex.y = 1.0 - directxTex.y;

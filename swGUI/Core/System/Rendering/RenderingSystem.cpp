@@ -99,6 +99,7 @@ void				RenderingSystem::SetRenderTarget			( IRenderer* renderer, HostWindow* ho
 
 	helper.UpdateBuffer( m_renderingSystemBuffer.Ptr(), paramsBuffer );
 	helper.BindBuffer( m_renderingSystemBuffer.Ptr(), 0, (uint8)ShaderType::VertexShader );
+    helper.BindBuffer( m_renderingSystemBuffer.Ptr(), 0, (uint8)ShaderType::PixelShader );
 
 	helper.ClearRenderTargetAndDepth( host->GetRenderTarget().Ptr(), DirectX::XMFLOAT4( 0.0f, 0.0f, 0.0f, 0.0f ), 1.0f );
 	helper.SetRenderTarget( host->GetRenderTarget().Ptr(), m_rasterizerState.Ptr(), m_transparentBlendState.Ptr(), m_depthState.Ptr() );

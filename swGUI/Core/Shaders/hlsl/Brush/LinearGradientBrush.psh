@@ -12,7 +12,7 @@ struct GradientStop
 
 // ================================ //
 //
-cbuffer LinearGradientBrushConsts : register( b0 )
+cbuffer LinearGradientBrushConsts : register( b2 )
 {
 	float2				StartPoint;
 	float2				StopPoint;
@@ -59,7 +59,12 @@ float4		BrushFunction		( float4 pos, float2 tex )
 	float2 gradientVec = StopPoint - StartPoint;
 	float2 pixelVec = tex - StartPoint;
 
-	float factor = dot( gradientVec, pixelVec ) / dot( gradientVec, gradientVec );
+    // Dot product of equal vectors gives us square of length of vector.
+    float gradientVecLen = sqrt( dot( gradientVec, gradientVec ) );
+    float2 gradientVecNorm = gradientVec / gradientVecLen;
+
+    // Dot product is length of projection pixelVec on gradientVecNorm.
+	float factor = dot( pixelVec, gradientVecNorm ) / gradientVecLen;
 
 	// Handle situation, when we are before first GradientStop.
 	if( factor < GradientStops[ 0 ].Offset )
