@@ -1,4 +1,25 @@
 <swLibraries-Releases>
+    <Release Version="0.14.0" Tag="Version-0.14.0" Description="Patch to 0.13.0 - breaks compatibility." >
+        <swCommonLib Version="0.52.0" Tag="Version-0.52.0" />
+        <swGraphicAPI Version="0.54.0" Tag="Version-0.54.0" >
+            <ChangeLog>
+                <Change>Fix shader generation in Layout creation.</Change>
+                <Change>LayoutDescriptor need explicit BytesOffset.</Change>
+                <Change>Remove DX11Compiler old functions to create shaders from file.</Change>
+                <Change>Return human readable errors in PipelineStates and shaders.</Change>
+                <Change>Fix AssetPath initialization order fiasco.</Change>
+            </ChangeLog>   
+        </swGraphicAPI>
+        <swInputLibrary Version="0.91.0" Tag="Version-0.91.0" />
+        <swGUI Version="0.13.0" Tag="Version-0.13.0" >
+            <ChangeLog>
+                <Change>Pass offset to layout creation.</Change>
+                <Change>GUISystem - added RemoveWindow.</Change>
+                <Change>TestFramework - added Clean function to restore state after test.</Change>
+            </ChangeLog>
+        </swGUI>
+        <swGeometrics Version="0.03.0" Tag="Version-0.03.0" />
+    </Release>
     <Release Version="0.13.0" Tag="Version-0.13.0" >
         <swCommonLib Version="0.52.0" Tag="Version-0.52.0" >
             <ChangeLog>
