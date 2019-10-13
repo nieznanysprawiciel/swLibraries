@@ -129,12 +129,20 @@ void		AddControls2					( HostWindow* host )
     auto angleBrush = std::make_shared< AngleGradientBrush >();
     angleBrush->SetGradientCenter( Point( 0.5f, 0.5f ) );
     angleBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
-    //angleBrush->AddGradientStop( GradientStop( 0xFF00FF00, 0.4f ) );
-    //angleBrush->AddGradientStop( GradientStop( 0xFF0000FF, 0.7f ) );
     angleBrush->AddGradientStop( GradientStop( 0xFFFFFF00, 1.0f ) );
     auto stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
 
     AddRectangle( host, angleBrush, stroke, 200, 200, 2, Position( 30, 30 ) );
+
+    auto fill = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 0.0 ) );
+    angleBrush = std::make_shared< AngleGradientBrush >();
+    angleBrush->SetGradientCenter( Point( 0.5f, 0.5f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFFFFFF00, 0.3f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFF00FFFF, 0.7f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFF0000FF, 1.0f ) );
+
+    AddEllipse( host, fill, angleBrush, 150, 150, 15, Position( 220, 300 ) );
 }
 
 
