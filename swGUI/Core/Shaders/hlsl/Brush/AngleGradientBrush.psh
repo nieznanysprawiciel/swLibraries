@@ -78,14 +78,14 @@ float4		BrushFunction		( float4 pos, float2 tex )
     float2 pixelVec = normalize( tex - Center );
 
     float cosAngle = dot( referenceVec, pixelVec );
-    float sinAngle = cross( float3( referenceVec, 0.0 ), float3( pixelVec, 0.0 ) );
+    float direction = cross( float3( referenceVec, 0.0 ), float3( pixelVec, 0.0 ) ).z;
 
     // We don't know yet, on which side of reference vector we are.
     float factorPreproduct = degrees( acos( cosAngle ) );
     
     // Sinus tells us on which side of reference vector we are.
     float factor = 0;
-    if( sinAngle <= 0 )
+    if( direction <= 0 )
         factor = factorPreproduct / 360;
     else
         factor = ( 360 - factorPreproduct ) / 360;
