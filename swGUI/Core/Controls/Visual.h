@@ -34,6 +34,7 @@ class Visual : public DependencyObject
 private:
 
 	Position		m_offset;		///< Control position relative to parent.
+    Size2D          m_size;         ///< Size of control (bounding box).
 
 protected:
 
@@ -61,10 +62,13 @@ public:
 
 
 	Position						GetVisualOffset		() const { return m_offset; }
+    Size2D                          GetSize             () const { return m_size; }
 
 public:
 	// Temporary
 	void							SetOffset			( Position pos ) { m_offset = pos; }
+    virtual void				    SetWidth			( float width );
+    virtual void				    SetHeight			( float height );
 };
 
 

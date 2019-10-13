@@ -17,13 +17,14 @@ namespace gui
 // ================================ //
 //
 Ellipse::Ellipse()
-	:	m_width( 100 )
-	,	m_height( 100 )
-	,	m_strokeThickness( 1 )
+	:	m_strokeThickness( 1 )
 {
+    Shape::SetWidth( 100 );
+    Shape::SetHeight( 100 );
+
 	auto rectGeom = std::make_shared< EllipseGeometry >();
-	rectGeom->SetWidth( m_width );
-	rectGeom->SetHeight( m_height );
+	rectGeom->SetWidth( GetSize().x );
+	rectGeom->SetHeight( GetSize().y );
 	rectGeom->SetThickness( m_strokeThickness );
 
 	SetGeometry( rectGeom );
@@ -33,20 +34,20 @@ Ellipse::Ellipse()
 //
 void			Ellipse::SetWidth		( float width )
 {
-	m_width = width;
+    Shape::SetWidth( width );
 	
 	auto geom = std::static_pointer_cast< EllipseGeometry >( GetGeometry() );
-	geom->SetWidth( m_width );
+	geom->SetWidth( GetSize().x );
 }
 
 // ================================ //
 //
 void			Ellipse::SetHeight	( float height )
 {
-	m_height = height;
+    Shape::SetHeight( height );
 	
 	auto geom = std::static_pointer_cast< EllipseGeometry >( GetGeometry() );
-	geom->SetHeight( m_height );
+	geom->SetHeight( GetSize().y );
 }
 
 // ================================ //

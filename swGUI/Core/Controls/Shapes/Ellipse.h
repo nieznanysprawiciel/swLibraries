@@ -23,8 +23,6 @@ class Ellipse : public Shape
 	RTTR_REGISTRATION_FRIEND;
 private:
 
-	float				m_width;				///< Remove in future. This should be implemented in ArrangeCore.
-	float				m_height;				///< Remove in future. This should be implemented in ArrangeCore.
 	float				m_strokeThickness;
 
 protected:
@@ -34,8 +32,8 @@ public:
 	virtual			~Ellipse		() = default;
 
 
-	void				SetWidth			( float width );
-	void				SetHeight			( float height );
+    virtual void        SetWidth			( float width ) override;
+    virtual void        SetHeight			( float height ) override;
 	void				SetThickness		( float thickness );
 
 };
