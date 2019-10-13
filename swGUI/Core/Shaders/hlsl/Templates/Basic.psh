@@ -17,6 +17,14 @@ cbuffer RenderingSystemConsts : register( b0 )
 
 // ================================ //
 //
+cbuffer VisualConsts : register( b1 )
+{
+    float2		_swVisualOffset;
+    float2      _swVisualSize;
+}
+
+// ================================ //
+//
 float2		swTransformToDirectX			( float2 tex )
 {
 	float2 directxTex = tex;
@@ -31,7 +39,5 @@ float2		swTransformToDirectX			( float2 tex )
 //
 float4		main	( OutputVS input ) : SV_Target
 {
-	float4 color = BrushFunction( input.Pos, input.Tex );
-
-	return color;
+	return BrushFunction( input.Pos, input.Tex );
 }

@@ -116,6 +116,7 @@ void				RenderingSystem::SetSystemConstants			( IRenderer* renderer, const Rende
 
 	helper.UpdateBuffer( m_visualBuffer.Ptr(), paramsBuffer );
 	helper.BindBuffer( m_visualBuffer.Ptr(), 1, (uint8)ShaderType::VertexShader );
+    helper.BindBuffer( m_visualBuffer.Ptr(), 1, (uint8)ShaderType::PixelShader );
 }
 
 // ================================ //
@@ -141,6 +142,7 @@ void				RenderingSystem::RenderTree					( IRenderer* renderer, Visual* visual, c
 	RenderingParams params;
 	params.ParentOffset.x = parentParams.ParentOffset.x + visual->GetVisualOffset().x;
 	params.ParentOffset.y = parentParams.ParentOffset.y + visual->GetVisualOffset().y;
+    params.VisualSize = visual->GetSize();
 
 	DrawVisual( renderer, visual, params );
 

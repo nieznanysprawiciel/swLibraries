@@ -28,6 +28,7 @@ cbuffer RenderingSystemConsts : register( b0 )
 cbuffer VisualConsts : register( b1 )
 {
 	float2		_swVisualOffset;
+    float2      _swVisualSize;
 }
 
 #UserCode
