@@ -112,7 +112,7 @@ void				RenderingSystem::SetSystemConstants			( IRenderer* renderer, const Rende
 	RenderingHelper helper( renderer );
 
 	StackBufferA< RenderingParams > paramsBuffer;
-	paramsBuffer.ParentOffset = params.ParentOffset;
+	static_cast< RenderingParams& >( paramsBuffer ) = params;
 
 	helper.UpdateBuffer( m_visualBuffer.Ptr(), paramsBuffer );
 	helper.BindBuffer( m_visualBuffer.Ptr(), 1, (uint8)ShaderType::VertexShader );

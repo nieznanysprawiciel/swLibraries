@@ -59,6 +59,13 @@ float4		BrushFunction		( float4 pos, float2 tex )
 	float2 gradientVec = StopPoint - StartPoint;
 	float2 pixelVec = tex - StartPoint;
 
+    // UV coordinates are in range [0,1] in both dimensions, what causes, that gradient
+    // looks like it was scaled square. We must transform coordinates using
+    // knowledge of Visual bounding box.
+    float aspect = _swVisualSize.y / _swVisualSize.x;
+    gradientVec.y = gradientVec.y * aspect;
+    pixelVec.y = pixelVec.y * aspect;
+
     // Dot product of equal vectors gives us square of length of vector.
     float gradientVecLen = sqrt( dot( gradientVec, gradientVec ) );
     float2 gradientVecNorm = gradientVec / gradientVecLen;
