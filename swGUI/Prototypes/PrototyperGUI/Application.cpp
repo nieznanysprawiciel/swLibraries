@@ -65,8 +65,6 @@ void		AddEllipse						( HostWindow* host, BrushPtr brush, BrushPtr stroke, float
 //
 void		AddControls						( HostWindow* host )
 {
-	RectangleOPtr rectangleControl = RectangleOPtr( new Rectangle() );
-	
 	auto brush = std::make_shared< SolidColorBrush >( Color( 1.0, 0.0, 0.0, 1.0 ) );
 	auto stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 1.0, 0.0, 1.0 ) );
 
@@ -171,8 +169,8 @@ sw::ReturnResult		Application::OnInitialized()
         window.Get()->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
         m_windows[ 0 ]->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
 
-	    //AddRectangle( window );
         AddControls( m_windows[ 0 ] );
+        AddControls( m_windows[ 1 ] );
 
         return sw::Result::Success;
     }
