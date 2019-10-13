@@ -5,9 +5,9 @@
   
   <PropertyGroup Label="UserMacros">
     <PrototyperGUIName>PrototyperGUI</PrototyperGUIName>
-    <PrototyperGUILibDir>$(LibDir)$(PrototyperGUIName)\</PrototyperGUILibDir>
+    <PrototyperGUILibDir>$(LibDir)$(PrototyperGUIName)\$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</PrototyperGUILibDir>
     <PrototyperGUISourceDir>$(SourceDir)$(PrototyperGUIName)\</PrototyperGUISourceDir>
-    <PrototyperGUIFileName>$(PrototyperGUIName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)</PrototyperGUIFileName>
+    <PrototyperGUIFileName>$(PrototyperGUIName)</PrototyperGUIFileName>
     <PrototyperGUIBuildDir>$(BuildDir)$(PrototyperGUIName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</PrototyperGUIBuildDir>
   </PropertyGroup>
   
