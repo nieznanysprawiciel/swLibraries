@@ -41,16 +41,12 @@ namespace sw
 #endif
 
 
-#ifdef _DEBUG
 #define ValidatePipeline( ctx )                     \
     if( IsDebugLayerEnabled() )                     \
     {                                               \
         if( FAILED( debug_interface->ValidateContext( ctx ) ) )  \
             throw std::runtime_error( "Invalid pipeline state before draw call" );   \
     }
-#else
-    #define ValidatePipeline( ctx )
-#endif
 
 
 /**@brief Klasa bêdzie renderowaæ w trybie immediate albo deferred.
