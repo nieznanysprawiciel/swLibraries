@@ -140,6 +140,7 @@
     <ClInclude Include="..\..\..\Core\Controls\UIElement.h" />
     <ClInclude Include="..\..\..\Core\Controls\Visual.h" />
     <ClInclude Include="..\..\..\Core\Cultures\CultureInfo.h" />
+    <ClInclude Include="..\..\..\Core\Media\Brushes\AngleGradientBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\Brush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\GradientBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\ImageBrush.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Shape.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Visual.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Brushes\AngleGradientBrush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\Brush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\GradientBrush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\LinearGradientBrush.cpp" />
@@ -271,6 +273,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\AngleGradientBrush.psh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\LinearGradientBrush.psh">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

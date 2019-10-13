@@ -10,6 +10,7 @@
 #include "GradientBrush.h"
 
 #include "swCommonLib/Common/Buffers/StackBuffer.h"
+#include "swCommonLib/System/Path.h"
 #include "swGUI/Core/System/CommonTypes/CommonTypes.h"
 
 

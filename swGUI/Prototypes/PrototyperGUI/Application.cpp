@@ -2,8 +2,10 @@
 
 #include "swGUI/Core/Controls/Shapes/Rectangle.h"
 #include "swGUI/Core/Controls/Shapes/Ellipse.h"
+
 #include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
 #include "swGUI/Core/Media/Brushes/LinearGradientBrush.h"
+#include "swGUI/Core/Media/Brushes/AngleGradientBrush.h"
 
 #include "PrototyperUtils.h"
 
@@ -120,6 +122,21 @@ void		AddControls						( HostWindow* host )
 }
 
 
+// ================================ //
+//
+void		AddControls2					( HostWindow* host )
+{
+    auto angleBrush = std::make_shared< AngleGradientBrush >();
+    angleBrush->SetGradientCenter( Point( 0.5f, 0.5f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+    //angleBrush->AddGradientStop( GradientStop( 0xFF00FF00, 0.4f ) );
+    //angleBrush->AddGradientStop( GradientStop( 0xFF0000FF, 0.7f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFFFFFF00, 1.0f ) );
+    auto stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
+
+    AddRectangle( host, angleBrush, stroke, 200, 200, 2, Position( 30, 30 ) );
+}
+
 
 
 // ================================ //
@@ -170,7 +187,7 @@ sw::ReturnResult		Application::OnInitialized()
         m_windows[ 0 ]->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
 
         AddControls( m_windows[ 0 ] );
-        AddControls( m_windows[ 1 ] );
+        AddControls2( m_windows[ 1 ] );
 
         return sw::Result::Success;
     }

@@ -77,7 +77,7 @@ float4		BrushFunction		( float4 pos, float2 tex )
 	if( factor < GradientStops[ 0 ].Offset )
 		return LoadIntColor( GradientStops[ 0 ].Color );
 
-	// Find pair of GradientStops. Our pixel shoudl be between them.
+	// Find pair of GradientStops. Our pixel should be between them.
 	uint i = 1;
 	for( ; i < NumStops; ++i )
 	{

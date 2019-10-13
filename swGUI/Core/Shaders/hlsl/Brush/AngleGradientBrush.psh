@@ -1,0 +1,96 @@
+#define MAX_GRADIENTS_STOPS 127
+
+
+// ================================ //
+//
+struct GradientStop
+{
+    uint		Color;
+    float		Offset;
+};
+
+// ================================ //
+//
+cbuffer AngleGradientBrushConsts : register( b2 )
+{
+    float2				Center;
+    uint				NumStops;
+    GradientStop		GradientStops[ MAX_GRADIENTS_STOPS ];
+}
+
+// ================================ //
+//
+float4		LoadIntColor		( uint color )
+{
+    // Color format 0xAARRGGBB
+
+    float4 result;
+    result.w = ( color & 0xFF000000 ) >> 24;
+    result.x = ( color & 0x00FF0000 ) >> 16;
+    result.y = ( color & 0x0000FF00 ) >> 8;
+    result.z = color & 0x000000FF;
+
+    return result / 255.0;
+}
+
+// ================================ //
+//
+float4		ComputeColor		( float factor, GradientStop first, GradientStop second )
+{
+    float firstOffset = first.Offset;
+    float secondOffset = second.Offset;
+
+    factor = ( factor - firstOffset ) / ( secondOffset - firstOffset );
+
+    float4 firstColor = LoadIntColor( first.Color );
+    float4 secondColor = LoadIntColor( second.Color );
+
+    return lerp( firstColor, secondColor, factor );
+}
+
+// ================================ //
+//
+float4      ComputeGradient     ( float factor )
+{
+    // Handle situation, when we are before first GradientStop.
+    if( factor < GradientStops[ 0 ].Offset )
+        return LoadIntColor( GradientStops[ 0 ].Color );
+
+    // Find pair of GradientStops. Our pixel should be between them.
+    uint i = 1;
+    for( ; i < NumStops; ++i )
+    {
+        if( factor < GradientStops[ i ].Offset )
+        {
+            return ComputeColor( factor, GradientStops[ i - 1 ], GradientStops[ i ] );
+        }
+    }
+
+    // Handle situation, when we are after last GradientStop.
+    return LoadIntColor( GradientStops[ NumStops - 1 ].Color );
+}
+
+// ================================ //
+//
+float4		BrushFunction		( float4 pos, float2 tex )
+{
+    float2 referenceVec = float2( 0.0, 1.0 );
+    float2 pixelVec = normalize( tex - Center );
+
+    float cosAngle = dot( referenceVec, pixelVec );
+    float sinAngle = cross( float3( referenceVec, 0.0 ), float3( pixelVec, 0.0 ) );
+
+    // We don't know yet, on which side of reference vector we are.
+    float factorPreproduct = degrees( acos( cosAngle ) );
+    
+    // Sinus tells us on which side of reference vector we are.
+    float factor = 0;
+    if( sinAngle <= 0 )
+        factor = factorPreproduct / 360;
+    else
+        factor = ( 360 - factorPreproduct ) / 360;
+
+    return ComputeGradient( factor );
+}
+
+

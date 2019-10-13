@@ -9,6 +9,7 @@
 // Include Brushes
 #include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
 #include "swGUI/Core/Media/Brushes/LinearGradientBrush.h"
+#include "swGUI/Core/Media/Brushes/AngleGradientBrush.h"
 
 
 
@@ -52,3 +53,19 @@ TEST_CASE( "GUI.Rendering.DX11.Brush.ShaderCompilation.LinearGradientBrush", "[G
 	CHECK( renderingData.PixelShader != nullptr );
 }
 
+// ================================ //
+//
+TEST_CASE( "GUI.Rendering.DX11.Brush.ShaderCompilation.AngleGradientBrush", "[GUISystem][RenderingSystem][Drawing]" )
+{
+    TestFramework* framework = GetGlobalTestFramework();
+
+    FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
+    AngleGradientBrushPtr brush = std::make_shared< AngleGradientBrush >();
+
+    drawing->UpdateBrushShader( framework->GetRenderingSystem()->GetShaderProvider(), brush.get() );
+
+    auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
+
+    INFO( "[AngleGradientBrush] Brush Shader compilation failed." );
+    CHECK( renderingData.PixelShader != nullptr );
+}

@@ -10,6 +10,8 @@
 
 #include "swCommonLib/Common/Buffers/BufferRaw.h"
 
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
+
 #include <vector>
 
 
@@ -72,8 +74,8 @@ private:
 
 	Size						ExpectedBufferSize	() const;
 	Size						ExpectedBufferSize	( Size constantsSize ) const;
-	Size						GradientStopsSize	() const;
-	Size						NumStopsSize		() const;
+	Size						GradientStopsSize	( Size constsSize ) const;
+	Size						NumStopsSize		( Size constsSize ) const;
 
 	void						ReallocateBuffer	( Size newSize );
 	void						FillBufferContent	( BufferRange constants );
