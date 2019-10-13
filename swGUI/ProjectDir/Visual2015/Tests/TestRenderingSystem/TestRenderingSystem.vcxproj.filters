@@ -22,7 +22,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem\TestShape.cpp">
       <Filter>TestRenderingSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem\TestBrush.cpp">
+    <ClCompile Include="..\..\..\..\Tests\TestRenderingSystem\TestGradientBrush.cpp">
       <Filter>TestRenderingSystem</Filter>
     </ClCompile>
   </ItemGroup>
