@@ -51,6 +51,28 @@ float4		ComputeColor		( float factor, GradientStop first, GradientStop second )
 	return lerp( firstColor, secondColor, factor );
 }
 
+// ================================ //
+//
+float4      ComputeGradient     ( float factor )
+{
+    // Handle situation, when we are before first GradientStop.
+    if( factor < GradientStops[ 0 ].Offset )
+        return LoadIntColor( GradientStops[ 0 ].Color );
+
+    // Find pair of GradientStops. Our pixel should be between them.
+    uint i = 1;
+    for( ; i < NumStops; ++i )
+    {
+        if( factor < GradientStops[ i ].Offset )
+        {
+            return ComputeColor( factor, GradientStops[ i - 1 ], GradientStops[ i ] );
+        }
+    }
+
+    // Handle situation, when we are after last GradientStop.
+    return LoadIntColor( GradientStops[ NumStops - 1 ].Color );
+}
+
 
 // ================================ //
 //
@@ -77,17 +99,6 @@ float4		BrushFunction		( float4 pos, float2 tex )
 	if( factor < GradientStops[ 0 ].Offset )
 		return LoadIntColor( GradientStops[ 0 ].Color );
 
-	// Find pair of GradientStops. Our pixel should be between them.
-	uint i = 1;
-	for( ; i < NumStops; ++i )
-	{
-		if( factor < GradientStops[ i ].Offset )
-		{
-			return ComputeColor( factor, GradientStops[ i - 1 ], GradientStops[ i ] );
-		}
-	}
-
-	// Handle situation, when we are after last GradientStop.
-	return LoadIntColor( GradientStops[ NumStops - 1 ].Color );
+    return ComputeGradient( factor );
 }
 
