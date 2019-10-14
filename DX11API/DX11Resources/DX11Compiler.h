@@ -72,14 +72,8 @@ public:
 	static Nullable< DX11PixelShader* >			CreatePixelShader		( const std::string& code, const std::string& entrypoint, const CompilationConfig& config );
 	static Nullable< DX11ComputeShader* >		CreateComputeShader		( const std::string& code, const std::string& entrypoint, const CompilationConfig& config );
 
-
-	static Nullable< DX11VertexShader* >		CreateVertexShader		( const std::wstring& fileName, const std::string& shaderName, const CompilationConfig& config );
-	static Nullable< DX11PixelShader* >			CreatePixelShader		( const std::wstring& fileName, const std::string& shaderName, const CompilationConfig& config );
-	static Nullable< DX11ComputeShader* >		CreateComputeShader		( const std::wstring& fileName, const std::string& shaderName, const CompilationConfig& config );
-
 public:
 
-	static Nullable< ComPtr< ID3D10Blob > >		CompileShader			( const std::wstring& fileName, const std::string& shaderName, const CompilationConfig& config );
 	static Nullable< ComPtr< ID3D10Blob > >		CompileShader			( const std::string& code, const std::string& entrypoint, const CompilationConfig& config );
 };
 

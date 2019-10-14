@@ -17,9 +17,9 @@ using namespace sw;
 
 RTTR_REGISTRATION
 {
+	rttr::registration::class_< ShaderInputLayout >( "sw::ShaderInputLayout" )
+        .property_readonly( "Descriptor", &sw::ShaderInputLayout::GetDescriptor );
 
-	// Shader
-	rttr::registration::class_< ShaderInputLayout >( "sw::ShaderInputLayout" );
     rttr::registration::class_< IShader >( "sw::IShader" );
 
 	rttr::registration::class_< PixelShader >( "sw::PixelShader" );

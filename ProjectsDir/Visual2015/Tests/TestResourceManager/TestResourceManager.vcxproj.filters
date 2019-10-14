@@ -62,6 +62,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestResourceManager\stdafx.cpp">
       <Filter>PrecompiledHeader</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResourceManager\TestResources\TestInputLayoutDescriptor.cpp">
+      <Filter>Tests\TestResources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
@@ -84,6 +87,9 @@
     </Filter>
     <Filter Include="PrecompiledHeader">
       <UniqueIdentifier>{8e63f9f2-ea10-4edb-ada4-fe702d4fd5da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\TestResources">
+      <UniqueIdentifier>{3cabc4c4-7a25-48f1-af5d-65c7478598bc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
