@@ -419,6 +419,21 @@ Nullable< HostWindow* >     GUISystem::CreateNativeHostWindow	( NativeWindowDesc
 	return hostWindow;
 }
 
+// ================================ //
+//
+void                        GUISystem::RemoveWindow             ( HostWindow* host )
+{
+    if( m_focusedWindow == host )
+    {
+        OnFocusChanged( host->GetNativeWindow(), false );
+        m_focusedWindow = nullptr;
+    }
+
+    m_windows.erase( std::remove( m_windows.begin(), m_windows.end(), host ), m_windows.end() );
+    
+    delete host;
+}
+
 //====================================================================================//
 //				Other functions
 //====================================================================================//

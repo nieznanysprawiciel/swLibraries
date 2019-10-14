@@ -349,11 +349,14 @@ public:
 	/**@brief Calls CreateNativeHostWindow with default values.
 	@see GUISystem::CreateNativeHostWindow*/
 	Nullable< HostWindow* >		CreateNativeHostWindow		( uint16 width, uint16 height, const std::string& windowTitle );
+
 	/**@brief Creates host window based on native window.
 	Window will be added to windows list.
 	@note windowDesc can change. For instance: if you set AdjustSize to true, function will return real window size.*/
     Nullable< HostWindow* >		CreateNativeHostWindow		( NativeWindowDescriptor& windowDesc );
 
+    /**@brief Removes window.*/
+    void                        RemoveWindow                ( HostWindow* host );
 
 private:
 

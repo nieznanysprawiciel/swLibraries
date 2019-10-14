@@ -147,6 +147,9 @@ public:
 	/**@brief Returns internal RenderingSystem object.*/
 	RenderingSystem*			GetRenderingSystem	    () { return m_renderingSystem.get(); }
 
+    /**@brief Cleans all things after test.*/
+    void                        Clean                   ();
+
 	using GUISystem::CreateNativeHostWindow;
 	///@}
 
