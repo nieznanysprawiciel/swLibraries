@@ -1,4 +1,4 @@
-
+## Hierarchical Chunked Format cmake file
 
 file(GLOB_RECURSE SOURCE_LIST CONFIGURE_DEPENDS "${swCommonLib_SOURCE_DIR}/HierarchicalChunkedFormat/*")
 file(GLOB PCH_LIST CONFIGURE_DEPENDS "${swCommonLib_SOURCE_DIR}/HierarchicalChunkedFormat/stdafx.*")
