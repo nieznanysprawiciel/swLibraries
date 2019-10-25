@@ -38,6 +38,8 @@ struct Rect
 	float			Top;
 	float			Bottom;
 
+    // ================================ //
+    //
 	float		GetWidth	() { return Right - Left; }
 	float		GetHeight	() { return Top - Bottom; }
 

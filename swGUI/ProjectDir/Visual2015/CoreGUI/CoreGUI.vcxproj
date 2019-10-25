@@ -216,6 +216,7 @@
     <ClCompile Include="..\..\..\Core\Media\Brushes\AngleGradientBrush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\Brush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\GradientBrush.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Brushes\ImageBrush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\LinearGradientBrush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\SolidColorBrush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\EllipseGeometry.cpp" />
@@ -274,6 +275,16 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\AngleGradientBrush.psh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\ImageBrush.psh">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

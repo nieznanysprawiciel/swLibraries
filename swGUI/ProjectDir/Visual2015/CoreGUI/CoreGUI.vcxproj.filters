@@ -476,6 +476,9 @@
     <ClCompile Include="..\..\..\Core\Media\Brushes\AngleGradientBrush.cpp">
       <Filter>Core\Media\Brushes</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Brushes\ImageBrush.cpp">
+      <Filter>Core\Media\Brushes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Core\System\Events\EventsSystem.inl">
@@ -505,6 +508,9 @@
       <Filter>Core\Shaders\hlsl\Brush</Filter>
     </FxCompile>
     <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\AngleGradientBrush.psh">
+      <Filter>Core\Shaders\hlsl\Brush</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\ImageBrush.psh">
       <Filter>Core\Shaders\hlsl\Brush</Filter>
     </FxCompile>
   </ItemGroup>
