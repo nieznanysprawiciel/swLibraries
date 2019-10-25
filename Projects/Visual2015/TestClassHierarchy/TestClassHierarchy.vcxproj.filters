@@ -25,6 +25,9 @@
     <Filter Include="SerializationPrimitives\Polymorphic">
       <UniqueIdentifier>{c574e7d7-e4ef-4b44-94cf-3f240b74c1e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CatchUtils">
+      <UniqueIdentifier>{c529cbd6-ab66-490a-8c6a-31e93f4c132a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Animal.h">
@@ -104,6 +107,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\ArrayPolymorphicContainer.h">
       <Filter>SerializationPrimitives\Arrays</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\CatchUtils\ExtendedMacros.h">
+      <Filter>CatchUtils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

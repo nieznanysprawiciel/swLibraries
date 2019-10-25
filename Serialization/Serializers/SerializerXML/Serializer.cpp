@@ -1,4 +1,13 @@
+/**
+@file Serialzier.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
 #include "swCommonLib/Serialization/Serializer.h"
+
+
+#include "swCommonLib/System/Dir.h"
+
 
 #include "swCommonLib/External/RapidXML/rapidxml.hpp"
 #include "swCommonLib/External/RapidXML/rapidxml_print.hpp"
@@ -85,6 +94,9 @@ zagnie¿d¿enia node'ów.
 @return Zwraca true, je¿eli zapisywanie powiedzie siê.*/
 bool ISerializer::SaveFile( const std::string& fileName, WritingMode mode )
 {
+    // Ensure directory exists.
+    filesystem::Dir::CreateDirectory( fileName );
+
 	std::ofstream file;
 	file.open( fileName, std::ios::out | std::ios::trunc );
 	if( !file.fail() )

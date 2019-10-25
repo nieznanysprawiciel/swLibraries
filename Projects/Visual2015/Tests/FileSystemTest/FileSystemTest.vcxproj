@@ -27,6 +27,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\FileSystemTest\main.cpp" />
     <ClCompile Include="..\..\..\..\Tests\FileSystemTest\PathTest.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\FileSystemTest\TestNormalizePath.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C9F57866-06E8-4D03-963A-879AAC77EE8E}</ProjectGuid>

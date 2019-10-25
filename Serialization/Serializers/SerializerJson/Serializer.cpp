@@ -1,4 +1,11 @@
+/**
+@file Serializer.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
 #include "swCommonLib/Serialization/Serializer.h"
+
+#include "swCommonLib/System/Dir.h"
 
 
 #define RAPIDJSON_HAS_STDSTRING 1
@@ -127,6 +134,9 @@ Je¿eli funkcja zwróci³a false, to serializator nadal jest na tym samym poziomie.
 @return Zwraca true, je¿eli zapisywanie powiedzie siê.*/
 bool			ISerializer::SaveFile				( const std::string& fileName, WritingMode mode )
 {
+    // Ensure directory exists.
+    filesystem::Dir::CreateDirectory( fileName );
+
 	std::ofstream file;
 	file.open( fileName );
 	if( !file.fail() )
