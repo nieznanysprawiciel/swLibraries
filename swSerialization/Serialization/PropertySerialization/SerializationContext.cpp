@@ -5,7 +5,7 @@
 */
 
 
-#include "swCommonLib/Serialization/PropertySerialization/stdafx.h"
+#include "swSerialization/Serialization/PropertySerialization/stdafx.h"
 #include "SerializationContext.h"
 
 

@@ -9,8 +9,8 @@
 #include "swCommonLib/System/Dir.h"
 
 
-#include "swCommonLib/External/RapidXML/rapidxml.hpp"
-#include "swCommonLib/External/RapidXML/rapidxml_print.hpp"
+#include "swSerialization/External/RapidXML/rapidxml.hpp"
+#include "swSerialization/External/RapidXML/rapidxml_print.hpp"
 
 #include <fstream>
 #include <stack>

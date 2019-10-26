@@ -4,10 +4,11 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swCommonLib/Serialization/PropertySerialization/stdafx.h"
-
 #include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
-#include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
+
+///< @todo This is hack - reference to external library that is not dependency.
+///< Remove this in future.
+#include "swSerialization/Serialization/PropertySerialization/Serialization.h"
 
 
 

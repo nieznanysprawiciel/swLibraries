@@ -11,7 +11,7 @@
 
 #include "swCommonLib/Serialization/FilePosition.h"
 #include "swCommonLib/Serialization/ISerializationContext.h"
-#include "swCommonLib/Serialization/PropertySerialization/Core/Exceptions/SerializationException.h"
+#include "swSerialization/Serialization/PropertySerialization/Core/Exceptions/SerializationException.h"
 
 #include <map>
 #include <vector>

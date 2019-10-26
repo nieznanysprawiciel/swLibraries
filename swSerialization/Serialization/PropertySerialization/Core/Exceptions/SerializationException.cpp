@@ -4,7 +4,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swCommonLib/Serialization/PropertySerialization/stdafx.h"
+#include "swSerialization/Serialization/PropertySerialization/stdafx.h"
 #include "SerializationException.h"
 
 #include "swCommonLib/Common/Converters.h"

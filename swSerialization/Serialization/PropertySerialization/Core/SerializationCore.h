@@ -11,7 +11,7 @@
 #include "swCommonLib/Serialization/Serializer.h"
 #include "swCommonLib/Serialization/Deserializer.h"
 
-#include "swCommonLib/Serialization/PropertySerialization/SerializationContext.h"
+#include "swSerialization/Serialization/PropertySerialization/SerializationContext.h"
 #include <DirectXMath.h>
 #include <string>
 

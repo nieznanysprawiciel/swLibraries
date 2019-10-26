@@ -40,6 +40,12 @@
     <Filter Include="Common\Macros">
       <UniqueIdentifier>{f0fcd031-f63d-4102-98a8-3ff30ae6411d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Serialization">
+      <UniqueIdentifier>{24a802d0-a081-4b0b-8f9f-bde739971513}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Serialization\PropertySerialization">
+      <UniqueIdentifier>{2acc9046-9884-4ebd-949b-7b58d3b1751b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Common\Properties\Properties.cpp">
@@ -80,6 +86,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Common\Converters\Convert.cpp">
       <Filter>Common\Converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Serialization\PropertySerialization\EngineObject.cpp">
+      <Filter>Serialization\PropertySerialization</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +238,21 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\fmt.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\Deserializer.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\FilePosition.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\ISerializationContext.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\Serializer.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineObject.h">
+      <Filter>Serialization\PropertySerialization</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
