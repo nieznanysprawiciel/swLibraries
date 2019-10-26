@@ -29,6 +29,39 @@ struct DeserializerImpl
 	{	fileContent = nullptr;	}
 };
 
+
+// ================================ //
+//
+struct NameValue
+{
+	rapidjson::Value*		Name;
+	rapidjson::Value*		Value;
+};
+
+// ================================ //
+//
+NameValue		PopTopNodes		( DeserializerImpl* impl )
+{
+	NameValue result;
+
+	result.Value = impl->valuesStack.top();
+	impl->valuesStack.pop();
+
+	result.Name = impl->valuesStack.top();
+	impl->valuesStack.pop();
+
+	return result;
+}
+
+// ================================ //
+//
+void			RestoreTopNodes	( DeserializerImpl* impl, const NameValue& nameValue )
+{
+	impl->valuesStack.push( nameValue.Name );
+	impl->valuesStack.push( nameValue.Value );
+}
+
+
 // ================================ //
 //
 IDeserializer::IDeserializer()
@@ -111,6 +144,8 @@ bool			IDeserializer::LoadFromFile		( const std::string& fileName, ParsingMode m
 	return true;
 }
 
+// ================================ //
+//
 bool			IDeserializer::LoadFromString	( const std::string& contentString )
 {
 	return false;
@@ -121,6 +156,8 @@ bool			IDeserializer::LoadFromString	( const std::string& contentString )
 //====================================================================================//
 
 
+// ================================ //
+//
 const char*		IDeserializer::GetName			() const
 {
 	assert( impl->valuesStack.size() >= 2 );
@@ -129,9 +166,16 @@ const char*		IDeserializer::GetName			() const
 	impl->valuesStack.pop();
 
 	auto name = impl->valuesStack.top();
-	impl->valuesStack.push( value );		// Wrzucamy spowrotem 
+	impl->valuesStack.pop();
 
-	assert( name->IsString() );
+	bool isArray = impl->valuesStack.top()->IsArray();
+
+	impl->valuesStack.push( name );			// Restore name.
+	impl->valuesStack.push( value );		// Restore value.
+
+	// Objects in array don't have names.
+	if( isArray )
+		return "";
 
 	return name->GetString();
 }
@@ -201,17 +245,15 @@ void			IDeserializer::Exit			() const
 	assert( !impl->valuesStack.empty() );
 
 	assert( impl->valuesStack.top()->IsArray() || impl->valuesStack.top()->IsObject() );
-	impl->valuesStack.pop();	// Zdejmujemy tablicê lub obiekt.
-
-	assert( impl->valuesStack.top()->IsString() );
-	impl->valuesStack.pop();	// Zdejmujemy nazwê tablicy.
+	impl->valuesStack.pop();		// Pop array or object.
+	impl->valuesStack.pop();		// Pop object or array name. Note that objects in arrays don't have names, so here lies mock object.
 }
 
 //=========================================================//
 //				
 //=========================================================//
 
-void PushArrayObjectName( DeserializerImpl* impl, rapidjson::Value* object )
+void			PushArrayObjectName					( DeserializerImpl* impl, rapidjson::Value* object )
 {
 	auto name = object->FindMember( "Name" );
 	if( name != object->MemberEnd() )
@@ -227,22 +269,33 @@ Je¿eli wêze³, w którym jesteœmy, nie ma ¿adnych dzieci, pozostajemy w nim
 i stan serializatora nie zmienia siê.
 
 @return Zwaca false, je¿eli nie ma ¿adnego obiektu w tablicy (lub obiekcie).*/
-bool IDeserializer::FirstElement() const
+bool			IDeserializer::FirstElement			() const
 {
 	auto value = impl->valuesStack.top();
-	if( value->IsArray() && !value->Empty() )
+	if( value->IsArray() && value->Size() > 1 )
 	{
 		rapidjson::Value::ValueIterator firstElement = value->Begin();
+		firstElement++;		// First element is always Array attributes object, so we iterate to next element.
 
 		PushArrayObjectName( impl, firstElement );
 		impl->valuesStack.push( firstElement );
+		return true;
 	}
 	else if( value->IsObject() )
 	{
 		auto firstElement = value->MemberBegin();
+		while( firstElement != value->MemberEnd() )
+		{
+			// We enter only objects and arrays. Filter out attributes.
+			if( firstElement->value.IsObject() || firstElement->value.IsArray() )
+			{
+				impl->valuesStack.push( &firstElement->name );
+				impl->valuesStack.push( &firstElement->value );
+				return true;
+			}
 
-		impl->valuesStack.push( &firstElement->name );
-		impl->valuesStack.push( &firstElement->value );
+			firstElement++;
+		}
 	}
 	else
 	{
@@ -250,15 +303,14 @@ bool IDeserializer::FirstElement() const
 		return false;
 	}
 
-	return true;
+	return false;
 }
 
 /**@brief Przechodzi do nastêpnego elementu w tablicy lub w obiekcie.*/
-bool IDeserializer::NextElement() const
+bool			IDeserializer::NextElement			() const
 {
 	rapidjson::Value::ValueIterator value = impl->valuesStack.top();
-	impl->valuesStack.pop();	// Value
-	impl->valuesStack.pop();	// Name
+	auto topNodes = PopTopNodes( impl );
 	auto valueParent = impl->valuesStack.top();		// Parent
 
 	if( valueParent->IsArray() )
@@ -266,7 +318,10 @@ bool IDeserializer::NextElement() const
 		++value;
 		// Sprawdzamy czy nie dotarliœmy do koñca - wersja dla tablic.
 		if( value == valueParent->End() )
+		{
+			RestoreTopNodes( impl, topNodes );
 			return false;
+		}
 
 		PushArrayObjectName( impl, value );
 		impl->valuesStack.push( value );
@@ -284,11 +339,14 @@ bool IDeserializer::NextElement() const
 		}
 
 		if( iter == valueParent->MemberEnd() )
+		{
+			RestoreTopNodes( impl, topNodes );
 			return false;
+		}
 
 		while( ++iter != valueParent->MemberEnd() )
 		{
-			// Trzeba odfiltrowaæ atrybuty.
+			// We enter only objects and arrays. Filter out attributes.
 			if( iter->value.IsObject() || iter->value.IsArray() )
 			{
 				impl->valuesStack.push( &iter->name );
@@ -300,27 +358,34 @@ bool IDeserializer::NextElement() const
 	else
 	{
 		assert( !"Wrong rapidjson::Value type" );
+		RestoreTopNodes( impl, topNodes );
 		return false;
 	}
 
+	RestoreTopNodes( impl, topNodes );
 	return false;
 }
 
 /**@brief Przechodzi do poprzedniego elementu w tablicy lub w obiekcie.*/
-bool IDeserializer::PrevElement() const
+bool			IDeserializer::PrevElement			() const
 {
 	assert( impl->valuesStack.size() >= 3 );
 
 	rapidjson::Value::ValueIterator value = impl->valuesStack.top();
-	impl->valuesStack.pop();	// Value
-	impl->valuesStack.pop();	// Name
+	auto topNodes = PopTopNodes( impl );
 	auto valueParent = impl->valuesStack.top();
 
 	if( valueParent->IsArray() )
 	{
-		// Sprawdzamy czy nie jesteœmy na pocz¹tku - wersja dla tablic.
-		if( value == valueParent->Begin() )
+		// Check if we reached begin of array.
+		rapidjson::Value::ValueIterator arrayBegin = valueParent->Begin();
+		arrayBegin++;		// First element is always Array attributes object, so we iterate to next element.
+
+		if( value == arrayBegin )
+		{
+			RestoreTopNodes( impl, topNodes );
 			return false;
+		}
 
 		--value;
 
@@ -330,7 +395,7 @@ bool IDeserializer::PrevElement() const
 	}
 	else if( valueParent->IsObject() )
 	{
-		// Sprawdzamy czy nie jesteœmy na pocz¹tku - wersja dla obiektów.
+		// Check if we aren't on the beginning of members - version for objects.
 		rapidjson::Value::MemberIterator iter = valueParent->MemberEnd();
 		--iter;
 		while( iter != valueParent->MemberBegin() )
@@ -341,27 +406,35 @@ bool IDeserializer::PrevElement() const
 		}
 
 		if( iter == valueParent->MemberBegin() )
+		{
+			RestoreTopNodes( impl, topNodes );
 			return false;
+		}
 
 		--iter;
 		do
 		{
-			// Trzeba odfiltrowaæ atrybuty.
+			// We enter only objects and arrays. Filter out attributes.
 			if( iter->value.IsObject() || iter->value.IsArray() )
 			{
 				impl->valuesStack.push( &iter->name );
 				impl->valuesStack.push( &iter->value );
 				return true;
 			}
+
+			--iter;
+
 		} while( iter != valueParent->MemberBegin() );
 	}
 	else
 	{
 		assert( !"Wrong rapidjson::Value type" );
+		RestoreTopNodes( impl, topNodes );
 		return false;
 	}
 
-	return true;
+	RestoreTopNodes( impl, topNodes );
+	return false;
 }
 
 /**@brief Wchodzi do ostatniego elementu tablicy lub obiektu.
@@ -370,10 +443,10 @@ Je¿eli wêze³, w którym jesteœmy, nie ma ¿adnych dzieci, pozostajemy w nim
 i stan serializatora nie zmienia siê.
 
 @return Zwaca false, je¿eli nie ma ¿adnego obiektu w tablicy (lub obiekcie).*/
-bool IDeserializer::LastElement() const
+bool			IDeserializer::LastElement			() const
 {
 	auto value = impl->valuesStack.top();
-	if( value->IsArray() && !value->Empty() )
+	if( value->IsArray() && value->Size() > 1 )
 	{
 		rapidjson::Value::ValueIterator lastElement = value->End();
 		lastElement--;
@@ -491,11 +564,29 @@ inline Type		GetAttribTemplate( DeserializerImpl* impl, const char* name, Type& 
 {
 	rapidjson::Value* currentObject = impl->valuesStack.top();	// Obiekt, w którym szukamy atrybutów
 
-	auto iterator = currentObject->FindMember( name );
-	if( iterator == currentObject->MemberEnd() || !Is< Type >( iterator ) )
-		return defaultValue;
+	if( currentObject->IsObject() )
+	{
+		auto iterator = currentObject->FindMember( name );
+		if( iterator == currentObject->MemberEnd() || !Is< Type >( iterator ) )
+			return defaultValue;
 
-	return Get< Type >( iterator );
+		return Get< Type >( iterator );
+	}
+	else if( currentObject->IsArray() )
+	{
+		///@todo Add error handling.
+		assert( currentObject->Size() >= 1 );
+
+		rapidjson::Value::ValueIterator firstElement = currentObject->Begin();
+
+		auto iterator = firstElement->FindMember( name );
+		if( iterator == firstElement->MemberEnd() || !Is< Type >( iterator ) )
+			return defaultValue;
+
+		return Get< Type >( iterator );
+	}
+
+	return defaultValue;
 }
 
 }	// anonymous
@@ -690,6 +781,78 @@ std::string		IDeserializer::GetError			() const
 
 // ================================ //
 //
+bool								IsInsideArray			( DeserializerImpl* impl )
+{
+	auto value = impl->valuesStack.top();	// Value
+	impl->valuesStack.pop();
+
+	auto name = impl->valuesStack.top();
+	impl->valuesStack.pop();
+
+	bool isArray = impl->valuesStack.top()->IsArray();
+
+	impl->valuesStack.push( name );			// Restore name.
+	impl->valuesStack.push( value );		// Restore value.
+
+	return isArray;
+}
+
+// ================================ //
+//
+const char*							FindArrayBegin			( DeserializerImpl* impl )
+{
+	// This function doesn't support nested arrays.
+	auto objectValue = impl->valuesStack.top();	// Value
+	impl->valuesStack.pop();
+
+	auto objectName = impl->valuesStack.top();
+	impl->valuesStack.pop();
+
+	auto arrayValue = impl->valuesStack.top();
+	impl->valuesStack.pop();
+
+	assert( arrayValue->IsArray() );
+
+	auto arrayName = impl->valuesStack.top();
+
+	impl->valuesStack.push( arrayValue );			// Restore array name.
+	impl->valuesStack.push( objectName );			// Restore object name.
+	impl->valuesStack.push( objectValue );			// Restore object value.
+	
+	return arrayName->GetString();
+}
+
+// ================================ //
+//
+Size								FindIndexInArray		( DeserializerImpl* impl )
+{
+	auto objectValue = impl->valuesStack.top();	// Value
+	impl->valuesStack.pop();
+
+	auto objectName = impl->valuesStack.top();
+	impl->valuesStack.pop();
+
+	auto arrayValue = impl->valuesStack.top();
+
+	rapidjson::Value::ValueIterator element = arrayValue->Begin();
+
+	Size arrayIdx = 0;
+	while( element != objectValue && element != arrayValue->End() )
+	{
+		element++;
+		arrayIdx++;
+	}
+
+	// Restore previous state.
+	impl->valuesStack.push( objectName );			// Restore object name.
+	impl->valuesStack.push( objectValue );			// Restore object value.
+
+	return arrayIdx;
+}
+
+
+// ================================ //
+//
 sw::FilePosition					ComputeJsonPosition     ( const char* fileBegin, const char* nodeFirstChar )
 {
     sw::FilePosition pos;
@@ -711,9 +874,61 @@ sw::FilePosition					ComputeJsonPosition     ( const char* fileBegin, const char
     }
 
     // Note: numerate position from 1.
-    pos.CharPosition = nodeFirstChar - processedLineBegin + 1;
+    pos.CharPosition = nodeFirstChar - processedLineBegin + 2;
 
     return pos;
+}
+
+// ================================ //
+//
+sw::FilePosition					ComputeJsonPosition		( const char* arrayBegin, Size arrayIdx )
+{
+    sw::FilePosition pos;
+    pos.Line = 0;
+    pos.CharPosition = 0;
+
+    const char* jsonPosition = arrayBegin;
+    const char* processedLineBegin = jsonPosition;
+
+	// Find opening bracket of current array.
+	while( *jsonPosition != '[' )
+		jsonPosition++;
+
+	int32 nesting = 1;		// Nesting 1 means that we are still in processed array.
+	uint32 currentArrayIdx = 0;
+
+    while( nesting >= 1  )
+    {
+		if( *jsonPosition == '\n' )
+		{
+			pos.Line++;
+			processedLineBegin = jsonPosition + 1;
+		}
+		else if( *jsonPosition == '{' )
+		{
+			nesting++;
+
+			// Check if we found opening of object under expected array index.
+			if( nesting == 2 )
+			{
+				if( currentArrayIdx == arrayIdx )
+				{
+					pos.CharPosition = jsonPosition - processedLineBegin + 1;
+					return pos;
+				}
+
+				currentArrayIdx++;
+			}
+		}
+		else if( *jsonPosition == '}' )
+			nesting--;
+
+        jsonPosition++;
+    }
+
+	// If we are here, that means that we haven't found object under arrayIdx.
+	// We can return begin of array.
+	return pos;
 }
 
 // ================================ //
@@ -724,11 +939,28 @@ sw::FilePosition					IDeserializer::CurrentLineNumber      () const
 	///@todo Think how to do this in AllocStrings mode.
 	if( impl->mode == ParsingMode::ParseInsitu )
 	{
-		auto& curNode = impl->valuesStack.top();
-		const char* fileFirstChar = impl->fileContent;
-		const char* nodeFirstChar = GetName();
+		if( IsInsideArray( impl ) )
+		{
+			const char* fileFirstChar = impl->fileContent;
+			const char* arrayFirstChar = FindArrayBegin( impl );
 
-		return ComputeJsonPosition( fileFirstChar, nodeFirstChar );
+			// Compute number of lines to the beginning of array.
+			auto arrayPosition = ComputeJsonPosition( fileFirstChar, arrayFirstChar );
+
+			// Compute number of lines to object in array.
+			Size objectArrayIdx = FindIndexInArray( impl );
+			auto posInArray = ComputeJsonPosition( arrayFirstChar, objectArrayIdx );
+
+			posInArray.Line += arrayPosition.Line;
+			return posInArray;
+		}
+		else
+		{
+			const char* fileFirstChar = impl->fileContent;
+			const char* nodeFirstChar = GetName();
+
+			return ComputeJsonPosition( fileFirstChar, nodeFirstChar );
+		}
 	}
 	else
 	{

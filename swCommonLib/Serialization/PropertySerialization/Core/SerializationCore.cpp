@@ -108,6 +108,22 @@ void					SerializationCore::SerializePolymorphic		( ISerializer& ser, const rttr
 
 // ================================ //
 //
+void					SerializationCore::SerializeNotPolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
+{
+	rttr::variant structObject = prop.get_value( object );
+
+	ser.EnterObject( prop.get_name().to_string() );
+
+	TypeID realType = GetRawWrappedType( prop.get_type() );
+
+	auto& properties = GetTypeFilteredProperties( realType, ser.GetContext< SerializationContext >() );
+	SerializePropertiesVec( ser, structObject, properties );
+
+	ser.Exit();	//	prop.get_name()
+}
+
+// ================================ //
+//
 void					SerializationCore::SerializePropertiesVec	( ISerializer& ser, const rttr::instance& object, std::vector< rttr::property >& properties )
 {
 	for( auto& property : properties )
@@ -248,15 +264,27 @@ bool			SerializationCore::SerializeArrayTypes				( ISerializer& ser, const rttr:
 	if( arrayView.is_dynamic() )
 		ser.SetAttribute( "ArraySize", arrayView.get_size() );
 
-	for( auto& element : arrayView )
+	if( IsPolymorphicType( arrayElementType ) )
 	{
-		// Process generic objects. We must get real object type.
-		if( element.get_type().is_pointer() )
+		// Process generic objects. Default serialization writes object type.
+		for( auto& element : arrayView )
 		{
-			EngineObject* engineObject = element.get_value< EngineObject* >();
+			auto value = element.extract_wrapped_value();
+			value.convert( TypeID::get< EngineObject* >() );
+			EngineObject* engineObject = value.get_value< EngineObject* >();
+
+			// We serialize "Element" because some serializers like json don't
+			// have named elements in arrays and we would lose type information.
+			// This is not the case in not polymorphic serialization where type 
+			// information from property is enough to deserialize array.
+			ser.EnterObject( "Element" );
 			engineObject->Serialize( ser );
+			ser.Exit();
 		}
-		else
+	}
+	else
+	{
+		for( auto& element : arrayView )
 		{
 			// Non generic objects use default serialization.
 			DefaultSerializeImpl( ser, element, arrayElementType );
@@ -265,7 +293,7 @@ bool			SerializationCore::SerializeArrayTypes				( ISerializer& ser, const rttr:
 
 	ser.Exit();
 
-	return false;
+	return true;
 }
 
 // ================================ //
@@ -279,19 +307,12 @@ bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr
 	if( !propertyType.get_raw_type().is_class() )
 		return false;
 
-	// Here can be serialized:
-	// - structs
-	// - structs pointers and references
-	// - classes derived from EngineObject (as reference, pointer or value ??)
-
-
-
 	bool serialized = true;
 
 	if( IsPolymorphicType( propertyType ) )
 		SerializePolymorphic( ser, object, prop );
 	else
-		SerializeProperty< void* >( ser, prop, object );
+		SerializeNotPolymorphic( ser, object, prop );
 
 	return serialized;
 }
@@ -449,69 +470,102 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 	if( !arrayElementType.is_class() && !arrayElementType.get_raw_type().is_class() )
 		return true;
 
-	deser.EnterArray( prop.get_name().to_string() );
-
-	if( arrayView.is_dynamic() )
+	if( deser.EnterArray( prop.get_name().to_string() ) )
 	{
-		// Array size is should be only hint for deserialization.
-		auto arraySize = deser.GetAttribute( "ArraySize", 0 );
-		if( arraySize != 0 )
-			arrayView.set_size( arraySize );
-	}
-
-
-	int idx = 0;
-	auto element = arrayView.begin();
-
-	if( deser.FirstElement() )
-	{
-		do
+		if( arrayView.is_dynamic() )
 		{
-			// Resize array if it's posible.
-			if( arrayView.get_size() <= idx )
+			// Array size is should be only hint for deserialization.
+			auto arraySize = deser.GetAttribute( "ArraySize", 0 );
+			if( arraySize != 0 && !prop.is_readonly() )
+				arrayView.set_size( arraySize );
+		}
+
+
+		int idx = 0;
+		auto element = arrayView.begin();
+
+		if( deser.FirstElement() )
+		{
+			do
 			{
-				if( arrayView.is_dynamic() )
-					arrayView.set_size( idx + 1 );	// Performance penalty. Resizing vector each time by one element.
+				// Resize array if it's posible.
+				if( arrayView.get_size() <= idx )
+				{
+					if( arrayView.is_dynamic() && !prop.is_readonly() )
+						arrayView.set_size( idx + 1 );	// Performance penalty. Resizing vector each time by one element.
+					else
+					{
+						Warn< SerializationException >( deser, "Trying to insert to readonly array of type: [" + propertyType.get_name().to_string()
+														+ "] more elements then array's capacity. Rest of elements will be ignored." );
+
+						break;
+					}
+				}
+
+				// Process generic objects. We must get real object type.
+				if( IsPolymorphicType( arrayElementType ) )
+				{
+					// We are in "Element" and we enter node named as type to create.
+					if( deser.FirstElement() )
+					{
+						// Check what type of object we should create.
+						auto className = deser.GetName();
+						TypeID classDynamicType = TypeID::get_by_name( className );
+
+						rttr::variant newClass = CreateInstance( classDynamicType );
+
+						if( newClass.convert( TypeID( arrayElementType ) ) )
+						{
+							arrayView.set_value( idx, newClass );
+
+							if( deser.NextElement() )
+								Warn< SerializationException >( deser, "Array element has multiple polymorphic objects defined. Deserializing only first." );
+						}
+						else
+						{
+							Warn< SerializationException >( deser, "Type [" + newClass.get_type().get_name().to_string()
+															+ "] can't be converted to array element type ["
+															+ arrayElementType.get_name().to_string() + "]." );
+						}
+
+						deser.Exit();
+					}
+				}
 				else
 				{
-					assert( !"Trying to insert to static array more elements then exists." );
-					/// @todo Error handling.
+
+					// Non generic objects use default deserialization.
+					DefaultDeserializeImpl( deser, *element, arrayElementType );
 				}
-			}
 
-			// Process generic objects. We must get real object type.
-			if( arrayElementType.is_pointer() )
-			{
-				assert( !"Implement me" );
+				idx++;
+				element++;
+			} while( deser.NextElement() );
 
-				//EngineObject* engineObject = element.get_value< EngineObject* >();
-				//engineObject->Deserialize( deser );
-			}
-			else
-			{
+			deser.Exit();
+		}
 
-				// Non generic objects use default deserialization.
-				DefaultDeserializeImpl( deser, *element, arrayElementType );
-			}
+		if( !arrayView.is_dynamic() && !propertyType.is_pointer() )
+		{
+			// Static arrays should be declared as readonly properties bound by reference.
+			// If they are not bound by reference, variant makes copy of array and we must set this
+			// copy to real field in class.
+			prop.set_value( object, arrayVariant );
 
-			idx++;
-			element++;
-		} while( deser.NextElement() );
+			///@todo This warning should be conditional depending on flag in SerializationContext.
+			Warn< SerializationException >( deser, "Performance Warning. Property [" + prop.get_name().to_string()
+											+ "] value have been copied, while deserializing. Bind property as pointer or as reference to avoid copying." );
+		}
+
+		deser.Exit();
+
+		return true;
 	}
-
-	if( !arrayView.is_dynamic() && !propertyType.is_pointer() )
+	else
 	{
-		// Static arrays should be decalred as readonly properties bound by reference.
-		// If they are not bound by reference, variant makes copy of array and we must set this
-		// copy to real field in class.
-		prop.set_value( object, arrayVariant );
-
 		///@todo This warning should be conditional depending on flag in SerializationContext.
-		Warn< SerializationException >( deser, "Performance Warning. Property [" + prop.get_name().to_string()
-										+ "] value have been copied, while deserializing. Bind property as pointer or as reference to avoid copying." );
+		Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] not found in file. Value remained unchanged." );
 	}
-
-	deser.Exit();
 
 	return false;
 }
@@ -742,6 +796,14 @@ rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializ
 		Warn< SerializationException >( deser, errorMessage );
 	}
 
+	if( !GetRawWrappedType( createdType ).get_constructor().is_valid() )
+	{
+		std::string errorMessage = "Can't construct object of type ["
+									+ createdType.get_name().to_string()
+									+ "]. Zero arguments constructor wasn't declared in rttr for this class.";
+
+		Warn< SerializationException >( deser, errorMessage );
+	}
 
 	return rttr::variant();
 }
@@ -788,39 +850,8 @@ template	void	SerializationCore::SerializeProperty< uint32 >	( ISerializer& ser,
 template	void	SerializationCore::SerializeProperty< int64 >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
 template	void	SerializationCore::SerializeProperty< uint64 >	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
 
-/**@brief Template specialization for classes derived from @ref EngineObject.
 
-Function serializes property name as first. Then EngineObject::Serialize method is invoked.
 
-@deprecated Use SerializePolymorphic instead.*/
-template<>
-void			SerializationCore::SerializeProperty< EngineObject* >( ISerializer& ser, rttr::property prop, const rttr::instance& object )
-{
-	EngineObject* engineObj = GetPropertyValue< EngineObject* >( prop, object );
-	if( engineObj )
-	{
-		ser.EnterObject( prop.get_name().to_string() );
-		engineObj->Serialize( ser );
-		ser.Exit();	//	prop.get_name()
-	}
-}
-
-/**@brief Specialization for all not polymorphic objects.
-@deprecated Use DeserializeNotPolymorphic instead.*/
-template<>
-void			SerializationCore::SerializeProperty< void* >( ISerializer& ser, rttr::property prop, const rttr::instance& object )
-{
-	rttr::variant structObject = prop.get_value( object );
-
-	ser.EnterObject( prop.get_name().to_string() );
-
-	TypeID realType = GetRawWrappedType( prop.get_type() );
-
-	auto& properties = GetTypeFilteredProperties( realType, ser.GetContext< SerializationContext >() );
-	SerializePropertiesVec( ser, structObject, properties );
-
-	ser.Exit();	//	prop.get_name()
-}
 
 /**@brief Specjalizacja dla DirectX::XMFLOAT3.*/
 template<>
@@ -911,28 +942,6 @@ template	void	SerializationCore::DeserializeProperty< uint8 >			( const IDeseria
 
 
 
-/**@brief Specialization for deserializing generic objects inheriting EngineObject.*/
-template<>
-void				SerializationCore::DeserializeProperty< EngineObject* >		( const IDeserializer& deser, rttr::property prop, const rttr::instance& object )
-{
-	assert( !"Implement me" );
-}
-
-/**@brief Specialization for deserializing non generic structures..*/
-template<>
-void				SerializationCore::DeserializeProperty< void* >				( const IDeserializer& deser, rttr::property prop, const rttr::instance& object )
-{
-	if( deser.EnterObject( prop.get_name().to_string() ) )
-	{
-		TypeID propertyType = GetWrappedType( prop.get_type() );
-		auto deserObject = prop.get_value( object );
-
-		DefaultDeserializeImpl( deser, deserObject, propertyType );
-
-		deser.Exit();	//	prop.get_name()
-	}
-	// Error handling ??
-}
 
 
 /**@brief Specjalizacja dla DirectX::XMFLOAT3.*/

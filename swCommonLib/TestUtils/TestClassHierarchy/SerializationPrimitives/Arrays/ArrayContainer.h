@@ -1,6 +1,6 @@
 #pragma once
 /**
-@file StringContainer.h
+@file ArrayContainer.h
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */

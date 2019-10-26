@@ -1,0 +1,10 @@
+<StaticArrayContainer>
+	<StructsVec>
+		<StructWithSimpleTypes DoubleField="1.0000000000000000000" FloatField="2.0000000000000000000" UIntField64="4" IntField64="5" UIntField32="6" IntField32="-7" UIntField16="8" IntField16="9" UIntField8="10" IntField8="11" CharField="n" BoolField="false"/>
+		<StructWithSimpleTypes DoubleField="3.1110999999999999766" FloatField="1.4424140453338623047" UIntField64="333" IntField64="-33" UIntField32="1" IntField32="55" UIntField16="77" IntField16="22" UIntField8="99" IntField8="12" CharField="a" BoolField="true"/>
+		<StructWithSimpleTypes DoubleField="7.1230999999999999872" FloatField="10.4416141510009765625" UIntField64="22" IntField64="222" UIntField32="2224" IntField32="95" UIntField16="12" IntField16="-18" UIntField8="247" IntField8="5" CharField="k" BoolField="true"/>
+		<StructWithSimpleTypes DoubleField="7.1230999999999999872" FloatField="10.4416141510009765625" UIntField64="22" IntField64="222" UIntField32="2224" IntField32="95" UIntField16="12" IntField16="-18" UIntField8="247" IntField8="5" CharField="k" BoolField="true"/>
+        <StructWithSimpleTypes DoubleField="1.0000000000000000000" FloatField="2.0000000000000000000" UIntField64="4" IntField64="5" UIntField32="6" IntField32="-7" UIntField16="8" IntField16="9" UIntField8="10" IntField8="11" CharField="n" BoolField="false"/>
+	</StructsVec>
+</StaticArrayContainer>
+

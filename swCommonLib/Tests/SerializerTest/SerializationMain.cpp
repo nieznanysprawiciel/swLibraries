@@ -1,8 +1,4 @@
-/**@file SerializationMain.cpp
-@author nieznanysprawiciel
-@copyright Plik jest czêœci¹ silnika graficznego SWEngine.
-
-@brief XML serializer test.*/
+#include "swCommonLib/External/Catch/catch.hpp"
 
 #include <windows.h>
 #include <fstream>
@@ -25,8 +21,9 @@
 #endif
 
 
-
-int main()
+// ================================ //
+//
+int		SerializeToFile		()
 {
 	ISerializer serializer( std::make_unique< ISerializationContext >() );
 
@@ -144,13 +141,230 @@ int main()
 	serializer.Exit();	// FirstObject
 
 
-	if( !serializer.SaveFile( writeFileName, WritingMode::Readable ) )
+	if( !serializer.SaveFile( readFileName, WritingMode::Readable ) )
 #ifdef TEST_JSON
 		OutputDebugString( L"Error: Saving \"SerializerTest/serialWrite.json\" failed!\n" );
 #elif TEST_XML
 		OutputDebugString( L"Error: Saving \"SerializerTest/serialWrite.xml\" failed!\n" );
 #endif
+
+	return 2;
+}
+
+int staticInit = SerializeToFile();
+
+
+// ================================ //
+//
+TEST_CASE( "Deserialization.GetAttributes", "[Serializers]" )
+{
+	IDeserializer deser;
+	REQUIRE( deser.LoadFromFile( readFileName, ParsingMode::ParseInsitu ) );
+
+	REQUIRE( deser.EnterObject( "FirstObject" ) );
+
+		CHECK( deser.GetAttribute( "Map", "GetAttribute error" ) == std::string( "LightmapGen1" ) );
+		CHECK( deser.GetAttribute( "Path", "GetAttribute error" ) == std::string( "/LightmapGen1.map" ) );
+		CHECK( deser.GetAttribute( "Load", "GetAttribute error" ) );
+
+		REQUIRE( deser.EnterObject( "Data" ) );
+			CHECK( deser.GetAttribute( "NumberUnits", 0 ) == 1266643 );
+			CHECK( deser.GetAttribute( "PositionOffset", 0.0 ) == 0.4124667623 );
+			CHECK( deser.GetAttribute( "Visible", false ) == true );
+			CHECK( deser.GetAttribute( "Key", 418588284382834538 ) == 218588284382834538 );
+		deser.Exit();	// Data
+	deser.Exit();	// FirstObject
+}
+
+// ================================ //
+//
+TEST_CASE( "Deserialization.Array.ForwardIteration", "[Serializers]" )
+{
+	IDeserializer deser;
+	REQUIRE( deser.LoadFromFile( readFileName, ParsingMode::ParseInsitu ) );
+
+	REQUIRE( deser.EnterObject( "FirstObject" ) );
+		REQUIRE( deser.EnterArray( "Actors" ) );
+			REQUIRE( deser.FirstElement() );
+			
+			int numElements = 0;
+				
+			do
+			{
+				CHECK( deser.GetAttribute( "Name", "Wrong string" ) == "TIE Fighter " + std::to_string( numElements ) );
+					
+				REQUIRE( deser.EnterObject( "Position" ) );
+					CHECK( deser.GetAttribute( "X", 0 ) == 12 );
+					CHECK( deser.GetAttribute( "Y", 0 ) == 12 );
+					CHECK( deser.GetAttribute( "Z", 0 ) == 12 );
+				deser.Exit();
+
+				numElements++;
+
+			} while( deser.NextElement() );
+
+			CHECK( numElements == 12 );
+
+			deser.Exit();	// FirstElement()
+		deser.Exit();	// Actors
+		
+	// Check state after going through array.
+	CHECK( deser.EnterArray( "Actors" ) );
+}
+
+// ================================ //
+//
+TEST_CASE( "Deserialization.Array.BackwardIteration", "[Serializers]" )
+{
+	IDeserializer deser;
+	REQUIRE( deser.LoadFromFile( readFileName, ParsingMode::ParseInsitu ) );
+
+	REQUIRE( deser.EnterObject( "FirstObject" ) );
+		REQUIRE( deser.EnterArray( "ActorEnemies" ) );
+			REQUIRE( deser.LastElement() );
+			
+			int numElements = 29;
+				
+			do
+			{
+				CHECK( deser.GetAttribute( "Name", "Wrong string" ) == "X-wing " + std::to_string( numElements ) );
+					
+				REQUIRE( deser.EnterObject( "Position" ) );
+					CHECK( deser.GetAttribute( "X", 0 ) == 15 );
+					CHECK( deser.GetAttribute( "Y", 0 ) == 124 );
+					CHECK( deser.GetAttribute( "Z", 0 ) == 97 );
+				deser.Exit();
+
+				numElements--;
+
+			} while( deser.PrevElement() );
+
+			CHECK( numElements == -1 );
+
+			deser.Exit();	// LastElement()
+		deser.Exit();	// Actors
+		
+	// Check state after going through array.
+	CHECK( deser.EnterArray( "ActorEnemies" ) );
+
+}
+
+// ================================ //
+//
+TEST_CASE( "Serialization.Array.ArrayAttribute", "[Serializers]" )
+{
+	ISerializer ser( std::make_unique< ISerializationContext >() );
+
+	ser.EnterObject( "FirstObject" );
+	ser.EnterArray( "Array" );
+	ser.SetAttribute( "ArraySize", 13 );
+	ser.EnterObject( "Object1" );
+
+	ser.SaveFile( "SerializerTest/Serialization.Array.ArrayAttribute.serialized", WritingMode::Readable );
+
+	IDeserializer deser;
+	REQUIRE( deser.LoadFromFile( "SerializerTest/Serialization.Array.ArrayAttribute.serialized", ParsingMode::ParseInsitu ) );
+	REQUIRE( deser.EnterObject( "FirstObject" ) );
+	REQUIRE( deser.EnterArray( "Array" ) );
+
+	CHECK( deser.GetAttribute( "ArraySize", 0 ) == 13 );
 	
+	// Serializer should Enter Object1 without problems.
+	CHECK( deser.FirstElement() );
+}
+
+
+// ================================ //
+// Iterates over elements in object. Iteration should enter all objects and arrays.
+TEST_CASE( "Deserialization.Object.ForwardIteration", "[Serializers]" )
+{
+	IDeserializer deser;
+	REQUIRE( deser.LoadFromFile( readFileName, ParsingMode::ParseInsitu ) );
+
+	REQUIRE( deser.EnterObject( "FirstObject" ) );
+		REQUIRE( deser.FirstElement() );	// Data
+
+		CHECK( deser.GetName() == std::string( "Data" ) );
+		
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "Actors" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "Assets" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "Passes" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "Data1" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "Data2" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "Data3" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "ActorEnemies" ) );
+
+		REQUIRE( deser.NextElement() );
+		CHECK( deser.GetName() == std::string( "ButtonContainer" ) );
+
+		// No elements left.
+		REQUIRE( !deser.NextElement() );
+
+		deser.Exit();	// Data
+	deser.Exit();	// FirstObject
+}
+
+// ================================ //
+// Iterates over elements in object. Iteration should enter all objects and arrays.
+TEST_CASE( "Deserialization.Object.BackwardIteration", "[Serializers]" )
+{
+	IDeserializer deser;
+	REQUIRE( deser.LoadFromFile( readFileName, ParsingMode::ParseInsitu ) );
+
+	REQUIRE( deser.EnterObject( "FirstObject" ) );
+		REQUIRE( deser.LastElement() );	// Data
+
+		CHECK( deser.GetName() == std::string( "ButtonContainer" ) );
+		
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "ActorEnemies" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Data3" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Data2" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Data1" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Passes" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Assets" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Actors" ) );
+
+		REQUIRE( deser.PrevElement() );
+		CHECK( deser.GetName() == std::string( "Data" ) );
+
+		// No elements left.
+		REQUIRE( !deser.PrevElement() );
+
+		deser.Exit();	// ButtonContainer
+	deser.Exit();	// FirstObject
+}
+
+
+int main_bla()
+{
+	SerializeToFile();
+
 	IDeserializer deser;
 
 

@@ -58,6 +58,7 @@ public:
 	///@}
 
 	static void				SerializePolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
+	static void				SerializeNotPolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
 	static void				SerializePropertiesVec	( ISerializer& ser, const rttr::instance& object, std::vector< rttr::property >& properties );
 
 	///@name Types deserialization
@@ -93,8 +94,6 @@ public:
 	static void				SerializeProperty	( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue );
 
 
-	template<>	static void				SerializeProperty< EngineObject* >			( ISerializer& ser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				SerializeProperty< void* >					( ISerializer& ser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				SerializeProperty< DirectX::XMFLOAT2* >		( ISerializer& ser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				SerializeProperty< DirectX::XMFLOAT3* >		( ISerializer& ser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				SerializeProperty< DirectX::XMFLOAT4* >		( ISerializer& ser, rttr::property prop, const rttr::instance& object );
@@ -111,8 +110,6 @@ public:
 	static void				DeserializeProperty	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
 
 
-	template<>	static void				DeserializeProperty< EngineObject* >		( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				DeserializeProperty< void* >				( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				DeserializeProperty< DirectX::XMFLOAT2* >	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				DeserializeProperty< DirectX::XMFLOAT3* >	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
 	template<>	static void				DeserializeProperty< DirectX::XMFLOAT4* >	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
