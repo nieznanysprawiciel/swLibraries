@@ -153,7 +153,7 @@
     <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\SerializationMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Reflection\Reflection.vcxproj">
+    <ProjectReference Include="..\..\..\..\..\..\swCommonLib\Projects\Visual2015\Reflection\Reflection.vcxproj">
       <Project>{59fa8028-2346-4246-854f-14dcfab6ab56}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\SerializerJSON\SerializerJSON.vcxproj">

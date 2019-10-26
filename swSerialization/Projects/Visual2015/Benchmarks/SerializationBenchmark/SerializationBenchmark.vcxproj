@@ -144,14 +144,14 @@
     <ClCompile Include="..\..\..\..\Benchmarks\SerializationBenchmark\Serialization.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\TestClassHierarchy\TestClassHierarchy.vcxproj">
+      <Project>{33db1307-8edb-4abd-b861-39a58d37b489}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Serialization\Serialization.vcxproj">
       <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\SerializerXML\SerializerXML.vcxproj">
       <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\TestClassHierarchy\TestClassHierarchy.vcxproj">
-      <Project>{33db1307-8edb-4abd-b861-39a58d37b489}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
