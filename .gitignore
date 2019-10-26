@@ -5,6 +5,7 @@
 *.suo
 *.user
 *.sln.docstates
+.vs
 
 # Build results
 
@@ -20,9 +21,15 @@ Projects/Documentation/
 
 Projects/ReleaseDir/*
 !Projects/ReleaseDir/Serialization/
+!Projects/ReleaseDir/SerializerTest/
 
 Projects/ReleaseDir/Serialization/*
 !Projects/ReleaseDir/Serialization/TestInput/
+
+Projects/ReleaseDir/SerializerTest/*
+!Projects/ReleaseDir/SerializerTest/JSON/
+!Projects/ReleaseDir/SerializerTest/XML/
+
 
 # Generated documentation
 Documentation/

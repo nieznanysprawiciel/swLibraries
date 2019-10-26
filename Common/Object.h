@@ -21,9 +21,10 @@
 
 Note that libraries are still in development process.
 
-- Add <b>CommonLibraries.sln</b> solution file to your solution.
-- Add swCommonLib to Additional Include Directories.
-- In project that will use one of libraries choose <b>Add Reference</b> and ad necessary libraries.
+- Add <b>CommonLibraries.sln</b> solution file to your solution. (Add->Existing Project, then choose <b>CommonLibraries.sln</b> file. This operation
+will merge two solutions. You must change files filter to see .sln files in browser.)
+- Add parent directory of swCommonLib to Additional Include Directories.
+- In project that will use one of libraries choose <b>Add Reference</b> and add necessary libraries.
 - From <b>swCommonLib/Projects/Visual2015/ </b> directory add <b>LinkReflection.props</b> and <b>Paths.props</b> to project which builds executable.
 This will copy Reflection.dll to your output directory.
 
