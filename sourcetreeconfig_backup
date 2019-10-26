@@ -81,29 +81,40 @@
   ],
   "SubtreeLinks" : [
     {
-       "SourcePathUrl": "git@github.com:nieznanysprawiciel/swCommonLib.git",
-       "Prefix": "swCommonLib",
-       "Refspec": "swLibraries-Development"
+      "$id": "16",
+      "SourcePathUrl": "git@github.com:nieznanysprawiciel/swSerialization.git",
+      "Prefix": "swSerialization/",
+      "Refspec": "swLibraries-Development"
     },
     {
-       "SourcePathUrl": "git@github.com:nieznanysprawiciel/swGraphicAPI.git",
-       "Prefix": "swGraphicAPI",
-       "Refspec": "swLibraries-Development"
+      "$id": "17",
+      "SourcePathUrl": "git@github.com:nieznanysprawiciel/swCommonLib.git",
+      "Prefix": "swCommonLib",
+      "Refspec": "swLibraries-Development"
     },
     {
-       "SourcePathUrl": "git@github.com:nieznanysprawiciel/swInputLibrary.git",
-       "Prefix": "swInputLibrary",
-       "Refspec": "swLibraries-Development"
+      "$id": "18",
+      "SourcePathUrl": "git@github.com:nieznanysprawiciel/swGraphicAPI.git",
+      "Prefix": "swGraphicAPI",
+      "Refspec": "swLibraries-Development"
     },
     {
-       "SourcePathUrl": "git@github.com:nieznanysprawiciel/swGUI.git",
-       "Prefix": "swGUI",
-       "Refspec": "swLibraries-Development"
+      "$id": "19",
+      "SourcePathUrl": "git@github.com:nieznanysprawiciel/swInputLibrary.git",
+      "Prefix": "swInputLibrary",
+      "Refspec": "swLibraries-Development"
     },
     {
-       "SourcePathUrl": "git@github.com:nieznanysprawiciel/swGeometrics.git",
-       "Prefix": "swGeometrics",
-       "Refspec": "swLibraries-Development"
+      "$id": "20",
+      "SourcePathUrl": "git@github.com:nieznanysprawiciel/swGUI.git",
+      "Prefix": "swGUI",
+      "Refspec": "swLibraries-Development"
+    },
+    {
+      "$id": "21",
+      "SourcePathUrl": "git@github.com:nieznanysprawiciel/swGeometrics.git",
+      "Prefix": "swGeometrics",
+      "Refspec": "swLibraries-Development"
     }
   ]
 }
