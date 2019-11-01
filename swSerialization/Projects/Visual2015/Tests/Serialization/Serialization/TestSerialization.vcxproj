@@ -20,25 +20,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\main.cpp">
+    <ClCompile Include="..\..\..\..\..\Tests\TestSerialization\main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\PrecompiledHeader\stdafx.cpp">
+    <ClCompile Include="..\..\..\..\..\Tests\TestSerialization\PrecompiledHeader\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\ArraySerialization.cpp" />
-    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\EngineObjectSerialization.cpp" />
-    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\BasicTypesSerialization.cpp" />
-    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\EnumSerialization.cpp" />
-    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\PolymorphicSerialization.cpp" />
-    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\StlTypesSerialization.cpp" />
-    <ClCompile Include="..\..\..\..\..\Tests\SerializationTest\TestCases\StructsSerialization.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestSerialization\TestCases\ArraySerialization.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestSerialization\TestCases\BasicTypesSerialization.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestSerialization\TestCases\EngineObjectSerialization.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestSerialization\TestCases\EnumSerialization.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestSerialization\TestCases\PolymorphicSerialization.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestSerialization\TestCases\StlTypesSerialization.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestSerialization\TestCases\StructsSerialization.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\swCommonLib\Projects\Visual2015\TestClassHierarchy\TestClassHierarchy.vcxproj">
@@ -52,7 +52,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\Tests\SerializationTest\PrecompiledHeader\stdafx.h" />
+    <ClInclude Include="..\..\..\..\..\Tests\TestSerialization\PrecompiledHeader\stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{36978EBD-9F8D-4A5D-98B7-4664EF50F807}</ProjectGuid>
@@ -130,7 +130,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>swSerialization/Tests/SerializationTest/PrecompiledHeader/stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>swSerialization/Tests/TestSerialization/PrecompiledHeader/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +143,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>swSerialization/Tests/SerializationTest/PrecompiledHeader/stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>swSerialization/Tests/TestSerialization/PrecompiledHeader/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -158,7 +158,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>swSerialization/Tests/SerializationTest/PrecompiledHeader/stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>swSerialization/Tests/TestSerialization/PrecompiledHeader/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -175,7 +175,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>swSerialization/Tests/SerializationTest/PrecompiledHeader/stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>swSerialization/Tests/TestSerialization/PrecompiledHeader/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -147,18 +147,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\json\GetName_json.cpp" />
-    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\json\LineNumber_json.cpp" />
-    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\main.cpp" />
-    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\SerializationMain.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\swCommonLib\Projects\Visual2015\Reflection\Reflection.vcxproj">
       <Project>{59fa8028-2346-4246-854f-14dcfab6ab56}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\SerializerJSON\SerializerJSON.vcxproj">
       <Project>{d8738375-5855-4241-8cb9-63ffe08e1b96}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\GetName.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\LineNumber.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\main.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\SerializationMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

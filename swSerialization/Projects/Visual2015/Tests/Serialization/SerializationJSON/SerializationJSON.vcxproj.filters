@@ -1,18 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\SerializationMain.cpp" />
-    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\main.cpp" />
-    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\json\LineNumber_json.cpp">
-      <Filter>json</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Tests\SerializerTest\json\GetName_json.cpp">
-      <Filter>json</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="json">
-      <UniqueIdentifier>{a880723f-73d9-4ff0-a3b8-2317d05578f4}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\main.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\SerializationMain.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\GetName.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\LineNumber.cpp" />
   </ItemGroup>
 </Project>

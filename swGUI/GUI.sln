@@ -143,8 +143,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DE666E4F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", "{3111E7A4-0395-4345-93E5-25C16BCC1971}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SerializationTest", "..\swSerialization\Projects\Visual2015\Tests\Serialization\Serialization\SerializationTest.vcxproj", "{36978EBD-9F8D-4A5D-98B7-4664EF50F807}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SerializationXMLTest", "..\swSerialization\Projects\Visual2015\Tests\Serialization\SerializationXML\SerializationXML.vcxproj", "{C3291F70-58A1-48AD-BA9A-A8A9B176EA70}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SerializationJSONTest", "..\swSerialization\Projects\Visual2015\Tests\Serialization\SerializationJSON\SerializationJSON.vcxproj", "{DB1936FB-7267-4EE8-8F96-E4BB79CCE7ED}"
@@ -152,6 +150,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SerializationBenchmark", "..\swSerialization\Projects\Visual2015\Benchmarks\SerializationBenchmark\SerializationBenchmark.vcxproj", "{1E7C4CFD-8EDC-4BFE-9AB4-DD424B3E921C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Prototyper", "..\swSerialization\Projects\Visual2015\Tests\Prototyper\Prototyper.vcxproj", "{968FD90D-0835-44FF-BE5E-6271D4DFD916}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestSerialization", "..\swSerialization\Projects\Visual2015\Tests\Serialization\Serialization\TestSerialization.vcxproj", "{36978EBD-9F8D-4A5D-98B7-4664EF50F807}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -553,14 +553,6 @@ Global
 		{91CC6D16-F22C-434A-95E0-35EE857054C7}.Release|x64.Build.0 = Release|x64
 		{91CC6D16-F22C-434A-95E0-35EE857054C7}.Release|x86.ActiveCfg = Release|Win32
 		{91CC6D16-F22C-434A-95E0-35EE857054C7}.Release|x86.Build.0 = Release|Win32
-		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Debug|x64.ActiveCfg = Debug|x64
-		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Debug|x64.Build.0 = Debug|x64
-		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Debug|x86.ActiveCfg = Debug|Win32
-		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Debug|x86.Build.0 = Debug|Win32
-		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Release|x64.ActiveCfg = Release|x64
-		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Release|x64.Build.0 = Release|x64
-		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Release|x86.ActiveCfg = Release|Win32
-		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Release|x86.Build.0 = Release|Win32
 		{C3291F70-58A1-48AD-BA9A-A8A9B176EA70}.Debug|x64.ActiveCfg = Debug|x64
 		{C3291F70-58A1-48AD-BA9A-A8A9B176EA70}.Debug|x64.Build.0 = Debug|x64
 		{C3291F70-58A1-48AD-BA9A-A8A9B176EA70}.Debug|x86.ActiveCfg = Debug|Win32
@@ -593,6 +585,14 @@ Global
 		{968FD90D-0835-44FF-BE5E-6271D4DFD916}.Release|x64.Build.0 = Release|x64
 		{968FD90D-0835-44FF-BE5E-6271D4DFD916}.Release|x86.ActiveCfg = Release|Win32
 		{968FD90D-0835-44FF-BE5E-6271D4DFD916}.Release|x86.Build.0 = Release|Win32
+		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Debug|x64.ActiveCfg = Debug|x64
+		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Debug|x64.Build.0 = Debug|x64
+		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Debug|x86.ActiveCfg = Debug|Win32
+		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Debug|x86.Build.0 = Debug|Win32
+		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Release|x64.ActiveCfg = Release|x64
+		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Release|x64.Build.0 = Release|x64
+		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Release|x86.ActiveCfg = Release|Win32
+		{36978EBD-9F8D-4A5D-98B7-4664EF50F807}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -667,11 +667,11 @@ Global
 		{91CC6D16-F22C-434A-95E0-35EE857054C7} = {33EAE5FD-B685-4FC7-B96D-B3EA53A4C985}
 		{DE666E4F-976E-47D7-8F9E-607F801EDD0C} = {33EAE5FD-B685-4FC7-B96D-B3EA53A4C985}
 		{3111E7A4-0395-4345-93E5-25C16BCC1971} = {33EAE5FD-B685-4FC7-B96D-B3EA53A4C985}
-		{36978EBD-9F8D-4A5D-98B7-4664EF50F807} = {DE666E4F-976E-47D7-8F9E-607F801EDD0C}
 		{C3291F70-58A1-48AD-BA9A-A8A9B176EA70} = {DE666E4F-976E-47D7-8F9E-607F801EDD0C}
 		{DB1936FB-7267-4EE8-8F96-E4BB79CCE7ED} = {DE666E4F-976E-47D7-8F9E-607F801EDD0C}
 		{1E7C4CFD-8EDC-4BFE-9AB4-DD424B3E921C} = {3111E7A4-0395-4345-93E5-25C16BCC1971}
 		{968FD90D-0835-44FF-BE5E-6271D4DFD916} = {33EAE5FD-B685-4FC7-B96D-B3EA53A4C985}
+		{36978EBD-9F8D-4A5D-98B7-4664EF50F807} = {DE666E4F-976E-47D7-8F9E-607F801EDD0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A341301D-630D-4C6A-B843-1A50FC78565A}
