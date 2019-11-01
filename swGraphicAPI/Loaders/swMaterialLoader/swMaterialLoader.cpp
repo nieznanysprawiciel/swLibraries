@@ -324,7 +324,8 @@ Nullable< MaterialInitData >		SWMaterialLoader::LoadTextures		( IDeserializer* d
 
 				texIdx++;
 			} while( deser->NextElement() && texIdx < cMaxMaterialTextures );
-
+            
+            deser->Exit();
 		}
 		deser->Exit();
 	}
