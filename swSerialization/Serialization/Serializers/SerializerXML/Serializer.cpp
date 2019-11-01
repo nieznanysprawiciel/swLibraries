@@ -1,9 +1,9 @@
 /**
-@file Serialzier.cpp
+@file Serializer.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
-#include "swCommonLib/Serialization/Serializer.h"
+#include "swSerialization/Serialization/Serializer.h"
 
 
 #include "swCommonLib/System/Dir.h"

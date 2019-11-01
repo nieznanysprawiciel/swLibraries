@@ -1,10 +1,17 @@
+/**
+@file Deserialization.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
+
 #include "benchmark/benchmark.h"
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Node.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Polymorphic/BaseObject.h"
 
-#include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
-#include "swCommonLib/Serialization/PropertySerialization/SerializationContext.h"
+#include "swSerialization/Serialization/PropertySerialization/Serialization.h"
+#include "swSerialization/Serialization/PropertySerialization/SerializationContext.h"
 
 
 

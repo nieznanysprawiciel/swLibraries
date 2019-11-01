@@ -4,6 +4,7 @@
   
   <PropertyGroup Label="UserMacros">
 	<swguiRootDir>$(MSBuildThisFileDirectory)..\..\</swguiRootDir>
+    <swLibrariesDir>$(RootDir)..\</swLibrariesDir>
 	<swguiProjectsDir>$(swguiRootDir)ProjectDir\</swguiProjectsDir>
 	<swguiTestsDir>$(swguiRootDir)Tests\</swguiTestsDir>
 	<swguiReleaseDir>$(swguiProjectsDir)Output\</swguiReleaseDir>

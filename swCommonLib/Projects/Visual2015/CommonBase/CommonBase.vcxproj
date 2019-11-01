@@ -29,7 +29,6 @@
     <ClCompile Include="..\..\..\Common\Object.cpp" />
     <ClCompile Include="..\..\..\Common\Properties\Properties.cpp" />
     <ClCompile Include="..\..\..\Common\Version.cpp" />
-    <ClCompile Include="..\..\..\Serialization\PropertySerialization\EngineObject.cpp" />
     <ClCompile Include="..\..\..\System\Dir.cpp" />
     <ClCompile Include="..\..\..\System\File.cpp" />
     <ClCompile Include="..\..\..\System\Filesystem\filesystem\path.cpp" />
@@ -78,11 +77,6 @@
     <ClInclude Include="..\..\..\Common\TypesDefinitions.h" />
     <ClInclude Include="..\..\..\Common\UPtr.h" />
     <ClInclude Include="..\..\..\Common\Version.h" />
-    <ClInclude Include="..\..\..\Serialization\Deserializer.h" />
-    <ClInclude Include="..\..\..\Serialization\FilePosition.h" />
-    <ClInclude Include="..\..\..\Serialization\ISerializationContext.h" />
-    <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineObject.h" />
-    <ClInclude Include="..\..\..\Serialization\Serializer.h" />
     <ClInclude Include="..\..\..\System\Dir.h" />
     <ClInclude Include="..\..\..\System\File.h" />
     <ClInclude Include="..\..\..\System\Filesystem\filesystem\fwd.h" />

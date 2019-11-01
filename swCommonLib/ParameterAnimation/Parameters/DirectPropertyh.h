@@ -9,7 +9,7 @@
 #include "swCommonLib/Common/Object.h"
 
 #include "swCommonLib/Common/Properties/Properties.h"
-#include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
+#include "swSerialization/Serialization/PropertySerialization/Serialization.h"
 
 
 /**@brief */

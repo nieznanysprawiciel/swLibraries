@@ -6,7 +6,7 @@
 */
 
 #include "swCommonLib/Common/TypesDefinitions.h"
-#include "swCommonLib/Serialization/ISerializationContext.h"
+#include "swSerialization/Serialization/ISerializationContext.h"
 
 #include <string>
 #include <assert.h>

@@ -6,7 +6,7 @@
 */
 
 
-#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swSerialization/Serialization/PropertySerialization/EngineObject.h"
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructWithSimpleTypes.h"
 

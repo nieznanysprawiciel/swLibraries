@@ -1,3 +1,3 @@
-#include "swCommonLib/Tests/SerializationTest/PrecompiledHeader/stdafx.h"
+#include "swSerialization/Tests/SerializationTest/PrecompiledHeader/stdafx.h"
 
 

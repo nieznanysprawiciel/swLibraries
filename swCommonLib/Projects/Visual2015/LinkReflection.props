@@ -4,21 +4,19 @@
   <PropertyGroup Label="UserMacros" />
   
   
-  <!-- <Import Project="../Reflection/ReflectionConfig.props" /> -->
-  
   <PropertyGroup Label="UserMacros">
     <ReflectionName>Reflection</ReflectionName>
-    <ReflectionLibDir>$(LibDir)$(ReflectionName)\$(PlatformToolset)\$(PlatformShortName)\$(Configuration)\</ReflectionLibDir>
-    <ReflectionSourceDir>$(SourceDir)$(ReflectionName)\</ReflectionSourceDir>
+    <ReflectionLibDir>$(swLibrariesDir)swCommonLib\Projects\ReleaseDir\LibDir\$(ReflectionName)\$(PlatformToolset)\$(PlatformShortName)\$(Configuration)\</ReflectionLibDir>
+    <ReflectionSourceDir>$(swLibrariesDir)$(ReflectionName)\</ReflectionSourceDir>
     <ReflectionFileName>$(ReflectionName)</ReflectionFileName>
-    <ReflectionBuildDir>$(BuildDir)$(ReflectionName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</ReflectionBuildDir>
   </PropertyGroup>
   
   <ItemDefinitionGroup>
     <ClCompile>
+      <AdditionalIncludeDirectories>$(ReflectionSourceDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	  <PreprocessorDefinitions>RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-	</ClCompile>
-  
+    </ClCompile>
+	 
     <Link>
       <AdditionalLibraryDirectories>$(ReflectionLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(ReflectionFileName).lib;%(AdditionalDependencies)</AdditionalDependencies>

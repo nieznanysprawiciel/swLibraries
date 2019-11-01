@@ -163,6 +163,12 @@
     <ClInclude Include="..\..\..\..\Tests\PropertyAnimationTest\TestClasses.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\swSerialization\Projects\Visual2015\Serialization\Serialization.vcxproj">
+      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\swSerialization\Projects\Visual2015\SerializerXML\SerializerXML.vcxproj">
+      <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\CommonBase\CommonBase.vcxproj">
       <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
     </ProjectReference>
@@ -171,12 +177,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Reflection\Reflection.vcxproj">
       <Project>{59fa8028-2346-4246-854f-14dcfab6ab56}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Serialization\Serialization.vcxproj">
-      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SerializerXML\SerializerXML.vcxproj">
-      <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

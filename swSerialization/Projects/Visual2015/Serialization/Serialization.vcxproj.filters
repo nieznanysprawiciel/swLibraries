@@ -51,6 +51,9 @@
     <ClInclude Include="..\..\..\Serialization\PropertySerialization\Core\Exceptions\SerializationException.h">
       <Filter>PropertySerialization\Core\Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineObject.h">
+      <Filter>PropertySerialization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\Serialization.cpp">
@@ -67,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Serialization\PropertySerialization\Core\Exceptions\SerializationException.cpp">
       <Filter>PropertySerialization\Core\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Serialization\PropertySerialization\EngineObject.cpp">
+      <Filter>PropertySerialization</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

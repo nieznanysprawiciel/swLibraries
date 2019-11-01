@@ -1,7 +1,7 @@
 #pragma once
 
 #include "swCommonLib/Common/Exceptions/Exception.h"
-#include "swCommonLib/Serialization/FilePosition.h"
+#include "swSerialization/Serialization/FilePosition.h"
 
 
 

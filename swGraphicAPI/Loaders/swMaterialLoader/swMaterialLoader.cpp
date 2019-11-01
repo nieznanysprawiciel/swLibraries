@@ -9,8 +9,8 @@
 #include "swMaterialLoader.h"
 
 #include "swCommonLib/Common/Converters.h"
-#include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
-#include "swCommonLib/Serialization/Deserializer.h"
+#include "swSerialization/Serialization/PropertySerialization/Serialization.h"
+#include "swSerialization/Serialization/Deserializer.h"
 
 #include "swGraphicAPI/Assets/MaterialAsset/ShadingModelData.h"
 #include "swGraphicAPI/Assets/MaterialAsset/PhongMaterialData.h"

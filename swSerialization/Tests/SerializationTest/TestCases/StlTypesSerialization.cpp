@@ -4,10 +4,10 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swCommonLib/Tests/SerializationTest/PrecompiledHeader/stdafx.h"
+#include "swSerialization/Tests/SerializationTest/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
 
-#include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
+#include "swSerialization/Serialization/PropertySerialization/Serialization.h"
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/StringContainer.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Arrays/ArrayContainer.h"

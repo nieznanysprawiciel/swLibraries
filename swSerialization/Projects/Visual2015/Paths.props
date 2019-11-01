@@ -4,6 +4,7 @@
   
   <PropertyGroup Label="UserMacros">
 	<RootDir>$(MSBuildThisFileDirectory)..\..\</RootDir>
+    <swLibrariesDir>$(RootDir)..\</swLibrariesDir>
 	<ProjectsDir>$(RootDir)Projects\</ProjectsDir>
 	<TestsDir>$(RootDir)Tests\</TestsDir>
 	<ReleaseDir>$(ProjectsDir)ReleaseDir\</ReleaseDir>
@@ -24,5 +25,6 @@
 	  <PreprocessorDefinitions>FMT_HEADER_ONLY;RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
+
 
 </Project>

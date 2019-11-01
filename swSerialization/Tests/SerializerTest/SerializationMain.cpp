@@ -6,8 +6,8 @@
 #undef max
 #undef min
 
-#include "swCommonLib/Serialization/Serializer.h"
-#include "swCommonLib/Serialization/Deserializer.h"
+#include "swSerialization/Serialization/Serializer.h"
+#include "swSerialization/Serialization/Deserializer.h"
 
 
 #ifdef TEST_JSON

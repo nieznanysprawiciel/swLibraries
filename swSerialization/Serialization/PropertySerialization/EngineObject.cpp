@@ -3,8 +3,9 @@
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
+#include "swSerialization/Serialization/PropertySerialization/stdafx.h"
 
-#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swSerialization/Serialization/PropertySerialization/EngineObject.h"
 
 ///< @todo This is hack - reference to external library that is not dependency.
 ///< Remove this in future.

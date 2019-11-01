@@ -2,8 +2,12 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup Label="UserMacros">
-	<GoogleBenchmarkIncludes>$(ExternalDir)GoogleBenchmark/Include/</GoogleBenchmarkIncludes>
-    <GoogleBenchmarkLibDir>$(ExternalDir)GoogleBenchmark/Libs/$(PlatformToolset)/$(PlatformShortName)/$(Configuration)/</GoogleBenchmarkLibDir>
+    <swCommonLibExternal>$(swLibrariesDir)/swCommonLib/External/</swCommonLibExternal>
+  </PropertyGroup>
+
+  <PropertyGroup Label="UserMacros">
+	<GoogleBenchmarkIncludes>$(swCommonLibExternal)GoogleBenchmark/Include/</GoogleBenchmarkIncludes>
+    <GoogleBenchmarkLibDir>$(swCommonLibExternal)GoogleBenchmark/Libs/$(PlatformToolset)/$(PlatformShortName)/$(Configuration)/</GoogleBenchmarkLibDir>
   </PropertyGroup>
 
   <ItemDefinitionGroup>

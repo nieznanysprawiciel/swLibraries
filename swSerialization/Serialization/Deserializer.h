@@ -6,8 +6,8 @@
 @brief Deklaracja klasy deserializatora.*/
 
 #include "swCommonLib/Common/TypesDefinitions.h"
-#include "swCommonLib/Serialization/ISerializationContext.h"
-#include "swCommonLib/Serialization/FilePosition.h"
+#include "swSerialization/Serialization/ISerializationContext.h"
+#include "swSerialization/Serialization/FilePosition.h"
 
 #include <string>
 #include <memory>

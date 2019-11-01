@@ -1,4 +1,4 @@
-#include "swCommonLib/Serialization/Deserializer.h"
+#include "swSerialization/Serialization/Deserializer.h"
 
 #include "swSerialization/External/RapidXML/rapidxml.hpp"
 

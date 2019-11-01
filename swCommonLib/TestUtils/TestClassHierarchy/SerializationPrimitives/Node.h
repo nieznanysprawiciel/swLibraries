@@ -1,6 +1,6 @@
 #pragma once
 
-#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swSerialization/Serialization/PropertySerialization/EngineObject.h"
 
 #include <random>
 #include <vector>
