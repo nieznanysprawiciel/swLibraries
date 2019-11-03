@@ -4,7 +4,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swSerialization/Tests/TestSerialization/PrecompiledHeader/stdafx.h"
+#include "swSerialization/Tests/TestTwoWaySerialization/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
 
 #include "swSerialization/Serialization/Serialization.h"
@@ -24,8 +24,8 @@ TEST_CASE( "Struct.BasicTypes", "[Serialization]" )
 
 	sw::Serialization serial;
 
-	REQUIRE( serial.Serialize( "Serialization/StructWithBasicTypes.xml", expected ) );
-	REQUIRE( serial.Deserialize( "Serialization/StructWithBasicTypes.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/StructWithBasicTypes.ser", expected ) );
+	REQUIRE( serial.Deserialize( "Serialization/StructWithBasicTypes.ser", actual ) );
 
 	CHECK( actual.DoubleField == expected.DoubleField );
 	CHECK( actual.FloatField == expected.FloatField );

@@ -4,7 +4,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swSerialization/Tests/TestSerialization/PrecompiledHeader/stdafx.h"
+#include "swSerialization/Tests/TestTwoWaySerialization/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
 
 #include "swSerialization/Serialization/Serialization.h"
@@ -27,8 +27,8 @@ TEST_CASE( "GenericObject.Strings", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/GenericObject.Strings.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/GenericObject.Strings.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/GenericObject.Strings.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/GenericObject.Strings.ser", actual ) );
 
 	CHECK( actual->Description == expected->Description );
 	CHECK( actual->Content == expected->Content );

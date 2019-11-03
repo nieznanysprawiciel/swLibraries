@@ -4,7 +4,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swSerialization/Tests/TestSerialization/PrecompiledHeader/stdafx.h"
+#include "swSerialization/Tests/TestTwoWaySerialization/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
 
 #include "swSerialization/Serialization/Serialization.h"
@@ -27,8 +27,8 @@ TEST_CASE( "GenericObject.StructField.AsPointer", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/GenericObject.StructField.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/GenericObject.StructField.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/GenericObject.StructField.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/GenericObject.StructField.ser", actual ) );
 
 	CHECK( actual->m_simpleStruct1 == expected->m_simpleStruct1 );
 }
@@ -44,8 +44,8 @@ TEST_CASE( "GenericObject.PassRefToObject", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/GenericObject.PassRefToObject.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/GenericObject.PassRefToObject.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/GenericObject.PassRefToObject.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/GenericObject.PassRefToObject.ser", actual ) );
 
 	CHECK( actual.m_simpleStruct1 == expected.m_simpleStruct1 );
 }
@@ -65,8 +65,8 @@ TEST_CASE( "GenericObject.PassDerivedAsBaseClass", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/GenericObject.PassDerivedAsBaseClass.xml", expectedBase ) );
-	REQUIRE( deserial.Deserialize( "Serialization/GenericObject.PassDerivedAsBaseClass.xml", actualBase ) );
+	REQUIRE( serial.Serialize( "Serialization/GenericObject.PassDerivedAsBaseClass.ser", expectedBase ) );
+	REQUIRE( deserial.Deserialize( "Serialization/GenericObject.PassDerivedAsBaseClass.ser", actualBase ) );
 
 	CHECK( actual->m_simpleStruct1 == expected->m_simpleStruct1 );
 	CHECK( actual->m_simpleStruct2 == expected->m_simpleStruct2 );

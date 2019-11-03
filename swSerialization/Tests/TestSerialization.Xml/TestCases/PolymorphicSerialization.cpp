@@ -5,7 +5,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swSerialization/Tests/TestSerialization/PrecompiledHeader/stdafx.h"
+#include "swSerialization/Tests/TestSerialization.Xml/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
 
 #include "swSerialization/Serialization/Serialization.h"
@@ -16,44 +16,6 @@
 
 using namespace sw;
 
-
-// ================================ //
-// Serializes polymorphic object with base class set.
-TEST_CASE( "Polymorphic.BaseClass", "[Serialization]" )
-{
-	PolymorphicObjectContainer expected;
-	PolymorphicObjectContainer actual;
-	expected.ObjectPtr = new BaseObject();
-
-	sw::Serialization serial;
-	sw::Serialization deserial;
-
-	REQUIRE( serial.Serialize( "Serialization/Polymorphic.BaseClass.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.BaseClass.xml", actual ) );
-
-	CHECK( actual.ObjectPtr->GetType() == TypeID::get< BaseObject >() );
-	CHECK( actual.ObjectPtr->GetType() == expected.ObjectPtr->GetType() );
-}
-
-
-
-// ================================ //
-// Serializes polymorphic object with derived class set.
-TEST_CASE( "Polymorphic.DerivedObject", "[Serialization]" )
-{
-	PolymorphicObjectContainer expected;
-	PolymorphicObjectContainer actual;
-	expected.ObjectPtr = new DerivedObject();
-
-	sw::Serialization serial;
-	sw::Serialization deserial;
-
-	REQUIRE( serial.Serialize( "Serialization/Polymorphic.DerivedObject.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.DerivedObject.xml", actual ) );
-
-	CHECK( actual.ObjectPtr->GetType() == TypeID::get< DerivedObject >() );
-	CHECK( actual.ObjectPtr->GetType() == expected.ObjectPtr->GetType() );
-}
 
 
 // ================================ //
@@ -149,24 +111,6 @@ TEST_CASE( "Polymorphic.SharedPtrContructor", "[Serialization]" )
 
 	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.SharedPtrContructor.xml", actual ) );
 	CHECK( actual.ObjectPtr == nullptr );
-}
-
-// ================================ //
-// Deserialize polymorphic object stored in class as shared_ptr.
-TEST_CASE( "Polymorphic.BaseClass.SharedPtr", "[Serialization]" )
-{
-	PolymorphicSharedPtrContainer expected;
-	PolymorphicSharedPtrContainer actual;
-	expected.ObjectPtr = std::make_shared< SharedObject >();
-
-	sw::Serialization serial;
-	sw::Serialization deserial;
-
-	REQUIRE( serial.Serialize( "Serialization/Polymorphic.BaseClass.SharedPtr.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.BaseClass.SharedPtr.xml", actual ) );
-
-	CHECK( actual.ObjectPtr->GetType() == TypeID::get< SharedObject >() );
-	CHECK( actual.ObjectPtr->GetType() == expected.ObjectPtr->GetType() );
 }
 
 // ================================ //

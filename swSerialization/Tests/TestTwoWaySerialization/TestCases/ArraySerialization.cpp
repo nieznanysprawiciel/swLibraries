@@ -4,7 +4,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swSerialization/Tests/TestSerialization/PrecompiledHeader/stdafx.h"
+#include "swSerialization/Tests/TestTwoWaySerialization/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
 
 #include "swSerialization/Serialization/Serialization.h"
@@ -31,8 +31,8 @@ TEST_CASE( "Arrays.Vector.PlainStructs", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Arrays.Vector.PlainStructs.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Vector.PlainStructs.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Arrays.Vector.PlainStructs.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Vector.PlainStructs.ser", actual ) );
 
 	CHECK( actual->StructsVec == expected->StructsVec );
 }
@@ -51,8 +51,8 @@ TEST_CASE( "Arrays.Static.PlainStructs.VariantArrayCopy", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Arrays.Static.VariantArrayCopy.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Static.VariantArrayCopy.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Arrays.Static.VariantArrayCopy.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Static.VariantArrayCopy.ser", actual ) );
 
 	CHECK( actual->Compare( *expected ) );
 }
@@ -69,8 +69,8 @@ TEST_CASE( "Arrays.Static.PlainStructs", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Arrays.Static.PlainStructs.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Static.PlainStructs.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Arrays.Static.PlainStructs.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Static.PlainStructs.ser", actual ) );
 
 	CHECK( actual->Compare( *expected ) );
 }
@@ -87,8 +87,8 @@ TEST_CASE( "Arrays.Vector.Polymorphic.Pointer", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Arrays.Vector.Polymorphic.Pointer.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Vector.Polymorphic.Pointer.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Arrays.Vector.Polymorphic.Pointer.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Vector.Polymorphic.Pointer.ser", actual ) );
 
 	REQUIRE( actual->PolymorphicsVec.size() == 3 );
 
@@ -96,55 +96,3 @@ TEST_CASE( "Arrays.Vector.Polymorphic.Pointer", "[Serialization]" )
 	CHECK( actual->PolymorphicsVec[ 1 ]->GetType() == expected->PolymorphicsVec[ 1 ]->GetType() );
 	CHECK( actual->PolymorphicsVec[ 2 ]->GetType() == expected->PolymorphicsVec[ 2 ]->GetType() );
 }
-
-
-// ================================ //
-// Serialized file contains more elements then array can hold. The same problem occures
-// when dynamic array is declared as readonly property.
-// Deserialization creates as many elements as it can and ignores rests (with warning).
-TEST_CASE( "Arrays.Static.PlainStructs.ToManyElements", "[Serialization]" )
-{
-	StaticArrayContainer* expected = new StaticArrayContainer;
-	StaticArrayContainer* actual = new StaticArrayContainer;
-	actual->ArraysSet2();
-
-	sw::Serialization deserial;
-	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Arrays.Static.PlainStructs.ToManyElements.xml", actual ) );
-
-	CHECK( actual->Compare( *expected ) );
-}
-
-// ================================ //
-// Deserializes empty vector.
-TEST_CASE( "Arrays.Vector.Empty", "[Serialization]" )
-{
-	sw::Node actual;
-
-	sw::Serialization deserial;
-	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Arrays.Vector.Empty.xml", actual ) );
-
-	CHECK( actual.Children.size() == 0 );
-
-	// We need to check if Generic field was deserialized properly.
-	// This is connected to bug, where deserialization didn't Exited array if it was empty.
-	REQUIRE( actual.Generic != nullptr );
-}
-
-// ================================ //
-// [Bug] Deserializes not empty vector. Property following array doesn't deserialize properly
-// because deserializer ends up in incorrect state (too less Exit() calls).
-TEST_CASE( "Arrays.Vector.Bugs.ObjectFollowingArray", "[Serialization]" )
-{
-	sw::Node actual;
-
-	sw::Serialization deserial;
-	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Arrays.Vector.Bugs.ObjectFollowingArray.xml", actual ) );
-
-	CHECK( actual.Children.size() == 1 );
-
-	// We need to check if Generic field was deserialized properly.
-	// This is connected to bug, where deserialization didn't Exited array if it was empty.
-	REQUIRE( actual.Generic != nullptr );
-	CHECK( actual.Children[ 0 ].Generic != nullptr );
-}
-

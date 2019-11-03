@@ -5,7 +5,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swSerialization/Tests/TestSerialization/PrecompiledHeader/stdafx.h"
+#include "swSerialization/Tests/TestTwoWaySerialization/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
 
 #include "swSerialization/Serialization/Serialization.h"
@@ -32,8 +32,8 @@ TEST_CASE( "Struct.BindAsReference", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Struct.BindAsReference.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Struct.BindAsReference.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Struct.BindAsReference.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.BindAsReference.ser", actual ) );
 
 	CHECK( actual.SimpleStruct == expected.SimpleStruct );
 }
@@ -50,8 +50,8 @@ TEST_CASE( "Struct.BindAsPointer", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Struct.BindAsPointer.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Struct.BindAsPointer.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Struct.BindAsPointer.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.BindAsPointer.ser", actual ) );
 
 	CHECK( actual.SimpleStruct == expected.SimpleStruct );
 }
@@ -69,8 +69,8 @@ TEST_CASE( "Struct.BindAsCopy", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Struct.BindAsCopy.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Struct.BindAsCopy.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Struct.BindAsCopy.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.BindAsCopy.ser", actual ) );
 
 	CHECK( actual.SimpleStruct == expected.SimpleStruct );
 }
@@ -87,8 +87,8 @@ TEST_CASE( "Struct.PointerToStruct", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Struct.PointerToStruct.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Struct.PointerToStruct.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Struct.PointerToStruct.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.PointerToStruct.ser", actual ) );
 
 	CHECK( *( actual.SimpleStruct ) == *( expected.SimpleStruct ) );
 }
@@ -105,8 +105,8 @@ TEST_CASE( "Struct.PointerToStruct.Create", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Struct.PointerToStruct.Create.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Struct.PointerToStruct.Create.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Struct.PointerToStruct.Create.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.PointerToStruct.Create.ser", actual ) );
 
 	REQUIRE( actual.SimpleStruct != nullptr );
 	CHECK( *( actual.SimpleStruct ) == *( expected.SimpleStruct ) );
@@ -124,8 +124,8 @@ TEST_CASE( "Struct.SharedPointerToStruct", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Struct.SharedPointerToStruct.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Struct.SharedPointerToStruct.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Struct.SharedPointerToStruct.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.SharedPointerToStruct.ser", actual ) );
 
 	REQUIRE( actual.SimpleStruct != nullptr );
 	CHECK( *( actual.SimpleStruct ) == *( expected.SimpleStruct ) );
@@ -143,8 +143,8 @@ TEST_CASE( "Struct.SharedPointerToStruct.Create", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Struct.SharedPointerToStruct.Create.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Struct.SharedPointerToStruct.Create.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Struct.SharedPointerToStruct.Create.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.SharedPointerToStruct.Create.ser", actual ) );
 
 	REQUIRE( actual.SimpleStruct != nullptr );
 	CHECK( *( actual.SimpleStruct ) == *( expected.SimpleStruct ) );

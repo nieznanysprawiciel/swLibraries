@@ -4,7 +4,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swSerialization/Tests/TestSerialization/PrecompiledHeader/stdafx.h"
+#include "swSerialization/Tests/TestTwoWaySerialization/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
 
 #include "swSerialization/Serialization/Serialization.h"
@@ -26,8 +26,8 @@ TEST_CASE( "Struct.Enum", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Struct.Enum.xml", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Struct.Enum.xml", actual ) );
+	REQUIRE( serial.Serialize( "Serialization/Struct.Enum.ser", expected ) );
+	REQUIRE( deserial.Deserialize( "Serialization/Struct.Enum.ser", actual ) );
 
 	CHECK( actual.State == expected.State );
 	CHECK( actual.State == TriStateEnum::Down );
