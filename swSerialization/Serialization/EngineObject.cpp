@@ -3,13 +3,13 @@
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
-#include "swSerialization/Serialization/PropertySerialization/stdafx.h"
+#include "swSerialization/Serialization/stdafx.h"
 
-#include "swSerialization/Serialization/PropertySerialization/EngineObject.h"
+#include "swSerialization/Serialization/EngineObject.h"
 
 ///< @todo This is hack - reference to external library that is not dependency.
 ///< Remove this in future.
-#include "swSerialization/Serialization/PropertySerialization/Serialization.h"
+#include "swSerialization/Serialization/Serialization.h"
 
 
 

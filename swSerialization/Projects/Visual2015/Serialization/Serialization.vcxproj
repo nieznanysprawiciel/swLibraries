@@ -19,30 +19,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Serialization\Deserializer.h" />
-    <ClInclude Include="..\..\..\Serialization\FilePosition.h" />
-    <ClInclude Include="..\..\..\Serialization\PropertySerialization\Core\Exceptions\SerializationException.h" />
-    <ClInclude Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.h" />
-    <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineObject.h" />
-    <ClInclude Include="..\..\..\Serialization\PropertySerialization\EngineSerializationContext.h" />
-    <ClInclude Include="..\..\..\Serialization\PropertySerialization\FilePosition.h" />
-    <ClInclude Include="..\..\..\Serialization\PropertySerialization\Serialization.h" />
-    <ClInclude Include="..\..\..\Serialization\PropertySerialization\SerializationContext.h" />
-    <ClInclude Include="..\..\..\Serialization\PropertySerialization\stdafx.h" />
-    <ClInclude Include="..\..\..\Serialization\ISerializationContext.h" />
-    <ClInclude Include="..\..\..\Serialization\Serializer.h" />
+    <ClInclude Include="..\..\..\Interfaces\Deserializer.h" />
+    <ClInclude Include="..\..\..\Interfaces\FilePosition.h" />
+    <ClInclude Include="..\..\..\Interfaces\ISerializationContext.h" />
+    <ClInclude Include="..\..\..\Interfaces\Serializer.h" />
+    <ClInclude Include="..\..\..\Serialization\Core\Exceptions\SerializationException.h" />
+    <ClInclude Include="..\..\..\Serialization\Core\SerializationCore.h" />
+    <ClInclude Include="..\..\..\Serialization\EngineObject.h" />
+    <ClInclude Include="..\..\..\Serialization\EngineSerializationContext.h" />
+    <ClInclude Include="..\..\..\Serialization\Serialization.h" />
+    <ClInclude Include="..\..\..\Serialization\SerializationContext.h" />
+    <ClInclude Include="..\..\..\Serialization\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Serialization\PropertySerialization\Core\Exceptions\SerializationException.cpp" />
-    <ClCompile Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.cpp" />
-    <ClCompile Include="..\..\..\Serialization\PropertySerialization\EngineObject.cpp" />
-    <ClCompile Include="..\..\..\Serialization\PropertySerialization\Serialization.cpp" />
-    <ClCompile Include="..\..\..\Serialization\PropertySerialization\SerializationContext.cpp" />
-    <ClCompile Include="..\..\..\Serialization\PropertySerialization\stdafx.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">swSerialization\Serialization\PropertySerialization\stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">swSerialization\Serialization\PropertySerialization\stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">swSerialization\Serialization\PropertySerialization\stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">swSerialization\Serialization\PropertySerialization\stdafx.h</PrecompiledHeaderFile>
+    <ClCompile Include="..\..\..\Serialization\Core\Exceptions\SerializationException.cpp" />
+    <ClCompile Include="..\..\..\Serialization\Core\SerializationCore.cpp" />
+    <ClCompile Include="..\..\..\Serialization\EngineObject.cpp" />
+    <ClCompile Include="..\..\..\Serialization\Serialization.cpp" />
+    <ClCompile Include="..\..\..\Serialization\SerializationContext.cpp" />
+    <ClCompile Include="..\..\..\Serialization\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -50,8 +45,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\Serialization\PropertySerialization\Core\SerializationCore.inl" />
-    <None Include="..\..\..\Serialization\PropertySerialization\Serialization.inl" />
+    <None Include="..\..\..\Serialization\Core\SerializationCore.inl" />
+    <None Include="..\..\..\Serialization\Serialization.inl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
@@ -123,7 +118,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>swSerialization/Serialization/PropertySerialization/stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>swSerialization/Serialization/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -135,7 +130,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>swSerialization/Serialization/PropertySerialization/stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>swSerialization/Serialization/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,7 +144,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>swSerialization/Serialization/PropertySerialization/stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>swSerialization/Serialization/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -165,7 +160,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeaderFile>swSerialization/Serialization/PropertySerialization/stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>swSerialization/Serialization/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

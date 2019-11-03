@@ -5,7 +5,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swSerialization/Serialization/PropertySerialization/EngineObject.h"
+#include "swSerialization/Serialization/EngineObject.h"
 
 #include "BindingInfo.h"
 #include "Binding.h"

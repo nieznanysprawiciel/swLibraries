@@ -6,7 +6,7 @@
 */
 
 
-#include "swSerialization/Serialization/PropertySerialization/EngineObject.h"
+#include "swSerialization/Serialization/EngineObject.h"
 #include "swGraphicAPI/Resources/ResourcePtr.h"
 #include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
 //#include <atomic>

@@ -7,7 +7,7 @@
 
 
 
-#include "swSerialization/Serialization/PropertySerialization/EngineObject.h"
+#include "swSerialization/Serialization/EngineObject.h"
 #include "swCommonLib/Common/Exceptions/Nullable.h"
 
 #include "swGraphicAPI/ResourceManager/PathTranslators/PathsManager.h"

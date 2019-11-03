@@ -6,12 +6,12 @@
 #pragma once
 
 
-#include "swSerialization/Serialization/PropertySerialization/EngineObject.h"
+#include "swSerialization/Serialization/EngineObject.h"
 #include "swCommonLib/Common/RTTR.h"
 #include "swSerialization/Interfaces/Serializer.h"
 #include "swSerialization/Interfaces/Deserializer.h"
 
-#include "swSerialization/Serialization/PropertySerialization/EngineSerializationContext.h"
+#include "swSerialization/Serialization/EngineSerializationContext.h"
 
 #include "Core/SerializationCore.h"
 

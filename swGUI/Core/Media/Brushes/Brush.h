@@ -6,7 +6,7 @@
 */
 
 
-#include "swSerialization/Serialization/PropertySerialization/EngineObject.h"
+#include "swSerialization/Serialization/EngineObject.h"
 #include "swCommonLib/Common/Buffers/BufferRange.h"
 
 

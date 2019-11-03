@@ -1,8 +1,8 @@
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Node.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Polymorphic/BaseObject.h"
 
-#include "swSerialization/Serialization/PropertySerialization/Serialization.h"
-#include "swSerialization/Serialization/PropertySerialization/SerializationContext.h"
+#include "swSerialization/Serialization/Serialization.h"
+#include "swSerialization/Serialization/SerializationContext.h"
 
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/LinkLibrary.h"
