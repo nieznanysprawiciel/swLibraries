@@ -1,4 +1,12 @@
-#include "swSerialization/Serialization/Deserializer.h"
+/**
+@file Deserializer.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
+
+#include "swSerialization/Interfaces/Deserializer.h"
+
 
 #define RAPIDJSON_HAS_STDSTRING 1
 #include "rapidjson/rapidjson.h"

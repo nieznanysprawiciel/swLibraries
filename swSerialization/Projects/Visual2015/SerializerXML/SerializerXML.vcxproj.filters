@@ -6,10 +6,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerXML\Deserializer.cpp">
+    <ClCompile Include="..\..\..\Serializers\SerializerXML\Deserializer.cpp">
       <Filter>SerializerXML</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerXML\Serializer.cpp">
+    <ClCompile Include="..\..\..\Serializers\SerializerXML\Serializer.cpp">
       <Filter>SerializerXML</Filter>
     </ClCompile>
   </ItemGroup>

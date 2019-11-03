@@ -3,7 +3,7 @@
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
-#include "swSerialization/Serialization/Serializer.h"
+#include "swSerialization/Interfaces/Serializer.h"
 
 
 #include "swCommonLib/System/Dir.h"

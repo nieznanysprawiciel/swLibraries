@@ -19,20 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerJson\Deserializer.cpp" />
-    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerJson\ErrorCodes.cpp" />
-    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerJson\Serializer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\Serialization\Deserializer.h" />
-    <ClInclude Include="..\..\..\Serialization\SerializationContext.h" />
-    <ClInclude Include="..\..\..\Serialization\Serializer.h" />
-    <ClInclude Include="..\..\..\Serialization\Serializers\SerializerJson\ErrorCodes.h" />
+    <ClInclude Include="..\..\..\Interfaces\Deserializer.h" />
+    <ClInclude Include="..\..\..\Interfaces\FilePosition.h" />
+    <ClInclude Include="..\..\..\Interfaces\ISerializationContext.h" />
+    <ClInclude Include="..\..\..\Interfaces\Serializer.h" />
+    <ClInclude Include="..\..\..\Serializers\SerializerJson\ErrorCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
       <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Serializers\SerializerJson\Deserializer.cpp" />
+    <ClCompile Include="..\..\..\Serializers\SerializerJson\ErrorCodes.cpp" />
+    <ClCompile Include="..\..\..\Serializers\SerializerJson\Serializer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D8738375-5855-4241-8CB9-63FFE08E1B96}</ProjectGuid>

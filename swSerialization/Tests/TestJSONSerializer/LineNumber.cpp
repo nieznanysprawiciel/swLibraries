@@ -1,7 +1,7 @@
 #include "swCommonLib/External/Catch/catch.hpp"
 
-#include "swSerialization/Serialization/Serializer.h"
-#include "swSerialization/Serialization/Deserializer.h"
+#include "swSerialization/Interfaces/Serializer.h"
+#include "swSerialization/Interfaces/Deserializer.h"
 
 
 

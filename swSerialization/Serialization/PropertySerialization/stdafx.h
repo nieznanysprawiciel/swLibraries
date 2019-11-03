@@ -8,8 +8,8 @@
 
 #include "swSerialization/Serialization/PropertySerialization/EngineObject.h"
 #include "swCommonLib/Common/RTTR.h"
-#include "swSerialization/Serialization/Serializer.h"
-#include "swSerialization/Serialization/Deserializer.h"
+#include "swSerialization/Interfaces/Serializer.h"
+#include "swSerialization/Interfaces/Deserializer.h"
 
 #include "swSerialization/Serialization/PropertySerialization/EngineSerializationContext.h"
 

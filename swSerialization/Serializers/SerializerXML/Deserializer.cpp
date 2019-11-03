@@ -1,4 +1,11 @@
-#include "swSerialization/Serialization/Deserializer.h"
+/**
+@file Deserializer.cpp
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
+
+#include "swSerialization/Interfaces/Deserializer.h"
 
 #include "swSerialization/External/RapidXML/rapidxml.hpp"
 

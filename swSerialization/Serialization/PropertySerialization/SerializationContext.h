@@ -9,8 +9,8 @@
 #include "swCommonLib/Common/RTTR.h"
 #include "swCommonLib/Common/Exceptions/Exception.h"
 
-#include "swSerialization/Serialization/FilePosition.h"
-#include "swSerialization/Serialization/ISerializationContext.h"
+#include "swSerialization/Interfaces/FilePosition.h"
+#include "swSerialization/Interfaces/ISerializationContext.h"
 #include "swSerialization/Serialization/PropertySerialization/Core/Exceptions/SerializationException.h"
 
 #include <map>

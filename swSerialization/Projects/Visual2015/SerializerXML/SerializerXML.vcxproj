@@ -19,13 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerXML\Deserializer.cpp" />
-    <ClCompile Include="..\..\..\Serialization\Serializers\SerializerXML\Serializer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
       <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Serializers\SerializerXML\Deserializer.cpp" />
+    <ClCompile Include="..\..\..\Serializers\SerializerXML\Serializer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{91CC6D16-F22C-434A-95E0-35EE857054C7}</ProjectGuid>

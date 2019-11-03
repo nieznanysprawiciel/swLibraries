@@ -9,8 +9,8 @@
 #include "swCommonLib/Common/RTTR.h"
 
 #include "swSerialization/Serialization/PropertySerialization/EngineObject.h"
-#include "swSerialization/Serialization/Serializer.h"
-#include "swSerialization/Serialization/Deserializer.h"
+#include "swSerialization/Interfaces/Serializer.h"
+#include "swSerialization/Interfaces/Deserializer.h"
 
 #include "swSerialization/Serialization/PropertySerialization/EngineSerializationContext.h"
 #include <DirectXMath.h>
