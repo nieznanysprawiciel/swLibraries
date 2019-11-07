@@ -51,6 +51,18 @@
     <ClInclude Include="..\..\..\Serialization\Core\Exceptions\SerializationException.h">
       <Filter>PropertySerialization\Core\Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Interfaces\SerialObject.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Interfaces\SerialArray.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Interfaces\SerialGeneric.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Interfaces\SerialAttribute.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Serialization\stdafx.cpp">

@@ -22,6 +22,10 @@
     <ClInclude Include="..\..\..\Interfaces\Deserializer.h" />
     <ClInclude Include="..\..\..\Interfaces\FilePosition.h" />
     <ClInclude Include="..\..\..\Interfaces\ISerializationContext.h" />
+    <ClInclude Include="..\..\..\Interfaces\SerialArray.h" />
+    <ClInclude Include="..\..\..\Interfaces\SerialAttribute.h" />
+    <ClInclude Include="..\..\..\Interfaces\SerialGeneric.h" />
+    <ClInclude Include="..\..\..\Interfaces\SerialObject.h" />
     <ClInclude Include="..\..\..\Interfaces\Serializer.h" />
     <ClInclude Include="..\..\..\Serialization\Core\Exceptions\SerializationException.h" />
     <ClInclude Include="..\..\..\Serialization\Core\SerializationCore.h" />
