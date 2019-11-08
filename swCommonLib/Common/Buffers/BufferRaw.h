@@ -8,7 +8,7 @@
 #include "swCommonLib/Common/TypesDefinitions.h"
 #include "swCommonLib/Common/RTTR.h"
 
-#include <allocators>
+#include <memory>
 
 
 
