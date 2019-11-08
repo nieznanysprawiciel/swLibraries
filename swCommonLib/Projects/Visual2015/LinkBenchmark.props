@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <PropertyGroup Label="UserMacros">
-	<GoogleBenchmarkIncludes>$(swCommonLibExternal)GoogleBenchmark/Include/</GoogleBenchmarkIncludes>
-    <GoogleBenchmarkLibDir>$(swCommonLibExternal)GoogleBenchmark/Libs/$(PlatformToolset)/$(PlatformShortName)/$(Configuration)/</GoogleBenchmarkLibDir>
+	<GoogleBenchmarkIncludes>$(swCommonLibExternal)GoogleBenchmark/include/</GoogleBenchmarkIncludes>
+    <GoogleBenchmarkLibDir>$(swCommonLibExternal)GoogleBenchmark/libs/$(PlatformToolset)/$(PlatformShortName)/$(Configuration)/</GoogleBenchmarkLibDir>
   </PropertyGroup>
 
   <ItemDefinitionGroup>
