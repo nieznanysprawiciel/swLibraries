@@ -8,7 +8,7 @@
 #include "SerializationCore.h"
 
 
-#include <codecvt>
+#include "swCommonLib/Common/Converters/Convert.h"
 
 
 
@@ -820,16 +820,14 @@ rttr::variant		SerializationCore::CreateInstance	( TypeID type )
 //
 std::string			SerializationCore::WstringToUTF		( const std::wstring& str )
 {
-	std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
-	return myconv.to_bytes( str );
+	return Convert::ToString( str );
 }
 
 // ================================ //
 //
 std::wstring		SerializationCore::UTFToWstring		( const std::string& str )
 {
-	std::wstring_convert< std::codecvt_utf8< wchar_t > > myconv;
-	return myconv.from_bytes( str );
+	return Convert::FromString< std::wstring >( str ).Get();
 }
 
 //====================================================================================//
