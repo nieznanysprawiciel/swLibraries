@@ -5,8 +5,15 @@
 */
 
 
+
+// Supress deprecation warning. We nned to remember to use
+// replacement in future when it will be introduced in standard.
+#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+
+
 #include "Convert.h"
 
+#include <codecvt>
 
 
 namespace impl
@@ -25,5 +32,23 @@ sw::ExceptionPtr        ConversionException     ()
     return std::static_pointer_cast< sw::Exception >( conversionException );
 }
 
+// ================================ //
+//
+std::string             ConvertWstringToString  ( const std::wstring& value )
+{
+    typedef std::codecvt_utf8< wchar_t > convert_type;
+    std::wstring_convert< convert_type, wchar_t > converter;
+    return converter.to_bytes( value );
 }
+
+// ================================ //
+//
+std::wstring            ConvertStringToWstring  ( const std::string& value )
+{
+    typedef std::codecvt_utf8< wchar_t > convert_type;
+    std::wstring_convert< convert_type, wchar_t > converter;
+    return converter.from_bytes( value );
+}
+
+}   // impl
 
