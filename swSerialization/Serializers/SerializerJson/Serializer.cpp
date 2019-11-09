@@ -3,12 +3,14 @@
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
+#define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
+#define RAPIDJSON_HAS_STDSTRING 1
+
 #include "swSerialization/Interfaces/Serializer.h"
 
 #include "swCommonLib/System/Dir.h"
 
 
-#define RAPIDJSON_HAS_STDSTRING 1
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"

@@ -1,3 +1,5 @@
+#include "ErrorCodes.h"
+
 #include <rapidjson/error/error.h>
 
 /**@brief Stringi reprezentuj¹ce kody b³êdów generowane przez rapid jsona.*/
