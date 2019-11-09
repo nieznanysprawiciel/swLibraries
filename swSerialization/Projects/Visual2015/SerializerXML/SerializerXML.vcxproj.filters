@@ -12,5 +12,13 @@
     <ClCompile Include="..\..\..\Serializers\SerializerXML\Serializer.cpp">
       <Filter>SerializerXML</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Serializers\SerializerXML\SerializerXML.cpp">
+      <Filter>SerializerXML</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Serializers\SerializerXML\SerializerXML.h">
+      <Filter>SerializerXML</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
