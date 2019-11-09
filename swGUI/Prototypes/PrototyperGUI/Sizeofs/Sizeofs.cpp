@@ -8,7 +8,10 @@
 
 #include <iostream>
 #include <iomanip>
-
+#include <filesystem>
+#include <string_view>
+#include <string>
+#include <optional>
 
 #include "swGUI/Core/System/GUISystem.h"
 #include "swGUI/Core/Controls/UIElement.h"
@@ -36,11 +39,11 @@ const int NameSize = 60;
 // ================================ //
 //
 template< typename Type >
-void			PrintSizeofType		( std::ostream& stream )
+void			PrintSizeofType		( std::ostream& stream, std::string name = typeid( Type ).name() )
 {
 	stream << std::left;
 	stream << std::setw( NameSize );
-	stream << typeid( Type ).name();
+	stream << name;
 	stream << sizeof( Type ) << std::endl;
 }
 
@@ -124,6 +127,30 @@ void			PrintRTTRTypesSizeofs		()
 
 // ================================ //
 //
+void			PrintStdSizeofs			    ()
+{
+    std::cout << std::left;
+    std::cout << "Std Library:" << std::endl;
+    std::cout << std::setw( NameSize ) << "Objects name" << "Sizeof" << std::endl;
+
+    typedef std::string string;
+    typedef std::wstring wstring;
+    typedef std::string_view string_view;
+
+    PrintSizeofType< std::filesystem::path >( std::cout );
+    PrintSizeofType< std::string >( std::cout, "std::string" );
+    PrintSizeofType< std::wstring >( std::cout, "std::wstring" );
+    PrintSizeofType< std::string_view >( std::cout, "std::string_view" );
+    PrintSizeofType< std::optional< int > >( std::cout );
+    PrintSizeofType< std::optional< sw::gui::Brush* > >( std::cout );
+
+    std::cout << std::setw( NameSize ) << "std::enable_shared_from_this additional size" << ( sizeof( VirtualEmptyClass ) - sizeof( VirtualEmptyClass* ) ) << std::endl;
+
+    std::cout << std::endl;
+}
+
+// ================================ //
+//
 void			PrintOtherSizeofs			()
 {
 	std::cout << std::left;
@@ -134,9 +161,7 @@ void			PrintOtherSizeofs			()
 	PrintSizeofType< sw::input::AxisEvent >( std::cout );
 	PrintSizeofType< sw::input::ButtonEvent >( std::cout );
 	PrintSizeofType< sw::input::CursorEvent >( std::cout );
-	PrintSizeofType< sw::input::KeyEvent>( std::cout );
-
-	std::cout << std::setw( NameSize ) << "std::enable_shared_from_this additional size" << ( sizeof( VirtualEmptyClass ) - sizeof( VirtualEmptyClass* ) ) << std::endl;
+	PrintSizeofType< sw::input::KeyEvent >( std::cout );
 
 	std::cout << std::endl;
 }
@@ -151,4 +176,5 @@ void			PrintSizeofs				()
 	PrintGUIInternalsSizeofs();
 	PrintRTTRTypesSizeofs();
 	PrintOtherSizeofs();
+    PrintStdSizeofs();
 }
