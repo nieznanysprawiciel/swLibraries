@@ -15,6 +15,7 @@ TEST_CASE( "SerializerXML", "[Serializers][SerializerXML]" )
 {
     sw::SerializerXML ser( std::make_unique< ISerializationContext >() );
 
+
 }
 
 

@@ -60,11 +60,6 @@ public:
     virtual ReturnResult        LoadFromFile	    ( const std::string& fileName ) = 0;
 
     /**@brief Deserializes content of string.
-    @note: This function doesn't modify string, so it can't use more efficient insitu parsing.
-    Use overloads instead for better performance.*/
-    virtual ReturnResult        LoadFromString	    ( const std::string& content ) = 0;
-
-    /**@brief Deserializes content of string.
     Insitu parsing of string.*/
     virtual ReturnResult        LoadFromString	    ( std::string content ) = 0;
 

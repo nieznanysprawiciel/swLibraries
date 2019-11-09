@@ -31,7 +31,9 @@ class SerializerXML : public ISerializer
 {
 private:
 
-    rapidxml::xml_document<>            m_root;
+    rapidxml::xml_document<>        m_root;
+    std::string                     m_content;      ///< We store content for insitu parsing. Moreover
+                                                    ///< it allows us to find line numbers.
 
 protected:
 public:
@@ -43,41 +45,36 @@ public:
 
     /**@brief Writes serialized content to file.
     @todo Consider using filesystem::Path or std::filesystem::path*/
-    virtual ReturnResult		SaveFile			( const std::string& fileName, WritingMode mode ) const;
+    virtual ReturnResult		SaveFile			( const std::string& fileName, WritingMode mode ) const override;
 
     /**@brief Returns strign with serialized content.
     @todo Could this function fail? Maybe we should use Nullable. But Nullable doesn't support strings yet.*/
-    virtual std::string	        SaveString			( WritingMode mode ) const;
+    virtual std::string	        SaveString			( WritingMode mode ) const override;
 
     /**@brief Loads content of file to this serializer.
     @todo Consider using filesystem::Path or std::filesystem::path*/
-    virtual ReturnResult        LoadFromFile	    ( const std::string& fileName );
-
-    /**@brief Deserializes content of string.
-    @note: This function doesn't modify string, so it can't use more efficient insitu parsing.
-    Use overloads instead for better performance.*/
-    virtual ReturnResult        LoadFromString	    ( const std::string& content );
+    virtual ReturnResult        LoadFromFile	    ( const std::string& fileName ) override;
 
     /**@brief Deserializes content of string.
     Insitu parsing of string.*/
-    virtual ReturnResult        LoadFromString	    ( std::string content );
+    virtual ReturnResult        LoadFromString	    ( std::string content ) override;
 
 public:
 
-    virtual SerialObject        AddObject           ( const SerialObject& node, std::string_view name );
-    virtual SerialArray         AddArray            ( const SerialObject& node, std::string_view name );
+    virtual SerialObject        AddObject           ( const SerialObject& node, std::string_view name ) override;
+    virtual SerialArray         AddArray            ( const SerialObject& node, std::string_view name ) override;
 
     /**@brief Adds serialization node to array.
     nameHint is optional, not all serializers will support it.*/
-    virtual SerialObject        AddObject           ( const SerialArray& node, std::string_view nameHint );
-    virtual SerialArray         AddArray            ( const SerialArray& node, std::string_view nameHint );
+    virtual SerialObject        AddObject           ( const SerialArray& node, std::string_view nameHint ) override;
+    virtual SerialArray         AddArray            ( const SerialArray& node, std::string_view nameHint ) override;
 
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, std::string_view attribute );
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, double attribute );
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, uint64 attribute );
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, int64 attribute );
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, bool attribute );
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, char attribute );
+    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, std::string_view attribute ) override;
+    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, double attribute ) override;
+    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, uint64 attribute ) override;
+    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, int64 attribute ) override;
+    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, bool attribute ) override;
+    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, char attribute ) override;
 };
 
 
