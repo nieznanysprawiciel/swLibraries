@@ -7,6 +7,8 @@
 
 #include "Texture.h"
 
+#include "swCommonLib/Common/Converters/Convert.h"
+
 
 
 RTTR_REGISTRATION
@@ -92,9 +94,7 @@ Obiekty s¹ takie same, kiedy odwo³uj¹ siê do tego samego pliku.
 */
 bool		Texture::operator==( const std::wstring& fileName )
 {
-	typedef std::codecvt_utf8<wchar_t> convert_type;
-	std::wstring_convert<convert_type, wchar_t> converter;
-	auto convertedFileName = converter.to_bytes( fileName );
+    auto convertedFileName = Convert::ToString( fileName );
 
 	if( this->GetFilePath().String() == convertedFileName )
 		return true;
