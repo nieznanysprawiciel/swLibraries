@@ -14,6 +14,8 @@ namespace sw
 {
 
 
+class ISerializer;
+
 
 // ================================ //
 //
@@ -69,7 +71,7 @@ This class and all Serial* classes implement serialization interface
 of single node. They are only light wrappers for real serializer implementation
 and they only forward calls.
 
-*/
+@ingroup Serialization*/
 class SerialGeneric : public impl::SerialBase
 {
 private:

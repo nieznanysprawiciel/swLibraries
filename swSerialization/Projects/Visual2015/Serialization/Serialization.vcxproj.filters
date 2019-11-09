@@ -63,6 +63,9 @@
     <ClInclude Include="..\..\..\Interfaces\SerialAttribute.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Interfaces\ISerializer.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Serialization\stdafx.cpp">

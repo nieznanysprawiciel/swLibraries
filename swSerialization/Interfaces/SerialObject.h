@@ -7,6 +7,8 @@
 
 #include "SerialGeneric.h"
 
+#include <string_view>
+
 
 namespace sw
 {
@@ -16,7 +18,7 @@ class SerialArray;
 
 /**@brief Represents object type serialization primitive.
 
-@todo string_view api*/
+@ingroup Serialization*/
 class SerialObject : public impl::SerialBase
 {
 private:
@@ -29,18 +31,22 @@ public:
     /// @name Serialization API
     /// @{
 
-    SerialObject        AddObject           ( const std::string& name );
-    SerialArray         AddArray            ( const std::string& name );
+    SerialObject        AddObject           ( std::string_view name );
+    SerialArray         AddArray            ( std::string_view name );
 
-    void                AddAttributeString  ( const std::string& name, const std::string& attribute );
+    void                AddAttribute        ( std::string_view name, std::string_view attribute );
     
-    void                AddAttributeDouble  ( const std::string& name, double attribute );
-    void                AddAttributeUInt64  ( const std::string& name, uint64 attribute );
-    void                AddAttributeInt64   ( const std::string& name, int64 attribute );
-    void                AddAttributeUInt64  ( const std::string& name, uint32 attribute );
-    void                AddAttributeInt64   ( const std::string& name, int32 attribute );
-    void                AddAttributeBool    ( const std::string& name, bool attribute );
-    void                AddAttributeChar    ( const std::string& name, char attribute );
+    void                AddAttribute        ( std::string_view name, double attribute );
+    void                AddAttribute        ( std::string_view name, uint64 attribute );
+    void                AddAttribute        ( std::string_view name, int64 attribute );
+    void                AddAttribute        ( std::string_view name, uint32 attribute );
+    void                AddAttribute        ( std::string_view name, int32 attribute );
+    void                AddAttribute        ( std::string_view name, uint16 attribute );
+    void                AddAttribute        ( std::string_view name, int16 attribute );
+    void                AddAttribute        ( std::string_view name, uint8 attribute );
+    void                AddAttribute        ( std::string_view name, int8 attribute );
+    void                AddAttribute        ( std::string_view name, bool attribute );
+    void                AddAttribute        ( std::string_view name, char attribute );
 
     /// @}
 
@@ -48,7 +54,11 @@ public:
 
     /// @name Deserialization API
     /// @{
+    Size                                                GetNumElements      () const;
+    sw::FilePosition                                    CurrentLineNumber   () const;
 
+    std::pair< std::string_view, SerialGeneric >        GetElement          ( Size index ) const;
+    SerialGeneric                                       GetElement          ( std::string_view name ) const;
 
     /// @}
 

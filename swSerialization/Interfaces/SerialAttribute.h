@@ -13,7 +13,8 @@ namespace sw
 {
 
 /**@brief Represents attribute serialization primitive.
-It is one of primitive types: string, number, bool.*/
+It is one of primitive types: string, number, bool.
+@ingroup Serialization*/
 class SerialAttribute : public impl::SerialBase
 {
 private:
