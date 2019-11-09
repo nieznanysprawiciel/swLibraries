@@ -71,10 +71,10 @@ struct Version
     static Nullable< Version >      From                ( const std::string& versionStr );
 
     /**@brief Version comparision.*/
-    bool                            operator<           ( const Version& other );
+    bool                            operator<           ( const Version& other ) const;
 
     /**@brief Version comparision.*/
-    bool                            operator==          ( const Version& other );
+    bool                            operator==          ( const Version& other ) const;
 
     /**@brief Conversts to string.
     String has the same fromat as Version::From function expects as input.*/
