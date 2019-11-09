@@ -7,7 +7,6 @@
 
 
 #include <string>
-#include <codecvt>
 #include <type_traits>
 
 #include "swCommonLib/Common/Exceptions/Nullable.h"
@@ -135,15 +134,22 @@ inline sw::Nullable< typename std::enable_if< std::is_enum< DstType >::value, Ds
 //			Wstring to string	
 //====================================================================================//
 
+namespace impl
+{
+
+std::string                 ConvertWstringToString              ( const std::wstring& value );
+std::wstring                ConvertStringToWstring              ( const std::string& value );
+
+}   // impl
+
+
 // ================================ //
 //
 template<>
 static inline typename std::enable_if< !std::is_enum< std::wstring >::value, std::string >::type
 							Convert::ToString< std::wstring >   ( const std::wstring& value )
 {
-	typedef std::codecvt_utf8< wchar_t > convert_type;
-	std::wstring_convert< convert_type, wchar_t > converter;
-	return converter.to_bytes( value );
+    return ::impl::ConvertWstringToString( value );
 }
 
 // ================================ //
@@ -152,9 +158,7 @@ template< typename SrcType >
 inline sw::Nullable< typename std::enable_if< std::is_same< SrcType, std::wstring >::value, std::wstring >::type >
 							Convert::FromString             	( const std::string& value )
 {
-	typedef std::codecvt_utf8< wchar_t > convert_type;
-	std::wstring_convert< convert_type, wchar_t > converter;
-	return converter.from_bytes( value );
+    return ::impl::ConvertStringToWstring( value );
 }
 
 //====================================================================================//

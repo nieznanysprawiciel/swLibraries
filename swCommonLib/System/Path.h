@@ -10,8 +10,15 @@ Na razie implementacje dla ró¿nych kompilatorów umieszczaj¹ tê klasê w ró¿nych n
 wiêc nie da siê tego zaimplementowac w pe³ni przenoœnie.
 */
 
+
+// Supress deprecation warning. We nned to remember to use
+// replacement in future when it will be introduced in standard.
+#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+
+
 //#include <filesystem>
 #include "Filesystem/filesystem/path.h"
+
 #include <string>
 #include <codecvt>
 
