@@ -38,5 +38,6 @@
     <ClCompile Include="..\..\..\Interfaces\SerialObject.cpp">
       <Filter>Interfaces</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Interfaces\SerialGeneric.cpp" />
   </ItemGroup>
 </Project>

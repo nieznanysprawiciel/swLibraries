@@ -11,6 +11,7 @@
 #include "FilePosition.h"
 
 #include <string_view>
+#include <optional>
 
 
 namespace sw
@@ -65,8 +66,8 @@ public:
     Size                                                GetNumElements      () const;
     sw::FilePosition                                    CurrentLineNumber   () const;
 
-    std::pair< std::string_view, SerialGeneric >        GetElement          ( Size index ) const;
-    SerialGeneric                                       GetElement          ( std::string_view name ) const;
+    std::optional< std::pair< std::string_view, SerialGeneric > >       GetElement          ( Size index ) const;
+    std::optional< SerialGeneric >                                      GetElement          ( std::string_view name ) const;
 
     /// @}
 

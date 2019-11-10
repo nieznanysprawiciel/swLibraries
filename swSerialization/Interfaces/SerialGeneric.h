@@ -8,32 +8,33 @@
 
 #include "ISerializer.h"
 
+#include <optional>
+
 
 namespace sw
 {
 
-
+class SerialArray;
+class SerialObject;
 
 
 
 // ================================ //
 //
-enum SerialType
+enum SerialType : uint32
 {
-    Object,
-    Array,
-    Attribute,
+    Array = 0x01,
+    Object = 0x11,
+    Attribute = 0x1 << 2,
 
-    String,
-    Bool,
-    Character,
-    Number,
+    String = 0x11 << 2,
+    Bool = 0x101 << 2,
+    Character = 0x1001 << 2,
+    Number = 0x10001 << 2,
 
-    UInt64,
-    Int64,
-    UInt32,
-    Int32,
-    Double
+    UInt64 = 0x110001 << 2,
+    Int64 = 0x1010001 << 2,
+    Double = 0x10010001 << 2    ///< Should be number?
 };
 
 
@@ -94,11 +95,45 @@ public:
 
     SerialType          GetSerialType   () const { return m_type; }
 
-    bool                IsArray         () const { return m_type | SerialType::Array; }
-    bool                IsObject        () const { return m_type | SerialType::Object; }
-    bool                IsAttribute     () const;
+    bool                IsArray         () const { return IsArray( m_type ); }
+    bool                IsObject        () const { return IsObject( m_type ); }
+    bool                IsAttribute     () const { return IsAttribute( m_type ); }
+
+    std::optional< SerialObject >       ObjectView      ();
+    std::optional< SerialArray >        ArrayView       ();
+
+public:
+
+    static bool         IsArray         ( SerialType type );
+    static bool         IsObject        ( SerialType type );
+    static bool         IsAttribute     ( SerialType type );
 };
 
+
+//====================================================================================//
+//			Implementation	
+//====================================================================================//
+
+// ================================ //
+//
+inline bool             SerialGeneric::IsArray      ( SerialType type )
+{
+    return ( type & SerialType::Array ) == SerialType::Array;
+}
+
+// ================================ //
+//
+inline bool             SerialGeneric::IsObject     ( SerialType type )
+{
+    return ( type & SerialType::Object ) == SerialType::Object;
+}
+
+// ================================ //
+//
+inline bool             SerialGeneric::IsAttribute  ( SerialType type )
+{
+    return ( type & SerialType::Attribute ) == SerialType::Attribute;
+}
 
 
 }	// sw
