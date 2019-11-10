@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Serializers\SerializerJson\ErrorCodes.h" />
+    <ClInclude Include="..\..\..\Serializers\SerializerJson\SerializerJSON.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
@@ -33,6 +34,7 @@
     <ClCompile Include="..\..\..\Serializers\SerializerJson\Deserializer.cpp" />
     <ClCompile Include="..\..\..\Serializers\SerializerJson\ErrorCodes.cpp" />
     <ClCompile Include="..\..\..\Serializers\SerializerJson\Serializer.cpp" />
+    <ClCompile Include="..\..\..\Serializers\SerializerJson\SerializerJSON.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D8738375-5855-4241-8CB9-63FFE08E1B96}</ProjectGuid>
