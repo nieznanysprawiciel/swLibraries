@@ -146,8 +146,23 @@ SerialObject            SerializerXML::Root             ()
 //
 SerialObject            SerializerXML::AddObject        ( const SerialObject& parent, std::string_view name )
 {
+    return SerializerXML::AddObject( parent.ArrayView(), name );
+}
+
+// ================================ //
+//
+SerialArray             SerializerXML::AddArray         ( const SerialObject& parent, std::string_view name )
+{
+    // In xml array is the same as object.
+    return SerializerXML::AddObject( parent.ArrayView(), name ).ArrayView();
+}
+
+// ================================ //
+//
+SerialObject            SerializerXML::AddObject        ( const SerialArray& parent, std::string_view nameHint )
+{
     auto parentXmlNode = impl::FromSerialNode( parent );
-    auto newNode = ConstructNode( name );
+    auto newNode = ConstructNode( nameHint );
 
     parentXmlNode->append_node( newNode );
 
@@ -156,26 +171,10 @@ SerialObject            SerializerXML::AddObject        ( const SerialObject& pa
 
 // ================================ //
 //
-SerialArray             SerializerXML::AddArray         ( const SerialObject& parent, std::string_view name )
-{
-    assert( !"Implement me " );
-    return SerialArray( this, impl::ToNodePtr( &m_root ) );
-}
-
-// ================================ //
-//
-SerialObject            SerializerXML::AddObject        ( const SerialArray& parent, std::string_view nameHint )
-{
-    assert( !"Implement me " );
-    return SerialObject( this, impl::ToNodePtr( &m_root ) );
-}
-
-// ================================ //
-//
 SerialArray             SerializerXML::AddArray         ( const SerialArray& parent, std::string_view nameHint )
 {
-    assert( !"Implement me " );
-    return SerialArray( this, impl::ToNodePtr( &m_root ) );
+    // In xml array is the same as object.
+    return SerializerXML::AddObject( parent, nameHint ).ArrayView();
 }
 
 // ================================ //
@@ -231,7 +230,7 @@ SerialObject            SerializerXML::AddAttribute     ( const SerialObject& pa
 rapidxml::xml_node<>*   SerializerXML::ConstructNode    ( const std::string_view& name )
 {
     char* nodeName = m_root.allocate_string( name.data(), name.size() );
-    return m_root.allocate_node( rapidxml::node_type::node_element, nodeName );
+    return m_root.allocate_node( rapidxml::node_type::node_element, nodeName, 0, name.size() );
 }
 
 

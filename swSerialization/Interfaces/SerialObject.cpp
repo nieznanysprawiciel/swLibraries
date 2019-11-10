@@ -22,7 +22,7 @@ SerialArray             SerialObject::AddArray      ( std::string_view name )
 
 // ================================ //
 //
-SerialArray             SerialObject::ArrayView     ()
+SerialArray             SerialObject::ArrayView     () const
 {
     return SerialArray( m_serializer, m_node );
 }

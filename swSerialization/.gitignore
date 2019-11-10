@@ -30,6 +30,8 @@ Projects/ReleaseDir/SerializerTest/*
 !Projects/ReleaseDir/SerializerTest/JSON/
 !Projects/ReleaseDir/SerializerTest/XML/
 
+Projects/ReleaseDir/SerializerTest/XML/Generated/*
+
 
 # Generated documentation
 Documentation/

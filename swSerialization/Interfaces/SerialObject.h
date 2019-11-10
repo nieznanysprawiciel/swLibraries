@@ -56,7 +56,7 @@ public:
     /// @}
 
     /**@brief Cast SerialObject to SerialArray. Array API can represent Object.*/
-    SerialArray         ArrayView           ();
+    SerialArray         ArrayView           () const;
 
 public:
 
