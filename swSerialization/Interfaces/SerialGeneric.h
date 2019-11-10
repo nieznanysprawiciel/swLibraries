@@ -6,15 +6,14 @@
 */
 
 
-#include "Deserializer.h"
-#include "Serializer.h"
+#include "ISerializer.h"
 
 
 namespace sw
 {
 
 
-class ISerializer;
+
 
 
 // ================================ //
@@ -41,7 +40,7 @@ enum SerialType
 namespace impl
 {
 
-typedef void* NodePointer;
+typedef const void* NodePointer;
 
 
 
@@ -55,9 +54,15 @@ protected:
     impl::NodePointer   m_node;         ///< Internal implementation specific node pointer. It can be anything.
 
 public:
-    explicit		SerialBase		() = default;
+    explicit		SerialBase		( ISerializer* ser, impl::NodePointer nodeInternal )
+        :   m_serializer( ser )
+        ,   m_node( nodeInternal )
+    {}
                     ~SerialBase	    () = default;
 public:
+
+    /**@brief Gets pointer to serializer internal representation of node.*/
+    impl::NodePointer   GetNodePtr  () const { return m_node; }
 };
 
 
@@ -80,7 +85,10 @@ protected:
     SerialType          m_type;
 
 public:
-    explicit		SerialGeneric	() = default;
+    explicit		SerialGeneric	( ISerializer* ser, impl::NodePointer nodeInternal, SerialType type )
+        :   impl::SerialBase( ser, nodeInternal )
+        ,   m_type( type )
+    {}
                     ~SerialGeneric	() = default;
 public:
 

@@ -20,10 +20,38 @@ namespace sw
 {
 
 
+namespace impl
+{
+
+// ================================ //
+//
+impl::NodePointer       ToNodePtr       ( const rapidxml::xml_node<>* xmlNode )
+{
+    return xmlNode;
+}
+
+// ================================ //
+//
+rapidxml::xml_node<>*   FromNodePtr     ( impl::NodePointer ptr )
+{
+    return reinterpret_cast< rapidxml::xml_node<>* >( const_cast< void* >( ptr ) );
+}
+
+// ================================ //
+//
+rapidxml::xml_node<>*   FromSerialNode  ( const impl::SerialBase& node )
+{
+    return FromNodePtr( node.GetNodePtr() );
+}
+
+
+}   // impl
+
+
 // ================================ //
 //
 SerializerXML::SerializerXML( ISerializationContextPtr serContext )
-    :   ISerializer( std::move( serContext ) )
+    : ISerializer( std::move( serContext ) )
 {}
 
 // ================================ //
@@ -74,7 +102,7 @@ ReturnResult            SerializerXML::LoadFromFile     ( const std::string& fil
     auto content = buffer.str();
 
     file.close();
-        
+
     return LoadFromString( std::move( content ) );
 }
 
@@ -109,72 +137,101 @@ ReturnResult            SerializerXML::LoadFromString   ( std::string content )
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddObject        ( const SerialObject& node, std::string_view name )
+SerialObject            SerializerXML::Root             ()
 {
-    return SerialObject();
+    return SerialObject( this, impl::ToNodePtr( &m_root ) );
 }
 
 // ================================ //
 //
-SerialArray             SerializerXML::AddArray         ( const SerialObject& node, std::string_view name )
+SerialObject            SerializerXML::AddObject        ( const SerialObject& parent, std::string_view name )
 {
-    return SerialArray();
+    auto parentXmlNode = impl::FromSerialNode( parent );
+    auto newNode = ConstructNode( name );
+
+    parentXmlNode->append_node( newNode );
+
+    return SerialObject( this, impl::ToNodePtr( newNode ) );
 }
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddObject        ( const SerialArray& node, std::string_view nameHint )
+SerialArray             SerializerXML::AddArray         ( const SerialObject& parent, std::string_view name )
 {
-    return SerialObject();
+    assert( !"Implement me " );
+    return SerialArray( this, impl::ToNodePtr( &m_root ) );
 }
 
 // ================================ //
 //
-SerialArray             SerializerXML::AddArray         ( const SerialArray& node, std::string_view nameHint )
+SerialObject            SerializerXML::AddObject        ( const SerialArray& parent, std::string_view nameHint )
 {
-    return SerialArray();
+    assert( !"Implement me " );
+    return SerialObject( this, impl::ToNodePtr( &m_root ) );
 }
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddAttribute     ( const SerialObject& node, std::string_view name, std::string_view attribute )
+SerialArray             SerializerXML::AddArray         ( const SerialArray& parent, std::string_view nameHint )
 {
-    return SerialObject();
+    assert( !"Implement me " );
+    return SerialArray( this, impl::ToNodePtr( &m_root ) );
 }
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddAttribute     ( const SerialObject& node, std::string_view name, double attribute )
+SerialObject            SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, std::string_view attribute )
 {
-    return SerialObject();
+    assert( !"Implement me " );
+    return SerialObject( this, impl::ToNodePtr( &m_root ) );
 }
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddAttribute     ( const SerialObject& node, std::string_view name, uint64 attribute )
+SerialObject            SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, double attribute )
 {
-    return SerialObject();
+    assert( !"Implement me " );
+    return SerialObject( this, impl::ToNodePtr( &m_root ) );
 }
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddAttribute     ( const SerialObject& node, std::string_view name, int64 attribute )
+SerialObject            SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, uint64 attribute )
 {
-    return SerialObject();
+    assert( !"Implement me " );
+    return SerialObject( this, impl::ToNodePtr( &m_root ) );
 }
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddAttribute     ( const SerialObject& node, std::string_view name, bool attribute )
+SerialObject            SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, int64 attribute )
 {
-    return SerialObject();
+    assert( !"Implement me " );
+    return SerialObject( this, impl::ToNodePtr( &m_root ) );
 }
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddAttribute     ( const SerialObject& node, std::string_view name, char attribute )
+SerialObject            SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, bool attribute )
 {
-    return SerialObject();
+    assert( !"Implement me " );
+    return SerialObject( this, impl::ToNodePtr( &m_root ) );
+}
+
+// ================================ //
+//
+SerialObject            SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, char attribute )
+{
+    assert( !"Implement me " );
+    return SerialObject( this, impl::ToNodePtr( &m_root ) );
+}
+
+// ================================ //
+//
+rapidxml::xml_node<>*   SerializerXML::ConstructNode    ( const std::string_view& name )
+{
+    char* nodeName = m_root.allocate_string( name.data(), name.size() );
+    return m_root.allocate_node( rapidxml::node_type::node_element, nodeName );
 }
 
 

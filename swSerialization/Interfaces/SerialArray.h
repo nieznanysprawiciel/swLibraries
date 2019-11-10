@@ -8,6 +8,9 @@
 
 #include "SerialGeneric.h"
 
+#include "ISerializer.h"
+#include "FilePosition.h"
+
 
 
 namespace sw
@@ -29,7 +32,9 @@ class SerialArray : public impl::SerialBase
 private:
 protected:
 public:
-    explicit		SerialArray		() = default;
+    explicit		SerialArray		( ISerializer* ser, impl::NodePointer nodeInternal )
+        :   impl::SerialBase( ser, nodeInternal )
+    {}
                     ~SerialArray	() = default;
 public:
 

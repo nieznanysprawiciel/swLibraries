@@ -9,6 +9,10 @@
 
 #include "swSerialization/External/RapidXML/rapidxml.hpp"
 
+#include "swSerialization/Interfaces/SerialArray.h"
+#include "swSerialization/Interfaces/SerialObject.h"
+#include "swSerialization/Interfaces/SerialAttribute.h"
+
 
 
 namespace sw
@@ -59,22 +63,30 @@ public:
     Insitu parsing of string.*/
     virtual ReturnResult        LoadFromString	    ( std::string content ) override;
 
-public:
+    /**@brief Gets serialization root object.*/
+    virtual SerialObject        Root                () override;
 
-    virtual SerialObject        AddObject           ( const SerialObject& node, std::string_view name ) override;
-    virtual SerialArray         AddArray            ( const SerialObject& node, std::string_view name ) override;
+protected:
+
+    virtual SerialObject        AddObject           ( const SerialObject& parent, std::string_view name ) override;
+    virtual SerialArray         AddArray            ( const SerialObject& parent, std::string_view name ) override;
 
     /**@brief Adds serialization node to array.
     nameHint is optional, not all serializers will support it.*/
-    virtual SerialObject        AddObject           ( const SerialArray& node, std::string_view nameHint ) override;
-    virtual SerialArray         AddArray            ( const SerialArray& node, std::string_view nameHint ) override;
+    virtual SerialObject        AddObject           ( const SerialArray& parent, std::string_view nameHint ) override;
+    virtual SerialArray         AddArray            ( const SerialArray& parent, std::string_view nameHint ) override;
 
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, std::string_view attribute ) override;
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, double attribute ) override;
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, uint64 attribute ) override;
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, int64 attribute ) override;
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, bool attribute ) override;
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, char attribute ) override;
+    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, std::string_view attribute ) override;
+    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, double attribute ) override;
+    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, uint64 attribute ) override;
+    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, int64 attribute ) override;
+    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, bool attribute ) override;
+    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, char attribute ) override;
+
+private:
+
+    rapidxml::xml_node<>*       ConstructNode       ( const std::string_view& name );
+
 };
 
 

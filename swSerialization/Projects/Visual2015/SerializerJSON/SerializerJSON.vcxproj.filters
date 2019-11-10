@@ -4,23 +4,8 @@
     <Filter Include="SerializerJSON">
       <UniqueIdentifier>{fc2cbdf3-03a0-45d3-9ee4-c6f9a0179d4f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Interfaces">
-      <UniqueIdentifier>{f70edd2b-62e1-4475-8c69-9633ff5adcc2}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Interfaces\Deserializer.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Interfaces\FilePosition.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Interfaces\ISerializationContext.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Interfaces\Serializer.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Serializers\SerializerJson\ErrorCodes.h">
       <Filter>SerializerJSON</Filter>
     </ClInclude>

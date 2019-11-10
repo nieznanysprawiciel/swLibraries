@@ -19,15 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Interfaces\Deserializer.h" />
-    <ClInclude Include="..\..\..\Interfaces\FilePosition.h" />
-    <ClInclude Include="..\..\..\Interfaces\ISerializationContext.h" />
-    <ClInclude Include="..\..\..\Interfaces\ISerializer.h" />
-    <ClInclude Include="..\..\..\Interfaces\SerialArray.h" />
-    <ClInclude Include="..\..\..\Interfaces\SerialAttribute.h" />
-    <ClInclude Include="..\..\..\Interfaces\SerialGeneric.h" />
-    <ClInclude Include="..\..\..\Interfaces\SerialObject.h" />
-    <ClInclude Include="..\..\..\Interfaces\Serializer.h" />
     <ClInclude Include="..\..\..\Serialization\Core\Exceptions\SerializationException.h" />
     <ClInclude Include="..\..\..\Serialization\Core\SerializationCore.h" />
     <ClInclude Include="..\..\..\Serialization\EngineObject.h" />
@@ -59,6 +50,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\Reflection\Reflection.vcxproj">
       <Project>{59fa8028-2346-4246-854f-14dcfab6ab56}</Project>
+    </ProjectReference>
+    <ProjectReference Include="SerializationInterfaces.vcxproj">
+      <Project>{279d5fbe-d687-4d72-8a39-122b6ef72a69}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

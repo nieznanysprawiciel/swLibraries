@@ -10,13 +10,17 @@
 
 #include "swSerialization/Interfaces/ISerializationContext.h"
 
-#include "swSerialization/Interfaces/SerialArray.h"
-#include "swSerialization/Interfaces/SerialObject.h"
-#include "swSerialization/Interfaces/SerialAttribute.h"
 
 
 namespace sw
 {
+
+class SerialArray;
+class SerialObject;
+class SerialAttribute;
+class SerialGeneric;
+
+
 
 /**@brief Mode of writing serialization content.
 @ingroup Serialization*/
@@ -34,6 +38,9 @@ enum class WritingMode : uint8
 @ingroup Serialization*/
 class ISerializer
 {
+    friend class SerialObject;
+    friend class SerialArray;
+
 private:
 protected:
 
@@ -63,22 +70,25 @@ public:
     Insitu parsing of string.*/
     virtual ReturnResult        LoadFromString	    ( std::string content ) = 0;
 
-public:
+    /**@brief Gets serialization root object.*/
+    virtual SerialObject        Root                () = 0;
 
-    virtual SerialObject        AddObject           ( const SerialObject& node, std::string_view name ) = 0;
-    virtual SerialArray         AddArray            ( const SerialObject& node, std::string_view name ) = 0;
+protected:
+
+    virtual SerialObject        AddObject           ( const SerialObject& parent, std::string_view name ) = 0;
+    virtual SerialArray         AddArray            ( const SerialObject& parent, std::string_view name ) = 0;
 
     /**@brief Adds serialization node to array.
     nameHint is optional, not all serializers will support it.*/
-    virtual SerialObject        AddObject           ( const SerialArray& node, std::string_view nameHint ) = 0;
-    virtual SerialArray         AddArray            ( const SerialArray& node, std::string_view nameHint ) = 0;
+    virtual SerialObject        AddObject           ( const SerialArray& parent, std::string_view nameHint ) = 0;
+    virtual SerialArray         AddArray            ( const SerialArray& parent, std::string_view nameHint ) = 0;
 
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, std::string_view attribute ) = 0;
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, double attribute ) = 0;
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, uint64 attribute ) = 0;
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, int64 attribute ) = 0;
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, bool attribute ) = 0;
-    virtual SerialObject        AddAttribute        ( const SerialObject& node, std::string_view name, char attribute ) = 0;
+    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, std::string_view attribute ) = 0;
+    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, double attribute ) = 0;
+    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, uint64 attribute ) = 0;
+    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, int64 attribute ) = 0;
+    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, bool attribute ) = 0;
+    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, char attribute ) = 0;
 
 public:
 

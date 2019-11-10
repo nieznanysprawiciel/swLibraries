@@ -19,15 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Interfaces\Deserializer.h" />
-    <ClInclude Include="..\..\..\Interfaces\FilePosition.h" />
-    <ClInclude Include="..\..\..\Interfaces\ISerializationContext.h" />
-    <ClInclude Include="..\..\..\Interfaces\Serializer.h" />
     <ClInclude Include="..\..\..\Serializers\SerializerJson\ErrorCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
       <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Serialization\SerializationInterfaces.vcxproj">
+      <Project>{279d5fbe-d687-4d72-8a39-122b6ef72a69}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

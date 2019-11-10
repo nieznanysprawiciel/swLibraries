@@ -161,6 +161,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SerializationBenchmark.JSON
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SerializationBenchmark.XML", "..\swSerialization\Projects\Visual2015\Benchmarks\SerializationBenchmark\SerializationBenchmark.XML.vcxproj", "{1E7C4CFD-8EDC-4BFE-9AB4-DD424B3E921C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SerializationInterfaces", "..\swSerialization\Projects\Visual2015\Serialization\SerializationInterfaces.vcxproj", "{279D5FBE-D687-4D72-8A39-122B6EF72A69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -625,6 +627,14 @@ Global
 		{1E7C4CFD-8EDC-4BFE-9AB4-DD424B3E921C}.Release|x64.Build.0 = Release|x64
 		{1E7C4CFD-8EDC-4BFE-9AB4-DD424B3E921C}.Release|x86.ActiveCfg = Release|Win32
 		{1E7C4CFD-8EDC-4BFE-9AB4-DD424B3E921C}.Release|x86.Build.0 = Release|Win32
+		{279D5FBE-D687-4D72-8A39-122B6EF72A69}.Debug|x64.ActiveCfg = Debug|x64
+		{279D5FBE-D687-4D72-8A39-122B6EF72A69}.Debug|x64.Build.0 = Debug|x64
+		{279D5FBE-D687-4D72-8A39-122B6EF72A69}.Debug|x86.ActiveCfg = Debug|Win32
+		{279D5FBE-D687-4D72-8A39-122B6EF72A69}.Debug|x86.Build.0 = Debug|Win32
+		{279D5FBE-D687-4D72-8A39-122B6EF72A69}.Release|x64.ActiveCfg = Release|x64
+		{279D5FBE-D687-4D72-8A39-122B6EF72A69}.Release|x64.Build.0 = Release|x64
+		{279D5FBE-D687-4D72-8A39-122B6EF72A69}.Release|x86.ActiveCfg = Release|Win32
+		{279D5FBE-D687-4D72-8A39-122B6EF72A69}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -708,6 +718,7 @@ Global
 		{36978EBD-9F8D-4A5D-98B7-4664EF50F807} = {DE666E4F-976E-47D7-8F9E-607F801EDD0C}
 		{4CDD6B77-5A3A-4E1D-9AF5-3B43DAA56CC1} = {3111E7A4-0395-4345-93E5-25C16BCC1971}
 		{1E7C4CFD-8EDC-4BFE-9AB4-DD424B3E921C} = {3111E7A4-0395-4345-93E5-25C16BCC1971}
+		{279D5FBE-D687-4D72-8A39-122B6EF72A69} = {33EAE5FD-B685-4FC7-B96D-B3EA53A4C985}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A341301D-630D-4C6A-B843-1A50FC78565A}
