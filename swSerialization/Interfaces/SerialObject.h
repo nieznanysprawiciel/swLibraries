@@ -63,11 +63,14 @@ public:
 
     /// @name Deserialization API
     /// @{
-    Size                                                GetNumElements      () const;
-    sw::FilePosition                                    CurrentLineNumber   () const;
+    Size                                        GetNumElements      () const;
+    sw::FilePosition                            CurrentLineNumber   () const;
 
-    std::optional< std::pair< std::string_view, SerialGeneric > >       GetElement          ( Size index ) const;
-    std::optional< SerialGeneric >                                      GetElement          ( std::string_view name ) const;
+    std::optional< SerialObjectChild >          GetElement          ( Size index ) const;
+
+    /**@brief Returns element of given name.
+    This can be either child node or attribute. Only first occurance of this name is returned.*/
+    std::optional< SerialGeneric >              GetElement          ( std::string_view name ) const;
 
     /// @}
 
@@ -169,8 +172,16 @@ inline void                     SerialObject::AddAttribute  ( std::string_view n
     m_serializer->AddAttribute( *this, name, attribute );
 }
 
+//====================================================================================//
+//			Deserialization API
+//====================================================================================//
 
-
+// ================================ //
+//
+inline std::optional< SerialGeneric >       SerialObject::GetElement    ( std::string_view name ) const
+{
+    return m_serializer->GetElement( *this, name );
+}
 
 }	// sw
 

@@ -8,8 +8,11 @@
 #include "swCommonLib/Common/TypesDefinitions.h"
 #include "swCommonLib/Common/Exceptions/Nullable.h"
 
-#include "swSerialization/Interfaces/ISerializationContext.h"
+#include "ISerializationContext.h"
+#include "FilePosition.h"
 
+#include <optional>
+#include <string_view>
 
 
 namespace sw
@@ -20,6 +23,8 @@ class SerialObject;
 class SerialAttribute;
 class SerialGeneric;
 
+
+typedef std::pair< std::string_view, SerialGeneric > SerialObjectChild;
 
 
 /**@brief Mode of writing serialization content.
@@ -75,6 +80,9 @@ public:
 
 protected:
 
+    /// @name Serialization API
+    /// @{
+
     virtual SerialObject        AddObject           ( const SerialObject& parent, std::string_view name ) = 0;
     virtual SerialArray         AddArray            ( const SerialObject& parent, std::string_view name ) = 0;
 
@@ -90,7 +98,20 @@ protected:
     virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, bool attribute ) = 0;
     virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, char attribute ) = 0;
 
+    /// @}
+
 public:
+
+    /// @name Deserialization API
+    /// @{
+
+    virtual Size                                        GetNumElements      ( const SerialObject& parent ) const = 0;
+    virtual sw::FilePosition                            CurrentLineNumber   ( const SerialObject& node ) const = 0;
+
+    virtual std::optional< SerialObjectChild >          GetElement          ( const SerialObject& parent, Size index ) const = 0;
+    virtual std::optional< SerialGeneric >              GetElement          ( const SerialObject& parent, std::string_view name ) const = 0;
+
+    /// @}
 
 public:
 

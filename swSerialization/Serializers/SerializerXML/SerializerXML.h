@@ -83,6 +83,19 @@ protected:
     virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, bool attribute ) override;
     virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, char attribute ) override;
 
+protected:
+
+    /// @name Deserialization API
+    /// @{
+
+    virtual Size                                        GetNumElements      ( const SerialObject& parent ) const override;
+    virtual sw::FilePosition                            CurrentLineNumber   ( const SerialObject& node ) const override;
+
+    virtual std::optional< SerialObjectChild >          GetElement          ( const SerialObject& parent, Size index ) const override;
+    virtual std::optional< SerialGeneric >              GetElement          ( const SerialObject& parent, std::string_view name ) const override;
+
+    /// @}
+
 private:
 
     rapidxml::xml_node<>*       ConstructNode       ( const std::string_view& name );

@@ -32,6 +32,14 @@ impl::NodePointer       ToNodePtr       ( const rapidxml::xml_node<>* xmlNode )
 
 // ================================ //
 //
+impl::NodePointer       ToNodePtr       ( const rapidxml::xml_attribute<>* xmlAttribute )
+{
+    return xmlAttribute;
+}
+
+
+// ================================ //
+//
 rapidxml::xml_node<>*   FromNodePtr     ( impl::NodePointer ptr )
 {
     return reinterpret_cast< rapidxml::xml_node<>* >( const_cast< void* >( ptr ) );
@@ -90,7 +98,7 @@ std::string             SerializerXML::SaveString       ( WritingMode mode ) con
 //
 ReturnResult            SerializerXML::LoadFromFile     ( const std::string& fileName )
 {
-    std::ifstream file( fileName, std::ios::binary | std::ios::ate );
+    std::ifstream file( fileName );
 
     if( file.fail() )
         return fmt::format( "Loading file [{}] failed. Error: {}", fileName, std::strerror( errno ) );
@@ -224,6 +232,55 @@ SerialObject            SerializerXML::AddAttribute     ( const SerialObject& pa
     assert( !"Implement me " );
     return SerialObject( this, impl::ToNodePtr( &m_root ) );
 }
+
+//====================================================================================//
+//			Deserialization API	
+//====================================================================================//
+
+// ================================ //
+//
+Size                                    SerializerXML::GetNumElements       ( const SerialObject& parent ) const
+{
+    //auto parentXmlNode = impl::FromSerialNode( parent );
+    //
+    //Size numChildren = 0;
+    //while( auto child = parentXmlNode-> )
+
+    return Size();
+}
+
+// ================================ //
+//
+sw::FilePosition                        SerializerXML::CurrentLineNumber    ( const SerialObject& node ) const
+{
+    return sw::FilePosition();
+}
+
+// ================================ //
+//
+std::optional< SerialObjectChild >      SerializerXML::GetElement           ( const SerialObject& parent, Size index ) const
+{
+    return std::optional<SerialObjectChild>();
+}
+
+// ================================ //
+//
+std::optional< SerialGeneric >          SerializerXML::GetElement           ( const SerialObject& parent, std::string_view name ) const
+{
+    auto parentXmlNode = impl::FromSerialNode( parent );
+
+    if( auto child = parentXmlNode->first_node( name.data(), name.size() ) )
+        return SerialGeneric( const_cast< SerializerXML* >( this ), impl::ToNodePtr( child ), SerialType::Object );
+
+    if( auto attribute = parentXmlNode->first_attribute( name.data(), name.size() ) )
+        return SerialGeneric( const_cast< SerializerXML* >( this ), impl::ToNodePtr( attribute ), SerialType::Attribute );
+
+    return {};
+}
+
+//====================================================================================//
+//			Internal implementation helpers	
+//====================================================================================//
 
 // ================================ //
 //
