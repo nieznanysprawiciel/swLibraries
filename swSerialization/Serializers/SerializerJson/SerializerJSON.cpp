@@ -72,6 +72,18 @@ SerializerJSON::SerializerJSON      ( ISerializationContextPtr serContext )
 //
 ReturnResult            SerializerJSON::SaveFile         ( const std::string& fileName, WritingMode mode ) const
 {
+    // Ensure directory exists.
+    filesystem::Dir::CreateDirectory( fileName );
+
+    std::ofstream file;
+    file.open( fileName );
+    if( !file.fail() )
+    {
+        file << SaveString( mode );
+
+        file.close();
+        return Result::Success;
+    }
     return fmt::format( "Saving file [{}] failed. Error: {}", fileName, Convert::ErrnoToString( errno ) );
 }
 
