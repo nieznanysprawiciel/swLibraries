@@ -78,7 +78,7 @@ ReturnResult            SerializerXML::SaveFile         ( const std::string& fil
         file.close();
         return Result::Success;
     }
-    return fmt::format( "Saving file [{}] failed. Error: {}", fileName, std::strerror( errno ) );
+    return fmt::format( "Saving file [{}] failed. Error: {}", fileName, Convert::ErrnoToString( errno ) );
 }
 
 // ================================ //
@@ -101,7 +101,7 @@ ReturnResult            SerializerXML::LoadFromFile     ( const std::string& fil
     std::ifstream file( fileName );
 
     if( file.fail() )
-        return fmt::format( "Loading file [{}] failed. Error: {}", fileName, std::strerror( errno ) );
+        return fmt::format( "Loading file [{}] failed. Error: {}", fileName, Convert::ErrnoToString( errno ) );
 
     // Note: I would prefere filesystem::File::Load, but it doesn't report errors.
     std::stringstream buffer;

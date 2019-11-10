@@ -65,6 +65,9 @@ public:
     /**@brief Type conversion to string using rttr.*/
     template< typename Type >
     static inline std::string           ToString                    ();
+
+    /**@brief Returns human readable error message retrived from errno.*/
+    static std::string                  ErrnoToString               ( int err );
 };
 
 

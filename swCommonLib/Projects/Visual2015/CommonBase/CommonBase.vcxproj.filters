@@ -81,6 +81,9 @@
     <ClCompile Include="..\..\..\Common\Converters\Convert.cpp">
       <Filter>Common\Converters</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Common\Converters\ConvertErrno.cpp">
+      <Filter>Common\Converters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Common\MemoryChunk.h">

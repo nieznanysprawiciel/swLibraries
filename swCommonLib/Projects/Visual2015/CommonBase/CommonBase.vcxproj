@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Common\Converters\Convert.cpp" />
+    <ClCompile Include="..\..\..\Common\Converters\ConvertErrno.cpp" />
     <ClCompile Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.cpp" />
     <ClCompile Include="..\..\..\Common\Exceptions\Common\InvalidCodeLogicException.cpp" />
     <ClCompile Include="..\..\..\Common\Exceptions\ExceptionsList.cpp" />
