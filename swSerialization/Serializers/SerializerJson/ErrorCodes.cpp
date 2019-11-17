@@ -34,7 +34,7 @@ const char* errorCodes[] =
 
 
 /**@brief Zwraca ci¹g znaków reprezentuj¹cy kod b³êdu podany w parametrze.*/
-const char* GetStringFromCode( rapidjson::ParseErrorCode code )
+const char*         GetStringFromCode       ( rapidjson::ParseErrorCode code )
 {
 	return errorCodes[ static_cast<int>( code ) ];
 }

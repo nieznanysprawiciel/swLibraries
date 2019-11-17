@@ -18,6 +18,7 @@
 #include "rapidjson/prettywriter.h"
 #include "rapidjson/stringbuffer.h"
 
+#include "ErrorCodes.h"
 
 #include <fstream>
 
@@ -61,7 +62,9 @@ rapidjson::Value&       FromSerialNode  ( const impl::SerialBase& node )
 //
 SerializerJSON::SerializerJSON      ( ISerializationContextPtr serContext )
     :   ISerializer( std::move( serContext ) )
-{}
+{
+    m_root.SetObject();
+}
 
 //====================================================================================//
 //			Loading and saving functionalities	
@@ -111,15 +114,39 @@ std::string             SerializerJSON::SaveString       ( WritingMode mode ) co
 //
 ReturnResult            SerializerJSON::LoadFromFile     ( const std::string& fileName )
 {
-    return Result::Error;
+    std::ifstream file( fileName );
+
+    if( file.fail() )
+        return fmt::format( "Loading file [{}] failed. Error: {}", fileName, Convert::ErrnoToString( errno ) );
+
+    // Note: I would prefere filesystem::File::Load, but it doesn't report errors.
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+
+    auto content = buffer.str();
+
+    file.close();
+
+    return LoadFromString( std::move( content ) );
 }
 
 // ================================ //
 //
 ReturnResult            SerializerJSON::LoadFromString   ( std::string content )
 {
+    m_content = std::move( content );
 
-    return Result::Error;
+    m_root.ParseInsitu( m_content.data() );
+
+    if( m_root.HasParseError() )
+    {
+        rapidjson::ParseErrorCode code = m_root.GetParseError();
+        auto lineNum = m_root.GetErrorOffset();
+
+        return fmt::format( "Parsing failed. Error: {}, line: {}", GetStringFromCode( code ), lineNum );
+    }
+
+    return Result::Success;
 }
 
 
@@ -138,17 +165,30 @@ SerialObject            SerializerJSON::Root                ()
 //
 SerialObject            SerializerJSON::AddObject           ( const SerialObject& parent, std::string_view name )
 {
-    assert( !"Implement me " );
-    return SerializerJSON::AddObject( parent.ArrayView(), name );
+    rapidjson::Value objectValue( rapidjson::kObjectType );
+    rapidjson::Value objectName( rapidjson::kStringType );
+
+    objectName.SetString( name.data(), ( rapidjson::SizeType )name.length(), m_root.GetAllocator() );
+
+    auto& parentJsonNode = impl::FromSerialNode( parent );
+    parentJsonNode.AddMember( std::move( objectName ), std::move( objectValue ), m_root.GetAllocator() );
+    
+    return SerialObject( this, impl::ToNodePtr( objectValue ) );
 }
 
 // ================================ //
 //
 SerialArray             SerializerJSON::AddArray            ( const SerialObject& parent, std::string_view name )
 {
-    assert( !"Implement me " );
-    // In xml array is the same as object.
-    return SerializerJSON::AddObject( parent.ArrayView(), name ).ArrayView();
+    rapidjson::Value arrayValue( rapidjson::kArrayType );
+    rapidjson::Value arrayName( rapidjson::kStringType );
+
+    arrayName.SetString( name.data(), ( rapidjson::SizeType )name.length(), m_root.GetAllocator() );
+
+    auto& parentJsonNode = impl::FromSerialNode( parent );
+    parentJsonNode.AddMember( std::move( arrayName ), std::move( arrayValue ), m_root.GetAllocator() );
+
+    return SerialArray( this, impl::ToNodePtr( arrayValue ) );
 }
 
 // ================================ //

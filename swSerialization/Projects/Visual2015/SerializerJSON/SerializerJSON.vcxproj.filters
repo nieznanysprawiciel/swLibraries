@@ -12,6 +12,9 @@
     <ClInclude Include="..\..\..\Serializers\SerializerJson\SerializerJSON.h">
       <Filter>SerializerJSON</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Serializers\SerializerJson\NodesRegistry.h">
+      <Filter>SerializerJSON</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Serializers\SerializerJson\Deserializer.cpp">

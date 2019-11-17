@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Serializers\SerializerJson\ErrorCodes.h" />
+    <ClInclude Include="..\..\..\Serializers\SerializerJson\NodesRegistry.h" />
     <ClInclude Include="..\..\..\Serializers\SerializerJson\SerializerJSON.h" />
   </ItemGroup>
   <ItemGroup>

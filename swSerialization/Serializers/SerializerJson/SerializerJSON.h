@@ -4,6 +4,7 @@
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
+#define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
 
 #include "swSerialization/Interfaces/ISerializer.h"
 
@@ -38,6 +39,8 @@ class SerializerJSON : public ISerializer
 private:
 
     rapidjson::Document             m_root;
+    std::string                     m_content;      ///< We store content for insitu parsing. Moreover
+                                                    ///< it allows us to find line numbers.
 
 protected:
 public:
