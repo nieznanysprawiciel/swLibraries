@@ -164,6 +164,7 @@
     <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\main.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\SerializationMain.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\TestSerializerAPI.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\TestSerializerInternals.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -106,6 +106,7 @@ protected:
 private:
 
     impl::NodePointer           AddObjectMember     ( const SerialObject& parent, std::string_view name, rapidjson::Type memberType );
+    impl::NodePointer           AddArrayMember      ( const SerialArray& parent, rapidjson::Type memberType );
 };
 
 

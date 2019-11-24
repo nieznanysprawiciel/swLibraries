@@ -6,5 +6,6 @@
     <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\GetName.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\LineNumber.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\TestSerializerAPI.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\TestSerializerInternals.cpp" />
   </ItemGroup>
 </Project>

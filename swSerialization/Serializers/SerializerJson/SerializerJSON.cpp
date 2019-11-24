@@ -153,22 +153,30 @@ impl::NodePointer       SerializerJSON::AddObjectMember     ( const SerialObject
     parentJsonNode.AddMember( std::move( objectName ), std::move( objectValue ), m_root.GetAllocator() );
 
     // Values were moved. Get member pointer from parent node.
-    if( parentJsonNode.IsArray() )
-    {
-        auto newNodeIdx = parentJsonNode.Size() - 1;
-        auto newNodePointer = m_nodesRegistry.AddMember( parent, &parentJsonNode[ newNodeIdx ] );
+    assert( parentJsonNode.IsObject() );
 
-        return impl::NodesRegistry::ToNodePtr( newNodePointer );
-    }
-    else
-    {
-        assert( parentJsonNode.IsObject() );
-        
-        auto newMemberIter = parentJsonNode.MemberEnd()--;      // Exists for sure, we already added it.
-        auto newNodePointer = m_nodesRegistry.AddMember( parent, &newMemberIter->value );
+    auto newMemberIter = parentJsonNode.MemberEnd()--;      // Exists for sure, we already added it.
+    auto newNodePointer = m_nodesRegistry.AddMember( parent, &newMemberIter->value );
 
-        return impl::NodesRegistry::ToNodePtr( newNodePointer );
-    }
+    return impl::NodesRegistry::ToNodePtr( newNodePointer );
+}
+
+// ================================ //
+//
+impl::NodePointer       SerializerJSON::AddArrayMember      ( const SerialArray& parent, rapidjson::Type memberType )
+{
+    rapidjson::Value objectValue( memberType );
+
+    auto& parentJsonNode = *m_nodesRegistry.GetElement( parent.GetNodePtr() );
+    parentJsonNode.PushBack( std::move( objectValue ), m_root.GetAllocator() );
+
+    // Values were moved. Get member pointer from parent node.
+    assert( parentJsonNode.IsArray() );
+
+    auto newNodeIdx = parentJsonNode.Size() - 1;
+    auto newNodePointer = m_nodesRegistry.AddMember( parent, &parentJsonNode[ newNodeIdx ] );
+
+    return impl::NodesRegistry::ToNodePtr( newNodePointer );
 }
 
 // ================================ //
@@ -189,18 +197,14 @@ SerialArray             SerializerJSON::AddArray            ( const SerialObject
 //
 SerialObject            SerializerJSON::AddObject           ( const SerialArray& parent, std::string_view nameHint )
 {
-    assert( !"Implement me " );
-    return SerialObject( this, nullptr );
+    return SerialObject( this, AddArrayMember( parent, rapidjson::kObjectType ) );
 }
 
 // ================================ //
 //
 SerialArray             SerializerJSON::AddArray            ( const SerialArray& parent, std::string_view nameHint )
 {
-    assert( !"Implement me " );
-
-    // In xml array is the same as object.
-    return SerializerJSON::AddObject( parent, nameHint ).ArrayView();
+    return SerialArray( this, AddArrayMember( parent, rapidjson::kArrayType ) );
 }
 
 // ================================ //
