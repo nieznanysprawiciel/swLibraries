@@ -14,6 +14,8 @@
 #include "swSerialization/Interfaces/SerialObject.h"
 #include "swSerialization/Interfaces/SerialAttribute.h"
 
+#include "NodesRegistry.h"
+
 
 
 namespace sw
@@ -39,8 +41,10 @@ class SerializerJSON : public ISerializer
 private:
 
     rapidjson::Document             m_root;
-    std::string                     m_content;      ///< We store content for insitu parsing. Moreover
-                                                    ///< it allows us to find line numbers.
+    impl::NodesRegistry             m_nodesRegistry;    ///< Mapping from NodePointers to rapidjson::Value.
+
+    std::string                     m_content;          ///< We store content for insitu parsing. Moreover
+                                                        ///< it allows us to find line numbers.
 
 protected:
 public:
@@ -101,7 +105,7 @@ protected:
 
 private:
 
-
+    impl::NodePointer           AddObjectMember     ( const SerialObject& parent, std::string_view name, rapidjson::Type memberType );
 };
 
 

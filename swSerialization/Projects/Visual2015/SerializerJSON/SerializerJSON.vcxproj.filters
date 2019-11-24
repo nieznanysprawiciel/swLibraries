@@ -29,5 +29,8 @@
     <ClCompile Include="..\..\..\Serializers\SerializerJson\SerializerJSON.cpp">
       <Filter>SerializerJSON</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Serializers\SerializerJson\NodesRegistry.cpp">
+      <Filter>SerializerJSON</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

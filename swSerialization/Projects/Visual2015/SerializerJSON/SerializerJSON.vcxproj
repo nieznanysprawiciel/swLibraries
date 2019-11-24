@@ -34,6 +34,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Serializers\SerializerJson\Deserializer.cpp" />
     <ClCompile Include="..\..\..\Serializers\SerializerJson\ErrorCodes.cpp" />
+    <ClCompile Include="..\..\..\Serializers\SerializerJson\NodesRegistry.cpp" />
     <ClCompile Include="..\..\..\Serializers\SerializerJson\Serializer.cpp" />
     <ClCompile Include="..\..\..\Serializers\SerializerJson\SerializerJSON.cpp" />
   </ItemGroup>

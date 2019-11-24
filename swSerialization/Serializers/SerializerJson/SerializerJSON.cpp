@@ -31,27 +31,7 @@ namespace sw
 namespace impl
 {
 
-// ================================ //
-//
-impl::NodePointer       ToNodePtr       ( const rapidjson::Value& jsonNode )
-{
-    return &jsonNode;
-}
-
-// ================================ //
-//
-rapidjson::Value&       FromNodePtr     ( impl::NodePointer ptr )
-{
-    return *reinterpret_cast< rapidjson::Value* >( const_cast< void* >( ptr ) );
-}
-
-// ================================ //
-//
-rapidjson::Value&       FromSerialNode  ( const impl::SerialBase& node )
-{
-    return FromNodePtr( node.GetNodePtr() );
-}
-
+const NodePointer cRootPointer = NodesRegistry::ToNodePtr( NodePointerImpl( 0, InvalidIndex ) );
 
 }   // impl
 
@@ -62,9 +42,8 @@ rapidjson::Value&       FromSerialNode  ( const impl::SerialBase& node )
 //
 SerializerJSON::SerializerJSON      ( ISerializationContextPtr serContext )
     :   ISerializer( std::move( serContext ) )
-{
-    m_root.SetObject();
-}
+    ,   m_nodesRegistry( &m_root.SetObject(), m_root.GetAllocator() )
+{}
 
 //====================================================================================//
 //			Loading and saving functionalities	
@@ -158,37 +137,52 @@ ReturnResult            SerializerJSON::LoadFromString   ( std::string content )
 //
 SerialObject            SerializerJSON::Root                ()
 {
-    return SerialObject( this, impl::ToNodePtr( m_root ) );
+    return SerialObject( this, impl::cRootPointer );
+}
+
+// ================================ //
+//
+impl::NodePointer       SerializerJSON::AddObjectMember     ( const SerialObject& parent, std::string_view name, rapidjson::Type memberType )
+{
+    rapidjson::Value objectValue( memberType );
+    rapidjson::Value objectName( rapidjson::kStringType );
+
+    objectName.SetString( name.data(), ( rapidjson::SizeType )name.length(), m_root.GetAllocator() );
+
+    auto& parentJsonNode = *m_nodesRegistry.GetElement( parent.GetNodePtr() );
+    parentJsonNode.AddMember( std::move( objectName ), std::move( objectValue ), m_root.GetAllocator() );
+
+    // Values were moved. Get member pointer from parent node.
+    if( parentJsonNode.IsArray() )
+    {
+        auto newNodeIdx = parentJsonNode.Size() - 1;
+        auto newNodePointer = m_nodesRegistry.AddMember( parent, &parentJsonNode[ newNodeIdx ] );
+
+        return impl::NodesRegistry::ToNodePtr( newNodePointer );
+    }
+    else
+    {
+        assert( parentJsonNode.IsObject() );
+        
+        auto newMemberIter = parentJsonNode.MemberEnd()--;      // Exists for sure, we already added it.
+        auto newNodePointer = m_nodesRegistry.AddMember( parent, &newMemberIter->value );
+
+        return impl::NodesRegistry::ToNodePtr( newNodePointer );
+    }
 }
 
 // ================================ //
 //
 SerialObject            SerializerJSON::AddObject           ( const SerialObject& parent, std::string_view name )
 {
-    rapidjson::Value objectValue( rapidjson::kObjectType );
-    rapidjson::Value objectName( rapidjson::kStringType );
-
-    objectName.SetString( name.data(), ( rapidjson::SizeType )name.length(), m_root.GetAllocator() );
-
-    auto& parentJsonNode = impl::FromSerialNode( parent );
-    parentJsonNode.AddMember( std::move( objectName ), std::move( objectValue ), m_root.GetAllocator() );
-    
-    return SerialObject( this, impl::ToNodePtr( objectValue ) );
+    return SerialObject( this, AddObjectMember( parent, name, rapidjson::kObjectType ) );
 }
 
 // ================================ //
 //
 SerialArray             SerializerJSON::AddArray            ( const SerialObject& parent, std::string_view name )
 {
-    rapidjson::Value arrayValue( rapidjson::kArrayType );
-    rapidjson::Value arrayName( rapidjson::kStringType );
-
-    arrayName.SetString( name.data(), ( rapidjson::SizeType )name.length(), m_root.GetAllocator() );
-
-    auto& parentJsonNode = impl::FromSerialNode( parent );
-    parentJsonNode.AddMember( std::move( arrayName ), std::move( arrayValue ), m_root.GetAllocator() );
-
-    return SerialArray( this, impl::ToNodePtr( arrayValue ) );
+    return SerialArray( this, AddObjectMember( parent, name, rapidjson::kArrayType ) );
 }
 
 // ================================ //
@@ -214,7 +208,7 @@ SerialArray             SerializerJSON::AddArray            ( const SerialArray&
 SerialObject            SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, std::string_view attribute )
 {
     assert( !"Implement me " );
-    return SerialObject( this, impl::ToNodePtr( m_root ) );
+    return SerialObject( this, impl::cRootPointer );
 }
 
 // ================================ //
@@ -222,7 +216,7 @@ SerialObject            SerializerJSON::AddAttribute        ( const SerialObject
 SerialObject            SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, double attribute )
 {
     assert( !"Implement me " );
-    return SerialObject( this, impl::ToNodePtr( m_root ) );
+    return SerialObject( this, impl::cRootPointer );
 }
 
 // ================================ //
@@ -230,7 +224,7 @@ SerialObject            SerializerJSON::AddAttribute        ( const SerialObject
 SerialObject            SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, uint64 attribute )
 {
     assert( !"Implement me " );
-    return SerialObject( this, impl::ToNodePtr( m_root ) );
+    return SerialObject( this, impl::cRootPointer );
 }
 
 // ================================ //
@@ -238,7 +232,7 @@ SerialObject            SerializerJSON::AddAttribute        ( const SerialObject
 SerialObject            SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, int64 attribute )
 {
     assert( !"Implement me " );
-    return SerialObject( this, impl::ToNodePtr( m_root ) );
+    return SerialObject( this, impl::cRootPointer );
 }
 
 // ================================ //
@@ -246,7 +240,7 @@ SerialObject            SerializerJSON::AddAttribute        ( const SerialObject
 SerialObject            SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, bool attribute )
 {
     assert( !"Implement me " );
-    return SerialObject( this, impl::ToNodePtr( m_root ) );
+    return SerialObject( this, impl::cRootPointer );
 }
 
 // ================================ //
@@ -254,7 +248,7 @@ SerialObject            SerializerJSON::AddAttribute        ( const SerialObject
 SerialObject            SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, char attribute )
 {
     assert( !"Implement me " );
-    return SerialObject( this, impl::ToNodePtr( m_root ) );
+    return SerialObject( this, impl::cRootPointer );
 }
 
 //====================================================================================//
