@@ -211,8 +211,13 @@ SerialArray             SerializerJSON::AddArray            ( const SerialArray&
 //
 SerialObject            SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, std::string_view attribute )
 {
-    assert( !"Implement me " );
-    return SerialObject( this, impl::cRootPointer );
+    // Example implementation.
+    auto attributePtr = AddObjectMember( parent, name, rapidjson::Type::kStringType );
+    auto& jsonNode = *m_nodesRegistry.GetElement( attributePtr );
+
+    jsonNode.SetString( attribute.data(), (rapidjson::SizeType)attribute.length() );
+
+    return SerialObject( this, attributePtr );
 }
 
 // ================================ //
