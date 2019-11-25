@@ -41,7 +41,7 @@ class SerializerJSON : public ISerializer
 private:
 
     rapidjson::Document             m_root;
-    impl::NodesRegistry             m_nodesRegistry;    ///< Mapping from NodePointers to rapidjson::Value.
+    mutable impl::NodesRegistry     m_nodesRegistry;    ///< Mapping from NodePointers to rapidjson::Value.
 
     std::string                     m_content;          ///< We store content for insitu parsing. Moreover
                                                         ///< it allows us to find line numbers.

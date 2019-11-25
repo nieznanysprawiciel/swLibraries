@@ -33,6 +33,32 @@ namespace impl
 
 const NodePointer cRootPointer = NodesRegistry::ToNodePtr( NodePointerImpl( 0, InvalidIndex ) );
 
+
+// ================================ //
+//
+SerialType      ToSerialType            ( rapidjson::Type type )
+{
+    switch( type )
+    {
+    case rapidjson::kNullType:
+        return SerialType::Attribute;
+    case rapidjson::kFalseType:
+        return SerialType::Bool;
+    case rapidjson::kTrueType:
+        return SerialType::Bool;
+    case rapidjson::kObjectType:
+        return SerialType::Object;
+    case rapidjson::kArrayType:
+        return SerialType::Array;
+    case rapidjson::kStringType:
+        return SerialType::String;
+    case rapidjson::kNumberType:
+        return SerialType::Number;
+    default:
+        return SerialType::Attribute;
+    }
+}
+
 }   // impl
 
 
@@ -158,6 +184,7 @@ impl::NodePointer       SerializerJSON::AddObjectMember     ( const SerialObject
     auto newMemberIter = parentJsonNode.MemberEnd()--;      // Exists for sure, we already added it.
     auto newNodePointer = m_nodesRegistry.AddMember( parent, &newMemberIter->value );
 
+    /// @todo Update registry if reallocation occured.
     return impl::NodesRegistry::ToNodePtr( newNodePointer );
 }
 
@@ -176,6 +203,7 @@ impl::NodePointer       SerializerJSON::AddArrayMember      ( const SerialArray&
     auto newNodeIdx = parentJsonNode.Size() - 1;
     auto newNodePointer = m_nodesRegistry.AddMember( parent, &parentJsonNode[ newNodeIdx ] );
 
+    /// @todo Update registry if reallocation occured.
     return impl::NodesRegistry::ToNodePtr( newNodePointer );
 }
 
@@ -289,7 +317,28 @@ std::optional< SerialObjectChild >      SerializerJSON::GetElement           ( c
 //
 std::optional< SerialGeneric >          SerializerJSON::GetElement           ( const SerialObject& parent, std::string_view name ) const
 {
-    return {};
+    /// @todo First we should add all children to registry.
+
+    auto& parentJsonNode = *m_nodesRegistry.GetElement( parent.GetNodePtr() );
+
+    // This way we avoid copying string from string_view, because there's no
+    // FindMember function that takes pointer and string length.
+    rapidjson::Value objectName( rapidjson::kStringType );
+    objectName.SetString( name.data(), ( rapidjson::SizeType )name.length() );
+
+    auto iter = parentJsonNode.FindMember( objectName );
+
+    // Member under this name not found.
+    if( iter == parentJsonNode.MemberEnd() )
+        return {};
+
+    auto index = std::distance( parentJsonNode.MemberBegin(), iter );
+    auto elementOpt = m_nodesRegistry.GetElement( parent.GetNodePtr(), index );
+
+    if( !elementOpt.has_value() )
+        return {};
+
+    return SerialGeneric{ const_cast< SerializerJSON* >( this ), elementOpt.value(), impl::ToSerialType( iter->value.GetType() ) };
 }
 
 

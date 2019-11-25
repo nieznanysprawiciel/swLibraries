@@ -121,16 +121,25 @@ rapidjson::Value*       NodesRegistry::GetElement           ( NodePointer nodePt
 
 // ================================ //
 //
-std::pair< std::string_view, NodePointer >              NodesRegistry::GetElement           ( NodePointer parent, Size index )
+std::optional< NodePointer >            NodesRegistry::GetElement           ( NodePointer parent, Size index )
 {
-    return std::pair<std::string_view, NodePointer>();
-}
+    auto parentPtr = FromNodePtr( parent );
+    auto& parentDesc = m_descriptors[ parentPtr.NodeIdx ];
 
-// ================================ //
-//
-NodePointer                                             NodesRegistry::GetElement           ( NodePointer parent, std::string_view name )
-{
-    return NodePointer();
+    if( parentDesc.FirstChild == InvalidIndex )
+        return {};
+
+    auto childIdx = parentDesc.FirstChild;
+    while( index > 0 )
+    {
+        auto childDesc = m_descriptors[ parentDesc.FirstChild ];
+        childIdx = childDesc.NextSibling;
+
+        if( childDesc.NextSibling == InvalidIndex )
+            return {};
+    }
+
+    return ToNodePtr( NodePointerImpl( childIdx, parentPtr.NodeIdx ) );
 }
 
 

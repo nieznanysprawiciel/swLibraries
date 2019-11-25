@@ -13,6 +13,8 @@
 #include "swSerialization/External/RapidJSON/include/rapidjson/document.h"
 
 #include <vector>
+#include <optional>
+
 
 
 namespace sw
@@ -84,15 +86,12 @@ public:
 
     rapidjson::Value*       GetElement          ( NodePointer nodePtr );
 
-
-    std::pair< std::string_view, NodePointer >          GetElement      ( NodePointer parent, Size index );
-    NodePointer                                         GetElement      ( NodePointer parent, std::string_view name );
-
 public:
 
     NodePointerImpl         AddMember           ( NodeIndex parentIdx, rapidjson::Value* newMember );
     NodePointerImpl         AddMember           ( const SerialBase& parent, rapidjson::Value* newMember );
 
+    std::optional< NodePointer >                GetElement      ( NodePointer parent, Size index );
 
 public:
 
