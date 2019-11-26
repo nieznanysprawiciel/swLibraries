@@ -317,7 +317,9 @@ std::optional< SerialObjectChild >      SerializerJSON::GetElement           ( c
 //
 std::optional< SerialGeneric >          SerializerJSON::GetElement           ( const SerialObject& parent, std::string_view name ) const
 {
-    /// @todo First we should add all children to registry.
+    // First we should add all children to registry.
+    // This function will do nothing if they are already registered.
+    m_nodesRegistry.RegisterChildren( parent.GetNodePtr() );
 
     auto& parentJsonNode = *m_nodesRegistry.GetElement( parent.GetNodePtr() );
 

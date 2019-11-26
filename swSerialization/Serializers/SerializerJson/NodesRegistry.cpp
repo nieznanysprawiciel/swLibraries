@@ -142,6 +142,37 @@ std::optional< NodePointer >            NodesRegistry::GetElement           ( No
     return ToNodePtr( NodePointerImpl( childIdx, parentPtr.NodeIdx ) );
 }
 
+// ================================ //
+//
+void                                    NodesRegistry::RegisterChildren     ( NodePointer parent )
+{
+    NodePointerImpl parentPtr = FromNodePtr( parent );
+    auto& parentJsonNode = m_nodes[ parentPtr.NodeIdx ];
+    auto& parentDesc = m_descriptors[ parentPtr.NodeIdx ];
+
+    assert( parentJsonNode->IsArray() || parentJsonNode->IsObject() );
+    auto size = parentJsonNode->IsArray() ? parentJsonNode->Size() : parentJsonNode->MemberCount();
+
+    // We check if children should be added. It's enought to know that
+    // they arent on list when they should. We don't check list correctness,
+    // for example: how many nodes there're in comparison to what we expect.
+    // All other function should leave registry in correct state.
+    if( parentDesc.FirstChild == InvalidIndex && size != 0 )
+    {
+        if( parentJsonNode->IsArray() )
+        {
+            for( int i = 0; i < size; ++i )
+            {
+                AddMember( parentPtr.NodeIdx, &parentJsonNode[ i ] );
+            }
+        }
+        else    // parentJsonNode->IsObject()
+        {
+            //for( auto& member : *parentJsonNode )
+        }
+    }
+}
+
 
 
 }	// sw

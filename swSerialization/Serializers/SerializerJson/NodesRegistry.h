@@ -93,6 +93,8 @@ public:
 
     std::optional< NodePointer >                GetElement      ( NodePointer parent, Size index );
 
+    void                    RegisterChildren    ( NodePointer parent );
+
 public:
 
     static NodePointer      ToNodePtr           ( NodePointerImpl ptrImpl );
