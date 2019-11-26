@@ -161,14 +161,17 @@ void                                    NodesRegistry::RegisterChildren     ( No
     {
         if( parentJsonNode->IsArray() )
         {
-            for( int i = 0; i < size; ++i )
+            for( Size i = 0; i < size; ++i )
             {
                 AddMember( parentPtr.NodeIdx, &parentJsonNode[ i ] );
             }
         }
         else    // parentJsonNode->IsObject()
         {
-            //for( auto& member : *parentJsonNode )
+            for( auto& member : parentJsonNode->GetObject() )
+            {
+                AddMember( parentPtr.NodeIdx, &member.value );
+            }
         }
     }
 }
