@@ -25,7 +25,7 @@ namespace impl
 
 typedef uint32 NodeIndex;
 
-extern const NodeIndex InvalidIndex;
+const NodeIndex InvalidIndex = std::numeric_limits< NodeIndex >::max();
 
 
 // ================================ //

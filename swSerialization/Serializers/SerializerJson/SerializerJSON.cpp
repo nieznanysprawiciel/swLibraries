@@ -176,12 +176,12 @@ impl::NodePointer       SerializerJSON::AddObjectMember     ( const SerialObject
     objectName.SetString( name.data(), ( rapidjson::SizeType )name.length(), m_root.GetAllocator() );
 
     auto& parentJsonNode = *m_nodesRegistry.GetElement( parent.GetNodePtr() );
-    parentJsonNode.AddMember( std::move( objectName ), std::move( objectValue ), m_root.GetAllocator() );
+    parentJsonNode.AddMember( objectName, objectValue, m_root.GetAllocator() );
 
     // Values were moved. Get member pointer from parent node.
     assert( parentJsonNode.IsObject() );
 
-    auto newMemberIter = parentJsonNode.MemberEnd()--;      // Exists for sure, we already added it.
+    auto newMemberIter = --parentJsonNode.MemberEnd();      // Exists for sure, we already added it.
     auto newNodePointer = m_nodesRegistry.AddMember( parent, &newMemberIter->value );
 
     /// @todo Update registry if reallocation occured.

@@ -10,9 +10,6 @@
 namespace sw::impl
 {
 
-const NodeIndex InvalidIndex = std::numeric_limits< NodeIndex >::max();
-
-
 // ================================ //
 //
 NodePointer             NodesRegistry::ToNodePtr       ( NodePointerImpl ptrImpl )
@@ -87,7 +84,7 @@ NodePointerImpl         NodesRegistry::AddMember            ( NodeIndex parentId
         prevSibling.NextSibling = newMemberIdx;
     }
 
-    return NodePointerImpl( parentIdx, newMemberIdx );
+    return NodePointerImpl( newMemberIdx, parentIdx );
 }
 
 // ================================ //
