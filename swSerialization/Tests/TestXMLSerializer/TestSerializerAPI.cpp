@@ -98,3 +98,27 @@ TEST_CASE( "Serializer.XML.SerialObject.AddObject.TreeStructure", "[Serializers]
         CHECK( first.GetElement( "Child3" ).value().IsObject() );
     }
 }
+
+// ================================ //
+//
+TEST_CASE( "Serializer.XML.SerialObject.GetElement.NotExisitng", "[Serializers][SerializerXML]" )
+{
+    {
+        SerializerXML ser( std::make_unique< ISerializationContext >() );
+        SerialObject root = ser.Root();
+
+        auto firstObject = root.AddObject( "FirstObject" );
+
+        auto saveResult = ser.SaveFile( "SerializerTest/XML/Generated/Test-GetElement-NotExisitng.xml", sw::WritingMode::Readable );
+        REQUIRE_IS_VALID( saveResult );
+    }
+
+    {
+        SerializerXML deser( std::make_unique< ISerializationContext >() );
+        auto loadResult = deser.LoadFromFile( "SerializerTest/XML/Generated/Test-GetElement-NotExisitng.xml" );
+        REQUIRE_IS_VALID( loadResult );
+
+        SerialObject root = deser.Root();
+        REQUIRE_FALSE( root.GetElement( "NotExisitng" ).has_value() );
+    }
+}

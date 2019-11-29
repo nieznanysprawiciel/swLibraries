@@ -99,4 +99,28 @@ TEST_CASE( "Serializer.JSON.SerialObject.AddObject.TreeStructure", "[Serializers
     }
 }
 
+// ================================ //
+//
+TEST_CASE( "Serializer.JSON.SerialObject.GetElement.NotExisitng", "[Serializers][SerializerXML]" )
+{
+    {
+        SerializerJSON ser( std::make_unique< ISerializationContext >() );
+        SerialObject root = ser.Root();
+
+        auto firstObject = root.AddObject( "FirstObject" );
+
+        auto saveResult = ser.SaveFile( "SerializerTest/JSON/Generated/Test-GetElement-NotExisitng.json", sw::WritingMode::Readable );
+        REQUIRE_IS_VALID( saveResult );
+    }
+
+    {
+        SerializerJSON deser( std::make_unique< ISerializationContext >() );
+        auto loadResult = deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-GetElement-NotExisitng.json" );
+        REQUIRE_IS_VALID( loadResult );
+
+        SerialObject root = deser.Root();
+        REQUIRE_FALSE( root.GetElement( "NotExisitng" ).has_value() );
+    }
+}
+
 
