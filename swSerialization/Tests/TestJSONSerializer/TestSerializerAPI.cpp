@@ -81,6 +81,21 @@ TEST_CASE( "Serializer.JSON.SerialObject.AddObject.TreeStructure", "[Serializers
 
         REQUIRE( firstObject.GetElement( "Third" ).has_value() );
         REQUIRE( firstObject.GetElement( "Third" ).value().IsObject() );
+
+        auto third = firstObject.GetElement( "Third" ).value().ObjectView().value();
+
+        CHECK( third.GetElement( "Child1" ).has_value() );
+        CHECK( third.GetElement( "Child1" ).value().IsObject() );
+
+        auto second = firstObject.GetElement( "Second" ).value().ObjectView().value();
+
+        CHECK( second.GetElement( "Child2" ).has_value() );
+        CHECK( second.GetElement( "Child2" ).value().IsObject() );
+
+        auto first = firstObject.GetElement( "First" ).value().ObjectView().value();
+
+        CHECK( first.GetElement( "Child3" ).has_value() );
+        CHECK( first.GetElement( "Child3" ).value().IsObject() );
     }
 }
 
