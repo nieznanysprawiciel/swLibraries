@@ -134,6 +134,8 @@ std::optional< NodePointer >            NodesRegistry::GetElement           ( No
 
         if( childDesc.NextSibling == InvalidIndex )
             return {};
+
+        index--;
     }
 
     return ToNodePtr( NodePointerImpl( childIdx, parentPtr.NodeIdx ) );
