@@ -129,7 +129,7 @@ std::optional< NodePointer >            NodesRegistry::GetElement           ( No
     auto childIdx = parentDesc.FirstChild;
     while( index > 0 )
     {
-        auto childDesc = m_descriptors[ parentDesc.FirstChild ];
+        auto childDesc = m_descriptors[ childIdx ];
         childIdx = childDesc.NextSibling;
 
         if( childDesc.NextSibling == InvalidIndex )
