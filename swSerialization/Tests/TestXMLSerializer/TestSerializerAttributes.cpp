@@ -7,9 +7,5 @@
 #include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 
-#include "swSerialization/Serializers/SerializerJson/SerializerJSON.h"
-
-
-using namespace sw;
-
+#include "swSerialization/Serializers/SerializerXML/SerializerXML.h"
 

@@ -21,20 +21,22 @@ class SerialObject;
 
 // ================================ //
 //
-enum SerialType : uint32
+enum SerialType : int32
 {
     Array = 0x01,
-    Object = 0x11,
+    Object = SerialType::Array | 0x10,
     Attribute = 0x1 << 2,
 
-    String = 0x11 << 2,
-    Bool = 0x101 << 2,
-    Character = 0x1001 << 2,
-    Number = 0x10001 << 2,
+    String = SerialType::Attribute | 0x1 << 3,
+    Bool = SerialType::Attribute | 0x1 << 4,
+    Character = SerialType::Attribute | 0x1 << 5,
+    Number = SerialType::Attribute | 0x1 << 6,
 
-    UInt64 = 0x110001 << 2,
-    Int64 = 0x1010001 << 2,
-    Double = 0x10010001 << 2    ///< Should be number?
+    UInt64 = SerialType::Number | 0x1 << 7,
+    Int64 = SerialType::Number | 0x1 << 8,
+    Double = SerialType::Number | 0x1 << 9,
+
+    None = 0x1 << 31        ///< Not convertible to anything.
 };
 
 
@@ -101,6 +103,7 @@ public:
 
     std::optional< SerialObject >       ObjectView      ();
     std::optional< SerialArray >        ArrayView       ();
+    std::optional< SerialAttribute >    AttributeView   ();
 
 public:
 

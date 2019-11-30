@@ -30,8 +30,7 @@ TEST_CASE( "Serializer.XML.SerialObject.AddObject", "[Serializers][SerializerXML
 
     {
         SerializerXML deser( std::make_unique< ISerializationContext >() );
-        auto loadResult = deser.LoadFromFile( "SerializerTest/XML/Generated/Test-AddObject.xml" );
-        REQUIRE_IS_VALID( loadResult );
+        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/XML/Generated/Test-AddObject.xml" ) );
 
         SerialObject root = deser.Root();
         REQUIRE( root.GetElement( "FirstObject" ).has_value() );
@@ -64,8 +63,7 @@ TEST_CASE( "Serializer.XML.SerialObject.AddObject.TreeStructure", "[Serializers]
 
     {
         SerializerXML deser( std::make_unique< ISerializationContext >() );
-        auto loadResult = deser.LoadFromFile( "SerializerTest/XML/Generated/Test-AddObject-TreeStructure.xml" );
-        REQUIRE_IS_VALID( loadResult );
+        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/XML/Generated/Test-AddObject-TreeStructure.xml" ) );
 
         SerialObject root = deser.Root();
         REQUIRE( root.GetElement( "FirstObject" ).has_value() );
@@ -115,8 +113,7 @@ TEST_CASE( "Serializer.XML.SerialObject.GetElement.NotExisitng", "[Serializers][
 
     {
         SerializerXML deser( std::make_unique< ISerializationContext >() );
-        auto loadResult = deser.LoadFromFile( "SerializerTest/XML/Generated/Test-GetElement-NotExisitng.xml" );
-        REQUIRE_IS_VALID( loadResult );
+        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/XML/Generated/Test-GetElement-NotExisitng.xml" ) );
 
         SerialObject root = deser.Root();
         REQUIRE_FALSE( root.GetElement( "NotExisitng" ).has_value() );

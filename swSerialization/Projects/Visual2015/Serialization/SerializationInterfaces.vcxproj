@@ -39,6 +39,7 @@
     <ClInclude Include="..\..\..\Interfaces\SerialObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Interfaces\SerialAttribute.cpp" />
     <ClCompile Include="..\..\..\Interfaces\SerialGeneric.cpp" />
     <ClCompile Include="..\..\..\Interfaces\SerialObject.cpp" />
   </ItemGroup>
