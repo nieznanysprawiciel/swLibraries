@@ -7,6 +7,8 @@
 
 #include "Version.h"
 
+#include "swCommonLib/Common/fmt.h"
+
 #include <regex>
 
 
@@ -15,29 +17,25 @@ namespace sw
 
 
 
-namespace impl
-{
-    std::regex		sVersionRegex( "^([[:digit:]]{1,9}).([[:digit:]]{1,9}).([[:digit:]]{1,9}).([[:digit:]]{1,9})$" );
-}
-
-
 
 /**@brief Creates Version from string.*/
 Nullable< Version >         Version::From       ( const std::string& versionStr )
 {
+    static const std::regex sVersionRegex( "^([[:digit:]]{1,9}).([[:digit:]]{1,9}).([[:digit:]]{1,9}).([[:digit:]]{1,9})$" );
+
     std::smatch match;
 
-    if( std::regex_match( versionStr, match, impl::sVersionRegex ) )
+    if( std::regex_match( versionStr, match, sVersionRegex ) )
     {
         // If it already matched regex, it should be convertible to uint32.
-        return Version( Convert::FromString< uint32 >( match[ 1 ], 0 ),
-                        Convert::FromString< uint32 >( match[ 2 ], 0 ),
-                        Convert::FromString< uint32 >( match[ 3 ], 0 ),
-                        Convert::FromString< uint32 >( match[ 4 ], 0 ) );
+        return Version( Convert::FromString< uint32 >( match[ 1 ].str(), 0 ),
+                        Convert::FromString< uint32 >( match[ 2 ].str(), 0 ),
+                        Convert::FromString< uint32 >( match[ 3 ].str(), 0 ),
+                        Convert::FromString< uint32 >( match[ 4 ].str(), 0 ) );
     }
     else
     {
-        return "Can't convert string [" + versionStr + "] to Version type.";
+        return fmt::format( "Can't convert string [{}] to Version type.", versionStr );
     }
 }
 
@@ -70,10 +68,7 @@ bool                        Version::IsBackwardCompatibileWith  ( const Version&
 //
 std::string                 Version::ToString   () const
 {
-    return  Convert::ToString( Major ) + "." +
-            Convert::ToString( Minor ) + "." +
-            Convert::ToString( Patch ) + "." +
-            Convert::ToString( Build );
+    return fmt::format( "{}.{}.{}.{}", Major, Minor, Patch, Build );
 }
 
 // ================================ //
@@ -112,13 +107,7 @@ bool                    Version::operator==     ( const Version& other ) const
 //
 std::ostream&           operator<<		        ( std::ostream& stream, const Version& ver )
 {
-    stream << ver.Major;
-    stream << '.';
-    stream << ver.Minor;
-    stream << '.';
-    stream << ver.Patch;
-    stream << '.';
-    stream << ver.Build;
+    stream << ver.ToString();
     return stream;
 }
 

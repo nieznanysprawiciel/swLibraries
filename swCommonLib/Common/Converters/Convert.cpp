@@ -43,11 +43,11 @@ std::string             ConvertWstringToString  ( const std::wstring& value )
 
 // ================================ //
 //
-std::wstring            ConvertStringToWstring  ( const std::string& value )
+std::wstring            ConvertStringToWstring  ( std::string_view value )
 {
     typedef std::codecvt_utf8< wchar_t > convert_type;
     std::wstring_convert< convert_type, wchar_t > converter;
-    return converter.from_bytes( value );
+    return converter.from_bytes( value.data(), value.data() + value.size() );
 }
 
 }   // impl
