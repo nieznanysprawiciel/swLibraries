@@ -187,50 +187,44 @@ SerialArray             SerializerXML::AddArray         ( const SerialArray& par
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, std::string_view attribute )
+void                    SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, std::string_view attribute )
 {
     assert( !"Implement me " );
-    return SerialObject( this, impl::ToNodePtr( &m_root ) );
 }
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, double attribute )
+void                    SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, double attribute )
 {
     assert( !"Implement me " );
-    return SerialObject( this, impl::ToNodePtr( &m_root ) );
 }
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, uint64 attribute )
+void                    SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, uint64 attribute )
 {
     assert( !"Implement me " );
-    return SerialObject( this, impl::ToNodePtr( &m_root ) );
 }
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, int64 attribute )
+void                    SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, int64 attribute )
 {
     assert( !"Implement me " );
-    return SerialObject( this, impl::ToNodePtr( &m_root ) );
 }
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, bool attribute )
+void                    SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, bool attribute )
 {
     assert( !"Implement me " );
-    return SerialObject( this, impl::ToNodePtr( &m_root ) );
 }
 
 // ================================ //
 //
-SerialObject            SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, char attribute )
+void                    SerializerXML::AddAttribute     ( const SerialObject& parent, std::string_view name, char attribute )
 {
     assert( !"Implement me " );
-    return SerialObject( this, impl::ToNodePtr( &m_root ) );
 }
 
 //====================================================================================//

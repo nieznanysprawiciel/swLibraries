@@ -163,6 +163,7 @@
     <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\main.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\SerializationMain.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\TestSerializerAPI.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\TestSerializerAttributes.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\TestSerialType.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

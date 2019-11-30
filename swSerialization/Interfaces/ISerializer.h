@@ -91,12 +91,12 @@ protected:
     virtual SerialObject        AddObject           ( const SerialArray& parent, std::string_view nameHint ) = 0;
     virtual SerialArray         AddArray            ( const SerialArray& parent, std::string_view nameHint ) = 0;
 
-    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, std::string_view attribute ) = 0;
-    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, double attribute ) = 0;
-    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, uint64 attribute ) = 0;
-    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, int64 attribute ) = 0;
-    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, bool attribute ) = 0;
-    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, char attribute ) = 0;
+    virtual void                AddAttribute        ( const SerialObject& parent, std::string_view name, std::string_view attribute ) = 0;
+    virtual void                AddAttribute        ( const SerialObject& parent, std::string_view name, double attribute ) = 0;
+    virtual void                AddAttribute        ( const SerialObject& parent, std::string_view name, uint64 attribute ) = 0;
+    virtual void                AddAttribute        ( const SerialObject& parent, std::string_view name, int64 attribute ) = 0;
+    virtual void                AddAttribute        ( const SerialObject& parent, std::string_view name, bool attribute ) = 0;
+    virtual void                AddAttribute        ( const SerialObject& parent, std::string_view name, char attribute ) = 0;
 
     /// @}
 

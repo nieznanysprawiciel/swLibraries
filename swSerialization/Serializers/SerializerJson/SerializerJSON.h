@@ -83,12 +83,12 @@ protected:
     virtual SerialObject        AddObject           ( const SerialArray& parent, std::string_view nameHint ) override;
     virtual SerialArray         AddArray            ( const SerialArray& parent, std::string_view nameHint ) override;
 
-    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, std::string_view attribute ) override;
-    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, double attribute ) override;
-    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, uint64 attribute ) override;
-    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, int64 attribute ) override;
-    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, bool attribute ) override;
-    virtual SerialObject        AddAttribute        ( const SerialObject& parent, std::string_view name, char attribute ) override;
+    virtual void                AddAttribute        ( const SerialObject& parent, std::string_view name, std::string_view attribute ) override;
+    virtual void                AddAttribute        ( const SerialObject& parent, std::string_view name, double attribute ) override;
+    virtual void                AddAttribute        ( const SerialObject& parent, std::string_view name, uint64 attribute ) override;
+    virtual void                AddAttribute        ( const SerialObject& parent, std::string_view name, int64 attribute ) override;
+    virtual void                AddAttribute        ( const SerialObject& parent, std::string_view name, bool attribute ) override;
+    virtual void                AddAttribute        ( const SerialObject& parent, std::string_view name, char attribute ) override;
 
 protected:
 

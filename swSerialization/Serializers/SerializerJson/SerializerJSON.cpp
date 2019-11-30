@@ -237,55 +237,62 @@ SerialArray             SerializerJSON::AddArray            ( const SerialArray&
 
 // ================================ //
 //
-SerialObject            SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, std::string_view attribute )
+void                    SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, std::string_view attribute )
 {
-    // Example implementation.
     auto attributePtr = AddObjectMember( parent, name, rapidjson::Type::kStringType );
     auto& jsonNode = *m_nodesRegistry.GetElement( attributePtr );
 
     jsonNode.SetString( attribute.data(), (rapidjson::SizeType)attribute.length() );
-
-    return SerialObject( this, attributePtr );
 }
 
 // ================================ //
 //
-SerialObject            SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, double attribute )
+void                    SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, double attribute )
 {
-    assert( !"Implement me " );
-    return SerialObject( this, impl::cRootPointer );
+    auto attributePtr = AddObjectMember( parent, name, rapidjson::Type::kNumberType );
+    auto& jsonNode = *m_nodesRegistry.GetElement( attributePtr );
+
+    jsonNode.SetDouble( attribute );
 }
 
 // ================================ //
 //
-SerialObject            SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, uint64 attribute )
+void                    SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, uint64 attribute )
 {
-    assert( !"Implement me " );
-    return SerialObject( this, impl::cRootPointer );
+    auto attributePtr = AddObjectMember( parent, name, rapidjson::Type::kNumberType );
+    auto& jsonNode = *m_nodesRegistry.GetElement( attributePtr );
+
+    jsonNode.SetUint64( attribute );
 }
 
 // ================================ //
 //
-SerialObject            SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, int64 attribute )
+void                    SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, int64 attribute )
 {
-    assert( !"Implement me " );
-    return SerialObject( this, impl::cRootPointer );
+    auto attributePtr = AddObjectMember( parent, name, rapidjson::Type::kNumberType );
+    auto& jsonNode = *m_nodesRegistry.GetElement( attributePtr );
+
+    jsonNode.SetInt64( attribute );
 }
 
 // ================================ //
 //
-SerialObject            SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, bool attribute )
+void                    SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, bool attribute )
 {
-    assert( !"Implement me " );
-    return SerialObject( this, impl::cRootPointer );
+    auto attributePtr = AddObjectMember( parent, name, rapidjson::Type::kTrueType );
+    auto& jsonNode = *m_nodesRegistry.GetElement( attributePtr );
+
+    jsonNode.SetBool( attribute );
 }
 
 // ================================ //
 //
-SerialObject            SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, char attribute )
+void                    SerializerJSON::AddAttribute        ( const SerialObject& parent, std::string_view name, char attribute )
 {
-    assert( !"Implement me " );
-    return SerialObject( this, impl::cRootPointer );
+    auto attributePtr = AddObjectMember( parent, name, rapidjson::Type::kStringType );
+    auto& jsonNode = *m_nodesRegistry.GetElement( attributePtr );
+
+    jsonNode.SetString( &attribute, 1 );
 }
 
 //====================================================================================//

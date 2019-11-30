@@ -6,5 +6,6 @@
     <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\LineNumber.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\TestSerializerAPI.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\TestSerialType.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\TestSerializerAttributes.cpp" />
   </ItemGroup>
 </Project>
