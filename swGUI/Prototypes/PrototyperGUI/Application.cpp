@@ -6,6 +6,7 @@
 #include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
 #include "swGUI/Core/Media/Brushes/LinearGradientBrush.h"
 #include "swGUI/Core/Media/Brushes/AngleGradientBrush.h"
+#include "swGUI/Core/Media/Brushes/ImageBrush.h"
 
 #include "PrototyperUtils.h"
 
@@ -143,6 +144,12 @@ void		AddControls2					( HostWindow* host )
     angleBrush->AddGradientStop( GradientStop( 0xFF0000FF, 1.0f ) );
 
     AddEllipse( host, fill, angleBrush, 150, 150, 15, Position( 220, 300 ) );
+
+    auto imageBrush = std::make_shared< ImageBrush >();
+    imageBrush->SetTexture( "$(Application-Dir)/pool-water-texture.jpg" );
+    stroke = std::make_shared< SolidColorBrush >( Color( 1.0, 0.0, 0.0, 1.0 ) );
+
+    AddRectangle( host, imageBrush, stroke, 200, 200, 2, Position( 250, 30 ) );
 }
 
 
@@ -176,6 +183,7 @@ sw::ReturnResult        Application::OverridePaths	()
 {
 	auto coreGUISourcePath = FindCoreGUISourcePath( m_nativeGUI->GetOS()->GetApplicationDir() );
 
+    m_pathsManager->RegisterAlias( "$(Application-Dir)", coreGUISourcePath / "ProjectDir/Output/Application-Dir/" );
 	return m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" );
 }
 
