@@ -935,13 +935,6 @@ class RTTR_API variant
          */
         uint64_t to_uint64(bool *ok = nullptr) const;
 
-		/*
-		* \brief Converts void* to other pointer type.
-		* \remark Use wise. No types checking is made.
-		*/
-		bool unsafe_convert_void( const type& target_type );
-
-
     private:
         /////////////////////////////////////////////////////////////////////////////////
 

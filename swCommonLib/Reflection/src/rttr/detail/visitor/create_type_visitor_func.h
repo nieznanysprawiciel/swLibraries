@@ -1,6 +1,6 @@
 /************************************************************************************
 *                                                                                   *
-*   Copyright (c) 2014, 2015 - 2016 Axel Menzel <info@rttr.org>                     *
+*   Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>                           *
 *                                                                                   *
 *   This file is part of RTTR (Run Time Type Reflection)                            *
 *   License: MIT License                                                            *
@@ -25,13 +25,43 @@
 *                                                                                   *
 *************************************************************************************/
 
-#ifndef RTTR_VERSION_H_
-#define RTTR_VERSION_H_
+#ifndef RTTR_CREATE_TYPE_VISITOR_FUNC_H_
+#define RTTR_CREATE_TYPE_VISITOR_FUNC_H_
 
-#define RTTR_VERSION_MAJOR 0
-#define RTTR_VERSION_MINOR 9
-#define RTTR_VERSION_PATCH 6
-#define RTTR_VERSION       906
-#define RTTR_VERSION_STR   "0.9.6"
+#include "rttr/detail/base/core_prerequisites.h"
+#include "rttr/detail/misc/misc_type_traits.h"
+#include "rttr/detail/type/base_classes.h"
+#include "rttr/detail/misc/std_type_traits.h"
 
-#endif // RTTR_VERSION_H_
+namespace rttr
+{
+
+class visitor;
+class type;
+enum class type_of_visit : bool;
+
+namespace detail
+{
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template<typename T, typename Visitor_List>
+RTTR_INLINE
+enable_if_t<has_base_class_list<T>::value, void>
+visit_type(type_of_visit visit_type, visitor& vi, const type& t);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+template<typename T, typename Visitor_List>
+RTTR_INLINE
+enable_if_t<!has_base_class_list<T>::value, void>
+visit_type(type_of_visit visit_type, visitor& vi, const type& t);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+} // end namespace detail
+} // end namespace rttr
+
+#include "rttr/detail/visitor/create_type_visitor_func_impl.h"
+
+#endif // RTTR_CREATE_TYPE_VISITOR_FUNC_H_

@@ -30,6 +30,8 @@ set(HEADER_FILES test_classes.h
                  type/test_type.h
                  variant/test_enums.h
                  version.rc.in
+                 visitor/my_visitor.h
+                 visitor/visitor_test_class.h
                  )
 
 set(SOURCE_FILES main.cpp
@@ -44,6 +46,7 @@ set(SOURCE_FILES main.cpp
                  property/property_class_invoke_wrapper.cpp
                  property/property_member_function.cpp
                  property/property_member_object.cpp
+                 property/property_order_test.cpp
                  property/property_global_function.cpp
                  property/property_global_object.cpp
                  type/test_type.cpp
@@ -67,6 +70,7 @@ set(SOURCE_FILES main.cpp
                  method/method_default_arg_test.cpp
                  method/method_misc_test.cpp
                  method/method_invoke_test.cpp
+                 method/method_order_test.cpp
                  method/method_param_info_test.cpp
                  method/method_query_test.cpp
                  variant/variant_assign_test.cpp
@@ -94,4 +98,6 @@ set(SOURCE_FILES main.cpp
                  variant/variant_conv_to_enum.cpp
                  variant_associative_view/variant_associative_view_test.cpp
                  variant_sequential_view/variant_sequential_view_test.cpp
+                 visitor/visitor_test.cpp
+                 visitor/visitor_test_class.cpp
                  )

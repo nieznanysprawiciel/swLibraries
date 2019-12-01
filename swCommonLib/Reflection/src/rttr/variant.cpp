@@ -513,27 +513,4 @@ uint64_t variant::to_uint64(bool *ok) const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-bool variant::unsafe_convert_void( const type& target_type )
-{
-	if ( !is_valid() )
-		return false;
-
-	if ( !get_type().is_pointer() )
-		return false;
-
-	const type source_type = get_type();
-
-	if ( !target_type.is_pointer() ||
-		!(source_type.get_pointer_dimension() == 1 && target_type.get_pointer_dimension() == 1) )
-		return false;
-
-	void* raw_ptr = get_raw_ptr();
-	*this = target_type.create_variant( raw_ptr );
-
-	return true;
-}
-
-
 } // end namespace rttr

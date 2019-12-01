@@ -34,7 +34,7 @@ MESSAGE(STATUS ${LIBRARY_OUTPUT_DIRECTORY})
 MESSAGE(STATUS "Finding 3rd party libs...")
 MESSAGE(STATUS "===========================")
 
-if (BUILD_BENCHMARKS)
+if (RTTR_BUILD_BENCHMARKS)
     if (MSVC)
         # there is a the moment a problem with finding multiple versions of boost,
         # i.e. the static AND the static runtime version; that is not possible atm.
@@ -47,7 +47,9 @@ if (BUILD_BENCHMARKS)
     else()
         find_package(Boost)
     endif()
-    
+endif()
+
+if (RTTR_BUILD_BENCHMARKS OR RTTR_BUILD_EXAMPLES)
     find_package(Threads REQUIRED)
 endif()
 
@@ -59,5 +61,11 @@ set(CATCH_INCLUDE_DIR ${RTTR_3RD_PARTY_DIR}/catch-1.12.0)
 add_library(Catch INTERFACE)
 add_library(Catch2::Catch ALIAS Catch)
 target_include_directories(Catch INTERFACE ${CATCH_INCLUDE_DIR})
+
+# Find chai script
+set(CHAISCRIPT_INCLUDE_DIR ${RTTR_3RD_PARTY_DIR}/chaiscript-6.1.0)
+add_library(ChaiScript INTERFACE)
+add_library(ChaiScript::ChaiScript ALIAS ChaiScript)
+target_include_directories(ChaiScript INTERFACE ${CHAISCRIPT_INCLUDE_DIR})
 
 MESSAGE(STATUS "Finished finding 3rd party libs!")

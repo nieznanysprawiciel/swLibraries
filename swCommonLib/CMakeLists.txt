@@ -24,10 +24,10 @@ add_subdirectory(HierarchicalChunkedFormat)
 # Import rttr reflection library
 add_subdirectory(Reflection)
 
-find_package(RTTR CONFIG REQUIRED Core)
-add_library(RTTR INTERFACE IMPORTED)
+#find_library(RTTR CONFIG REQUIRED Core)
+#add_library(RTTR INTERFACE IMPORTED)
 
-set_property(TARGET RTTR PROPERTY BUILD_BENCHMARKS False)
+#set_property(TARGET RTTR PROPERTY RTTR_BUILD_BENCHMARKS False)
 
 
 

@@ -44,6 +44,7 @@ class enumeration;
 class instance;
 class argument;
 class property;
+class visitor;
 
 namespace detail
 {
@@ -207,16 +208,6 @@ class RTTR_API property
         type get_declaring_type() const RTTR_NOEXCEPT;
 
         /*!
-         * \brief Returns the \ref type of the pointer to class or struct that declares this property.
-         *
-         * \remark When this property does not belong to a class (i.e. is a global property) it will return an invalid type object.
-         *         When this property is not valid, this function will return an invalid type object (see \ref type::is_valid).
-         *
-         * \return \ref type "Type" of the declaring class/struct for this property.
-         */
-        //type get_declaring_type_ptr() const;
-
-        /*!
          * \brief Set the property of the given instance \p object to the given value \p arg.
          *
          * \remark  When the property is declared as \ref is_readonly "read only" this function will return false.
@@ -268,10 +259,13 @@ class RTTR_API property
         //! Constructs a property from a property_wrapper_base.
         property(const detail::property_wrapper_base* wrapper) RTTR_NOEXCEPT;
 
+        void visit(visitor& visitor) const RTTR_NOEXCEPT;
+
         template<typename T>
         friend T detail::create_item(const detail::class_item_to_wrapper_t<T>* wrapper);
         template<typename T>
         friend T detail::create_invalid_item();
+        friend class visitor;
 
     private:
         const detail::property_wrapper_base* m_wrapper;
