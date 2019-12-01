@@ -1,4 +1,39 @@
 <swLibraries-Releases>
+    <Release Version="0.15.0" Tag="Version-0.15.0">
+        <swCommonLib Version="0.52.1" Tag="Version-0.52.1" >
+            <ChangeLog>
+                <Change>Fix BufferRaw - return *this from operator=.</Change>
+            </ChangeLog>
+        </swCommonLib>
+        <swGraphicAPI Version="0.54.2" Tag="Version-0.54.2" >
+            <ChangeLog>
+                <Change>DX11Compiler doesn't optimize code if debug layer is enabled (easier shaders debugging).</Change>
+                <Change>DX11Renderer throw exception on invalid pipeline even in release mode.</Change>
+                <Change>Fix SoilTextureLoader compilation in release. Precompiled header problem.</Change>
+            </ChangeLog>
+        </swGraphicAPI>
+        <swInputLibrary Version="0.91.0" Tag="Version-0.91.0" />
+        <swGUI Version="0.14.0" Tag="Version-0.14.0" >
+            <ChangeLog>
+                <Change>Added EllipseGeometry.</Change>
+                <Change>New Brushes: AngleGradientBrush, LinearGradientBrush, ImageBrush.</Change>
+                <Change>Shader templetes use #UserCode marker to paste Brush or Geometry code written by developer.</Change>
+                <Change>Fix RenderingSystem deinitialization order in GUISystem.</Change>
+                <Change>RenderingSystem constants and Visual constants are bound to both shaders.</Change>
+                <Change>Shader constants availble for developer: _swViewportSize, _swVisualOffset, _swVisualSize.</Change>
+                <Change>Shader function swTransformToDirectX avaible for developer.</Change>
+                <Change>Width, height and size are properties of Visual.</Change>
+                <Change>Fix: initialize Geometry invalidation variables in constructor, what caused non-deterministic problems in release builds.</Change>
+            </ChangeLog>
+        </swGUI>
+        <swGeometrics Version="0.04.0" Tag="Version-0.04.0" >
+            <ChangeLog>
+                <Change>Ellipse and EllipseWithBorder generation.</Change>
+                <Change>Translate2D operation added.</Change>
+                <Change>Compilation fix: Add Reflection dependency to GeometricsCore.</Change>
+            </ChangeLog>        
+        </swGeometrics>
+    </Release>
     <Release Version="0.14.1" Tag="Version-0.14.1">
         <swCommonLib Version="0.52.0" Tag="Version-0.52.0" />
         <swGraphicAPI Version="0.54.1" Tag="Version-0.54.1" >
