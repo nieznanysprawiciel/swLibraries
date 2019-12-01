@@ -51,7 +51,7 @@ public:
 
 public:
 
-    void			            SetTexture		    ( AssetPath tex )   { m_textureSource = std::move( tex ); }
+    void			            SetTexture		    ( AssetPath tex );
     const AssetPath&		    GetTexture    	    () const            { return m_textureSource; }
 
     void                        SetTextureRegion    ( Rect region )     { m_constants.TextureRegion = region; }

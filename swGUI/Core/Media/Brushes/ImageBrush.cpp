@@ -38,6 +38,14 @@ ImageBrush::ImageBrush( AssetPath tex )
 
 // ================================ //
 //
+void                    ImageBrush::SetTexture          ( AssetPath tex )
+{
+    m_textureSource = std::move( tex );
+    InvalidateTexture();
+}
+
+// ================================ //
+//
 BufferRange				ImageBrush::BufferData			()
 {
     return m_constants.GetView();
