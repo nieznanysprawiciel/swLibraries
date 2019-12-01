@@ -41,7 +41,7 @@ protected:
 
 protected:
 
-    StackBuffer< Constants >		m_constants;
+    StackBufferA< Constants >		m_constants;
     AssetPath                       m_textureSource;
 
 public:
