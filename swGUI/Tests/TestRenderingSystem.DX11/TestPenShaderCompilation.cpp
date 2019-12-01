@@ -9,6 +9,8 @@
 // Include Brushes
 #include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
 #include "swGUI/Core/Media/Brushes/LinearGradientBrush.h"
+#include "swGUI/Core/Media/Brushes/AngleGradientBrush.h"
+#include "swGUI/Core/Media/Brushes/ImageBrush.h"
 
 
 
@@ -51,12 +53,44 @@ TEST_CASE( "GUI.Rendering.DX11.Pen.ShaderCompilation.LinearGradientBrush", "[GUI
 	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
 	LinearGradientBrushPtr brush = std::make_shared< LinearGradientBrush >();
 
-	drawing->UpdateBrushShader( framework->GetRenderingSystem()->GetShaderProvider(), brush.get() );
+	drawing->UpdatePenShader( framework->GetRenderingSystem()->GetShaderProvider(), brush.get() );
 
-	auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
+	auto& renderingData = CLASS_TESTER( Drawing )::GetPenRenderingData( drawing.get() );
 
-	INFO( "[LinearGradientBrush] Brush Shader compilation failed." );
+	INFO( "[LinearGradientBrush] Pen Shader compilation failed." );
 	CHECK( renderingData.PixelShader != nullptr );
 }
 
+// ================================ //
+//
+TEST_CASE( "GUI.Rendering.DX11.Pen.ShaderCompilation.AngleGradientBrush", "[GUISystem][RenderingSystem][Drawing]" )
+{
+    TestFramework* framework = GetGlobalTestFramework();
 
+    FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
+    AngleGradientBrushPtr brush = std::make_shared< AngleGradientBrush >();
+
+    drawing->UpdatePenShader( framework->GetRenderingSystem()->GetShaderProvider(), brush.get() );
+
+    auto& renderingData = CLASS_TESTER( Drawing )::GetPenRenderingData( drawing.get() );
+
+    INFO( "[AngleGradientBrush] Pen Shader compilation failed." );
+    CHECK( renderingData.PixelShader != nullptr );
+}
+
+// ================================ //
+//
+TEST_CASE( "GUI.Rendering.DX11.Pen.ShaderCompilation.ImageBrush", "[GUISystem][RenderingSystem][Drawing]" )
+{
+    TestFramework* framework = GetGlobalTestFramework();
+
+    FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
+    ImageBrushPtr brush = std::make_shared< ImageBrush >();
+
+    drawing->UpdatePenShader( framework->GetRenderingSystem()->GetShaderProvider(), brush.get() );
+
+    auto& renderingData = CLASS_TESTER( Drawing )::GetPenRenderingData( drawing.get() );
+
+    INFO( "[ImageBrush] Pen Shader compilation failed." );
+    CHECK( renderingData.PixelShader != nullptr );
+}
