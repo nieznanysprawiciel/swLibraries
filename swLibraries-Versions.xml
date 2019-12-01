@@ -1,4 +1,25 @@
 <swLibraries-Releases>
+    <Release Version="0.14.1" Tag="Version-0.14.1">
+        <swCommonLib Version="0.52.0" Tag="Version-0.52.0" />
+        <swGraphicAPI Version="0.54.1" Tag="Version-0.54.1" >
+            <ChangeLog>
+                <Change>Fix release builds (precompiled header problem).</Change>
+                <Change>Renderer throws pipeline validation exception even in release mode.</Change>
+            </ChangeLog>   
+        </swGraphicAPI>
+        <swInputLibrary Version="0.91.0" Tag="Version-0.91.0" />
+        <swGUI Version="0.13.1" Tag="Version-0.13.1" >
+            <ChangeLog>
+                <Change>Fix release/debug Reflection dll mismatch.</Change>
+                <Change>Geometry class initialization of invalidates.</Change>
+            </ChangeLog>
+        </swGUI>
+        <swGeometrics Version="0.03.1" Tag="Version-0.03.1" >
+            <ChangeLog>
+                <Change>Add dependency to Reflection library (fix).</Change>
+            </ChangeLog>        
+        </swGeometrics>
+    </Release>
     <Release Version="0.14.0" Tag="Version-0.14.0" Description="Patch to 0.13.0 - breaks compatibility." >
         <swCommonLib Version="0.52.0" Tag="Version-0.52.0" />
         <swGraphicAPI Version="0.54.0" Tag="Version-0.54.0" >
