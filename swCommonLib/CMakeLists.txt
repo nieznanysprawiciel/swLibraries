@@ -22,10 +22,11 @@ add_subdirectory(HierarchicalChunkedFormat)
 
 
 # Import rttr reflection library
-add_subdirectory(Reflection)
+#add_subdirectory(Reflection)
+set(RTTR_DIR "${PROJECT_SOURCE_DIR}/Reflection/_Build/install/cmake/")
 
-#find_library(RTTR CONFIG REQUIRED Core)
-#add_library(RTTR INTERFACE IMPORTED)
+find_package(RTTR CONFIG REQUIRED Core)
+add_library(RTTR INTERFACE IMPORTED)
 
 #set_property(TARGET RTTR PROPERTY RTTR_BUILD_BENCHMARKS False)
 
