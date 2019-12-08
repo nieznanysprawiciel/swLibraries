@@ -11,6 +11,12 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 endif()
 
+# Import rttr reflection library
+add_subdirectory(Reflection)
+set(RTTR_DIR "${PROJECT_SOURCE_DIR}/Reflection/CMake/")
+
+
+
 add_subdirectory(Common)
 #add_subdirectory(External)
 add_subdirectory(HierarchicalChunkedFormat)
@@ -21,14 +27,6 @@ add_subdirectory(HierarchicalChunkedFormat)
 #add_subdirectory(TestUtils)
 
 
-# Import rttr reflection library
-#add_subdirectory(Reflection)
-set(RTTR_DIR "${PROJECT_SOURCE_DIR}/Reflection/_Build/install/cmake/")
-
-find_package(RTTR CONFIG REQUIRED Core)
-add_library(RTTR INTERFACE IMPORTED)
-
-#set_property(TARGET RTTR PROPERTY RTTR_BUILD_BENCHMARKS False)
 
 
 
