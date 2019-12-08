@@ -19,14 +19,12 @@ add_subdirectory(Reflection)
 set(RTTR_DIR "${PROJECT_SOURCE_DIR}/Reflection/CMake/")
 
 
-
 add_subdirectory(Common)
 #add_subdirectory(External)
 add_subdirectory(HierarchicalChunkedFormat)
 add_subdirectory(ParameterAnimation)
-#add_subdirectory(Reflection)
 #add_subdirectory(Serialization)
-#add_subdirectory(TestUtils)
+add_subdirectory(TestUtils)
 
 
 

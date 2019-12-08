@@ -11,3 +11,5 @@ target_include_directories(ParameterAnimation
         $<INSTALL_INTERFACE:${swCommonLib_SOURCE_DIR}/../>
 )
 target_link_libraries(ParameterAnimation PUBLIC CommonBase)
+
+source_group(TREE "${PROJECT_SOURCE_DIR}/ParameterAnimation" PREFIX "ParameterAnimation" FILES ${SOURCE_LIST})
