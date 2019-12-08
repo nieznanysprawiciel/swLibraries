@@ -8,7 +8,6 @@ file(GLOB PCH_LIST CONFIGURE_DEPENDS "${swCommonLib_SOURCE_DIR}/Common/stdafx.*"
 file(GLOB_RECURSE SYSTEM_SOURCE_LIST CONFIGURE_DEPENDS "${swCommonLib_SOURCE_DIR}/System/*")
 list(REMOVE_ITEM SYSTEM_SOURCE_LIST "${swCommonLib_SOURCE_DIR}/System/Filesystem/path_demo.cpp")
 
-#add_library(CommonBase STATIC ${SOURCE_LIST})
 add_library(CommonBase STATIC ${SOURCE_LIST} ${SYSTEM_SOURCE_LIST})
 
 target_compile_features(CommonBase PUBLIC cxx_std_11)

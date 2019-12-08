@@ -5,6 +5,8 @@ project(swCommonLib
         DESCRIPTION "Common functionalities for Sleeping Wombat Libraries"
         LANGUAGES CXX)
 
+message("Configuring swCommonLib libraries. Version: ${PROJECT_VERSION}")
+
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 
     # Let's nicely support folders in IDE's
@@ -12,6 +14,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 endif()
 
 # Import rttr reflection library
+message("Configuring RTTR library")
 add_subdirectory(Reflection)
 set(RTTR_DIR "${PROJECT_SOURCE_DIR}/Reflection/CMake/")
 
@@ -20,10 +23,9 @@ set(RTTR_DIR "${PROJECT_SOURCE_DIR}/Reflection/CMake/")
 add_subdirectory(Common)
 #add_subdirectory(External)
 add_subdirectory(HierarchicalChunkedFormat)
-#add_subdirectory(ParameterAnimation)
+add_subdirectory(ParameterAnimation)
 #add_subdirectory(Reflection)
 #add_subdirectory(Serialization)
-#add_subdirectory(System)
 #add_subdirectory(TestUtils)
 
 
