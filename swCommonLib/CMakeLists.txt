@@ -28,11 +28,17 @@ add_subdirectory(TestUtils)
 
 
 
+enable_testing()
 
+message("Configuring tests")
+include(CTest)
+add_subdirectory(Tests)
 
-if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING) AND BUILD_TESTING)
-    add_subdirectory(Tests)
-endif()
+# if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING) AND BUILD_TESTING)
+	# message("Configuring tests")
+    # include(CTest)
+	# add_subdirectory(Tests)
+# endif()
 
 # Disable creating ZERO_CHECK project
 set(CMAKE_SUPPRESS_REGENERATION true)
