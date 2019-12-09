@@ -101,6 +101,13 @@ protected:
     virtual std::optional< SerialObjectChild >          GetElement          ( const SerialObject& parent, Size index ) const override;
     virtual std::optional< SerialGeneric >              GetElement          ( const SerialObject& parent, std::string_view name ) const override;
 
+
+    virtual std::string_view                            GetString           ( const SerialAttribute& attribute ) const override;
+    virtual double                                      GetDouble           ( const SerialAttribute& attribute ) const override;
+    virtual uint64                                      GetUInt64           ( const SerialAttribute& attribute ) const override;
+    virtual int64                                       GetInt64            ( const SerialAttribute& attribute ) const override;
+    virtual bool                                        GetBool             ( const SerialAttribute& attribute ) const override;
+
     /// @}
 
 private:

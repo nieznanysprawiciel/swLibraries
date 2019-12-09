@@ -350,6 +350,40 @@ std::optional< SerialGeneric >          SerializerJSON::GetElement           ( c
     return SerialGeneric{ const_cast< SerializerJSON* >( this ), elementOpt.value(), impl::ToSerialType( iter->value.GetType() ) };
 }
 
+// ================================ //
+//
+std::string_view                        SerializerJSON::GetString           ( const SerialAttribute& attribute ) const
+{
+    return std::string_view();
+}
+
+// ================================ //
+//
+double                                  SerializerJSON::GetDouble           ( const SerialAttribute& attribute ) const
+{
+    return 0.0;
+}
+
+// ================================ //
+//
+uint64                                  SerializerJSON::GetUInt64           ( const SerialAttribute& attribute ) const
+{
+    return uint64();
+}
+
+// ================================ //
+//
+int64                                   SerializerJSON::GetInt64            ( const SerialAttribute& attribute ) const
+{
+    return int64();
+}
+
+// ================================ //
+//
+bool                                    SerializerJSON::GetBool             ( const SerialAttribute& attribute ) const
+{
+    return false;
+}
 
 }	// sw
 

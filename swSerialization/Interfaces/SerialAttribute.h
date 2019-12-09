@@ -22,10 +22,14 @@ It is one of primitive types: string, number, bool.
 class SerialAttribute : public impl::SerialBase
 {
 private:
+
+    SerialType          m_type;
+
 protected:
 public:
-    explicit		SerialAttribute     ( sw::ISerializer* ser, impl::NodePointer nodeInternal )
+    explicit		SerialAttribute     ( sw::ISerializer* ser, impl::NodePointer nodeInternal, SerialType type )
         : impl::SerialBase( ser, nodeInternal )
+        , m_type( type )
     {}
                     ~SerialAttribute	() = default;
 public:
@@ -55,9 +59,37 @@ public:
     template< typename TargetType >
     std::optional< TargetType >                 ConvertTo               () const;
     ///@}
+
+private:
+
+    template< typename SourceType, typename TargetType >
+    std::optional< TargetType >                 Convert                 ( const SourceType& src ) const;
 };
 
 
+// ================================ //
+//
+template< typename TargetType >
+inline std::optional< TargetType >              SerialAttribute::ConvertTo      () const
+{
+    switch( m_type )
+    {
+    case sw::String:
+        return Convert< std::string_view, TargetType >( m_serializer->GetString( *this ) );
+    case sw::Bool:
+        return Convert< bool, TargetType >( m_serializer->GetBool( *this ) );
+    case sw::UInt64:
+        return Convert< uint64, TargetType >( m_serializer->GetUInt64( *this ) );
+    case sw::Int64:
+        return Convert< int64, TargetType >( m_serializer->GetInt64( *this ) );
+    case sw::Double:
+        return Convert< double, TargetType >( m_serializer->GetDouble( *this ) );
+    default:
+        return {};
+    }
+
+    return {};
+}
 
 }	// sw
 

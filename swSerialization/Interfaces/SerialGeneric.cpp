@@ -38,7 +38,7 @@ std::optional< SerialArray >            SerialGeneric::ArrayView        ()
 std::optional< SerialAttribute >        SerialGeneric::AttributeView    ()
 {
     if( IsAttribute() )
-        return SerialAttribute( m_serializer, m_node );
+        return SerialAttribute( m_serializer, m_node, m_type );
     return {};
 }
 

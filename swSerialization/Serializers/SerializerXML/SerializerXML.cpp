@@ -272,6 +272,41 @@ std::optional< SerialGeneric >          SerializerXML::GetElement           ( co
     return {};
 }
 
+// ================================ //
+//
+std::string_view                        SerializerXML::GetString            ( const SerialAttribute& attribute ) const
+{
+    return std::string_view();
+}
+
+// ================================ //
+//
+double                                  SerializerXML::GetDouble            ( const SerialAttribute& attribute ) const
+{
+    return 0.0;
+}
+
+// ================================ //
+//
+uint64                                  SerializerXML::GetUInt64            ( const SerialAttribute& attribute ) const
+{
+    return uint64();
+}
+
+// ================================ //
+//
+int64                                   SerializerXML::GetInt64             ( const SerialAttribute& attribute ) const
+{
+    return int64();
+}
+
+// ================================ //
+//
+bool                                    SerializerXML::GetBool              ( const SerialAttribute& attribute ) const
+{
+    return false;
+}
+
 //====================================================================================//
 //			Internal implementation helpers	
 //====================================================================================//

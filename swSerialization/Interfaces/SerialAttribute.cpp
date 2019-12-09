@@ -15,84 +15,84 @@ namespace sw
 //
 std::optional< std::string_view >           SerialAttribute::ConvertToString        () const
 {
-    return std::optional<std::string_view>();
+    return ConvertTo< std::string_view >();
 }
 
 // ================================ //
 //
 std::optional< double >                     SerialAttribute::ConvertToDouble        () const
 {
-    return std::optional<double>();
+    return ConvertTo< double >();
 }
 
 // ================================ //
 //
 std::optional< uint64 >                     SerialAttribute::ConvertToUInt64        () const
 {
-    return std::optional<uint64>();
+    return ConvertTo< uint64 >();
 }
 
 // ================================ //
 //
 std::optional< int64 >                      SerialAttribute::ConvertToInt64         () const
 {
-    return std::optional<int64>();
+    return ConvertTo< int64 >();
 }
 
 // ================================ //
 //
 std::optional< uint32 >                     SerialAttribute::ConvertToUInt32        () const
 {
-    return std::optional<uint32>();
+    return ConvertTo< uint32 >();
 }
 
 // ================================ //
 //
 std::optional< int32 >                      SerialAttribute::ConvertToInt32         () const
 {
-    return std::optional<int32>();
+    return ConvertTo< int32 >();
 }
 
 // ================================ //
 //
 std::optional< uint16 >                     SerialAttribute::ConvertToUInt16        () const
 {
-    return std::optional<uint16>();
+    return ConvertTo< uint16 >();
 }
 
 // ================================ //
 //
 std::optional< int16 >                      SerialAttribute::ConvertToInt16         () const
 {
-    return std::optional<int16>();
+    return ConvertTo< int16 >();
 }
 
 // ================================ //
 //
 std::optional< uint8 >                      SerialAttribute::ConvertToUInt8         () const
 {
-    return std::optional<uint8>();
+    return ConvertTo< uint8 >();
 }
 
 // ================================ //
 //
 std::optional< int8 >                       SerialAttribute::ConvertToInt8          () const
 {
-    return std::optional<int8>();
+    return ConvertTo< int8 >();
 }
 
 // ================================ //
 //
 std::optional< bool >                       SerialAttribute::ConvertToBool          () const
 {
-    return std::optional<bool>();
+    return ConvertTo< bool >();
 }
 
 // ================================ //
 //
 std::optional< char >                       SerialAttribute::ConvertToChar          () const
 {
-    return std::optional<char>();
+    return ConvertTo< char >();
 }
 
 }	// sw

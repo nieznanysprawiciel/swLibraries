@@ -111,6 +111,12 @@ public:
     virtual std::optional< SerialObjectChild >          GetElement          ( const SerialObject& parent, Size index ) const = 0;
     virtual std::optional< SerialGeneric >              GetElement          ( const SerialObject& parent, std::string_view name ) const = 0;
 
+    virtual std::string_view                            GetString           ( const SerialAttribute& attribute ) const = 0;
+    virtual double                                      GetDouble           ( const SerialAttribute& attribute ) const = 0;
+    virtual uint64                                      GetUInt64           ( const SerialAttribute& attribute ) const = 0;
+    virtual int64                                       GetInt64            ( const SerialAttribute& attribute ) const = 0;
+    virtual bool                                        GetBool             ( const SerialAttribute& attribute ) const = 0;
+
     /// @}
 
 public:
