@@ -20,7 +20,7 @@ add raised exceptions to list. This class will produce ReturnResult on the end.
 - If only one exception occured, single exception will be returned.
 - If multiple exceptions occured, ExceptionsList will be created internally and all
 exceptions will be added to list.
-- If there were no errror, Result::Success will be returned.
+- If there were no errror, Success::True will be returned.
 
 This class creates ExceptionsList class only if necessary and hides cumbersome code from user. 
 
@@ -198,7 +198,7 @@ inline				ErrorsCollector::operator ReturnResult()
 	if( m_exception )
 		return m_exception;
 
-	return Result::Success;
+	return Success::True;
 }
 
 // ================================ //

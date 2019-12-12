@@ -76,7 +76,7 @@ ReturnResult            SerializerXML::SaveFile         ( const std::string& fil
         file << SaveString( mode );
 
         file.close();
-        return Result::Success;
+        return Success::True;
     }
     return fmt::format( "Saving file [{}] failed. Error: {}", fileName, Convert::ErrnoToString( errno ) );
 }
@@ -140,7 +140,7 @@ ReturnResult            SerializerXML::LoadFromString   ( std::string content )
         return fmt::format( "Parsing failed. Unknown error." );
     }
 
-    return Result::Success;
+    return Success::True;
 }
 
 // ================================ //

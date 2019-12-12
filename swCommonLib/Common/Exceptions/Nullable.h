@@ -13,7 +13,7 @@
 #include <type_traits>
 #include <assert.h>
 
-
+#include "Result.h"
 
 
 namespace sw
@@ -22,41 +22,11 @@ namespace sw
 
 /**@brief Enumeration for nullable for creating valid and invalid object.
 @ingroup Helpers*/
-enum class Result : uint8
+enum class Success : uint8
 {
-	Error,
-	Success
+	True,
+	False
 };
-
-
-namespace impl
-{
-
-// ================================ //
-//	
-template< typename From, typename To >
-struct IsBaseConversion
-{
-	// ================================ //
-	// Note: Visual Studio can't handle constexpr functions in std::enable_if
-	static constexpr inline bool		Value		()
-	{
-		using DecayedFrom = std::remove_pointer< typename From >::type;
-		using DecayedTo = std::remove_pointer< typename To >::type;
-	
-		return	!std::is_same< DecayedFrom, DecayedTo >::value &&
-				std::is_base_of< DecayedTo, DecayedFrom >::value;// &&
-				std::is_pointer< From >::value &&
-				std::is_pointer< To >::value;
-	}
-
-public:
-
-	const static bool value = IsBaseConversion::Value();
-};
-
-
-}	// impl
 
 
 
@@ -150,7 +120,7 @@ private:
 public:
 
 	explicit                Nullable			();
-			                Nullable			( Result result );
+			                Nullable			( Success result );
                             Nullable			( const ErrorType& error );
 							Nullable			( const std::string& error );
 
@@ -307,7 +277,7 @@ inline typename Nullable< ContentType >::ErrorType		Nullable< ContentType >::Get
 // ================================ //
 //
 template< typename ContentType >
-inline bool						Nullable< ContentType >::operator==      ( const ContentType & that ) 
+inline bool						Nullable< ContentType >::operator==      ( const ContentType& that ) 
 { 
     return m_isValid && Content == that; 
 }
@@ -315,7 +285,7 @@ inline bool						Nullable< ContentType >::operator==      ( const ContentType & 
 // ================================ //
 //
 template< typename ContentType >
-inline bool						Nullable< ContentType >::operator!=      ( const ContentType & that ) 
+inline bool						Nullable< ContentType >::operator!=      ( const ContentType& that ) 
 { 
     return !( *this == that ); 
 }
@@ -323,7 +293,7 @@ inline bool						Nullable< ContentType >::operator!=      ( const ContentType & 
 // ================================ //
 //
 template< typename ContentType >
-Nullable< ContentType >&		Nullable< ContentType >::operator=		( const Nullable< ContentType > & that )
+Nullable< ContentType >&		Nullable< ContentType >::operator=		( const Nullable< ContentType >& that )
 {
     if( m_isValid ) 
         Content.~ContentType(); 
@@ -378,7 +348,7 @@ inline ContentType&&			Nullable< ContentType >::Get          () &&
 // ================================ //
 //
 template< typename ContentType >
-inline Nullable< ContentType >::operator const ContentType &		() const &
+inline Nullable< ContentType >::operator const ContentType&		    () const &
 { 
     return Get(); 
 }
@@ -386,18 +356,11 @@ inline Nullable< ContentType >::operator const ContentType &		() const &
 // ================================ //
 //
 template< typename ContentType >
-inline Nullable< ContentType >::operator ContentType &				() &
+inline Nullable< ContentType >::operator ContentType&				() &
 { 
     return Get(); 
 }
 
-//// ================================ //
-////
-//template< typename ContentType >
-//inline Nullable< ContentType >::operator ContentType &&				() &&
-//{ 
-//    return std::move( Get() );
-//}
 
 //====================================================================================//
 //			Creating Nullable from error	
@@ -459,8 +422,8 @@ inline Nullable< void >::Nullable			( const std::string& error )
 
 // ================================ //
 //
-inline Nullable< void >::Nullable			( Result result )
-	: m_isValid( result == Result::Success ), Error( nullptr )
+inline Nullable< void >::Nullable			( Success result )
+	: m_isValid( result == Success::True ), Error( nullptr )
 {}
 
 // ================================ //
@@ -478,7 +441,7 @@ inline Nullable< void >&        Nullable< void >::operator=         ( const Null
 inline Nullable< void >         operator&&                          ( const Nullable< void >& obj1, const Nullable< void >& obj2 )
 {
     if( obj1.IsValid() && obj2.IsValid() )
-        return Result::Success;
+        return Success::True;
 
     /// @todo Maybe we should handle situation, when both are errors.
     if( !obj1.IsValid() )
@@ -487,7 +450,7 @@ inline Nullable< void >         operator&&                          ( const Null
     if( !obj2.IsValid() )
         return obj2.GetError();
 
-    return Result::Success;
+    return Success::True;
 }
 
 // ================================ //

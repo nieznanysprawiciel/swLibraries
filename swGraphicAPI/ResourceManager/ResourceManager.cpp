@@ -368,7 +368,7 @@ ReturnResult							ResourceManager::AddGenericResource		( const AssetPath& name,
 	if( !inserted )
 		return std::make_shared< ResourceManagerException >( "Can't add asset, because it already existed.", name.String(), assetType );
 
-	return Result::Success;
+	return Success::True;
 }
 
 // ================================ //

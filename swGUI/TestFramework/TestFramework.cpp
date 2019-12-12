@@ -34,7 +34,7 @@ ReturnResult			TestFramework::Initialize		()
 {
     m_guiConfig.DebugGraphics = true;
 
-    ReturnResult result = Result::Success;
+    ReturnResult result = Success::True;
 	
 	result = result && DefaultInitWithoutWindow();
 	result = result && OverridePaths();

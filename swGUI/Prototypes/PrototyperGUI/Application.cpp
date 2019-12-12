@@ -79,7 +79,7 @@ If you need specific gui initialization in your application override this functi
 You can set different GraphicApi or input api.*/
 sw::ReturnResult		Application::Initialize()
 {
-    sw::ReturnResult result = sw::Result::Success;
+    sw::ReturnResult result = sw::Success::True;
 	
 	result = result && DefaultInit( 1024, 768, "Window Tittle" );
 	result = result && OverridePaths();
@@ -114,7 +114,7 @@ sw::ReturnResult		Application::OnInitialized()
         //AddRectangle( window );
         AddRectangle( m_windows[ 0 ] );
 
-        return sw::Result::Success;
+        return sw::Success::True;
     }
     else
 	    return window.GetError();

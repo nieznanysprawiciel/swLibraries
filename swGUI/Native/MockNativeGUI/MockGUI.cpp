@@ -100,7 +100,7 @@ ReturnResult    MockGUI::Init				( const NativeGUIInitData& initData )
 	assert( !initData.FocusChanged.empty() );
 
 	m_initData = initData;
-	return Result::Success;
+	return Success::True;
 }
 
 

@@ -15,7 +15,7 @@ ReturnResult		FunctionWithException		( bool returnException )
 	if( returnException )
 		return std::make_shared< RuntimeException >( "[Error] Something gone wrong." );
 
-	return Result::Success;
+	return Success::True;
 }
 
 

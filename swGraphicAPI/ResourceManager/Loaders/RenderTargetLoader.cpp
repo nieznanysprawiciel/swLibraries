@@ -106,7 +106,7 @@ LoadingResult									RenderTargetLoader::Load			( const LoadPath& filePath, Typ
 //
 ReturnResult									RenderTargetLoader::Prefetch		( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
-	return Result::Error;
+	return Success::False;
 }
 
 

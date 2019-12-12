@@ -166,7 +166,7 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.Move.Exception", "[Nullable]" )
 TEST_CASE( "Common.Helpers.Exceptions.Nullable.operator&&", "[Nullable]" )
 {
     ReturnResult invalid( "Something wrong..." );
-    ReturnResult valid = Result::Success;
+    ReturnResult valid = Success::True;
 
     auto result = invalid && valid;
     CHECK( result.IsValid() == false );

@@ -156,7 +156,7 @@ void				GUISystem::CloseLogic		()
 /**@brief Invoke this function in application entry point (main).*/
 ReturnResult		GUISystem::Init()
 {
-    ReturnResult result = Result::Success;
+    ReturnResult result = Success::True;
 
 	result = result && Initialize();		// Initialize subsystems.
 	result = result && OnInitialized();		// User initialization.
@@ -179,7 +179,7 @@ ReturnResult		GUISystem::Initialize()
 /**@brief Makes initialization but leaves window creation for user.*/
 ReturnResult		GUISystem::DefaultInitWithoutWindow	()
 {
-	ReturnResult result = Result::Success;
+	ReturnResult result = Success::True;
 
 	result = result && DefaultInitResourceManager();
 	result = result && DefaultInitPathsManager();
@@ -193,7 +193,7 @@ ReturnResult		GUISystem::DefaultInitWithoutWindow	()
 /**@brief Default GUI system initialization function.*/
 ReturnResult    	GUISystem::DefaultInit				( uint16 width, uint16 height, const std::string& windowTitle )
 {
-    ReturnResult result = Result::Success;
+    ReturnResult result = Success::True;
 
 	result = result && DefaultInitWithoutWindow();
 	result = result && DefaultInitFirstWindow( width, height, windowTitle, true );
@@ -265,7 +265,7 @@ ReturnResult    	GUISystem::DefaultInitFirstWindow		( uint16 width, uint16 heigh
         else
             m_focusedWindow->GetNativeWindow()->Hide();
 
-        return Result::Success;
+        return Success::True;
     }
 
     return windowResult.GetError();
@@ -275,7 +275,7 @@ ReturnResult    	GUISystem::DefaultInitFirstWindow		( uint16 width, uint16 heigh
 //
 ReturnResult		GUISystem::DefaultInitPathsManager		()
 {
-    ReturnResult result = Result::Success;
+    ReturnResult result = Success::True;
 
 	result = result && DefaultInitCorePaths();
 	result = result && DefaultInitDependentPaths();
@@ -287,7 +287,7 @@ ReturnResult		GUISystem::DefaultInitPathsManager		()
 //
 ReturnResult		GUISystem::DefaultInitCorePaths			()
 {
-    ReturnResult result = Result::Success;
+    ReturnResult result = Success::True;
 
     result = result && m_pathsManager->RegisterAlias( "$(TMP)", m_nativeGUI->GetOS()->GetTempDir() );
     result = result && m_pathsManager->RegisterAlias( "$(CoreGUI-Dir)", m_nativeGUI->GetOS()->GetApplicationDir() );
@@ -327,7 +327,7 @@ ReturnResult		GUISystem::ResourceManagerInitImpl		( ResourceManager* resourceMan
     ///< @todo What to do if user adds his own Texture loader? We must avoid conflicts between them.
     resourceManager->RegisterLoader( std::make_shared< SoilTextureLoader >() );
 
-	return Result::Success;
+	return Success::True;
 }
 
 //====================================================================================//

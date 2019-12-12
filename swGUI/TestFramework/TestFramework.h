@@ -156,7 +156,7 @@ public:
 private:
 
 	// Inherited via GUISystem
-	virtual ReturnResult	OnInitialized			() override { return Result::Success; };
+	virtual ReturnResult	OnInitialized			() override { return Success::True; };
 	virtual void	        OnClosing				() override {};
 	virtual void	        OnIdle					( const FrameTime& frameTime ) override {};
 

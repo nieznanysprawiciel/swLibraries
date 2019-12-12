@@ -90,7 +90,7 @@ ReturnResult            SerializerJSON::SaveFile         ( const std::string& fi
         file << SaveString( mode );
 
         file.close();
-        return Result::Success;
+        return Success::True;
     }
     return fmt::format( "Saving file [{}] failed. Error: {}", fileName, Convert::ErrnoToString( errno ) );
 }
@@ -151,7 +151,7 @@ ReturnResult            SerializerJSON::LoadFromString   ( std::string content )
         return fmt::format( "Parsing failed. Error: {}, line: {}", GetStringFromCode( code ), lineNum );
     }
 
-    return Result::Success;
+    return Success::True;
 }
 
 

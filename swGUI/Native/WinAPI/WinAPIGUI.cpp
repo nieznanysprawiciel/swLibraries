@@ -161,7 +161,7 @@ ReturnResult    WinAPIGUI::Init				( const NativeGUIInitData& initData )
 	m_initData = initData;
 	RegisterWindowClass();
 
-	return Result::Success;
+	return Success::True;
 }
 
 

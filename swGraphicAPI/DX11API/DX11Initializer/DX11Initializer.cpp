@@ -185,7 +185,7 @@ ReturnResult			DX11Initializer::InitAPI		( const GraphicAPIInitData& initData )
 
 	//device_context->OMSetDepthStencilState( m_depthState, 0 );
 
-	return Result::Success;
+	return Success::True;
 }
 
 /**@brief Zwalnia stworzone obiekty DirectX 11.*/
@@ -254,7 +254,7 @@ ReturnResult		DX11Initializer::InitDevices	( const GraphicAPIInitData& initData 
 			return "Creating debug layer failed";
 	}
 
-	return Result::Success;
+	return Success::True;
 }
 
 

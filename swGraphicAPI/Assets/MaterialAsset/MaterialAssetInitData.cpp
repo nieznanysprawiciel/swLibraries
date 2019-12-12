@@ -33,7 +33,7 @@ ReturnResult                MaterialInitData::AutoCreateBuffer      ( const Asse
         if( result.IsValid() )
         {
             this->MaterialBuffer = result.Get();
-            return Result::Success;
+            return Success::True;
         }
         else
         {
