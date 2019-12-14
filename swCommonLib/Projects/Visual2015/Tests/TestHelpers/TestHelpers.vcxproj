@@ -26,6 +26,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestHelpers\TestErrorsCollector.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestHelpers\TestMacros.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestHelpers\TestNullable.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestHelpers\TestResult.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestHelpers\TestVersion.cpp" />
   </ItemGroup>
   <ItemGroup>

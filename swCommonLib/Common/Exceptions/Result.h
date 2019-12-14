@@ -129,6 +129,8 @@ public:
 
 public:
 
+    template< typename Type, typename std::enable_if< impl::IsBaseConversion< ContentType, Type >::value, void >::type * = nullptr >
+    Result< Type, ErrorType >   Move		    ();
 };
 
 
@@ -184,7 +186,7 @@ template< typename ContentType, typename ErrorType >
 template< typename DerivedClass, typename std::enable_if< impl::IsBaseConversion< DerivedClass, ContentType >::value >::type* >
 inline Result< ContentType, ErrorType >::Result			( Result< DerivedClass, ErrorType >&& other )
     : m_isValid( other.IsValid() )
-    , Error( nullptr )
+    , Error( ErrorType() )
 {
     if( m_isValid )
         Content = std::move( other ).Get();
@@ -317,6 +319,21 @@ template< typename ContentType, typename ErrorType >
 inline Result< ContentType, ErrorType >::operator ContentType&                          ()&
 {
     return Get();
+}
+
+// ================================ //
+//
+template< typename ContentType, typename ErrorType >
+template< typename Type, typename std::enable_if< impl::IsBaseConversion< ContentType, Type >::value, void >::type* >
+inline Result< Type, ErrorType >			Result< ContentType, ErrorType >::Move	()
+{
+    bool wasValid = IsValid();
+    //m_isValid = false;		// We don't change validity. We don't want to call Error destructor on Result destruction.
+
+    if( wasValid )
+        return Result< Type, ErrorType >( std::move( Content ) );
+    else
+        return Result< Type, ErrorType >( std::move( Error ) );
 }
 
 }	// sw
