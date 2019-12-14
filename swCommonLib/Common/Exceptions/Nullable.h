@@ -13,7 +13,7 @@
 #include <type_traits>
 #include <assert.h>
 
-#include "Result.h"
+#include "ResultImpl.h"
 
 
 namespace sw

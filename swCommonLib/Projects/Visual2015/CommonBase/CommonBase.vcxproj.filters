@@ -236,6 +236,9 @@
     <ClInclude Include="..\..\..\Common\Converters\CanConvert.h">
       <Filter>Common\Converters</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Common\Exceptions\ResultImpl.h">
+      <Filter>Common\Exceptions</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\Common\Exceptions\Result.h">
       <Filter>Common\Exceptions</Filter>
     </ClInclude>
