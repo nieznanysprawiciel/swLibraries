@@ -11,6 +11,8 @@
 
 
 
+// ================================ //
+//
 template< typename Type >
 struct is_not_specialized
 {
@@ -18,3 +20,13 @@ struct is_not_specialized
                                 !std::is_same< Type, std::wstring >::value &&
                                 !std::is_arithmetic< Type >::value;
 };
+
+
+// ================================ //
+//
+template< typename SrcType, typename DstType >
+struct both_arithmetic
+{
+    static const bool value = std::is_arithmetic< SrcType >::value && std::is_arithmetic< DstType >::value;
+};
+

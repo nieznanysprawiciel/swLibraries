@@ -15,6 +15,14 @@
 
 
 
+/**@brief Errors returned by Convert class.*/
+enum class ConversionError : uint8
+{
+    OutOfRange,                 ///< Source type is out of range of destination type.
+    NotConvertible,             ///< Source type can't be convertd to destination.
+    FloatTruncation             ///< Can't convert due to precision loss.
+};
+
 
 /**@brief Class for converting to/from string.*/
 class Convert
@@ -59,6 +67,11 @@ public:
 	template< typename DstType >
 	static inline sw::Nullable< typename std::enable_if< std::is_same< DstType, std::wstring >::value, std::wstring >::type >
 										FromString      	        ( std::string_view value );
+
+
+    template< typename SrcType, typename DstType >
+    static inline sw::Result< typename std::enable_if< both_arithmetic< SrcType, DstType >::value, DstType >::type, ConversionError >
+                                        FromTo            	        ( const SrcType& val );
 
 public:
 

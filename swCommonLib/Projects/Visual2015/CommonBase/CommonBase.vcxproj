@@ -42,7 +42,6 @@
     <ClInclude Include="..\..\..\Common\Buffers\StackBuffer.h" />
     <ClInclude Include="..\..\..\Common\Config\ConfigHelper.h" />
     <ClInclude Include="..\..\..\Common\Converters.h" />
-    <ClInclude Include="..\..\..\Common\Converters\CanConvert.h" />
     <ClInclude Include="..\..\..\Common\Converters\Convert.h" />
     <ClInclude Include="..\..\..\Common\Converters\ConvertArithmetic.h" />
     <ClInclude Include="..\..\..\Common\Converters\ConvertEnums.h" />

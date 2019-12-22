@@ -233,9 +233,6 @@
     <ClInclude Include="..\..\..\Common\fmt.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Common\Converters\CanConvert.h">
-      <Filter>Common\Converters</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Common\Exceptions\ResultImpl.h">
       <Filter>Common\Exceptions</Filter>
     </ClInclude>
