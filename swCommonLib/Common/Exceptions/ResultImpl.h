@@ -68,8 +68,54 @@ inline ExceptionPtr         ErrorAdapter< ErrorType >::ExceptionPointer ( const 
     return std::make_shared< RuntimeException >( ErrorAdapter::ErrorMessage( error ) );
 }
 
-}	// impl
 
+
+/**@brief Base implementation of Result class.*/
+template< typename ContentType, typename ErrorType >
+class ResultBase
+{
+protected:
+    union
+    {
+        ContentType			Content;
+        ErrorType			Error;
+    };
+
+    bool					m_isValid;
+
+public:
+    explicit                ResultBase              ();
+                            ResultBase			    ( ContentType&& content );
+                            ResultBase			    ( const ContentType& content );
+                            ResultBase			    ( const ErrorType& error );
+                            ResultBase			    ( const ResultBase< ContentType, ErrorType >& that );
+                            ~ResultBase			    ();
+
+    template< typename DerivedClass, typename std::enable_if< impl::IsBaseConversion< DerivedClass, ContentType >::value >::type * = nullptr >
+                            ResultBase			    ( ResultBase< DerivedClass, ErrorType >&& other );
+
+public:
+
+    bool                    IsValid             () const;
+    std::string             GetErrorReason      () const;
+    ErrorType				GetError            () const;
+
+    bool						            operator==      ( const ContentType& that );
+    bool						            operator!=      ( const ContentType& that );
+    ResultBase< ContentType, ErrorType >&   operator=       ( const ResultBase< ContentType, ErrorType >& that );
+
+    const ContentType&          Get			    () const &;
+    operator const ContentType&                 () const &;
+
+    ContentType&                Get			    () &;
+    operator ContentType&                       () &;
+
+    ContentType&&               Get			    () &&;
+    operator ContentType&&                      () && = delete;
+};
+
+
+}	// impl
 
 
 /**@brief Lightweight version of Nullable, which can return error code instead of ExceptionPtr.
@@ -86,54 +132,24 @@ working with Nullable work with Result too.
 
 @ingroup Exceptions*/
 template< typename ContentType, typename ErrorType >
-class Result
+class Result : public impl::ResultBase< ContentType, ErrorType >
 {
-protected:
-    union
-    {
-        ContentType			Content;
-        ErrorType			Error;
-    };
-
-    bool					m_isValid;
-
-public:
-    explicit                Result              ();
-                            Result			    ( ContentType&& content );
-                            Result			    ( const ContentType& content );
-                            Result			    ( const ErrorType& error );
-                            Result			    ( const Result< ContentType, ErrorType >& that );
-                            ~Result			    ();
-
-    template< typename DerivedClass, typename std::enable_if< impl::IsBaseConversion< DerivedClass, ContentType >::value >::type * = nullptr >
-                            Result			    ( Result< DerivedClass, ErrorType >&& other );
-
+    typedef impl::ResultBase< ContentType, ErrorType > Parent;
+private:
 public:
 
-    bool                    IsValid             () const;
-    std::string             GetErrorReason      () const;
-    ErrorType				GetError            () const;
-
-    bool						            operator==      ( const ContentType& that );
-    bool						            operator!=      ( const ContentType& that );
-    Result< ContentType, ErrorType >&       operator=       ( const Result< ContentType, ErrorType >& that );
-
-    const ContentType&          Get			    () const &;
-    operator const ContentType&                 () const &;
-
-    ContentType&                Get			    () &;
-    operator ContentType&                       () &;
-
-    ContentType&&               Get			    () &&;
-    operator ContentType&&                      () && = delete;
+    // Use construtors from base class.
+    using           Parent::ResultBase;
 
 public:
 
     template< typename Type, typename std::enable_if< impl::IsBaseConversion< ContentType, Type >::value, void >::type * = nullptr >
-    Result< Type, ErrorType >   Move		    ();
+    Result< Type, ErrorType >       Move		    ();
 };
 
 
+namespace impl
+{
 
 // ========================================================================= //
 // Implementation
@@ -142,7 +158,7 @@ public:
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline Result< ContentType, ErrorType >::Result        ()
+inline ResultBase< ContentType, ErrorType >::ResultBase        ()
     : m_isValid( false )
     , Error( nullptr )
 {}
@@ -150,28 +166,28 @@ inline Result< ContentType, ErrorType >::Result        ()
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline Result< ContentType, ErrorType >::Result         ( ContentType&& content )
+inline ResultBase< ContentType, ErrorType >::ResultBase         ( ContentType&& content )
     : m_isValid( true ), Content( std::move( content ) )
 {}
 
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline Result< ContentType, ErrorType >::Result			( const ContentType& content )
+inline ResultBase< ContentType, ErrorType >::ResultBase			( const ContentType& content )
     : m_isValid( true ), Content( content )
 {}
 
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline Result< ContentType, ErrorType >::Result			( const ErrorType& error )
+inline ResultBase< ContentType, ErrorType >::ResultBase			( const ErrorType& error )
     : m_isValid( false ), Error( error )
 {}
 
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline Result< ContentType, ErrorType >::Result			( const Result< ContentType, ErrorType >& that )
+inline ResultBase< ContentType, ErrorType >::ResultBase			( const ResultBase< ContentType, ErrorType >& that )
     : m_isValid( that.m_isValid )
 {
     if( m_isValid )
@@ -184,7 +200,7 @@ inline Result< ContentType, ErrorType >::Result			( const Result< ContentType, E
 //
 template< typename ContentType, typename ErrorType >
 template< typename DerivedClass, typename std::enable_if< impl::IsBaseConversion< DerivedClass, ContentType >::value >::type* >
-inline Result< ContentType, ErrorType >::Result			( Result< DerivedClass, ErrorType >&& other )
+inline ResultBase< ContentType, ErrorType >::ResultBase			( ResultBase< DerivedClass, ErrorType >&& other )
     : m_isValid( other.IsValid() )
     , Error( ErrorType() )
 {
@@ -197,7 +213,7 @@ inline Result< ContentType, ErrorType >::Result			( Result< DerivedClass, ErrorT
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline Result< ContentType, ErrorType >::~Result       ()
+inline ResultBase< ContentType, ErrorType >::~ResultBase       ()
 {
     if( m_isValid )
         Content.~ContentType();
@@ -208,7 +224,7 @@ inline Result< ContentType, ErrorType >::~Result       ()
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline bool						Result< ContentType, ErrorType >::IsValid		    () const
+inline bool						ResultBase< ContentType, ErrorType >::IsValid		    () const
 {
     return m_isValid;
 }
@@ -216,7 +232,7 @@ inline bool						Result< ContentType, ErrorType >::IsValid		    () const
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline std::string				Result< ContentType, ErrorType >::GetErrorReason    () const
+inline std::string				ResultBase< ContentType, ErrorType >::GetErrorReason    () const
 {
     if( m_isValid )
         throw RuntimeException( "Called GetErrorReason on valid Result." );
@@ -226,7 +242,7 @@ inline std::string				Result< ContentType, ErrorType >::GetErrorReason    () con
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline typename ErrorType		Result< ContentType, ErrorType >::GetError          () const
+inline typename ErrorType		ResultBase< ContentType, ErrorType >::GetError          () const
 {
     if( m_isValid )
         throw RuntimeException( "Called GetError on valid Result." );
@@ -237,7 +253,7 @@ inline typename ErrorType		Result< ContentType, ErrorType >::GetError          (
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline bool						Result< ContentType, ErrorType >::operator==      ( const ContentType& that )
+inline bool						ResultBase< ContentType, ErrorType >::operator==      ( const ContentType& that )
 {
     return m_isValid && Content == that;
 }
@@ -245,7 +261,7 @@ inline bool						Result< ContentType, ErrorType >::operator==      ( const Conte
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline bool						Result< ContentType, ErrorType >::operator!=      ( const ContentType& that )
+inline bool						ResultBase< ContentType, ErrorType >::operator!=      ( const ContentType& that )
 {
     return !( *this == that );
 }
@@ -253,7 +269,7 @@ inline bool						Result< ContentType, ErrorType >::operator!=      ( const Conte
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-Result< ContentType, ErrorType >&       Result< ContentType, ErrorType >::operator=		( const Result< ContentType, ErrorType >& that )
+ResultBase< ContentType, ErrorType >& ResultBase< ContentType, ErrorType >::operator=		( const ResultBase< ContentType, ErrorType >& that )
 {
     if( m_isValid )
         Content.~ContentType();
@@ -273,7 +289,7 @@ Result< ContentType, ErrorType >&       Result< ContentType, ErrorType >::operat
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline const ContentType&               Result< ContentType, ErrorType >::Get          () const&
+inline const ContentType& ResultBase< ContentType, ErrorType >::Get          () const&
 {
     if( !m_isValid )
         throw RuntimeException( impl::ErrorAdapter< ErrorType >::ErrorMessage( Error ) );
@@ -283,7 +299,7 @@ inline const ContentType&               Result< ContentType, ErrorType >::Get   
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline ContentType&                     Result< ContentType, ErrorType >::Get          () &
+inline ContentType& ResultBase< ContentType, ErrorType >::Get           ()&
 {
     if( !m_isValid )
     {
@@ -298,7 +314,7 @@ inline ContentType&                     Result< ContentType, ErrorType >::Get   
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline ContentType&&                    Result< ContentType, ErrorType >::Get          () &&
+inline ContentType&& ResultBase< ContentType, ErrorType >::Get          ()&&
 {
     if( !m_isValid )
         throw RuntimeException( impl::ErrorAdapter< ErrorType >::ErrorMessage( Error ) );
@@ -308,7 +324,7 @@ inline ContentType&&                    Result< ContentType, ErrorType >::Get   
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline Result< ContentType, ErrorType >::operator const ContentType&                    () const&
+inline ResultBase< ContentType, ErrorType >::operator const ContentType& () const&
 {
     return Get();
 }
@@ -316,16 +332,19 @@ inline Result< ContentType, ErrorType >::operator const ContentType&            
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-inline Result< ContentType, ErrorType >::operator ContentType&                          ()&
+inline ResultBase< ContentType, ErrorType >::operator ContentType&      ()&
 {
     return Get();
 }
+
+}   // impl
+
 
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
 template< typename Type, typename std::enable_if< impl::IsBaseConversion< ContentType, Type >::value, void >::type* >
-inline Result< Type, ErrorType >			Result< ContentType, ErrorType >::Move	()
+inline Result< Type, ErrorType >            Result< ContentType, ErrorType >::Move	()
 {
     bool wasValid = IsValid();
     //m_isValid = false;		// We don't change validity. We don't want to call Error destructor on Result destruction.
@@ -335,6 +354,7 @@ inline Result< Type, ErrorType >			Result< ContentType, ErrorType >::Move	()
     else
         return Result< Type, ErrorType >( std::move( Error ) );
 }
+
 
 }	// sw
 
