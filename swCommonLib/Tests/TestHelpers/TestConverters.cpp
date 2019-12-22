@@ -221,7 +221,7 @@ TEST_CASE( "Common.Helpers.Converters.FromTo.Arithmetic", "[Converters]" )
     CHECK( Convert::FromTo< int32, int16 >( 128333 ).IsValid() == false );
     CHECK( Convert::FromTo< int32, int16 >( -128333 ).IsValid() == false );
     CHECK( Convert::FromTo< int32, int16 >( -60000 ).IsValid() == false );
-    CHECK( Convert::FromTo< uint16, int16 >( 120333 ).IsValid() == false );
+    CHECK( Convert::FromTo< uint16, int16 >( 60000 ).IsValid() == false );
     CHECK( Convert::FromTo< int64, int32 >( 2547483647 ).IsValid() == false );
     CHECK( Convert::FromTo< int64, int64 >( 2547483647 ).IsValid() == true );
 
