@@ -25,8 +25,18 @@ struct is_not_specialized
 // ================================ //
 //
 template< typename SrcType, typename DstType >
+struct at_least_one_boolean
+{
+    static const bool value = std::is_same< SrcType, bool >::value || std::is_same< DstType, bool >::value;
+};
+
+// ================================ //
+//
+template< typename SrcType, typename DstType >
 struct both_arithmetic
 {
-    static const bool value = std::is_arithmetic< SrcType >::value && std::is_arithmetic< DstType >::value;
+    static const bool value = std::is_arithmetic< SrcType >::value && std::is_arithmetic< DstType >::value &&
+        !at_least_one_boolean< SrcType, DstType >::value;
 };
+
 

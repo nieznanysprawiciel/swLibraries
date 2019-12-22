@@ -227,5 +227,10 @@ TEST_CASE( "Common.Helpers.Converters.FromTo.Arithmetic", "[Converters]" )
 
     CHECK( Convert::FromTo< float, int64 >( 3.0f ).IsValid() == true );
     CHECK( Convert::FromTo< float, int64 >( 3.2f ).IsValid() == false );
+
+    CHECK( Convert::FromTo< int64, bool >( 60000 ).IsValid() == false );
+    CHECK( Convert::FromTo< bool, int64 >( true ).IsValid() == false );
+    CHECK( Convert::FromTo< bool, uint32 >( true ).IsValid() == false );
+    CHECK( Convert::FromTo< bool, float >( true ).IsValid() == false );
 }
 

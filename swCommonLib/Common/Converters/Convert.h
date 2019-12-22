@@ -73,6 +73,10 @@ public:
     static inline sw::Result< typename std::enable_if< both_arithmetic< SrcType, DstType >::value, DstType >::type, ConversionError >
                                         FromTo            	        ( const SrcType& val );
 
+    template< typename SrcType, typename DstType >
+    static inline sw::Result< typename std::enable_if< at_least_one_boolean< SrcType, DstType >::value, DstType >::type, ConversionError >
+                                        FromTo            	        ( const SrcType& val );
+
 public:
 
     /**@brief Type conversion to string using rttr.*/

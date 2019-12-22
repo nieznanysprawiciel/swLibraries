@@ -117,6 +117,13 @@ inline sw::Result< typename std::enable_if< both_arithmetic< SrcType, DstType >:
     return static_cast< DstType >( val );
 }
 
-
+// ================================ //
+//
+template< typename SrcType, typename DstType >
+inline sw::Result< typename std::enable_if< at_least_one_boolean< SrcType, DstType >::value, DstType >::type, ConversionError >
+Convert::FromTo     ( const SrcType& val )
+{
+    return ConversionError::NotConvertible;
+}
 
 
