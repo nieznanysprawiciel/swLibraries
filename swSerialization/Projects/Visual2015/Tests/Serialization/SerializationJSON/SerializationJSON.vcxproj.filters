@@ -8,5 +8,6 @@
     <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\TestSerializerAPI.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\TestSerializerInternals.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\TestSerializerAttributes.cpp" />
+    <ClCompile Include="..\..\..\..\..\Tests\TestJSONSerializer\TestAttributesConversion.cpp" />
   </ItemGroup>
 </Project>
