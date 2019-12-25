@@ -48,6 +48,39 @@ TEST_CASE( "Serializer.JSON.SerialAttribute.String", "[Serializers][SerializerXM
         REQUIRE( firstObject.GetElement( "Name" ).has_value() );
         REQUIRE( firstObject.GetElement( "Name" ).value().IsAttribute() );
 
+        auto nameAttribute = firstObject.GetElement( "Name" ).value().AttributeView().value();
+        REQUIRE( nameAttribute.ConvertToString().has_value() == true );
+        CHECK( nameAttribute.ConvertToString().value() == "String-Attribute" );
+
+        REQUIRE( firstObject.GetElement( "Value" ).has_value() );
+        REQUIRE( firstObject.GetElement( "Value" ).value().IsAttribute() );
+
+        auto valueAttribute = firstObject.GetElement( "Value" ).value().AttributeView().value();
+        REQUIRE( valueAttribute.ConvertToString().has_value() == true );
+        CHECK( valueAttribute.ConvertToString().value() == "Attribute1" );
     }
 }
 
+// ================================ //
+//
+TEST_CASE( "Serializer.JSON.SerialAttribute.NotExistingName", "[Serializers][SerializerXML]" )
+{
+    {
+        SerializerJSON ser( std::make_unique< ISerializationContext >() );
+        SerialObject root = ser.Root();
+
+        // Add attribute that won't be used.
+        root.AddAttribute( "Name", "String-Attribute" );
+
+        REQUIRE_IS_VALID( ser.SaveFile( "SerializerTest/JSON/Generated/Test-Attribute-NotExistingName.json", sw::WritingMode::Readable ) );
+    }
+
+    {
+        SerializerJSON deser( std::make_unique< ISerializationContext >() );
+        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-Attribute-NotExistingName.json" ) );
+
+        SerialObject root = deser.Root();
+
+        REQUIRE( root.GetElement( "Key" ).has_value() == false );
+    }
+}

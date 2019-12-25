@@ -354,7 +354,8 @@ std::optional< SerialGeneric >          SerializerJSON::GetElement           ( c
 //
 std::string_view                        SerializerJSON::GetString           ( const SerialAttribute& attribute ) const
 {
-    return std::string_view();
+    auto& jsonNode = *m_nodesRegistry.GetElement( attribute.GetNodePtr() );
+    return std::string_view( jsonNode.GetString(), jsonNode.GetStringLength() );
 }
 
 // ================================ //
