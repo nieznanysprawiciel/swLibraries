@@ -59,6 +59,28 @@ SerialType      ToSerialType            ( rapidjson::Type type )
     }
 }
 
+// ================================ //
+//
+SerialType      ToSerialType            ( const rapidjson::Value& value )
+{
+    auto type = value.GetType();
+    auto serialType = ToSerialType( type );
+
+    // Set precise type.
+    if( serialType == SerialType::Number )
+    {
+        if( value.IsUint64() )
+            return SerialType::UInt64;
+        if( value.IsInt64() )
+            return SerialType::Int64;
+        if( value.IsDouble() )
+            return SerialType::Double;
+    }
+
+    return serialType;
+}
+
+
 }   // impl
 
 
@@ -347,7 +369,7 @@ std::optional< SerialGeneric >          SerializerJSON::GetElement           ( c
     if( !elementOpt.has_value() )
         return {};
 
-    return SerialGeneric{ const_cast< SerializerJSON* >( this ), elementOpt.value(), impl::ToSerialType( iter->value.GetType() ) };
+    return SerialGeneric{ const_cast< SerializerJSON* >( this ), elementOpt.value(), impl::ToSerialType( iter->value ) };
 }
 
 // ================================ //
@@ -369,14 +391,20 @@ double                                  SerializerJSON::GetDouble           ( co
 //
 uint64                                  SerializerJSON::GetUInt64           ( const SerialAttribute& attribute ) const
 {
-    return uint64();
+    auto& jsonNode = *m_nodesRegistry.GetElement( attribute.GetNodePtr() );
+
+    assert( jsonNode.IsUint64() );
+    return jsonNode.GetUint64();
 }
 
 // ================================ //
 //
 int64                                   SerializerJSON::GetInt64            ( const SerialAttribute& attribute ) const
 {
-    return int64();
+    auto& jsonNode = *m_nodesRegistry.GetElement( attribute.GetNodePtr() );
+
+    assert( jsonNode.IsInt64() );
+    return jsonNode.GetInt64();
 }
 
 // ================================ //
