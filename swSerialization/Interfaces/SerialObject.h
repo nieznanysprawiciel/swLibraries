@@ -40,6 +40,8 @@ public:
     SerialObject        AddObject           ( std::string_view name );
     SerialArray         AddArray            ( std::string_view name );
 
+    /**@brief This function catches string literals, that otherwise would be implicite converted to bool.*/
+    void                AddAttribute        ( std::string_view name, const char* attribute );
     void                AddAttribute        ( std::string_view name, std::string_view attribute );
     
     void                AddAttribute        ( std::string_view name, double attribute );
@@ -93,6 +95,13 @@ inline SerialObject             SerialObject::AddObject     ( std::string_view n
 inline void                     SerialObject::AddAttribute  ( std::string_view name, std::string_view attribute )
 {
     m_serializer->AddAttribute( *this, name, attribute );
+}
+
+// ================================ //
+//
+inline void                     SerialObject::AddAttribute  ( std::string_view name, const char* attribute )
+{
+    m_serializer->AddAttribute( *this, name, std::string_view( attribute ) );
 }
 
 // ================================ //
