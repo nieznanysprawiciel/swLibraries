@@ -9,6 +9,8 @@
 
 #include "ISerializer.h"
 
+#include "swCommonLib/Common/Converters/Convert.h"
+
 #include <string_view>
 #include <optional>
 
@@ -62,6 +64,9 @@ public:
 
 private:
 
+    template< typename TargetType >
+    std::optional< TargetType >                 Convert                 ( std::string_view src ) const;
+
     template< typename SourceType, typename TargetType >
     std::optional< TargetType >                 Convert                 ( const SourceType& src ) const;
 };
@@ -75,7 +80,7 @@ inline std::optional< TargetType >              SerialAttribute::ConvertTo      
     switch( m_type )
     {
     case sw::String:
-        return Convert< std::string_view, TargetType >( m_serializer->GetString( *this ) );
+        return Convert< TargetType >( m_serializer->GetString( *this ) );
     case sw::Bool:
         return Convert< bool, TargetType >( m_serializer->GetBool( *this ) );
     case sw::UInt64:
@@ -89,6 +94,30 @@ inline std::optional< TargetType >              SerialAttribute::ConvertTo      
     }
 
     return {};
+}
+
+// ================================ //
+//
+template< typename SourceType, typename TargetType >
+inline std::optional< TargetType >              SerialAttribute::Convert        ( const SourceType& src ) const
+{
+    auto result = Convert::FromTo< SourceType, TargetType >( src );
+    if( !result.IsValid() )
+        return {};
+
+    return result.Get();
+}
+
+// ================================ //
+//
+template< typename TargetType >
+inline std::optional< TargetType >              SerialAttribute::Convert        ( std::string_view src ) const
+{
+    auto result = Convert::FromString< TargetType >( src );
+    if( !result.IsValid() )
+        return {};
+
+    return result.Get();
 }
 
 }	// sw

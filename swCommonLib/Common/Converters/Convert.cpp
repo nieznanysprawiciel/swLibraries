@@ -16,19 +16,19 @@
 #include <codecvt>
 
 
-namespace impl
+namespace sw::impl
 {
-
-/**@brief Exception returned when conversion fails.
-
-This is hack to avoid allocating new exception each time conversion fails.
-Other solution would be to return std::optional when we move to c++17.*/
-auto conversionException = std::make_shared< sw::RuntimeException >( "Conversion between types failed." );
 
 // ================================ //
 //
 sw::ExceptionPtr        ConversionException     ()
 {
+    /**@brief Exception returned when conversion fails.
+
+    This is hack to avoid allocating new exception each time conversion fails.
+    Other solution would be to return std::optional when we move to c++17.*/
+    static auto conversionException = std::make_shared< sw::RuntimeException >( "Conversion between types failed." );
+
     return std::static_pointer_cast< sw::Exception >( conversionException );
 }
 

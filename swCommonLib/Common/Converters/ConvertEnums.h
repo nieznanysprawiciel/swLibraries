@@ -49,7 +49,7 @@ sw::Nullable< DstType > Convert::StringToEnum		( std::string_view value )
     // Note: Don't return error message. Failing conversion is common thing
     // and we don't want to hurt performance.
     if( !result.is_valid() )
-        return ::impl::ConversionException();
+        return sw::impl::ConversionException();
 
     return result.get_value< DstType >();
 }

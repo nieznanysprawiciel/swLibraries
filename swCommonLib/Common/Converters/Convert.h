@@ -57,6 +57,10 @@ public:
                                         FromString			( std::string_view val );
 
     template< typename DstType >
+    static inline sw::Nullable< typename std::enable_if< std::is_same< DstType, std::string_view >::value, DstType >::type >
+                                        FromString			( std::string_view val )            { return val; }
+
+    template< typename DstType >
     static inline sw::Nullable< typename std::enable_if< is_not_specialized< DstType >::value, DstType >::type >
                                         FromString			( std::string_view val );
 
@@ -74,7 +78,16 @@ public:
                                         FromTo            	        ( const SrcType& val );
 
     template< typename SrcType, typename DstType >
-    static inline sw::Result< typename std::enable_if< at_least_one_boolean< SrcType, DstType >::value, DstType >::type, ConversionError >
+    static inline sw::Result< typename std::enable_if< is_one_boolean< SrcType, DstType >::value, DstType >::type, ConversionError >
+                                        FromTo            	        ( const SrcType& val );
+
+    template< typename SrcType, typename DstType >
+    static inline sw::Result< typename std::enable_if< std::is_same< SrcType, DstType >::value, DstType >::type, ConversionError >
+                                        FromTo            	        ( const SrcType& val );
+
+    /**@brief Can't convert to std::string_view.*/
+    template< typename SrcType, typename DstType >
+    static inline sw::Result< typename std::enable_if< std::is_same< DstType, std::string_view >::value, DstType >::type, ConversionError >
                                         FromTo            	        ( const SrcType& val );
 
 public:
@@ -88,7 +101,7 @@ public:
 };
 
 
-namespace impl
+namespace sw::impl
 {
     sw::ExceptionPtr        ConversionException     ();
 }
@@ -126,7 +139,7 @@ static inline sw::Nullable< typename std::enable_if< is_not_specialized< DstType
                             Convert::FromString		( std::string_view val )
 {
     static_assert( false, "Specialize template" );
-    return ::impl::ConversionException();
+    return sw::impl::ConversionException();
 }
 
 
@@ -154,7 +167,7 @@ inline sw::Nullable< typename std::enable_if< std::is_enum< DstType >::value, Ds
 //			Wstring to string	
 //====================================================================================//
 
-namespace impl
+namespace sw::impl
 {
 
 std::string                 ConvertWstringToString              ( const std::wstring& value );
@@ -169,7 +182,7 @@ template<>
 static inline typename std::enable_if< !std::is_enum< std::wstring >::value, std::string >::type
 							Convert::ToString< std::wstring >   ( const std::wstring& value )
 {
-    return ::impl::ConvertWstringToString( value );
+    return sw::impl::ConvertWstringToString( value );
 }
 
 // ================================ //
@@ -178,7 +191,7 @@ template< typename SrcType >
 inline sw::Nullable< typename std::enable_if< std::is_same< SrcType, std::wstring >::value, std::wstring >::type >
 							Convert::FromString             	( std::string_view value )
 {
-    return ::impl::ConvertStringToWstring( value );
+    return sw::impl::ConvertStringToWstring( value );
 }
 
 //====================================================================================//
@@ -191,9 +204,30 @@ template< typename DstType >
 static inline sw::Nullable< typename std::enable_if< std::is_arithmetic< DstType >::value, DstType >::type >
                             Convert::FromString			( std::string_view val )
 {
-    return ::impl::ConvertArithmetic< DstType >( val );
+    return sw::impl::ConvertArithmetic< DstType >( val );
 }
 
+//====================================================================================//
+//			FromTo conversion	
+//====================================================================================//
+
+// ================================ //
+//
+template< typename SrcType, typename DstType >
+inline sw::Result< typename std::enable_if< std::is_same< SrcType, DstType >::value, DstType >::type, ConversionError >
+                            Convert::FromTo     ( const SrcType& val )
+{
+    return val;
+}
+
+// ================================ //
+//
+template< typename SrcType, typename DstType >
+static inline sw::Result< typename std::enable_if< std::is_same< DstType, std::string_view >::value, DstType >::type, ConversionError >
+                            Convert::FromTo     ( const SrcType& val )
+{
+    return ConversionError::NotConvertible;
+}
 
 //====================================================================================//
 //			Type conversion to string	
