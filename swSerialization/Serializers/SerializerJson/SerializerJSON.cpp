@@ -384,7 +384,10 @@ std::string_view                        SerializerJSON::GetString           ( co
 //
 double                                  SerializerJSON::GetDouble           ( const SerialAttribute& attribute ) const
 {
-    return 0.0;
+    auto& jsonNode = *m_nodesRegistry.GetElement( attribute.GetNodePtr() );
+
+    assert( jsonNode.IsDouble() );
+    return jsonNode.GetDouble();
 }
 
 // ================================ //
@@ -411,7 +414,10 @@ int64                                   SerializerJSON::GetInt64            ( co
 //
 bool                                    SerializerJSON::GetBool             ( const SerialAttribute& attribute ) const
 {
-    return false;
+    auto& jsonNode = *m_nodesRegistry.GetElement( attribute.GetNodePtr() );
+
+    assert( jsonNode.IsBool() );
+    return jsonNode.GetBool();
 }
 
 }	// sw

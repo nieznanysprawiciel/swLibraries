@@ -62,6 +62,8 @@ public:
     std::optional< TargetType >                 ConvertTo               () const;
     ///@}
 
+    SerialType                                  GetType                 () const { return m_type; }
+
 private:
 
     template< typename TargetType >

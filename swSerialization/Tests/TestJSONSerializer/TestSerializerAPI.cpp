@@ -16,7 +16,7 @@ using namespace sw;
 
 // ================================ //
 //
-TEST_CASE( "Serializer.JSON.SerialObject.AddObject", "[Serializers][SerializerXML]" )
+TEST_CASE( "Serializer.JSON.SerialObject.AddObject", "[Serializers][SerializerJSON]" )
 {
     {
         SerializerJSON ser( std::make_unique< ISerializationContext >() );
@@ -41,7 +41,7 @@ TEST_CASE( "Serializer.JSON.SerialObject.AddObject", "[Serializers][SerializerXM
 
 // ================================ //
 //
-TEST_CASE( "Serializer.JSON.SerialObject.AddObject.TreeStructure", "[Serializers][SerializerXML]" )
+TEST_CASE( "Serializer.JSON.SerialObject.AddObject.TreeStructure", "[Serializers][SerializerJSON]" )
 {
     {
         SerializerJSON ser( std::make_unique< ISerializationContext >() );
@@ -101,7 +101,7 @@ TEST_CASE( "Serializer.JSON.SerialObject.AddObject.TreeStructure", "[Serializers
 
 // ================================ //
 //
-TEST_CASE( "Serializer.JSON.SerialObject.GetElement.NotExisitng", "[Serializers][SerializerXML]" )
+TEST_CASE( "Serializer.JSON.SerialObject.GetElement.NotExisitng", "[Serializers][SerializerJSON]" )
 {
     {
         SerializerJSON ser( std::make_unique< ISerializationContext >() );

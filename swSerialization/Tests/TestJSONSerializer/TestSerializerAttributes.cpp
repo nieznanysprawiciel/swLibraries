@@ -20,7 +20,7 @@ using namespace sw;
 
 // ================================ //
 //
-TEST_CASE( "Serializer.JSON.SerialAttribute.String", "[Serializers][SerializerXML]" )
+TEST_CASE( "Serializer.JSON.SerialAttribute.String", "[Serializers][SerializerJSON]" )
 {
     {
         SerializerJSON ser( std::make_unique< ISerializationContext >() );
@@ -63,7 +63,7 @@ TEST_CASE( "Serializer.JSON.SerialAttribute.String", "[Serializers][SerializerXM
 
 // ================================ //
 //
-TEST_CASE( "Serializer.JSON.SerialAttribute.NotExistingName", "[Serializers][SerializerXML]" )
+TEST_CASE( "Serializer.JSON.SerialAttribute.NotExistingName", "[Serializers][SerializerJSON]" )
 {
     {
         SerializerJSON ser( std::make_unique< ISerializationContext >() );
@@ -87,7 +87,7 @@ TEST_CASE( "Serializer.JSON.SerialAttribute.NotExistingName", "[Serializers][Ser
 
 // ================================ //
 //
-TEST_CASE( "Serializer.JSON.SerialAttribute.Int", "[Serializers][SerializerXML]" )
+TEST_CASE( "Serializer.JSON.SerialAttribute.Int", "[Serializers][SerializerJSON]" )
 {
     {
         SerializerJSON ser( std::make_unique< ISerializationContext >() );
@@ -96,12 +96,12 @@ TEST_CASE( "Serializer.JSON.SerialAttribute.Int", "[Serializers][SerializerXML]"
         // Add attribute that won't be used.
         root.AddAttribute( "Value", 12345678 );
 
-        REQUIRE_IS_VALID( ser.SaveFile( "SerializerTest/JSON/Generated/Test-Attribute-NotExistingName.json", sw::WritingMode::Readable ) );
+        REQUIRE_IS_VALID( ser.SaveFile( "SerializerTest/JSON/Generated/Test-Attribute-Int.json", sw::WritingMode::Readable ) );
     }
 
     {
         SerializerJSON deser( std::make_unique< ISerializationContext >() );
-        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-Attribute-NotExistingName.json" ) );
+        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-Attribute-Int.json" ) );
 
         SerialObject root = deser.Root();
 
@@ -114,3 +114,66 @@ TEST_CASE( "Serializer.JSON.SerialAttribute.Int", "[Serializers][SerializerXML]"
         CHECK( valueAttribute.ConvertToInt64().value() == 12345678 );
     }
 }
+
+// ================================ //
+//
+TEST_CASE( "Serializer.JSON.SerialAttribute.Double", "[Serializers][SerializerJSON]" )
+{
+    {
+        SerializerJSON ser( std::make_unique< ISerializationContext >() );
+        SerialObject root = ser.Root();
+
+        // Add attribute that won't be used.
+        root.AddAttribute( "Value", 123.567 );
+
+        REQUIRE_IS_VALID( ser.SaveFile( "SerializerTest/JSON/Generated/Test-Attribute-Double.json", sw::WritingMode::Readable ) );
+    }
+
+    {
+        SerializerJSON deser( std::make_unique< ISerializationContext >() );
+        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-Attribute-Double.json" ) );
+
+        SerialObject root = deser.Root();
+
+        REQUIRE( root.GetElement( "Value" ).has_value() == true );
+        REQUIRE( root.GetElement( "Value" ).value().IsAttribute() );
+
+        auto valueAttribute = root.GetElement( "Value" ).value().AttributeView().value();
+
+        REQUIRE( valueAttribute.ConvertToDouble().has_value() == true );
+        CHECK( valueAttribute.ConvertToDouble().value() == 123.567 );
+        CHECK( valueAttribute.GetType() == SerialType::Double );
+    }
+}
+
+// ================================ //
+//
+TEST_CASE( "Serializer.JSON.SerialAttribute.Bool", "[Serializers][SerializerJSON]" )
+{
+    {
+        SerializerJSON ser( std::make_unique< ISerializationContext >() );
+        SerialObject root = ser.Root();
+
+        // Add attribute that won't be used.
+        root.AddAttribute( "Value", true );
+
+        REQUIRE_IS_VALID( ser.SaveFile( "SerializerTest/JSON/Generated/Test-Attribute-Bool.json", sw::WritingMode::Readable ) );
+    }
+
+    {
+        SerializerJSON deser( std::make_unique< ISerializationContext >() );
+        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-Attribute-Bool.json" ) );
+
+        SerialObject root = deser.Root();
+
+        REQUIRE( root.GetElement( "Value" ).has_value() == true );
+        REQUIRE( root.GetElement( "Value" ).value().IsAttribute() );
+
+        auto valueAttribute = root.GetElement( "Value" ).value().AttributeView().value();
+
+        REQUIRE( valueAttribute.ConvertToBool().has_value() == true );
+        CHECK( valueAttribute.ConvertToBool().value() == true );
+        CHECK( valueAttribute.GetType() == SerialType::Bool );
+    }
+}
+

@@ -16,7 +16,7 @@ using namespace sw;
 
 // ================================ //
 //
-TEST_CASE( "Serializer.JSON.SerialAttribute.Conversions.Int", "[Serializers][SerializerXML]" )
+TEST_CASE( "Serializer.JSON.SerialAttribute.Conversions.Int", "[Serializers][SerializerJSON]" )
 {
     {
         SerializerJSON ser( std::make_unique< ISerializationContext >() );
