@@ -39,6 +39,14 @@ enum SerialType : int32
     None = 0x1 << 31        ///< Not convertible to anything.
 };
 
+// ================================ //
+//
+enum class SerialError
+{
+
+};
+
+
 
 namespace impl
 {

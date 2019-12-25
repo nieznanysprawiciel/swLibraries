@@ -10,6 +10,8 @@
 #include "ISerializer.h"
 #include "FilePosition.h"
 
+#include "swCommonLib/Common/Exceptions/Result.h"
+
 #include <string_view>
 #include <optional>
 
@@ -74,6 +76,16 @@ public:
     This can be either child node or attribute. Only first occurance of this name is returned.*/
     std::optional< SerialGeneric >              GetElement          ( std::string_view name ) const;
 
+    /**@brief Helper functions that allow to omit SerialGeneric interface and get expected
+    typed interface. This way there's only one optional dispatching instead of two.*/
+    Result< SerialArray, SerialError >          GetArray            ( std::string_view name ) const;
+    Result< SerialArray, SerialError >          GetArray            ( Size index ) const;
+
+    Result< SerialObject, SerialError >         GetObject           ( std::string_view name ) const;
+    Result< SerialObject, SerialError >         GetObject           ( Size index ) const;
+
+    Result< SerialAttribute, SerialError >      GetAttribute        ( std::string_view name ) const;
+    Result< SerialAttribute, SerialError >      GetAttribute        ( Size index ) const;
     /// @}
 
 public:    
