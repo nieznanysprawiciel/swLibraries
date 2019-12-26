@@ -24,12 +24,12 @@ TEST_CASE( "Serializer.JSON.SerialAttribute.Conversions.Int", "[Serializers][Ser
 
         root.AddAttribute( "Value", 12345678 );
 
-        REQUIRE_IS_VALID( ser.SaveFile( "SerializerTest/JSON/Generated/Test-Attribute-NotExistingName.json", sw::WritingMode::Readable ) );
+        REQUIRE_IS_VALID( ser.SaveFile( "SerializerTest/JSON/Generated/Test-Attribute-Conversions-Int.json", sw::WritingMode::Readable ) );
     }
 
     {
         SerializerJSON deser( std::make_unique< ISerializationContext >() );
-        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-Attribute-NotExistingName.json" ) );
+        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-Attribute-Conversions-Int.json" ) );
 
         SerialObject root = deser.Root();
 
@@ -70,12 +70,12 @@ TEST_CASE( "Serializer.JSON.SerialAttribute.Conversions.Double", "[Serializers][
 
         root.AddAttribute( "Value", 13.765 );
 
-        REQUIRE_IS_VALID( ser.SaveFile( "SerializerTest/JSON/Generated/Test-Attribute-NotExistingName.json", sw::WritingMode::Readable ) );
+        REQUIRE_IS_VALID( ser.SaveFile( "SerializerTest/JSON/Generated/Test-Attribute-Conversions-Double.json", sw::WritingMode::Readable ) );
     }
 
     {
         SerializerJSON deser( std::make_unique< ISerializationContext >() );
-        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-Attribute-NotExistingName.json" ) );
+        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-Attribute-Conversions-Double.json" ) );
 
         SerialObject root = deser.Root();
 
@@ -116,12 +116,12 @@ TEST_CASE( "Serializer.JSON.SerialAttribute.Conversions.Double.IntegerDouble", "
 
         root.AddAttribute( "Value", 13.0 );
 
-        REQUIRE_IS_VALID( ser.SaveFile( "SerializerTest/JSON/Generated/Test-Attribute-NotExistingName.json", sw::WritingMode::Readable ) );
+        REQUIRE_IS_VALID( ser.SaveFile( "SerializerTest/JSON/Generated/Test-Attribute-Conversions-IntDouble.json", sw::WritingMode::Readable ) );
     }
 
     {
         SerializerJSON deser( std::make_unique< ISerializationContext >() );
-        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-Attribute-NotExistingName.json" ) );
+        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-Attribute-Conversions-IntDouble.json" ) );
 
         SerialObject root = deser.Root();
 
@@ -149,6 +149,51 @@ TEST_CASE( "Serializer.JSON.SerialAttribute.Conversions.Double.IntegerDouble", "
         CHECK( valueAttribute.ConvertToChar().has_value() == false );
 
         CHECK( valueAttribute.ConvertToDouble().value() == 13.0 );
+    }
+}
+
+
+TEST_CASE( "Serializer.JSON.SerialAttribute.Conversions.Bool", "[Serializers][SerializerJSON]" )
+{
+    {
+        SerializerJSON ser( std::make_unique< ISerializationContext >() );
+        SerialObject root = ser.Root();
+
+        root.AddAttribute( "Value", false );
+
+        REQUIRE_IS_VALID( ser.SaveFile( "SerializerTest/JSON/Generated/Test-Attribute-Conversions-Bool.json", sw::WritingMode::Readable ) );
+    }
+
+    {
+        SerializerJSON deser( std::make_unique< ISerializationContext >() );
+        REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-Attribute-Conversions-Bool.json" ) );
+
+        SerialObject root = deser.Root();
+
+        REQUIRE( root.GetElement( "Value" ).has_value() == true );
+        REQUIRE( root.GetElement( "Value" ).value().IsAttribute() );
+
+        auto valueAttribute = root.GetElement( "Value" ).value().AttributeView().value();
+
+        REQUIRE( valueAttribute.GetType() == SerialType::Bool );
+
+        // Check other conversions.
+        CHECK( valueAttribute.ConvertToInt64().has_value() == false );
+        CHECK( valueAttribute.ConvertToInt32().has_value() == false );
+        CHECK( valueAttribute.ConvertToInt16().has_value() == false );
+        CHECK( valueAttribute.ConvertToInt8().has_value() == false );
+        CHECK( valueAttribute.ConvertToDouble().has_value() == false );
+
+        CHECK( valueAttribute.ConvertToUInt64().has_value() == false );
+        CHECK( valueAttribute.ConvertToUInt32().has_value() == false );
+        CHECK( valueAttribute.ConvertToUInt16().has_value() == false );
+        CHECK( valueAttribute.ConvertToUInt8().has_value() == false );
+
+        CHECK( valueAttribute.ConvertToString().has_value() == false );
+        CHECK( valueAttribute.ConvertToBool().has_value() == true );
+        CHECK( valueAttribute.ConvertToChar().has_value() == false );
+
+        CHECK( valueAttribute.ConvertToBool().value() == false );
     }
 }
 
