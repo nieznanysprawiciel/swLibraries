@@ -198,6 +198,8 @@ impl::NodePointer       SerializerJSON::AddObjectMember     ( const SerialObject
     objectName.SetString( name.data(), ( rapidjson::SizeType )name.length(), m_root.GetAllocator() );
 
     auto& parentJsonNode = *m_nodesRegistry.GetElement( parent.GetNodePtr() );
+    bool reallocation = parentJsonNode.MemberCount() == parentJsonNode.MemberCapacity();
+
     parentJsonNode.AddMember( objectName, objectValue, m_root.GetAllocator() );
 
     // Values were moved. Get member pointer from parent node.
@@ -206,7 +208,10 @@ impl::NodePointer       SerializerJSON::AddObjectMember     ( const SerialObject
     auto newMemberIter = --parentJsonNode.MemberEnd();      // Exists for sure, we already added it.
     auto newNodePointer = m_nodesRegistry.AddMember( parent, &newMemberIter->value );
 
-    /// @todo Update registry if reallocation occured.
+    /// Update registry if reallocation occured.
+    if( reallocation )
+        m_nodesRegistry.UpdateChildren( parent.GetNodePtr() );
+
     return impl::NodesRegistry::ToNodePtr( newNodePointer );
 }
 
@@ -217,6 +222,8 @@ impl::NodePointer       SerializerJSON::AddArrayMember      ( const SerialArray&
     rapidjson::Value objectValue( memberType );
 
     auto& parentJsonNode = *m_nodesRegistry.GetElement( parent.GetNodePtr() );
+    bool reallocation = parentJsonNode.Size() == parentJsonNode.Capacity();
+
     parentJsonNode.PushBack( std::move( objectValue ), m_root.GetAllocator() );
 
     // Values were moved. Get member pointer from parent node.
@@ -225,7 +232,10 @@ impl::NodePointer       SerializerJSON::AddArrayMember      ( const SerialArray&
     auto newNodeIdx = parentJsonNode.Size() - 1;
     auto newNodePointer = m_nodesRegistry.AddMember( parent, &parentJsonNode[ newNodeIdx ] );
 
-    /// @todo Update registry if reallocation occured.
+    /// Update registry if reallocation occured.
+    if( reallocation )
+        m_nodesRegistry.UpdateChildren( parent.GetNodePtr() );
+
     return impl::NodesRegistry::ToNodePtr( newNodePointer );
 }
 

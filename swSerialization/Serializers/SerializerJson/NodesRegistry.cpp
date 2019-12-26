@@ -175,6 +175,42 @@ void                                    NodesRegistry::RegisterChildren     ( No
     }
 }
 
+// ================================ //
+//
+void                                    NodesRegistry::UpdateChildren       ( NodePointer parent )
+{
+    NodePointerImpl parentPtr = FromNodePtr( parent );
+    auto& parentJsonNode = m_nodes[ parentPtr.NodeIdx ];
+    auto& parentDesc = m_descriptors[ parentPtr.NodeIdx ];
+
+    assert( parentJsonNode->IsArray() || parentJsonNode->IsObject() );
+    auto size = parentJsonNode->IsArray() ? parentJsonNode->Size() : parentJsonNode->MemberCount();
+    auto currentChild = parentDesc.FirstChild;
+
+    if( size != 0 )
+    {
+        if( parentJsonNode->IsArray() )
+        {
+            for( Size i = 0; i < parentJsonNode->Size(); ++i )
+            {
+                m_nodes[ currentChild ] = &parentJsonNode[ i ];
+                currentChild = m_descriptors[ currentChild ].NextSibling;
+            }
+        }
+        else    // parentJsonNode->IsObject()
+        {
+            for( auto& member : parentJsonNode->GetObject() )
+            {
+                m_nodes[ currentChild ] = &member.value;
+                currentChild = m_descriptors[ currentChild ].NextSibling;
+            }
+        }
+
+        // There should be no more children.
+        assert( currentChild == InvalidIndex );
+    }
+}
+
 
 
 }	// sw

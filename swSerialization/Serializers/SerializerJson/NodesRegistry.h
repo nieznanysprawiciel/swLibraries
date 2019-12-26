@@ -94,6 +94,7 @@ public:
     std::optional< NodePointer >                GetElement      ( NodePointer parent, Size index );
 
     void                    RegisterChildren    ( NodePointer parent );
+    void                    UpdateChildren      ( NodePointer parent );
 
 public:
 
