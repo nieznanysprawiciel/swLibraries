@@ -13,6 +13,13 @@
 using namespace sw;
 
 
+//====================================================================================//
+//  These test checks if SerialAttribute conversions work as expected.
+//  Tests check similar things as TestSerializerAttriutes, but here, we rather
+//  want to know if class SerialAttribute works correctly.
+//====================================================================================//
+
+
 
 // ================================ //
 //
