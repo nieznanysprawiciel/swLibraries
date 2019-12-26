@@ -60,6 +60,9 @@ public:
     Function can convert to types listed above. It is usefull in templated code.*/
     template< typename TargetType >
     std::optional< TargetType >                 ConvertTo               () const;
+
+    template<>
+    std::optional< char >                       ConvertTo< char >       () const;
     ///@}
 
     SerialType                                  GetType                 () const { return m_type; }
@@ -95,6 +98,19 @@ inline std::optional< TargetType >              SerialAttribute::ConvertTo      
         return {};
     }
 
+    return {};
+}
+
+// ================================ //
+//
+template<>
+inline std::optional< char >                    SerialAttribute::ConvertTo< char >() const
+{
+    // If we convert to char we expect that serializer gives us string with length 1.
+    auto result = ConvertTo< std::string_view >();
+    if( result.has_value() && result.value().size() == 1 )
+        return result.value()[ 0 ];
+       
     return {};
 }
 
