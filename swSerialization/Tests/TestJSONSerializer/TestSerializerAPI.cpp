@@ -41,6 +41,32 @@ TEST_CASE( "Serializer.JSON.SerialObject.AddObject", "[Serializers][SerializerJS
 
 // ================================ //
 //
+TEST_CASE( "Serializer.JSON.SerialObject.AddArray", "[Serializers][SerializerJSON]" )
+{
+    {
+        SerializerJSON ser( std::make_unique< ISerializationContext >() );
+        SerialObject root = ser.Root();
+
+        auto firstArray = root.AddArray( "FirstArray" );
+
+        auto saveResult = ser.SaveFile( "SerializerTest/JSON/Generated/Test-AddArray.json", sw::WritingMode::Readable );
+        REQUIRE_IS_VALID( saveResult );
+    }
+
+    {
+        SerializerJSON deser( std::make_unique< ISerializationContext >() );
+        auto loadResult = deser.LoadFromFile( "SerializerTest/JSON/Generated/Test-AddArray.json" );
+        REQUIRE_IS_VALID( loadResult );
+
+        SerialObject root = deser.Root();
+        REQUIRE( root.GetElement( "FirstArray" ).has_value() );
+        REQUIRE( root.GetElement( "FirstArray" ).value().IsArray() );
+        REQUIRE( !root.GetElement( "FirstArray" ).value().IsObject() );
+    }
+}
+
+// ================================ //
+//
 TEST_CASE( "Serializer.JSON.SerialObject.AddObject.TreeStructure", "[Serializers][SerializerJSON]" )
 {
     {
