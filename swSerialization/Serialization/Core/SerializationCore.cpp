@@ -939,61 +939,6 @@ template	void	SerializationCore::DeserializeProperty< uint8 >			( const IDeseria
 
 
 
-
-/**@brief Specjalizacja dla DirectX::XMFLOAT3.*/
-template<>
-void			SerializationCore::DeserializeProperty< DirectX::XMFLOAT3* >	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object )
-{
-	if( deser.EnterObject( prop.get_name().to_string() ) )
-	{
-		DirectX::XMFLOAT3 value;
-		value.x = static_cast<float> ( deser.GetAttribute( "X", TypeDefaultValue< float >() ) );
-		value.y = static_cast<float> ( deser.GetAttribute( "Y", TypeDefaultValue< float >() ) );
-		value.z = static_cast<float> ( deser.GetAttribute( "Z", TypeDefaultValue< float >() ) );
-
-		SetPropertyValue( prop, object, &value );
-
-		deser.Exit();	// prop.get_name()
-	}
-	// Error handling ??
-}
-
-/**@brief Specjalizacja dla DirectX::XMFLOAT2.*/
-template<>
-void			SerializationCore::DeserializeProperty< DirectX::XMFLOAT2* >	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object )
-{
-	if( deser.EnterObject( prop.get_name().to_string() ) )
-	{
-		DirectX::XMFLOAT2 value;
-		value.x = static_cast<float> ( deser.GetAttribute( "X", TypeDefaultValue< float >() ) );
-		value.y = static_cast<float> ( deser.GetAttribute( "Y", TypeDefaultValue< float >() ) );
-
-		SetPropertyValue( prop, object, &value );
-
-		deser.Exit();	// prop.get_name()
-	}
-	// Error handling ??
-}
-
-/**@brief Specjalizacja dla DirectX::XMFLOAT4.*/
-template<>
-void			SerializationCore::DeserializeProperty< DirectX::XMFLOAT4* >	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object )
-{
-	if( deser.EnterObject( prop.get_name().to_string() ) )
-	{
-		DirectX::XMFLOAT4 value;
-		value.x = static_cast<float> ( deser.GetAttribute( "X", TypeDefaultValue< float >() ) );
-		value.y = static_cast<float> ( deser.GetAttribute( "Y", TypeDefaultValue< float >() ) );
-		value.z = static_cast<float> ( deser.GetAttribute( "Z", TypeDefaultValue< float >() ) );
-		value.w = static_cast<float> ( deser.GetAttribute( "W", TypeDefaultValue< float >() ) );
-
-		SetPropertyValue( prop, object, &value );
-
-		deser.Exit();	// prop.get_name()
-	}
-	// Error handling ??
-}
-
 /**@brief Specjalizacja dla std::wstring.*/
 template<>
 void			SerializationCore::DeserializeProperty< std::wstring >	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object )
