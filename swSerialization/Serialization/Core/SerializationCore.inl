@@ -35,11 +35,7 @@ template<>	inline double			TypeDefaultValue() { return 0.0; }
 template<>	inline std::wstring		TypeDefaultValue() { return std::wstring( L"" ); }
 template<>	inline std::string		TypeDefaultValue() { return std::string( "" ); }
 
-template<>	inline DirectX::XMFLOAT2	TypeDefaultValue() { return DirectX::XMFLOAT2( 0.0, 0.0 ); }
-template<>	inline DirectX::XMFLOAT3	TypeDefaultValue() { return DirectX::XMFLOAT3( 0.0, 0.0, 0.0 ); }
-template<>	inline DirectX::XMFLOAT4	TypeDefaultValue() { return DirectX::XMFLOAT4( 0.0, 0.0, 0.0, 0.0 ); }
-
-template<>	inline EngineObject*		TypeDefaultValue() { return nullptr; }
+template<>	inline EngineObject*    TypeDefaultValue() { return nullptr; }
 
 
 //====================================================================================//

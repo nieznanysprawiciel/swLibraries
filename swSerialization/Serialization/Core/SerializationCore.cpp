@@ -130,7 +130,6 @@ void					SerializationCore::SerializePropertiesVec	( ISerializer& ser, const rtt
 	{
 		bool serialized = false;
 		serialized = serialized || SerializeBasicTypes( ser, object, property );
-		serialized = serialized || SerializeVectorTypes( ser, object, property );
 		serialized = serialized || SerializeStringTypes( ser, object, property );
 		serialized = serialized || SerializeEnumTypes( ser, object, property );
 		serialized = serialized || SerializeArrayTypes( ser, object, property );
@@ -218,24 +217,6 @@ bool            SerializationCore::SerializeEnumTypes               ( ISerialize
     ser.SetAttribute( name.to_string(), enumVal.value_to_name( value ).to_string() );
 
     return true;
-}
-
-// ================================ //
-//
-bool			SerializationCore::SerializeVectorTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
-{
-	auto propertyType = prop.get_type();
-
-	if( propertyType == rttr::type::get< DirectX::XMFLOAT2* >() )
-		SerializeProperty< DirectX::XMFLOAT2* >( ser, prop, object );
-	else if( propertyType == rttr::type::get< DirectX::XMFLOAT3* >() )
-		SerializeProperty< DirectX::XMFLOAT3* >( ser, prop, object );
-	else if( propertyType == rttr::type::get< DirectX::XMFLOAT4* >() )
-		SerializeProperty< DirectX::XMFLOAT4* >( ser, prop, object );
-	else
-		return false;
-
-	return true;
 }
 
 // ================================ //
@@ -356,7 +337,6 @@ void					SerializationCore::DefaultDeserializeImpl	( const IDeserializer& deser,
 		auto propertyType = property.get_type();
 
 		bool deserialized = DeserializeBasicTypes( deser, object, property );
-		deserialized = deserialized || DeserializeVectorTypes( deser, object, property );
 		deserialized = deserialized || DeserializeStringTypes( deser, object, property );
 		deserialized = deserialized || DeserializeEnumTypes( deser, object, property );
 		deserialized = deserialized || DeserializeArrayTypes( deser, object, property );
@@ -403,25 +383,6 @@ bool			SerializationCore::DeserializeBasicTypes			( const IDeserializer& deser, 
 		SerializationCore::DeserializeProperty< double >( deser, prop, object );
 	else if( propertyType == rttr::type::get< char >() )
 		SerializationCore::DeserializeProperty< char >( deser, prop, object );
-	else
-		return false;
-
-	return true;
-}
-
-/**@brief Deserializuje typy DirectXMath.
-
-@return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
-bool	SerializationCore::DeserializeVectorTypes				( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop )
-{
-	auto propertyType = prop.get_type();
-
-	if( propertyType == rttr::type::get< DirectX::XMFLOAT2* >() )
-		SerializationCore::DeserializeProperty< DirectX::XMFLOAT2* >( deser, prop, object );
-	else if( propertyType == rttr::type::get< DirectX::XMFLOAT3* >() )
-		SerializationCore::DeserializeProperty< DirectX::XMFLOAT3* >( deser, prop, object );
-	else if( propertyType == rttr::type::get< DirectX::XMFLOAT4* >() )
-		SerializationCore::DeserializeProperty< DirectX::XMFLOAT4* >( deser, prop, object );
 	else
 		return false;
 
