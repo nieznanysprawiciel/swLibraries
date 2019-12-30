@@ -50,6 +50,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestTwoWaySerialization\TestCases\PolymorphicSerialization.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestTwoWaySerialization\TestCases\StlTypesSerialization.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestTwoWaySerialization\TestCases\StructsSerialization.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestTwoWaySerialization\TestCases\TestRttrPreconditions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestTwoWaySerialization\PrecompiledHeader\stdafx.h" />

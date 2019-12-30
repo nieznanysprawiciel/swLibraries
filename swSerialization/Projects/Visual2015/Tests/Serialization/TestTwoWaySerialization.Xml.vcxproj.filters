@@ -34,6 +34,9 @@
       <Filter>TestCases</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\Tests\TestTwoWaySerialization\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestTwoWaySerialization\TestCases\TestRttrPreconditions.cpp">
+      <Filter>TestCases</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestTwoWaySerialization\PrecompiledHeader\stdafx.h">
