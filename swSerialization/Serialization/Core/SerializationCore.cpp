@@ -839,49 +839,6 @@ template	void	SerializationCore::SerializeProperty< uint64 >	( ISerializer& ser,
 
 
 
-
-/**@brief Specjalizacja dla DirectX::XMFLOAT3.*/
-template<>
-void			SerializationCore::SerializeProperty< DirectX::XMFLOAT3* >	( ISerializer& ser, rttr::property prop, const rttr::instance& object )
-{
-	DirectX::XMFLOAT3* xmFloat = GetPropertyValue< DirectX::XMFLOAT3* >( prop, object );
-	ser.EnterObject( prop.get_name().to_string() );
-
-	ser.SetAttribute( "X", xmFloat->x );
-	ser.SetAttribute( "Y", xmFloat->y );
-	ser.SetAttribute( "Z", xmFloat->z );
-
-	ser.Exit();	// prop.get_name()
-}
-
-/**@brief Specjalizacja dla DirectX::XMFLOAT2.*/
-template<>
-void			SerializationCore::SerializeProperty< DirectX::XMFLOAT2* >	( ISerializer& ser, rttr::property prop, const rttr::instance& object )
-{
-	DirectX::XMFLOAT2* xmFloat = GetPropertyValue< DirectX::XMFLOAT2* >( prop, object );
-	ser.EnterObject( prop.get_name().to_string() );
-
-	ser.SetAttribute( "X", xmFloat->x );
-	ser.SetAttribute( "Y", xmFloat->y );
-
-	ser.Exit();	// prop.get_name()
-}
-
-/**@brief Specjalizacja dla DirectX::XMFLOAT4.*/
-template<>
-void			SerializationCore::SerializeProperty< DirectX::XMFLOAT4* >	( ISerializer& ser, rttr::property prop, const rttr::instance& object )
-{
-	DirectX::XMFLOAT4* xmFloat = GetPropertyValue< DirectX::XMFLOAT4* >( prop, object );
-	ser.EnterObject( prop.get_name().to_string() );
-
-	ser.SetAttribute( "X", xmFloat->x );
-	ser.SetAttribute( "Y", xmFloat->y );
-	ser.SetAttribute( "Z", xmFloat->z );
-	ser.SetAttribute( "W", xmFloat->w );
-
-	ser.Exit();	// prop.get_name()
-}
-
 /**@brief Specjalizacja dla std::wstring.*/
 template<>
 void			SerializationCore::SerializeProperty< std::wstring >	( ISerializer& ser, rttr::property prop, const rttr::instance& object )
