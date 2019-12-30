@@ -32,10 +32,10 @@ class SerializationCore
 {
 public:
 
-	static std::vector< rttr::property >&		GetTypeFilteredProperties	( rttr::type objType, SerializationContext* context );
+	static const std::vector< rttr::property >&		GetTypeFilteredProperties	( rttr::type objType, SerializationContext* context );
 
 
-	static bool				ShouldSave				( const rttr::property& prop, MetaDataType saveFlag );
+	static bool				ShouldSave				( rttr::property prop, MetaDataType saveFlag );
 	static bool				IsPolymorphicType		( TypeID type );
 	
 	static void				DefaultSerialize		( ISerializer& ser, const EngineObject* object );
@@ -48,11 +48,11 @@ public:
 	///@{
 
 	/**@brief Serialize basic arithemtic types and bool.*/
-	static bool				SerializeBasicTypes		( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
-	static bool				SerializeStringTypes	( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
-	static bool				SerializeEnumTypes		( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
-	static bool				SerializeArrayTypes		( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
-	static bool				SerializeObjectTypes	( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
+	static bool				SerializeBasicTypes		( ISerializer& ser, const rttr::instance& object, rttr::property prop );
+	static bool				SerializeStringTypes	( ISerializer& ser, const rttr::instance& object, rttr::property prop );
+	static bool				SerializeEnumTypes		( ISerializer& ser, const rttr::instance& object, rttr::property prop );
+	static bool				SerializeArrayTypes		( ISerializer& ser, const rttr::instance& object, rttr::property prop );
+	static bool				SerializeObjectTypes	( ISerializer& ser, const rttr::instance& object, rttr::property prop );
 
 	static bool				SerializeBasicTypes		( ISerializer& ser, rttr::string_view name, const rttr::variant& value );
     static bool				SerializeStringTypes	( ISerializer& ser, rttr::string_view name, const rttr::variant& value );
@@ -61,26 +61,27 @@ public:
     static bool				SerializeObjectTypes	( ISerializer& ser, rttr::string_view name, const rttr::variant& value );
 	///@}
 
-	static void				SerializePolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
-	static void				SerializeNotPolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property& prop );
-	static void				SerializePropertiesVec	( ISerializer& ser, const rttr::instance& object, std::vector< rttr::property >& properties );
+    static void				SerializeObject     	( ISerializer& ser, rttr::string_view name, const rttr::variant& value );
+	static void				SerializePolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property prop );
+	static void				SerializeNotPolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property prop );
+	static void				SerializePropertiesVec	( ISerializer& ser, const rttr::instance& object, const std::vector< rttr::property >& properties );
 
 	///@name Types deserialization
 	///@{
 
 	/**@brief Deserialize basic arithemtic types and bool.*/
-	static bool				DeserializeBasicTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeStringTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeEnumTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeArrayTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
-	static bool				DeserializeObjectTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
+	static bool				DeserializeBasicTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static bool				DeserializeStringTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static bool				DeserializeEnumTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static bool				DeserializeArrayTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static bool				DeserializeObjectTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 
 	///@}
 
-	static void				DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
-	static void				DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop );
+	static void				DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static void				DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 	
-	static rttr::variant	CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop, TypeID dynamicType );
+	static rttr::variant	CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop, TypeID dynamicType );
 	static rttr::variant	CreateInstance				( TypeID type );
 
 

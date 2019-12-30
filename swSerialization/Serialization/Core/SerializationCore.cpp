@@ -18,7 +18,7 @@ namespace sw
 
 // ================================ //
 //
-std::vector< rttr::property >&		SerializationCore::GetTypeFilteredProperties		( rttr::type objType, SerializationContext* context )
+const std::vector< rttr::property >&        SerializationCore::GetTypeFilteredProperties		( rttr::type objType, SerializationContext* context )
 {
 	objType = objType.get_raw_type();
 
@@ -52,7 +52,7 @@ std::vector< rttr::property >&		SerializationCore::GetTypeFilteredProperties		( 
 
 // ================================ //
 //
-bool					SerializationCore::ShouldSave				( const rttr::property& prop, MetaDataType saveFlag )
+bool					SerializationCore::ShouldSave				( rttr::property prop, MetaDataType saveFlag )
 {
 	auto saveFlagMeta = prop.get_metadata( saveFlag );
 	if( !saveFlagMeta.is_valid() )
@@ -95,8 +95,24 @@ void					SerializationCore::DefaultSerializeImpl		( ISerializer& deser, const rt
 
 // ================================ //
 //
-void					SerializationCore::SerializePolymorphic		( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
+void                    SerializationCore::SerializeObject          ( ISerializer& ser, rttr::string_view name, const rttr::variant& value )
 {
+    ser.EnterObject( name.to_string() );
+
+    TypeID realType = GetRawWrappedType( value.get_type() );
+
+    auto& properties = GetTypeFilteredProperties( realType, ser.GetContext< SerializationContext >() );
+    SerializePropertiesVec( ser, value, properties );
+
+    ser.Exit();	//	prop.get_name()
+}
+
+// ================================ //
+//
+void					SerializationCore::SerializePolymorphic		( ISerializer& ser, const rttr::instance& object, rttr::property prop )
+{
+    assert( IsPolymorphicType( prop.get_type() ) );
+
 	EngineObject* engineObj = GetPropertyValue< EngineObject* >( prop, object );
 	if( engineObj )
 	{
@@ -108,23 +124,15 @@ void					SerializationCore::SerializePolymorphic		( ISerializer& ser, const rttr
 
 // ================================ //
 //
-void					SerializationCore::SerializeNotPolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
+void					SerializationCore::SerializeNotPolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property prop )
 {
-	rttr::variant structObject = prop.get_value( object );
-
-	ser.EnterObject( prop.get_name().to_string() );
-
-	TypeID realType = GetRawWrappedType( prop.get_type() );
-
-	auto& properties = GetTypeFilteredProperties( realType, ser.GetContext< SerializationContext >() );
-	SerializePropertiesVec( ser, structObject, properties );
-
-	ser.Exit();	//	prop.get_name()
+    assert( !IsPolymorphicType( prop.get_type() ) );
+    SerializeObject( ser, prop.get_name(), prop.get_value( object ) );
 }
 
 // ================================ //
 //
-void					SerializationCore::SerializePropertiesVec	( ISerializer& ser, const rttr::instance& object, std::vector< rttr::property >& properties )
+void					SerializationCore::SerializePropertiesVec	( ISerializer& ser, const rttr::instance& object, const std::vector< rttr::property >& properties )
 {
 	for( auto& property : properties )
 	{
@@ -140,7 +148,7 @@ void					SerializationCore::SerializePropertiesVec	( ISerializer& ser, const rtt
 
 // ================================ //
 //
-bool				SerializationCore::SerializeBasicTypes			( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
+bool				SerializationCore::SerializeBasicTypes			( ISerializer& ser, const rttr::instance& object, rttr::property prop )
 {
 	return SerializeBasicTypes( ser, prop.get_name(), prop.get_value( object ) );
 }
@@ -221,14 +229,14 @@ bool            SerializationCore::SerializeEnumTypes               ( ISerialize
 
 // ================================ //
 //
-bool			SerializationCore::SerializeStringTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
+bool			SerializationCore::SerializeStringTypes				( ISerializer& ser, const rttr::instance& object, rttr::property prop )
 {
     return SerializeStringTypes( ser, prop.get_name(), prop.get_value( object ) );
 }
 
 // ================================ //
 //
-bool			SerializationCore::SerializeEnumTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
+bool			SerializationCore::SerializeEnumTypes				( ISerializer& ser, const rttr::instance& object, rttr::property prop )
 {
 	return SerializeEnumTypes( ser, prop.get_name(), prop.get_value( object ) );
 }
@@ -292,14 +300,14 @@ bool            SerializationCore::SerializeArrayTypes              ( ISerialize
 
 // ================================ //
 //
-bool			SerializationCore::SerializeArrayTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
+bool			SerializationCore::SerializeArrayTypes				( ISerializer& ser, const rttr::instance& object, rttr::property prop )
 {
     return SerializeArrayTypes( ser, prop.get_name(), prop.get_value( object ) );
 }
 
 // ================================ //
 //
-bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
+bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr::instance& object, rttr::property prop )
 {
 	auto propertyType = prop.get_type();
 	if( propertyType.is_wrapper() )
@@ -352,7 +360,7 @@ Funkcja sprawdza typ w³asciwoœci i deserializuje go tylko je¿eli jest jednym z o
 przez ni¹ typów. W przeciwnym razie nie robi nic.
 
 @return Funkcja zwraca true, je¿eli uda³o jej siê obs³u¿yæ podany typ.*/
-bool			SerializationCore::DeserializeBasicTypes			( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop )
+bool			SerializationCore::DeserializeBasicTypes			( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
 	auto propertyType = prop.get_type();
 
@@ -392,7 +400,7 @@ bool			SerializationCore::DeserializeBasicTypes			( const IDeserializer& deser, 
 /**@brief Deserializuje std::string i std::wstring.
 
 @return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
-bool	SerializationCore::DeserializeStringTypes				( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop )
+bool	SerializationCore::DeserializeStringTypes				( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
 	auto propertyType = prop.get_type();
 
@@ -409,7 +417,7 @@ bool	SerializationCore::DeserializeStringTypes				( const IDeserializer& deser, 
 /**@brief Deserializes enum properties from string.
 
 @return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
-bool	SerializationCore::DeserializeEnumTypes					( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop )
+bool	SerializationCore::DeserializeEnumTypes					( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
 	auto propertyType = prop.get_type();
 
@@ -432,7 +440,7 @@ bool	SerializationCore::DeserializeEnumTypes					( const IDeserializer& deser, c
 /**@brief Deserializes arrays.
 
 @return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
-bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop )
+bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
 	TypeID propertyType = SerializationCore::GetWrappedType( prop.get_type() );
 	if( !propertyType.is_sequential_container() )
@@ -554,7 +562,7 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 /**@brief Deserializes structures and generic objects.
 
 @return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
-bool	SerializationCore::DeserializeObjectTypes				( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop )
+bool	SerializationCore::DeserializeObjectTypes				( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
 	TypeID propertyType = prop.get_type();
 	TypeID rawType = propertyType.get_raw_type();
@@ -595,7 +603,7 @@ bool	SerializationCore::DeserializeObjectTypes				( const IDeserializer& deser, 
 
 // ================================ //
 //
-void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop )
+void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
 	if( deser.EnterObject( prop.get_name().to_string() ) )
 	{
@@ -665,7 +673,7 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 
 // ================================ //
 //
-void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop )
+void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
 	if( deser.EnterObject( prop.get_name().to_string() ) )
 	{
@@ -696,7 +704,7 @@ void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& dese
 
 // ================================ //
 //
-rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& object, rttr::property& prop, TypeID dynamicType )
+rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop, TypeID dynamicType )
 {
 	rttr::variant newClass = CreateInstance( dynamicType );
 
