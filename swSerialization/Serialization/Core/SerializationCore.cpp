@@ -187,6 +187,41 @@ bool				SerializationCore::SerializeBasicTypes			( ISerializer& ser, rttr::strin
 
 // ================================ //
 //
+bool            SerializationCore::SerializeStringTypes             ( ISerializer& ser, rttr::string_view name, const rttr::variant& value )
+{
+    auto propertyType = value.get_type();
+
+    if( propertyType == rttr::type::get< std::string >() )
+        SerializeProperty< std::string >( ser, name, value );
+    else if( propertyType == rttr::type::get< std::wstring >() )
+        SerializeProperty< std::wstring >( ser, name, value );
+    else
+        return false;
+
+    return true;
+}
+
+// ================================ //
+//
+bool            SerializationCore::SerializeEnumTypes               ( ISerializer& ser, rttr::string_view name, const rttr::variant& value )
+{
+    auto propertyType = value.get_type();
+
+    if( !propertyType.is_enumeration() )
+        return false;
+
+    assert( propertyType.is_valid() );		/// Type haven't been registered.
+    assert( propertyType.is_enumeration() );
+
+    rttr::enumeration enumVal = propertyType.get_enumeration();
+
+    ser.SetAttribute( name.to_string(), enumVal.value_to_name( value ).to_string() );
+
+    return true;
+}
+
+// ================================ //
+//
 bool			SerializationCore::SerializeVectorTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
 {
 	auto propertyType = prop.get_type();
@@ -207,93 +242,78 @@ bool			SerializationCore::SerializeVectorTypes				( ISerializer& ser, const rttr
 //
 bool			SerializationCore::SerializeStringTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
 {
-	auto propertyType = prop.get_type();
-
-	if( propertyType == rttr::type::get< std::string >() )
-		SerializeProperty< std::string >( ser, prop, object );
-	else if( propertyType == rttr::type::get< std::wstring >() )
-		SerializeProperty< std::wstring >( ser, prop, object );
-	else
-		return false;
-
-	return true;
+    return SerializeStringTypes( ser, prop.get_name(), prop.get_value( object ) );
 }
 
 // ================================ //
 //
 bool			SerializationCore::SerializeEnumTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
 {
-	auto propertyType = prop.get_type();
+	return SerializeEnumTypes( ser, prop.get_name(), prop.get_value( object ) );
+}
 
-	if( !propertyType.is_enumeration() )
-		return false;
+// ================================ //
+//
+bool            SerializationCore::SerializeArrayTypes              ( ISerializer& ser, rttr::string_view name, const rttr::variant& value )
+{
+    TypeID propertyType = SerializationCore::GetWrappedType( value.get_type() );
+    if( !propertyType.is_sequential_container() )
+        return false;
 
-	assert( propertyType.is_valid() );		/// Type haven't been registered.
-	assert( propertyType.is_enumeration() );
+    auto arrayView = value.create_sequential_view();
 
-	rttr::enumeration enumVal = propertyType.get_enumeration();
+    assert( arrayView.is_valid() );
+    assert( arrayView.get_rank() == 1 );
+    if( arrayView.get_rank() != 1 )
+        return true;
 
-	ser.SetAttribute( prop.get_name().to_string(), enumVal.value_to_name( prop.get_value( object ) ).to_string() );
+    TypeID arrayElementType = arrayView.get_rank_type( 1 );
+    assert( arrayElementType.is_class() || arrayElementType.get_raw_type().is_class() );
+    if( !arrayElementType.is_class() && !arrayElementType.get_raw_type().is_class() )
+        return true;
 
-	return true;
+    ser.EnterArray( name.to_string() );
+
+    if( arrayView.is_dynamic() )
+        ser.SetAttribute( "ArraySize", arrayView.get_size() );
+
+    if( IsPolymorphicType( arrayElementType ) )
+    {
+        // Process generic objects. Default serialization writes object type.
+        for( auto& element : arrayView )
+        {
+            auto value = element.extract_wrapped_value();
+            value.convert( TypeID::get< EngineObject* >() );
+            EngineObject* engineObject = value.get_value< EngineObject* >();
+
+            // We serialize "Element" because some serializers like json don't
+            // have named elements in arrays and we would lose type information.
+            // This is not the case in not polymorphic serialization where type 
+            // information from property is enough to deserialize array.
+            ser.EnterObject( "Element" );
+            engineObject->Serialize( ser );
+            ser.Exit();
+        }
+    }
+    else
+    {
+        for( auto& element : arrayView )
+        {
+            // Non generic objects use default serialization.
+            DefaultSerializeImpl( ser, element, arrayElementType );
+        }
+    }
+
+    ser.Exit();
+
+    return true;
 }
 
 // ================================ //
 //
 bool			SerializationCore::SerializeArrayTypes				( ISerializer& ser, const rttr::instance& object, rttr::property& prop )
 {
-	TypeID propertyType = SerializationCore::GetWrappedType( prop.get_type() );
-	if( !propertyType.is_sequential_container() )
-		return false;
-
-	auto arrayVariant = prop.get_value( object );
-	auto arrayView = arrayVariant.create_sequential_view();
-
-	assert( arrayView.is_valid() );
-	assert( arrayView.get_rank() == 1 );
-	if( arrayView.get_rank() != 1 )
-		return true;
-
-	TypeID arrayElementType = arrayView.get_rank_type( 1 );
-	assert( arrayElementType.is_class() || arrayElementType.get_raw_type().is_class() );
-	if( !arrayElementType.is_class() && !arrayElementType.get_raw_type().is_class() )
-		return true;
-
-	ser.EnterArray( prop.get_name().to_string() );
-
-	if( arrayView.is_dynamic() )
-		ser.SetAttribute( "ArraySize", arrayView.get_size() );
-
-	if( IsPolymorphicType( arrayElementType ) )
-	{
-		// Process generic objects. Default serialization writes object type.
-		for( auto& element : arrayView )
-		{
-			auto value = element.extract_wrapped_value();
-			value.convert( TypeID::get< EngineObject* >() );
-			EngineObject* engineObject = value.get_value< EngineObject* >();
-
-			// We serialize "Element" because some serializers like json don't
-			// have named elements in arrays and we would lose type information.
-			// This is not the case in not polymorphic serialization where type 
-			// information from property is enough to deserialize array.
-			ser.EnterObject( "Element" );
-			engineObject->Serialize( ser );
-			ser.Exit();
-		}
-	}
-	else
-	{
-		for( auto& element : arrayView )
-		{
-			// Non generic objects use default serialization.
-			DefaultSerializeImpl( ser, element, arrayElementType );
-		}
-	}
-
-	ser.Exit();
-
-	return true;
+    return SerializeArrayTypes( ser, prop.get_name(), prop.get_value( object ) );
 }
 
 // ================================ //
@@ -917,6 +937,15 @@ static void		SerializationCore::SerializeProperty< char >			( ISerializer& ser, 
 {
 	char character = propertyValue.get_value< char >();
 	ser.SetAttribute( name.to_string(), std::string( 1, character ) );
+}
+
+// ================================ //
+//
+template<>
+void			SerializationCore::SerializeProperty< std::wstring >	( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue )
+{
+    std::wstring str = propertyValue.get_value< std::wstring >();
+    ser.SetAttribute( name.to_string(), WstringToUTF( str ) );
 }
 
 
