@@ -218,7 +218,7 @@ Nullable< AssetPath >               SWMaterialLoader::DeserializeShader	    ( ID
 
         deser->Exit();
 
-        if( shaderFile && shaderFile )
+        if( shaderFile && shaderEntry )
             return AssetPath( shaderFile, shaderEntry );
 
         // If there's no entrypoint, default main function will be loaded.
