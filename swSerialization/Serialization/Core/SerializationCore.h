@@ -38,8 +38,8 @@ public:
 	static bool				ShouldSave				( rttr::property prop, MetaDataType saveFlag );
 	static bool				IsPolymorphicType		( TypeID type );
 	
-	static void				DefaultSerialize		( ISerializer& ser, const EngineObject* object );
-	static void				DefaultDeserialize		( const IDeserializer& deser, EngineObject* object );
+	static void				DefaultSerialize		( ISerializer& ser, const Object* object );
+	static void				DefaultDeserialize		( const IDeserializer& deser, Object* object );
 
 	static void				DefaultSerializeImpl	( ISerializer& ser, const rttr::instance& object, rttr::type dynamicType );
 	static void				DefaultDeserializeImpl	( const IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType );

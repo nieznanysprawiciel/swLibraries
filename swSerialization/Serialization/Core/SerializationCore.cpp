@@ -67,12 +67,12 @@ bool					SerializationCore::ShouldSave				( rttr::property prop, MetaDataType sa
 /// We support only polymorphic types derived from EngineObject.
 bool					SerializationCore::IsPolymorphicType		( TypeID type )
 {
-	return GetRawWrappedType( type ).is_derived_from< EngineObject >();
+	return GetRawWrappedType( type ).is_derived_from< Object >();
 }
 
 // ================================ //
 //
-void					SerializationCore::DefaultSerialize			( ISerializer& ser, const EngineObject* object )
+void					SerializationCore::DefaultSerialize			( ISerializer& ser, const Object* object )
 {
 	DefaultSerializeImpl( ser, object, object->GetType() );
 }
@@ -113,13 +113,12 @@ void					SerializationCore::SerializePolymorphic		( ISerializer& ser, const rttr
 {
     assert( IsPolymorphicType( prop.get_type() ) );
 
-	EngineObject* engineObj = GetPropertyValue< EngineObject* >( prop, object );
-	if( engineObj )
-	{
-		ser.EnterObject( prop.get_name().to_string() );
-		engineObj->Serialize( ser );
-		ser.Exit();	//	prop.get_name()
-	}
+    auto value = prop.get_value( object );
+    auto dynamicType = SerializationCore::GetRealType( value );
+
+	ser.EnterObject( prop.get_name().to_string() );
+    SerializeObject( ser, dynamicType.get_name(), value );
+	ser.Exit();	//	prop.get_name()
 }
 
 // ================================ //
@@ -328,7 +327,7 @@ bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr
 
 // ================================ //
 //
-void					SerializationCore::DefaultDeserialize		( const IDeserializer& deser, EngineObject* object )
+void					SerializationCore::DefaultDeserialize		( const IDeserializer& deser, Object* object )
 {
 	DefaultDeserializeImpl( deser, object, object->GetType() );
 }
