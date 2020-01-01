@@ -8,7 +8,7 @@
 
 #include "swCommonLib/Common/RTTR.h"
 
-#include "swSerialization/Serialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 #include "swSerialization/Interfaces/Serializer.h"
 #include "swSerialization/Interfaces/Deserializer.h"
 
@@ -62,6 +62,7 @@ public:
 	///@}
 
     static void				SerializeObject     	( ISerializer& ser, rttr::string_view name, const rttr::variant& value );
+    static void				SerializePolymorphic	( ISerializer& ser, rttr::string_view name, const rttr::variant& value );
 	static void				SerializePolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property prop );
 	static void				SerializeNotPolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property prop );
 	static void				SerializePropertiesVec	( ISerializer& ser, const rttr::instance& object, const std::vector< rttr::property >& properties );

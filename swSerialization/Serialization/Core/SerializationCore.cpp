@@ -64,7 +64,7 @@ bool					SerializationCore::ShouldSave				( rttr::property prop, MetaDataType sa
 }
 
 // ================================ //
-/// We support only polymorphic types derived from EngineObject.
+/// We support only polymorphic types derived from Object.
 bool					SerializationCore::IsPolymorphicType		( TypeID type )
 {
 	return GetRawWrappedType( type ).is_derived_from< Object >();
@@ -109,16 +109,22 @@ void                    SerializationCore::SerializeObject          ( ISerialize
 
 // ================================ //
 //
-void					SerializationCore::SerializePolymorphic		( ISerializer& ser, const rttr::instance& object, rttr::property prop )
+void                    SerializationCore::SerializePolymorphic     ( ISerializer& ser, rttr::string_view name, const rttr::variant& value )
 {
-    assert( IsPolymorphicType( prop.get_type() ) );
+    assert( IsPolymorphicType( value.get_type() ) );
 
-    auto value = prop.get_value( object );
     auto dynamicType = SerializationCore::GetRealType( value );
 
-	ser.EnterObject( prop.get_name().to_string() );
+    ser.EnterObject( name.to_string() );
     SerializeObject( ser, dynamicType.get_name(), value );
-	ser.Exit();	//	prop.get_name()
+    ser.Exit();	//	prop.get_name()
+}
+
+// ================================ //
+//
+void					SerializationCore::SerializePolymorphic		( ISerializer& ser, const rttr::instance& object, rttr::property prop )
+{
+    SerializePolymorphic( ser, prop.get_name(), prop.get_value( object ) );
 }
 
 // ================================ //
@@ -271,16 +277,12 @@ bool            SerializationCore::SerializeArrayTypes              ( ISerialize
         for( auto& element : arrayView )
         {
             auto value = element.extract_wrapped_value();
-            value.convert( TypeID::get< EngineObject* >() );
-            EngineObject* engineObject = value.get_value< EngineObject* >();
 
             // We serialize "Element" because some serializers like json don't
             // have named elements in arrays and we would lose type information.
             // This is not the case in not polymorphic serialization where type 
             // information from property is enough to deserialize array.
-            ser.EnterObject( "Element" );
-            engineObject->Serialize( ser );
-            ser.Exit();
+            SerializePolymorphic( ser, "Element", value );
         }
     }
     else

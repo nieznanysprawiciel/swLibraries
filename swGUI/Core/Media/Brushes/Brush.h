@@ -6,7 +6,7 @@
 */
 
 
-#include "swSerialization/Serialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 #include "swCommonLib/Common/Buffers/BufferRange.h"
 
 
@@ -25,9 +25,9 @@ namespace gui
 @todo Reimplement class to allow controls to share brushes.
 
 @ingroup Brushes*/
-class Brush : public EngineObject
+class Brush : public Object
 {
-	RTTR_ENABLE( EngineObject );
+	RTTR_ENABLE( Object );
 	RTTR_REGISTRATION_FRIEND;
 
 	friend class Drawing;

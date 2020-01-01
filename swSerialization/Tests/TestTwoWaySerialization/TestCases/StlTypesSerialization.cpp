@@ -17,7 +17,7 @@ using namespace sw;
 
 
 // ================================ //
-// Serializes object derived from EngineObject with strings types.
+// Serializes object derived from Object with strings types.
 TEST_CASE( "GenericObject.Strings", "[Serialization]" )
 {
 	StringContainer* expected = new StringContainer;

@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Serialization\Core\Exceptions\SerializationException.h" />
     <ClInclude Include="..\..\..\Serialization\Core\SerializationCore.h" />
-    <ClInclude Include="..\..\..\Serialization\EngineObject.h" />
     <ClInclude Include="..\..\..\Serialization\EngineSerializationContext.h" />
     <ClInclude Include="..\..\..\Serialization\Serialization.h" />
     <ClInclude Include="..\..\..\Serialization\SerializationContext.h" />
@@ -30,7 +29,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Serialization\Core\Exceptions\SerializationException.cpp" />
     <ClCompile Include="..\..\..\Serialization\Core\SerializationCore.cpp" />
-    <ClCompile Include="..\..\..\Serialization\EngineObject.cpp" />
     <ClCompile Include="..\..\..\Serialization\Serialization.cpp" />
     <ClCompile Include="..\..\..\Serialization\SerializationContext.cpp" />
     <ClCompile Include="..\..\..\Serialization\stdafx.cpp">

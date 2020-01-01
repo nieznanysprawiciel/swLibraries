@@ -6,7 +6,7 @@
 */
 
 
-#include "swSerialization/Serialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructWithSimpleTypes.h"
 
@@ -21,9 +21,9 @@ const int cArraySize = 4;
 
 // ================================ //
 //
-class StaticArrayContainer : public EngineObject
+class StaticArrayContainer : public Object
 {
-	RTTR_ENABLE( EngineObject );
+	RTTR_ENABLE( Object );
 	RTTR_REGISTRATION_FRIEND
 public:
 

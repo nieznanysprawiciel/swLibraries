@@ -35,8 +35,6 @@ This will copy Reflection.dll to your output directory.
 
 /**@brief Base clas for all objects in sleeping wombat libraries.
 
-Serialization functionality was moved to EngineObject class from Serialization library.
-
 @todo Move to sw namespace.
 
 @ingroup Reflection*/

@@ -8,7 +8,7 @@
 
 #include "swCommonLib/Common/RTTR.h"
 
-#include "swSerialization/Serialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 #include "swSerialization/Interfaces/Serializer.h"
 #include "swSerialization/Interfaces/Deserializer.h"
 
@@ -72,7 +72,7 @@ bool success = deserial.Deserialize( "Serialization/GenericObject.xml", object )
 Serialization library is still in development process. There're many things that should be covered in
 future versions:
 
-- Deserialization of polymorphic types not derived from sw::EngineObject.
+- Deserialization of polymorphic types not derived from sw::Object.
 - Arrays habdling:
 	- Serialization/deserialization of arrays nested in arrays (array ranks).
 	- Arrays with basic types (ints, floats, strings and so on).
@@ -112,7 +112,7 @@ public:
 
 
 	/**@brief Serialize to file.*/
-	bool			Serialize			( const filesystem::Path& filePath, const EngineObject* object );
+	bool			Serialize			( const filesystem::Path& filePath, const Object* object );
 
 	/**@brief Serialize object to file.*/
 	template< typename Type >

@@ -6,7 +6,7 @@
 #pragma once
 
 
-#include "swSerialization/Serialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 #include "swCommonLib/Common/RTTR.h"
 #include "swSerialization/Interfaces/Serializer.h"
 #include "swSerialization/Interfaces/Deserializer.h"

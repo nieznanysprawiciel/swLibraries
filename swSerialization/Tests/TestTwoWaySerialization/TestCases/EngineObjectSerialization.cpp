@@ -1,5 +1,5 @@
 /**
-@file EngineObjectSerialziation.cpp
+@file EngineObjectSerialization.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
@@ -34,7 +34,7 @@ TEST_CASE( "GenericObject.StructField.AsPointer", "[Serialization]" )
 }
 
 // ================================ //
-// Serializes object passing reference to it instead of EngineObject*.
+// Serializes object passing reference to it instead of Object*.
 TEST_CASE( "GenericObject.PassRefToObject", "[Serialization]" )
 {
 	BaseObject expected;

@@ -83,7 +83,7 @@ void					UIElement::SetParent	( UIElement* parent )
 const std::string&		UIElement::GetName		() const
 {
 	auto& name = GetHost()->GetControlName( this );
-	return name;		// Note: We can return this->ToString() like in .NET but this would require to have ToString function in EngineObject
+	return name;		// Note: We can return this->ToString() like in .NET but this would require to have ToString function in Object
 }
 
 // ================================ //

@@ -18,9 +18,6 @@
     <ClInclude Include="..\..\..\Serialization\stdafx.h">
       <Filter>PrecompiledHeader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Serialization\EngineObject.h">
-      <Filter>PropertySerialization</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Serialization\EngineSerializationContext.h">
       <Filter>PropertySerialization</Filter>
     </ClInclude>
@@ -40,9 +37,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Serialization\stdafx.cpp">
       <Filter>PrecompiledHeader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Serialization\EngineObject.cpp">
-      <Filter>PropertySerialization</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Serialization\Serialization.cpp">
       <Filter>PropertySerialization</Filter>

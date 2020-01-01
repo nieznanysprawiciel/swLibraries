@@ -1,6 +1,6 @@
 #pragma once
 
-#include "swSerialization/Serialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 
 #include <random>
 #include <vector>
@@ -19,7 +19,7 @@ class Node
 public:
 
 	std::vector< Node >		Children;
-	EngineObject*			Generic;
+    Object*			        Generic;
 
 public:
 
@@ -52,7 +52,7 @@ public:
 //
 inline void			Node::GenerateTree			( uint64 numNodes, uint64 nodesOnLevel, TypeID genericToCreate )
 {
-	Generic = genericToCreate.create().get_value< EngineObject* >();
+	Generic = genericToCreate.create().get_value< Object* >();
 
 	if( numNodes > 0 )
 	{

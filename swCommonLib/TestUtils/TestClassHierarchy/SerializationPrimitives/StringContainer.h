@@ -6,7 +6,7 @@
 */
 
 
-#include "swSerialization/Serialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 
 
 
@@ -16,9 +16,9 @@ namespace sw
 
 // ================================ //
 //
-class StringContainer : public EngineObject
+class StringContainer : public Object
 {
-	RTTR_ENABLE( EngineObject )
+	RTTR_ENABLE( Object )
 	RTTR_REGISTRATION_FRIEND
 public:
 

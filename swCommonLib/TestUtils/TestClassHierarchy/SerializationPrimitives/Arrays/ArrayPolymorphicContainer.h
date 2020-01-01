@@ -2,7 +2,7 @@
 
 
 
-#include "swSerialization/Serialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Polymorphic/BaseObject.h"
 
@@ -16,9 +16,9 @@ namespace sw
 
 // ================================ //
 //
-class ArrayPolymorphicContainer : public EngineObject
+class ArrayPolymorphicContainer : public Object
 {
-	RTTR_ENABLE( EngineObject );
+	RTTR_ENABLE( Object );
 	RTTR_REGISTRATION_FRIEND
 public:
 

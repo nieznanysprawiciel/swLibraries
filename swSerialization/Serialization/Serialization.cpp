@@ -48,7 +48,7 @@ void			Serialization::InitializeContext		( SerializationContext* ctx )
 
 // ================================ //
 //
-bool			Serialization::Serialize				( const filesystem::Path& filePath, const EngineObject* object )
+bool			Serialization::Serialize				( const filesystem::Path& filePath, const Object* object )
 {
 	return false;
 }

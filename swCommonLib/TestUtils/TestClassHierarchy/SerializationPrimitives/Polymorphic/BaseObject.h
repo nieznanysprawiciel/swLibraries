@@ -6,7 +6,7 @@
 */
 
 
-#include "swSerialization/Serialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructWithSimpleTypes.h"
 
@@ -18,9 +18,9 @@ namespace sw
 
 // ================================ //
 //
-class BaseObject : public EngineObject
+class BaseObject : public Object
 {
-	RTTR_ENABLE( EngineObject )
+	RTTR_ENABLE( Object )
 	RTTR_REGISTRATION_FRIEND
 public:
 
@@ -53,9 +53,9 @@ public:
 
 // ================================ //
 //
-class NotRelated : public EngineObject
+class NotRelated : public Object
 {
-	RTTR_ENABLE( EngineObject )
+	RTTR_ENABLE( Object )
 	RTTR_REGISTRATION_FRIEND
 public:
 

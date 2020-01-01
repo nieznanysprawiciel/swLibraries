@@ -35,7 +35,7 @@ template<>	inline double			TypeDefaultValue() { return 0.0; }
 template<>	inline std::wstring		TypeDefaultValue() { return std::wstring( L"" ); }
 template<>	inline std::string		TypeDefaultValue() { return std::string( "" ); }
 
-template<>	inline EngineObject*    TypeDefaultValue() { return nullptr; }
+template<>	inline Object*          TypeDefaultValue() { return nullptr; }
 
 
 //====================================================================================//

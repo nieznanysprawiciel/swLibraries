@@ -123,7 +123,7 @@ rttr::property			Properties::EmptyProperty()
 }
 
 /**@brief Gets real type of object.
-If class inherited EngineObject, we can check it's real type.*/
+If class inherited Object, we can check it's real type.*/
 TypeID					Properties::GetRealType		( const rttr::variant& object )
 {
 	rttr::instance realObject = object;

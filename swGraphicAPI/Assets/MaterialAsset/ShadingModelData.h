@@ -6,7 +6,7 @@
 */
 
 
-#include "swSerialization/Serialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 #include "swCommonLib/Common/TypesDefinitions.h"
 #include "swCommonLib/Common/RTTR.h"
 
@@ -19,9 +19,9 @@ namespace sw
 /**@brief Base class for classes storing shading model parameters.
 
 @ingroup Materials*/
-class ShadingModelBase : public EngineObject
+class ShadingModelBase : public Object
 {
-	RTTR_ENABLE( EngineObject )
+	RTTR_ENABLE( Object )
 private:
 public:
 	ShadingModelBase();

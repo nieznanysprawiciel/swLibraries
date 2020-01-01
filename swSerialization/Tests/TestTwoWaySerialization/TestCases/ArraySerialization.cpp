@@ -21,7 +21,7 @@
 using namespace sw;
 
 // ================================ //
-// Serializes object derived from EngineObject with array types.
+// Serializes object derived from Object with array types.
 TEST_CASE( "Arrays.Vector.PlainStructs", "[Serialization]" )
 {
 	ArrayContainer* expected = new ArrayContainer;
@@ -39,7 +39,7 @@ TEST_CASE( "Arrays.Vector.PlainStructs", "[Serialization]" )
 
 
 // ================================ //
-// Serializes object derived from EngineObject with static array type.
+// Serializes object derived from Object with static array type.
 // Note that if we declare static array not as reference, it will be copied to variant.
 // 
 TEST_CASE( "Arrays.Static.PlainStructs.VariantArrayCopy", "[Serialization]" )
@@ -58,7 +58,7 @@ TEST_CASE( "Arrays.Static.PlainStructs.VariantArrayCopy", "[Serialization]" )
 }
 
 // ================================ //
-// Serializes object derived from EngineObject with static array type.
+// Serializes object derived from Object with static array type.
 // Only readonly static array can be bound by reference.
 TEST_CASE( "Arrays.Static.PlainStructs", "[Serialization]" )
 {

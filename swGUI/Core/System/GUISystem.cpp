@@ -438,7 +438,7 @@ void                        GUISystem::RemoveWindow             ( HostWindow* ho
 //				Other functions
 //====================================================================================//
 
-/**@copydoc EngineObject::MemorySize*/
+/**@copydoc Object::MemorySize*/
 Size                GUISystem::GetMemorySize()
 {
 	Size size = sizeof( HostWindow );
