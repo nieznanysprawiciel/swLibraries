@@ -164,9 +164,6 @@
     <ProjectReference Include="..\..\..\..\..\swGraphicAPI\ProjectsDir\Visual2015\DX11API\DX11API.vcxproj">
       <Project>{44643d7f-1c71-41c1-b452-b2dc5e088a58}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\swSerialization\Projects\Visual2015\SerializerXML\SerializerXML.vcxproj">
-      <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\CoreGUI\CoreGUI.vcxproj">
       <Project>{c6dab3ee-e9a7-47fc-9b33-a8f4250c219b}</Project>
     </ProjectReference>
