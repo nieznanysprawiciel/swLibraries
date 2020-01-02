@@ -196,12 +196,6 @@
     <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
       <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\swSerialization\Projects\Visual2015\Serialization\Serialization.vcxproj">
-      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\swSerialization\Projects\Visual2015\SerializerXML\SerializerXML.vcxproj">
-      <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\MockAPI\MockAPI.vcxproj">
       <Project>{eeefab61-f404-4957-ac24-a3bf81c5e4ed}</Project>
     </ProjectReference>

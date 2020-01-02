@@ -41,6 +41,9 @@
     <ClInclude Include="..\..\..\Loaders\swMaterialLoader\swMaterialLoader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\swSerialization\Projects\Visual2015\Serialization\Serialization.vcxproj">
+      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\MaterialAsset\MaterialAsset.vcxproj">
       <Project>{85ba6bd1-9cdc-451f-adf8-a8cde6443eaf}</Project>
     </ProjectReference>
