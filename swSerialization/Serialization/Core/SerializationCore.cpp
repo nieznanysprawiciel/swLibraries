@@ -74,13 +74,13 @@ bool					SerializationCore::IsPolymorphicType		( TypeID type )
 //
 void					SerializationCore::DefaultSerialize			( ISerializer& ser, const Object* object )
 {
-	DefaultSerializeImpl( ser, object, object->GetType() );
+	DefaultSerializeImpl( ser, object );
 }
 
 
 // ================================ //
 //
-void					SerializationCore::DefaultSerializeImpl		( ISerializer& deser, const rttr::instance& object, rttr::type dynamicType )
+void					SerializationCore::DefaultSerializeImpl		( ISerializer& deser, const rttr::instance& object )
 {
 	auto wrappedType = SerializationCore::GetRealType( object );
 
@@ -99,9 +99,9 @@ void                    SerializationCore::SerializeObject          ( ISerialize
 {
     ser.EnterObject( name.to_string() );
 
-    TypeID realType = GetRawWrappedType( value.get_type() );
+    auto dynamicType = SerializationCore::GetRealType( value );
 
-    auto& properties = GetTypeFilteredProperties( realType, ser.GetContext< SerializationContext >() );
+    auto& properties = GetTypeFilteredProperties( dynamicType, ser.GetContext< SerializationContext >() );
     SerializePropertiesVec( ser, value, properties );
 
     ser.Exit();	//	prop.get_name()
@@ -290,7 +290,7 @@ bool            SerializationCore::SerializeArrayTypes              ( ISerialize
         for( auto& element : arrayView )
         {
             // Non generic objects use default serialization.
-            DefaultSerializeImpl( ser, element, arrayElementType );
+            DefaultSerializeImpl( ser, element );
         }
     }
 

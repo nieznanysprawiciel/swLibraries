@@ -28,7 +28,7 @@ inline bool			Serialization::Serialize		( const filesystem::Path& filePath, cons
 template< typename Type >
 inline bool			Serialization::Serialize		( ISerializer& ser, const Type& object )
 {
-	SerializationCore::DefaultSerializeImpl( ser, object, TypeID::get( object ) );
+	SerializationCore::DefaultSerializeImpl( ser, object );
 	return true;
 }
 
