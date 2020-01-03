@@ -80,22 +80,15 @@ void					SerializationCore::DefaultSerialize			( ISerializer& ser, const Object*
 
 // ================================ //
 //
-void					SerializationCore::DefaultSerializeImpl		( ISerializer& deser, const rttr::instance& object )
+void					SerializationCore::DefaultSerializeImpl		( ISerializer& ser, const rttr::instance& object )
 {
-	auto wrappedType = SerializationCore::GetRealType( object );
-
-	auto& properties = GetTypeFilteredProperties( wrappedType, deser.GetContext< SerializationContext >() );
-
-	deser.EnterObject( wrappedType.get_raw_type().get_name().to_string() );
-
-	SerializePropertiesVec( deser, object, properties );
-
-	deser.Exit();	// objectType.get_name()
+	auto dynamicType = SerializationCore::GetRealType( object );
+    SerializeObject( ser, dynamicType.get_name(), object );
 }
 
 // ================================ //
 //
-void                    SerializationCore::SerializeObject          ( ISerializer& ser, rttr::string_view name, const rttr::variant& value )
+void                    SerializationCore::SerializeObject          ( ISerializer& ser, rttr::string_view name, const rttr::instance& value )
 {
     ser.EnterObject( name.to_string() );
 
@@ -109,11 +102,10 @@ void                    SerializationCore::SerializeObject          ( ISerialize
 
 // ================================ //
 //
-void                    SerializationCore::SerializePolymorphic     ( ISerializer& ser, rttr::string_view name, const rttr::variant& value )
+void                    SerializationCore::SerializePolymorphic     ( ISerializer& ser, rttr::string_view name, const rttr::instance& value )
 {
-    assert( IsPolymorphicType( value.get_type() ) );
-
     auto dynamicType = SerializationCore::GetRealType( value );
+    assert( IsPolymorphicType( dynamicType ) );
 
     ser.EnterObject( name.to_string() );
     SerializeObject( ser, dynamicType.get_name(), value );
