@@ -70,6 +70,11 @@ bool					SerializationCore::IsPolymorphicType		( TypeID type )
 	return GetRawWrappedType( type ).is_derived_from< Object >();
 }
 
+//====================================================================================//
+//			Serialization	
+//====================================================================================//
+
+
 // ================================ //
 //
 void					SerializationCore::DefaultSerialize			( ISerializer& ser, const Object* object )
@@ -260,6 +265,7 @@ bool            SerializationCore::SerializeArrayTypes              ( ISerialize
 
     ser.EnterArray( name.to_string() );
 
+    /// @todo No all serializers support array attributes (for example json doesn't).
     if( arrayView.is_dynamic() )
         ser.SetAttribute( "ArraySize", arrayView.get_size() );
 
@@ -318,6 +324,10 @@ bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr
 
 	return serialized;
 }
+
+//====================================================================================//
+//			Deserialization	
+//====================================================================================//
 
 // ================================ //
 //
