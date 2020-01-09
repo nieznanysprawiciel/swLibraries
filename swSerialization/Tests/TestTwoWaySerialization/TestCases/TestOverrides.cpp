@@ -60,7 +60,7 @@ TEST_CASE( "Serialization.Overrides.Serial.SingleTypeOverride", "[Serialization]
 
 // ================================ //
 // Check if we can add serialization override function for type and it's all derived types.
-TEST_CASE( "Serialization.Overrides.Serial.AllDerivedTypes", "[Serialization]" )
+TEST_CASE( "Serialization.Overrides.Serial.DerivedTypes", "[Serialization]" )
 {
     Overrides< SerialTypeDesc > overrides;
 
@@ -98,6 +98,46 @@ TEST_CASE( "Serialization.Overrides.Serial.AllDerivedTypes", "[Serialization]" )
     {
         auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< NotRelated >() );
         CHECK( typeDesc.SerializeFun == nullptr);
+    }
+}
+
+// ================================ //
+// First - override serialization for all derived types from BaseObject.
+// Second - override serialization for most derived type DerivedFromSharedObject.
+// We expect that all classes derived from BaseObject (including BaseObject) will have first override
+// function except DerivedFromSharedObject, which should have second override funcion.
+TEST_CASE( "Serialization.Overrides.Serial.DerivedTypes.OverwriteFunction", "[Serialization]" )
+{
+    Overrides< SerialTypeDesc > overrides;
+
+    overrides.OverrideDerived( TypeID::get< BaseObject >(), &OverrideImpl );
+    overrides.OverrideType( TypeID::get< DerivedFromSharedObject >(), &OverrideImpl2 );
+
+    {
+        auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< BaseObject >() );
+
+        CHECK( *typeDesc.SerializeFun.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
+        CHECK( typeDesc.Properties.size() == 1 );
+    }
+
+    {
+        auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< SharedObject >() );
+
+        CHECK( *typeDesc.SerializeFun.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
+        CHECK( typeDesc.Properties.size() == 2 );
+    }
+
+    {
+        auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< DerivedFromSharedObject >() );
+
+        CHECK( *typeDesc.SerializeFun.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl2 );
+        CHECK( typeDesc.Properties.size() == 2 );
+    }
+
+    // Check if NotRelated object was not affected.
+    {
+        auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< NotRelated >() );
+        CHECK( typeDesc.SerializeFun == nullptr );
     }
 }
 

@@ -17,6 +17,10 @@ namespace sw
 If you don't override serialization for some type, default function will be used.
 It is recomended to override types only if necessary. You avoid the need to test your code.
 
+Remember that order of calls to Override* functions matters. Second call will overwrite previously
+set function. It's useful in large hierarchies. You can first override function for some base class
+and than set more specific function for derived classes.
+
 @ingroup Serialization*/
 template< typename DescriptorType >
 class Overrides
