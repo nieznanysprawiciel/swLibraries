@@ -22,6 +22,7 @@
 
 #include "SerializationContext.h"
 #include "Core/SerializationCore.h"
+#include "SerializationTypes.h"
 
 
 namespace sw

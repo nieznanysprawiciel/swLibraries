@@ -20,10 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Serialization\Core\Exceptions\SerializationException.h" />
+    <ClInclude Include="..\..\..\Serialization\Core\Overrides.h" />
     <ClInclude Include="..\..\..\Serialization\Core\SerializationCore.h" />
+    <ClInclude Include="..\..\..\Serialization\Core\TypeDescriptor.h" />
     <ClInclude Include="..\..\..\Serialization\EngineSerializationContext.h" />
     <ClInclude Include="..\..\..\Serialization\Serialization.h" />
     <ClInclude Include="..\..\..\Serialization\SerializationContext.h" />
+    <ClInclude Include="..\..\..\Serialization\SerializationTypes.h" />
     <ClInclude Include="..\..\..\Serialization\stdafx.h" />
   </ItemGroup>
   <ItemGroup>

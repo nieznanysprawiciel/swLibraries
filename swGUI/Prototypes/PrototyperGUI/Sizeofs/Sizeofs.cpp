@@ -143,6 +143,7 @@ void			PrintStdSizeofs			    ()
     PrintSizeofType< std::string_view >( std::cout, "std::string_view" );
     PrintSizeofType< std::optional< int > >( std::cout );
     PrintSizeofType< std::optional< sw::gui::Brush* > >( std::cout );
+    PrintSizeofType< std::function< void(int) > >( std::cout );
 
     std::cout << std::setw( NameSize ) << "std::enable_shared_from_this additional size" << ( sizeof( VirtualEmptyClass ) - sizeof( VirtualEmptyClass* ) ) << std::endl;
 
@@ -162,6 +163,7 @@ void			PrintOtherSizeofs			()
 	PrintSizeofType< sw::input::ButtonEvent >( std::cout );
 	PrintSizeofType< sw::input::CursorEvent >( std::cout );
 	PrintSizeofType< sw::input::KeyEvent >( std::cout );
+    PrintSizeofType< fastdelegate::FastDelegate1< int > >( std::cout );
 
 	std::cout << std::endl;
 }

@@ -33,6 +33,15 @@
     <ClInclude Include="..\..\..\Serialization\Core\Exceptions\SerializationException.h">
       <Filter>PropertySerialization\Core\Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\Core\TypeDescriptor.h">
+      <Filter>PropertySerialization\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\Core\Overrides.h">
+      <Filter>PropertySerialization\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\SerializationTypes.h">
+      <Filter>PropertySerialization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Serialization\stdafx.cpp">
