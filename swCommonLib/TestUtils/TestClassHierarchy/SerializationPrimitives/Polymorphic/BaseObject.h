@@ -29,7 +29,7 @@ public:
 protected:
 public:
 	explicit		BaseObject		() = default;
-	~BaseObject	() = default;
+	                ~BaseObject	    () = default;
 
 };
 
@@ -47,9 +47,10 @@ public:
 protected:
 public:
 	explicit		DerivedObject		() = default;
-	~DerivedObject	() = default;
+	                ~DerivedObject	    () = default;
 
 };
+
 
 // ================================ //
 //
@@ -64,7 +65,7 @@ public:
 protected:
 public:
 	explicit		NotRelated		() = default;
-	~NotRelated	() = default;
+	                ~NotRelated	    () = default;
 
 };
 

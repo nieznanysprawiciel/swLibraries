@@ -102,7 +102,7 @@ inline void                                     Overrides< DescriptorType >::Ove
     auto derivedVec = objType.get_derived_classes();
     for( auto derivedType : derivedVec )
     {
-        OverrideDerived( objType, function );
+        OverrideDerived( derivedType, function );
     }
 }
 

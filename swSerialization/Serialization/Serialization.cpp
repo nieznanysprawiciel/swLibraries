@@ -12,6 +12,17 @@
 
 
 
+RTTR_REGISTRATION
+{
+
+    rttr::registration::enumeration< sw::SerializationMeta >( "sw::SerializationMeta" )
+        (
+            rttr::value( "Serialize", sw::SerializationMeta::Serialize )
+        );
+
+}
+
+
 namespace sw
 {
 
