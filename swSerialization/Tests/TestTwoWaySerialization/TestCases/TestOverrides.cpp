@@ -113,32 +113,19 @@ TEST_CASE( "Serialization.Overrides.Serial.DerivedTypes.OverwriteFunction", "[Se
     overrides.OverrideDerived( TypeID::get< BaseObject >(), &OverrideImpl );
     overrides.OverrideType( TypeID::get< DerivedFromSharedObject >(), &OverrideImpl2 );
 
-    {
-        auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< BaseObject >() );
+    auto& typeDesc1 = overrides.GetTypeDescriptor( TypeID::get< BaseObject >() );
+    CHECK( *typeDesc1.SerializeFun.target< void(*)( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
 
-        CHECK( *typeDesc.SerializeFun.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
-        CHECK( typeDesc.Properties.size() == 1 );
-    }
+    auto& typeDesc2 = overrides.GetTypeDescriptor( TypeID::get< SharedObject >() );
+    CHECK( *typeDesc2.SerializeFun.target< void(*)( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
 
-    {
-        auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< SharedObject >() );
+    auto& typeDesc3 = overrides.GetTypeDescriptor( TypeID::get< DerivedFromSharedObject >() );
+    CHECK( *typeDesc3.SerializeFun.target< void(*)( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl2 );
 
-        CHECK( *typeDesc.SerializeFun.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
-        CHECK( typeDesc.Properties.size() == 2 );
-    }
-
-    {
-        auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< DerivedFromSharedObject >() );
-
-        CHECK( *typeDesc.SerializeFun.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl2 );
-        CHECK( typeDesc.Properties.size() == 2 );
-    }
 
     // Check if NotRelated object was not affected.
-    {
-        auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< NotRelated >() );
-        CHECK( typeDesc.SerializeFun == nullptr );
-    }
+    auto& typeDesc4 = overrides.GetTypeDescriptor( TypeID::get< NotRelated >() );
+    CHECK( typeDesc4.SerializeFun == nullptr );
 }
 
 
