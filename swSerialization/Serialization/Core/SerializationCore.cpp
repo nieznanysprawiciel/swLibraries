@@ -488,8 +488,8 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 						arrayView.set_size( idx + 1 );	// Performance penalty. Resizing vector each time by one element.
 					else
 					{
-						Warn< SerializationException >( deser, "Trying to insert to readonly array of type: [" + propertyType.get_name().to_string()
-														+ "] more elements then array's capacity. Rest of elements will be ignored." );
+						Warn< SerializationException >( deser, fmt::format( "Trying to insert into readonly array of type: [{}]"
+														                    " more elements then array's capacity. Rest of elements will be ignored.", propertyType ) );
 
 						break;
 					}
@@ -516,9 +516,10 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 						}
 						else
 						{
-							Warn< SerializationException >( deser, "Type [" + newClass.get_type().get_name().to_string()
-															+ "] can't be converted to array element type ["
-															+ arrayElementType.get_name().to_string() + "]." );
+							Warn< SerializationException >( deser, fmt::format( "Type [{}] can't be converted to array element type [{}]"
+															                    " can't be converted to array element type [{}]",
+                                                                                newClass.get_type(),
+															                    arrayElementType.get_name().to_string() ) );
 						}
 
 						deser.Exit();
