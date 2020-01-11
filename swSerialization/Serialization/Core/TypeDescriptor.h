@@ -7,6 +7,7 @@
 
 
 #include "swCommonLib/Common/RTTR.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
 
 #include "swSerialization/Interfaces/Serializer.h"
 #include "swSerialization/Interfaces/Deserializer.h"
@@ -24,7 +25,7 @@ struct DeserialTypeDesc;
 
 
 typedef std::function< void( ISerializer&, const rttr::instance&, SerialTypeDesc& ) > SerialOverrideFun;
-typedef std::function< void( IDeserializer& ) > DeserialOverrideFun;
+typedef std::function< Nullable< rttr::variant >( IDeserializer&, DeserialTypeDesc& ) > DeserialOverrideFun;
 
 
 

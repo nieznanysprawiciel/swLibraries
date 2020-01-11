@@ -9,6 +9,7 @@
 
 
 #include "swCommonLib/Common/Converters/Convert.h"
+#include "swCommonLib/Common/fmt.h"
 
 
 
@@ -556,7 +557,7 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 	else
 	{
 		///@todo This warning should be conditional depending on flag in SerializationContext.
-		Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] not found in file. Value remained unchanged." );
+		Warn< SerializationException >( deser, fmt::format( "Property [{}] not found in file. Value remained unchanged.", prop.get_name().to_string() ) );
 	}
 
 	return false;
@@ -573,104 +574,100 @@ bool	SerializationCore::DeserializeObjectTypes				( const IDeserializer& deser, 
 	if( !rawType.is_class() )
 		return false;
 
-	if( IsPolymorphicType( propertyType ) )
-	{
-		// Retrieve dynamic type of object from deserializer and create new object.
-		DeserializePolymorphic( deser, object, prop );
-		return true;
-	}
-	else
-	{
-		// We must handle cases, when structure is nullptr. First we must create new object and then deserialize it.
-		auto structVal = prop.get_value( object );
-		if( structVal == nullptr )
-		{
-			rttr::variant newStruct = CreateAndSetObjectProperty( deser, object, prop, propertyType );
+    if( deser.EnterObject( prop.get_name().to_string() ) )
+    {
+        if( IsPolymorphicType( propertyType ) )
+        {
+            // Retrieve dynamic type of object from deserializer and create new object.
+            DeserializePolymorphic( deser, object, prop );
+        }
+        else
+        {
+            // We must handle cases, when structure is nullptr. First we must create new object and then deserialize it.
+            auto structVal = prop.get_value( object );
+            if( structVal == nullptr )
+            {
+                rttr::variant newStruct = CreateAndSetObjectProperty( deser, object, prop, propertyType );
 
-			if( newStruct.is_valid() )
-			{
-				DeserializeNotPolymorphic( deser, object, prop );
-				return true;
-			}
+                if( newStruct.is_valid() )
+                {
+                    DeserializeNotPolymorphic( deser, object, prop );
+                }
+            }
+            else
+            {
+                DeserializeNotPolymorphic( deser, object, prop );
+            }
+        }
 
-			return true;	// Tell outside world, that it doesn't need to look for other function to deal with this property.
-		}
-		else
-		{
-			DeserializeNotPolymorphic( deser, object, prop );
-		}
-	}
+        deser.Exit();	// prop.get_name
+    }
+    else
+    {
+        ///@todo This warning should be conditional depending on flag in SerializationContext.
+        Warn< SerializationException >( deser, fmt::format( "Property [{}] not found in file. Value remained unchanged.", prop.get_name().to_string() ) );
+    }
 
-	return true;
+	return true;        // Tell outside world, that it doesn't need to look for other function to deal with this property.
 }
 
 // ================================ //
 //
 void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
-	if( deser.EnterObject( prop.get_name().to_string() ) )
+	// Create new object only if property is set to nullptr.
+	auto prevClassVal = prop.get_value( object );
+	TypeID prevClassType = GetRawWrappedType( rttr::instance( prevClassVal ).get_derived_type() );
+
+	if( deser.FirstElement() )
 	{
-		// Create new object only if property is set to nullptr.
-		auto prevClassVal = prop.get_value( object );
-		TypeID prevClassType = GetRawWrappedType( rttr::instance( prevClassVal ).get_derived_type() );
+		// Check what type of object we should create.
+		auto className = deser.GetName();
+		TypeID classDynamicType = TypeID::get_by_name( className );
 
-		if( deser.FirstElement() )
+		if( prevClassVal != nullptr
+			&& prevClassType == classDynamicType )
 		{
-			// Check what type of object we should create.
-			auto className = deser.GetName();
-			TypeID classDynamicType = TypeID::get_by_name( className );
-
-			if( prevClassVal != nullptr
-				&& prevClassType == classDynamicType )
-			{
-				// Object with the same type already exists under this property. We need only to deserialize it.
-				DefaultDeserializeImpl( deser, prevClassVal, prevClassType );
-			}
-			else
-			{
-				if( prevClassVal != nullptr
-					&& prevClassType != classDynamicType )
-				{
-					// Destroy object and set nullptr.
-					DestroyObject( prevClassVal );
-					prop.set_value( object, nullptr );
-
-					Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string()
-													+ "], value of type [" + prevClassType.get_name().to_string()
-													+ "] already existed but was destroyed. Object of type ["
-													+ classDynamicType.get_name().to_string() + "] needed." );
-				}
-
-				// Property has nullptr value. Create new object and deserialize it's content.
-				rttr::variant newClass = CreateAndSetObjectProperty( deser, object, prop, classDynamicType );
-
-				if( newClass.is_valid() )
-				{
-					DefaultDeserializeImpl( deser, newClass, GetRawWrappedType( classDynamicType ) );
-				}
-			}
-
-			if( deser.NextElement() )
-			{
-				// Warning: Property shouldn't have multiple objects.
-				Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] has multiple polymorphic objects defined. Deserializing only first." );
-			}
-
-			deser.Exit();	// FirstElement
+			// Object with the same type already exists under this property. We need only to deserialize it.
+			DefaultDeserializeImpl( deser, prevClassVal, prevClassType );
 		}
 		else
 		{
-			// Destroy object and set nullptr.
-			DestroyObject( prevClassVal );
-			prop.set_value( object, nullptr );
+			if( prevClassVal != nullptr
+				&& prevClassType != classDynamicType )
+			{
+				// Destroy object and set nullptr.
+				DestroyObject( prevClassVal );
+				prop.set_value( object, nullptr );
+
+				Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string()
+												+ "], value of type [" + prevClassType.get_name().to_string()
+												+ "] already existed but was destroyed. Object of type ["
+												+ classDynamicType.get_name().to_string() + "] needed." );
+			}
+
+			// Property has nullptr value. Create new object and deserialize it's content.
+			rttr::variant newClass = CreateAndSetObjectProperty( deser, object, prop, classDynamicType );
+
+			if( newClass.is_valid() )
+			{
+				DefaultDeserializeImpl( deser, newClass, GetRawWrappedType( classDynamicType ) );
+			}
 		}
 
-		deser.Exit();	// prop.get_name
+		if( deser.NextElement() )
+		{
+			// Warning: Property shouldn't have multiple objects.
+			Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] has multiple polymorphic objects defined. Deserializing only first." );
+		}
+
+		deser.Exit();	// FirstElement
 	}
 	else
 	{
-		///@todo This warning should be conditional depending on flag in SerializationContext.
-		Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] not found in file. Value remained unchanged." );
+		// Destroy object and set nullptr.
+		DestroyObject( prevClassVal );
+		prop.set_value( object, nullptr );
 	}
 }
 
@@ -678,30 +675,20 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 //
 void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
-	if( deser.EnterObject( prop.get_name().to_string() ) )
+	TypeID propertyType = prop.get_type();
+	TypeID wrappedType = GetWrappedType( propertyType );
+	auto deserObject = prop.get_value( object );
+
+	DefaultDeserializeImpl( deser, deserObject, wrappedType );
+
+	if( !propertyType.is_wrapper() && !propertyType.is_pointer() )
 	{
-		TypeID propertyType = prop.get_type();
-		TypeID wrappedType = GetWrappedType( propertyType );
-		auto deserObject = prop.get_value( object );
+		// This means that structure was copied. We must set property value to this copy.
+		prop.set_value( object, deserObject );
 
-		DefaultDeserializeImpl( deser, deserObject, wrappedType );
-
-		if( !propertyType.is_wrapper() && !propertyType.is_pointer() )
-		{
-			// This means that structure was copied. We must set property value to this copy.
-			prop.set_value( object, deserObject );
-
-			///@todo This warning should be conditional depending on flag in SerializationContext.
-			Warn< SerializationException >( deser, "Performance Warning. Property [" + prop.get_name().to_string()
-											+ "] value have been copied, while deserializing. Bind property as pointer or as reference to avoid copying." );
-		}
-
-		deser.Exit();	//	prop.get_name()
-	}
-	else
-	{
 		///@todo This warning should be conditional depending on flag in SerializationContext.
-		Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] not found in file. Value remained unchanged." );
+		Warn< SerializationException >( deser, "Performance Warning. Property [" + prop.get_name().to_string()
+										+ "] value have been copied, while deserializing. Bind property as pointer or as reference to avoid copying." );
 	}
 }
 
