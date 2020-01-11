@@ -583,21 +583,7 @@ bool	SerializationCore::DeserializeObjectTypes				( const IDeserializer& deser, 
         }
         else
         {
-            // We must handle cases, when structure is nullptr. First we must create new object and then deserialize it.
-            auto structVal = prop.get_value( object );
-            if( structVal == nullptr )
-            {
-                rttr::variant newStruct = CreateAndSetObjectProperty( deser, object, prop, propertyType );
-
-                if( newStruct.is_valid() )
-                {
-                    DeserializeNotPolymorphic( deser, object, prop );
-                }
-            }
-            else
-            {
-                DeserializeNotPolymorphic( deser, object, prop );
-            }
+            DeserializeNotPolymorphic( deser, object, prop );
         }
 
         deser.Exit();	// prop.get_name
@@ -675,16 +661,26 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 //
 void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
-	TypeID propertyType = prop.get_type();
-	TypeID wrappedType = GetWrappedType( propertyType );
-	auto deserObject = prop.get_value( object );
+    TypeID propertyType = prop.get_type();
+    TypeID wrappedType = GetWrappedType( propertyType );
+ 
+    // We must handle cases, when structure is nullptr. First we must create new object and then deserialize it.
+    auto structVal = prop.get_value( object );
+    if( structVal == nullptr )
+    {
+        structVal = CreateAndSetObjectProperty( deser, object, prop, propertyType );
 
-	DefaultDeserializeImpl( deser, deserObject, wrappedType );
+        if( !structVal.is_valid() )
+            // Warning will be added in CreateAndSetObjectProperty function.
+            return;
+    }
+
+	DefaultDeserializeImpl( deser, structVal, wrappedType );
 
 	if( !propertyType.is_wrapper() && !propertyType.is_pointer() )
 	{
 		// This means that structure was copied. We must set property value to this copy.
-		prop.set_value( object, deserObject );
+		prop.set_value( object, structVal );
 
 		///@todo This warning should be conditional depending on flag in SerializationContext.
 		Warn< SerializationException >( deser, "Performance Warning. Property [" + prop.get_name().to_string()
