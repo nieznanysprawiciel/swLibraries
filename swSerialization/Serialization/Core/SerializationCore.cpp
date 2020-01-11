@@ -547,8 +547,9 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 			prop.set_value( object, arrayVariant );
 
 			///@todo This warning should be conditional depending on flag in SerializationContext.
-			Warn< SerializationException >( deser, "Performance Warning. Property [" + prop.get_name().to_string()
-											+ "] value have been copied, while deserializing. Bind property as pointer or as reference to avoid copying." );
+			Warn< SerializationException >( deser, fmt::format( "Performance Warning. Property [{}] value have been copied, while deserializing."
+											                    " Bind property as pointer or as reference to avoid copying.",
+                                                                prop.get_name().to_string() ) );
 		}
 
 		deser.Exit();
@@ -684,8 +685,9 @@ void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& dese
 		prop.set_value( object, structVal );
 
 		///@todo This warning should be conditional depending on flag in SerializationContext.
-		Warn< SerializationException >( deser, "Performance Warning. Property [" + prop.get_name().to_string()
-										+ "] value have been copied, while deserializing. Bind property as pointer or as reference to avoid copying." );
+		Warn< SerializationException >( deser, fmt::format( "Performance Warning. Property [{}] value have been copied, while deserializing."
+										                    " Bind property as pointer or as reference to avoid copying.",
+                                                            prop.get_name().to_string() ) );
 	}
 }
 
