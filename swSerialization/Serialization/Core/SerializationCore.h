@@ -11,6 +11,7 @@
 #include "swCommonLib/Common/Object.h"
 #include "swSerialization/Interfaces/Serializer.h"
 #include "swSerialization/Interfaces/Deserializer.h"
+#include "swSerialization/Serialization/Core/TypeDescriptor.h"
 
 #include "swSerialization/Serialization/SerializationContext.h"
 #include <DirectXMath.h>
@@ -81,22 +82,26 @@ public:
 
 	static void				DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 	static void				DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+
+    static Nullable< rttr::variant >        DefaultDeserializePolymorphicImpl       ( const IDeserializer& deser, rttr::property prop, DeserialTypeDesc& desc );
+    static Nullable< rttr::variant >        DefaultDeserializeNotPolymorphicImpl	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 	
-	static rttr::variant	CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop, TypeID dynamicType );
-	static rttr::variant	CreateInstance				( TypeID type );
+	static rttr::variant	                CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop, TypeID dynamicType );
+	static Nullable< rttr::variant >        CreateInstance				( TypeID type );
+    static Nullable< rttr::variant >        CreateInstance				( rttr::string_view typeName );
 
 
-	static std::string		WstringToUTF		( const std::wstring& str );
-	static std::wstring		UTFToWstring		( const std::string& str );
-
-	template< typename PropertyType >
-	static PropertyType		GetPropertyValue	( rttr::property prop, const rttr::instance& object );
+	static std::string		                WstringToUTF		( const std::wstring& str );
+	static std::wstring		                UTFToWstring		( const std::string& str );
 
 	template< typename PropertyType >
-	static void				SerializeProperty	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+	static PropertyType		                GetPropertyValue	( rttr::property prop, const rttr::instance& object );
 
 	template< typename PropertyType >
-	static void				SerializeProperty	( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue );
+	static void				                SerializeProperty	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+
+	template< typename PropertyType >
+	static void				                SerializeProperty	( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue );
 
 
 	template<>	static void				SerializeProperty< std::wstring >			( ISerializer& ser, rttr::property prop, const rttr::instance& object );

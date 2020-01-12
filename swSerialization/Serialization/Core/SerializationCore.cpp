@@ -467,7 +467,7 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 	{
 		if( arrayView.is_dynamic() )
 		{
-			// Array size is should be only hint for deserialization.
+			// Array size should be only hint for deserialization.
 			auto arraySize = deser.GetAttribute( "ArraySize", 0 );
 			if( arraySize != 0 && !prop.is_readonly() )
 				arrayView.set_size( arraySize );
@@ -489,8 +489,8 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 					else
 					{
 						Warn< SerializationException >( deser, fmt::format( "Trying to insert into readonly array of type: [{}]"
-														                    " more elements then array's capacity. Rest of elements will be ignored.", propertyType ) );
-
+														                    " more elements then array's capacity. Rest of elements will be ignored.",
+                                                                            propertyType ) );
 						break;
 					}
 				}
@@ -502,10 +502,8 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 					if( deser.FirstElement() )
 					{
 						// Check what type of object we should create.
-						auto className = deser.GetName();
-						TypeID classDynamicType = TypeID::get_by_name( className );
-
-						rttr::variant newClass = CreateInstance( classDynamicType );
+						auto newClassResult = CreateInstance( deser.GetName() );
+                        rttr::variant newClass = newClassResult.IsValid() ? std::move( newClassResult ).Get() : rttr::variant();
 
 						if( newClass.convert( TypeID( arrayElementType ) ) )
 						{
@@ -516,8 +514,7 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 						}
 						else
 						{
-							Warn< SerializationException >( deser, fmt::format( "Type [{}] can't be converted to array element type [{}]"
-															                    " can't be converted to array element type [{}]",
+							Warn< SerializationException >( deser, fmt::format( "Type [{}] can't be converted to array element type [{}].",
                                                                                 newClass.get_type(),
 															                    arrayElementType.get_name().to_string() ) );
 						}
@@ -627,11 +624,11 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 				// Destroy object and set nullptr.
 				DestroyObject( prevClassVal );
 				prop.set_value( object, nullptr );
-
-				Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string()
-												+ "], value of type [" + prevClassType.get_name().to_string()
-												+ "] already existed but was destroyed. Object of type ["
-												+ classDynamicType.get_name().to_string() + "] needed." );
+                
+                Warn< SerializationException >( deser, fmt::format( "Property [{}], value of type [{}] already existed but was destroyed. Object of type [{}] needed.",
+                                                                    prop.get_name().to_string(),
+                                                                    prevClassType,
+                                                                    classDynamicType ) );
 			}
 
 			// Property has nullptr value. Create new object and deserialize it's content.
@@ -646,7 +643,7 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 		if( deser.NextElement() )
 		{
 			// Warning: Property shouldn't have multiple objects.
-			Warn< SerializationException >( deser, "Property [" + prop.get_name().to_string() + "] has multiple polymorphic objects defined. Deserializing only first." );
+			Warn< SerializationException >( deser, fmt::format( "Property [{}] has multiple polymorphic objects defined. Deserializing only first.", prop.get_name().to_string() ) );
 		}
 
 		deser.Exit();	// FirstElement
@@ -693,9 +690,47 @@ void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& dese
 
 // ================================ //
 //
+Nullable< rttr::variant >           SerializationCore::DefaultDeserializePolymorphicImpl        ( const IDeserializer& deser, rttr::property prop, DeserialTypeDesc& desc )
+{
+    if( deser.FirstElement() )
+    {
+        // Check what type of object we should create.
+        auto newClassResult = CreateInstance( deser.GetName() );
+
+        if( !newClassResult.IsValid() )
+        {
+            deser.Exit();	// FirstElement
+            return SerializationException::Create( deser, fmt::format( "Failed to create object for property [{}]. {}",
+                                                                       prop.get_name().to_string(),
+                                                                       newClassResult.GetErrorReason() ) );
+        }
+
+        rttr::variant newClass = newClassResult.Get();
+
+        DefaultDeserializeImpl( deser, newClass, GetRawWrappedType( newClass.get_type() ) );
+
+        if( deser.NextElement() )
+        {
+            // Warning: Property shouldn't have multiple objects.
+            Warn< SerializationException >( deser, fmt::format( "Property [{}] has multiple polymorphic objects defined. Deserializing only first.", prop.get_name().to_string() ) );
+        }
+
+        deser.Exit();	// FirstElement
+        return newClass;
+    }
+    else
+    {
+        return SerializationException::Create( deser, fmt::format( "Type of polymorphic object not specified for property [{}].", prop.get_name().to_string() ) );
+    }
+}
+
+// ================================ //
+//
 rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop, TypeID dynamicType )
 {
-	rttr::variant newClass = CreateInstance( dynamicType );
+    /// @todo Proper error handling. This function probably will be splitted in future.
+    auto newClassResult = CreateInstance( dynamicType );
+	rttr::variant newClass = newClassResult.IsValid() ? newClassResult.Get() : rttr::variant();
 
 	TypeID propertyType = prop.get_type();
 	TypeID createdType = newClass.get_type();
@@ -788,22 +823,42 @@ rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializ
 
 // ================================ //
 //
-rttr::variant		SerializationCore::CreateInstance	( TypeID type )
+Nullable< rttr::variant >		    SerializationCore::CreateInstance	( TypeID type )
 {
+    if( !type.is_valid() )
+        return fmt::format( "Failed to create object. Invalid type." );
+
 	TypeID typeToCreate = GetRawWrappedType( type );
-	return typeToCreate.create();
+	rttr::variant object = typeToCreate.create();
+
+    if( object.is_valid() )
+        return object;
+    
+    return fmt::format( "Failed to create object of type [{}].", typeToCreate );
 }
 
 // ================================ //
 //
-std::string			SerializationCore::WstringToUTF		( const std::wstring& str )
+Nullable< rttr::variant >           SerializationCore::CreateInstance   ( rttr::string_view typeName )
+{
+    TypeID type = TypeID::get_by_name( typeName );
+    
+    if( !type.is_valid() )
+        return fmt::format( "Failed to create object of type [{}]. No such type.", typeName.to_string() );
+
+    return CreateInstance( type );
+}
+
+// ================================ //
+//
+std::string			                SerializationCore::WstringToUTF		( const std::wstring& str )
 {
 	return Convert::ToString( str );
 }
 
 // ================================ //
 //
-std::wstring		SerializationCore::UTFToWstring		( const std::string& str )
+std::wstring		                SerializationCore::UTFToWstring		( const std::string& str )
 {
 	return Convert::FromString< std::wstring >( str ).Get();
 }

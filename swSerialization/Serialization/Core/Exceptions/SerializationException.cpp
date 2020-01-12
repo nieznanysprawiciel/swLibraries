@@ -46,4 +46,18 @@ std::string			SerializationException::PrintError			() const
 	return "Serialization Error. ";
 }
 
+// ================================ //
+//
+SerializationExceptionPtr       SerializationException::Create  ( std::string message, FilePosition filePos )
+{
+    return std::make_shared< SerializationException >( std::move( message ), filePos );
+}
+
+// ================================ //
+//
+SerializationExceptionPtr       SerializationException::Create  ( const IDeserializer& deser, std::string message )
+{
+    return std::make_shared< SerializationException >( std::move( message ), deser.CurrentLineNumber() );
+}
+
 }	// sw
