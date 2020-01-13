@@ -598,62 +598,46 @@ bool	SerializationCore::DeserializeObjectTypes				( const IDeserializer& deser, 
 
 // ================================ //
 //
-void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
+void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop )
 {
-	// Create new object only if property is set to nullptr.
-	auto prevClassVal = prop.get_value( object );
+	auto prevClassVal = prop.get_value( parent );
 	TypeID prevClassType = GetRawWrappedType( rttr::instance( prevClassVal ).get_derived_type() );
 
-	if( deser.FirstElement() )
-	{
-		// Check what type of object we should create.
-		auto className = deser.GetName();
-		TypeID classDynamicType = TypeID::get_by_name( className );
+    auto objectResult = DefaultDeserializePolymorphicImpl( deser, prop, DeserialTypeDesc() );
+    if( objectResult.IsValid() )
+    {
+        // Parent class default constructor could have created this property.
+        // We must destroy it, before we assign new value.
+        if( prevClassVal != nullptr )
+        {
+            // Destroy object and set nullptr.
+            DestroyObject( prevClassVal );
+            prop.set_value( parent, nullptr );
 
-		if( prevClassVal != nullptr
-			&& prevClassType == classDynamicType )
-		{
-			// Object with the same type already exists under this property. We need only to deserialize it.
-			DefaultDeserializeImpl( deser, prevClassVal, prevClassType );
-		}
-		else
-		{
-			if( prevClassVal != nullptr
-				&& prevClassType != classDynamicType )
-			{
-				// Destroy object and set nullptr.
-				DestroyObject( prevClassVal );
-				prop.set_value( object, nullptr );
-                
-                Warn< SerializationException >( deser, fmt::format( "Property [{}], value of type [{}] already existed but was destroyed. Object of type [{}] needed.",
-                                                                    prop.get_name().to_string(),
-                                                                    prevClassType,
-                                                                    classDynamicType ) );
-			}
+            Warn< SerializationException >( deser, fmt::format( "Property [{}], value of type [{}] already existed but was destroyed.",
+                                                                prop.get_name().to_string(),
+                                                                prevClassType ) );
+        }
 
-			// Property has nullptr value. Create new object and deserialize it's content.
-			rttr::variant newClass = CreateAndSetObjectProperty( deser, object, prop, classDynamicType );
+        auto result = SetObjectProperty( deser, parent, prop, objectResult.Get() );
+        
+        if( !result.IsValid() )
+        {
+            // Destroy object and set nullptr.
+            DestroyObject( objectResult.Get() );
+            prop.set_value( parent, nullptr );
 
-			if( newClass.is_valid() )
-			{
-				DefaultDeserializeImpl( deser, newClass, GetRawWrappedType( classDynamicType ) );
-			}
-		}
+            Warn< SerializationException >( deser, fmt::format( "Deserialization failed with error: {}", result.GetErrorReason() ) );
+        }
+    }
+    else
+    {
+        // Destroy object and set nullptr.
+        DestroyObject( prevClassVal );
+        prop.set_value( parent, nullptr );
 
-		if( deser.NextElement() )
-		{
-			// Warning: Property shouldn't have multiple objects.
-			Warn< SerializationException >( deser, fmt::format( "Property [{}] has multiple polymorphic objects defined. Deserializing only first.", prop.get_name().to_string() ) );
-		}
-
-		deser.Exit();	// FirstElement
-	}
-	else
-	{
-		// Destroy object and set nullptr.
-		DestroyObject( prevClassVal );
-		prop.set_value( object, nullptr );
-	}
+        Warn< SerializationException >( deser, fmt::format( "Deserialization failed with error {}", objectResult.GetErrorReason() ) );
+    }
 }
 
 // ================================ //
@@ -726,7 +710,7 @@ Nullable< rttr::variant >           SerializationCore::DefaultDeserializePolymor
 
 // ================================ //
 //
-rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop, TypeID dynamicType )
+rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, TypeID dynamicType )
 {
     /// @todo Proper error handling. This function probably will be splitted in future.
     auto newClassResult = CreateInstance( dynamicType );
@@ -739,7 +723,7 @@ rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializ
 		!( !propertyType.is_wrapper() && createdType.is_wrapper() ) )
 	{
 		if( newClass.convert( prop.get_type() ) &&
-			prop.set_value( object, newClass ) )
+			prop.set_value( parent, newClass ) )
 		{
 			return newClass;
 		}
@@ -819,6 +803,100 @@ rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializ
 	}
 
 	return rttr::variant();
+}
+
+// ================================ //
+//
+ReturnResult                        SerializationCore::SetObjectProperty    ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, rttr::variant& newObject )
+{
+    TypeID propertyType = prop.get_type();
+    TypeID createdType = newObject.get_type();
+
+    if( !( propertyType.is_wrapper() && !createdType.is_wrapper() ) &&
+        !( !propertyType.is_wrapper() && createdType.is_wrapper() ) )
+    {
+        if( newObject.convert( prop.get_type() ) &&
+            prop.set_value( parent, newObject ) )
+        {
+            return Success::True;
+        }
+        else
+        {
+		    std::string errorMessage = fmt::format( "Property [{}] setting error. Can't convert object of type [{}].",
+                                                    prop.get_name().to_string(),
+                                                    createdType );
+
+            return SerializationException::Create( deser, std::move( errorMessage ) );
+        }
+    }
+
+	// Error diagnostic. Determine why setting object failed and return error.
+	// RTTR should do this internally in convert and set_property functions, so we can delay
+	// some checks to handle error cases.
+
+	TypeID wrappedPropType = GetRawWrappedType( propertyType );
+	TypeID wrappedClassType = GetRawWrappedType( createdType );
+
+	if( !wrappedClassType.is_derived_from( wrappedPropType ) )
+	{
+        std::string errorMessage = fmt::format( "Property type [{}] is not base class of created object type [{}].", wrappedClassType );
+
+        return SerializationException::Create( deser, std::move( errorMessage ) );
+	}
+
+	// Wrapped and raw pointer mismatch.
+
+	if( propertyType.is_wrapper() && !createdType.is_wrapper() )
+	{
+		/// @todo When created type is raw pointer and property is wrapped type, we could handle this case
+		/// by creating wrapper from pointer. Consider this in future. Many problems could apear, when it comes to
+		/// ownership of memory and so on.
+        std::string errorMessage = fmt::format( "Property [{}] setting error. Wrapper and raw pointer mismatch between"
+                                                " property of type [{}] and created class of type [{}].",
+                                                prop.get_name().to_string(),
+                                                propertyType,
+                                                createdType );
+
+        return SerializationException::Create( deser, std::move( errorMessage ) );
+	}
+	else if( !propertyType.is_wrapper() && createdType.is_wrapper() )
+	{
+		// If propertyType is raw pointer and createdType is wrapper we can't do anything with this.
+		// There's no way in rttr to steal wrapped value from shared_ptr.
+		/// @todo We must take into considerations other wrapper types which not necessary take ownership of
+		/// object. To do this we must be able to determine wrapper template type and have some traits connected
+		/// to ownership. Think about it in future.
+        std::string errorMessage = fmt::format( "Property [{}] setting error. Wrapper and raw pointer mismatch between property"
+                                                " of type [{}] and created class of type [{}].",
+                                                prop.get_name().to_string(),
+                                                propertyType,
+                                                createdType );
+
+        return SerializationException::Create( deser, std::move( errorMessage ) );
+	}
+	else if( propertyType.is_wrapper() && createdType.is_wrapper() && propertyType != createdType )
+	{
+		// Classes types are the same, but wrappers are different.
+
+		std::string errorMessage = fmt::format( "Property [{}] setting error. Wrappers mismatch between property"
+                                                " of type [{}] and created class of type [{}].",
+                                                prop.get_name().to_string(),
+                                                propertyType,
+                                                createdType );
+
+        return SerializationException::Create( deser, std::move( errorMessage ) );
+	}
+
+	if( !GetRawWrappedType( createdType ).get_constructor().is_valid() )
+	{
+		std::string errorMessage = fmt::format( "Can't construct object of type [{}]. Zero arguments constructor"
+                                                " wasn't declared in rttr for this class.",
+                                                createdType );
+
+        return SerializationException::Create( deser, std::move( errorMessage ) );
+	}
+
+    return SerializationException::Create( deser, fmt::format( "Unknown error while setting object for property [{}].", propertyType.get_name().to_string() ) );
 }
 
 // ================================ //

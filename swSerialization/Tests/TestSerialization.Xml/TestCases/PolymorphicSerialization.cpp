@@ -46,8 +46,8 @@ TEST_CASE( "Polymorphic.NotNullptrObject", "[Serialization]" )
 }
 
 // ================================ //
-// ObjectPtr is set to not nullptr object of the same type as should be deserialized.
-// Deserialziation shouldn't destroy object.
+// Even if ObjectPtr is set to not nullptr value, we destroy it and create new object.
+// Behavior changed relative to previous versions.
 TEST_CASE( "Polymorphic.NotNullptrObject.ClassWithSameType", "[Serialization]" )
 {
 	PolymorphicObjectContainer actual;
@@ -64,10 +64,9 @@ TEST_CASE( "Polymorphic.NotNullptrObject.ClassWithSameType", "[Serialization]" )
 	reference.FillWithDataset1();
 
 	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotNullptrObject.ClassWithSameType.xml", actual ) );
-	CHECK( actual.ObjectPtr == prevObject );
-
-	CHECK( actual.ObjectPtr->m_simpleStruct1 == reference );
-	CHECK( static_cast< DerivedObject* >( actual.ObjectPtr )->m_simpleStruct2 == reference );
+    
+    CHECK( actual.ObjectPtr != prevObject );
+    CHECK( actual.ObjectPtr != nullptr );
 }
 
 // ================================ //
