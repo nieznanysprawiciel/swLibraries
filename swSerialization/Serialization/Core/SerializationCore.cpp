@@ -498,29 +498,27 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 				// Process generic objects. We must get real object type.
 				if( IsPolymorphicType( arrayElementType ) )
 				{
-					// We are in "Element" and we enter node named as type to create.
-					if( deser.FirstElement() )
-					{
-						// Check what type of object we should create.
-						auto newClassResult = CreateInstance( deser.GetName() );
-                        rttr::variant newClass = newClassResult.IsValid() ? std::move( newClassResult ).Get() : rttr::variant();
-
-						if( newClass.convert( TypeID( arrayElementType ) ) )
-						{
-							arrayView.set_value( idx, newClass );
-
-							if( deser.NextElement() )
-								Warn< SerializationException >( deser, "Array element has multiple polymorphic objects defined. Deserializing only first." );
-						}
-						else
-						{
-							Warn< SerializationException >( deser, fmt::format( "Type [{}] can't be converted to array element type [{}].",
+                    auto newClassResult = DefaultDeserializePolymorphicImpl( deser, DeserialTypeDesc() );
+                    if( newClassResult.IsValid() )
+                    {
+                        rttr::variant newClass = std::move( newClassResult ).Get();
+                        if( newClass.convert( TypeID( arrayElementType ) ) )
+                        {
+                            arrayView.set_value( idx, newClass );
+                        }
+                        else
+                        {
+                            Warn< SerializationException >( deser, fmt::format( "Type [{}] can't be converted to array element type [{}].",
                                                                                 newClass.get_type(),
-															                    arrayElementType.get_name().to_string() ) );
-						}
-
-						deser.Exit();
-					}
+                                                                                arrayElementType ) );
+                        }
+                    }
+                    else
+                    {
+                        Warn< SerializationException >( deser, fmt::format( "Deserialization of array element of type [{}] failed with error: {}",
+                                                                            arrayElementType,
+                                                                            newClassResult.GetErrorReason() ) );
+                    }
 				}
 				else
 				{
