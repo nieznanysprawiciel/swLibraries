@@ -603,7 +603,7 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 	auto prevClassVal = prop.get_value( parent );
 	TypeID prevClassType = GetRawWrappedType( rttr::instance( prevClassVal ).get_derived_type() );
 
-    auto objectResult = DefaultDeserializePolymorphicImpl( deser, prop, DeserialTypeDesc() );
+    auto objectResult = DefaultDeserializePolymorphicImpl( deser, DeserialTypeDesc() );
     if( objectResult.IsValid() )
     {
         // Parent class default constructor could have created this property.
@@ -627,7 +627,9 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
             DestroyObject( objectResult.Get() );
             prop.set_value( parent, nullptr );
 
-            Warn< SerializationException >( deser, fmt::format( "Deserialization failed with error: {}", result.GetErrorReason() ) );
+            Warn< SerializationException >( deser, fmt::format( "Deserialization of property [{}] failed with error: {}",
+                                                                prop.get_name().to_string(),
+                                                                result.GetErrorReason() ) );
         }
     }
     else
@@ -636,7 +638,9 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
         DestroyObject( prevClassVal );
         prop.set_value( parent, nullptr );
 
-        Warn< SerializationException >( deser, fmt::format( "Deserialization failed with error {}", objectResult.GetErrorReason() ) );
+        Warn< SerializationException >( deser, fmt::format( "Deserialization of property [{}] failed with error: {}",
+                                                            prop.get_name().to_string(),
+                                                            objectResult.GetErrorReason() ) );
     }
 }
 
@@ -674,7 +678,7 @@ void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& dese
 
 // ================================ //
 //
-Nullable< rttr::variant >           SerializationCore::DefaultDeserializePolymorphicImpl        ( const IDeserializer& deser, rttr::property prop, DeserialTypeDesc& desc )
+Nullable< rttr::variant >           SerializationCore::DefaultDeserializePolymorphicImpl        ( const IDeserializer& deser, DeserialTypeDesc& desc )
 {
     if( deser.FirstElement() )
     {
@@ -684,8 +688,7 @@ Nullable< rttr::variant >           SerializationCore::DefaultDeserializePolymor
         if( !newClassResult.IsValid() )
         {
             deser.Exit();	// FirstElement
-            return SerializationException::Create( deser, fmt::format( "Failed to create object for property [{}]. {}",
-                                                                       prop.get_name().to_string(),
+            return SerializationException::Create( deser, fmt::format( "Failed to create object. {}",
                                                                        newClassResult.GetErrorReason() ) );
         }
 
@@ -696,7 +699,7 @@ Nullable< rttr::variant >           SerializationCore::DefaultDeserializePolymor
         if( deser.NextElement() )
         {
             // Warning: Property shouldn't have multiple objects.
-            Warn< SerializationException >( deser, fmt::format( "Property [{}] has multiple polymorphic objects defined. Deserializing only first.", prop.get_name().to_string() ) );
+            Warn< SerializationException >( deser, fmt::format( "Multiple polymorphic objects defined. Deserializing only first." ) );
         }
 
         deser.Exit();	// FirstElement
@@ -704,7 +707,7 @@ Nullable< rttr::variant >           SerializationCore::DefaultDeserializePolymor
     }
     else
     {
-        return SerializationException::Create( deser, fmt::format( "Type of polymorphic object not specified for property [{}].", prop.get_name().to_string() ) );
+        return SerializationException::Create( deser, fmt::format( "Type of polymorphic object not specified." ) );
     }
 }
 

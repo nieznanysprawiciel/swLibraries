@@ -25,7 +25,7 @@ struct DeserialTypeDesc;
 
 
 typedef std::function< void( ISerializer&, const rttr::instance&, SerialTypeDesc& ) > SerialOverrideFun;
-typedef std::function< Nullable< rttr::variant >( IDeserializer&, rttr::property, DeserialTypeDesc& ) > DeserialOverrideFun;
+typedef std::function< Nullable< rttr::variant >( IDeserializer&, DeserialTypeDesc& ) > DeserialOverrideFun;
 
 
 
