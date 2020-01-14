@@ -38,6 +38,13 @@ void            OverrideImpl2       ( ISerializer& ser, const rttr::instance& in
     ser.Exit();
 }
 
+// ================================ //
+//
+Nullable< rttr::variant >        DeserOverrideImpl      ( const IDeserializer& deser, DeserialTypeDesc& desc )
+{
+    return "Fail";
+}
+
 //====================================================================================//
 //			Test cases	
 //====================================================================================//
@@ -130,10 +137,16 @@ TEST_CASE( "Serialization.Overrides.Serial.DerivedTypes.OverwriteFunction", "[Se
 
 
 // ================================ //
-//
+// Check if instantiation for deserializer works. Logic is tested in serializer instatiation.
 TEST_CASE( "Serialization.Overrides.Deserial.SingleTypeOverride", "[Serialization]" )
 {
-    Overrides< SerialTypeDesc > overrides;
+    Overrides< DeserialTypeDesc > overrides;
 
+    overrides.OverrideType( TypeID::get< BaseObject >(), &DeserOverrideImpl );
+
+    auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< BaseObject >() );
+
+    CHECK( *typeDesc.SerializeFun.target< Nullable< rttr::variant >(*)( const IDeserializer&, DeserialTypeDesc& ) >() == DeserOverrideImpl );
+    CHECK( typeDesc.Properties.size() == 1 );
 }
 
