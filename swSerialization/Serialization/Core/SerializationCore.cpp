@@ -630,7 +630,12 @@ Nullable< rttr::variant >           SerializationCore::DeserializeBasicTypes    
 //
 Nullable< rttr::variant >           SerializationCore::DeserializeStringTypes       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
-    return Nullable<rttr::variant>();
+    if( expectedType == rttr::type::get< std::string >() )
+        return rttr::variant( SerializationCore::DeserializeProperty< std::string >( deser, name ) );
+    else if( expectedType == rttr::type::get< std::wstring >() )
+        return rttr::variant( SerializationCore::DeserializeProperty< std::wstring >( deser, name ) );
+    else
+        return SerializationException::Create( deser, fmt::format( "Type [{}] was none of string types.", expectedType ) );
 }
 
 // ================================ //
@@ -1115,7 +1120,7 @@ template	void	SerializationCore::DeserializeProperty< uint8 >			( const IDeseria
 
 /**@brief Specjalizacja dla std::wstring.*/
 template<>
-void			SerializationCore::DeserializeProperty< std::wstring >	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object )
+void			        SerializationCore::DeserializeProperty< std::wstring >	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object )
 {
 	std::wstring str = GetPropertyValue< std::wstring >( prop, object );
 	SetPropertyValue( prop, object, UTFToWstring( deser.GetAttribute( prop.get_name().to_string(), TypeDefaultValue< std::string >() ) ) );
@@ -1124,13 +1129,33 @@ void			SerializationCore::DeserializeProperty< std::wstring >	( const IDeseriali
 // ================================ //
 //
 template<>
-static void		SerializationCore::DeserializeProperty< char >			( const IDeserializer& deser, rttr::property prop, const rttr::instance& object )
+void		            SerializationCore::DeserializeProperty< char >			( const IDeserializer& deser, rttr::property prop, const rttr::instance& object )
 {
 	auto str = deser.GetAttribute( prop.get_name().to_string(), std::string() );
 
 	if( str.size() == 1 )
 		SetPropertyValue( prop, object, str[ 0 ] );
 	///@todo Error handling.
+}
+
+// ================================ //
+//
+template<>
+std::wstring            SerializationCore::DeserializeProperty< std::wstring >			( const IDeserializer& deser, rttr::string_view name )
+{
+    return UTFToWstring( deser.GetAttribute( name.to_string(), TypeDefaultValue< std::string >() ) );
+}
+
+// ================================ //
+//
+template<>
+char				    SerializationCore::DeserializeProperty< char >					( const IDeserializer& deser, rttr::string_view name )
+{
+    auto str = deser.GetAttribute( name.to_string(), std::string() );
+
+    if( str.size() == 1 )
+        return str[ 0 ];
+    ///@todo Error handling.
 }
 
 }	// sw

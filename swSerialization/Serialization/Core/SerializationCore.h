@@ -124,17 +124,22 @@ public:
 
 
 	template< typename PropertyType >
-	static void				SetPropertyValue	( rttr::property prop, const rttr::instance& object, PropertyType value );
+	static void				            SetPropertyValue	                        ( rttr::property prop, const rttr::instance& object, PropertyType value );
 
 	template< typename PropertyType >
-	static void				DeserializeProperty	( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
+	static void				            DeserializeProperty	                        ( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
 
+    template< typename PropertyType >
+    static PropertyType                 DeserializeProperty	                        ( const IDeserializer& deser, rttr::string_view name );
 
-	template<>	static void				DeserializeProperty< std::wstring >			( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				DeserializeProperty< char >					( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
+	template<> static void				DeserializeProperty< std::wstring >			( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
+	template<> static void				DeserializeProperty< char >					( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
+
+    template<> static std::wstring      DeserializeProperty< std::wstring >			( const IDeserializer& deser, rttr::string_view name );
+    template<> static char				DeserializeProperty< char >					( const IDeserializer& deser, rttr::string_view name );
 
 	/**@brief Gets real type of the object that means most derived and wrapped type.*/
-	static TypeID						GetRealType			( const rttr::instance& object );
+	static TypeID						GetRealType			    ( const rttr::instance& object );
 
 	/**@brief Gets wrapped type. If type isn't wrapper it returns it unmodified.*/
 	static TypeID						GetWrappedType			( TypeID type );

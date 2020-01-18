@@ -89,6 +89,14 @@ void			SerializationCore::DeserializeProperty		( const IDeserializer& deser, rtt
 
 // ================================ //
 //
+template< typename PropertyType >
+inline PropertyType                 SerializationCore::DeserializeProperty      ( const IDeserializer& deser, rttr::string_view name )
+{
+    return static_cast< PropertyType >( deser.GetAttribute( name.to_string(), TypeDefaultValue< PropertyType >() ) );
+}
+
+// ================================ //
+//
 inline TypeID						SerializationCore::GetRealType				( const rttr::instance& object )
 {
 	auto objectType = object.get_derived_type();
