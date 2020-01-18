@@ -83,7 +83,7 @@ public:
 	static void				DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 	static void				DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 
-    static Nullable< rttr::variant >        DefaultDeserializePolymorphicImpl       ( const IDeserializer& deser, DeserialTypeDesc& desc );
+    static Nullable< rttr::variant >        DefaultDeserializePolymorphicImpl       ( const IDeserializer& deser, rttr::string_view typeName, DeserialTypeDesc& desc );
     static Nullable< rttr::variant >        DefaultDeserializeNotPolymorphicImpl	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 	
 	static rttr::variant	                CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, TypeID dynamicType );

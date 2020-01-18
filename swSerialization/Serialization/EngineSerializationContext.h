@@ -1,4 +1,10 @@
 #pragma once
+/**
+@file EngineSerializationContext.h
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 #include "swCommonLib/Common/RTTR.h"
 #include "swSerialization/Interfaces/ISerializationContext.h"

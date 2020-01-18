@@ -12,6 +12,8 @@
 #include "swSerialization/Interfaces/FilePosition.h"
 #include "swSerialization/Interfaces/ISerializationContext.h"
 #include "swSerialization/Serialization/Core/Exceptions/SerializationException.h"
+#include "swSerialization/Serialization/Core/Overrides.h"
+#include "swSerialization/Serialization/Core/TypeDescriptor.h"
 
 #include <map>
 #include <vector>
@@ -36,6 +38,8 @@ private:
 
 public:
 
+    Overrides< SerialTypeDesc >     SerialOverrides;
+    Overrides< DeserialTypeDesc >   DeserialOverrides;
 
 	TypePropertyMap			TypeProperties;		///< Maps containing all serializable properties for type.
 

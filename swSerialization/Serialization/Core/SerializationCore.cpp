@@ -100,8 +100,15 @@ void                    SerializationCore::SerializeObject          ( ISerialize
 
     auto dynamicType = SerializationCore::GetRealType( value );
 
-    auto& properties = GetTypeFilteredProperties( dynamicType, ser.GetContext< SerializationContext >() );
-    SerializePropertiesVec( ser, value, properties );
+    auto& overrides = ser.GetContext< SerializationContext >()->SerialOverrides;
+    auto& typeDesc = overrides.GetTypeDescriptor( dynamicType );
+
+    // If user specified override function for this type - use it.
+    // Otherwise default serialization.
+    if( typeDesc.SerializeFun )
+        typeDesc.SerializeFun( ser, value, typeDesc );
+    else
+        SerializePropertiesVec( ser, value, typeDesc.Properties );
 
     ser.Exit();	//	prop.get_name()
 }
@@ -498,26 +505,44 @@ bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, c
 				// Process generic objects. We must get real object type.
 				if( IsPolymorphicType( arrayElementType ) )
 				{
-                    auto newClassResult = DefaultDeserializePolymorphicImpl( deser, DeserialTypeDesc() );
-                    if( newClassResult.IsValid() )
+                    if( deser.FirstElement() )
                     {
-                        rttr::variant newClass = std::move( newClassResult ).Get();
-                        if( newClass.convert( TypeID( arrayElementType ) ) )
+                        auto newClassResult = DefaultDeserializePolymorphicImpl( deser, deser.GetName(), DeserialTypeDesc() );
+                        if( newClassResult.IsValid() )
                         {
-                            arrayView.set_value( idx, newClass );
+                            rttr::variant newClass = std::move( newClassResult ).Get();
+                            if( newClass.convert( TypeID( arrayElementType ) ) )
+                            {
+                                arrayView.set_value( idx, newClass );
+                            }
+                            else
+                            {
+                                Warn< SerializationException >( deser, fmt::format( "Type [{}] can't be converted to array element type [{}].",
+                                                                                    newClass.get_type(),
+                                                                                    arrayElementType ) );
+                            }
                         }
                         else
                         {
-                            Warn< SerializationException >( deser, fmt::format( "Type [{}] can't be converted to array element type [{}].",
-                                                                                newClass.get_type(),
+                            Warn< SerializationException >( deser, fmt::format( "Deserialization of array element of type [{}] failed with error: {}",
+                                                                                arrayElementType,
+                                                                                newClassResult.GetErrorReason() ) );
+                        }
+
+                        if( deser.NextElement() )
+                        {
+                            // Warning: Property shouldn't have multiple objects.
+                            Warn< SerializationException >( deser, fmt::format( "Deserialization of array element of type [{}]. Multiple polymorphic "
+                                                                                "objects defined. Deserializing only first.",
                                                                                 arrayElementType ) );
                         }
+
+                        deser.Exit();
                     }
                     else
                     {
-                        Warn< SerializationException >( deser, fmt::format( "Deserialization of array element of type [{}] failed with error: {}",
-                                                                            arrayElementType,
-                                                                            newClassResult.GetErrorReason() ) );
+                        Warn< SerializationException >( deser, fmt::format( "Deserialization of array element of type [{}]. Type of polymorphic object not specified.",
+                                                                            arrayElementType ) );
                     }
 				}
 				else
@@ -601,44 +626,57 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 	auto prevClassVal = prop.get_value( parent );
 	TypeID prevClassType = GetRawWrappedType( rttr::instance( prevClassVal ).get_derived_type() );
 
-    auto objectResult = DefaultDeserializePolymorphicImpl( deser, DeserialTypeDesc() );
-    if( objectResult.IsValid() )
-    {
-        // Parent class default constructor could have created this property.
-        // We must destroy it, before we assign new value.
-        if( prevClassVal != nullptr )
-        {
-            // Destroy object and set nullptr.
-            DestroyObject( prevClassVal );
-            prop.set_value( parent, nullptr );
-
-            Warn< SerializationException >( deser, fmt::format( "Property [{}], value of type [{}] already existed but was destroyed.",
-                                                                prop.get_name().to_string(),
-                                                                prevClassType ) );
-        }
-
-        auto result = SetObjectProperty( deser, parent, prop, objectResult.Get() );
-        
-        if( !result.IsValid() )
-        {
-            // Destroy object and set nullptr.
-            DestroyObject( objectResult.Get() );
-            prop.set_value( parent, nullptr );
-
-            Warn< SerializationException >( deser, fmt::format( "Deserialization of property [{}] failed with error: {}",
-                                                                prop.get_name().to_string(),
-                                                                result.GetErrorReason() ) );
-        }
-    }
-    else
+    // Parent class default constructor could have created this property.
+    // We must destroy it, before we assign new value.
+    if( prevClassVal != nullptr )
     {
         // Destroy object and set nullptr.
         DestroyObject( prevClassVal );
         prop.set_value( parent, nullptr );
 
-        Warn< SerializationException >( deser, fmt::format( "Deserialization of property [{}] failed with error: {}",
+        Warn< SerializationException >( deser, fmt::format( "Property [{}], value of type [{}] already existed but was destroyed.",
                                                             prop.get_name().to_string(),
-                                                            objectResult.GetErrorReason() ) );
+                                                            prevClassType ) );
+    }
+
+    if( deser.FirstElement() )
+    {
+        auto objectResult = DefaultDeserializePolymorphicImpl( deser, deser.GetName(), DeserialTypeDesc() );
+        if( objectResult.IsValid() )
+        {
+            auto result = SetObjectProperty( deser, parent, prop, objectResult.Get() );
+        
+            if( !result.IsValid() )
+            {
+                // Destroy object and set nullptr.
+                DestroyObject( objectResult.Get() );
+                prop.set_value( parent, nullptr );
+
+                Warn< SerializationException >( deser, fmt::format( "Deserialization of property [{}] failed with error: {}",
+                                                                    prop.get_name().to_string(),
+                                                                    result.GetErrorReason() ) );
+            }
+        }
+        else
+        {
+            Warn< SerializationException >( deser, fmt::format( "Deserialization of property [{}] failed with error: {}",
+                                                                prop.get_name().to_string(),
+                                                                objectResult.GetErrorReason() ) );
+        }
+
+        if( deser.NextElement() )
+        {
+            // Warning: Property shouldn't have multiple objects.
+            Warn< SerializationException >( deser, fmt::format( "Deserialization of property [{}]. Multiple polymorphic objects defined. Deserializing only first.",
+                                                                prop.get_name().to_string() ) );
+        }
+
+        deser.Exit();	// FirstElement
+    }
+    else
+    {
+        Warn< SerializationException >( deser, fmt::format( "Deserialization of property [{}]. Type of polymorphic object not specified.",
+                                                            prop.get_name().to_string() ) );
     }
 }
 
@@ -676,37 +714,23 @@ void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& dese
 
 // ================================ //
 //
-Nullable< rttr::variant >           SerializationCore::DefaultDeserializePolymorphicImpl        ( const IDeserializer& deser, DeserialTypeDesc& desc )
+Nullable< rttr::variant >           SerializationCore::DefaultDeserializePolymorphicImpl        ( const IDeserializer& deser, rttr::string_view typeName, DeserialTypeDesc& desc )
 {
-    if( deser.FirstElement() )
+    // Check what type of object we should create.
+    auto newClassResult = CreateInstance( typeName );
+
+    if( !newClassResult.IsValid() )
     {
-        // Check what type of object we should create.
-        auto newClassResult = CreateInstance( deser.GetName() );
-
-        if( !newClassResult.IsValid() )
-        {
-            deser.Exit();	// FirstElement
-            return SerializationException::Create( deser, fmt::format( "Failed to create object. {}",
-                                                                       newClassResult.GetErrorReason() ) );
-        }
-
-        rttr::variant newClass = newClassResult.Get();
-
-        DefaultDeserializeImpl( deser, newClass, GetRawWrappedType( newClass.get_type() ) );
-
-        if( deser.NextElement() )
-        {
-            // Warning: Property shouldn't have multiple objects.
-            Warn< SerializationException >( deser, fmt::format( "Multiple polymorphic objects defined. Deserializing only first." ) );
-        }
-
         deser.Exit();	// FirstElement
-        return newClass;
+        return SerializationException::Create( deser, fmt::format( "Failed to create object. {}",
+                                                                    newClassResult.GetErrorReason() ) );
     }
-    else
-    {
-        return SerializationException::Create( deser, fmt::format( "Type of polymorphic object not specified." ) );
-    }
+
+    rttr::variant newClass = newClassResult.Get();
+
+    DefaultDeserializeImpl( deser, newClassResult.Get(), GetRawWrappedType( newClass.get_type() ) );
+    
+    return newClassResult.Get();
 }
 
 // ================================ //
