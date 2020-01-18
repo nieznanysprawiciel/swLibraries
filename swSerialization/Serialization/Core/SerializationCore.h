@@ -68,20 +68,31 @@ public:
 	static void				SerializeNotPolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property prop );
 	static void				SerializePropertiesVec	( ISerializer& ser, const rttr::instance& object, const std::vector< rttr::property >& properties );
 
-	///@name Types deserialization
+	/// @name Types deserialization
+    /// Functions get previous property value in parameter and generate new value or return the same object.
+    /// Since previous value can be nullptr it is required to provide expected type, that
+    /// can be got from property or array element. Note that result object can 
 	///@{
 
-	/**@brief Deserialize basic arithemtic types and bool.*/
-	static bool				DeserializeBasicTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static bool				DeserializeStringTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static bool				DeserializeEnumTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static bool				DeserializeArrayTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static bool				DeserializeObjectTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	/**@brief Deserialize basic arithmetic types and bool.*/
+	static bool				                DeserializeBasicTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static bool				                DeserializeStringTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static bool				                DeserializeEnumTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static bool				                DeserializeArrayTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static bool				                DeserializeObjectTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 
+    static Nullable< rttr::variant >        DeserializeBasicTypes	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeStringTypes	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeEnumTypes	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeArrayTypes	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeObjectTypes	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+
+    static Nullable< rttr::variant >        DeserializeTypes	    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    //static bool				                DeserializeProperty	    ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop );
 	///@}
 
-	static void				DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static void				DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static void				                DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static void				                DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 
     static Nullable< rttr::variant >        DefaultDeserializePolymorphicImpl       ( const IDeserializer& deser, rttr::string_view typeName, DeserialTypeDesc& desc );
     static Nullable< rttr::variant >        DefaultDeserializeNotPolymorphicImpl	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
@@ -136,6 +147,8 @@ public:
 
 	/**@brief Destroy object in variant.*/
 	static void							DestroyObject			( rttr::variant& object );
+
+    static bool                         IsStringType            ( TypeID type );
 };
 
 

@@ -83,7 +83,7 @@ void			SerializationCore::SetPropertyValue			( rttr::property prop, const rttr::
 template< typename PropertyType >
 void			SerializationCore::DeserializeProperty		( const IDeserializer& deser, rttr::property prop, const rttr::instance& object )
 {
-	PropertyType value = static_cast<PropertyType>( deser.GetAttribute( prop.get_name().to_string(), TypeDefaultValue< PropertyType >() ) );
+	PropertyType value = static_cast< PropertyType >( deser.GetAttribute( prop.get_name().to_string(), TypeDefaultValue< PropertyType >() ) );
 	SetPropertyValue< PropertyType >( prop, object, value );
 }
 
@@ -131,6 +131,19 @@ inline void							SerializationCore::DestroyObject			( rttr::variant& object )
 			assert( result );	// I don't know if it is posible but better to know, when it happens.
 		}
 	}
+}
+
+// ================================ //
+//
+inline bool                         SerializationCore::IsStringType             ( TypeID type )
+{
+    if( type == TypeID::get< std::string >() )
+        return true;
+
+    if( type == TypeID::get< std::wstring >() )
+        return true;
+
+    return false;
 }
 
 

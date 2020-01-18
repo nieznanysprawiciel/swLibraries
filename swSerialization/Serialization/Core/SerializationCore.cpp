@@ -621,6 +621,76 @@ bool	SerializationCore::DeserializeObjectTypes				( const IDeserializer& deser, 
 
 // ================================ //
 //
+Nullable< rttr::variant >           SerializationCore::DeserializeBasicTypes        ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    return Nullable<rttr::variant>();
+}
+
+// ================================ //
+//
+Nullable< rttr::variant >           SerializationCore::DeserializeStringTypes       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    return Nullable<rttr::variant>();
+}
+
+// ================================ //
+//
+Nullable< rttr::variant >           SerializationCore::DeserializeEnumTypes         ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    /// @todo Consider checking these conditions and returning exception on fail.
+    assert( expectedType.is_enumeration() );    /// Should be checked by caller.
+    assert( expectedType.is_valid() );		    /// Type haven't been registered.
+
+    rttr::enumeration enumVal = expectedType.get_enumeration();
+
+    auto enumFieldString = deser.GetAttribute( name.to_string(), "" );
+    rttr::variant value = enumVal.name_to_value( enumFieldString );
+
+    if( value.is_valid() )
+        return value;
+    
+    return SerializationException::Create( deser, fmt::format( "Enum of type [{}] has no field [{}], while deserializing [{}].",
+                                                                expectedType,
+                                                                enumFieldString,
+                                                                name.to_string() ) );
+}
+
+// ================================ //
+//
+Nullable< rttr::variant >           SerializationCore::DeserializeArrayTypes        ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    return Nullable<rttr::variant>();
+}
+
+// ================================ //
+//
+Nullable< rttr::variant >           SerializationCore::DeserializeObjectTypes       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    return Nullable<rttr::variant>();
+}
+
+// ================================ //
+//
+Nullable< rttr::variant >           SerializationCore::DeserializeTypes             ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    auto expectedTypeUnwrapped = SerializationCore::GetRawWrappedType( expectedType );
+
+    if( expectedTypeUnwrapped.is_arithmetic() )
+        return DeserializeBasicTypes( deser, name, prevValue, expectedType );
+    if( expectedTypeUnwrapped.is_enumeration() )
+        return DeserializeEnumTypes( deser, name, prevValue, expectedType );
+    if( SerializationCore::IsStringType( expectedTypeUnwrapped ) )
+        return DeserializeStringTypes( deser, name, prevValue, expectedType );
+    if( expectedTypeUnwrapped.is_array() )
+        return DeserializeArrayTypes( deser, name, prevValue, expectedType );
+    if( expectedTypeUnwrapped.is_class() )
+        return DeserializeObjectTypes( deser, name, prevValue, expectedType );
+
+    return SerializationException::Create( deser, fmt::format( "Type [{}] isn't any of class types known to serialization.", expectedType ) );
+}
+
+// ================================ //
+//
 void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop )
 {
 	auto prevClassVal = prop.get_value( parent );
