@@ -94,6 +94,7 @@ public:
     /**@brief Selects deserialization implementation for polymorphic or not polymorphic types.*/
     static Nullable< rttr::variant >        DeserializeObjectSelector   ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static Nullable< rttr::variant >        DeserializeDispatcher       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static ReturnResult                     DeserializePropertiesVec    ( const IDeserializer& deser, const rttr::instance& object, const std::vector< rttr::property >& properties );
     //static bool				                DeserializeProperty	    ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop );	
 
 	static void				                DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );

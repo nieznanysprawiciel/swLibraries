@@ -11,6 +11,8 @@
 #include "swCommonLib/Common/Converters/Convert.h"
 #include "swCommonLib/Common/fmt.h"
 
+#include "swCommonLib/Common/Exceptions/ErrorsCollector.h"
+
 
 
 namespace sw
@@ -716,6 +718,13 @@ Nullable< rttr::variant >           SerializationCore::DeserializeObject        
 
 // ================================ //
 //
+Nullable< rttr::variant >           SerializationCore::DeserializeObjectInArray     ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    return Nullable<rttr::variant>();
+}
+
+// ================================ //
+//
 Nullable< rttr::variant >           SerializationCore::DeserializeObjectSelector    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
     TypeID expectedTypeUnwrapped = SerializationCore::GetRawWrappedType( expectedType );
@@ -821,6 +830,26 @@ Nullable< rttr::variant >           SerializationCore::DeserializeDispatcher    
         return DeserializeObject( deser, name, prevValue, expectedType );
 
     return SerializationException::Create( deser, fmt::format( "Type [{}] isn't any of class types known to serialization.", expectedType ) );
+}
+
+// ================================ //
+//
+ReturnResult                        SerializationCore::DeserializePropertiesVec     ( const IDeserializer& deser, const rttr::instance& parent, const std::vector< rttr::property >& properties )
+{
+    ErrorsCollector collector;
+
+    for( auto& property : properties )
+    {
+        auto propertyType = property.get_type();
+        auto prevValue = property.get_value( parent );
+
+        auto newValue = DeserializeDispatcher( deser, property.get_name(), prevValue, propertyType );
+        auto result = SerializationCore::SetObjectProperty( deser, parent, property, newValue );
+        
+        collector.Success( result );
+    }
+
+    return collector.Get();
 }
 
 // ================================ //
