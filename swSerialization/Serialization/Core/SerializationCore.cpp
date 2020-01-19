@@ -413,7 +413,7 @@ bool			SerializationCore::DeserializeBasicTypes			( const IDeserializer& deser, 
 /**@brief Deserializuje std::string i std::wstring.
 
 @return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
-bool	SerializationCore::DeserializeStringTypes				( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
+bool	        SerializationCore::DeserializeStringTypes           ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
 	auto propertyType = prop.get_type();
 
@@ -430,7 +430,7 @@ bool	SerializationCore::DeserializeStringTypes				( const IDeserializer& deser, 
 /**@brief Deserializes enum properties from string.
 
 @return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
-bool	SerializationCore::DeserializeEnumTypes					( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
+bool	        SerializationCore::DeserializeEnumTypes             ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
 	auto propertyType = prop.get_type();
 
@@ -453,7 +453,7 @@ bool	SerializationCore::DeserializeEnumTypes					( const IDeserializer& deser, c
 /**@brief Deserializes arrays.
 
 @return Returns true when object have been deserialized. Otherwise you should try with functions deserializing other types.*/
-bool	SerializationCore::DeserializeArrayTypes				( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
+bool	        SerializationCore::DeserializeArrayTypes            ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
 	TypeID propertyType = SerializationCore::GetWrappedType( prop.get_type() );
 	if( !propertyType.is_sequential_container() )
@@ -800,16 +800,16 @@ Nullable< rttr::variant >           SerializationCore::DeserializeNotPolymorphic
         structInstance = std::move( creationResult ).Get();
     }
 
-    DefaultDeserializeImpl( deser, structInstance, wrappedType );
-
     if( !expectedType.is_wrapper() && !expectedType.is_pointer() )
     {
         // This means that structure was copied. We must set property value to this copy.
         ///@todo This warning should be conditional depending on flag in SerializationContext.
         Warn< SerializationException >( deser, fmt::format( "Performance Warning. Property [{}] value have been copied, while deserializing."
-            " Bind property as pointer or as reference to avoid copying.",
-            name.to_string() ) );
+                                                            " Bind property as pointer or as reference to avoid copying.",
+                                                            name.to_string() ) );
     }
+
+    return RunDeserializeOverride( deser, name, structInstance, expectedType );
 }
 
 // ================================ //
@@ -854,7 +854,22 @@ ReturnResult                        SerializationCore::DeserializePropertiesVec 
 
 // ================================ //
 //
-void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop )
+Nullable< rttr::variant >           SerializationCore::RunDeserializeOverride                   ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    TypeID wrappedType = GetWrappedType( expectedType );
+
+    auto& overrides = deser.GetContext< SerializationContext >()->DeserialOverrides;
+    auto& typeDesc = overrides.GetTypeDescriptor( wrappedType );
+
+    if( typeDesc.SerializeFun )
+        return typeDesc.SerializeFun( deser, typeDesc );
+    else
+        return DeserializePropertiesVec( deser, prevValue, typeDesc.Properties );
+}
+
+// ================================ //
+//
+void				                SerializationCore::DeserializePolymorphic		            ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop )
 {
 	auto prevClassVal = prop.get_value( parent );
 	TypeID prevClassType = GetRawWrappedType( rttr::instance( prevClassVal ).get_derived_type() );
@@ -915,7 +930,7 @@ void				SerializationCore::DeserializePolymorphic		( const IDeserializer& deser,
 
 // ================================ //
 //
-void				SerializationCore::DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
+void				                SerializationCore::DeserializeNotPolymorphic	            ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop )
 {
     TypeID propertyType = prop.get_type();
     TypeID wrappedType = GetWrappedType( propertyType );
@@ -1314,6 +1329,7 @@ char				    SerializationCore::DeserializeProperty< char >					( const IDeserial
     if( str.size() == 1 )
         return str[ 0 ];
     ///@todo Error handling.
+    return 'e';     // rror :P
 }
 
 }	// sw
