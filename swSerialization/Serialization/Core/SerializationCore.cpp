@@ -628,7 +628,7 @@ Nullable< rttr::variant >           SerializationCore::DeserializeBasicTypes    
 
 // ================================ //
 //
-Nullable< rttr::variant >           SerializationCore::DeserializeStringTypes       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+Nullable< rttr::variant >           SerializationCore::DeserializeStrings           ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
     if( expectedType == rttr::type::get< std::string >() )
         return rttr::variant( SerializationCore::DeserializeProperty< std::string >( deser, name ) );
@@ -640,7 +640,7 @@ Nullable< rttr::variant >           SerializationCore::DeserializeStringTypes   
 
 // ================================ //
 //
-Nullable< rttr::variant >           SerializationCore::DeserializeEnumTypes         ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+Nullable< rttr::variant >           SerializationCore::DeserializeEnums             ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
     /// @todo Consider checking these conditions and returning exception on fail.
     assert( expectedType.is_enumeration() );    /// Should be checked by caller.
@@ -662,34 +662,80 @@ Nullable< rttr::variant >           SerializationCore::DeserializeEnumTypes     
 
 // ================================ //
 //
-Nullable< rttr::variant >           SerializationCore::DeserializeArrayTypes        ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+Nullable< rttr::variant >           SerializationCore::DeserializeArrays            ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
     return Nullable<rttr::variant>();
 }
 
 // ================================ //
 //
-Nullable< rttr::variant >           SerializationCore::DeserializeObjectTypes       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+Nullable< rttr::variant >           SerializationCore::DeserializeObjects           ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    if( deser.EnterObject( name.to_string() ) )
+    {
+        auto result = DeserializeObjectsSelector( deser, name, prevValue, expectedType );
+        deser.Exit();	// EnterObject( name )
+
+        return result;
+    }
+    else
+    {
+        ///@todo This warning should be conditional depending on flag in SerializationContext.
+        Warn< SerializationException >( deser, fmt::format( "Property [{}] not found in file. Value remained unchanged.", name.to_string() ) );
+        return prevValue;
+    }
+}
+
+// ================================ //
+//
+Nullable< rttr::variant >           SerializationCore::DeserializeObjectsSelector   ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    TypeID expectedTypeUnwrapped = SerializationCore::GetRawWrappedType( expectedType );
+    
+    // Consider returning exception on false.
+    assert( !expectedTypeUnwrapped.is_class() );
+
+    if( IsPolymorphicType( expectedTypeUnwrapped ) )
+    {
+        // Retrieve dynamic type of object from deserializer and create new object.
+        return DeserializePolymorphic( deser, name, prevValue, expectedType );
+    }
+    else
+    {
+        return DeserializeNotPolymorphic( deser, name, prevValue, expectedType );
+    }
+}
+
+// ================================ //
+//
+Nullable< rttr::variant >           SerializationCore::DeserializePolymorphic       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
     return Nullable<rttr::variant>();
 }
 
 // ================================ //
 //
-Nullable< rttr::variant >           SerializationCore::DeserializeTypes             ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+Nullable< rttr::variant >           SerializationCore::DeserializeNotPolymorphic    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    return Nullable<rttr::variant>();
+}
+
+// ================================ //
+//
+Nullable< rttr::variant >           SerializationCore::DeserializeTypesDispatcher   ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
     auto expectedTypeUnwrapped = SerializationCore::GetRawWrappedType( expectedType );
 
     if( expectedTypeUnwrapped.is_arithmetic() )
         return DeserializeBasicTypes( deser, name, prevValue, expectedType );
     if( expectedTypeUnwrapped.is_enumeration() )
-        return DeserializeEnumTypes( deser, name, prevValue, expectedType );
+        return DeserializeEnums( deser, name, prevValue, expectedType );
     if( SerializationCore::IsStringType( expectedTypeUnwrapped ) )
-        return DeserializeStringTypes( deser, name, prevValue, expectedType );
+        return DeserializeStrings( deser, name, prevValue, expectedType );
     if( expectedTypeUnwrapped.is_array() )
-        return DeserializeArrayTypes( deser, name, prevValue, expectedType );
+        return DeserializeArrays( deser, name, prevValue, expectedType );
     if( expectedTypeUnwrapped.is_class() )
-        return DeserializeObjectTypes( deser, name, prevValue, expectedType );
+        return DeserializeObjects( deser, name, prevValue, expectedType );
 
     return SerializationException::Create( deser, fmt::format( "Type [{}] isn't any of class types known to serialization.", expectedType ) );
 }

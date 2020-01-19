@@ -75,27 +75,32 @@ public:
 	///@{
 
 	/**@brief Deserialize basic arithmetic types and bool.*/
-	static bool				                DeserializeBasicTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static bool				                DeserializeStringTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static bool				                DeserializeEnumTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static bool				                DeserializeArrayTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static bool				                DeserializeObjectTypes	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static bool				                DeserializeBasicTypes	    ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static bool				                DeserializeStringTypes	    ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static bool				                DeserializeEnumTypes	    ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static bool				                DeserializeArrayTypes	    ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+	static bool				                DeserializeObjectTypes	    ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 
-    static Nullable< rttr::variant >        DeserializeBasicTypes	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
-    static Nullable< rttr::variant >        DeserializeStringTypes	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
-    static Nullable< rttr::variant >        DeserializeEnumTypes	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
-    static Nullable< rttr::variant >        DeserializeArrayTypes	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
-    static Nullable< rttr::variant >        DeserializeObjectTypes	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeBasicTypes	    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeStrings	        ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeEnums    	    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeArrays   	    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeObjects        	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
 
-    static Nullable< rttr::variant >        DeserializeTypes	    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
-    //static bool				                DeserializeProperty	    ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop );
-	///@}
+    static Nullable< rttr::variant >        DeserializePolymorphic		( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeNotPolymorphic	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+
+    static Nullable< rttr::variant >        DeserializeObjectsSelector  ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeTypesDispatcher  ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    //static bool				                DeserializeProperty	    ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop );	
 
 	static void				                DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 	static void				                DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 
     static Nullable< rttr::variant >        DefaultDeserializePolymorphicImpl       ( const IDeserializer& deser, rttr::string_view typeName, DeserialTypeDesc& desc );
     static Nullable< rttr::variant >        DefaultDeserializeNotPolymorphicImpl	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
+
+    ///@}
 	
 	static rttr::variant	                CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, TypeID dynamicType );
     static ReturnResult                     SetObjectProperty           ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, rttr::variant& newObject );
