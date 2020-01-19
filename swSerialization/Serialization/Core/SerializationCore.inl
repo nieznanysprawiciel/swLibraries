@@ -97,6 +97,14 @@ inline PropertyType                 SerializationCore::DeserializeProperty      
 
 // ================================ //
 //
+template< typename PropertyType >
+inline rttr::variant                SerializationCore::DeserializePropertyToVariant ( const IDeserializer& deser, rttr::string_view name )
+{
+    return rttr::variant( SerializationCore::DeserializeProperty< PropertyType >( deser, name ) );
+}
+
+// ================================ //
+//
 inline TypeID						SerializationCore::GetRealType				( const rttr::instance& object )
 {
 	auto objectType = object.get_derived_type();

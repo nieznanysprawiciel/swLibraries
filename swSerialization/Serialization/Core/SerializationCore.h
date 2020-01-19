@@ -81,17 +81,19 @@ public:
 	static bool				                DeserializeArrayTypes	    ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 	static bool				                DeserializeObjectTypes	    ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 
-    static Nullable< rttr::variant >        DeserializeBasicTypes	    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
-    static Nullable< rttr::variant >        DeserializeStrings	        ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
-    static Nullable< rttr::variant >        DeserializeEnums    	    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
-    static Nullable< rttr::variant >        DeserializeArrays   	    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
-    static Nullable< rttr::variant >        DeserializeObjects        	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeBasicType	    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeString	        ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeEnum    	        ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeArray  	        ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeObject        	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeObjectInArray  	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
 
     static Nullable< rttr::variant >        DeserializePolymorphic		( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static Nullable< rttr::variant >        DeserializeNotPolymorphic	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
 
-    static Nullable< rttr::variant >        DeserializeObjectsSelector  ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
-    static Nullable< rttr::variant >        DeserializeTypesDispatcher  ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    /**@brief Selects deserialization implementation for polymorphic or not polymorphic types.*/
+    static Nullable< rttr::variant >        DeserializeObjectSelector   ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeDispatcher       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     //static bool				                DeserializeProperty	    ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop );	
 
 	static void				                DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
@@ -136,6 +138,9 @@ public:
 
     template< typename PropertyType >
     static PropertyType                 DeserializeProperty	                        ( const IDeserializer& deser, rttr::string_view name );
+
+    template< typename PropertyType >
+    static rttr::variant                DeserializePropertyToVariant                ( const IDeserializer& deser, rttr::string_view name );
 
 	template<> static void				DeserializeProperty< std::wstring >			( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
 	template<> static void				DeserializeProperty< char >					( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
