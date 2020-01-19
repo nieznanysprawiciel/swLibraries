@@ -90,7 +90,7 @@ inline void                                     Overrides< DescriptorType >::Ove
 
     // We must fill full descriptor. There's no way to tell, if properties
     // were already listed or not. If descriptor exist, properties must exist.
-    desc.SerializeFun = function;
+    desc.CustomFunction = function;
     desc.Properties = ListFilteredProperties( objType );
 }
 

@@ -36,7 +36,7 @@ struct SerialTypeDesc
     typedef SerialOverrideFun OverrideFun;
 public:
     std::vector< rttr::property >       Properties;
-    SerialOverrideFun                   SerializeFun;
+    SerialOverrideFun                   CustomFunction;
 };
 
 
@@ -47,7 +47,7 @@ struct DeserialTypeDesc
     typedef DeserialOverrideFun OverrideFun;
 public:
     std::vector< rttr::property >       Properties;
-    DeserialOverrideFun                 SerializeFun;
+    DeserialOverrideFun                 CustomFunction;
 };
 
 

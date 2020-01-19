@@ -61,7 +61,7 @@ TEST_CASE( "Serialization.Overrides.Serial.SingleTypeOverride", "[Serialization]
 
     auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< BaseObject >() );
 
-    CHECK( *typeDesc.SerializeFun.target< void(*)( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
+    CHECK( *typeDesc.CustomFunction.target< void(*)( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
     CHECK( typeDesc.Properties.size() == 1 );
 }
 
@@ -76,35 +76,35 @@ TEST_CASE( "Serialization.Overrides.Serial.DerivedTypes", "[Serialization]" )
     {
         auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< BaseObject >() );
 
-        CHECK( *typeDesc.SerializeFun.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
+        CHECK( *typeDesc.CustomFunction.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
         CHECK( typeDesc.Properties.size() == 1 );
     }
 
     {
         auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< DerivedObject >() );
 
-        CHECK( *typeDesc.SerializeFun.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
+        CHECK( *typeDesc.CustomFunction.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
         CHECK( typeDesc.Properties.size() == 2 );
     }
 
     {
         auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< SharedObject >() );
 
-        CHECK( *typeDesc.SerializeFun.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
+        CHECK( *typeDesc.CustomFunction.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
         CHECK( typeDesc.Properties.size() == 2 );
     }
 
     {
         auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< DerivedFromSharedObject >() );
 
-        CHECK( *typeDesc.SerializeFun.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
+        CHECK( *typeDesc.CustomFunction.target< void( * )( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
         CHECK( typeDesc.Properties.size() == 2 );
     }
 
     // Check if NotRelated object was not affected.
     {
         auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< NotRelated >() );
-        CHECK( typeDesc.SerializeFun == nullptr);
+        CHECK( typeDesc.CustomFunction == nullptr);
     }
 }
 
@@ -121,18 +121,18 @@ TEST_CASE( "Serialization.Overrides.Serial.DerivedTypes.OverwriteFunction", "[Se
     overrides.OverrideType( TypeID::get< DerivedFromSharedObject >(), &OverrideImpl2 );
 
     auto& typeDesc1 = overrides.GetTypeDescriptor( TypeID::get< BaseObject >() );
-    CHECK( *typeDesc1.SerializeFun.target< void(*)( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
+    CHECK( *typeDesc1.CustomFunction.target< void(*)( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
 
     auto& typeDesc2 = overrides.GetTypeDescriptor( TypeID::get< SharedObject >() );
-    CHECK( *typeDesc2.SerializeFun.target< void(*)( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
+    CHECK( *typeDesc2.CustomFunction.target< void(*)( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl );
 
     auto& typeDesc3 = overrides.GetTypeDescriptor( TypeID::get< DerivedFromSharedObject >() );
-    CHECK( *typeDesc3.SerializeFun.target< void(*)( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl2 );
+    CHECK( *typeDesc3.CustomFunction.target< void(*)( ISerializer&, const rttr::instance&, SerialTypeDesc& )>() == OverrideImpl2 );
 
 
     // Check if NotRelated object was not affected.
     auto& typeDesc4 = overrides.GetTypeDescriptor( TypeID::get< NotRelated >() );
-    CHECK( typeDesc4.SerializeFun == nullptr );
+    CHECK( typeDesc4.CustomFunction == nullptr );
 }
 
 
@@ -146,7 +146,7 @@ TEST_CASE( "Serialization.Overrides.Deserial.SingleTypeOverride", "[Serializatio
 
     auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< BaseObject >() );
 
-    CHECK( *typeDesc.SerializeFun.target< Nullable< rttr::variant >(*)( const IDeserializer&, DeserialTypeDesc& ) >() == DeserOverrideImpl );
+    CHECK( *typeDesc.CustomFunction.target< Nullable< rttr::variant >(*)( const IDeserializer&, DeserialTypeDesc& ) >() == DeserOverrideImpl );
     CHECK( typeDesc.Properties.size() == 1 );
 }
 

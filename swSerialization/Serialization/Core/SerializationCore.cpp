@@ -107,8 +107,8 @@ void                    SerializationCore::SerializeObject          ( ISerialize
 
     // If user specified override function for this type - use it.
     // Otherwise default serialization.
-    if( typeDesc.SerializeFun )
-        typeDesc.SerializeFun( ser, value, typeDesc );
+    if( typeDesc.CustomFunction )
+        typeDesc.CustomFunction( ser, value, typeDesc );
     else
         SerializePropertiesVec( ser, value, typeDesc.Properties );
 
@@ -861,8 +861,8 @@ Nullable< rttr::variant >           SerializationCore::RunDeserializeOverride   
     auto& overrides = deser.GetContext< SerializationContext >()->DeserialOverrides;
     auto& typeDesc = overrides.GetTypeDescriptor( wrappedType );
 
-    if( typeDesc.SerializeFun )
-        return typeDesc.SerializeFun( deser, typeDesc );
+    if( typeDesc.CustomFunction )
+        return typeDesc.CustomFunction( deser, typeDesc );
     else
         return DeserializePropertiesVec( deser, prevValue, typeDesc.Properties );
 }
