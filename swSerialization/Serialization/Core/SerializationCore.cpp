@@ -347,22 +347,18 @@ void					SerializationCore::DefaultDeserialize		( const IDeserializer& deser, Ob
 }
 
 // ================================ //
-//
+/// TODO: Replace with new functions.
 void					SerializationCore::DefaultDeserializeImpl	( const IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType )
 {
 	auto objectType = dynamicType;
-	auto& properties = SerializationCore::GetTypeFilteredProperties( objectType, deser.GetContext< SerializationContext >() );
 
-	for( auto& property : properties )
-	{
-		auto propertyType = property.get_type();
+    auto& overrides = deser.GetContext< SerializationContext >()->DeserialOverrides;
+    auto& typeDesc = overrides.GetTypeDescriptor( objectType );
 
-		bool deserialized = DeserializeBasicTypes( deser, object, property );
-		deserialized = deserialized || DeserializeStringTypes( deser, object, property );
-		deserialized = deserialized || DeserializeEnumTypes( deser, object, property );
-		deserialized = deserialized || DeserializeArrayTypes( deser, object, property );
-		deserialized = deserialized || DeserializeObjectTypes( deser, object, property );
-	}
+    auto result = DeserializePropertiesVec( deser, object, typeDesc.Properties );
+    
+    if( !result.IsValid() )
+        Warn< SerializationException >( deser, result.GetErrorReason() );
 }
 
 
@@ -626,7 +622,7 @@ bool	SerializationCore::DeserializeObjectTypes				( const IDeserializer& deser, 
 Nullable< rttr::variant >           SerializationCore::DeserializeBasicType         ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
     /// @todo Consider checking these conditions and returning exception on fail.
-    assert( !expectedType.is_arithmetic() );
+    assert( expectedType.is_arithmetic() );
 
     if( expectedType == rttr::type::get< float >() )
         return SerializationCore::DeserializePropertyToVariant< float >( deser, name );
@@ -799,7 +795,7 @@ Nullable< rttr::variant >           SerializationCore::DeserializeObjectSelector
     TypeID expectedTypeUnwrapped = SerializationCore::GetRawWrappedType( expectedType );
     
     // Consider returning exception on false.
-    assert( !expectedTypeUnwrapped.is_class() );
+    assert( expectedTypeUnwrapped.is_class() );
 
     if( IsPolymorphicType( expectedTypeUnwrapped ) )
     {
