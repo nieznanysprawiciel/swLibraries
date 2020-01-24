@@ -908,7 +908,7 @@ ReturnResult                        SerializationCore::DeserializePropertiesVec 
         auto prevValue = property.get_value( parent );
 
         auto newValue = DeserializeDispatcher( deser, property.get_name(), prevValue, propertyType );
-        auto result = SerializationCore::SetObjectProperty( deser, parent, property, newValue );
+        auto result = SerializationCore::SetObjectProperty( deser, parent, property, collector.OnError( std::move( newValue ), rttr::variant( nullptr ) ) );
         
         collector.Success( result );
     }
