@@ -24,6 +24,9 @@ namespace sw
 {
 
 
+typedef std::vector< rttr::variant > VariantVec;
+
+
 /**@brief Core serialization/deserialization functions.
 
 This class is usefull only if you write your own serialization implementation.
@@ -87,6 +90,7 @@ public:
     static Nullable< rttr::variant >        DeserializeArray  	        ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static Nullable< rttr::variant >        DeserializeObject        	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static Nullable< rttr::variant >        DeserializeObjectInArray  	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        DeserializeArrayInArray     ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
 
     static Nullable< rttr::variant >        DeserializePolymorphic		( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static Nullable< rttr::variant >        DeserializeNotPolymorphic	( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
@@ -95,19 +99,21 @@ public:
     static Nullable< rttr::variant >        DeserializeObjectSelector   ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static Nullable< rttr::variant >        DeserializeDispatcher       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static ReturnResult                     DeserializePropertiesVec    ( const IDeserializer& deser, const rttr::instance& object, const std::vector< rttr::property >& properties );
-    static Nullable< rttr::variant >        RunDeserializeOverride      ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
-    //static bool				                DeserializeProperty	    ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop );	
+    static Nullable< VariantVec >           DeserializeArrayElements    ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView );
+    static Nullable< rttr::variant >        DeserializeArrayDispatcher  ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
+    static Nullable< rttr::variant >        RunDeserializeOverride      ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );    
 
 	static void				                DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 	static void				                DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 
+    static Nullable< rttr::variant >        RunDeserializeOverridePolymorphic       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static Nullable< rttr::variant >        DefaultDeserializePolymorphicImpl       ( const IDeserializer& deser, rttr::string_view typeName, DeserialTypeDesc& desc );
-    static Nullable< rttr::variant >        DefaultDeserializeNotPolymorphicImpl	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
 
     ///@}
 	
 	static rttr::variant	                CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, TypeID dynamicType );
     static ReturnResult                     SetObjectProperty           ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, rttr::variant& newObject );
+    static ReturnResult                     SetArrayElement             ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size index, rttr::variant& newObject );
 	static Nullable< rttr::variant >        CreateInstance				( TypeID type );
     static Nullable< rttr::variant >        CreateInstance				( rttr::string_view typeName );
 

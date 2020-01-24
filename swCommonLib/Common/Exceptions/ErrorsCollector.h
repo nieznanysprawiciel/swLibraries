@@ -108,6 +108,7 @@ public:
 	inline ReturnResult Get						();
 
 	inline bool			IsList					() const { return m_multipleRaised; }
+    inline bool			IsValid					() const { return m_exception == nullptr; }
 
 	inline ExceptionsListPtr	GetExceptionsList	() const;
 	inline ExceptionPtr			GetException		() const { return m_exception; }

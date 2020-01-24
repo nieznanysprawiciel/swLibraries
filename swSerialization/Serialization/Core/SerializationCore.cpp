@@ -694,7 +694,69 @@ Nullable< rttr::variant >           SerializationCore::DeserializeEnum          
 //
 Nullable< rttr::variant >           SerializationCore::DeserializeArray             ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
-    return Nullable<rttr::variant>();
+    TypeID propertyType = SerializationCore::GetWrappedType( expectedType );
+    if( !propertyType.is_sequential_container() )
+        return SerializationException::Create( deser, fmt::format( "Type [{}] is not sequential container.", expectedType ) );
+
+    auto arrayView = prevValue.create_sequential_view();
+
+    assert( arrayView.is_valid() );
+    assert( arrayView.get_rank() == 1 );
+
+    if( arrayView.get_rank() != 1 )
+        return SerializationException::Create( deser, fmt::format( "Not supported. Array [{}] of type [{}] has nested arrays.", name.to_string(), expectedType ) );
+
+    TypeID arrayElementType = arrayView.get_rank_type( 1 );
+    assert( arrayElementType.is_class() || arrayElementType.get_raw_type().is_class() );
+    if( !arrayElementType.is_class() && !arrayElementType.get_raw_type().is_class() )
+        return SerializationException::Create( deser, fmt::format( "Array [{}] with elements of type [{}] can't be deserialized. Only classes and structures supported.",
+                                                                    name.to_string(), arrayElementType ) );
+
+    if( deser.EnterArray( name.to_string() ) )
+    {
+        auto result = DeserializeArrayElements( deser, arrayView );
+        if( result.IsValid() )
+        {
+            auto deserializedVec = std::move( result ).Get();
+
+            // Resize array if it's possible.
+            if( arrayView.get_size() < deserializedVec.size() )
+            {
+                if( arrayView.is_dynamic() )
+                    arrayView.set_size( deserializedVec.size() );
+                else
+                {
+                    Warn< SerializationException >( deser, fmt::format( "Trying to insert into readonly array of type: [{}]"
+                                                                        " more elements then array's capacity. Rest of elements will be ignored.",
+                                                                        propertyType ) );
+                }
+            }
+
+            ErrorsCollector collector;
+            for( Size index = 0; index < deserializedVec.size(); index++ )
+            {
+                if( !collector.Success( SetArrayElement( deser, arrayView, index, deserializedVec[ index ] ) ) )
+                    DestroyObject( deserializedVec[ index ] );
+            }
+        }
+        else
+        {
+            deser.Exit();
+            return SerializationException::Create( deser, fmt::format( "Array [{}] deserialization failed with error: {}",
+                                                                        name.to_string(), result.GetErrorReason() ) );
+        }
+
+        deser.Exit();
+
+        return prevValue;
+    }
+    else
+    {
+        ///@todo This warning should be conditional depending on flag in SerializationContext.
+        Warn< SerializationException >( deser, fmt::format( "Property [{}] not found in file. Value remained unchanged.", name.to_string() ) );
+    }
+
+    return prevValue;
 }
 
 // ================================ //
@@ -720,7 +782,14 @@ Nullable< rttr::variant >           SerializationCore::DeserializeObject        
 //
 Nullable< rttr::variant >           SerializationCore::DeserializeObjectInArray     ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
-    return Nullable<rttr::variant>();
+    return DeserializeObjectSelector( deser, name, prevValue, expectedType );
+}
+
+// ================================ //
+//
+Nullable< rttr::variant >           SerializationCore::DeserializeArrayInArray      ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    return SerializationException::Create( deser, fmt::format( "Not implemented" ) );
 }
 
 // ================================ //
@@ -763,7 +832,7 @@ Nullable< rttr::variant >           SerializationCore::DeserializePolymorphic   
 
     if( deser.FirstElement() )
     {
-        auto objectResult = DefaultDeserializePolymorphicImpl( deser, deser.GetName(), DeserialTypeDesc() );
+        auto objectResult = RunDeserializeOverridePolymorphic( deser, deser.GetName(), prevValue, expectedType );
 
         if( deser.NextElement() )
         {
@@ -772,12 +841,12 @@ Nullable< rttr::variant >           SerializationCore::DeserializePolymorphic   
         }
 
         deser.Exit();	// FirstElement
-        return objectResult.Get();
+        return std::move( objectResult ).Get();
     }
     else
     {
-        Warn< SerializationException >( deser, fmt::format( "Deserialization of property [{}]. Type of polymorphic object not specified.",
-                                                            name.to_string() ) );
+        return SerializationException::Create( deser, fmt::format( "Deserialization of property [{}]. Type of polymorphic object not specified.",
+                                                                    name.to_string() ) );
     }
 }
 
@@ -794,7 +863,6 @@ Nullable< rttr::variant >           SerializationCore::DeserializeNotPolymorphic
         auto creationResult = CreateInstance( expectedType );
 
         if( !creationResult.IsValid() )
-            // Warning will be added in CreateAndSetObjectProperty function.
             return creationResult;
         
         structInstance = std::move( creationResult ).Get();
@@ -850,6 +918,64 @@ ReturnResult                        SerializationCore::DeserializePropertiesVec 
     }
 
     return collector.Get();
+}
+
+// ================================ //
+//
+Nullable< VariantVec >              SerializationCore::DeserializeArrayElements     ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView )
+{
+    TypeID arrayType = arrayView.get_type();
+    TypeID arrayElementType = arrayView.get_rank_type( 1 );
+
+    int idx = 0;
+    auto element = arrayView.begin();
+
+    ErrorsCollector collector;
+    VariantVec elementsVec;
+
+    if( deser.FirstElement() )
+    {
+        do
+        {
+            auto prevValue = idx < arrayView.get_size() ? arrayView.get_value( idx ) : rttr::variant();
+            auto result = DeserializeArrayDispatcher( deser, "", prevValue, arrayElementType );
+            
+            elementsVec.push_back( collector.OnError( std::move( result ), rttr::variant() ) );
+
+            idx++;
+            element++;
+        } while( deser.NextElement() );
+
+        deser.Exit();
+    }
+
+    if( collector.IsValid() )
+        return elementsVec;
+
+    // Remove all object that we created and they were valid.
+    for( auto& element : elementsVec )
+        DestroyObject( element );
+
+    return collector.GetException();
+}
+
+// ================================ //
+//
+Nullable< rttr::variant >           SerializationCore::DeserializeArrayDispatcher               ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    auto expectedTypeUnwrapped = SerializationCore::GetRawWrappedType( expectedType );
+
+    if( expectedTypeUnwrapped.is_arithmetic()
+        || expectedTypeUnwrapped.is_enumeration()
+        || SerializationCore::IsStringType( expectedTypeUnwrapped ) )
+        return SerializationException::Create( deser, fmt::format( "Type [{}] not supported in array.", expectedType ) );
+
+    if( expectedTypeUnwrapped.is_array() )
+        return DeserializeArrayInArray( deser, name, prevValue, expectedType );
+    if( expectedTypeUnwrapped.is_class() )
+        return DeserializeObjectInArray( deser, name, prevValue, expectedType );
+
+    return SerializationException::Create( deser, fmt::format( "Type [{}] isn't any of class types known to serialization.", expectedType ) );
 }
 
 // ================================ //
@@ -962,6 +1088,21 @@ void				                SerializationCore::DeserializeNotPolymorphic	           
 
 // ================================ //
 //
+Nullable< rttr::variant >           SerializationCore::RunDeserializeOverridePolymorphic        ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
+{
+    TypeID wrappedType = GetWrappedType( expectedType );
+
+    auto& overrides = deser.GetContext< SerializationContext >()->DeserialOverrides;
+    auto& typeDesc = overrides.GetTypeDescriptor( wrappedType );
+
+    if( typeDesc.CustomFunction )
+        return typeDesc.CustomFunction( deser, typeDesc );
+    else
+        return DefaultDeserializePolymorphicImpl( deser, name, typeDesc );
+}
+
+// ================================ //
+//
 Nullable< rttr::variant >           SerializationCore::DefaultDeserializePolymorphicImpl        ( const IDeserializer& deser, rttr::string_view typeName, DeserialTypeDesc& desc )
 {
     // Check what type of object we should create.
@@ -974,16 +1115,19 @@ Nullable< rttr::variant >           SerializationCore::DefaultDeserializePolymor
                                                                     newClassResult.GetErrorReason() ) );
     }
 
-    rttr::variant newClass = newClassResult.Get();
+    rttr::variant newClass = std::move( newClassResult ).Get();
 
-    DefaultDeserializeImpl( deser, newClassResult.Get(), GetRawWrappedType( newClass.get_type() ) );
+    auto result = DeserializePropertiesVec( deser, newClass, desc.Properties );
     
-    return newClassResult.Get();
+    if( result.IsValid() )
+        return newClass;
+
+    return result;
 }
 
 // ================================ //
 //
-rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, TypeID dynamicType )
+rttr::variant		                SerializationCore::CreateAndSetObjectProperty	    ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, TypeID dynamicType )
 {
     /// @todo Proper error handling. This function probably will be splitted in future.
     auto newClassResult = CreateInstance( dynamicType );
@@ -1082,16 +1226,24 @@ rttr::variant		SerializationCore::CreateAndSetObjectProperty	( const IDeserializ
 //
 ReturnResult                        SerializationCore::SetObjectProperty    ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, rttr::variant& newObject )
 {
+    // Object didn't change, we don't have to set property.
+    // Note: This can happen when we deserialize not-polymorphic structure,
+    // that doesn't require allocation.
+    if( newObject == prop.get_value( parent ) )
+        return Success::True;
+
     TypeID propertyType = prop.get_type();
     TypeID createdType = newObject.get_type();
 
     if( !( propertyType.is_wrapper() && !createdType.is_wrapper() ) &&
         !( !propertyType.is_wrapper() && createdType.is_wrapper() ) )
     {
-        if( newObject.convert( prop.get_type() ) &&
-            prop.set_value( parent, newObject ) )
+        if( newObject.convert( prop.get_type() ) )
         {
-            return Success::True;
+            if( prop.set_value( parent, newObject ) )
+                return Success::True;
+
+            // Don't return. Further diagnostic below.
         }
         else
         {
@@ -1169,7 +1321,37 @@ ReturnResult                        SerializationCore::SetObjectProperty    ( co
         return SerializationException::Create( deser, std::move( errorMessage ) );
 	}
 
-    return SerializationException::Create( deser, fmt::format( "Unknown error while setting object for property [{}].", propertyType.get_name().to_string() ) );
+    return SerializationException::Create( deser, fmt::format( "Unknown error while setting object of type [{}] for property [{}].",
+                                                                createdType,
+                                                                propertyType.get_name().to_string() ) );
+}
+
+// ================================ //
+//
+ReturnResult                        SerializationCore::SetArrayElement  ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size index, rttr::variant& newObject )
+{
+    // Object didn't change, we don't have to set property.
+    // Note: This can happen when we deserialize arrays with structures
+    // of constant size.
+    if( newObject == arrayView.get_value( index ) )
+        return Success::True;
+
+    TypeID elementType = arrayView.get_rank_type( 1 );
+    if( newObject.convert( TypeID( elementType ) ) )
+    {
+        if( arrayView.set_value( index, newObject ) )
+            return Success::True;
+
+        // Don't return. Further diagnostic below.
+        return SerializationException::Create( deser, fmt::format( "Failed to set array value at index {}.", index ) );
+    }
+    else
+    {
+        std::string errorMessage = fmt::format( "Can't convert object of type [{}] to array element type [{}] at index {}.",
+                                                newObject.get_type(), elementType, index );
+
+        return SerializationException::Create( deser, std::move( errorMessage ) );
+    }
 }
 
 // ================================ //
