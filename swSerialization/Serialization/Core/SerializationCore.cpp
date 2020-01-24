@@ -986,7 +986,10 @@ Nullable< rttr::variant >           SerializationCore::RunDeserializeOverride   
     if( typeDesc.CustomFunction )
         return typeDesc.CustomFunction( deser, typeDesc );
     else
-        return DeserializePropertiesVec( deser, prevValue, typeDesc.Properties );
+    {
+        auto result = DeserializePropertiesVec( deser, prevValue, typeDesc.Properties );
+        if( result.IsValid() ) return Success::True; else return result.GetError();
+    }
 }
 
 // ================================ //
