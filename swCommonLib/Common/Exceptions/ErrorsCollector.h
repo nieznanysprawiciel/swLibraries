@@ -102,13 +102,18 @@ public:
     @endcode
     */
     template< typename ReturnType >
-    inline ReturnType   OnError					( Nullable< ReturnType >&& result, ReturnType defaultVal );
+    inline ReturnType                   OnError     ( Nullable< ReturnType >&& result, ReturnType defaultVal );
 
-	inline				operator ReturnResult	();
-	inline ReturnResult Get						();
+	inline				operator ReturnResult	    ();
+	inline ReturnResult                 Get         ();
 
-	inline bool			IsList					() const { return m_multipleRaised; }
-    inline bool			IsValid					() const { return m_exception == nullptr; }
+    /**@brief Converts ErrorsCollector to Nullable.
+    Returns forwards onSuccess parameter if collector didn't collect any errors.*/
+    template< typename ReturnType >
+    inline Nullable< ReturnType >       Return      ( ReturnType onSuccess );
+
+	inline bool			                IsList      () const { return m_multipleRaised; }
+    inline bool			                IsValid     () const { return m_exception == nullptr; }
 
 	inline ExceptionsListPtr	GetExceptionsList	() const;
 	inline ExceptionPtr			GetException		() const { return m_exception; }
@@ -242,13 +247,24 @@ inline bool						ErrorsCollector::Success				( const Nullable< ReturnType >& res
 // ================================ //
 //
 template< typename ReturnType >
-inline ReturnType               ErrorsCollector::OnError                  ( Nullable< ReturnType >&& result, ReturnType defaultVal )
+inline ReturnType               ErrorsCollector::OnError                ( Nullable< ReturnType >&& result, ReturnType defaultVal )
 {
     if( result.IsValid() )
         return std::move( result ).Get();
 
     Add( result.GetError() );
     return std::move( defaultVal );
+}
+
+// ================================ //
+//
+template< typename ReturnType >
+inline Nullable< ReturnType >   ErrorsCollector::Return                 ( ReturnType onSuccess )
+{
+    if( IsValid() )
+        return onSuccess;
+
+    return Nullable< ReturnType >( m_exception );
 }
 
 }	// sw
