@@ -888,7 +888,7 @@ Nullable< rttr::variant >           SerializationCore::DeserializeDispatcher    
         return DeserializeEnum( deser, name, prevValue, expectedType );
     if( SerializationCore::IsStringType( expectedTypeUnwrapped ) )
         return DeserializeString( deser, name, prevValue, expectedType );
-    if( expectedTypeUnwrapped.is_array() )
+    if( expectedTypeUnwrapped.is_sequential_container() )
         return DeserializeArray( deser, name, prevValue, expectedType );
     if( expectedTypeUnwrapped.is_class() )
         return DeserializeObject( deser, name, prevValue, expectedType );
@@ -966,7 +966,7 @@ Nullable< rttr::variant >           SerializationCore::DeserializeArrayDispatche
         || SerializationCore::IsStringType( expectedTypeUnwrapped ) )
         return SerializationException::Create( deser, fmt::format( "Type [{}] not supported in array.", expectedType ) );
 
-    if( expectedTypeUnwrapped.is_array() )
+    if( expectedTypeUnwrapped.is_sequential_container() )
         return DeserializeArrayInArray( deser, name, prevValue, expectedType );
     if( expectedTypeUnwrapped.is_class() )
         return DeserializeObjectInArray( deser, name, prevValue, expectedType );
