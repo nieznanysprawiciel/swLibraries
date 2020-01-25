@@ -908,7 +908,7 @@ ReturnResult                        SerializationCore::DeserializePropertiesVec 
         auto prevValue = property.get_value( parent );
 
         auto newValue = DeserializeDispatcher( deser, property.get_name(), prevValue, propertyType );
-        auto result = SerializationCore::SetObjectProperty( deser, parent, property, collector.OnError( std::move( newValue ), rttr::variant( nullptr ) ) );
+        auto result = SerializationCore::SetObjectProperty( deser, parent, property, collector.OnError( std::move( newValue ), prevValue ) );
         
         collector.Success( result );
     }
@@ -1121,7 +1121,7 @@ Nullable< rttr::variant >           SerializationCore::DefaultDeserializePolymor
     if( result.IsValid() )
         return newClass;
 
-    return result;
+    return result.GetError();
 }
 
 // ================================ //
@@ -1246,9 +1246,10 @@ ReturnResult                        SerializationCore::SetObjectProperty    ( co
         }
         else
         {
-		    std::string errorMessage = fmt::format( "Property [{}] setting error. Can't convert object of type [{}].",
+		    std::string errorMessage = fmt::format( "Error setting property [{}]. Can't convert object of type [{}] to [{}].",
                                                     prop.get_name().to_string(),
-                                                    createdType );
+                                                    createdType,
+                                                    propertyType );
 
             return SerializationException::Create( deser, std::move( errorMessage ) );
         }
@@ -1275,7 +1276,7 @@ ReturnResult                        SerializationCore::SetObjectProperty    ( co
 		/// @todo When created type is raw pointer and property is wrapped type, we could handle this case
 		/// by creating wrapper from pointer. Consider this in future. Many problems could apear, when it comes to
 		/// ownership of memory and so on.
-        std::string errorMessage = fmt::format( "Property [{}] setting error. Wrapper and raw pointer mismatch between"
+        std::string errorMessage = fmt::format( "Error setting property [{}]. Wrapper and raw pointer mismatch between"
                                                 " property of type [{}] and created class of type [{}].",
                                                 prop.get_name().to_string(),
                                                 propertyType,
@@ -1290,7 +1291,7 @@ ReturnResult                        SerializationCore::SetObjectProperty    ( co
 		/// @todo We must take into considerations other wrapper types which not necessary take ownership of
 		/// object. To do this we must be able to determine wrapper template type and have some traits connected
 		/// to ownership. Think about it in future.
-        std::string errorMessage = fmt::format( "Property [{}] setting error. Wrapper and raw pointer mismatch between property"
+        std::string errorMessage = fmt::format( "Error setting property [{}]. Wrapper and raw pointer mismatch between property"
                                                 " of type [{}] and created class of type [{}].",
                                                 prop.get_name().to_string(),
                                                 propertyType,
@@ -1302,7 +1303,7 @@ ReturnResult                        SerializationCore::SetObjectProperty    ( co
 	{
 		// Classes types are the same, but wrappers are different.
 
-		std::string errorMessage = fmt::format( "Property [{}] setting error. Wrappers mismatch between property"
+		std::string errorMessage = fmt::format( "Error setting property [{}]. Wrappers mismatch between property"
                                                 " of type [{}] and created class of type [{}].",
                                                 prop.get_name().to_string(),
                                                 propertyType,
