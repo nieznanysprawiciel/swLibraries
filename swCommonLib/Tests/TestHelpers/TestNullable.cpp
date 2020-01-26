@@ -177,6 +177,28 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.operator&&", "[Nullable]" )
     CHECK( result2.GetErrorReason() == "Something wrong..." );
 }
 
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.Nullable.Ok.OnSuccess", "[Nullable]" )
+{
+    ReturnResult valid = Success::True;
+
+    auto nullable = valid.Ok( 5 );
+    CHECK( nullable.IsValid() == true );
+    CHECK( nullable.Get() == 5 );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.Nullable.Ok.Invalid", "[Nullable]" )
+{
+    ReturnResult invalid( "Something wrong..." );
+
+    auto nullable = invalid.Ok( 5 );
+    CHECK( nullable.IsValid() == false );
+    CHECK( nullable.GetError() != nullptr );
+    CHECK( nullable.GetErrorReason() == "Something wrong..." );
+}
 
 
 //====================================================================================//

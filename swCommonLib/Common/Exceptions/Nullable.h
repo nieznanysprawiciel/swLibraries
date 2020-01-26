@@ -131,6 +131,10 @@ public:
     std::string             GetErrorReason      () const;
     ErrorType				GetError            () const;
 
+    /**@brief If ReturnResult is valid, function forwards onSuccess parameter.
+    Otherwise it returns Exception.*/
+    template< typename RetType >
+    Nullable< RetType >     Ok                  ( RetType&& onSuccess ) const;
 };
 
 Nullable< void >            operator&&		    ( const Nullable< void >& that, const Nullable< void >& second );
@@ -234,6 +238,16 @@ inline Nullable< void >::Nullable			( std::shared_ptr< ExceptionType > error )
 	: m_isValid( false ), Error( std::static_pointer_cast< Exception >( error ) )
 {
 	static_assert( std::is_base_of< typename ErrorType::element_type, ExceptionType >::value, "ExceptionType should be derived from ErrorType" );
+}
+
+// ================================ //
+//
+template< typename RetType >
+inline Nullable< RetType >      Nullable< void >::Ok                ( RetType&& onSuccess ) const
+{
+    if( IsValid() )
+        return Nullable< RetType >( std::move( onSuccess ) );
+    return Error;
 }
 
 // ================================ //
