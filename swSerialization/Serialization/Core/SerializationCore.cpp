@@ -1391,6 +1391,7 @@ ReturnResult                         SerializationCore::ResizeArray      ( const
                                                                         arrayView.get_type() ) );
         }
     }
+    return Success::True;
 }
 
 // ================================ //
