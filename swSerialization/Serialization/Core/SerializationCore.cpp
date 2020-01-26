@@ -912,7 +912,7 @@ ReturnResult                        SerializationCore::DeserializeArrayElements 
     {
         do
         {
-            if( idx <= arrayView.get_size() )
+            if( idx >= arrayView.get_size() )
             {
                 Warn< SerializationException >( deser, fmt::format( "Performance warning: ArraySize hint didn't match real array size." ) );
 
