@@ -99,7 +99,7 @@ public:
     static Nullable< rttr::variant >        DeserializeObjectSelector   ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static Nullable< rttr::variant >        DeserializeDispatcher       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static ReturnResult                     DeserializePropertiesVec    ( const IDeserializer& deser, const rttr::instance& object, const std::vector< rttr::property >& properties );
-    static Nullable< VariantVec >           DeserializeArrayElements    ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView );
+    static ReturnResult                     DeserializeArrayElements    ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView );
     static Nullable< rttr::variant >        DeserializeArrayDispatcher  ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static Nullable< rttr::variant >        RunDeserializeOverride      ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );    
 
@@ -116,6 +116,7 @@ public:
     static ReturnResult                     SetArrayElement             ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size index, rttr::variant& newObject );
 	static Nullable< rttr::variant >        CreateInstance				( TypeID type );
     static Nullable< rttr::variant >        CreateInstance				( rttr::string_view typeName );
+    static ReturnResult                     ResizeArray                 ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size newSize );
 
 
 	static std::string		                WstringToUTF		( const std::wstring& str );

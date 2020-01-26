@@ -143,8 +143,8 @@ inline void							SerializationCore::DestroyObject			( rttr::variant& object )
 		// What if wrappers don't own objects ?
 		if( !typeToDestroy.is_wrapper() )
 		{
-			auto result = typeToDestroy.destroy( object );
-			assert( result );	// I don't know if it is posible but better to know, when it happens.
+            // Destroying will fail if we pass not allocated object.
+			typeToDestroy.destroy( object );
 		}
 	}
 }

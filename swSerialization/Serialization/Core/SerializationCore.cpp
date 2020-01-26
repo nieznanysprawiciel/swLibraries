@@ -711,40 +711,13 @@ Nullable< rttr::variant >           SerializationCore::DeserializeArray         
     if( deser.EnterArray( name.to_string() ) )
     {
         auto result = DeserializeArrayElements( deser, arrayView );
-        if( result.IsValid() )
-        {
-            auto deserializedVec = std::move( result ).Get();
-
-            // Resize array if it's possible.
-            if( arrayView.get_size() < deserializedVec.size() )
-            {
-                if( arrayView.is_dynamic() )
-                    arrayView.set_size( deserializedVec.size() );
-                else
-                {
-                    Warn< SerializationException >( deser, fmt::format( "Trying to insert into readonly array of type: [{}]"
-                                                                        " more elements then array's capacity. Rest of elements will be ignored.",
-                                                                        propertyType ) );
-                }
-            }
-
-            ErrorsCollector collector;
-            for( Size index = 0; index < deserializedVec.size(); index++ )
-            {
-                if( !collector.Success( SetArrayElement( deser, arrayView, index, deserializedVec[ index ] ) ) )
-                    DestroyObject( deserializedVec[ index ] );
-            }
-        }
-        else
-        {
-            deser.Exit();
-            return SerializationException::Create( deser, fmt::format( "Array [{}] deserialization failed with error: {}",
-                                                                        name.to_string(), result.GetErrorReason() ) );
-        }
 
         deser.Exit();
 
-        return prevValue;
+        if( result.IsValid() )
+            return prevValue;
+
+        return result.GetError();
     }
     else
     {
@@ -853,8 +826,10 @@ Nullable< rttr::variant >           SerializationCore::DeserializeNotPolymorphic
     TypeID wrappedType = GetWrappedType( expectedType );
     rttr::variant structInstance = prevValue;
 
-    // We must handle cases, when structure is nullptr. First we must create new object and then deserialize it.
-    if( prevValue == nullptr )
+    // We must handle cases, when structure is nullptr or invalid. First can happen for heap allocated
+    // structure, second for elements of array while resizing.
+    // First we must create new object and then deserialize it.
+    if( prevValue == nullptr || !prevValue.is_valid() )
     {
         auto creationResult = CreateInstance( expectedType );
 
@@ -913,46 +888,58 @@ ReturnResult                        SerializationCore::DeserializePropertiesVec 
         collector.Success( result );
     }
 
-    return collector.Get();
+    return collector;
 }
 
 // ================================ //
 //
-Nullable< VariantVec >              SerializationCore::DeserializeArrayElements     ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView )
+ReturnResult                        SerializationCore::DeserializeArrayElements     ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView )
 {
     TypeID arrayType = arrayView.get_type();
     TypeID arrayElementType = arrayView.get_rank_type( 1 );
 
-    int idx = 0;
-    auto element = arrayView.begin();
+    Size idx = 0;
 
     ErrorsCollector collector;
     VariantVec elementsVec;
+
+    // Array size should be only hint for deserialization.
+    auto arraySize = deser.GetAttribute( "ArraySize", 0 );
+    if( arraySize != 0 )
+        ResizeArray( deser, arrayView, arraySize );
 
     if( deser.FirstElement() )
     {
         do
         {
-            auto prevValue = idx < arrayView.get_size() ? arrayView.get_value( idx ) : rttr::variant();
+            if( idx <= arrayView.get_size() )
+            {
+                Warn< SerializationException >( deser, fmt::format( "Performance warning: ArraySize hint didn't match real array size." ) );
+
+                auto result = ResizeArray( deser, arrayView, idx + 1 );
+                if( !result.IsValid() )
+                {
+                    deser.Exit();
+                    return result;
+                }
+            }
+
+            auto prevValue = arrayView.get_value( idx );
             auto result = DeserializeArrayDispatcher( deser, "", prevValue, arrayElementType );
+            auto value = collector.OnError( std::move( result ), prevValue );
+            auto setResult = SetArrayElement( deser, arrayView, idx, value );
             
-            elementsVec.push_back( collector.OnError( std::move( result ), rttr::variant() ) );
+            // SetArrayElement won't fail while setting prevValue, so we should never destroy it.
+            if( !collector.Success( setResult ) )
+                DestroyObject( value );
 
             idx++;
-            element++;
         } while( deser.NextElement() );
 
         deser.Exit();
     }
 
-    if( collector.IsValid() )
-        return elementsVec;
-
-    // Remove all object that we created and they were valid.
-    for( auto& element : elementsVec )
-        DestroyObject( element );
-
-    return collector.GetException();
+    return collector;
 }
 
 // ================================ //
@@ -988,7 +975,7 @@ Nullable< rttr::variant >           SerializationCore::RunDeserializeOverride   
     else
     {
         auto result = DeserializePropertiesVec( deser, prevValue, typeDesc.Properties );
-        if( result.IsValid() ) return Success::True; else return result.GetError();
+        if( result.IsValid() ) return prevValue; else return result.GetError();
     }
 }
 
@@ -1342,7 +1329,6 @@ ReturnResult                        SerializationCore::SetArrayElement  ( const 
         if( arrayView.set_value( index, newObject ) )
             return Success::True;
 
-        // Don't return. Further diagnostic below.
         return SerializationException::Create( deser, fmt::format( "Failed to set array value at index {}.", index ) );
     }
     else
@@ -1380,6 +1366,31 @@ Nullable< rttr::variant >           SerializationCore::CreateInstance   ( rttr::
         return fmt::format( "Failed to create object of type [{}]. No such type.", typeName.to_string() );
 
     return CreateInstance( type );
+}
+
+// ================================ //
+//
+ReturnResult                         SerializationCore::ResizeArray      ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size newSize )
+{
+    if( newSize != arrayView.get_size() )
+    {
+        if( arrayView.is_dynamic() )
+        {
+            if( newSize < arrayView.get_size() )
+            {
+                // Destroy elements that will disapear after resizing.
+                for( long int idx = (long int)newSize - 1; idx < arrayView.get_size(); idx++ )
+                    DestroyObject( arrayView.get_value( idx ) );
+            }
+
+            arrayView.set_size( newSize );
+        }
+        else
+        {
+            return SerializationException::Create( deser, fmt::format( "Can't resize readonly array of type: [{}]",
+                                                                        arrayView.get_type() ) );
+        }
+    }
 }
 
 // ================================ //
