@@ -52,15 +52,6 @@ PropertyType	SerializationCore::GetPropertyValue			( rttr::property prop, const 
 	return value.get_value< PropertyType >();
 }
 
-/**@brief Serializuje w³aœciwoœæ podanego typu.
-
-@todo Mo¿na zoptymalizowaæ pobieranie nazwy z w³aœciwoœci i ograniczyæ alokacjê stringów.*/
-template< typename PropertyType >
-void			SerializationCore::SerializeProperty		( ISerializer& ser, rttr::property prop, const rttr::instance& object )
-{
-	ser.SetAttribute( prop.get_name().to_string(), GetPropertyValue< PropertyType >( prop, object ) );
-}
-
 // ================================ //
 //
 template< typename PropertyType >

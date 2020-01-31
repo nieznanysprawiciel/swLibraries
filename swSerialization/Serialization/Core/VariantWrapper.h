@@ -47,6 +47,7 @@ public:
 
 public:
 
+    /**@note rttr::variant must be moved. We don't want to copy types.*/
     static VariantWrapper      FromNew         ( rttr::variant&& newValue );
     static VariantWrapper      FromPrevious    ( rttr::variant& prevValue );
 };

@@ -39,10 +39,6 @@ class SerializationCore
 {
 public:
 
-	static const std::vector< rttr::property >&		GetTypeFilteredProperties	( rttr::type objType, SerializationContext* context );
-
-
-	static bool				ShouldSave				( rttr::property prop, MetaDataType saveFlag );
 	static bool				IsPolymorphicType		( TypeID type );
 	
 	static void				DefaultSerialize		( ISerializer& ser, const Object* object );
@@ -80,13 +76,6 @@ public:
     /// can be got from property or array element. Note that result object can 
 	///@{
 
-	/**@brief Deserialize basic arithmetic types and bool.*/
-	static bool				                DeserializeBasicTypes	    ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static bool				                DeserializeStringTypes	    ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static bool				                DeserializeEnumTypes	    ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static bool				                DeserializeArrayTypes	    ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static bool				                DeserializeObjectTypes	    ( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-
     static Nullable< VariantWrapper >       DeserializeBasicType	    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static Nullable< VariantWrapper >       DeserializeString	        ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static Nullable< VariantWrapper >       DeserializeEnum    	        ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
@@ -106,42 +95,30 @@ public:
     static Nullable< VariantWrapper >       DeserializeArrayDispatcher  ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static Nullable< VariantWrapper >       RunDeserializeOverride      ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );    
 
-	static void				                DeserializePolymorphic		( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-	static void				                DeserializeNotPolymorphic	( const IDeserializer& deser, const rttr::instance& object, rttr::property prop );
-
     static Nullable< VariantWrapper >       RunDeserializeOverridePolymorphic       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     static Nullable< VariantWrapper >       DefaultDeserializePolymorphicImpl       ( const IDeserializer& deser, rttr::string_view typeName, DeserialTypeDesc& desc );
 
     ///@}
 	
-	static rttr::variant	                CreateAndSetObjectProperty	( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, TypeID dynamicType );
     static ReturnResult                     SetObjectProperty           ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, VariantWrapper& newObject );
     static ReturnResult                     SetArrayElement             ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size index, VariantWrapper& newObject );
-	static Nullable< rttr::variant >        CreateInstance				( TypeID type );
-    static Nullable< rttr::variant >        CreateInstance				( rttr::string_view typeName );
     static ReturnResult                     ResizeArray                 ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size newSize );
-    
+
+    ///@name Objects creation and destruction
+    ///@{
+    static Nullable< rttr::variant >        CreateInstance				( TypeID type );
+    static Nullable< rttr::variant >        CreateInstance				( rttr::string_view typeName );
+
     /**@brief Destroy object in variant.*/
     static void							    DestroyObject			    ( rttr::variant& object );
 
     /**@brief Destroys object in variant if it is new value not reference to previosu.*/
     static void							    DestroyObjectIfNew          ( VariantWrapper& object );
 
-	static std::string		                WstringToUTF		( const std::wstring& str );
-	static std::wstring		                UTFToWstring		( const std::string& str );
+    ///@}
 
 	template< typename PropertyType >
-	static PropertyType		                GetPropertyValue	( rttr::property prop, const rttr::instance& object );
-
-	template< typename PropertyType >
-	static void				                SerializeProperty	( ISerializer& ser, rttr::property prop, const rttr::instance& object );
-
-	template< typename PropertyType >
-	static void				                SerializeProperty	( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue );
-
-
-	template<>	static void				SerializeProperty< std::wstring >			( ISerializer& ser, rttr::property prop, const rttr::instance& object );
-	template<>	static void				SerializeProperty< char >					( ISerializer& ser, rttr::property prop, const rttr::instance& object );
+	static void				            SerializeProperty	                        ( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue );
 
 	template<>	static void				SerializeProperty< char >					( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue );
     template<>	static void				SerializeProperty< std::wstring >			( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue );
@@ -157,13 +134,14 @@ public:
     static PropertyType                 DeserializeProperty	                        ( const IDeserializer& deser, rttr::string_view name );
 
     template< typename PropertyType >
-    static VariantWrapper               DeserializePropertyToVariant                ( const IDeserializer& deser, rttr::string_view name );
+    static PropertyType	                GetPropertyValue			                ( rttr::property prop, const rttr::instance& object );
 
-	template<> static void				DeserializeProperty< std::wstring >			( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
-	template<> static void				DeserializeProperty< char >					( const IDeserializer& deser, rttr::property prop, const rttr::instance& object );
+    template< typename PropertyType >
+    static VariantWrapper               DeserializePropertyToVariant                ( const IDeserializer& deser, rttr::string_view name );
 
     template<> static std::wstring      DeserializeProperty< std::wstring >			( const IDeserializer& deser, rttr::string_view name );
     template<> static char				DeserializeProperty< char >					( const IDeserializer& deser, rttr::string_view name );
+
 
 	/**@brief Gets real type of the object that means most derived and wrapped type.*/
 	static TypeID						GetRealType			    ( const rttr::instance& object );
@@ -182,6 +160,9 @@ public:
 	static SerializationContext*		Context					( const IDeserializer& deser );
 
     static bool                         IsStringType            ( TypeID type );
+
+    static std::string		            WstringToUTF	    	( const std::wstring& str );
+    static std::wstring		            UTFToWstring		    ( const std::string& str );
 };
 
 
