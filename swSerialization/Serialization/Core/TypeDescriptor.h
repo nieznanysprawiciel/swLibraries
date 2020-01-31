@@ -12,6 +12,8 @@
 #include "swSerialization/Interfaces/Serializer.h"
 #include "swSerialization/Interfaces/Deserializer.h"
 
+#include "swSerialization/Serialization/Core/VariantWrapper.h"
+
 #include <functional>
 
 
@@ -25,7 +27,7 @@ struct DeserialTypeDesc;
 
 
 typedef std::function< void( ISerializer&, const rttr::instance&, SerialTypeDesc& ) > SerialOverrideFun;
-typedef std::function< Nullable< rttr::variant >( const IDeserializer&, DeserialTypeDesc& ) > DeserialOverrideFun;
+typedef std::function< Nullable< VariantWrapper >( const IDeserializer&, DeserialTypeDesc& ) > DeserialOverrideFun;
 
 
 

@@ -40,7 +40,7 @@ void            OverrideImpl2       ( ISerializer& ser, const rttr::instance& in
 
 // ================================ //
 //
-Nullable< rttr::variant >        DeserOverrideImpl      ( const IDeserializer& deser, DeserialTypeDesc& desc )
+Nullable< VariantWrapper >        DeserOverrideImpl      ( const IDeserializer& deser, DeserialTypeDesc& desc )
 {
     return "Fail";
 }
@@ -146,7 +146,7 @@ TEST_CASE( "Serialization.Overrides.Deserial.SingleTypeOverride", "[Serializatio
 
     auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< BaseObject >() );
 
-    CHECK( *typeDesc.CustomFunction.target< Nullable< rttr::variant >(*)( const IDeserializer&, DeserialTypeDesc& ) >() == DeserOverrideImpl );
+    CHECK( *typeDesc.CustomFunction.target< Nullable< VariantWrapper >(*)( const IDeserializer&, DeserialTypeDesc& ) >() == DeserOverrideImpl );
     CHECK( typeDesc.Properties.size() == 1 );
 }
 

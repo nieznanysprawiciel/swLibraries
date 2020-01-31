@@ -98,9 +98,9 @@ inline PropertyType                 SerializationCore::DeserializeProperty      
 // ================================ //
 //
 template< typename PropertyType >
-inline rttr::variant                SerializationCore::DeserializePropertyToVariant ( const IDeserializer& deser, rttr::string_view name )
+inline VariantWrapper               SerializationCore::DeserializePropertyToVariant ( const IDeserializer& deser, rttr::string_view name )
 {
-    return rttr::variant( SerializationCore::DeserializeProperty< PropertyType >( deser, name ) );
+    return VariantWrapper::FromNew( rttr::variant( SerializationCore::DeserializeProperty< PropertyType >( deser, name ) ) );
 }
 
 // ================================ //
@@ -163,6 +163,14 @@ inline void							SerializationCore::DestroyObject			( rttr::variant& object )
 			typeToDestroy.destroy( object );
 		}
 	}
+}
+
+// ================================ //
+//
+inline void                         SerializationCore::DestroyObjectIfNew       ( VariantWrapper& object )
+{
+    if( object.IsNew() )
+        DestroyObject( object.GetNew() );
 }
 
 // ================================ //
