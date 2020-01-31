@@ -166,6 +166,10 @@ public:
 	/**@brief First extracts wrapped type and then returns raw type.*/
 	static TypeID						GetRawWrappedType		( TypeID type );
 
+    /**@brief Converts variant in place to other type.
+    Returns false on conversion fail.*/
+    static bool 						ConvertVariant          ( rttr::variant& value, TypeID type );
+
 	/**@brief Returns SerialziationContext from deserializer.*/
 	static SerializationContext*		Context					( const IDeserializer& deser );
 

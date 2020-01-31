@@ -127,6 +127,22 @@ inline TypeID						SerializationCore::GetRawWrappedType		( TypeID type )
 
 // ================================ //
 //
+inline bool                         SerializationCore::ConvertVariant           ( rttr::variant& value, TypeID targetType )
+{
+    // Don't convert, if type is the same. This can cause problems when we try to convert
+    // types that are bound by value. Conversion creates new temporary object and then
+    // it is destroyed. If we allocate pointers, they are deallocated.
+    auto srcType = value.get_type();
+    if( srcType != targetType )
+    {
+        return value.convert( TypeID( targetType ) );
+    }
+
+    return true;
+}
+
+// ================================ //
+//
 inline SerializationContext*		SerializationCore::Context					( const IDeserializer& deser )
 {
 	return deser.GetContext< SerializationContext >();

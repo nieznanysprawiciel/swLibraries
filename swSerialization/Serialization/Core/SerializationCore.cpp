@@ -1224,7 +1224,7 @@ ReturnResult                        SerializationCore::SetObjectProperty    ( co
     if( !( propertyType.is_wrapper() && !createdType.is_wrapper() ) &&
         !( !propertyType.is_wrapper() && createdType.is_wrapper() ) )
     {
-        if( newObject.convert( prop.get_type() ) )
+        if( ConvertVariant( newObject, propertyType ) )
         {
             if( prop.set_value( parent, newObject ) )
                 return Success::True;
@@ -1323,13 +1323,14 @@ ReturnResult                        SerializationCore::SetArrayElement  ( const 
     if( newObject == arrayView.get_value( index ) )
         return Success::True;
 
-    TypeID elementType = arrayView.get_rank_type( 1 );
-    if( newObject.convert( TypeID( elementType ) ) )
+    TypeID elementType = arrayView.get_value_type();
+    if( ConvertVariant( newObject, elementType ) )
     {
         if( arrayView.set_value( index, newObject ) )
             return Success::True;
 
-        return SerializationException::Create( deser, fmt::format( "Failed to set array value at index {}.", index ) );
+        return SerializationException::Create( deser, fmt::format( "Failed to set value of type [{}] into array of type [{}] at index {}.",
+                                                                    newObject.get_type(), elementType, index ) );
     }
     else
     {
