@@ -523,19 +523,8 @@ Nullable< VariantWrapper >          SerializationCore::DeserializeNotPolymorphic
     TypeID wrappedType = GetWrappedType( expectedType );
     rttr::variant structInstance = prevValue;
 
-    // We must handle cases, when structure is nullptr or invalid. First can happen for heap allocated
-    // structure, second for elements of array while resizing.
-    // First we must create new object and then deserialize it.
-    if( prevValue == nullptr || !prevValue.is_valid() )
-    {
-        auto creationResult = CreateInstance( expectedType );
-
-        if( !creationResult.IsValid() )
-            return creationResult.GetError();
-        
-        structInstance = std::move( creationResult ).Get();
-    }
-
+    /// @todo: I'm not sure if it is still valid warning in all cases in which
+    /// this function can be called. Inside array this warning can be potentially misleading.
     if( !expectedType.is_wrapper() && !expectedType.is_pointer() )
     {
         // This means that structure was copied. We must set property value to this copy.
@@ -545,7 +534,7 @@ Nullable< VariantWrapper >          SerializationCore::DeserializeNotPolymorphic
                                                             name.to_string() ) );
     }
 
-    return RunDeserializeOverride( deser, name, structInstance, expectedType );
+    return RunDeserializeOverride( deser, name, prevValue, expectedType );
 }
 
 // ================================ //
@@ -673,10 +662,7 @@ Nullable< VariantWrapper >          SerializationCore::RunDeserializeOverride   
     if( typeDesc.CustomFunction )
         return typeDesc.CustomFunction( deser, typeDesc );
     else
-    {
-        auto result = DeserializePropertiesVec( deser, prevValue, typeDesc.Properties );
-        if( result.IsValid() ) return VariantWrapper::FromPrevious( prevValue ); else return result.GetError();
-    }
+        return DefaultDeserializeNotPolymorphicImpl( deser, expectedType, prevValue, typeDesc );
 }
 
 // ================================ //
@@ -691,12 +677,12 @@ Nullable< VariantWrapper >          SerializationCore::RunDeserializeOverridePol
     if( typeDesc.CustomFunction )
         return typeDesc.CustomFunction( deser, typeDesc );
     else
-        return DefaultDeserializePolymorphicImpl( deser, name, typeDesc );
+        return DefaultDeserializePolymorphicImpl( deser, name, prevValue, typeDesc );
 }
 
 // ================================ //
 //
-Nullable< VariantWrapper >          SerializationCore::DefaultDeserializePolymorphicImpl        ( const IDeserializer& deser, rttr::string_view typeName, DeserialTypeDesc& desc )
+Nullable< VariantWrapper >          SerializationCore::DefaultDeserializePolymorphicImpl        ( const IDeserializer& deser, rttr::string_view typeName, rttr::variant& prevValue, DeserialTypeDesc& desc )
 {
     // Check what type of object we should create.
     auto newClassResult = CreateInstance( typeName );
@@ -710,12 +696,31 @@ Nullable< VariantWrapper >          SerializationCore::DefaultDeserializePolymor
 
     rttr::variant newClass = std::move( newClassResult ).Get();
 
-    auto result = DeserializePropertiesVec( deser, newClass, desc.Properties );
-    
-    if( result.IsValid() )
-        return VariantWrapper::FromNew( std::move( newClass ) );
+    return DeserializePropertiesVec( deser, newClass, desc.Properties ).Ok( VariantWrapper::FromNew( std::move( newClass ) ) );
+}
 
-    return result.GetError();
+// ================================ //
+//
+Nullable<VariantWrapper >           SerializationCore::DefaultDeserializeNotPolymorphicImpl     ( const IDeserializer& deser, TypeID expectedType, rttr::variant& prevValue, DeserialTypeDesc& desc )
+{
+    // We must handle cases, when structure is nullptr or invalid. First can happen for heap allocated
+    // structure, second for elements of array while resizing.
+    // First we must create new object and then deserialize it.
+    if( prevValue == nullptr || !prevValue.is_valid() )
+    {
+        auto creationResult = CreateInstance( expectedType );
+
+        if( !creationResult.IsValid() )
+            return creationResult.GetError();
+
+        rttr::variant newInstance = std::move( creationResult ).Get();
+        return DeserializePropertiesVec( deser, newInstance, desc.Properties ).Ok( VariantWrapper::FromNew( std::move( newInstance ) ) );
+    }
+    else
+    {
+        // In normal cases we deserialize structure in place and return previous value.
+        return DeserializePropertiesVec( deser, prevValue, desc.Properties ).Ok( VariantWrapper::FromPrevious( prevValue ) );
+    }
 }
 
 // ================================ //

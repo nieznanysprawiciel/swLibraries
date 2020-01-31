@@ -93,11 +93,12 @@ public:
     static ReturnResult                     DeserializePropertiesVec    ( const IDeserializer& deser, const rttr::instance& object, const std::vector< rttr::property >& properties );
     static ReturnResult                     DeserializeArrayElements    ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView );
     static Nullable< VariantWrapper >       DeserializeArrayDispatcher  ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
-    static Nullable< VariantWrapper >       RunDeserializeOverride      ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );    
-
+    
+    static Nullable< VariantWrapper >       RunDeserializeOverride                  ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );    
     static Nullable< VariantWrapper >       RunDeserializeOverridePolymorphic       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
-    static Nullable< VariantWrapper >       DefaultDeserializePolymorphicImpl       ( const IDeserializer& deser, rttr::string_view typeName, DeserialTypeDesc& desc );
-
+    
+    static Nullable< VariantWrapper >       DefaultDeserializePolymorphicImpl       ( const IDeserializer& deser, rttr::string_view typeName, rttr::variant& prevValue, DeserialTypeDesc& desc );
+    static Nullable< VariantWrapper >       DefaultDeserializeNotPolymorphicImpl    ( const IDeserializer& deser, TypeID expectedType, rttr::variant& prevValue, DeserialTypeDesc& desc );
     ///@}
 	
     static ReturnResult                     SetObjectProperty           ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, VariantWrapper& newObject );
