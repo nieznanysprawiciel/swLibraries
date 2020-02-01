@@ -26,16 +26,17 @@ reference wrappers, rttr tries to compare structures not references.
 So we can't know, that object is equal to previous value.*/
 class VariantWrapper
 {
+    typedef std::reference_wrapper< rttr::variant > VariantRef;
 private:
 
-    std::variant< rttr::variant, std::reference_wrapper< rttr::variant > >   m_value;
+    std::variant< rttr::variant, VariantRef >   m_value;
 
 private:
 
     explicit    VariantWrapper          ( rttr::variant newValue )
         : m_value( std::move( newValue ) ) {}
 
-    explicit    VariantWrapper          ( std::reference_wrapper< rttr::variant > prevValue )
+    explicit    VariantWrapper          ( VariantRef prevValue )
         : m_value( prevValue ) {}
 
 public:
@@ -44,6 +45,7 @@ public:
     bool                        IsNew           () const { return std::holds_alternative< rttr::variant >( m_value ); }
 
     rttr::variant&              GetNew          () { return std::get< rttr::variant >( m_value ); }
+    VariantRef                  GetPrevious     () { return std::get< VariantRef >( m_value ); }
 
 public:
 

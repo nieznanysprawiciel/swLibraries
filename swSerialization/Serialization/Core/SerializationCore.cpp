@@ -520,11 +520,6 @@ Nullable< VariantWrapper >          SerializationCore::DeserializePolymorphic   
 //
 Nullable< VariantWrapper >          SerializationCore::DeserializeNotPolymorphic    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
-    TypeID wrappedType = GetWrappedType( expectedType );
-    rttr::variant structInstance = prevValue;
-
-    /// @todo: I'm not sure if it is still valid warning in all cases in which
-    /// this function can be called. Inside array this warning can be potentially misleading.
     if( !expectedType.is_wrapper() && !expectedType.is_pointer() )
     {
         // This means that structure was copied. We must set property value to this copy.
@@ -532,6 +527,21 @@ Nullable< VariantWrapper >          SerializationCore::DeserializeNotPolymorphic
         Warn< SerializationException >( deser, fmt::format( "Performance Warning. Property [{}] value have been copied, while deserializing."
                                                             " Bind property as pointer or as reference to avoid copying.",
                                                             name.to_string() ) );
+
+        // If element was bound by value, we need different logic. Deserialize functions
+        // will think, that they got reference to previous value from property, but in reality
+        // we got copy of this value. That's why we must remap VariantWrapper from reference to new value.
+        // Otherwise outside logic won't set property, thinking that it was deserialized in place.
+        auto result = RunDeserializeOverride( deser, name, prevValue, expectedType );
+
+        if( !result.IsValid() )
+            return result;
+
+        if( result.Get().IsPrevious() )
+            return VariantWrapper::FromNew( std::move( result.Get().GetPrevious().get() ) );
+
+        // This is case when deserialization created new value anyway.
+        return result;
     }
 
     return RunDeserializeOverride( deser, name, prevValue, expectedType );
