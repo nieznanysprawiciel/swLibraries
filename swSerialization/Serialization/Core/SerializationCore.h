@@ -162,6 +162,8 @@ public:
 
     static bool                         IsStringType            ( TypeID type );
 
+    static bool                         IsBoundByValue          ( TypeID type );
+
     static std::string		            WstringToUTF	    	( const std::wstring& str );
     static std::wstring		            UTFToWstring		    ( const std::string& str );
 };

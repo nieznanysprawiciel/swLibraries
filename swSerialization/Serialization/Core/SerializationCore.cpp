@@ -520,7 +520,7 @@ Nullable< VariantWrapper >          SerializationCore::DeserializePolymorphic   
 //
 Nullable< VariantWrapper >          SerializationCore::DeserializeNotPolymorphic    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
-    if( !expectedType.is_wrapper() && !expectedType.is_pointer() )
+    if( IsBoundByValue( expectedType ) )
     {
         // This means that structure was copied. We must set property value to this copy.
         ///@todo This warning should be conditional depending on flag in SerializationContext.

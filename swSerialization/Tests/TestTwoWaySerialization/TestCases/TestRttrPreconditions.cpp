@@ -38,5 +38,24 @@ TEST_CASE( "Serialization.RTTR.BindingAsReference", "[Serialization]" )
     CHECK( simpleStructProp.get_type().is_class() == true );
 }
 
+// ================================ //
+// Checks if we can correctly determine, if rttr will return copy of proeprty
+// value or array element.
+TEST_CASE( "Serialization.RTTR.BoundByValue", "[Serialization]" )
+{
+    auto simpleStructProp = TypeID::get< StructAsRefContainer >().get_property( "SimpleStruct" );
+    CHECK( SerializationCore::IsBoundByValue( simpleStructProp.get_type() ) == false );
 
+    simpleStructProp = TypeID::get< StructAsPtrContainer >().get_property( "SimpleStruct" );
+    CHECK( SerializationCore::IsBoundByValue( simpleStructProp.get_type() ) == false );
+
+    simpleStructProp = TypeID::get< StructAsCopyContainer >().get_property( "SimpleStruct" );
+    CHECK( SerializationCore::IsBoundByValue( simpleStructProp.get_type() ) == true );
+
+    simpleStructProp = TypeID::get< StructPtrContainer >().get_property( "SimpleStruct" );
+    CHECK( SerializationCore::IsBoundByValue( simpleStructProp.get_type() ) == false );
+
+    simpleStructProp = TypeID::get< StructSharedPtrContainer >().get_property( "SimpleStruct" );
+    CHECK( SerializationCore::IsBoundByValue( simpleStructProp.get_type() ) == false );
+}
 

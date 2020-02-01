@@ -177,5 +177,12 @@ inline bool                         SerializationCore::IsStringType             
     return false;
 }
 
+// ================================ //
+//
+inline bool                         SerializationCore::IsBoundByValue           ( TypeID elementType )
+{
+    return !elementType.is_wrapper() && !elementType.is_pointer();
+}
+
 
 }	// sw
