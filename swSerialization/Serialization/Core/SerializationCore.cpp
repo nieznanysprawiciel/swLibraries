@@ -411,10 +411,8 @@ Nullable< VariantWrapper >          SerializationCore::DeserializeArray         
 
         deser.Exit();
 
-        if( result.IsValid() )
-            return VariantWrapper::FromPrevious( prevValue );
-
-        return result.GetError();
+        if( !result.IsValid() )
+            return result.GetError();
     }
     else
     {
@@ -422,7 +420,7 @@ Nullable< VariantWrapper >          SerializationCore::DeserializeArray         
         Warn< SerializationException >( deser, fmt::format( "Property [{}] not found in file. Value remained unchanged.", name.to_string() ) );
     }
 
-    return VariantWrapper::FromPrevious( prevValue );
+    return RemapBoundByValue( deser, VariantWrapper::FromPrevious( prevValue ), name, expectedType );
 }
 
 // ================================ //
@@ -520,31 +518,8 @@ Nullable< VariantWrapper >          SerializationCore::DeserializePolymorphic   
 //
 Nullable< VariantWrapper >          SerializationCore::DeserializeNotPolymorphic    ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
-    if( IsBoundByValue( expectedType ) )
-    {
-        // This means that structure was copied. We must set property value to this copy.
-        ///@todo This warning should be conditional depending on flag in SerializationContext.
-        Warn< SerializationException >( deser, fmt::format( "Performance Warning. Property [{}] value have been copied, while deserializing."
-                                                            " Bind property as pointer or as reference to avoid copying.",
-                                                            name.to_string() ) );
-
-        // If element was bound by value, we need different logic. Deserialize functions
-        // will think, that they got reference to previous value from property, but in reality
-        // we got copy of this value. That's why we must remap VariantWrapper from reference to new value.
-        // Otherwise outside logic won't set property, thinking that it was deserialized in place.
-        auto result = RunDeserializeOverride( deser, name, prevValue, expectedType );
-
-        if( !result.IsValid() )
-            return result;
-
-        if( result.Get().IsPrevious() )
-            return VariantWrapper::FromNew( std::move( result.Get().GetPrevious().get() ) );
-
-        // This is case when deserialization created new value anyway.
-        return result;
-    }
-
-    return RunDeserializeOverride( deser, name, prevValue, expectedType );
+    auto result = RunDeserializeOverride( deser, name, prevValue, expectedType );
+    return RemapBoundByValue( deser, std::move( result ), name, expectedType );
 }
 
 // ================================ //
@@ -846,7 +821,7 @@ ReturnResult                        SerializationCore::SetObjectProperty    ( co
 
 // ================================ //
 //
-ReturnResult                        SerializationCore::SetArrayElement  ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size index, VariantWrapper& objectToSet )
+ReturnResult                        SerializationCore::SetArrayElement      ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size index, VariantWrapper& objectToSet )
 {
     // Object didn't change, we don't have to set property.
     // Note: This can happen when we deserialize arrays with structures
@@ -880,7 +855,7 @@ ReturnResult                        SerializationCore::SetArrayElement  ( const 
 
 // ================================ //
 //
-Nullable< rttr::variant >		    SerializationCore::CreateInstance	( TypeID type )
+Nullable< rttr::variant >		    SerializationCore::CreateInstance	    ( TypeID type )
 {
     if( !type.is_valid() )
         return fmt::format( "Failed to create object. Invalid type." );
@@ -896,7 +871,7 @@ Nullable< rttr::variant >		    SerializationCore::CreateInstance	( TypeID type )
 
 // ================================ //
 //
-Nullable< rttr::variant >          SerializationCore::CreateInstance   ( rttr::string_view typeName )
+Nullable< rttr::variant >           SerializationCore::CreateInstance       ( rttr::string_view typeName )
 {
     TypeID type = TypeID::get_by_name( typeName );
     
@@ -908,7 +883,7 @@ Nullable< rttr::variant >          SerializationCore::CreateInstance   ( rttr::s
 
 // ================================ //
 //
-ReturnResult                         SerializationCore::ResizeArray      ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size newSize )
+ReturnResult                        SerializationCore::ResizeArray          ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size newSize )
 {
     if( newSize != arrayView.get_size() )
     {
@@ -930,6 +905,36 @@ ReturnResult                         SerializationCore::ResizeArray      ( const
         }
     }
     return Success::True;
+}
+
+// ================================ //
+//
+Nullable< VariantWrapper >          SerializationCore::RemapBoundByValue    ( const IDeserializer& deser, Nullable< VariantWrapper >&& result, rttr::string_view name, TypeID expectedType )
+{
+    // If element was bound by value, we need different logic. Deserialize functions
+    // will think, that they got reference to previous value from property, but in reality
+    // we got copy of this value. That's why we must remap VariantWrapper from reference to new value.
+    // Otherwise outside logic won't set property, thinking that it was deserialized in place.
+    if( IsBoundByValue( expectedType ) )
+    {
+        // This means that structure was copied. It is not recomended to bind value as copy.
+        // Probably someone forgot about it and we should warn him.
+        ///@todo This warning should be conditional depending on flag in SerializationContext.
+        Warn< SerializationException >( deser, fmt::format( "Performance Warning. Property [{}] value have been copied, while deserializing."
+                                                            " Bind property as pointer or as reference to avoid copying.",
+                                                            name.to_string() ) );
+
+        if( !result.IsValid() )
+            return std::move( result );
+
+        if( result.Get().IsPrevious() )
+            return VariantWrapper::FromNew( std::move( result.Get().GetPrevious().get() ) );
+
+        // This is case when deserialization created new value anyway.
+        return std::move( result );
+    }
+
+    return std::move( result );
 }
 
 // ================================ //
