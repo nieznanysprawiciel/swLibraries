@@ -480,20 +480,6 @@ Nullable< VariantWrapper >          SerializationCore::DeserializeObjectSelector
 //
 Nullable< VariantWrapper >          SerializationCore::DeserializePolymorphic       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
-    TypeID prevClassType = GetRawWrappedType( rttr::instance( prevValue ).get_derived_type() );
-
-    // Parent class default constructor could have created this property.
-    // We must destroy it, before we assign new value.
-    if( prevValue != nullptr )
-    {
-        // Destroy object and set nullptr.
-        DestroyObject( prevValue );
-
-        Warn< SerializationException >( deser, fmt::format( "Property [{}], value of type [{}] already existed but was destroyed.",
-                                                            name.to_string(),
-                                                            prevClassType ) );
-    }
-
     if( deser.FirstElement() )
     {
         auto objectResult = RunDeserializeOverridePolymorphic( deser, deser.GetName(), prevValue, expectedType );
@@ -627,6 +613,12 @@ Nullable< VariantWrapper >          SerializationCore::DeserializeArrayDispatche
         || SerializationCore::IsStringType( expectedTypeUnwrapped ) )
         return SerializationException::Create( deser, fmt::format( "Type [{}] not supported in array.", expectedType ) );
 
+    // Why: In arrays we always get valid previous values wrapped in std::reference_wrapper.
+    // But array element type isn't wrapped type, but raw type. If we pass this type to deserialization,
+    // these functions will assume, that object was copied by value, what isn't true.
+    // PrevValue is the only way to get real array element type.
+    expectedType = prevValue.get_type();
+
     if( expectedTypeUnwrapped.is_sequential_container() )
         return DeserializeArrayInArray( deser, name, prevValue, expectedType );
     if( expectedTypeUnwrapped.is_class() )
@@ -654,23 +646,26 @@ Nullable< VariantWrapper >          SerializationCore::RunDeserializeOverride   
 //
 Nullable< VariantWrapper >          SerializationCore::RunDeserializeOverridePolymorphic        ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType )
 {
-    TypeID wrappedType = GetWrappedType( expectedType );
+    expectedType = GetWrappedType( TypeID::get_by_name( name ) );
+
+    if( !expectedType.is_valid() )
+        return SerializationException::Create( deser, fmt::format( "[{}] is not valid type.", name.to_string() ) );
 
     auto& overrides = deser.GetContext< SerializationContext >()->DeserialOverrides;
-    auto& typeDesc = overrides.GetTypeDescriptor( wrappedType );
+    auto& typeDesc = overrides.GetTypeDescriptor( expectedType );
 
     if( typeDesc.CustomFunction )
         return typeDesc.CustomFunction( deser, typeDesc );
     else
-        return DefaultDeserializePolymorphicImpl( deser, name, prevValue, typeDesc );
+        return DefaultDeserializePolymorphicImpl( deser, expectedType, prevValue, typeDesc );
 }
 
 // ================================ //
 //
-Nullable< VariantWrapper >          SerializationCore::DefaultDeserializePolymorphicImpl        ( const IDeserializer& deser, rttr::string_view typeName, rttr::variant& prevValue, DeserialTypeDesc& desc )
+Nullable< VariantWrapper >          SerializationCore::DefaultDeserializePolymorphicImpl        ( const IDeserializer& deser, TypeID expectedType, rttr::variant& prevValue, DeserialTypeDesc& desc )
 {
     // Check what type of object we should create.
-    auto newClassResult = CreateInstance( typeName );
+    auto newClassResult = CreateInstance( expectedType );
 
     if( !newClassResult.IsValid() )
     {
@@ -691,7 +686,7 @@ Nullable<VariantWrapper >           SerializationCore::DefaultDeserializeNotPoly
     // We must handle cases, when structure is nullptr or invalid. First can happen for heap allocated
     // structure, second for elements of array while resizing.
     // First we must create new object and then deserialize it.
-    if( prevValue == nullptr || !prevValue.is_valid() )
+    if( !prevValue.is_valid() || prevValue == nullptr )
     {
         auto creationResult = CreateInstance( expectedType );
 

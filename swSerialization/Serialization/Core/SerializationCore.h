@@ -97,7 +97,7 @@ public:
     static Nullable< VariantWrapper >       RunDeserializeOverride                  ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );    
     static Nullable< VariantWrapper >       RunDeserializeOverridePolymorphic       ( const IDeserializer& deser, rttr::string_view name, rttr::variant& prevValue, TypeID expectedType );
     
-    static Nullable< VariantWrapper >       DefaultDeserializePolymorphicImpl       ( const IDeserializer& deser, rttr::string_view typeName, rttr::variant& prevValue, DeserialTypeDesc& desc );
+    static Nullable< VariantWrapper >       DefaultDeserializePolymorphicImpl       ( const IDeserializer& deser, TypeID expectedType, rttr::variant& prevValue, DeserialTypeDesc& desc );
     static Nullable< VariantWrapper >       DefaultDeserializeNotPolymorphicImpl    ( const IDeserializer& deser, TypeID expectedType, rttr::variant& prevValue, DeserialTypeDesc& desc );
     ///@}
 	

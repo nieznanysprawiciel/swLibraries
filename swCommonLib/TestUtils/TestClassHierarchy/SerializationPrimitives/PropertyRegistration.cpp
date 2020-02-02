@@ -113,7 +113,7 @@ RTTR_REGISTRATION
 
 	rttr::registration::class_< sw::NotRelated >( "NotRelated" )
 		.constructor<>()	( rttr::policy::ctor::as_raw_ptr )
-		.property( "SimpleStruct1", &sw::BaseObject::m_simpleStruct1 ) BIND_AS_PTR;
+		.property( "SimpleStruct1", &sw::NotRelated::m_simpleStruct1 ) BIND_AS_PTR;
 
 	rttr::registration::class_< sw::PolymorphicObjectContainer >( "PolymorphicObjectContainer" )
 		.property( "ObjectPtr", &sw::PolymorphicObjectContainer::ObjectPtr );
