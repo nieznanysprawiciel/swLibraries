@@ -66,10 +66,43 @@ TEST_CASE( "Polymorphic.BaseClass.SharedPtr", "[Serialization]" )
     sw::Serialization serial;
     sw::Serialization deserial;
 
-    REQUIRE( serial.Serialize( "Serialization/Polymorphic.BaseClass.SharedPtr.xml", expected ) );
-    REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.BaseClass.SharedPtr.xml", actual ) );
+    REQUIRE( serial.Serialize( "Serialization/Polymorphic.BaseClass.SharedPtr.ser", expected ) );
+    REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.BaseClass.SharedPtr.ser", actual ) );
 
     CHECK( actual.ObjectPtr->GetType() == TypeID::get< SharedObject >() );
     CHECK( actual.ObjectPtr->GetType() == expected.ObjectPtr->GetType() );
 }
 
+// ================================ //
+// Serializes and deserializees nullptr stored as raw pointer.
+TEST_CASE( "Polymorphic.Nullptr.RawPointer", "[Serialization]" )
+{
+    PolymorphicObjectContainer expected;
+    PolymorphicObjectContainer actual;
+    expected.ObjectPtr = nullptr;
+
+    sw::Serialization serial;
+    sw::Serialization deserial;
+
+    REQUIRE( serial.Serialize( "Serialization/Polymorphic.Nullptr.RawPointer.ser", expected ) );
+    REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.Nullptr.RawPointer.ser", actual ) );
+
+    CHECK( actual.ObjectPtr == nullptr );
+}
+
+// ================================ //
+// Serializes and deserializees nullptr stored as shared pointer.
+TEST_CASE( "Polymorphic.Nullptr.SharedPtr", "[Serialization]" )
+{
+    PolymorphicSharedPtrContainer expected;
+    PolymorphicSharedPtrContainer actual;
+    expected.ObjectPtr = nullptr;
+
+    sw::Serialization serial;
+    sw::Serialization deserial;
+
+    REQUIRE( serial.Serialize( "Serialization/Polymorphic.Nullptr.SharedPtr.ser", expected ) );
+    REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.Nullptr.SharedPtr.ser", actual ) );
+
+    CHECK( actual.ObjectPtr == nullptr );
+}

@@ -96,3 +96,23 @@ TEST_CASE( "Arrays.Vector.Polymorphic.Pointer", "[Serialization]" )
 	CHECK( actual->PolymorphicsVec[ 1 ]->GetType() == expected->PolymorphicsVec[ 1 ]->GetType() );
 	CHECK( actual->PolymorphicsVec[ 2 ]->GetType() == expected->PolymorphicsVec[ 2 ]->GetType() );
 }
+
+// ================================ //
+// Serializes and deserializes array with nullptr stored as raw pointer.
+TEST_CASE( "Arrays.Vector.Polymorphic.Nullptr.RawPointer", "[Serialization]" )
+{
+    ArrayPolymorphicContainer* expected = new ArrayPolymorphicContainer;
+    ArrayPolymorphicContainer* actual = new ArrayPolymorphicContainer;
+    expected->PolymorphicsVec.push_back( nullptr );
+    // actual should be empty.
+
+    sw::Serialization serial;
+    sw::Serialization deserial;
+
+    REQUIRE( serial.Serialize( "Serialization/Arrays.Vector.Polymorphic.Nullptr.RawPointer.ser", expected ) );
+    REQUIRE( deserial.Deserialize( "Serialization/Arrays.Vector.Polymorphic.Nullptr.RawPointer.ser", actual ) );
+
+    REQUIRE( actual->PolymorphicsVec.size() == 1 );
+
+    CHECK( actual->PolymorphicsVec[ 0 ] == nullptr );
+}
