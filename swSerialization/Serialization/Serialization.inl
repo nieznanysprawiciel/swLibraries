@@ -57,10 +57,10 @@ inline bool			Serialization::Deserialize		( IDeserializer& deser, Type& object )
 
 	if( deser.EnterObject( objType.get_raw_type().get_name().to_string() ) )
 	{
-		SerializationCore::DefaultDeserializeImpl( deser, object, objType );
+		auto result = SerializationCore::DefaultDeserializeImpl( deser, object, objType );
 		deser.Exit();
 
-		return true;
+		return result.IsValid();
 	}
 
 	return false;

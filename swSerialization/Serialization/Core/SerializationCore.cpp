@@ -294,24 +294,21 @@ bool			SerializationCore::SerializeObjectTypes				( ISerializer& ser, const rttr
 
 // ================================ //
 //
-void					SerializationCore::DefaultDeserialize		( const IDeserializer& deser, Object* object )
+ReturnResult					    SerializationCore::DefaultDeserialize		( const IDeserializer& deser, Object* object )
 {
-	DefaultDeserializeImpl( deser, object, object->GetType() );
+	return DefaultDeserializeImpl( deser, object, object->GetType() );
 }
 
 // ================================ //
 /// TODO: Replace with new functions.
-void					SerializationCore::DefaultDeserializeImpl	( const IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType )
+ReturnResult					    SerializationCore::DefaultDeserializeImpl	    ( const IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType )
 {
 	auto objectType = dynamicType;
 
     auto& overrides = deser.GetContext< SerializationContext >()->DeserialOverrides;
     auto& typeDesc = overrides.GetTypeDescriptor( objectType );
 
-    auto result = DeserializePropertiesVec( deser, object, typeDesc.Properties );
-    
-    if( !result.IsValid() )
-        Warn< SerializationException >( deser, result.GetErrorReason() );
+    return DeserializePropertiesVec( deser, object, typeDesc.Properties );
 }
 
 // ================================ //
