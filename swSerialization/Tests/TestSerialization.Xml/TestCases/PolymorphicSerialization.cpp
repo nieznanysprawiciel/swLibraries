@@ -26,13 +26,13 @@ TEST_CASE( "Polymorphic.NotRelatedClasses", "[Serialization]" )
 	PolymorphicObjectContainer actual;
 	sw::Serialization deserial;
 
-	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotRelatedClasses.xml", actual ) );
+	REQUIRE_FALSE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotRelatedClasses.xml", actual ) );
 	CHECK( actual.ObjectPtr == nullptr );
 }
 
 // ================================ //
-// ObjectPtr is set to not nullptr value.
-// In this case serialization destroys object and sets property to nullptr.
+// ObjectPtr is set to not nullptr value. Trying to deserialize NotRelated object.
+// In this case deserialization should fail and object should remain unchanged.
 TEST_CASE( "Polymorphic.NotNullptrObject", "[Serialization]" )
 {
 	PolymorphicObjectContainer actual;
@@ -41,8 +41,8 @@ TEST_CASE( "Polymorphic.NotNullptrObject", "[Serialization]" )
 	auto prevObject = new DerivedObject();
 	actual.ObjectPtr = prevObject;
 
-	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotRelatedClasses.xml", actual ) );
-	CHECK( actual.ObjectPtr == nullptr );
+    REQUIRE_FALSE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotRelatedClasses.xml", actual ) );
+	CHECK( actual.ObjectPtr == prevObject );
 }
 
 // ================================ //
@@ -108,7 +108,7 @@ TEST_CASE( "Polymorphic.SharedPtrContructor", "[Serialization]" )
 	PolymorphicObjectContainer actual;
 	sw::Serialization deserial;
 
-	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.SharedPtrContructor.xml", actual ) );
+    REQUIRE_FALSE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.SharedPtrContructor.xml", actual ) );
 	CHECK( actual.ObjectPtr == nullptr );
 }
 
@@ -121,7 +121,7 @@ TEST_CASE( "Polymorphic.PointerConstructor", "[Serialization]" )
 
 	sw::Serialization deserial;
 
-	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.PointerConstructor.xml", actual ) );
+	REQUIRE_FALSE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.PointerConstructor.xml", actual ) );
 	CHECK( actual.ObjectPtr == nullptr );
 }
 

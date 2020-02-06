@@ -25,7 +25,7 @@ using namespace sw;
 // ================================ //
 // Serialized file contains more elements then array can hold. The same problem occures
 // when dynamic array is declared as readonly property.
-// Deserialization creates as many elements as it can and ignores rests (with warning).
+// Deserialization should fail.
 TEST_CASE( "Arrays.Static.PlainStructs.ToManyElements", "[Serialization]" )
 {
 	StaticArrayContainer* expected = new StaticArrayContainer;
@@ -33,9 +33,7 @@ TEST_CASE( "Arrays.Static.PlainStructs.ToManyElements", "[Serialization]" )
 	actual->ArraysSet2();
 
 	sw::Serialization deserial;
-	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Arrays.Static.PlainStructs.ToManyElements.xml", actual ) );
-
-	CHECK( actual->Compare( *expected ) );
+	REQUIRE_FALSE( deserial.Deserialize( "Serialization/TestInput/Arrays.Static.PlainStructs.ToManyElements.xml", actual ) );
 }
 
 // ================================ //
