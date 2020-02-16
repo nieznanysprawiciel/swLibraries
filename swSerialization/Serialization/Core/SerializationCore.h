@@ -65,9 +65,9 @@ public:
 	///@}
 
     static void				SerializeObject     	( ISerializer& ser, rttr::string_view name, const rttr::instance& value );
-    static void				SerializePolymorphic	( ISerializer& ser, rttr::string_view name, const rttr::instance& value );
-	static void				SerializePolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property prop );
-	static void				SerializeNotPolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property prop );
+    static void				SerializePolymorphic	( ISerializer& ser, rttr::string_view name, const rttr::variant& value );
+	static void				SerializePolymorphic	( ISerializer& ser, const rttr::instance& parent, rttr::property prop );
+	static void				SerializeNotPolymorphic	( ISerializer& ser, const rttr::instance& parent, rttr::property prop );
 	static void				SerializePropertiesVec	( ISerializer& ser, const rttr::instance& object, const std::vector< rttr::property >& properties );
 
 	/// @name Types deserialization
@@ -163,8 +163,9 @@ public:
 	static SerializationContext*		Context					( const IDeserializer& deser );
 
     static bool                         IsStringType            ( TypeID type );
-
     static bool                         IsBoundByValue          ( TypeID type );
+    static bool                         IsNullptr               ( const rttr::variant& value );
+    static std::string                  GenNullptrName          ( rttr::string_view baseTypeName );
 
     static std::string		            WstringToUTF	    	( const std::wstring& str );
     static std::wstring		            UTFToWstring		    ( const std::string& str );

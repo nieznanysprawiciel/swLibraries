@@ -70,43 +70,55 @@ void                    SerializationCore::SerializeObject          ( ISerialize
 
 // ================================ //
 //
-void                    SerializationCore::SerializePolymorphic     ( ISerializer& ser, rttr::string_view name, const rttr::instance& value )
+void                    SerializationCore::SerializePolymorphic     ( ISerializer& ser, rttr::string_view name, const rttr::variant& value )
 {
-    auto dynamicType = SerializationCore::GetRealType( value );
-    assert( IsPolymorphicType( dynamicType ) );
-
     ser.EnterObject( name.to_string() );
-    SerializeObject( ser, dynamicType.get_name(), value );
+
+    if( IsNullptr( value ) )
+    {
+        // Create empty entry with named combined from dynamic type name and nullptr.
+        ser.EnterObject( GenNullptrName( name ) );
+        ser.Exit();
+    }
+    else
+    {
+        auto instance = rttr::instance( value );
+        auto dynamicType = SerializationCore::GetRealType( instance );
+        assert( IsPolymorphicType( dynamicType ) );
+
+        SerializeObject( ser, dynamicType.get_name(), instance );
+    }
+
     ser.Exit();	//	prop.get_name()
 }
 
 // ================================ //
 //
-void					SerializationCore::SerializePolymorphic		( ISerializer& ser, const rttr::instance& object, rttr::property prop )
+void					SerializationCore::SerializePolymorphic		( ISerializer& ser, const rttr::instance& parent, rttr::property prop )
 {
-    SerializePolymorphic( ser, prop.get_name(), prop.get_value( object ) );
+    SerializePolymorphic( ser, prop.get_name(), prop.get_value( parent ) );
 }
 
 // ================================ //
 //
-void					SerializationCore::SerializeNotPolymorphic	( ISerializer& ser, const rttr::instance& object, rttr::property prop )
+void					SerializationCore::SerializeNotPolymorphic	( ISerializer& ser, const rttr::instance& parent, rttr::property prop )
 {
     assert( !IsPolymorphicType( prop.get_type() ) );
-    SerializeObject( ser, prop.get_name(), prop.get_value( object ) );
+    SerializeObject( ser, prop.get_name(), prop.get_value( parent ) );
 }
 
 // ================================ //
 //
-void					SerializationCore::SerializePropertiesVec	( ISerializer& ser, const rttr::instance& object, const std::vector< rttr::property >& properties )
+void					SerializationCore::SerializePropertiesVec	( ISerializer& ser, const rttr::instance& parent, const std::vector< rttr::property >& properties )
 {
 	for( auto& property : properties )
 	{
 		bool serialized = false;
-		serialized = serialized || SerializeBasicTypes( ser, object, property );
-		serialized = serialized || SerializeStringTypes( ser, object, property );
-		serialized = serialized || SerializeEnumTypes( ser, object, property );
-		serialized = serialized || SerializeArrayTypes( ser, object, property );
-		serialized = serialized || SerializeObjectTypes( ser, object, property );
+		serialized = serialized || SerializeBasicTypes( ser, parent, property );
+		serialized = serialized || SerializeStringTypes( ser, parent, property );
+		serialized = serialized || SerializeEnumTypes( ser, parent, property );
+		serialized = serialized || SerializeArrayTypes( ser, parent, property );
+		serialized = serialized || SerializeObjectTypes( ser, parent, property );
 	}
 }
 

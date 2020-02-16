@@ -8,6 +8,8 @@
 
 #include "SerializationCore.h"
 
+#include "swCommonLib/Common/fmt.h"
+
 
 namespace sw
 {
@@ -182,6 +184,20 @@ inline bool                         SerializationCore::IsStringType             
 inline bool                         SerializationCore::IsBoundByValue           ( TypeID elementType )
 {
     return !elementType.is_wrapper() && !elementType.is_pointer();
+}
+
+// ================================ //
+//
+inline bool                         SerializationCore::IsNullptr                ( const rttr::variant& value )
+{
+    return value == nullptr;
+}
+
+// ================================ //
+//
+inline std::string                  SerializationCore::GenNullptrName           ( rttr::string_view baseTypeName )
+{
+    return fmt::format( "{}:nullptr", baseTypeName.to_string() );
 }
 
 
