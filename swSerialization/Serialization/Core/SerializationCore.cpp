@@ -77,7 +77,7 @@ void                    SerializationCore::SerializePolymorphic     ( ISerialize
     if( IsNullptr( value ) )
     {
         // Create empty entry with named combined from dynamic type name and nullptr.
-        ser.EnterObject( GenNullptrName( name ) );
+        ser.EnterObject( GenNullptrName().to_string() );
         ser.Exit();
     }
     else
@@ -491,7 +491,12 @@ Nullable< VariantWrapper >          SerializationCore::DeserializePolymorphic   
 {
     if( deser.FirstElement() )
     {
-        auto objectResult = RunDeserializeOverridePolymorphic( deser, deser.GetName(), prevValue, expectedType );
+        // Handle nullptr cases.
+        rttr::string_view dynamicTypeName = deser.GetName();
+        if( dynamicTypeName == GenNullptrName() )
+            return VariantWrapper::Nullptr();
+
+        auto objectResult = RunDeserializeOverridePolymorphic( deser, dynamicTypeName, prevValue, expectedType );
 
         if( deser.NextElement() )
         {
@@ -690,7 +695,7 @@ Nullable< VariantWrapper >          SerializationCore::DefaultDeserializePolymor
 
 // ================================ //
 //
-Nullable<VariantWrapper >           SerializationCore::DefaultDeserializeNotPolymorphicImpl     ( const IDeserializer& deser, TypeID expectedType, rttr::variant& prevValue, DeserialTypeDesc& desc )
+Nullable< VariantWrapper >           SerializationCore::DefaultDeserializeNotPolymorphicImpl     ( const IDeserializer& deser, TypeID expectedType, rttr::variant& prevValue, DeserialTypeDesc& desc )
 {
     // We must handle cases, when structure is nullptr or invalid. First can happen for heap allocated
     // structure, second for elements of array while resizing.
@@ -722,13 +727,24 @@ ReturnResult                        SerializationCore::SetObjectProperty    ( co
     if( objectToSet.IsPrevious() )
         return Success::True;
 
+    if( objectToSet.IsNullptr() )
+    {
+        auto prevValue = prop.get_value( parent );
+        if( prop.set_value( parent, nullptr ) )
+        {
+            DestroyObject( prevValue );
+            return Success::True;
+        }
+    }
+
     rttr::variant& newObject = objectToSet.GetNew();
 
     TypeID propertyType = prop.get_type();
     TypeID createdType = newObject.get_type();
 
-    if( !( propertyType.is_wrapper() && !createdType.is_wrapper() ) &&
-        !( !propertyType.is_wrapper() && createdType.is_wrapper() ) )
+    if( objectToSet.IsNullptr() || (
+        !( propertyType.is_wrapper() && !createdType.is_wrapper() ) &&
+        !( !propertyType.is_wrapper() && createdType.is_wrapper() ) ) )
     {
         if( ConvertVariant( newObject, propertyType ) )
         {
@@ -833,7 +849,8 @@ ReturnResult                        SerializationCore::SetArrayElement      ( co
     if( objectToSet.IsPrevious() )
         return Success::True;
 
-    rttr::variant& newObject = objectToSet.GetNew();
+    rttr::variant nullptrVariant = nullptr;
+    rttr::variant& newObject = objectToSet.IsNullptr() ? nullptrVariant : objectToSet.GetNew();
 
     TypeID elementType = arrayView.get_value_type();
     if( ConvertVariant( newObject, elementType ) )

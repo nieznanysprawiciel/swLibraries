@@ -29,7 +29,7 @@ class VariantWrapper
     typedef std::reference_wrapper< rttr::variant > VariantRef;
 private:
 
-    std::variant< rttr::variant, VariantRef >   m_value;
+    std::variant< rttr::variant, VariantRef, std::nullptr_t >   m_value;
 
 private:
 
@@ -39,10 +39,14 @@ private:
     explicit    VariantWrapper          ( VariantRef prevValue )
         : m_value( prevValue ) {}
 
+    explicit    VariantWrapper          ( std::nullptr_t null )
+        : m_value( nullptr ) {}
+
 public:
 
-    bool                        IsPrevious      () const { return !std::holds_alternative< rttr::variant >( m_value ); }
+    bool                        IsPrevious      () const { return std::holds_alternative< VariantRef >( m_value ); }
     bool                        IsNew           () const { return std::holds_alternative< rttr::variant >( m_value ); }
+    bool                        IsNullptr       () const { return std::holds_alternative< std::nullptr_t >( m_value ); }
 
     rttr::variant&              GetNew          () { return std::get< rttr::variant >( m_value ); }
     VariantRef                  GetPrevious     () { return std::get< VariantRef >( m_value ); }
@@ -52,6 +56,7 @@ public:
     /**@note rttr::variant must be moved. We don't want to copy types.*/
     static VariantWrapper      FromNew         ( rttr::variant&& newValue );
     static VariantWrapper      FromPrevious    ( rttr::variant& prevValue );
+    static VariantWrapper      Nullptr         ();
 };
 
 
@@ -71,6 +76,13 @@ inline VariantWrapper           VariantWrapper::FromNew          ( rttr::variant
 inline VariantWrapper           VariantWrapper::FromPrevious    ( rttr::variant& prevValue )
 {
     return VariantWrapper( std::reference_wrapper< rttr::variant >( prevValue ) );
+}
+
+// ================================ //
+//
+inline VariantWrapper           VariantWrapper::Nullptr         ()
+{
+    return VariantWrapper( nullptr );
 }
 
 }	// sw

@@ -165,7 +165,7 @@ public:
     static bool                         IsStringType            ( TypeID type );
     static bool                         IsBoundByValue          ( TypeID type );
     static bool                         IsNullptr               ( const rttr::variant& value );
-    static std::string                  GenNullptrName          ( rttr::string_view baseTypeName );
+    static rttr::string_view            GenNullptrName          ();
 
     static std::string		            WstringToUTF	    	( const std::wstring& str );
     static std::wstring		            UTFToWstring		    ( const std::string& str );

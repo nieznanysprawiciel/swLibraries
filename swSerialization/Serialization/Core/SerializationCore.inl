@@ -195,9 +195,12 @@ inline bool                         SerializationCore::IsNullptr                
 
 // ================================ //
 //
-inline std::string                  SerializationCore::GenNullptrName           ( rttr::string_view baseTypeName )
+inline rttr::string_view            SerializationCore::GenNullptrName           ()
 {
-    return fmt::format( "{}:nullptr", baseTypeName.to_string() );
+    using namespace std::literals;
+
+    static std::string_view nullptrString = "nullptr"sv;
+    return rttr::string_view( nullptrString.data(), nullptrString.length() );
 }
 
 

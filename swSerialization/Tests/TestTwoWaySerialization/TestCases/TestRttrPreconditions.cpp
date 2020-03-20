@@ -59,3 +59,16 @@ TEST_CASE( "Serialization.RTTR.BoundByValue", "[Serialization]" )
     CHECK( SerializationCore::IsBoundByValue( simpleStructProp.get_type() ) == false );
 }
 
+
+// ================================ //
+//
+TEST_CASE( "Serialization.RTTR.Nullptr.Set", "[Serialization]" )
+{
+    PolymorphicObjectContainer obj;
+    obj.ObjectPtr = new DerivedObject;
+
+    auto prop = TypeID::get< PolymorphicObjectContainer>().get_property( "ObjectPtr" );
+    prop.set_value( obj, nullptr );
+
+    CHECK( obj.ObjectPtr == nullptr );
+}
