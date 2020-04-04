@@ -1,7 +1,12 @@
 #include "Application.h"
 
 #include "swGUI/Core/Controls/Shapes/Rectangle.h"
+#include "swGUI/Core/Controls/Shapes/Ellipse.h"
+
 #include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
+#include "swGUI/Core/Media/Brushes/LinearGradientBrush.h"
+#include "swGUI/Core/Media/Brushes/AngleGradientBrush.h"
+#include "swGUI/Core/Media/Brushes/ImageBrush.h"
 
 #include "PrototyperUtils.h"
 
@@ -40,13 +45,29 @@ void		AddRectangle					( HostWindow* host, BrushPtr brush, BrushPtr stroke, floa
 	host->AddChild( std::move( rectangleControl ) );
 }
 
+// ================================ //
+//
+void		AddEllipse						( HostWindow* host, BrushPtr brush, BrushPtr stroke, float width, float height, float broderThickness, Position pos )
+{
+	EllipseOPtr ellipseControl = EllipseOPtr( new Ellipse() );
+
+	ellipseControl->SetFill( brush );
+	ellipseControl->SetStroke( stroke );
+
+	ellipseControl->SetHeight( height );
+	ellipseControl->SetWidth( width );
+	ellipseControl->SetThickness( broderThickness );
+
+	ellipseControl->SetOffset( pos );
+
+	host->AddChild( std::move( ellipseControl ) );
+}
+
 
 // ================================ //
 //
-void		AddRectangle					( HostWindow* host )
+void		AddControls						( HostWindow* host )
 {
-	RectangleOPtr rectangleControl = RectangleOPtr( new Rectangle() );
-	
 	auto brush = std::make_shared< SolidColorBrush >( Color( 1.0, 0.0, 0.0, 1.0 ) );
 	auto stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 1.0, 0.0, 1.0 ) );
 
@@ -61,8 +82,75 @@ void		AddRectangle					( HostWindow* host )
 	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 1.0, 0.0, 1.0 ) );
 
 	AddRectangle( host, stroke, brush, 100, 768, 2, Position( 400, 0 ) );
+
+	brush = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 1.0, 1.0 ) );
+	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
+
+	AddEllipse( host, stroke, brush, 100, 200, 8, Position( 200, 300 ) );
+
+	auto gradientBrush = std::make_shared< LinearGradientBrush >();
+	gradientBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFF0000FF, 1.0f ) );
+	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
+
+	AddRectangle( host, gradientBrush, stroke, 40, 768, 2, Position( 600, 0 ) );
+
+	gradientBrush = std::make_shared< LinearGradientBrush >();
+	gradientBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.3f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFF0000FF, 0.7f ) );
+	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
+
+	AddRectangle( host, gradientBrush, stroke, 40, 768, 2, Position( 650, 0 ) );
+
+	gradientBrush = std::make_shared< LinearGradientBrush >();
+	gradientBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFF00FF00, 0.4f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFF0000FF, 0.7f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFFFFFF00, 1.0f ) );
+	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
+
+	AddRectangle( host, gradientBrush, stroke, 40, 768, 2, Position( 700, 0 ) );
+
+	gradientBrush = std::make_shared< LinearGradientBrush >();
+	gradientBrush->SetGradientAxis( Point( 0.0f, 0.0f ), Point( 1.0f, 1.0f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFF00FF00, 0.4f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFF0000FF, 0.7f ) );
+	gradientBrush->AddGradientStop( GradientStop( 0xFFFFFF00, 1.0f ) );
+	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
+
+	AddRectangle( host, gradientBrush, stroke, 120, 768, 2, Position( 750, 0 ) );
 }
 
+
+// ================================ //
+//
+void		AddControls2					( HostWindow* host )
+{
+    auto angleBrush = std::make_shared< AngleGradientBrush >();
+    angleBrush->SetGradientCenter( Point( 0.5f, 0.5f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFFFFFF00, 1.0f ) );
+    auto stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
+
+    AddRectangle( host, angleBrush, stroke, 200, 200, 2, Position( 30, 30 ) );
+
+    auto fill = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 0.0 ) );
+    angleBrush = std::make_shared< AngleGradientBrush >();
+    angleBrush->SetGradientCenter( Point( 0.5f, 0.5f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFFFFFF00, 0.3f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFF00FFFF, 0.7f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFF0000FF, 1.0f ) );
+
+    AddEllipse( host, fill, angleBrush, 150, 150, 15, Position( 220, 300 ) );
+
+    auto imageBrush = std::make_shared< ImageBrush >();
+    imageBrush->SetTexture( "$(Application-Dir)/pool-water-texture.jpg" );
+    stroke = std::make_shared< SolidColorBrush >( Color( 1.0, 0.0, 0.0, 1.0 ) );
+
+    AddRectangle( host, imageBrush, stroke, 200, 200, 2, Position( 250, 30 ) );
+}
 
 
 
@@ -79,8 +167,10 @@ If you need specific gui initialization in your application override this functi
 You can set different GraphicApi or input api.*/
 sw::ReturnResult		Application::Initialize()
 {
+	m_guiConfig.DebugGraphics = true;
+
     sw::ReturnResult result = sw::Result::Success;
-	
+
 	result = result && DefaultInit( 1024, 768, "Window Tittle" );
 	result = result && OverridePaths();
 
@@ -93,6 +183,7 @@ sw::ReturnResult        Application::OverridePaths	()
 {
 	auto coreGUISourcePath = FindCoreGUISourcePath( m_nativeGUI->GetOS()->GetApplicationDir() );
 
+    m_pathsManager->RegisterAlias( "$(Application-Dir)", coreGUISourcePath / "ProjectDir/Output/Application-Dir/" );
 	return m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" );
 }
 
@@ -111,8 +202,8 @@ sw::ReturnResult		Application::OnInitialized()
         window.Get()->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
         m_windows[ 0 ]->PreviewMouseMove() += MouseMoveEventHandler( &MouseMoveEventReceived );
 
-        //AddRectangle( window );
-        AddRectangle( m_windows[ 0 ] );
+        AddControls( m_windows[ 0 ] );
+        AddControls2( m_windows[ 1 ] );
 
         return sw::Result::Success;
     }

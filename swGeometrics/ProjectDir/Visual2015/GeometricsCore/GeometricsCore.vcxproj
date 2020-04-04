@@ -30,6 +30,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClInclude Include="..\..\..\GeometricsCore\Processors\Transform\Translate2D.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\Accessors\DefaultAccessors.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\IndexTypes.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\GeneratorTraits.h" />

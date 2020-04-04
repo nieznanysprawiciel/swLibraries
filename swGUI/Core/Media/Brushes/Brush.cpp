@@ -21,6 +21,7 @@ Brush::Brush		( ConstantBufferMode enableCB )
 	:	m_useConstantBuffer( enableCB == ConstantBufferMode::Enable )
 	,	m_invalidateConstants( false )
 	,	m_invalidateTexture( false )
+	,	m_changeCBuffer( false )
 {
 	InvalidateShader();
 }
@@ -49,6 +50,13 @@ void			Brush::InvalidateTexture		()
 
 // ================================ //
 //
+void			Brush::InvalidateConstsBuffer	()
+{
+	m_changeCBuffer = true;
+}
+
+// ================================ //
+//
 void			Brush::ShaderUpdated			()
 {
 	m_invalidateShader = false;
@@ -66,6 +74,13 @@ void			Brush::TextureUpdated			()
 void			Brush::ConstantsUpdated			()
 {
 	m_invalidateConstants = false;
+}
+
+// ================================ //
+//
+void			Brush::BufferChanged			()
+{
+	m_changeCBuffer = false;
 }
 
 }	// gui

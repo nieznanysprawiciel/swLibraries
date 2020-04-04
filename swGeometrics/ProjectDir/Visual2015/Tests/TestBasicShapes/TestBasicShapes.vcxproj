@@ -28,6 +28,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Tests\TestBasicShapes\TestEllipse.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestBasicShapes\main.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestBasicShapes\TestCircle.cpp" />
   </ItemGroup>

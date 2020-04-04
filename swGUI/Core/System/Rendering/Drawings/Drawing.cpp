@@ -73,7 +73,8 @@ bool			Drawing::UpdateBrushTexture			( ResourceManagerAPI rm, Brush* brush )
 //
 bool			Drawing::UpdateBrushConstants		( ResourceManagerAPI rm, Brush* brush )
 {
-	if( !m_brushData.BrushConstants && brush->UsesConstantBuffer() )
+	if( ( !m_brushData.BrushConstants && brush->UsesConstantBuffer() ) 
+		|| brush->NeedsBufferChange() )
 	{
 		AssetPath name = brush->ConstantsName();
 
@@ -83,6 +84,9 @@ bool			Drawing::UpdateBrushConstants		( ResourceManagerAPI rm, Brush* brush )
 			auto bufferRange = brush->BufferData();
 			constantsBuffer = rm.CreateConstantsBuffer( name, bufferRange ).Get();      /// @todo What in case of error?
 		}
+
+		if( brush->NeedsBufferChange() )
+			brush->BufferChanged();
 
 		m_brushData.BrushConstants = constantsBuffer;
 		return true;
@@ -109,7 +113,8 @@ bool			Drawing::UpdatePenTexture			( ResourceManagerAPI rm, Brush* pen )
 //
 bool			Drawing::UpdatePenConstants			( ResourceManagerAPI rm, Brush* pen )
 {
-	if( !m_penData.BrushConstants && pen->UsesConstantBuffer() )
+	if( ( !m_penData.BrushConstants && pen->UsesConstantBuffer() )
+		|| pen->NeedsBufferChange() )
 	{
 		AssetPath name = pen->ConstantsName();
 
@@ -119,6 +124,9 @@ bool			Drawing::UpdatePenConstants			( ResourceManagerAPI rm, Brush* pen )
 			auto bufferRange = pen->BufferData();
 			constantsBuffer = rm.CreateConstantsBuffer( name, bufferRange ).Get();      /// @todo What in case of error?
 		}
+
+		if( pen->NeedsBufferChange() )
+			pen->BufferChanged();
 
 		m_penData.BrushConstants = constantsBuffer;
 		return true;
@@ -369,7 +377,7 @@ void			Drawing::RenderImpl					( IRenderer* renderer, impl::GeometryRenderingDat
 	helper.SetTexture( setShaderCmd, brush.Texture.Ptr(), 0, (uint8)ShaderType::PixelShader );
 	renderer->SetShaderState( setShaderCmd );
 
-	helper.BindBuffer( brush.BrushConstants.Ptr(), 0, (uint8)ShaderType::PixelShader );
+	helper.BindBuffer( brush.BrushConstants.Ptr(), 2, (uint8)ShaderType::PixelShader );
 	helper.BindBuffer( geom.GeometryConstants.Ptr(), 2, (uint8)ShaderType::VertexShader );
 	
 	DrawCommand drawCmd;

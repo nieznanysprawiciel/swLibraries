@@ -93,6 +93,8 @@ inline BufferRaw&	BufferRaw::operator=	( BufferRaw&& bufferRaw )
 
 	bufferRaw.m_data = nullptr;
 	bufferRaw.m_size = 0;
+
+	return *this;
 }
 
 // ================================ //

@@ -15,6 +15,7 @@
 #include "swGUI/Core/Controls/Visual.h"
 
 #include "swGUI/Core/Controls/Shapes/Rectangle.h"
+#include "swGUI/Core/Controls/Shapes/Ellipse.h"
 
 #include "swGUI/Core/System/DataBinding/BindingInfo.h"
 
@@ -70,7 +71,8 @@ void			PrintControlsSizeofs		()
 
 	PrintSizeofType< sw::gui::Shape >( std::cout );
 	PrintSizeofType< sw::gui::Rectangle >( std::cout );
-
+	PrintSizeofType< sw::gui::Ellipse >( std::cout );
+	
 	std::cout << std::endl;
 }
 

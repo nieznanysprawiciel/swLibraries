@@ -1,12 +1,12 @@
 /**
-@file Rectangle.cpp
+@file Ellipse.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
 #include "swGUI/Core/stdafx.h"
 
-#include "Rectangle.h"
-#include "swGUI/Core/Media/Geometry/RectangleGeometry.h"
+#include "Ellipse.h"
+#include "swGUI/Core/Media/Geometry/EllipseGeometry.h"
 
 
 namespace sw {
@@ -16,13 +16,13 @@ namespace gui
 
 // ================================ //
 //
-Rectangle::Rectangle()
+Ellipse::Ellipse()
 	:	m_strokeThickness( 1 )
 {
     Shape::SetWidth( 100 );
     Shape::SetHeight( 100 );
 
-	auto rectGeom = std::make_shared< RectangleGeometry >();
+	auto rectGeom = std::make_shared< EllipseGeometry >();
 	rectGeom->SetWidth( GetSize().x );
 	rectGeom->SetHeight( GetSize().y );
 	rectGeom->SetThickness( m_strokeThickness );
@@ -32,33 +32,31 @@ Rectangle::Rectangle()
 
 // ================================ //
 //
-void			Rectangle::SetWidth		( float width )
+void			Ellipse::SetWidth		( float width )
 {
     Shape::SetWidth( width );
 	
-	auto geom = std::static_pointer_cast< RectangleGeometry >( GetGeometry() );
+	auto geom = std::static_pointer_cast< EllipseGeometry >( GetGeometry() );
 	geom->SetWidth( GetSize().x );
-
-
 }
 
 // ================================ //
 //
-void			Rectangle::SetHeight	( float height )
+void			Ellipse::SetHeight	( float height )
 {
     Shape::SetHeight( height );
 	
-	auto geom = std::static_pointer_cast< RectangleGeometry >( GetGeometry() );
+	auto geom = std::static_pointer_cast< EllipseGeometry >( GetGeometry() );
 	geom->SetHeight( GetSize().y );
 }
 
 // ================================ //
 //
-void			Rectangle::SetThickness	( float thickness )
+void			Ellipse::SetThickness	( float thickness )
 {
 	m_strokeThickness = thickness;
 	
-	auto geom = std::static_pointer_cast< RectangleGeometry >( GetGeometry() );
+	auto geom = std::static_pointer_cast< EllipseGeometry >( GetGeometry() );
 	geom->SetThickness( m_strokeThickness );
 }
 
@@ -66,4 +64,5 @@ void			Rectangle::SetThickness	( float thickness )
 
 }	// gui
 }	// sw
+
 
