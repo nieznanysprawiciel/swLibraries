@@ -1,3 +1,5 @@
 <PolymorphicObjectContainer>
-	<ObjectPtr/>
+	<ObjectPtr>
+		<nullptr/>
+	</ObjectPtr>
 </PolymorphicObjectContainer>

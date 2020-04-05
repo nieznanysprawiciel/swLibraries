@@ -945,7 +945,7 @@ Nullable< rttr::variant >           SerializationCore::NullptrFromPrevValue ( co
         // Cast to Object*& assumes, that all pointers have the same size, so it doesn't
         // matter on which type we operate.
         nullptrValue = workValue;
-        Object*& value_ref = rttr::variant_cast<Object*&>( workValue );
+        Object*& value_ref = rttr::variant_cast< Object*& >( nullptrValue );
         value_ref = nullptr;
 
         if( initialType.is_wrapper() )
