@@ -103,6 +103,7 @@ public:
 	
     static ReturnResult                     SetObjectProperty           ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop, VariantWrapper& newObject );
     static ReturnResult                     SetArrayElement             ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size index, VariantWrapper& newObject );
+    static ReturnResult                     SetNullptrProperty          ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop );
     static ReturnResult                     ResizeArray                 ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size newSize );
 
     static Nullable< VariantWrapper >       RemapBoundByValue           ( const IDeserializer& deser, Nullable< VariantWrapper >&& newObject, rttr::string_view name, TypeID expectedType );

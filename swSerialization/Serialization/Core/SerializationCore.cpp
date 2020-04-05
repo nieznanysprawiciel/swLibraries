@@ -728,23 +728,15 @@ ReturnResult                        SerializationCore::SetObjectProperty    ( co
         return Success::True;
 
     if( objectToSet.IsNullptr() )
-    {
-        auto prevValue = prop.get_value( parent );
-        if( prop.set_value( parent, nullptr ) )
-        {
-            DestroyObject( prevValue );
-            return Success::True;
-        }
-    }
+        return SetNullptrProperty( deser, parent, prop );
 
     rttr::variant& newObject = objectToSet.GetNew();
 
     TypeID propertyType = prop.get_type();
     TypeID createdType = newObject.get_type();
 
-    if( objectToSet.IsNullptr() || (
-        !( propertyType.is_wrapper() && !createdType.is_wrapper() ) &&
-        !( !propertyType.is_wrapper() && createdType.is_wrapper() ) ) )
+    if( !( propertyType.is_wrapper() && !createdType.is_wrapper() ) &&
+        !( !propertyType.is_wrapper() && createdType.is_wrapper() ) )
     {
         if( ConvertVariant( newObject, propertyType ) )
         {
@@ -872,6 +864,61 @@ ReturnResult                        SerializationCore::SetArrayElement      ( co
 
         return SerializationException::Create( deser, std::move( errorMessage ) );
     }
+}
+
+// ================================ //
+//
+ReturnResult                        SerializationCore::SetNullptrProperty   ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop )
+{
+    // I don't know how to force RTTR to create nullptr variant in generic way.
+    // The problem is, nullptr can't be set or wrappers, only for raw pointers.
+    // We need this workround to set nullptr for both pointers and wrappers.
+
+    // First let's take previous value. We need it, because we want to have typed value.
+    rttr::variant prevValue = prop.get_value( parent );
+    rttr::variant workValue = prevValue;
+    rttr::variant nullptrValue;
+    TypeID initialType = workValue.get_type();
+    TypeID type = workValue.get_type();
+
+    if( type.is_wrapper() )
+    {
+        // We extract value from wrapper. We expect that extracted type
+        // is pointer. If it's reference, we can't set nullptr whatsoever.
+        workValue = workValue.extract_wrapped_value();
+        type = workValue.get_type();
+    }
+    
+    if( type.is_pointer() )
+    {
+        // First let's make copy of pointer. Next set internal pointer to nullptr.
+        // Note, that we didn't modified prevValue in reality, since nullptrValue
+        // got only copy of pointer.
+        // Cast to Object*& assumes, that all pointers have the same size, so it doesn't
+        // matter on which type we operate.
+        nullptrValue = workValue;
+        Object*& value_ref = rttr::variant_cast< Object*& >( workValue );
+        value_ref = nullptr;
+
+        if( initialType.is_wrapper() )
+        {
+            // We must convert unwrapped wrapper back to wrapped type.
+            // Note that we couldn't convert nullptr directly to wrapped type, because
+            // such conversion is not supported.
+            // Note: We don't check if it succeded - setting will fail, if it didn't.
+            nullptrValue.convert( TypeID( prevValue.get_type() ) );
+        }
+
+        if( prop.set_value( parent, nullptrValue ) )
+        {
+            DestroyObject( prevValue );
+            return Success::True;
+        }
+    }
+
+    return SerializationException::Create( deser, fmt::format( "Can't set nullptr for property [{}] of type [{}].",
+                                                                prop.get_name().to_string(),
+                                                                prop.get_type().get_name().to_string() ) );
 }
 
 // ================================ //

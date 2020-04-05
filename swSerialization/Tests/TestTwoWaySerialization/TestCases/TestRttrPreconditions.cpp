@@ -68,7 +68,36 @@ TEST_CASE( "Serialization.RTTR.Nullptr.Set", "[Serialization]" )
     obj.ObjectPtr = new DerivedObject;
 
     auto prop = TypeID::get< PolymorphicObjectContainer>().get_property( "ObjectPtr" );
-    prop.set_value( obj, nullptr );
+    CHECK( prop.set_value( obj, nullptr ) );
 
     CHECK( obj.ObjectPtr == nullptr );
 }
+
+// ================================ //
+// It doesn't work with rttr, but we would like to have this feature.
+//TEST_CASE( "Serialization.RTTR.Nullptr.SharedPtr.Set", "[Serialization]" )
+//{
+//    PolymorphicSharedPtrContainer obj;
+//    obj.ObjectPtr = std::make_shared< SharedObject >();
+//
+//    auto prop = TypeID::get< PolymorphicSharedPtrContainer>().get_property( "ObjectPtr" );
+//    CHECK( prop.set_value( obj, nullptr ) );
+//
+//    CHECK( obj.ObjectPtr == nullptr );
+//}
+
+// ================================ //
+//
+TEST_CASE( "Serialization.RTTR.Nullptr.SharedPtr.extract_wrapped_value", "[Serialization]" )
+{
+    PolymorphicSharedPtrContainer obj;
+    obj.ObjectPtr = nullptr;
+
+    auto prop = TypeID::get< PolymorphicSharedPtrContainer>().get_property( "ObjectPtr" );
+    auto prevValue = prop.get_value( obj );
+    rttr::variant workValue = prevValue;
+
+    auto extracted = workValue.extract_wrapped_value();
+    CHECK( extracted.get_type() == TypeID::get< SharedObject* >() );
+}
+
