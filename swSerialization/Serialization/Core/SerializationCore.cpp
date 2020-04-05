@@ -841,8 +841,10 @@ ReturnResult                        SerializationCore::SetArrayElement      ( co
     if( objectToSet.IsPrevious() )
         return Success::True;
 
-    rttr::variant nullptrVariant = nullptr;
-    rttr::variant& newObject = objectToSet.IsNullptr() ? nullptrVariant : objectToSet.GetNew();
+    if( objectToSet.IsNullptr() )
+        return SetNullptrInArray( deser, arrayView, index );
+
+    rttr::variant& newObject = objectToSet.GetNew();
 
     TypeID elementType = arrayView.get_value_type();
     if( ConvertVariant( newObject, elementType ) )
@@ -870,14 +872,60 @@ ReturnResult                        SerializationCore::SetArrayElement      ( co
 //
 ReturnResult                        SerializationCore::SetNullptrProperty   ( const IDeserializer& deser, const rttr::instance& parent, rttr::property prop )
 {
-    // I don't know how to force RTTR to create nullptr variant in generic way.
-    // The problem is, nullptr can't be set or wrappers, only for raw pointers.
-    // We need this workround to set nullptr for both pointers and wrappers.
-
-    // First let's take previous value. We need it, because we want to have typed value.
+    // Note: this is workaround for inability to set nullptr to wrappers.
+    // Check comments in NullptrFromPrevValue for more details.
     rttr::variant prevValue = prop.get_value( parent );
+    auto nullptrVariant = NullptrFromPrevValue( deser, prevValue );
+
+    if( !nullptrVariant.IsValid() )
+        return nullptrVariant.GetError();
+
+    if( prop.set_value( parent, nullptrVariant.Get() ) )
+    {
+        DestroyObject( prevValue );
+        return Success::True;
+    }
+
+    return SerializationException::Create( deser, fmt::format( "Can't set nullptr for property [{}] of type [{}].",
+                                                                prop.get_name().to_string(),
+                                                                prop.get_type().get_name().to_string() ) );
+}
+
+// ================================ //
+//
+ReturnResult                        SerializationCore::SetNullptrInArray    ( const IDeserializer& deser, rttr::variant_sequential_view& arrayView, Size index )
+{
+    // Note: this is workaround for inability to set nullptr to wrappers.
+    // Check comments in NullptrFromPrevValue for more details.
+    rttr::variant prevValue = arrayView.get_value( index );
+
+    // Array elements are wrapped in std::reference_wrapper.
+    prevValue = prevValue.extract_wrapped_value();
+    auto nullptrVariant = NullptrFromPrevValue( deser, prevValue );
+
+    if( !nullptrVariant.IsValid() )
+        return nullptrVariant.GetError();
+
+    if( arrayView.set_value( index, nullptrVariant.Get() ) )
+    {
+        DestroyObject( prevValue );
+        return Success::True;
+    }
+
+    return SerializationException::Create( deser, fmt::format( "Failed to set nullptr into array of type [{}] at index {}.",
+                                                                arrayView.get_value_type(),
+                                                                index ) );
+}
+
+// ================================ //
+// I don't know how to force RTTR to create nullptr variant in generic way.
+// The problem is, nullptr can't be set or wrappers, only for raw pointers.
+// We need this workround to set nullptr for both pointers and wrappers.
+Nullable< rttr::variant >           SerializationCore::NullptrFromPrevValue ( const IDeserializer& deser, const rttr::variant& prevValue )
+{
+    // First let's take previous value. We need it, because we want to have typed value not mullptr.
     rttr::variant workValue = prevValue;
-    rttr::variant nullptrValue;
+    rttr::variant nullptrValue = nullptr;
     TypeID initialType = workValue.get_type();
     TypeID type = workValue.get_type();
 
@@ -888,7 +936,7 @@ ReturnResult                        SerializationCore::SetNullptrProperty   ( co
         workValue = workValue.extract_wrapped_value();
         type = workValue.get_type();
     }
-    
+
     if( type.is_pointer() )
     {
         // First let's make copy of pointer. Next set internal pointer to nullptr.
@@ -897,7 +945,7 @@ ReturnResult                        SerializationCore::SetNullptrProperty   ( co
         // Cast to Object*& assumes, that all pointers have the same size, so it doesn't
         // matter on which type we operate.
         nullptrValue = workValue;
-        Object*& value_ref = rttr::variant_cast< Object*& >( workValue );
+        Object*& value_ref = rttr::variant_cast<Object*&>( workValue );
         value_ref = nullptr;
 
         if( initialType.is_wrapper() )
@@ -909,17 +957,13 @@ ReturnResult                        SerializationCore::SetNullptrProperty   ( co
             nullptrValue.convert( TypeID( prevValue.get_type() ) );
         }
 
-        if( prop.set_value( parent, nullptrValue ) )
-        {
-            DestroyObject( prevValue );
-            return Success::True;
-        }
+        return nullptrValue;
     }
 
-    return SerializationException::Create( deser, fmt::format( "Can't set nullptr for property [{}] of type [{}].",
-                                                                prop.get_name().to_string(),
-                                                                prop.get_type().get_name().to_string() ) );
+    return SerializationException::Create( deser, fmt::format( "Can't create nullptr for type [{}].",
+                                                                initialType.get_name().to_string() ) );
 }
+
 
 // ================================ //
 //
