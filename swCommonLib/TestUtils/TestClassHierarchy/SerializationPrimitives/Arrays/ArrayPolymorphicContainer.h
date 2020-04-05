@@ -34,6 +34,26 @@ public:
 
 };
 
+// ================================ //
+//
+class ArraySharedPolymorphicContainer : public Object
+{
+    RTTR_ENABLE( Object );
+    RTTR_REGISTRATION_FRIEND
+public:
+
+    std::vector< BaseObjectPtr >      PolymorphicsVec;
+
+protected:
+public:
+    explicit		ArraySharedPolymorphicContainer		();
+    ~ArraySharedPolymorphicContainer	();
+
+
+    void			ArraysSet1			();
+
+};
+
 //====================================================================================//
 //			Implementation
 //====================================================================================//
@@ -79,6 +99,48 @@ inline void			ArrayPolymorphicContainer::ArraysSet1		()
 	object1->m_simpleStruct1.FillWithDataset1();
 
 	PolymorphicsVec.push_back( object3 );
+}
+
+// ================================ //
+// ================================ //
+
+// ================================ //
+//
+inline		ArraySharedPolymorphicContainer::ArraySharedPolymorphicContainer	()
+{}
+
+// ================================ //
+//
+inline		ArraySharedPolymorphicContainer::~ArraySharedPolymorphicContainer	()
+{
+    PolymorphicsVec.clear();
+}
+
+// ================================ //
+//
+inline void			ArraySharedPolymorphicContainer::ArraysSet1		()
+{
+    PolymorphicsVec.clear();
+
+    //
+    DerivedObjectPtr object1 = std::make_shared< DerivedObject >();
+    object1->m_simpleStruct1.FillWithDataset2();
+    object1->m_simpleStruct1.FillWithDataset3();
+
+    PolymorphicsVec.push_back( object1 );
+
+    //
+    BaseObjectPtr object2 = std::make_shared< BaseObject >();
+    object2->m_simpleStruct1.FillWithDataset4();
+
+    PolymorphicsVec.push_back( object2 );
+
+    //
+    DerivedObjectPtr object3 = std::make_shared< DerivedObject >();
+    object1->m_simpleStruct1.FillWithDataset4();
+    object1->m_simpleStruct1.FillWithDataset1();
+
+    PolymorphicsVec.push_back( object3 );
 }
 
 

@@ -116,3 +116,23 @@ TEST_CASE( "Arrays.Vector.Polymorphic.Nullptr.RawPointer", "[Serialization]" )
 
     CHECK( actual->PolymorphicsVec[ 0 ] == nullptr );
 }
+
+// ================================ //
+// Serializes and deserializes array with nullptr stored as shared pointer.
+TEST_CASE( "Arrays.Vector.Polymorphic.Nullptr.SharedPointer", "[Serialization]" )
+{
+    ArraySharedPolymorphicContainer* expected = new ArraySharedPolymorphicContainer;
+    ArraySharedPolymorphicContainer* actual = new ArraySharedPolymorphicContainer;
+    expected->PolymorphicsVec.push_back( nullptr );
+    // actual should be empty.
+
+    sw::Serialization serial;
+    sw::Serialization deserial;
+
+    REQUIRE( serial.Serialize( "Serialization/Arrays.Vector.Polymorphic.Nullptr.SharedPointer.ser", expected ) );
+    REQUIRE( deserial.Deserialize( "Serialization/Arrays.Vector.Polymorphic.Nullptr.SharedPointer.ser", actual ) );
+
+    REQUIRE( actual->PolymorphicsVec.size() == 1 );
+
+    CHECK( actual->PolymorphicsVec[ 0 ] == nullptr );
+}

@@ -134,6 +134,9 @@ RTTR_REGISTRATION
 	rttr::registration::class_< sw::ArrayPolymorphicContainer >( "ArrayPolymorphicContainer" )
 		.property( "PolymorphicsVec", &sw::ArrayPolymorphicContainer::PolymorphicsVec ) BIND_AS_REF;
 
+    rttr::registration::class_< sw::ArraySharedPolymorphicContainer >( "ArraySharedPolymorphicContainer" )
+        .property( "PolymorphicsVec", &sw::ArraySharedPolymorphicContainer::PolymorphicsVec ) BIND_AS_REF;
+
 	rttr::registration::class_< sw::StaticArrayContainer >( "StaticArrayContainer" )
 		.property( "StructsVec", &sw::StaticArrayContainer::StructsVec );
 

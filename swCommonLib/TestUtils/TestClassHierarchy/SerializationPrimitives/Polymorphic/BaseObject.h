@@ -32,6 +32,7 @@ public:
 	                ~BaseObject	    () = default;
 
 };
+DEFINE_PTR_TYPE( BaseObject );
 
 
 // ================================ //
@@ -48,8 +49,8 @@ protected:
 public:
 	explicit		DerivedObject		() = default;
 	                ~DerivedObject	    () = default;
-
 };
+DEFINE_PTR_TYPE( DerivedObject );
 
 
 // ================================ //
