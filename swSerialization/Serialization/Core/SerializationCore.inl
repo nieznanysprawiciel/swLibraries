@@ -47,7 +47,11 @@ template<>	inline Object*          TypeDefaultValue() { return nullptr; }
 
 /**@brief Returns typed property value.*/
 template< typename PropertyType >
-PropertyType	SerializationCore::GetPropertyValue			( rttr::property prop, const rttr::instance& object )
+auto SerializationCore::GetPropertyValue
+(
+    rttr::property prop,
+    const rttr::instance& object
+) -> PropertyType
 {
 	auto value = prop.get_value( object );
 	assert( value.is_valid() );
@@ -57,7 +61,12 @@ PropertyType	SerializationCore::GetPropertyValue			( rttr::property prop, const 
 // ================================ //
 //
 template< typename PropertyType >
-inline void		SerializationCore::SerializeProperty		( ISerializer& ser, rttr::string_view name, const rttr::variant& propertyValue )
+inline void SerializationCore::SerializeProperty
+(
+    ISerializer& ser,
+    rttr::string_view name,
+    const rttr::variant& propertyValue
+)
 {
 	ser.SetAttribute( name.to_string(), propertyValue.get_value< PropertyType >() );
 }
@@ -65,7 +74,12 @@ inline void		SerializationCore::SerializeProperty		( ISerializer& ser, rttr::str
 
 /**@brief Ustawia wartoœæ podanej w³aœciwoœci.*/
 template< typename PropertyType >
-void			SerializationCore::SetPropertyValue			( rttr::property prop, const rttr::instance& object, PropertyType value )
+void SerializationCore::SetPropertyValue
+(
+    rttr::property prop,
+    const rttr::instance& object,
+    PropertyType value
+)
 {
 	prop.set_value( object, value );
 }
@@ -74,7 +88,12 @@ void			SerializationCore::SetPropertyValue			( rttr::property prop, const rttr::
 
 @todo Mo¿na zoptymalizowaæ pobieranie nazwy z w³aœciwoœci i ograniczyæ alokacjê stringów.*/
 template< typename PropertyType >
-void			SerializationCore::DeserializeProperty		( const IDeserializer& deser, rttr::property prop, const rttr::instance& object )
+void SerializationCore::DeserializeProperty
+(
+    const IDeserializer& deser,
+    rttr::property prop,
+    const rttr::instance& object
+)
 {
 	PropertyType value = static_cast< PropertyType >( deser.GetAttribute( prop.get_name().to_string(), TypeDefaultValue< PropertyType >() ) );
 	SetPropertyValue< PropertyType >( prop, object, value );
@@ -83,7 +102,11 @@ void			SerializationCore::DeserializeProperty		( const IDeserializer& deser, rtt
 // ================================ //
 //
 template< typename PropertyType >
-inline PropertyType                 SerializationCore::DeserializeProperty      ( const IDeserializer& deser, rttr::string_view name )
+inline auto SerializationCore::DeserializeProperty
+(
+    const IDeserializer& deser,
+    rttr::string_view name
+) -> PropertyType
 {
     return static_cast< PropertyType >( deser.GetAttribute( name.to_string(), TypeDefaultValue< PropertyType >() ) );
 }
@@ -91,14 +114,21 @@ inline PropertyType                 SerializationCore::DeserializeProperty      
 // ================================ //
 //
 template< typename PropertyType >
-inline VariantWrapper               SerializationCore::DeserializePropertyToVariant ( const IDeserializer& deser, rttr::string_view name )
+inline auto SerializationCore::DeserializePropertyToVariant
+(
+    const IDeserializer& deser,
+    rttr::string_view name
+) -> VariantWrapper
 {
     return VariantWrapper::FromNew( rttr::variant( SerializationCore::DeserializeProperty< PropertyType >( deser, name ) ) );
 }
 
 // ================================ //
 //
-inline TypeID						SerializationCore::GetRealType				( const rttr::instance& object )
+inline auto SerializationCore::GetRealType
+(
+    const rttr::instance& object
+) -> TypeID
 {
 	auto objectType = object.get_derived_type();
 	return objectType.is_wrapper() ? objectType.get_wrapped_type() : objectType;
@@ -106,21 +136,31 @@ inline TypeID						SerializationCore::GetRealType				( const rttr::instance& obj
 
 // ================================ //
 //
-inline TypeID						SerializationCore::GetWrappedType			( TypeID type )
+inline auto SerializationCore::GetWrappedType
+(
+    TypeID type
+) -> TypeID
 {
 	return type.is_wrapper() ? type.get_wrapped_type() : type;
 }
 
 // ================================ //
 //
-inline TypeID						SerializationCore::GetRawWrappedType		( TypeID type )
+inline auto SerializationCore::GetRawWrappedType
+(
+    TypeID type
+) -> TypeID
 {
 	return GetWrappedType( type ).get_raw_type();
 }
 
 // ================================ //
 //
-inline bool                         SerializationCore::ConvertVariant           ( rttr::variant& value, TypeID targetType )
+inline auto SerializationCore::ConvertVariant
+(
+    rttr::variant& value,
+    TypeID targetType
+) -> bool
 {
     // Don't convert, if type is the same. This can cause problems when we try to convert
     // types that are bound by value. Conversion creates new temporary object and then
@@ -136,14 +176,20 @@ inline bool                         SerializationCore::ConvertVariant           
 
 // ================================ //
 //
-inline SerializationContext*		SerializationCore::Context					( const IDeserializer& deser )
+inline auto SerializationCore::Context
+(
+    const IDeserializer& deser
+) -> SerializationContext*
 {
 	return deser.GetContext< SerializationContext >();
 }
 
 // ================================ //
 //
-inline void							SerializationCore::DestroyObject			( rttr::variant& object )
+inline void SerializationCore::DestroyObject
+(
+    rttr::variant& object
+)
 {
 	if( object.is_valid() )
 	{
@@ -160,7 +206,10 @@ inline void							SerializationCore::DestroyObject			( rttr::variant& object )
 
 // ================================ //
 //
-inline void                         SerializationCore::DestroyObjectIfNew       ( VariantWrapper& object )
+inline void SerializationCore::DestroyObjectIfNew
+(
+    VariantWrapper& object
+)
 {
     if( object.IsNew() )
         DestroyObject( object.GetNew() );
@@ -168,7 +217,10 @@ inline void                         SerializationCore::DestroyObjectIfNew       
 
 // ================================ //
 //
-inline bool                         SerializationCore::IsStringType             ( TypeID type )
+inline auto SerializationCore::IsStringType
+(
+    TypeID type
+) -> bool
 {
     if( type == TypeID::get< std::string >() )
         return true;
@@ -181,21 +233,27 @@ inline bool                         SerializationCore::IsStringType             
 
 // ================================ //
 //
-inline bool                         SerializationCore::IsBoundByValue           ( TypeID elementType )
+inline auto SerializationCore::IsBoundByValue
+(
+    TypeID elementType
+) -> bool
 {
     return !elementType.is_wrapper() && !elementType.is_pointer();
 }
 
 // ================================ //
 //
-inline bool                         SerializationCore::IsNullptr                ( const rttr::variant& value )
+inline auto SerializationCore::IsNullptr
+( 
+    const rttr::variant& value
+) -> bool
 {
     return value == nullptr;
 }
 
 // ================================ //
 //
-inline rttr::string_view            SerializationCore::GenNullptrName           ()
+inline auto SerializationCore::GenNullptrName() -> rttr::string_view
 {
     using namespace std::literals;
 

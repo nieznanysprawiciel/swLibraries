@@ -66,21 +66,21 @@ public:
 
 // ================================ //
 //
-inline VariantWrapper           VariantWrapper::FromNew          ( rttr::variant&& newValue )
+inline auto VariantWrapper::FromNew         ( rttr::variant&& newValue ) -> VariantWrapper
 {
     return VariantWrapper( std::move( newValue ) );
 }
 
 // ================================ //
 //
-inline VariantWrapper           VariantWrapper::FromPrevious    ( rttr::variant& prevValue )
+inline auto VariantWrapper::FromPrevious    ( rttr::variant& prevValue ) -> VariantWrapper
 {
     return VariantWrapper( std::reference_wrapper< rttr::variant >( prevValue ) );
 }
 
 // ================================ //
 //
-inline VariantWrapper           VariantWrapper::Nullptr         ()
+inline auto VariantWrapper::Nullptr         () -> VariantWrapper
 {
     return VariantWrapper( nullptr );
 }

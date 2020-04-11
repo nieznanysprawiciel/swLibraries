@@ -64,7 +64,10 @@ private:
 // ================================ //
 //
 template< typename DescriptorType >
-inline DescriptorType                           Overrides< DescriptorType >::GetTypeDescriptor          ( rttr::type objType )
+inline auto Overrides< DescriptorType >::GetTypeDescriptor
+(
+    rttr::type objType
+) -> DescriptorType
 {
     objType = objType.get_raw_type();
 
@@ -82,7 +85,11 @@ inline DescriptorType                           Overrides< DescriptorType >::Get
 // ================================ //
 //
 template< typename DescriptorType >
-inline void                                     Overrides< DescriptorType >::OverrideType               ( rttr::type objType, OverrideFun function )
+inline void Overrides< DescriptorType >::OverrideType
+(
+    rttr::type objType,
+    OverrideFun function
+)
 {
     objType = objType.get_raw_type();
 
@@ -97,7 +104,11 @@ inline void                                     Overrides< DescriptorType >::Ove
 // ================================ //
 //
 template< typename DescriptorType >
-inline void                                     Overrides< DescriptorType >::OverrideDerived            ( rttr::type objType, OverrideFun function )
+inline void Overrides< DescriptorType >::OverrideDerived
+(
+    rttr::type objType,
+    OverrideFun function
+)
 {
     objType = objType.get_raw_type();
 
@@ -113,7 +124,10 @@ inline void                                     Overrides< DescriptorType >::Ove
 // ================================ //
 //
 template< typename DescriptorType >
-inline std::vector< rttr::property >            Overrides< DescriptorType >::ListFilteredProperties     ( rttr::type objType )
+inline auto Overrides< DescriptorType >::ListFilteredProperties
+(
+    rttr::type objType
+) -> std::vector< rttr::property >
 {
     std::vector< rttr::property > propVec;
     auto properties = objType.get_properties();
@@ -130,7 +144,10 @@ inline std::vector< rttr::property >            Overrides< DescriptorType >::Lis
 // ================================ //
 //
 template< typename DescriptorType >
-bool					                        Overrides< DescriptorType >::ShouldSerialize    	    ( rttr::property prop )
+auto Overrides< DescriptorType >::ShouldSerialize
+(
+    rttr::property prop
+) -> bool
 {
     auto saveFlagMeta = prop.get_metadata( SerializationMeta::Serialize );
 
