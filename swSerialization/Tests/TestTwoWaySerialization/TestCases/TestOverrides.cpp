@@ -40,7 +40,10 @@ void            OverrideImpl2       ( ISerializer& ser, const rttr::instance& in
 
 // ================================ //
 //
-Nullable< VariantWrapper >        DeserOverrideImpl      ( const IDeserializer& deser, DeserialTypeDesc& desc )
+Nullable< VariantWrapper >        DeserOverrideImpl      ( const IDeserializer& deser, 
+                                                           TypeID expectedType, 
+                                                           rttr::variant& prevValue, 
+                                                           DeserialTypeDesc& desc )
 {
     return "Fail";
 }
@@ -146,49 +149,80 @@ TEST_CASE( "Serialization.Overrides.Deserial.SingleTypeOverride", "[Serializatio
 
     auto& typeDesc = overrides.GetTypeDescriptor( TypeID::get< BaseObject >() );
 
-    CHECK( *typeDesc.CustomFunction.target< Nullable< VariantWrapper >(*)( const IDeserializer&, DeserialTypeDesc& ) >() == DeserOverrideImpl );
+    CHECK( *typeDesc.CustomFunction.target< Nullable< VariantWrapper >(*)( const IDeserializer&, TypeID, rttr::variant&, DeserialTypeDesc& ) >() == DeserOverrideImpl );
     CHECK( typeDesc.Properties.size() == 1 );
 }
 
 //====================================================================================//
-//			Overrides<> integration tests with full serialization
+//			Overrides<> integration tests with full serialization (helpers)
 //====================================================================================//
 
 // ================================ //
 //
-void            OverrideHardcodeDataset     ( ISerializer& ser, const rttr::instance& inst, SerialTypeDesc& desc )
+ReturnResult                      SetDataset                        ( StructWithSimpleTypes& structToSet, uint32 dataset )
+{
+    switch( dataset )
+    {
+    case 1:
+        structToSet.FillWithDataset1();
+        break;
+    case 2:
+        structToSet.FillWithDataset2();
+        break;
+    case 3:
+        structToSet.FillWithDataset3();
+        break;
+    case 4:
+        structToSet.FillWithDataset4();
+        break;
+    default:
+        return "No dataset";
+    }
+    return Success::True;
+}
+
+// ================================ //
+//
+void            OverrideHardcodeDataset                             ( ISerializer& ser,
+                                                                      const rttr::instance& inst,
+                                                                      SerialTypeDesc& desc )
 {
     ser.SetAttribute( "Dataset", 3 );
 }
 
 // ================================ //
 //
-Nullable< VariantWrapper >        DeserOverrideHardcodeDataset      ( const IDeserializer& deser, DeserialTypeDesc& desc )
+Nullable< VariantWrapper >        DeserOverrideHardcodeDataset      ( const IDeserializer& deser,
+                                                                      TypeID expectedType,
+                                                                      rttr::variant& prevValue,
+                                                                      DeserialTypeDesc& desc )
 {
     BaseObject* newObject = new BaseObject;
     auto& obj = newObject->m_simpleStruct1;
 
     auto dataset = deser.GetAttribute( "Dataset", 0 );
-    switch( dataset )
-    {
-    case 1:
-        obj.FillWithDataset1();
-        break;
-    case 2:
-        obj.FillWithDataset2();
-        break;
-    case 3:
-        obj.FillWithDataset3();
-        break;
-    case 4:
-        obj.FillWithDataset4();
-        break;
-    default:
-        return "No dataset";
-    }
-
-    return VariantWrapper::FromNew( newObject );
+    auto result = SetDataset( obj, dataset );
+    return result.Ok( VariantWrapper::FromNew( newObject ) );
 }
+
+// ================================ //
+//
+Nullable< VariantWrapper >        DeserOverrideHardcodeDatasetStruct( const IDeserializer& deser,
+                                                                      TypeID expectedType,
+                                                                      rttr::variant& prevValue,
+                                                                      DeserialTypeDesc& desc )
+{
+    auto& obj = prevValue.get_value< std::reference_wrapper< StructWithSimpleTypes > >();
+    auto dataset = deser.GetAttribute( "Dataset", 0 );
+
+    auto result = SetDataset( obj, dataset );
+    return result.Ok( VariantWrapper::FromPrevious( prevValue ) );
+}
+
+
+//====================================================================================//
+//			Overrides<> integration tests with full serialization (test cases)
+//====================================================================================//
 
 // ================================ //
 // Serialize dataset number instead of whole structure.
@@ -244,5 +278,29 @@ TEST_CASE( "Serialization.Overrides.Polymorphic.Nested", "[Serialization]" )
     CHECK( actual.ObjectPtr->m_simpleStruct1 == expected.ObjectPtr->m_simpleStruct1 );
 }
 
+// ================================ //
+// Serialize dataset number instead of whole structure.
+// Test checks, if override will be used or default serialization function.
+// Here we use not polymorphic type serialized as nested object.
+TEST_CASE( "Serialization.Overrides.NotPolymorphic.Nested", "[Serialization]" )
+{
+    StructAsRefContainer expected;
+    StructAsRefContainer actual;
+    expected.SimpleStruct.FillWithDataset3();
+    actual.SimpleStruct.FillWithDataset2();     // Change to dataset 2 to see if it worked.
+
+    sw::Serialization serial;
+    sw::Serialization deserial;
+
+    serial.SerialOverride()
+        .OverrideType< StructWithSimpleTypes >( &OverrideHardcodeDataset );
+    deserial.DeserialOverride()
+        .OverrideType< StructWithSimpleTypes >( &DeserOverrideHardcodeDatasetStruct );
+
+    REQUIRE( serial.Serialize( "Serialization/Overrides.NotPolymorphic.Nested.ser", expected ) );
+    REQUIRE( deserial.Deserialize( "Serialization/Overrides.NotPolymorphic.Nested.ser", actual ) );
+
+    CHECK( actual.SimpleStruct == expected.SimpleStruct );
+}
 
 

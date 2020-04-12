@@ -854,7 +854,7 @@ auto SerializationCore::RunDeserializeOverride
     auto& typeDesc = overrides.GetTypeDescriptor( wrappedType );
 
     if( typeDesc.CustomFunction )
-        return typeDesc.CustomFunction( deser, typeDesc );
+        return typeDesc.CustomFunction( deser, expectedType, prevValue, typeDesc );
     else
         return DefaultDeserializeNotPolymorphicImpl( deser, expectedType, prevValue, typeDesc );
 }
@@ -881,7 +881,7 @@ auto SerializationCore::RunDeserializeOverridePolymorphic
     auto& typeDesc = overrides.GetTypeDescriptor( expectedType );
 
     if( typeDesc.CustomFunction )
-        return typeDesc.CustomFunction( deser, typeDesc );
+        return typeDesc.CustomFunction( deser, expectedType, prevValue, typeDesc );
     else
         return DefaultDeserializePolymorphicImpl( deser, expectedType, prevValue, typeDesc );
 }
