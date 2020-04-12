@@ -27,6 +27,8 @@ class Overrides
 {
     typedef std::map< rttr::type, DescriptorType > TypeOverridesMap;
     typedef typename DescriptorType::OverrideFun OverrideFun;
+
+    typedef Overrides< DescriptorType > Self;
 private:
 
     TypeOverridesMap        m_overridesDescs;
@@ -40,20 +42,31 @@ public:
 
     /**@brief Returns type descriptor.
     Properties will be added, if descriptor didn't existed before.*/
-    DescriptorType                              GetTypeDescriptor           ( rttr::type objType );
+    DescriptorType      GetTypeDescriptor           ( rttr::type objType );
 
-    /**@brief Overrides default serserialization for selected type only.*/
-    void                                        OverrideType                ( rttr::type objType, OverrideFun function );
+    /**@brief Overrides default serialization for selected type only.*/
+    Self&               OverrideType                ( rttr::type objType, OverrideFun function );
+
+    /**@brief Create object type from template argument.*/
+    template< typename Type >
+    Self&               OverrideType                ( OverrideFun function );
 
     /**@brief Overrides default serialization for selected type and all derived types.*/
-    void                                        OverrideDerived             ( rttr::type objType, OverrideFun function );
+    Self&               OverrideDerived             ( rttr::type objType, OverrideFun function );
+
+    /**@brief Create object type from template argument.*/
+    template< typename Type >
+    Self&               OverrideDerived             ( OverrideFun function );
 
 private:
 
-    std::vector< rttr::property >               ListFilteredProperties      ( rttr::type objType );
-    bool                                        ShouldSerialize             ( rttr::property prop );
+    std::vector< rttr::property >       ListFilteredProperties      ( rttr::type objType );
+    bool                                ShouldSerialize             ( rttr::property prop );
 };
 
+
+typedef Overrides< DeserialTypeDesc > OverridesDeserial;
+typedef Overrides< SerialTypeDesc > OverridesSerial;
 
 
 //====================================================================================//
@@ -85,11 +98,11 @@ inline auto Overrides< DescriptorType >::GetTypeDescriptor
 // ================================ //
 //
 template< typename DescriptorType >
-inline void Overrides< DescriptorType >::OverrideType
+inline auto Overrides< DescriptorType >::OverrideType
 (
     rttr::type objType,
     OverrideFun function
-)
+) -> Self&
 {
     objType = objType.get_raw_type();
 
@@ -99,16 +112,18 @@ inline void Overrides< DescriptorType >::OverrideType
     // were already listed or not. If descriptor exist, properties must exist.
     desc.CustomFunction = function;
     desc.Properties = ListFilteredProperties( objType );
+    
+    return *this;
 }
 
 // ================================ //
 //
 template< typename DescriptorType >
-inline void Overrides< DescriptorType >::OverrideDerived
+inline auto Overrides< DescriptorType >::OverrideDerived
 (
     rttr::type objType,
     OverrideFun function
-)
+) -> Self&
 {
     objType = objType.get_raw_type();
 
@@ -119,6 +134,8 @@ inline void Overrides< DescriptorType >::OverrideDerived
     {
         OverrideDerived( derivedType, function );
     }
+
+    return *this;
 }
 
 // ================================ //
@@ -161,6 +178,30 @@ auto Overrides< DescriptorType >::ShouldSerialize
         return false;
 
     return saveFlagMeta.get_value< bool >();
+}
+
+// ================================ //
+//
+template< typename DescriptorType >
+template< typename Type >
+inline auto Overrides< DescriptorType >::OverrideType
+(
+    OverrideFun function
+) -> Self&
+{
+    return OverrideType( TypeID::get< Type >(), function );
+}
+
+// ================================ //
+//
+template< typename DescriptorType >
+template< typename Type >
+inline auto Overrides< DescriptorType >::OverrideDerived
+(
+    OverrideFun function
+) -> Self&
+{
+    return OverrideDerived( TypeID::get< Type >(), function );
 }
 
 }	// sw

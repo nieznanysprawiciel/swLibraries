@@ -49,6 +49,20 @@ Serialization::Serialization		( SerializationContextPtr ctx )
 
 // ================================ //
 //
+OverridesSerial&        Serialization::SerialOverride   ()
+{
+    return m_context->SerialOverrides;
+}
+
+// ================================ //
+//
+OverridesDeserial&      Serialization::DeserialOverride ()
+{
+    return m_context->DeserialOverrides;
+}
+
+// ================================ //
+//
 void			Serialization::InitializeContext		( SerializationContext* ctx )
 {}
 

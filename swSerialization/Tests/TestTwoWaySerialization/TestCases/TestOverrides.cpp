@@ -46,7 +46,7 @@ Nullable< VariantWrapper >        DeserOverrideImpl      ( const IDeserializer& 
 }
 
 //====================================================================================//
-//			Test cases	
+//			Unit tests of Overrides<> template
 //====================================================================================//
 
 
@@ -149,4 +149,100 @@ TEST_CASE( "Serialization.Overrides.Deserial.SingleTypeOverride", "[Serializatio
     CHECK( *typeDesc.CustomFunction.target< Nullable< VariantWrapper >(*)( const IDeserializer&, DeserialTypeDesc& ) >() == DeserOverrideImpl );
     CHECK( typeDesc.Properties.size() == 1 );
 }
+
+//====================================================================================//
+//			Overrides<> integration tests with full serialization
+//====================================================================================//
+
+// ================================ //
+//
+void            OverrideHardcodeDataset     ( ISerializer& ser, const rttr::instance& inst, SerialTypeDesc& desc )
+{
+    ser.SetAttribute( "Dataset", 3 );
+}
+
+// ================================ //
+//
+Nullable< VariantWrapper >        DeserOverrideHardcodeDataset      ( const IDeserializer& deser, DeserialTypeDesc& desc )
+{
+    BaseObject* newObject = new BaseObject;
+    auto& obj = newObject->m_simpleStruct1;
+
+    auto dataset = deser.GetAttribute( "Dataset", 0 );
+    switch( dataset )
+    {
+    case 1:
+        obj.FillWithDataset1();
+        break;
+    case 2:
+        obj.FillWithDataset2();
+        break;
+    case 3:
+        obj.FillWithDataset3();
+        break;
+    case 4:
+        obj.FillWithDataset4();
+        break;
+    default:
+        return "No dataset";
+    }
+
+    return VariantWrapper::FromNew( newObject );
+}
+
+// ================================ //
+// Serialize dataset number instead of whole structure.
+// Test checks, if override will be used or default serialization function.
+// Here we use polymorphic type serialized as top level object.
+TEST_CASE( "Serialization.Overrides.Polymorphic.TopLevel", "[Serialization]" )
+{
+    BaseObject expected;
+    BaseObject actual;
+    expected.m_simpleStruct1.FillWithDataset3();
+    actual.m_simpleStruct1.FillWithDataset2();
+
+    sw::Serialization serial;
+    sw::Serialization deserial;
+
+    serial.SerialOverride()
+        .OverrideType< BaseObject >( &OverrideHardcodeDataset );
+    deserial.DeserialOverride()
+        .OverrideType< BaseObject >( &DeserOverrideHardcodeDataset );
+
+    REQUIRE( serial.Serialize( "Serialization/Overrides.Polymorphic.TopLevel.ser", expected ) );
+    REQUIRE( deserial.Deserialize( "Serialization/Overrides.Polymorphic.TopLevel.ser", actual ) );
+
+    CHECK( actual.m_simpleStruct1 == expected.m_simpleStruct1 );
+}
+
+// ================================ //
+// Serialize dataset number instead of whole structure.
+// Test checks, if override will be used or default serialization function.
+// Here we use polymorphic type serialized as nested object.
+TEST_CASE( "Serialization.Overrides.Polymorphic.Nested", "[Serialization]" )
+{
+    PolymorphicObjectContainer expected;
+    PolymorphicObjectContainer actual;
+    expected.ObjectPtr = new BaseObject;
+    expected.ObjectPtr->m_simpleStruct1.FillWithDataset3();
+    // actual ObjectPtr is set to nullptr.
+    
+    StructWithSimpleTypes referenceStruct;
+    referenceStruct.FillWithDataset2();
+
+    sw::Serialization serial;
+    sw::Serialization deserial;
+
+    serial.SerialOverride()
+        .OverrideType< BaseObject >( &OverrideHardcodeDataset );
+    deserial.DeserialOverride()
+        .OverrideType< BaseObject >( &DeserOverrideHardcodeDataset );
+
+    REQUIRE( serial.Serialize( "Serialization/Overrides.Polymorphic.Nested.ser", expected ) );
+    REQUIRE( deserial.Deserialize( "Serialization/Overrides.Polymorphic.Nested.ser", actual ) );
+
+    CHECK( actual.ObjectPtr->m_simpleStruct1 == expected.ObjectPtr->m_simpleStruct1 );
+}
+
+
 

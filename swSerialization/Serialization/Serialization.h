@@ -137,6 +137,11 @@ public:
 	template< typename Type >
 	bool			Deserialize			( IDeserializer& deser, Type& object );
 
+public:
+
+    OverridesSerial&    SerialOverride      ();
+    OverridesDeserial&  DeserialOverride    ();
+
 private:
 
 	void			InitializeContext	( SerializationContext* ctx );
