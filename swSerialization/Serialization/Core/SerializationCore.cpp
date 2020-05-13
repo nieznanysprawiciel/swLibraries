@@ -112,6 +112,19 @@ void SerializationCore::SerializePolymorphic
 
 // ================================ //
 //
+void SerializationCore::SerializeNotPolymorphic
+( 
+    ISerializer& ser,
+    rttr::string_view name,
+    const rttr::variant& value
+)
+{
+    assert( !IsPolymorphicType( value.get_type() ) );
+    SerializeObject( ser, name, value );
+}
+
+// ================================ //
+//
 void SerializationCore::SerializePolymorphic
 (
     ISerializer& ser,
@@ -132,7 +145,7 @@ void SerializationCore::SerializeNotPolymorphic
 )
 {
     assert( !IsPolymorphicType( prop.get_type() ) );
-    SerializeObject( ser, prop.get_name(), prop.get_value( parent ) );
+    SerializeNotPolymorphic( ser, prop.get_name(), prop.get_value( parent ) );
 }
 
 // ================================ //
@@ -331,7 +344,8 @@ auto SerializationCore::SerializeArrayTypes
         for( auto& element : arrayView )
         {
             // Non generic objects use default serialization.
-            DefaultSerializeImpl( ser, element );
+            auto elementType = SerializationCore::GetRealType( element );
+            SerializeNotPolymorphic( ser, elementType.get_name(), element );
         }
     }
 

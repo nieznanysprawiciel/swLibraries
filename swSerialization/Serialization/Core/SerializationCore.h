@@ -66,6 +66,7 @@ public:
 
     static void				SerializeObject     	( ISerializer& ser, rttr::string_view name, const rttr::instance& value );
     static void				SerializePolymorphic	( ISerializer& ser, rttr::string_view name, const rttr::variant& value );
+    static void				SerializeNotPolymorphic	( ISerializer& ser, rttr::string_view name, const rttr::variant& value );
 	static void				SerializePolymorphic	( ISerializer& ser, const rttr::instance& parent, rttr::property prop );
 	static void				SerializeNotPolymorphic	( ISerializer& ser, const rttr::instance& parent, rttr::property prop );
 	static void				SerializePropertiesVec	( ISerializer& ser, const rttr::instance& object, const std::vector< rttr::property >& properties );
