@@ -6,6 +6,7 @@
 
 #include "swSerialization/Tests/TestTwoWaySerialization/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 #include "swSerialization/Serialization/Serialization.h"
 
@@ -27,8 +28,8 @@ TEST_CASE( "GenericObject.Strings", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/GenericObject.Strings.ser", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/GenericObject.Strings.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/GenericObject.Strings.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/GenericObject.Strings.ser", actual ) );
 
 	CHECK( actual->Description == expected->Description );
 	CHECK( actual->Content == expected->Content );

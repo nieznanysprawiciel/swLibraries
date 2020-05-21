@@ -1,6 +1,13 @@
 #pragma once
+/**
+@file Serialization.inl
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
 
 #include "Serialization.h"
+
+#include "swCommonLib/Common/Exceptions/Common/FileNotFoundException.h"
 
 
 
@@ -10,60 +17,109 @@ namespace sw
 // ================================ //
 //
 template< typename Type >
-inline bool			Serialization::Serialize		( const filesystem::Path& filePath, const Type& object )
+inline ReturnResult			Serialization::Serialize		( const filesystem::Path& filePath, const Type& object )
 {
 	ISerializer ser( std::static_pointer_cast< ISerializationContext >( m_context ) );
 
-	if( Serialize< Type >( ser, object ) )
+    auto result = Serialize< Type >( ser, object );
+	if( result.IsValid() )
 	{
 		filesystem::Dir::CreateDirectory( filePath );
-		return ser.SaveFile( filePath.String(), WritingMode::Readable );
+
+        if( ser.SaveFile( filePath.String(), WritingMode::Readable ) )
+            return Success::True;
+        else
+            return FileNotFoundException::Create( filePath );
 	}
 
-	return false;
+	return result;
 }
 
 // ================================ //
 //
 template< typename Type >
-inline bool			Serialization::Serialize		( ISerializer& ser, const Type& object )
+inline ReturnResult			Serialization::Serialize		( ISerializer& ser, const Type& object )
 {
-	SerializationCore::DefaultSerializeImpl( ser, object );
-	return true;
+    // Pointer can be copied into instance, but reference must be wrapped, otherwise
+    // rttr will try to copy it's value.
+    auto objectVariant = std::is_pointer< Type >::value ?
+        rttr::variant( object ) :
+        rttr::variant( std::reference_wrapper< const Type >( object ) );
+
+	SerializationCore::DefaultSerialize( ser, objectVariant );
+	return Success::True;
 }
 
 // ================================ //
 //
 template< typename Type >
-inline bool			Serialization::Deserialize		( const filesystem::Path& filePath, const Type& object )
+inline Nullable< Type >     Serialization::Deserialize      ( const filesystem::Path& filePath )
+{
+    IDeserializer deser( std::static_pointer_cast< ISerializationContext >( m_context ) );
+
+    // @todo Rewrite loading and saving functions from new serializers.
+    if( deser.LoadFromFile( filePath.String(), ParsingMode::ParseInsitu ) )
+    {
+        return Deserialize< Type >( deser );
+    }
+    else
+    {
+        // @todo Not only file no found, but also deserialization fail.
+        return FileNotFoundException::Create( filePath );
+    }
+}
+
+// ================================ //
+//
+template< typename Type >
+inline ReturnResult			Serialization::Deserialize		( const filesystem::Path& filePath, Type& object )
 {
 	IDeserializer deser( std::static_pointer_cast< ISerializationContext >( m_context ) );
 
+    // @todo Rewrite loading and saving functions from new serializers.
 	if( deser.LoadFromFile( filePath.String(), ParsingMode::ParseInsitu ) )
 	{
 		return Deserialize( deser, object );
 	}
-
-	return false;
+    else
+    {
+        // @todo Not only file no found, but also deserialization fail.
+        return FileNotFoundException::Create( filePath );
+    }
 }
 
 // ================================ //
 //
 template< typename Type >
-inline bool			Serialization::Deserialize		( IDeserializer& deser, Type& object )
+inline Nullable< Type >     Serialization::Deserialize      ( IDeserializer& deser )
 {
-	rttr::instance objectVar( object );
-	auto objType = SerializationCore::GetRealType( objectVar );
+    Type object;
+    return Deserialize( deser, object ).Ok( std::move( object ) );
+}
+
+// ================================ //
+//
+template< typename Type >
+inline ReturnResult         Serialization::Deserialize		( IDeserializer& deser, Type& object )
+{
+    // Pointer can be copied into instance, but reference must be wrapped, otherwise
+    // rttr will try to copy it's value.
+    rttr::instance objectInstance = std::is_pointer< Type >::value ?
+        rttr::variant( object ) :
+        rttr::variant( std::reference_wrapper< Type >( object ) );
+
+	auto objType = SerializationCore::GetRealType( objectInstance );
 
 	if( deser.EnterObject( objType.get_raw_type().get_name().to_string() ) )
 	{
-		auto result = SerializationCore::DefaultDeserializeImpl( deser, object, objType );
+		auto result = SerializationCore::DefaultDeserializeImpl( deser, objectInstance, objType );
 		deser.Exit();
 
-		return result.IsValid();
+		return result;
 	}
 
-	return false;
+    /// @todo Return proper error messsage.
+	return Success::False;
 }
 
 

@@ -525,15 +525,12 @@ void                                SWMaterialLoader::WriteShadingModel         
     TypeID shadingModelType = shadingData->GetShadingModelType();
     TypeID shadingModelPtrType = shadingData->GetShadingModelPtrType();
 
-    rttr::variant shadingDataPtr( (void* )shadingData->GetData() );
-    shadingDataPtr.unsafe_convert_void( shadingModelPtrType );
-
     ser.EnterObject( STRINGS_0_1_0::SHADING_DATA_STRING );
 
     ser.SetAttribute( STRINGS_0_1_0::SHADING_MODEL_WRAPPER_TYPE_STRING, shadingData->GetTypeName() );
     ser.SetAttribute( STRINGS_0_1_0::BUFFER_SIZE_STRING, shadingData->GetSize() );
 
-    Serialization().Serialize( ser, shadingDataPtr );
+    Serialization().Serialize( ser, shadingData );
 
     ser.Exit();		// SHADING_DATA_STRING
 }

@@ -7,6 +7,7 @@
 
 #include "swSerialization/Tests/TestTwoWaySerialization/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 #include "swSerialization/Serialization/Serialization.h"
 
@@ -28,8 +29,8 @@ TEST_CASE( "Polymorphic.BaseClass", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Polymorphic.BaseClass.ser", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.BaseClass.ser", actual ) );
+	REQUIRE_IS_VALID( serial.Serialize( "Serialization/Polymorphic.BaseClass.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Polymorphic.BaseClass.ser", actual ) );
 
 	CHECK( actual.ObjectPtr->GetType() == TypeID::get< BaseObject >() );
 	CHECK( actual.ObjectPtr->GetType() == expected.ObjectPtr->GetType() );
@@ -48,8 +49,8 @@ TEST_CASE( "Polymorphic.DerivedObject", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Polymorphic.DerivedObject.ser", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.DerivedObject.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/Polymorphic.DerivedObject.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Polymorphic.DerivedObject.ser", actual ) );
 
 	CHECK( actual.ObjectPtr->GetType() == TypeID::get< DerivedObject >() );
 	CHECK( actual.ObjectPtr->GetType() == expected.ObjectPtr->GetType() );
@@ -66,8 +67,8 @@ TEST_CASE( "Polymorphic.BaseClass.SharedPtr", "[Serialization]" )
     sw::Serialization serial;
     sw::Serialization deserial;
 
-    REQUIRE( serial.Serialize( "Serialization/Polymorphic.BaseClass.SharedPtr.ser", expected ) );
-    REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.BaseClass.SharedPtr.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/Polymorphic.BaseClass.SharedPtr.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Polymorphic.BaseClass.SharedPtr.ser", actual ) );
 
     CHECK( actual.ObjectPtr->GetType() == TypeID::get< SharedObject >() );
     CHECK( actual.ObjectPtr->GetType() == expected.ObjectPtr->GetType() );
@@ -84,8 +85,8 @@ TEST_CASE( "Polymorphic.Nullptr.RawPointer", "[Serialization]" )
     sw::Serialization serial;
     sw::Serialization deserial;
 
-    REQUIRE( serial.Serialize( "Serialization/Polymorphic.Nullptr.RawPointer.ser", expected ) );
-    REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.Nullptr.RawPointer.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/Polymorphic.Nullptr.RawPointer.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Polymorphic.Nullptr.RawPointer.ser", actual ) );
 
     CHECK( actual.ObjectPtr == nullptr );
 }
@@ -101,8 +102,8 @@ TEST_CASE( "Polymorphic.Nullptr.SharedPtr", "[Serialization]" )
     sw::Serialization serial;
     sw::Serialization deserial;
 
-    REQUIRE( serial.Serialize( "Serialization/Polymorphic.Nullptr.SharedPtr.ser", expected ) );
-    REQUIRE( deserial.Deserialize( "Serialization/Polymorphic.Nullptr.SharedPtr.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/Polymorphic.Nullptr.SharedPtr.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Polymorphic.Nullptr.SharedPtr.ser", actual ) );
 
     CHECK( actual.ObjectPtr == nullptr );
 }

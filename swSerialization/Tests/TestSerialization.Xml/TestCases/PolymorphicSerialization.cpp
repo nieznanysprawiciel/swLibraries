@@ -7,6 +7,7 @@
 
 #include "swSerialization/Tests/TestSerialization.Xml/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 #include "swSerialization/Serialization/Serialization.h"
 
@@ -26,7 +27,7 @@ TEST_CASE( "Polymorphic.NotRelatedClasses", "[Serialization]" )
 	PolymorphicObjectContainer actual;
 	sw::Serialization deserial;
 
-	REQUIRE_FALSE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotRelatedClasses.xml", actual ) );
+	REQUIRE_INVALID( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotRelatedClasses.xml", actual ) );
 	CHECK( actual.ObjectPtr == nullptr );
 }
 
@@ -41,7 +42,7 @@ TEST_CASE( "Polymorphic.NotNullptrObject", "[Serialization]" )
 	auto prevObject = new DerivedObject();
 	actual.ObjectPtr = prevObject;
 
-    REQUIRE_FALSE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotRelatedClasses.xml", actual ) );
+    REQUIRE_INVALID( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotRelatedClasses.xml", actual ) );
 	CHECK( actual.ObjectPtr == prevObject );
 }
 
@@ -63,7 +64,7 @@ TEST_CASE( "Polymorphic.NotNullptrObject.ClassWithSameType", "[Serialization]" )
 	StructWithSimpleTypes reference;
 	reference.FillWithDataset1();
 
-	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotNullptrObject.ClassWithSameType.xml", actual ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotNullptrObject.ClassWithSameType.xml", actual ) );
     
     CHECK( actual.ObjectPtr != prevObject );
     CHECK( actual.ObjectPtr != nullptr );
@@ -80,7 +81,7 @@ TEST_CASE( "Polymorphic.NotNullptrObject.ClassWithDifferentType", "[Serializatio
 	auto prevObject = new DerivedObject();
 	actual.ObjectPtr = prevObject;
 
-	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotNullptrObject.ClassWithDifferentType.xml", actual ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotNullptrObject.ClassWithDifferentType.xml", actual ) );
 	
 	CHECK( actual.ObjectPtr != prevObject );
 	CHECK( actual.ObjectPtr != nullptr );
@@ -96,7 +97,7 @@ TEST_CASE( "Polymorphic.NotNullptrObject.NullptrInXml", "[Serialization]" )
 	auto prevObject = new DerivedObject();
 	actual.ObjectPtr = prevObject;
 
-	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotNullptrObject.NullptrInXml.xml", actual ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/TestInput/Polymorphic.NotNullptrObject.NullptrInXml.xml", actual ) );
 	CHECK( actual.ObjectPtr == nullptr );
 }
 
@@ -108,7 +109,7 @@ TEST_CASE( "Polymorphic.SharedPtrContructor", "[Serialization]" )
 	PolymorphicObjectContainer actual;
 	sw::Serialization deserial;
 
-    REQUIRE_FALSE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.SharedPtrContructor.xml", actual ) );
+    REQUIRE_INVALID( deserial.Deserialize( "Serialization/TestInput/Polymorphic.SharedPtrContructor.xml", actual ) );
 	CHECK( actual.ObjectPtr == nullptr );
 }
 
@@ -121,7 +122,7 @@ TEST_CASE( "Polymorphic.PointerConstructor", "[Serialization]" )
 
 	sw::Serialization deserial;
 
-	REQUIRE_FALSE( deserial.Deserialize( "Serialization/TestInput/Polymorphic.PointerConstructor.xml", actual ) );
+    REQUIRE_INVALID( deserial.Deserialize( "Serialization/TestInput/Polymorphic.PointerConstructor.xml", actual ) );
 	CHECK( actual.ObjectPtr == nullptr );
 }
 

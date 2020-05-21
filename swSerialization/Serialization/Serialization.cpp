@@ -66,17 +66,6 @@ OverridesDeserial&      Serialization::DeserialOverride ()
 void			Serialization::InitializeContext		( SerializationContext* ctx )
 {}
 
-//====================================================================================//
-//			Serialization	
-//====================================================================================//
-
-
-// ================================ //
-//
-bool			Serialization::Serialize				( const filesystem::Path& filePath, const Object* object )
-{
-	return false;
-}
 
 }	// sw
 

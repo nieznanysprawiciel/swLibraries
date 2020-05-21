@@ -6,6 +6,7 @@
 
 #include "swSerialization/Tests/TestTwoWaySerialization/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 #include "swSerialization/Serialization/Serialization.h"
 
@@ -31,8 +32,8 @@ TEST_CASE( "Arrays.Vector.PlainStructs", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Arrays.Vector.PlainStructs.ser", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Vector.PlainStructs.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/Arrays.Vector.PlainStructs.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Arrays.Vector.PlainStructs.ser", actual ) );
 
 	CHECK( actual->StructsVec == expected->StructsVec );
 }
@@ -51,8 +52,8 @@ TEST_CASE( "Arrays.Static.PlainStructs.VariantArrayCopy", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Arrays.Static.VariantArrayCopy.ser", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Static.VariantArrayCopy.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/Arrays.Static.VariantArrayCopy.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Arrays.Static.VariantArrayCopy.ser", actual ) );
 
 	CHECK( actual->Compare( *expected ) );
 }
@@ -69,8 +70,8 @@ TEST_CASE( "Arrays.Static.PlainStructs", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Arrays.Static.PlainStructs.ser", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Static.PlainStructs.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/Arrays.Static.PlainStructs.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Arrays.Static.PlainStructs.ser", actual ) );
 
 	CHECK( actual->Compare( *expected ) );
 }
@@ -87,8 +88,8 @@ TEST_CASE( "Arrays.Vector.Polymorphic.Pointer", "[Serialization]" )
 	sw::Serialization serial;
 	sw::Serialization deserial;
 
-	REQUIRE( serial.Serialize( "Serialization/Arrays.Vector.Polymorphic.Pointer.ser", expected ) );
-	REQUIRE( deserial.Deserialize( "Serialization/Arrays.Vector.Polymorphic.Pointer.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/Arrays.Vector.Polymorphic.Pointer.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Arrays.Vector.Polymorphic.Pointer.ser", actual ) );
 
 	REQUIRE( actual->PolymorphicsVec.size() == 3 );
 
@@ -109,8 +110,8 @@ TEST_CASE( "Arrays.Vector.Polymorphic.Nullptr.RawPointer", "[Serialization]" )
     sw::Serialization serial;
     sw::Serialization deserial;
 
-    REQUIRE( serial.Serialize( "Serialization/Arrays.Vector.Polymorphic.Nullptr.RawPointer.ser", expected ) );
-    REQUIRE( deserial.Deserialize( "Serialization/Arrays.Vector.Polymorphic.Nullptr.RawPointer.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/Arrays.Vector.Polymorphic.Nullptr.RawPointer.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Arrays.Vector.Polymorphic.Nullptr.RawPointer.ser", actual ) );
 
     REQUIRE( actual->PolymorphicsVec.size() == 1 );
 
@@ -129,8 +130,8 @@ TEST_CASE( "Arrays.Vector.Polymorphic.Nullptr.SharedPointer", "[Serialization]" 
     sw::Serialization serial;
     sw::Serialization deserial;
 
-    REQUIRE( serial.Serialize( "Serialization/Arrays.Vector.Polymorphic.Nullptr.SharedPointer.ser", expected ) );
-    REQUIRE( deserial.Deserialize( "Serialization/Arrays.Vector.Polymorphic.Nullptr.SharedPointer.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/Arrays.Vector.Polymorphic.Nullptr.SharedPointer.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Arrays.Vector.Polymorphic.Nullptr.SharedPointer.ser", actual ) );
 
     REQUIRE( actual->PolymorphicsVec.size() == 1 );
 

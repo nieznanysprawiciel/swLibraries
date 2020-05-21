@@ -36,22 +36,10 @@ auto SerializationCore::IsPolymorphicType		( TypeID type ) -> bool
 void SerializationCore::DefaultSerialize
 ( 
     ISerializer& ser,
-    const Object* object
+    const rttr::variant& object
 )
 {
-	DefaultSerializeImpl( ser, object );
-}
-
-
-// ================================ //
-//
-void SerializationCore::DefaultSerializeImpl
-(
-    ISerializer& ser,
-    const rttr::instance& object
-)
-{
-	auto dynamicType = SerializationCore::GetRealType( object );
+    auto dynamicType = SerializationCore::GetRealType( object );
     SerializeObject( ser, dynamicType.get_name(), object );
 }
 
@@ -354,6 +342,30 @@ auto SerializationCore::SerializeArrayTypes
     return true;
 }
 
+auto SerializationCore::SerializeObjectTypes
+( 
+    ISerializer& ser, 
+    rttr::string_view name, 
+    const rttr::variant& value
+) -> bool
+{
+    auto propertyType = value.get_type();
+    if( propertyType.is_wrapper() )
+        propertyType = propertyType.get_wrapped_type();
+
+    if( !propertyType.get_raw_type().is_class() )
+        return false;
+
+    bool serialized = true;
+
+    if( IsPolymorphicType( propertyType ) )
+        SerializePolymorphic( ser, name, value );
+    else
+        SerializeNotPolymorphic( ser, name, value );
+
+    return serialized;
+}
+
 // ================================ //
 //
 auto SerializationCore::SerializeArrayTypes
@@ -375,21 +387,7 @@ auto SerializationCore::SerializeObjectTypes
     rttr::property prop
 ) -> bool
 {
-	auto propertyType = prop.get_type();
-	if( propertyType.is_wrapper() )
-		propertyType = propertyType.get_wrapped_type();
-
-	if( !propertyType.get_raw_type().is_class() )
-		return false;
-
-	bool serialized = true;
-
-	if( IsPolymorphicType( propertyType ) )
-		SerializePolymorphic( ser, object, prop );
-	else
-		SerializeNotPolymorphic( ser, object, prop );
-
-	return serialized;
+    return SerializeObjectTypes( ser, prop.get_name(), prop.get_value( object ) );
 }
 
 //====================================================================================//

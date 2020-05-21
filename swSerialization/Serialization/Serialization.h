@@ -111,31 +111,42 @@ public:
 
 	~Serialization		() = default;
 
-
-	/**@brief Serialize to file.*/
-	bool			Serialize			( const filesystem::Path& filePath, const Object* object );
+public:
 
 	/**@brief Serialize object to file.*/
 	template< typename Type >
-	bool			Serialize			( const filesystem::Path& filePath, const Type& object );
+    ReturnResult	        Serialize			( const filesystem::Path& filePath, const Type& object );
 
 	/**@brief Serialize object to provided serializer.
 	This serialization doesn't write it's output anywhere.
 
 	@note Serializer must be initialized with context which is derived from SerializationContext.*/
 	template< typename Type >
-	bool			Serialize			( ISerializer& ser, const Type& object );
+    ReturnResult	        Serialize			( ISerializer& ser, const Type& object );
+
+    /**@brief Deserialize object from file.*/
+    template< typename Type >
+    Nullable< Type >        Deserialize			( const filesystem::Path& filePath );
 
 	/**@brief Deserialize object from file.*/
 	template< typename Type >
-	bool			Deserialize			( const filesystem::Path& filePath, const Type& object );
+    ReturnResult            Deserialize			( const filesystem::Path& filePath, Type& object );
 
-	/**@brief Deserialize object to provided serializer.
-	This deserialization doesn't write it's output anywhere.
+	/**@brief Deserialize object from provided deserializer.
 
 	@note Deserializer must be initialized with context which is derived from SerializationContext.*/
 	template< typename Type >
-	bool			Deserialize			( IDeserializer& deser, Type& object );
+    Nullable< Type >        Deserialize			( IDeserializer& deser );
+
+    /**@brief Deserialize object from provided deserializer.
+
+    @note Deserializer must be initialized with context which is derived from SerializationContext.*/
+    template< typename Type >
+    ReturnResult            Deserialize			( IDeserializer& deser, Type& object );
+
+public:
+    /// New api
+
 
 public:
 
@@ -146,7 +157,6 @@ private:
 
 	void			InitializeContext	( SerializationContext* ctx );
 };
-
 
 
 

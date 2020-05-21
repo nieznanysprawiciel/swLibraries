@@ -6,6 +6,7 @@
 
 #include "swSerialization/Tests/TestTwoWaySerialization/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 #include "swSerialization/Serialization/Core/Overrides.h"
 
@@ -243,8 +244,8 @@ TEST_CASE( "Serialization.Overrides.Polymorphic.TopLevel", "[Serialization]" )
     deserial.DeserialOverride()
         .OverrideType< BaseObject >( &DeserOverrideHardcodeDataset );
 
-    REQUIRE( serial.Serialize( "Serialization/Overrides.Polymorphic.TopLevel.ser", expected ) );
-    REQUIRE( deserial.Deserialize( "Serialization/Overrides.Polymorphic.TopLevel.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/Overrides.Polymorphic.TopLevel.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Overrides.Polymorphic.TopLevel.ser", actual ) );
 
     CHECK( actual.m_simpleStruct1 == expected.m_simpleStruct1 );
 }
@@ -272,8 +273,8 @@ TEST_CASE( "Serialization.Overrides.Polymorphic.Nested", "[Serialization]" )
     deserial.DeserialOverride()
         .OverrideType< BaseObject >( &DeserOverrideHardcodeDataset );
 
-    REQUIRE( serial.Serialize( "Serialization/Overrides.Polymorphic.Nested.ser", expected ) );
-    REQUIRE( deserial.Deserialize( "Serialization/Overrides.Polymorphic.Nested.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/Overrides.Polymorphic.Nested.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Overrides.Polymorphic.Nested.ser", actual ) );
 
     CHECK( actual.ObjectPtr->m_simpleStruct1 == expected.ObjectPtr->m_simpleStruct1 );
 }
@@ -297,8 +298,8 @@ TEST_CASE( "Serialization.Overrides.NotPolymorphic.Nested", "[Serialization]" )
     deserial.DeserialOverride()
         .OverrideType< StructWithSimpleTypes >( &DeserOverrideHardcodeDatasetStruct );
 
-    REQUIRE( serial.Serialize( "Serialization/Overrides.NotPolymorphic.Nested.ser", expected ) );
-    REQUIRE( deserial.Deserialize( "Serialization/Overrides.NotPolymorphic.Nested.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/Overrides.NotPolymorphic.Nested.ser", expected ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Overrides.NotPolymorphic.Nested.ser", actual ) );
 
     CHECK( actual.SimpleStruct == expected.SimpleStruct );
 }

@@ -6,6 +6,7 @@
 
 #include "swSerialization/Tests/TestTwoWaySerialization/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 #include "swSerialization/Serialization/Serialization.h"
 
@@ -24,8 +25,8 @@ TEST_CASE( "Struct.BasicTypes", "[Serialization]" )
 
 	sw::Serialization serial;
 
-	REQUIRE( serial.Serialize( "Serialization/StructWithBasicTypes.ser", expected ) );
-	REQUIRE( serial.Deserialize( "Serialization/StructWithBasicTypes.ser", actual ) );
+    REQUIRE_IS_VALID( serial.Serialize( "Serialization/StructWithBasicTypes.ser", expected ) );
+    REQUIRE_IS_VALID( serial.Deserialize( "Serialization/StructWithBasicTypes.ser", actual ) );
 
 	CHECK( actual.DoubleField == expected.DoubleField );
 	CHECK( actual.FloatField == expected.FloatField );

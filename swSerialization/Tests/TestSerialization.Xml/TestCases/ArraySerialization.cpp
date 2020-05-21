@@ -6,6 +6,7 @@
 
 #include "swSerialization/Tests/TestSerialization.Xml/PrecompiledHeader/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 #include "swSerialization/Serialization/Serialization.h"
 
@@ -33,7 +34,7 @@ TEST_CASE( "Arrays.Static.PlainStructs.ToManyElements", "[Serialization]" )
 	actual->ArraysSet2();
 
 	sw::Serialization deserial;
-	REQUIRE_FALSE( deserial.Deserialize( "Serialization/TestInput/Arrays.Static.PlainStructs.ToManyElements.xml", actual ) );
+    REQUIRE_INVALID( deserial.Deserialize( "Serialization/TestInput/Arrays.Static.PlainStructs.ToManyElements.xml", actual ) );
 }
 
 // ================================ //
@@ -43,7 +44,7 @@ TEST_CASE( "Arrays.Vector.Empty", "[Serialization]" )
 	sw::Node actual;
 
 	sw::Serialization deserial;
-	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Arrays.Vector.Empty.xml", actual ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/TestInput/Arrays.Vector.Empty.xml", actual ) );
 
 	CHECK( actual.Children.size() == 0 );
 
@@ -60,7 +61,7 @@ TEST_CASE( "Arrays.Vector.Bugs.ObjectFollowingArray", "[Serialization]" )
 	sw::Node actual;
 
 	sw::Serialization deserial;
-	REQUIRE( deserial.Deserialize( "Serialization/TestInput/Arrays.Vector.Bugs.ObjectFollowingArray.xml", actual ) );
+    REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/TestInput/Arrays.Vector.Bugs.ObjectFollowingArray.xml", actual ) );
 
 	CHECK( actual.Children.size() == 1 );
 
