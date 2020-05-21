@@ -12,6 +12,9 @@
 namespace sw
 {
 
+class FileNotFoundException;
+DEFINE_PTR_TYPE( FileNotFoundException );
+
 
 /**@brief 
 @ingroup Helpers*/
@@ -32,9 +35,17 @@ public:
 	virtual std::string			ErrorMessage		() const;
 
 	const filesystem::Path&		GetFilePath			() const { return m_path; }
+
+public:
+    static FileNotFoundExceptionPtr     Create      ( filesystem::Path filePath );
 };
 
-
+// ================================ //
+//
+inline FileNotFoundExceptionPtr        FileNotFoundException::Create       ( filesystem::Path filePath )
+{
+    return std::make_shared< FileNotFoundException >( std::move( filePath ) );
+}
 
 
 }	// sw
