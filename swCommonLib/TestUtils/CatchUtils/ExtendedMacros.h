@@ -16,4 +16,9 @@ if( !nullable.IsValid() )						\
 	REQUIRE( nullable.IsValid() == true );		\
 }
 
+// ================================ //
+// Checks nullable IsValid and prints exception
+// if there's an error.
+#define REQUIRE_INVALID( nullable )			    \
+REQUIRE( nullable.IsValid() == false );
 
