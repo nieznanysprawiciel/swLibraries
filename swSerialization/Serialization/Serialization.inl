@@ -7,7 +7,7 @@
 
 #include "Serialization.h"
 
-#include "swCommonLib/Common/Exceptions/Common/FileNotFoundException.h"
+#include "swCommonLib/Common/Exceptions/ErrorsCollector.h"
 
 
 
@@ -25,11 +25,7 @@ inline ReturnResult			Serialization::Serialize		( const filesystem::Path& filePa
 	if( result.IsValid() )
 	{
 		filesystem::Dir::CreateDirectory( filePath );
-
-        if( ser.SaveFile( filePath.String(), WritingMode::Readable ) )
-            return Success::True;
-        else
-            return FileNotFoundException::Create( filePath );
+        return ser.SaveFile( filePath.String(), WritingMode::Readable );
 	}
 
 	return result;
@@ -57,16 +53,11 @@ inline Nullable< Type >     Serialization::Deserialize      ( const filesystem::
 {
     IDeserializer deser( std::static_pointer_cast< ISerializationContext >( m_context ) );
 
-    // @todo Rewrite loading and saving functions from new serializers.
-    if( deser.LoadFromFile( filePath.String(), ParsingMode::ParseInsitu ) )
-    {
+    auto result = deser.LoadFromFile( filePath.String() );
+    if( result.IsValid() )
         return Deserialize< Type >( deser );
-    }
-    else
-    {
-        // @todo Not only file no found, but also deserialization fail.
-        return FileNotFoundException::Create( filePath );
-    }
+
+    return result;
 }
 
 // ================================ //
@@ -76,16 +67,11 @@ inline ReturnResult			Serialization::Deserialize		( const filesystem::Path& file
 {
 	IDeserializer deser( std::static_pointer_cast< ISerializationContext >( m_context ) );
 
-    // @todo Rewrite loading and saving functions from new serializers.
-	if( deser.LoadFromFile( filePath.String(), ParsingMode::ParseInsitu ) )
-	{
+    auto result = deser.LoadFromFile( filePath.String() );
+    if( result.IsValid() )
 		return Deserialize( deser, object );
-	}
-    else
-    {
-        // @todo Not only file no found, but also deserialization fail.
-        return FileNotFoundException::Create( filePath );
-    }
+
+    return result;
 }
 
 // ================================ //

@@ -118,7 +118,7 @@ LoadingResult       SWMaterialLoader::Load              ( const LoadPath& path, 
 {
     IDeserializer		deser( std::make_unique< SerializationContext >() );
 
-    if( !deser.LoadFromFile( path.GetFileTranslated().String(), ParsingMode::ParseInsitu ) )
+    if( !deser.LoadFromFile( path.GetFileTranslated().String() ).IsValid() )
         return LoaderException::Create( "swMaterialLoader", "Deserialization failed: " + deser.GetError() + " ].", path, TypeID::get< MaterialAsset >() );
 
     if( deser.EnterObject( STRINGS_0_1_0::FILE_HEADER_STRING ) )

@@ -1,4 +1,5 @@
 #include "swCommonLib/External/Catch/catch.hpp"
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 #include "swSerialization/Interfaces/Serializer.h"
 #include "swSerialization/Interfaces/Deserializer.h"
@@ -9,7 +10,7 @@
 TEST_CASE( "Deserialization.XML.LineNumber.Object", "[Serializers]" )
 {
 	IDeserializer deser;
-	REQUIRE( deser.LoadFromFile( "SerializerTest/XML/Serialization.LineNumber.xml", ParsingMode::ParseInsitu ) );
+	REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/XML/Serialization.LineNumber.xml" ) );
 	REQUIRE( deser.EnterObject( "FirstObject" ) );
 	REQUIRE( deser.EnterObject( "Object" ) );
 

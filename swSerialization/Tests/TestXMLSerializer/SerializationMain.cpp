@@ -1,4 +1,5 @@
 #include "swCommonLib/External/Catch/catch.hpp"
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 #include <windows.h>
 #include <fstream>
@@ -144,7 +145,7 @@ int		SerializeToFile		()
 	serializer.Exit();	// FirstObject
 
 
-	if( !serializer.SaveFile( readFileName, WritingMode::Readable ) )
+	if( serializer.SaveFile( readFileName, WritingMode::Readable ).IsValid() )
 #ifdef TEST_JSON
 		OutputDebugString( L"Error: Saving \"SerializerTest/serialWrite.json\" failed!\n" );
 #elif TEST_XML
@@ -162,7 +163,7 @@ int staticInit = SerializeToFile();
 TEST_CASE( "Deserialization.GetAttributes", "[Serializers]" )
 {
 	IDeserializer deser;
-	REQUIRE( deser.LoadFromFile( readFileName, ParsingMode::ParseInsitu ) );
+	REQUIRE_IS_VALID( deser.LoadFromFile( readFileName ) );
 
 	REQUIRE( deser.EnterObject( "FirstObject" ) );
 
@@ -184,7 +185,7 @@ TEST_CASE( "Deserialization.GetAttributes", "[Serializers]" )
 TEST_CASE( "Deserialization.Array.ForwardIteration", "[Serializers]" )
 {
 	IDeserializer deser;
-	REQUIRE( deser.LoadFromFile( readFileName, ParsingMode::ParseInsitu ) );
+	REQUIRE_IS_VALID( deser.LoadFromFile( readFileName ) );
 
 	REQUIRE( deser.EnterObject( "FirstObject" ) );
 		REQUIRE( deser.EnterArray( "Actors" ) );
@@ -220,7 +221,7 @@ TEST_CASE( "Deserialization.Array.ForwardIteration", "[Serializers]" )
 TEST_CASE( "Deserialization.Array.BackwardIteration", "[Serializers]" )
 {
 	IDeserializer deser;
-	REQUIRE( deser.LoadFromFile( readFileName, ParsingMode::ParseInsitu ) );
+	REQUIRE_IS_VALID( deser.LoadFromFile( readFileName ) );
 
 	REQUIRE( deser.EnterObject( "FirstObject" ) );
 		REQUIRE( deser.EnterArray( "ActorEnemies" ) );
@@ -263,10 +264,10 @@ TEST_CASE( "Serialization.Array.ArrayAttribute", "[Serializers]" )
 	ser.SetAttribute( "ArraySize", 13 );
 	ser.EnterObject( "Object1" );
 
-	ser.SaveFile( "SerializerTest/Serialization.Array.ArrayAttribute.serialized", WritingMode::Readable );
+    REQUIRE_IS_VALID( ser.SaveFile( "SerializerTest/Serialization.Array.ArrayAttribute.serialized", WritingMode::Readable ) );
 
 	IDeserializer deser;
-	REQUIRE( deser.LoadFromFile( "SerializerTest/Serialization.Array.ArrayAttribute.serialized", ParsingMode::ParseInsitu ) );
+	REQUIRE_IS_VALID( deser.LoadFromFile( "SerializerTest/Serialization.Array.ArrayAttribute.serialized" ) );
 	REQUIRE( deser.EnterObject( "FirstObject" ) );
 	REQUIRE( deser.EnterArray( "Array" ) );
 
@@ -282,7 +283,7 @@ TEST_CASE( "Serialization.Array.ArrayAttribute", "[Serializers]" )
 TEST_CASE( "Deserialization.Object.ForwardIteration", "[Serializers]" )
 {
 	IDeserializer deser;
-	REQUIRE( deser.LoadFromFile( readFileName, ParsingMode::ParseInsitu ) );
+	REQUIRE_IS_VALID( deser.LoadFromFile( readFileName ) );
 
 	REQUIRE( deser.EnterObject( "FirstObject" ) );
 		REQUIRE( deser.FirstElement() );	// Data
@@ -325,7 +326,7 @@ TEST_CASE( "Deserialization.Object.ForwardIteration", "[Serializers]" )
 TEST_CASE( "Deserialization.Object.BackwardIteration", "[Serializers]" )
 {
 	IDeserializer deser;
-	REQUIRE( deser.LoadFromFile( readFileName, ParsingMode::ParseInsitu ) );
+	REQUIRE_IS_VALID( deser.LoadFromFile( readFileName ) );
 
 	REQUIRE( deser.EnterObject( "FirstObject" ) );
 		REQUIRE( deser.LastElement() );	// Data
@@ -371,7 +372,7 @@ int main_bla()
 	IDeserializer deser;
 
 
-	if( deser.LoadFromFile( readFileName, ParsingMode::ParseInsitu ) )
+	if( deser.LoadFromFile( readFileName ).IsValid() )
 	{
 		outputFile << deser.GetAttribute( "FreeValue", "GetAttribute error" ) << std::endl;
 		deser.EnterObject( "FirstObject" );

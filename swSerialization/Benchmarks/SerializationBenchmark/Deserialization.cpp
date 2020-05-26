@@ -50,7 +50,7 @@ static void		DeserializeInternal			( benchmark::State& state )
 	serial.Serialize( "Serialization/Benchmarks/BenchmarkTree.xml", root );
 
 	IDeserializer deser( std::make_shared< sw::SerializationContext >() );
-	deser.LoadFromFile( "Serialization/Benchmarks/BenchmarkTree.xml", ParsingMode::ParseInsitu );
+	deser.LoadFromFile( "Serialization/Benchmarks/BenchmarkTree.xml" );
 
 	for( auto _ : state )
 	{

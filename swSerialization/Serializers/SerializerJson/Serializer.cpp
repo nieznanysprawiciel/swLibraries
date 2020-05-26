@@ -7,9 +7,9 @@
 #define RAPIDJSON_HAS_STDSTRING 1
 
 #include "swSerialization/Interfaces/Serializer.h"
+#include "ErrorCodes.h"
 
 #include "swCommonLib/System/Dir.h"
-
 
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
@@ -19,6 +19,8 @@
 
 #include <fstream>
 #include <stack>
+
+using namespace sw;
 
 
 /**@defgroup SerializerJSON JSON Serializer
@@ -34,7 +36,7 @@ http://rapidjson.org/md_doc_tutorial.html*/
 struct SerializerImpl
 {
 	rapidjson::Document				root;
-	std::stack<rapidjson::Value>	valuesStack;
+	std::stack< rapidjson::Value >	valuesStack;
 };
 
 namespace
@@ -104,61 +106,51 @@ ISerializer::ISerializer( ISerializationContextPtr serContext )
 ISerializer::~ISerializer()
 { delete impl; }
 
-/**@brief Zwraca stringa zawieraj¹cego zserializowanego Jsona.
 
-@attention Po wykonaniu funkcji serializator wraca na zerowy poziom
-zagnie¿d¿enia node'ów.
-
-@param[in] mode Formatowanie stringa.*/
-std::string		ISerializer::SaveString				( WritingMode mode )
-{
-	while( impl->valuesStack.size() > 1 )
-		this->Exit();
-
-	rapidjson::Value& topValue = impl->valuesStack.top();
-	rapidjson::Value& documentObject = impl->root.SetObject();
-	documentObject = std::move( topValue );
-
-	rapidjson::StringBuffer stringBuffer;
-	WriteToStreamBuffer( stringBuffer, impl->root, mode );
-
-	return stringBuffer.GetString();
-}
-
-
-/**@brief Zapisuje zserializowane dane do pliku.
-
-@attention Po wykonaniu funkcji serializator wraca na zerowy poziom
-zagnie¿d¿enia node'ów, je¿eli zapis do pliku zosta³ wykonany poprawnie.
-Je¿eli funkcja zwróci³a false, to serializator nadal jest na tym samym poziomie.
-
-@param[in] fileName Nazwa pliku docelowego.
-@return Zwraca true, je¿eli zapisywanie powiedzie siê.*/
-bool			ISerializer::SaveFile				( const std::string& fileName, WritingMode mode )
+// ================================ //
+//
+ReturnResult            ISerializer::SaveFile         ( const std::string& fileName, WritingMode mode )
 {
     // Ensure directory exists.
     filesystem::Dir::CreateDirectory( fileName );
 
-	std::ofstream file;
-	file.open( fileName );
-	if( !file.fail() )
-	{
-		while( impl->valuesStack.size() > 1 )
-			this->Exit();
+    std::ofstream file;
+    file.open( fileName );
+    if( !file.fail() )
+    {
+        file << SaveString( mode );
 
-		rapidjson::Value& topValue = impl->valuesStack.top();
-		rapidjson::Value& documentObject = impl->root.SetObject();
-		documentObject = topValue.Move();
+        file.close();
+        return Success::True;
+    }
+    return fmt::format( "Saving file [{}] failed. Error: {}", fileName, Convert::ErrnoToString( errno ) );
+}
 
-		rapidjson::StringBuffer stringBuffer;
-		WriteToStreamBuffer( stringBuffer, impl->root, mode );
+// ================================ //
+//
+std::string             ISerializer::SaveString       ( WritingMode mode )
+{
+    rapidjson::StringBuffer stringBuffer;
 
-		file << stringBuffer.GetString();
+    while( impl->valuesStack.size() > 1 )
+        this->Exit();
 
-		file.close();
-		return true;
-	}
-	return false;
+    rapidjson::Value& topValue = impl->valuesStack.top();
+    rapidjson::Value& documentObject = impl->root.SetObject();
+    documentObject = topValue.Move();
+
+    if( mode == WritingMode::Sparing )
+    {
+        rapidjson::Writer< rapidjson::StringBuffer > writer( stringBuffer );
+        impl->root.Accept( writer );
+    }
+    else
+    {
+        rapidjson::PrettyWriter< rapidjson::StringBuffer > writer( stringBuffer );
+        impl->root.Accept( writer );
+    }
+
+    return stringBuffer.GetString();
 }
 
 /**@brief Creates object of provided name.

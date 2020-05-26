@@ -6,6 +6,7 @@
 */
 
 #include "swCommonLib/Common/TypesDefinitions.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
 #include "swSerialization/Interfaces/ISerializationContext.h"
 
 #include <string>
@@ -53,9 +54,15 @@ public:
 	void		SetAttribute		( const std::string& name, double value );
 
 
-	bool		SaveFile			( const std::string& fileName, WritingMode mode = WritingMode::Sparing );
-	std::string	SaveString			( WritingMode mode = WritingMode::Sparing );
+    /**@brief Writes serialized content to file.
+    @todo Consider using filesystem::Path or std::filesystem::path
+    @note Not const method. Resets stack. Fix in new implementation.*/
+    sw::ReturnResult        SaveFile			( const std::string& fileName, WritingMode mode );
 
+    /**@brief Returns strign with serialized content.
+    @todo Could this function fail? Maybe we should use Nullable. But Nullable doesn't support strings yet.
+    @note Not const method. Resets stack. Fix in new implementation.*/
+    std::string	            SaveString			( WritingMode mode );
 
 public:
 

@@ -18,6 +18,8 @@
 #include <float.h>
 
 
+using namespace sw;
+
 /**@defgroup SerializerXML XML Serializer
 @ingroup Serialization
 @brief Implementation of XML serialization.
@@ -63,50 +65,39 @@ ISerializer::~ISerializer()
 { delete impl; }
 
 
-
-/**@brief Zwraca stringa zawieraj¹cego zserializowanego Jsona.
-
-@attention Po wykonaniu funkcji serializator wraca na zerowy poziom
-zagnie¿d¿enia node'ów.
-
-@param[in] mode Formatowanie stringa.*/
-std::string	ISerializer::SaveString( WritingMode mode )
-{
-	int printingFlag = 0;
-	if( mode == WritingMode::Sparing )
-		printingFlag = rapidxml::print_no_indenting;
-
-	while( impl->valuesStack.size() > 1 )
-		this->Exit();
-
-	std::string xmlString;
-	rapidxml::print( std::back_inserter( xmlString ), impl->root, printingFlag );
-	return std::move( xmlString );
-}
-
-
-/**@brief Zapisuje zserializowane dane do pliku.
-
-@attention Po wykonaniu funkcji serializator wraca na zerowy poziom
-zagnie¿d¿enia node'ów.
-
-@param[in] fileName Nazwa pliku docelowego.
-@return Zwraca true, je¿eli zapisywanie powiedzie siê.*/
-bool ISerializer::SaveFile( const std::string& fileName, WritingMode mode )
+// ================================ //
+//
+ReturnResult            ISerializer::SaveFile         ( const std::string& fileName, WritingMode mode )
 {
     // Ensure directory exists.
     filesystem::Dir::CreateDirectory( fileName );
 
-	std::ofstream file;
-	file.open( fileName, std::ios::out | std::ios::trunc );
-	if( !file.fail() )
-	{
-		file << SaveString( mode );
+    while( impl->valuesStack.size() > 1 )
+        this->Exit();
 
-		file.close();
-		return true;
-	}
-	return false;
+    std::ofstream file;
+    file.open( fileName, std::ios::out | std::ios::trunc );
+    if( !file.fail() )
+    {
+        file << SaveString( mode );
+
+        file.close();
+        return Success::True;
+    }
+    return fmt::format( "Saving file [{}] failed. Error: {}", fileName, Convert::ErrnoToString( errno ) );
+}
+
+// ================================ //
+//
+std::string             ISerializer::SaveString       ( WritingMode mode )
+{
+    int printingFlag = 0;
+    if( mode == WritingMode::Sparing )
+        printingFlag = rapidxml::print_no_indenting;
+
+    std::string xmlString;
+    rapidxml::print( std::back_inserter( xmlString ), impl->root, printingFlag );
+    return xmlString;
 }
 
 /**@brief Tworzy obiekt o podanej nazwie.

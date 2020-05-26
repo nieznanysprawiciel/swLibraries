@@ -4,14 +4,16 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-
+#define RAPIDJSON_HAS_STDSTRING 1
 #define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
 
 
 #include "swSerialization/Interfaces/Deserializer.h"
 
+#include "swCommonLib/Common/fmt.h"
+#include "swCommonLib/Common/Converters/Convert.h"
 
-#define RAPIDJSON_HAS_STDSTRING 1
+
 #include "rapidjson/rapidjson.h"
 #include "rapidjson/document.h"
 #include "rapidjson/filereadstream.h"
@@ -22,9 +24,12 @@
 #endif
 
 #include <fstream>
+#include <sstream>
 #include <stack>
 
 #include "ErrorCodes.h"
+
+using namespace sw;
 
 
 // ================================ //
@@ -33,11 +38,10 @@ struct DeserializerImpl
 {
 	rapidjson::Document				root;
 	std::stack< rapidjson::Value* >	valuesStack;
-	char*							fileContent;
+	std::string 					fileContent;
 	ParsingMode						mode;
 
-	DeserializerImpl()
-	{	fileContent = nullptr;	}
+	DeserializerImpl() {}
 };
 
 
@@ -94,7 +98,6 @@ IDeserializer::IDeserializer( ISerializationContextPtr serContext )
 //
 IDeserializer::~IDeserializer()
 {	
-	delete[] impl->fileContent;
 	delete impl;
 }
 
@@ -102,64 +105,43 @@ IDeserializer::~IDeserializer()
 //			Wczytywanie i parsowanie	
 //====================================================================================//
 
-/**@brief Wczytuje i parsuje podany plik.
-
-@param[in] fileName Nazwa pliku.
-@param[in] mode Tryb parsowania. Parser XMLowy wspiera tylko parsowanie insitu.
-@return Zwraca informacjê czy parsowanie powiod³o siê.*/
-bool			IDeserializer::LoadFromFile		( const std::string& fileName, ParsingMode mode )
+// ================================ //
+//
+ReturnResult            IDeserializer::LoadFromFile     ( const std::string& fileName )
 {
-	std::ifstream file( fileName, std::ios::binary | std::ios::ate );
+    std::ifstream file( fileName );
 
-	if( file.fail() )
-		return false;
-	
-	// Szukamy koñca pliku, a potem wracamy na pocz¹tek.
-	std::streambuf* rawBuffer = file.rdbuf();
-	unsigned int fileSize = rawBuffer->pubseekoff( 0, file.end );
-	file.seekg ( 0, file.beg );
+    if( file.fail() )
+        return fmt::format( "Loading file [{}] failed. Error: {}", fileName, Convert::ErrnoToString( errno ) );
 
+    // Note: I would prefere filesystem::File::Load, but it doesn't report errors.
+    std::stringstream buffer;
+    buffer << file.rdbuf();
 
-	// Alokujemy bufor odpowiedniej d³ugoœci
-	delete[] impl->fileContent;
-	impl->fileContent = new char[ fileSize + 1 ];
+    auto content = buffer.str();
 
-	// Wczytujemy plik do bufora
-	auto result = rawBuffer->sgetn( impl->fileContent, fileSize );
-	file.close();
+    file.close();
 
-	// Dodajemy znak koñca stringa na koñcu pliku
-	impl->fileContent[ result ] = '\0';
-
-	// Parsujemy w zale¿noœci od wybranego trybu
-	if( mode == ParsingMode::ParseInsitu )
-	{
-		impl->root.ParseInsitu( impl->fileContent );
-		impl->mode = ParsingMode::ParseInsitu;
-	}
-	else // ParsingMode::AllocStrings
-	{
-		// W tym trybie wszystkie stringi s¹ alokowane.
-		// Dlatego po wykonaniu tej operacji kasujemy bufor.
-		impl->root.Parse( impl->fileContent );
-		delete[] impl->fileContent;
-		impl->fileContent = nullptr;
-		impl->mode = ParsingMode::AllocStrings;
-	}
-	
-	if( impl->root.HasParseError() )
-		return false;
-
-
-	impl->valuesStack.push( &impl->root );
-	return true;
+    return LoadFromString( std::move( content ) );
 }
 
 // ================================ //
 //
-bool			IDeserializer::LoadFromString	( const std::string& contentString )
+ReturnResult            IDeserializer::LoadFromString   ( std::string content )
 {
-	return false;
+    impl->fileContent = std::move( content );
+    impl->root.ParseInsitu( impl->fileContent.data() );
+
+    if( impl->root.HasParseError() )
+    {
+        rapidjson::ParseErrorCode code = impl->root.GetParseError();
+        auto lineNum = impl->root.GetErrorOffset();
+
+        return fmt::format( "Parsing failed. Error: {}, line: {}", GetStringFromCode( code ), lineNum );
+    }
+
+    impl->valuesStack.push( &impl->root );
+    return Success::True;
 }
 
 //====================================================================================//
@@ -952,7 +934,7 @@ sw::FilePosition					IDeserializer::CurrentLineNumber      () const
 	{
 		if( IsInsideArray( impl ) )
 		{
-			const char* fileFirstChar = impl->fileContent;
+			const char* fileFirstChar = impl->fileContent.data();
 			const char* arrayFirstChar = FindArrayBegin( impl );
 
 			// Compute number of lines to the beginning of array.
@@ -967,7 +949,7 @@ sw::FilePosition					IDeserializer::CurrentLineNumber      () const
 		}
 		else
 		{
-			const char* fileFirstChar = impl->fileContent;
+			const char* fileFirstChar = impl->fileContent.data();
 			const char* nodeFirstChar = GetName();
 
 			return ComputeJsonPosition( fileFirstChar, nodeFirstChar );

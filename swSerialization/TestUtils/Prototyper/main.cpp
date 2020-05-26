@@ -20,7 +20,7 @@ int main()
 	serial.Serialize( "Serialization/Benchmarks/BenchmarkTree.xml", root );
 
 	IDeserializer deser( std::make_shared< sw::SerializationContext >() );
-	deser.LoadFromFile( "Serialization/Benchmarks/BenchmarkTree.xml", ParsingMode::ParseInsitu );
+	deser.LoadFromFile( "Serialization/Benchmarks/BenchmarkTree.xml" );
 
 	sw::Node object;
 

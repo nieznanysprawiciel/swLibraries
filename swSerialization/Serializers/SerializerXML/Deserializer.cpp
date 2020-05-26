@@ -6,14 +6,18 @@
 
 
 #include "swSerialization/Interfaces/Deserializer.h"
-
 #include "swSerialization/External/RapidXML/rapidxml.hpp"
 
+#include "swCommonLib/Common/fmt.h"
+#include "swCommonLib/Common/Converters/Convert.h"
 
 #include <fstream>
+#include <sstream>
 #include <stack>
 #include <stdlib.h>
 
+
+using namespace sw;
 
 
 // ================================ //
@@ -22,11 +26,10 @@ struct DeserializerImpl
 {
 	rapidxml::xml_document<>				root;
 	std::stack< rapidxml::xml_node<>* >		valuesStack;
-	char*									fileContent;
+    std::string 							fileContent;
 	std::string								errorString;
 
-	DeserializerImpl()
-	{	fileContent = nullptr;	}
+	DeserializerImpl()  {}
 };
 
 
@@ -50,7 +53,6 @@ IDeserializer::IDeserializer( ISerializationContextPtr serContext )
 //
 IDeserializer::~IDeserializer()
 {	
-	delete[] impl->fileContent;
 	delete impl;
 }
 
@@ -58,83 +60,55 @@ IDeserializer::~IDeserializer()
 //			Wczytywanie i parsowanie	
 //====================================================================================//
 
-/**@brief Wczytuje i parsuje podany plik.
 
-@param[in] fileName Nazwa pliku.
-@param[in] mode Tryb parsowania. Parser XMLowy wspiera tylko parsowanie insitu.
-@return Zwraca informacjê czy parsowanie powiod³o siê.*/
-bool			IDeserializer::LoadFromFile		( const std::string& fileName, ParsingMode mode )
+// ================================ //
+//
+ReturnResult            IDeserializer::LoadFromFile     ( const std::string& fileName )
 {
-	std::ifstream file( fileName, std::ios::binary | std::ios::ate );
+    std::ifstream file( fileName );
 
     if( file.fail() )
-    {
-        impl->errorString = "File not found";
-        return false;
-    }
-	
-	// Szukamy koñca pliku, a potem wracamy na pocz¹tek.
-	std::streambuf* rawBuffer = file.rdbuf();
-	unsigned int fileSize = static_cast< unsigned int >( rawBuffer->pubseekoff( 0, file.end ) );
-	file.seekg ( 0, file.beg );
+        return fmt::format( "Loading file [{}] failed. Error: {}", fileName, Convert::ErrnoToString( errno ) );
 
+    // Note: I would prefere filesystem::File::Load, but it doesn't report errors.
+    std::stringstream buffer;
+    buffer << file.rdbuf();
 
-	// Alokujemy bufor odpowiedniej d³ugoœci
-	delete[] impl->fileContent;
-	impl->fileContent = new char[ fileSize + 1 ];
+    auto content = buffer.str();
 
-	// Wczytujemy plik do bufora
-	auto result = rawBuffer->sgetn( impl->fileContent, fileSize );
-	file.close();
+    file.close();
 
-	// Dodajemy znak koñca stringa na koñcu pliku
-	impl->fileContent[ result ] = '\0';
-
-	impl->valuesStack.push( &impl->root );
-
-	try
-	{
-		// Parsujemy w zale¿noœci od wybranego trybu
-		if( mode == ParsingMode::ParseInsitu )
-			impl->root.parse< rapidxml::parse_default >( impl->fileContent );
-		else // ParsingMode::AllocStrings
-		{
-			// W tym trybie wszystkie stringi s¹ alokowane.
-			// Dlatego po wykonaniu tej operacji kasujemy bufor.
-			assert( false );		// rapidXML nie obs³uguje niestety tego trybu
-
-			impl->root.parse< rapidxml::parse_default >( impl->fileContent );
-		}
-	}
-	catch( const rapidxml::parse_error& e )
-	{
-		impl->errorString = "Error: ";
-		impl->errorString += e.what();
-		impl->errorString += " Offset: ";
-		impl->errorString += std::to_string( static_cast< PtrOffset >( e.where< char >() - impl->fileContent ) );
-
-		return false;
-	}
-	catch( const std::exception& e )
-	{
-		impl->errorString = "Error: ";
-		impl->errorString += e.what();
-		return false;
-	}
-	catch( ... )
-	{
-		impl->errorString = "Unknown error";
-		return false;
-	}
-
-	return true;
+    return LoadFromString( std::move( content ) );
 }
 
-/**@brief Parsuje XMLa z podanego stringa.
-@param[in] contentString String do sparsowania.*/
-bool			IDeserializer::LoadFromString	( const std::string& contentString )
+// ================================ //
+//
+ReturnResult            IDeserializer::LoadFromString   ( std::string content )
 {
-	return false;
+    impl->fileContent = std::move( content );
+    impl->valuesStack.push( &impl->root );
+
+    try
+    {
+        // This line will modify m_content. XML tree will reference
+        // strings in m_content.
+        impl->root.parse< rapidxml::parse_default >( impl->fileContent.data() );
+    }
+    catch( const rapidxml::parse_error & e )
+    {
+        auto errorOffset = static_cast< PtrOffset >( e.where< char >() - impl->fileContent.data() );
+        return fmt::format( "Parsing failed. Error: {}, offset: {}", e.what(), errorOffset );
+    }
+    catch( const std::exception & e )
+    {
+        return fmt::format( "Parsing failed. Error: {}.", e.what() );
+    }
+    catch( ... )
+    {
+        return fmt::format( "Parsing failed. Unknown error." );
+    }
+
+    return Success::True;
 }
 
 //====================================================================================//
@@ -600,7 +574,7 @@ sw::FilePosition					ComputeXmlPosition     ( const char* fileBegin, const char*
 sw::FilePosition					IDeserializer::CurrentLineNumber      () const
 {
     auto& curNode = impl->valuesStack.top();
-	const char* fileFirstChar = impl->fileContent;
+	const char* fileFirstChar = impl->fileContent.data();
 	const char* nodeFirstChar = curNode->name();
 
     return ComputeXmlPosition( fileFirstChar, nodeFirstChar );

@@ -6,6 +6,7 @@
 @brief Deklaracja klasy deserializatora.*/
 
 #include "swCommonLib/Common/TypesDefinitions.h"
+#include "swCommonLib/Common/Exceptions/Nullable.h"
 #include "swSerialization/Interfaces/ISerializationContext.h"
 #include "swSerialization/Interfaces/FilePosition.h"
 
@@ -47,8 +48,13 @@ public:
 	IDeserializer		( ISerializationContextPtr serContext );
 	~IDeserializer		();
 
-	bool			LoadFromFile	( const std::string& fileName, ParsingMode mode );
-	bool			LoadFromString	( const std::string& contentString );
+    /**@brief Loads content of file to this serializer.
+    @todo Consider using filesystem::Path or std::filesystem::path*/
+    sw::ReturnResult        LoadFromFile	    ( const std::string& fileName );
+
+    /**@brief Deserializes content of string.
+    Insitu parsing of string.*/
+    sw::ReturnResult        LoadFromString	    ( std::string content );
 
 	const char*		GetName			() const;
 
