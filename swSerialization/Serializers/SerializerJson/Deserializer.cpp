@@ -130,6 +130,7 @@ ReturnResult            IDeserializer::LoadFromFile     ( const std::string& fil
 ReturnResult            IDeserializer::LoadFromString   ( std::string content )
 {
     impl->fileContent = std::move( content );
+    impl->mode = ParsingMode::ParseInsitu;
     impl->root.ParseInsitu( impl->fileContent.data() );
 
     if( impl->root.HasParseError() )
@@ -867,7 +868,7 @@ sw::FilePosition					ComputeJsonPosition     ( const char* fileBegin, const char
     }
 
     // Note: numerate position from 1.
-    pos.CharPosition = nodeFirstChar - processedLineBegin + 2;
+    pos.CharPosition = nodeFirstChar - processedLineBegin + 1;
 
     return pos;
 }
