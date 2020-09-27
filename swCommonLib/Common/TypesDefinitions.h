@@ -83,7 +83,13 @@ UPtr< PtrType >		MakeOPtr		( Args... args )
 #define DEFINE_PTR_TYPE( type )			typedef Ptr< type > type ## Ptr;
 #define DEFINE_UPTR_TYPE( type )		typedef UPtr< type > type ## UPtr;
 #define DEFINE_WPTR_TYPE( type )		typedef std::weak_ptr< type > type ## WPtr;
+
+// Short form and long form. Both introduced to test what works better.
 #define DEFINE_OPTR_TYPE( type )		typedef OPtr< type > type ## OPtr;
+#define DEFINE_OWNED_PTR_TYPE( type )   typedef OPtr< type > type ## Owned;
+
+#define DEFINE_BORROWED_PTR_TYPE( type )    typedef type* type ## Borrowed;
+#define DEFINE_BPTR_TYPE( type )            typedef type* type ## BPtr;
 
 
 #define CLASS_TESTER( type )			__ ## type ## __Tester

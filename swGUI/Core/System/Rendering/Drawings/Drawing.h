@@ -56,6 +56,11 @@ struct BrushRenderingData
 };
 
 
+DEFINE_OPTR_TYPE( BrushRenderingData );
+DEFINE_OPTR_TYPE( GeometryRenderingData );
+DEFINE_BORROWED_PTR_TYPE( BrushRenderingData );
+DEFINE_BORROWED_PTR_TYPE( GeometryRenderingData );
+
 }	// impl
 
 

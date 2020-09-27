@@ -9,6 +9,8 @@
 #include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
 #include "swCommonLib/Common/Buffers/BufferRange.h"
 
+#include "swGUI/Core/System/Rendering/Drawings/Drawing.h"
+
 
 
 /**@defgroup Brushes Brushes
@@ -23,6 +25,12 @@ namespace gui
 /**@brief Brush base class.
 
 @todo Reimplement class to allow controls to share brushes.
+@todo We would prefere Invalidate* functions that schedule resource
+      update to exeternal service. Rendering shouldn't be forced touch memory of Brush
+      class in each loop.
+@todo If constants buffer is shared (in current implementation it always is), rendering must
+      access Brush class, so even if we will make Invalidate* scheduler mechanism, we still
+      have inefficient memory access pattern.
 
 @ingroup Brushes*/
 class Brush : public EngineObject
@@ -42,6 +50,8 @@ public:
 	};
 
 private:
+
+    impl::BrushRenderingDataOPtr        m_renderingData;
 
 	bool			m_useConstantBuffer : 1;
 	bool			m_invalidateConstants : 1;
@@ -91,6 +101,8 @@ private:
 	void			TextureUpdated		();
 	void			ConstantsUpdated	();
 	void			BufferChanged		();
+
+    impl::BrushRenderingDataBorrowed        GetRenderingData    () { return m_renderingData.get(); }
 
 protected:
 

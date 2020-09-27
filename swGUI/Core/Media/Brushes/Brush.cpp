@@ -16,12 +16,13 @@ namespace gui
 {
 
 // ================================ //
-//
+// @todo Allocate BrushRenderingData from memory pool.
 Brush::Brush		( ConstantBufferMode enableCB )
 	:	m_useConstantBuffer( enableCB == ConstantBufferMode::Enable )
 	,	m_invalidateConstants( false )
 	,	m_invalidateTexture( false )
 	,	m_changeCBuffer( false )
+    ,   m_renderingData( std::make_unique< impl::BrushRenderingData >() )
 {
 	InvalidateShader();
 }
