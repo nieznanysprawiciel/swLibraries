@@ -20,8 +20,9 @@
   
   <ItemDefinitionGroup>
     <ClCompile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SourceInclude);$(SourceInclude)swCommonLib/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-	  <PreprocessorDefinitions>FMT_HEADER_ONLY;RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+	    <PreprocessorDefinitions>FMT_HEADER_ONLY;RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
 
