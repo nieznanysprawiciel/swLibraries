@@ -27,8 +27,10 @@ using namespace sw;
 //			Material test utils	
 //====================================================================================//
 
-GENERATE_RELATIONAL_OPERATORS( DirectX::XMFLOAT3, x, y, z );
-GENERATE_RELATIONAL_OPERATORS( DirectX::XMFLOAT4, x, y, z, w );
+namespace DirectX {
+    GENERATE_RELATIONAL_OPERATORS(DirectX::XMFLOAT3, x, y, z);
+    GENERATE_RELATIONAL_OPERATORS(DirectX::XMFLOAT4, x, y, z, w);
+}
 
 
 // ================================ //
