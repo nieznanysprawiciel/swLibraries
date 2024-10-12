@@ -78,7 +78,7 @@ struct Nullable
 	}
 
 
-	bool operator!()
+	bool operator!() const
 	{
 		return !IsValid;
 	}
