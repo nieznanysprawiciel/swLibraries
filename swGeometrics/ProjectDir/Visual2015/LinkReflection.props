@@ -2,9 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
  
   <PropertyGroup Label="UserMacros">
+    <SubBuild>$(Configuration)-$(PlatformShortName)-$(PlatformToolset)</SubBuild>
+
     <ReflectionName>Reflection</ReflectionName>
-    <ReflectionLibDir>$(swGeometricsSourceInclude)swCommonLib\Projects\ReleaseDir\LibDir\$(ReflectionName)\$(PlatformToolset)\$(PlatformShortName)\$(Configuration)\</ReflectionLibDir>
-	<ReflectionFileName>$(ReflectionName)</ReflectionFileName>
+    <ReflectionLibDir>$(swGeometricsSourceInclude)swCommonLib\_Target\$(SubBuild)\LibDir\</ReflectionLibDir>
+	  <ReflectionFileName>$(ReflectionName)</ReflectionFileName>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -15,12 +17,12 @@
   
     <ClCompile>
       <AdditionalIncludeDirectories>$(swGeometricsSourceInclude)swCommonLib/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-	  <PreprocessorDefinitions>RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+	    <PreprocessorDefinitions>RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
 	 
     <Link>
-		<AdditionalLibraryDirectories>$(ReflectionLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-		<AdditionalDependencies>$(ReflectionFileName).lib;%(AdditionalDependencies)</AdditionalDependencies>
+		  <AdditionalLibraryDirectories>$(ReflectionLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+		  <AdditionalDependencies>$(ReflectionFileName).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
 	
     <PostBuildEvent>
