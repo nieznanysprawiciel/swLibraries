@@ -6,14 +6,14 @@
   
   <PropertyGroup Label="UserMacros">
     <CommonBaseName>CommonBase</CommonBaseName>
-    <CommonBaseLibDir>$(LibDir)$(CommonBaseName)\</CommonBaseLibDir>
+    <CommonBaseLibDir>$(LibDir)</CommonBaseLibDir>
     <CommonBaseSourceDir>$(SourceDir)$(CommonBaseName)\</CommonBaseSourceDir>
-    <CommonBaseFileName>$(CommonBaseName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)</CommonBaseFileName>
-    <CommonBaseBuildDir>$(BuildDir)$(CommonBaseName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</CommonBaseBuildDir>
+    <CommonBaseFileName>$(CommonBaseName)</CommonBaseFileName>
+	<CommonBaseIntermediateDir>$(IntermediateDir)$(CommonBaseName)\</CommonBaseIntermediateDir>
   </PropertyGroup>
   
   <PropertyGroup>
-    <IntDir>$(CommonBaseBuildDir)</IntDir>
+    <IntDir>$(CommonBaseIntermediateDir)</IntDir>
     <TargetName>$(CommonBaseFileName)</TargetName>
     <OutDir>$(CommonBaseLibDir)</OutDir>
   </PropertyGroup>

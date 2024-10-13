@@ -8,10 +8,10 @@
   
   <PropertyGroup Label="UserMacros">
     <ReflectionName>Reflection</ReflectionName>
-    <ReflectionLibDir>$(LibDir)$(ReflectionName)\$(PlatformToolset)\$(PlatformShortName)\$(Configuration)\</ReflectionLibDir>
+    <ReflectionLibDir>$(LibDir)</ReflectionLibDir>
     <ReflectionSourceDir>$(SourceDir)$(ReflectionName)\</ReflectionSourceDir>
     <ReflectionFileName>$(ReflectionName)</ReflectionFileName>
-    <ReflectionBuildDir>$(BuildDir)$(ReflectionName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</ReflectionBuildDir>
+    <ReflectionBuildDir>$(BuildDir)$(ReflectionName)</ReflectionBuildDir>
   </PropertyGroup>
   
   <ItemDefinitionGroup>

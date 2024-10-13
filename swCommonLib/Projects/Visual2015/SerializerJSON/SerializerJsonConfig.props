@@ -6,10 +6,10 @@
   
   <PropertyGroup Label="UserMacros">
     <SerializerJsonName>SerializerJson</SerializerJsonName>
-    <SerializerJsonLibDir>$(LibDir)$(SerializerJsonName)\</SerializerJsonLibDir>
+    <SerializerJsonLibDir>$(LibDir)</SerializerJsonLibDir>
     <SerializerJsonSourceDir>$(SourceDir)$(SerializerJsonName)\</SerializerJsonSourceDir>
-    <SerializerJsonFileName>$(SerializerJsonName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)</SerializerJsonFileName>
-    <SerializerJsonBuildDir>$(BuildDir)$(SerializerJsonName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</SerializerJsonBuildDir>
+    <SerializerJsonFileName>$(SerializerJsonName)</SerializerJsonFileName>
+    <SerializerJsonIntDir>$(IntermediateDir)$(SerializerJsonName)\</SerializerJsonIntDir>
   </PropertyGroup>
   
   <ItemDefinitionGroup>
@@ -24,7 +24,7 @@
   </ItemDefinitionGroup>
   
   <PropertyGroup>
-    <IntDir>$(SerializerJsonBuildDir)</IntDir>
+    <IntDir>$(SerializerJsonIntDir)</IntDir>
     <TargetName>$(SerializerJsonFileName)</TargetName>
     <OutDir>$(SerializerJsonLibDir)</OutDir>
   </PropertyGroup>
