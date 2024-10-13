@@ -67,8 +67,7 @@ jobs:
           mkdir workdir
           cp -r swCommonLib/TestResources /tmp/workdir
 
-      # - name: Run Tests
-      #   working-directory: /tmp/workdir
-      #   run: |
-          
-      
+      - name: Run Tests
+        working-directory: /tmp/workdir
+        run: |
+          find /tmp/test-binaries -type f -executable -exec {} \;
