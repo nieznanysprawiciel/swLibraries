@@ -16,4 +16,15 @@
     <OutDir>$(TestBuildDir)</OutDir>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <LocalDebuggerWorkingDirectory>$(WorkDir)</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <PostBuildEvent>
+      <Command>xcopy $(TestResourcesDir) $(WorkDir) /S /Y %(Command)</Command>
+      <Message>Copy TestResources to WorkDir.</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
 </Project>
