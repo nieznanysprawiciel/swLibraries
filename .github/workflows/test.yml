@@ -47,6 +47,7 @@ jobs:
 
     - name: Upload binaries
       uses: actions/upload-artifact@v4
+      if-no-files-found: warn
       with:
         name: artifacts-${{matrix.BUILD_CONFIGURATION}}
         path: tests-bins
@@ -71,11 +72,12 @@ jobs:
       
       - name: Move Test Resources
         run: |
-          mkdir /tmp/workdir
-          cp -r swCommonLib/TestResources /tmp/workdir
+          mkdir workdir
+          cp -r swCommonLib/TestResources workdir
 
       - name: Run Tests
         shell: bash
         run: |
-          cd /tmp/workdir
+          cd workdir
+          ls -al /tmp/test-binaries
           find /tmp/test-binaries/${{matrix.sub-project}} -type f -executable -exec {} \;
