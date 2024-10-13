@@ -75,6 +75,7 @@ jobs:
           cp -r swCommonLib/TestResources /tmp/workdir
 
       - name: Run Tests
+        shell: bash
         run: |
           cd /tmp/workdir
           find /tmp/test-binaries/${{matrix.sub-project}} -type f -executable -exec {} \;
