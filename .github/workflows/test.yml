@@ -58,13 +58,15 @@ jobs:
       matrix:
         sub-project: [swCommonLib]
         # , swGeometrics, swGraphicAPI, swGUI, swInputLibrary
+    env:
+      TEST_BUILD_CONFIGURATION: Debug
     steps:
       - uses: actions/checkout@v4
 
       - name: Download binaries
         uses: actions/download-artifact@v4
         with:
-          name: artifacts-Debug
+          name: artifacts-${{env.TEST_BUILD_CONFIGURATION}}
           path: /tmp/test-binaries
       
       - name: Move Test Resources
@@ -73,6 +75,6 @@ jobs:
           cp -r swCommonLib/TestResources /tmp/workdir
 
       - name: Run Tests
-        working-directory: /tmp/workdir
         run: |
+          cd /tmp/workdir
           find /tmp/test-binaries/${{matrix.sub-project}} -type f -executable -exec {} \;
