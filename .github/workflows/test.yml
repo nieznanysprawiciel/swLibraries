@@ -14,6 +14,8 @@ on:
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: ./swGUI/GUI.sln
+  TOOLSET: 143
+  ARCH: x64
 
 permissions:
   contents: read
@@ -31,10 +33,38 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
       with:
-        msbuild-architecture: x64
+        msbuild-architecture: ${{env.ARCH}}
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      # Add additional options to the MSBuild command line here (like platform or verbosity level).
-      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /verbosity:minimal /p:Configuration=${{matrix.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Move target binaries
+      run: |
+        mkdir tests-bins
+        mv swCommonLib/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir tests-bins
+
+    - name: Upload binaries
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts-${{matrix.BUILD_CONFIGURATION}}
+        path: tests-bins
+
+  test:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: artifacts-Debug
+          path: /tmp/test-binaries
+      
+      - name: Move Test Resoruces
+        run: |
+          mkdir workdir
+          cp -r swCommonLib/TestResources workdir
+
+      
