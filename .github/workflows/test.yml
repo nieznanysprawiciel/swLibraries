@@ -14,7 +14,7 @@ on:
 env:
   # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: ./swGUI/GUI.sln
-  TOOLSET: 143
+  TOOLSET: v143
   ARCH: x64
 
 permissions:
@@ -53,6 +53,9 @@ jobs:
   test:
     runs-on: windows-latest
     needs: build
+    # strategy:
+    #   matrix:
+    #     sub-project: [swCommonLib, swGeometrics, swGraphicAPI, swGUI, swInputLibrary]
     steps:
       - uses: actions/checkout@v4
 
