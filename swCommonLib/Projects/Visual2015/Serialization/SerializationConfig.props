@@ -6,14 +6,14 @@
   
   <PropertyGroup Label="UserMacros">
     <SerializationName>Serialization</SerializationName>
-    <SerializationLibDir>$(LibDir)$(SerializationName)\</SerializationLibDir>
+    <SerializationLibDir>$(LibDir)</SerializationLibDir>
     <SerializationSourceDir>$(SourceDir)$(SerializationName)\</SerializationSourceDir>
-    <SerializationFileName>$(SerializationName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)</SerializationFileName>
-    <SerializationBuildDir>$(BuildDir)$(SerializationName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</SerializationBuildDir>
+    <SerializationFileName>$(SerializationName)</SerializationFileName>
+    <SerializationIntDir>$(IntermediateDir)$(SerializationName)\</SerializationIntDir>
   </PropertyGroup>
   
   <PropertyGroup>
-    <IntDir>$(SerializationBuildDir)</IntDir>
+    <IntDir>$(SerializationIntDir)</IntDir>
     <TargetName>$(SerializationFileName)</TargetName>
     <OutDir>$(SerializationLibDir)</OutDir>
   </PropertyGroup>

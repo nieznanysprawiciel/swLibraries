@@ -6,14 +6,14 @@
   
   <PropertyGroup Label="UserMacros">
     <TestClassHierarchyName>TestClassHierarchy</TestClassHierarchyName>
-    <TestClassHierarchyLibDir>$(LibDir)$(TestClassHierarchyName)\</TestClassHierarchyLibDir>
+    <TestClassHierarchyLibDir>$(LibDir)</TestClassHierarchyLibDir>
     <TestClassHierarchySourceDir>$(SourceDir)$(TestClassHierarchyName)\</TestClassHierarchySourceDir>
-    <TestClassHierarchyFileName>$(TestClassHierarchyName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)</TestClassHierarchyFileName>
-    <TestClassHierarchyBuildDir>$(BuildDir)$(TestClassHierarchyName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</TestClassHierarchyBuildDir>
+    <TestClassHierarchyFileName>$(TestClassHierarchyName)</TestClassHierarchyFileName>
+    <TestClassHierarchyIntDir>$(IntermediateDir)$(TestClassHierarchyName)\</TestClassHierarchyIntDir>
   </PropertyGroup>
   
   <PropertyGroup>
-    <IntDir>$(TestClassHierarchyBuildDir)</IntDir>
+    <IntDir>$(TestClassHierarchyIntDir)</IntDir>
     <TargetName>$(TestClassHierarchyFileName)</TargetName>
     <OutDir>$(TestClassHierarchyLibDir)</OutDir>
   </PropertyGroup>

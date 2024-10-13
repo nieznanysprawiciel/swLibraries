@@ -78,7 +78,7 @@ std::string                 Version::ToString   () const
 
 // ================================ //
 //
-bool                    Version::operator<      ( const Version& other )
+bool                    Version::operator<      ( const Version& other ) const
 {
     if( Major < other.Major )
         return true;
@@ -100,7 +100,7 @@ bool                    Version::operator<      ( const Version& other )
 
 // ================================ //
 //
-bool                    Version::operator==     ( const Version& other )
+bool                    Version::operator==     ( const Version& other ) const
 {
     return Major == other.Major
         && Minor == other.Minor

@@ -6,10 +6,10 @@
   
   <PropertyGroup Label="UserMacros">
     <ReflectionName>Reflection</ReflectionName>
-    <ReflectionLibDir>$(LibDir)$(ReflectionName)\$(PlatformToolset)\$(PlatformShortName)\$(Configuration)\</ReflectionLibDir>
+    <ReflectionLibDir>$(LibDir)</ReflectionLibDir>
     <ReflectionSourceDir>$(SourceDir)$(ReflectionName)\</ReflectionSourceDir>
     <ReflectionFileName>$(ReflectionName)</ReflectionFileName>
-    <ReflectionBuildDir>$(BuildDir)$(ReflectionName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</ReflectionBuildDir>
+    <ReflectionIntDir>$(IntermediateDir)$(ReflectionName)\</ReflectionIntDir>
   </PropertyGroup>
   
   <ItemDefinitionGroup>
@@ -19,7 +19,7 @@
   </ItemDefinitionGroup>
   
   <PropertyGroup>
-    <IntDir>$(ReflectionBuildDir)</IntDir>
+    <IntDir>$(ReflectionIntDir)</IntDir>
     <TargetName>$(ReflectionFileName)</TargetName>
     <OutDir>$(ReflectionLibDir)</OutDir>
   </PropertyGroup>

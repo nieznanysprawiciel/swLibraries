@@ -72,7 +72,7 @@ bool			IDeserializer::LoadFromFile		( const std::string& fileName, ParsingMode m
 	
 	// Szukamy koñca pliku, a potem wracamy na pocz¹tek.
 	std::streambuf* rawBuffer = file.rdbuf();
-	unsigned int fileSize = rawBuffer->pubseekoff( 0, file.end );
+	std::streamsize fileSize = rawBuffer->pubseekoff( 0, file.end );
 	file.seekg ( 0, file.beg );
 
 

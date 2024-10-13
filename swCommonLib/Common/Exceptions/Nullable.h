@@ -106,8 +106,8 @@ public:
     std::string             GetErrorReason      () const;
     ErrorType				GetError            () const;
 
-    bool						operator==          ( const ContentType& that );
-    bool						operator!=          ( const ContentType& that );
+    bool						operator==          ( const ContentType& that ) const;
+    bool						operator!=          ( const ContentType& that ) const;
 	Nullable< ContentType >&	operator=			( const Nullable< ContentType >& that );
 
     const ContentType &				Get			() const&;
@@ -307,7 +307,7 @@ inline typename Nullable< ContentType >::ErrorType		Nullable< ContentType >::Get
 // ================================ //
 //
 template< typename ContentType >
-inline bool						Nullable< ContentType >::operator==      ( const ContentType & that ) 
+inline bool						Nullable< ContentType >::operator==      ( const ContentType & that ) const
 { 
     return m_isValid && Content == that; 
 }
@@ -315,7 +315,7 @@ inline bool						Nullable< ContentType >::operator==      ( const ContentType & 
 // ================================ //
 //
 template< typename ContentType >
-inline bool						Nullable< ContentType >::operator!=      ( const ContentType & that ) 
+inline bool						Nullable< ContentType >::operator!=      ( const ContentType & that ) const
 { 
     return !( *this == that ); 
 }

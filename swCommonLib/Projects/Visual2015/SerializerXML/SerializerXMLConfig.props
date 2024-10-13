@@ -6,10 +6,10 @@
   
   <PropertyGroup Label="UserMacros">
     <SerializerXMLName>SerializerXML</SerializerXMLName>
-    <SerializerXMLLibDir>$(LibDir)$(SerializerXMLName)\</SerializerXMLLibDir>
+    <SerializerXMLLibDir>$(LibDir)</SerializerXMLLibDir>
     <SerializerXMLSourceDir>$(SourceDir)$(SerializerXMLName)\</SerializerXMLSourceDir>
-    <SerializerXMLFileName>$(SerializerXMLName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)</SerializerXMLFileName>
-    <SerializerXMLBuildDir>$(BuildDir)$(SerializerXMLName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</SerializerXMLBuildDir>
+    <SerializerXMLFileName>$(SerializerXMLName)</SerializerXMLFileName>
+    <SerializerXMLIntDir>$(IntermediateDir)$(SerializerXMLName)\</SerializerXMLIntDir>
   </PropertyGroup>
   
   <ItemDefinitionGroup>
@@ -20,7 +20,7 @@
   </ItemDefinitionGroup>
   
   <PropertyGroup>
-    <IntDir>$(SerializerXMLBuildDir)</IntDir>
+    <IntDir>$(SerializerXMLIntDir)</IntDir>
     <TargetName>$(SerializerXMLFileName)</TargetName>
     <OutDir>$(SerializerXMLLibDir)</OutDir>
   </PropertyGroup>

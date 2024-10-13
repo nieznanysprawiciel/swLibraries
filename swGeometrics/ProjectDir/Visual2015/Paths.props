@@ -20,8 +20,9 @@
   
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(swGeometricsSourceInclude);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-		<PreprocessorDefinitions>FMT_HEADER_ONLY;RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+	  <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(swGeometricsSourceInclude);%(AdditionalIncludeDirectories)	</AdditionalIncludeDirectories>
+	  <PreprocessorDefinitions>FMT_HEADER_ONLY;RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
 

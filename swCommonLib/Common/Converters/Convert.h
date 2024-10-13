@@ -135,6 +135,10 @@ inline sw::Nullable< typename std::enable_if< std::is_enum< DstType >::value, Ds
 //			Wstring to string	
 //====================================================================================//
 
+// std::codecvt_utf8 deprecated since C++17 without replacement.
+#pragma warning( push )
+#pragma warning( disable: 4996 )
+
 // ================================ //
 //
 template<>
@@ -156,6 +160,8 @@ inline sw::Nullable< typename std::enable_if< std::is_same< SrcType, std::wstrin
 	std::wstring_convert< convert_type, wchar_t > converter;
 	return converter.from_bytes( value );
 }
+
+#pragma warning( pop )
 
 //====================================================================================//
 //				    Arithemetic types

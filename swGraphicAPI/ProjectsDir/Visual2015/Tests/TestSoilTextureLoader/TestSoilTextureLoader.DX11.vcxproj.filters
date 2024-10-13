@@ -12,5 +12,6 @@
     <ClCompile Include="..\..\..\..\Tests\TestSoilTextureLoader.DX11\TestMipMapGeneration.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestSoilTextureLoader.DX11\main.cpp" />
   </ItemGroup>
 </Project>

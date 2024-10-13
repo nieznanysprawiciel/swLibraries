@@ -18,9 +18,9 @@ namespace filesystem
 bool			Dir::CreateDirectory		( const filesystem::Path& path )
 {
 	if( path.HasFileName() )
-		return std::experimental::filesystem::create_directories( path.GetParent().String() );
+		return std::filesystem::create_directories( path.GetParent().String() );
 	else
-		return std::experimental::filesystem::create_directories( path.String() );
+		return std::filesystem::create_directories( path.String() );
 }
 
 }

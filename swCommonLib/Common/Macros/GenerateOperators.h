@@ -17,11 +17,12 @@ namespace sw
 #define _APPEND_INSTANCE_OBJ2( member ) _APPEND_INSTANCE( obj2, member )
 
 #define _GENERATE_OPERATOR( OP, ClassType, ... ) \
-inline bool     operator##OP( const ClassType& obj1, const ClassType& obj2 )\
-{                                                                           \
-    return std::tie( FOR_EACH( _APPEND_INSTANCE_OBJ1, __VA_ARGS__ ) )       \
-        OP std::tie( FOR_EACH( _APPEND_INSTANCE_OBJ2, __VA_ARGS__ ) );      \
-}
+inline static bool     operator##OP( const ClassType& obj1, const ClassType& obj2 ) \
+{                                                                                   \
+    return std::tie( FOR_EACH( _APPEND_INSTANCE_OBJ1, __VA_ARGS__ ) )               \
+        OP std::tie( FOR_EACH( _APPEND_INSTANCE_OBJ2, __VA_ARGS__ ) );              \
+}                                                                                   \
+
 
 /**@brief Generates operator== function for ClassType.
 Pass all class members as variadic parameters.*/

@@ -754,6 +754,10 @@ rttr::variant		SerializationCore::CreateInstance	( TypeID type )
 	return typeToCreate.create();
 }
 
+// std::codecvt_utf8 deprecated since C++17 without replacement.
+#pragma warning( push )
+#pragma warning( disable: 4996 )
+
 // ================================ //
 //
 std::string			SerializationCore::WstringToUTF		( const std::wstring& str )
@@ -769,6 +773,8 @@ std::wstring		SerializationCore::UTFToWstring		( const std::string& str )
 	std::wstring_convert< std::codecvt_utf8< wchar_t > > myconv;
 	return myconv.from_bytes( str );
 }
+
+#pragma warning( pop )
 
 //====================================================================================//
 //				SerializeProperty template specialization

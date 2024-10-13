@@ -2,8 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
  
   <PropertyGroup Label="UserMacros">
+    <SubBuild>$(Configuration)-$(PlatformShortName)-$(PlatformToolset)</SubBuild>
+
     <ReflectionName>Reflection</ReflectionName>
-    <ReflectionLibDir>$(SourceInclude)swCommonLib\Projects\ReleaseDir\LibDir\$(ReflectionName)\$(PlatformToolset)\$(PlatformShortName)\$(Configuration)\</ReflectionLibDir>
+    <ReflectionLibDir>$(SourceInclude)swCommonLib\_Target\$(SubBuild)\LibDir\</ReflectionLibDir>
 	<ReflectionFileName>$(ReflectionName)</ReflectionFileName>
   </PropertyGroup>
   
