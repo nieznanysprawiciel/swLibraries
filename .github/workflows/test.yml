@@ -42,7 +42,8 @@ jobs:
     - name: Move target binaries
       run: |
         mkdir tests-bins
-        cp swCommonLib/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins
+        mkdir tests-bins/swCommonLib
+        cp swCommonLib/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swCommonLib
 
     - name: Upload binaries
       uses: actions/upload-artifact@v4
@@ -53,9 +54,10 @@ jobs:
   test:
     runs-on: windows-latest
     needs: build
-    # strategy:
-    #   matrix:
-    #     sub-project: [swCommonLib, swGeometrics, swGraphicAPI, swGUI, swInputLibrary]
+    strategy:
+      matrix:
+        sub-project: [swCommonLib]
+        # , swGeometrics, swGraphicAPI, swGUI, swInputLibrary
     steps:
       - uses: actions/checkout@v4
 
@@ -67,10 +69,10 @@ jobs:
       
       - name: Move Test Resources
         run: |
-          mkdir workdir
+          mkdir /tmp/workdir
           cp -r swCommonLib/TestResources /tmp/workdir
 
       - name: Run Tests
         working-directory: /tmp/workdir
         run: |
-          find /tmp/test-binaries -type f -executable -exec {} \;
+          find /tmp/test-binaries/${{matrix.sub-project}} -type f -executable -exec {} \;
