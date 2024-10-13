@@ -42,7 +42,7 @@ jobs:
     - name: Move target binaries
       run: |
         mkdir tests-bins
-        mv swCommonLib/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir tests-bins
+        cp swCommonLib/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins
 
     - name: Upload binaries
       uses: actions/upload-artifact@v4
@@ -62,9 +62,13 @@ jobs:
           name: artifacts-Debug
           path: /tmp/test-binaries
       
-      - name: Move Test Resoruces
+      - name: Move Test Resources
         run: |
           mkdir workdir
-          cp -r swCommonLib/TestResources workdir
+          cp -r swCommonLib/TestResources /tmp/workdir
 
+      # - name: Run Tests
+      #   working-directory: /tmp/workdir
+      #   run: |
+          
       
