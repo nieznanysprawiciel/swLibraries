@@ -80,6 +80,6 @@ jobs:
         shell: bash
         run: |
           ls -al .
-          cd workdir
           ls -al test-binaries
+          cd workdir
           find ../test-binaries/${{matrix.sub-project}} -type f -executable -exec {} \;
