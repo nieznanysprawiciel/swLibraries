@@ -5,7 +5,7 @@
     <SubBuild>$(Configuration)-$(PlatformShortName)-$(PlatformToolset)</SubBuild>
 
     <ReflectionName>Reflection</ReflectionName>
-    <ReflectionLibDir>$(swGeometricsSourceInclude)swCommonLib\_Target\$(SubBuild)\LibDir\</ReflectionLibDir>
+    <ReflectionLibDir>$(SourceInclude)swCommonLib\_Target\$(SubBuild)\LibDir\</ReflectionLibDir>
 	  <ReflectionFileName>$(ReflectionName)</ReflectionFileName>
   </PropertyGroup>
   
@@ -16,7 +16,7 @@
   <ItemDefinitionGroup>
   
     <ClCompile>
-      <AdditionalIncludeDirectories>$(swGeometricsSourceInclude)swCommonLib/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SourceInclude)swCommonLib/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	    <PreprocessorDefinitions>RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
 	 
