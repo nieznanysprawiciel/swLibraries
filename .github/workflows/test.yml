@@ -74,6 +74,7 @@ jobs:
         run: |
           mkdir workdir
           cp -r swCommonLib/TestResources workdir
+          ls -al workdir
 
       - name: Run Tests
         shell: bash
