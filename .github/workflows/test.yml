@@ -70,6 +70,7 @@ jobs:
           path: /tmp/test-binaries
       
       - name: Move Test Resources
+        shell: bash
         run: |
           mkdir workdir
           cp -r swCommonLib/TestResources workdir
