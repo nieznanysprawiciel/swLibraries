@@ -67,7 +67,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: artifacts-${{env.TEST_BUILD_CONFIGURATION}}
-          path: /tmp/test-binaries
+          path: test-binaries
       
       - name: Move Test Resources
         shell: bash
@@ -80,5 +80,5 @@ jobs:
         shell: bash
         run: |
           cd workdir
-          ls -al /tmp/test-binaries
-          find /tmp/test-binaries/${{matrix.sub-project}} -type f -executable -exec {} \;
+          ls -al test-binaries
+          find test-binaries/${{matrix.sub-project}} -type f -executable -exec {} \;
