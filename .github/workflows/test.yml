@@ -79,6 +79,7 @@ jobs:
       - name: Run Tests
         shell: bash
         run: |
+          ls -al .
           cd workdir
           ls -al test-binaries
-          find test-binaries/${{matrix.sub-project}} -type f -executable -exec {} \;
+          find ../test-binaries/${{matrix.sub-project}} -type f -executable -exec {} \;
