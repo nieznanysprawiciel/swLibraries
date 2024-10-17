@@ -3,15 +3,23 @@
   <ImportGroup Label="PropertySheets" />
   
   <PropertyGroup Label="UserMacros">
-	<RootDir>$(MSBuildThisFileDirectory)..\..\</RootDir>
-	<ProjectsDir>$(RootDir)Projects\</ProjectsDir>
-	<TestsDir>$(RootDir)Tests\</TestsDir>
-	<ReleaseDir>$(RootDir)ReleaseDir\</ReleaseDir>
-	<LibDir>$(ReleaseDir)LibDir\</LibDir>
-	<BuildDir>$(ReleaseDir)BuildDir\</BuildDir>
-	<SourceInclude>$(RootDir)..\</SourceInclude>
-	<SourceDir>$(RootDir)</SourceDir>
-	<ExternalDir>$(RootDir)External\</ExternalDir>
+    <SubBuild>$(Configuration)-$(PlatformShortName)-$(PlatformToolset)</SubBuild>
+    
+    <RootDir>$(MSBuildThisFileDirectory)..\..\</RootDir>
+    <ProjectsDir>$(RootDir)Projects\</ProjectsDir>
+    <ReleaseDir>$(RootDir)_Target\</ReleaseDir>
+    
+    <LibDir>$(ReleaseDir)$(SubBuild)\LibDir\</LibDir>
+    <BuildDir>$(ReleaseDir)$(SubBuild)\BinDir\</BuildDir>
+    <IntermediateDir>$(ReleaseDir)$(SubBuild)\Intermediate\</IntermediateDir>
+    <TestsBinariesDir>$(ReleaseDir)$(SubBuild)\TestsDir\</TestsBinariesDir>
+    <WorkDir>$(ReleaseDir)$(SubBuild)\WorkDir\</WorkDir>
+
+    <SourceInclude>$(RootDir)..\</SourceInclude>
+    <SourceDir>$(RootDir)</SourceDir>
+    <TestsDir>$(RootDir)Tests\</TestsDir>
+    <TestResourcesDir>$(RootDir)TestResources\</TestResourcesDir>
+    <ExternalDir>$(RootDir)External\</ExternalDir>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -20,9 +28,9 @@
   
   <ItemDefinitionGroup>
     <ClCompile>
-	  <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SourceInclude);$(SourceInclude)swCommonLib/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-	  <PreprocessorDefinitions>FMT_HEADER_ONLY;RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+	    <PreprocessorDefinitions>FMT_HEADER_ONLY;RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
 
