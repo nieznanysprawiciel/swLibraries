@@ -23,7 +23,10 @@
 
   <ItemDefinitionGroup>
     <PostBuildEvent>
-      <Command>xcopy $(TestResourcesDir) $(WorkDir) /S /Y %(Command)</Command>
+      <Command>
+        xcopy $(TestResourcesDir) $(WorkDir) /S /Y
+        %(Command)
+      </Command>
       <Message>Copy TestResources to WorkDir.</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>

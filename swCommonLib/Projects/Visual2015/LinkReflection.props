@@ -24,8 +24,10 @@
       <AdditionalDependencies>$(ReflectionFileName).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(ReflectionLibDir)$(ReflectionFileName).dll $(OutDir)$(ReflectionName).dll
-%(Command)</Command>
+      <Command>
+        copy $(ReflectionLibDir)$(ReflectionFileName).dll $(OutDir)$(ReflectionName).dll
+        %(Command)
+      </Command>
       <Message>Copy Reflection.dll to output directory.</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
