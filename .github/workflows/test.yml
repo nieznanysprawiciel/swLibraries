@@ -77,13 +77,13 @@ jobs:
       - name: Move Test Resources
         shell: bash
         run: |
-          mkdir workdir
-          cp -r swCommonLib/TestResources workdir
+          mkdir -p workdir/swCommonLib
+          cp -r swCommonLib/TestResources/* workdir/swCommonLib/
           ls -al .
           ls -al workdir
           ls -al workdir/swCommonLib
       
       - name: Run Tests
         shell: bash
-        run: python3 run-tests.py test-binaries/${{matrix.sub-project}} workdir
+        run: python3 run-tests.py test-binaries/${{matrix.sub-project}} workdir/swCommonLib
 
