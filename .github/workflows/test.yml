@@ -40,6 +40,7 @@ jobs:
       run: msbuild /m /verbosity:minimal /p:Configuration=${{matrix.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
 
     - name: Move target binaries
+      shell: bash
       run: |
         mkdir tests-bins
         mkdir tests-bins/swCommonLib
