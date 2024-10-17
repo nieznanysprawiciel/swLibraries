@@ -85,7 +85,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p workdir/${{matrix.sub-project}}
-          cp -r ${{matrix.sub-project}}/TestResources/* workdir/${{matrix.sub-project}}/
+          cp -r ${{matrix.sub-project}}/TestResources/* workdir/${{matrix.sub-project}}/ || :
           ls -al .
           ls -al workdir
           ls -al workdir/${{matrix.sub-project}}
