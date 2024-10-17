@@ -65,6 +65,8 @@ jobs:
       
       - name: setup python
         uses: actions/setup-python@v4
+        with:
+          python-version: '3.12' 
 
       - name: Download binaries
         uses: actions/download-artifact@v4
@@ -77,6 +79,7 @@ jobs:
         run: |
           mkdir workdir
           cp -r swCommonLib/TestResources workdir
+          ls -al .
           ls -al workdir
           ls -al workdir/swCommonLib
       
