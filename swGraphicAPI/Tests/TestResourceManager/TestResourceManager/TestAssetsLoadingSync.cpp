@@ -31,14 +31,14 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.SimpleLoading", "[GraphicAPI]
 
 	MockAssetLoadInfo info;
 
-	auto resource = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/mock/example.mock", &info, TypeID::get< MockAsset >() );
 	
 	REQUIRE( resource.IsValid() == true );
 	REQUIRE( resource.Get() != nullptr );
 	CHECK( static_cast< MockAsset* >( resource.Get().Ptr() )->GetContent() == "Example");
 
 	// This will hang if assets locks aren't released properly.
-	auto resource2 = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
+	auto resource2 = rm->LoadGeneric( "$(TestAssets)/mock/example.mock", &info, TypeID::get< MockAsset >() );
 }
 
 // ================================ //
@@ -49,12 +49,12 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.LoadNotExisting", "[GraphicAP
 
 	MockAssetLoadInfo info;
 
-	auto resource = rm->LoadGeneric( "../TestAssets/mock/example-notexists.mock", &info, TypeID::get< MockAsset >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/mock/example-notexists.mock", &info, TypeID::get< MockAsset >() );
 
 	REQUIRE( resource.IsValid() == false );
 
 	// This will hang if assets locks aren't released properly.
-	auto resource2 = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
+	auto resource2 = rm->LoadGeneric( "$(TestAssets)/mock/example.mock", &info, TypeID::get< MockAsset >() );
 }
 
 // ================================ //
@@ -64,12 +64,12 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.NotRegisteredLoader", "[Graph
 	std::unique_ptr< ResourceManager > rm = std::make_unique< ResourceManager >();
 
 	MockAssetLoadInfo info;
-	auto resource = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/mock/example.mock", &info, TypeID::get< MockAsset >() );
 
 	REQUIRE( resource.IsValid() == false );
 
 	// This will hang if assets locks aren't released properly.
-	auto resource2 = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
+	auto resource2 = rm->LoadGeneric( "$(TestAssets)/mock/example.mock", &info, TypeID::get< MockAsset >() );
 }
 
 // ================================ //
@@ -87,12 +87,12 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.TwoThreadsSameAsset", "[Graph
 	std::thread thread( [ & ]()
 	{
 		barrier.ArriveAndWait();
-		threadResource = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
+		threadResource = rm->LoadGeneric( "$(TestAssets)/mock/example.mock", &info, TypeID::get< MockAsset >() );
 	} );
 
 	// Wait for second thread initialization.
 	barrier.ArriveAndWait();
-	auto resource = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/mock/example.mock", &info, TypeID::get< MockAsset >() );
 
 	thread.join();
 
@@ -110,13 +110,13 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGeneric.LoadSameAfterLoad", "[Graphic
 
 	MockAssetLoadInfo info;
 
-	auto resource = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/mock/example.mock", &info, TypeID::get< MockAsset >() );
 
 	REQUIRE( resource.IsValid() == true );
 	REQUIRE( resource.Get() != nullptr );
 
 	// This will hang if assets locks aren't released properly.
-	auto resource2 = rm->LoadGeneric( "../TestAssets/mock/example.mock", &info, TypeID::get< MockAsset >() );
+	auto resource2 = rm->LoadGeneric( "$(TestAssets)/mock/example.mock", &info, TypeID::get< MockAsset >() );
 
 	CHECK( resource.Get() == resource2.Get() );
 }

@@ -79,6 +79,9 @@ inline std::unique_ptr< ResourceManager >			CreateResourceManagerWithDefaults		(
 {
 	std::unique_ptr< ResourceManager > rm = std::make_unique< ResourceManager >();
 
+	auto pm = rm->GetPathsManager();
+	pm->RegisterAlias("$(TestAssets)", "../WorkDir/");
+
 	{
 		auto loader = std::make_shared< ShaderLoader >();
 		rm->RegisterLoader( loader );

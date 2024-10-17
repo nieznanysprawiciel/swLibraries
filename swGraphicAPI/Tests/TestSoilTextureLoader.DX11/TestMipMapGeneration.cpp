@@ -29,7 +29,7 @@ TEST_CASE( "GraphicAPI.DX11.SoilTextureLoader.Load.GenerateMipMaps", "[GraphicAP
 	loadInfo.MipMaps.GenerateMipMaps = true;
 	loadInfo.MipMaps.Filter = MipMapFilter::Box;
 
-	auto resource = rm->LoadGeneric( "../TestAssets/texture/random-pixels.png", &loadInfo, TypeID::get< Texture >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/texture/random-pixels.png", &loadInfo, TypeID::get< Texture >() );
 	REQUIRE_IS_VALID( resource );
 
 	TexturePtr texture = static_cast< Texture* >( resource.Get().Ptr() );

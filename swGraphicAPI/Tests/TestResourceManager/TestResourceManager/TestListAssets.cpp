@@ -20,7 +20,7 @@ using namespace sw;
 TEST_CASE( "GraphicAPI.ResourceManager.ListAssets", "[GraphicAPI]" )
 {
 	auto rm = CreateResourceManagerWithMocks();
-	auto info = MockCompositeAssetLoadInfo::Create( {}, { "../TestAssets/mock/example1.mock", "../TestAssets/mock/example2.mock", "../TestAssets/mock/example3.mock" } );
+	auto info = MockCompositeAssetLoadInfo::Create( {}, { "$(TestAssets)/mock/example1.mock", "$(TestAssets)/mock/example2.mock", "$(TestAssets)/mock/example3.mock" } );
 
 	auto resource = rm->LoadGeneric( "::GraphicAPI/ResourceManager/AssetsRemoval/FreeUnusedAssets", info.get(), TypeID::get< MockCompositeAsset >() );
 	REQUIRE( resource.IsValid() == true );

@@ -22,9 +22,9 @@ TEST_CASE( "GraphicAPI.ResourceManager.AssetsRemoval.FreeUnusedAssets", "[Graphi
 {
 	auto rm = CreateResourceManagerWithMocks();
 
-	auto nestedLevel3 = MockCompositeAssetLoadInfo::Create( {}, { "../TestAssets/mock/example1.mock", "../TestAssets/mock/example.mock" } );
-	auto nestedLevel2 = MockCompositeAssetLoadInfo::Create( { nestedLevel3 }, { "../TestAssets/mock/example2.mock", } );
-	auto nestedLevel1 = MockCompositeAssetLoadInfo::Create( { nestedLevel2 }, { "../TestAssets/mock/example3.mock", } );
+	auto nestedLevel3 = MockCompositeAssetLoadInfo::Create( {}, { "$(TestAssets)/mock/example1.mock", "$(TestAssets)/mock/example.mock" } );
+	auto nestedLevel2 = MockCompositeAssetLoadInfo::Create( { nestedLevel3 }, { "$(TestAssets)/mock/example2.mock", } );
+	auto nestedLevel1 = MockCompositeAssetLoadInfo::Create( { nestedLevel2 }, { "$(TestAssets)/mock/example3.mock", } );
 
 	auto resource = rm->LoadGeneric( "::/AssetsRemoval/FreeUnusedAssets", nestedLevel1.get(), TypeID::get< MockCompositeAsset >() );
 	REQUIRE( resource.IsValid() == true );
@@ -62,8 +62,8 @@ TEST_CASE( "GraphicAPI.ResourceManager.AssetsRemoval.FreeUnusedAssets.DontFreeUs
 {
 	auto rm = CreateResourceManagerWithMocks();
 
-	auto usedAssetInfo = MockCompositeAssetLoadInfo::Create( {}, { "../TestAssets/mock/example1.mock" } );
-	auto unusedAssetInfo = MockCompositeAssetLoadInfo::Create( {}, { "../TestAssets/mock/example2.mock" } );
+	auto usedAssetInfo = MockCompositeAssetLoadInfo::Create( {}, { "$(TestAssets)/mock/example1.mock" } );
+	auto unusedAssetInfo = MockCompositeAssetLoadInfo::Create( {}, { "$(TestAssets)/mock/example2.mock" } );
 
 	auto usedRes = rm->LoadGeneric( "::/AssetsRemoval/FreeUnusedAssets/DontFreeUsedAsset/Used", usedAssetInfo.get(), TypeID::get< MockCompositeAsset >() );
 	auto unusedRes = rm->LoadGeneric( "::/AssetsRemoval/FreeUnusedAssets/DontFreeUsedAsset/NotUsed", unusedAssetInfo.get(), TypeID::get< MockCompositeAsset >() );
@@ -88,7 +88,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.AssetsRemoval.FreeUnusedAssets.DontFreeUs
 	auto usedAsset2 = rm->GetGeneric( "::/AssetsRemoval/FreeUnusedAssets/DontFreeUsedAsset/Used", TypeID::get< MockCompositeAsset >() );
 	CHECK( usedAsset2.Ptr() != nullptr );
 
-	auto internalReferenced = rm->GetGeneric( "../TestAssets/mock/example1.mock", TypeID::get< MockAsset >() );
+	auto internalReferenced = rm->GetGeneric( "$(TestAssets)/mock/example1.mock", TypeID::get< MockAsset >() );
 	CHECK( internalReferenced.Ptr() != nullptr );
 }
 

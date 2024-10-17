@@ -27,7 +27,7 @@ TEST_CASE( "GraphicAPI.SoilTextureLoader.FileDoesntExists", "[GraphicAPI][SoilTe
 
 	TextureLoadInfo loadInfo;
 
-	auto resource = rm->LoadGeneric( "../TestAssets/texture/NotExisting.png", &loadInfo, TypeID::get< Texture >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/texture/NotExisting.png", &loadInfo, TypeID::get< Texture >() );
 	REQUIRE( resource.IsValid() == false );
 
 	CHECK( resource.GetError() != nullptr );
@@ -42,7 +42,7 @@ TEST_CASE( "GraphicAPI.DX11.SoilTextureLoader.Load.png", "[GraphicAPI][SoilTextu
 
 	TextureLoadInfo loadInfo;
 
-	auto resource = rm->LoadGeneric( "../TestAssets/texture/random-pixels.png", &loadInfo, TypeID::get< Texture >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/texture/random-pixels.png", &loadInfo, TypeID::get< Texture >() );
 	REQUIRE_IS_VALID( resource );
 
 	TexturePtr texture = static_cast< Texture* >( resource.Get().Ptr() );
@@ -65,7 +65,7 @@ TEST_CASE( "GraphicAPI.DX11.SoilTextureLoader.Load.ForceFormat", "[GraphicAPI][S
 	loadInfo.Processing.ForceFormat = true;
 	loadInfo.Processing.TargetFormat = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
 
-	auto resource = rm->LoadGeneric( "../TestAssets/texture/random-pixels.png", &loadInfo, TypeID::get< Texture >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/texture/random-pixels.png", &loadInfo, TypeID::get< Texture >() );
 	REQUIRE( resource.IsValid() == false );
 
 	CHECK( resource.GetError() != nullptr );

@@ -34,7 +34,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGenericAsync.SimpleLoading", "[Graphi
 	ResourcePointer resource;
 	ThreadsBarrier barier( 2 );
 
-	rmThread.LoadGenericAsync( "../TestAssets/mock/example.mock", nullptr, TypeID::get< MockAsset >(),
+	rmThread.LoadGenericAsync( "$(TestAssets)/mock/example.mock", nullptr, TypeID::get< MockAsset >(),
 							   [ & ]( AssetLoadResponse& response )
 	{
 		resource = response.Resource;
@@ -57,7 +57,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGenericAsync.LoadFails", "[GraphicAPI
 	ExceptionPtr error;
 	ThreadsBarrier barier( 2 );
 
-	rmThread.LoadGenericAsync( "../TestAssets/mock/example-not-existing.mock", nullptr, TypeID::get< MockAsset >(),
+	rmThread.LoadGenericAsync( "$(TestAssets)/mock/example-not-existing.mock", nullptr, TypeID::get< MockAsset >(),
 							   nullptr,
 							   [ & ]( AssetLoadResponse& response, ExceptionPtr exception )
 	{
@@ -84,14 +84,14 @@ TEST_CASE( "GraphicAPI.ResourceManager.LoadGenericAsync.Load2Assets", "[GraphicA
 	ResourcePointer resource2;
 	ThreadsBarrier barier( 2 );
 
-	rmThread.LoadGenericAsync( "../TestAssets/mock/example.mock", nullptr, TypeID::get< MockAsset >(),
+	rmThread.LoadGenericAsync( "$(TestAssets)/mock/example.mock", nullptr, TypeID::get< MockAsset >(),
 							   [ & ]( AssetLoadResponse& response )
 	{
 		resource1 = response.Resource;
 		barier.ArriveAndWait();
 	}, nullptr );
 
-	rmThread.LoadGenericAsync( "../TestAssets/mock/example1.mock", nullptr, TypeID::get< MockAsset >(),
+	rmThread.LoadGenericAsync( "$(TestAssets)/mock/example1.mock", nullptr, TypeID::get< MockAsset >(),
 							   [ & ]( AssetLoadResponse& response )
 	{
 		resource2 = response.Resource;

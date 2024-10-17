@@ -25,7 +25,7 @@ TEST_CASE( "GraphicAPI.DX11.SoilTextureLoader.Load.png", "[GraphicAPI][SoilTextu
 
 	TextureLoadInfo loadInfo;
 
-	auto resource = rm->LoadGeneric( "../TestAssets/texture/random-pixels.png", &loadInfo, TypeID::get< Texture >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/texture/random-pixels.png", &loadInfo, TypeID::get< Texture >() );
 	REQUIRE_IS_VALID( resource );
 
 	TexturePtr texture = static_cast< Texture* >( resource.Get().Ptr() );
@@ -45,7 +45,7 @@ TEST_CASE( "GraphicAPI.DX11.SoilTextureLoader.Load.jpg", "[GraphicAPI][SoilTextu
 
 	TextureLoadInfo loadInfo;
 
-	auto resource = rm->LoadGeneric( "../TestAssets/texture/random-pixels.jpg", &loadInfo, TypeID::get< Texture >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/texture/random-pixels.jpg", &loadInfo, TypeID::get< Texture >() );
 	REQUIRE_IS_VALID( resource );
 
 	TexturePtr texture = static_cast< Texture* >( resource.Get().Ptr() );
@@ -65,7 +65,7 @@ TEST_CASE( "GraphicAPI.DX11.SoilTextureLoader.Load.bmp", "[GraphicAPI][SoilTextu
 
 	TextureLoadInfo loadInfo;
 
-	auto resource = rm->LoadGeneric( "../TestAssets/texture/random-pixels.bmp", &loadInfo, TypeID::get< Texture >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/texture/random-pixels.bmp", &loadInfo, TypeID::get< Texture >() );
 	REQUIRE_IS_VALID( resource );
 
 	TexturePtr texture = static_cast< Texture* >( resource.Get().Ptr() );
@@ -85,7 +85,7 @@ TEST_CASE( "GraphicAPI.DX11.SoilTextureLoader.Load.large-png", "[GraphicAPI][Soi
 
 	TextureLoadInfo loadInfo;
 
-	auto resource = rm->LoadGeneric( "../TestAssets/texture/big-lightweight.png", &loadInfo, TypeID::get< Texture >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/texture/big-lightweight.png", &loadInfo, TypeID::get< Texture >() );
 	REQUIRE_IS_VALID( resource );
 
 	TexturePtr texture = static_cast< Texture* >( resource.Get().Ptr() );
