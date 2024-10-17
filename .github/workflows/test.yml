@@ -63,6 +63,7 @@ jobs:
     runs-on: windows-latest
     needs: build
     strategy:
+      fail-fast: false
       matrix:
         sub-project: [swCommonLib, swGraphicAPI, swGeometrics]
         # , swGUI, swInputLibrary
