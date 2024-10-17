@@ -44,6 +44,7 @@ jobs:
         mkdir tests-bins
         mkdir tests-bins/swCommonLib
         cp swCommonLib/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swCommonLib
+        cp swGraphicAPI/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swGraphicAPI
 
     - name: Upload binaries
       uses: actions/upload-artifact@v4
@@ -56,8 +57,8 @@ jobs:
     needs: build
     strategy:
       matrix:
-        sub-project: [swCommonLib]
-        # , swGeometrics, swGraphicAPI, swGUI, swInputLibrary
+        sub-project: [swCommonLib, swGraphicAPI]
+        # , swGeometrics, swGUI, swInputLibrary
     env:
       TEST_BUILD_CONFIGURATION: Debug
     steps:
@@ -77,13 +78,13 @@ jobs:
       - name: Move Test Resources
         shell: bash
         run: |
-          mkdir -p workdir/swCommonLib
-          cp -r swCommonLib/TestResources/* workdir/swCommonLib/
+          mkdir -p workdir/${{matrix.sub-project}}
+          cp -r ${{matrix.sub-project}}/TestResources/* workdir/${{matrix.sub-project}}/
           ls -al .
           ls -al workdir
-          ls -al workdir/swCommonLib
+          ls -al workdir/${{matrix.sub-project}}
       
       - name: Run Tests
         shell: bash
-        run: python3 run-tests.py test-binaries/${{matrix.sub-project}} workdir/swCommonLib
+        run: python3 run-tests.py test-binaries/${{matrix.sub-project}} workdir/${{matrix.sub-project}}
 
