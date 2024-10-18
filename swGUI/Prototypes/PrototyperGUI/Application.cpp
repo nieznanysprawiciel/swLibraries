@@ -183,7 +183,7 @@ sw::ReturnResult        Application::OverridePaths	()
 {
 	auto coreGUISourcePath = FindCoreGUISourcePath( m_nativeGUI->GetOS()->GetApplicationDir() );
 
-    m_pathsManager->RegisterAlias( "$(Application-Dir)", coreGUISourcePath / "ProjectDir/Output/Application-Dir/" );
+    m_pathsManager->RegisterAlias( "$(Application-Dir)", coreGUISourcePath / "Prototypes/AppResources/" );
 	return m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" );
 }
 
