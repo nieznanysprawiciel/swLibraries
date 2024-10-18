@@ -10,16 +10,22 @@
     <UnitTestRTTRSourceDir>$(SourceDir)$(UnitTestRTTRName)\</UnitTestRTTRSourceDir>
     <UnitTestRTTRFileName>$(UnitTestRTTRName)</UnitTestRTTRFileName>
     <UnitTestRTTRIntDir>$(IntermediateDir)$(UnitTestRTTRName)</UnitTestRTTRIntDir>
-  
   </PropertyGroup>
-  
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DllSuffix></DllSuffix>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DllSuffix>_d</DllSuffix>
+  </PropertyGroup>
+
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SourceDir)External/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     
     <PostBuildEvent>
-      <Command>copy $(LibDir)PluginTestRTTR.dll $(OutDir)unit_test_plugin.dll
+      <Command>copy $(LibDir)PluginTestRTTR.dll $(OutDir)unit_test_plugin$(DllSuffix).dll
 %(Command)</Command>
       <Message>Copy PluginTestRTTR.dll to output directory.</Message>
     </PostBuildEvent>
