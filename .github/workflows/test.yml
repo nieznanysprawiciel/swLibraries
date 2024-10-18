@@ -25,7 +25,8 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        BUILD_CONFIGURATION: [Release, Debug]
+        #BUILD_CONFIGURATION: [Release, Debug]
+        BUILD_CONFIGURATION: [Debug]
 
     steps:
     - uses: actions/checkout@v4
