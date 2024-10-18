@@ -77,8 +77,26 @@ jobs:
     - name: Upload binaries
       uses: actions/upload-artifact@v4
       with:
-        name: artifacts-${{matrix.BUILD_CONFIGURATION}}
-        path: tests-bins
+        name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swCommonLib
+        path: tests-bins/swCommonLib
+
+    - name: Upload binaries
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swGraphicAPI
+        path: tests-bins/swGraphicAPI
+
+    - name: Upload binaries
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swGeometrics
+        path: tests-bins/swGeometrics
+
+    - name: Upload binaries
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swGUI
+        path: tests-bins/swGUI
 
   test:
     runs-on: windows-latest
@@ -101,7 +119,7 @@ jobs:
       - name: Download binaries
         uses: actions/download-artifact@v4
         with:
-          name: artifacts-${{env.TEST_BUILD_CONFIGURATION}}
+          name: artifacts-${{env.TEST_BUILD_CONFIGURATION}}-${{matrix.sub-project}}
           path: ${{matrix.sub-project}}/test-binaries
       
       - name: Move Test Resources
