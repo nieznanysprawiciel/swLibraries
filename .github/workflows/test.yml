@@ -46,12 +46,15 @@ jobs:
         mkdir tests-bins/swCommonLib
         mkdir tests-bins/swGraphicAPI
         mkdir tests-bins/swGeometrics
+        mkdir tests-bins/swGUI
         cp swCommonLib/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swCommonLib
         cp swGraphicAPI/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swGraphicAPI
         cp swGeometrics/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swGeometrics
+        cp swGUI/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swGUI
         ls -al tests-bins/swCommonLib
         ls -al tests-bins/swGraphicAPI
         ls -al tests-bins/swGeometrics
+        ls -al tests-bins/swGUI
 
     - name: Upload binaries
       uses: actions/upload-artifact@v4
@@ -66,8 +69,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sub-project: [swCommonLib, swGraphicAPI, swGeometrics]
-        # , swGUI, swInputLibrary
+        sub-project: [swCommonLib, swGraphicAPI, swGeometrics, swGUI]
     env:
       TEST_BUILD_CONFIGURATION: Debug
     steps:
