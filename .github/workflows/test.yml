@@ -85,18 +85,18 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: artifacts-${{env.TEST_BUILD_CONFIGURATION}}
-          path: test-binaries
+          path: ${{matrix.sub-project}}/test-binaries
       
       - name: Move Test Resources
         shell: bash
         run: |
-          mkdir -p workdir/${{matrix.sub-project}}
-          cp -r ${{matrix.sub-project}}/TestResources/* workdir/${{matrix.sub-project}}/ || :
+          mkdir -p ${{matrix.sub-project}}/workdir
+          cp -r ${{matrix.sub-project}}/TestResources/* ${{matrix.sub-project}}/workdir || :
           ls -al .
-          ls -al workdir
-          ls -al workdir/${{matrix.sub-project}}
+          ls -al ${{matrix.sub-project}}/
+          ls -al ${{matrix.sub-project}}/workdir
       
       - name: Run Tests
         shell: bash
-        run: python3 run-tests.py test-binaries/${{matrix.sub-project}} workdir/${{matrix.sub-project}}
+        run: python3 run-tests.py ${{matrix.sub-project}}/test-binaries ${{matrix.sub-project}}/workdir
 
