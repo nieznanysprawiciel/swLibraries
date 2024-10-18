@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Build
+name: CI
 
 on:
   push:
@@ -25,7 +25,24 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        #BUILD_CONFIGURATION: [Release, Debug]
+        BUILD_CONFIGURATION: [Release]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+      with:
+        msbuild-architecture: ${{env.ARCH}}
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /verbosity:minimal /p:Configuration=${{matrix.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+
+  prepare-tests:
+    runs-on: windows-latest
+    strategy:
+      matrix:
         BUILD_CONFIGURATION: [Debug]
 
     steps:
@@ -65,7 +82,7 @@ jobs:
 
   test:
     runs-on: windows-latest
-    needs: build
+    needs: prepare-tests
     timeout-minutes: 20
     strategy:
       fail-fast: false
