@@ -12,9 +12,15 @@
   <PropertyGroup>
     <_PropertySheetDisplayName>LinkReflection</_PropertySheetDisplayName>
   </PropertyGroup>
-  
+
+  <ItemGroup>
+    <Content Include="$(ReflectionLibDir)$(ReflectionFileName).dll" >
+      <Link>$(ReflectionFileName).dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup> 
+
   <ItemDefinitionGroup>
-  
     <ClCompile>
       <AdditionalIncludeDirectories>$(SourceInclude)swCommonLib/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 	    <PreprocessorDefinitions>RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -24,12 +30,5 @@
 		  <AdditionalLibraryDirectories>$(ReflectionLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 		  <AdditionalDependencies>$(ReflectionFileName).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-	
-    <PostBuildEvent>
-      <Command>copy $(ReflectionLibDir)$(ReflectionFileName).dll $(OutDir)$(ReflectionName).dll
-      %(Command)
-      </Command>
-      <Message>Copy Reflection.dll to output directory.</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
 </Project>
