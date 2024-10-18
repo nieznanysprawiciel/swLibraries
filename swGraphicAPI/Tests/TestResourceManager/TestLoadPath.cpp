@@ -24,7 +24,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.PathAliases.LoadPath.Constructor", "[Grap
 	auto loadPath = LoadPath( path, rm->GetPathsManager() );
 
 	CHECK( loadPath.GetFileOriginal() == "$(MocksDir)/example.mock" );
-	CHECK( loadPath.GetFileTranslated() == filesystem::Path::WorkingDirectory().GetParent() / "WorkDir/mock/example.mock" );
+	CHECK( loadPath.GetFileTranslated() == filesystem::Path::WorkingDirectory() / "mock/example.mock" );
 }
 
 // ================================ //
@@ -37,7 +37,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.PathAliases.LoadPath.Normalization", "[Gr
 	auto loadPath = LoadPath( path, rm->GetPathsManager() );
 
 	CHECK( loadPath.GetFileOriginal() == "$(MocksDir)/../example.mock" );
-	CHECK( loadPath.GetFileTranslated() == filesystem::Path::WorkingDirectory().GetParent() / "WorkDir/example.mock" );
+	CHECK( loadPath.GetFileTranslated() == filesystem::Path::WorkingDirectory() / "example.mock" );
 }
 
 // ================================ //
