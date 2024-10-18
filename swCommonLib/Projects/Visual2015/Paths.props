@@ -13,10 +13,12 @@
     <BuildDir>$(ReleaseDir)$(SubBuild)\BinDir\</BuildDir>
     <IntermediateDir>$(ReleaseDir)$(SubBuild)\Intermediate\</IntermediateDir>
     <TestsBinariesDir>$(ReleaseDir)$(SubBuild)\TestsDir\</TestsBinariesDir>
+    <WorkDir>$(ReleaseDir)$(SubBuild)\WorkDir\</WorkDir>
 
     <SourceInclude>$(RootDir)..\</SourceInclude>
     <SourceDir>$(RootDir)</SourceDir>
     <TestsDir>$(RootDir)Tests\</TestsDir>
+    <TestResourcesDir>$(RootDir)TestResources\</TestResourcesDir>
     <ExternalDir>$(RootDir)External\</ExternalDir>
   </PropertyGroup>
   

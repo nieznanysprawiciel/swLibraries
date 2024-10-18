@@ -13,6 +13,7 @@
 #include "swGraphicAPI/Resources/Shaders/ShaderInitData.h"
 
 #include "swGraphicAPI/MockAssets/Utils.h"
+#include <swGraphicAPI/MockAssets/GraphicAPI.h>
 
 
 using namespace sw;
@@ -42,6 +43,13 @@ public:
 	}
 };
 
+// ================================ //
+//
+AssetPath        Translate(ResourceManager* rm, filesystem::Path path)
+{
+	auto translatePath = rm->GetPathsManager()->Translate(path);
+	return AssetPath(translatePath, "");
+}
 
 
 //====================================================================================//
@@ -55,7 +63,8 @@ TEST_CASE( "GraphicAPI.AssetsFactory.CreateAsset", "[GraphicAPI]" )
 	AssetsFactory factory;
 	ShaderInitData init( ShaderType::VertexShader );
 
-	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/MinimalShader.vsh", TypeID::get< VertexShader >(), std::move( init ) );
+	auto rm = CreateResourceManagerWithDefaults();
+	auto result = factory.CreateAsset(Translate(rm.get(), "$(TestAssets)/shaders/hlsl/MinimalShader.vsh"), TypeID::get< VertexShader >(), std::move( init ) );
 	REQUIRE_IS_VALID( result );
 
 	CHECK( result.Get() != nullptr );

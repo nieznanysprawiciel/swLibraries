@@ -21,10 +21,13 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 
-  <ItemDefinitionGroup>
+  <Target Name="CreateDirectories" AfterTargets="Build">
+    <MakeDir Directories="$(WorkDir)"/>
+  </Target>
+
+  <ItemDefinitionGroup Condition="Exists('$(TestResourcesDir)')">
     <PostBuildEvent>
-      <Command>
-        xcopy $(TestResourcesDir) $(WorkDir) /S /Y
+      <Command>xcopy $(TestResourcesDir) $(WorkDir) /S /Y
         %(Command)
       </Command>
       <Message>Copy TestResources to WorkDir.</Message>

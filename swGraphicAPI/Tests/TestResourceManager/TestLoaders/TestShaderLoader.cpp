@@ -23,7 +23,7 @@ TEST_CASE( "GraphicAPI.ShaderLoader.FileDoesntExists", "[GraphicAPI]" )
 {
 	auto rm = CreateResourceManagerWithMocksAndDefaults();
 
-	auto resource = rm->LoadGeneric( "../TestAssets/shaders/example-notexists.vsh::main", nullptr, TypeID::get< VertexShader >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/shaders/example-notexists.vsh::main", nullptr, TypeID::get< VertexShader >() );
 	REQUIRE( resource.IsValid() == false );
 
 	CHECK( resource.GetError() != nullptr );
@@ -36,7 +36,7 @@ TEST_CASE( "GraphicAPI.ShaderLoader.Load.VertexShader", "[GraphicAPI]" )
 {
 	auto rm = CreateResourceManagerWithMocksAndDefaults();
 
-	auto resource = rm->LoadGeneric( "../TestAssets/shaders/hlsl/MinimalShader.vsh::main", nullptr, TypeID::get< VertexShader >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/shaders/hlsl/MinimalShader.vsh::main", nullptr, TypeID::get< VertexShader >() );
 	REQUIRE( resource.IsValid() == true );
 
 	CHECK( resource.Get() != nullptr );
@@ -48,7 +48,7 @@ TEST_CASE( "GraphicAPI.ShaderLoader.Load.PixelShader", "[GraphicAPI]" )
 {
 	auto rm = CreateResourceManagerWithMocksAndDefaults();
 
-	auto resource = rm->LoadGeneric( "../TestAssets/shaders/hlsl/MinimalShader.psh::main", nullptr, TypeID::get< PixelShader >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/shaders/hlsl/MinimalShader.psh::main", nullptr, TypeID::get< PixelShader >() );
 	REQUIRE( resource.IsValid() == true );
 
 	CHECK( resource.Get() != nullptr );
@@ -60,7 +60,7 @@ TEST_CASE( "GraphicAPI.ShaderLoader.Load.ComputeShader", "[GraphicAPI]" )
 {
 	auto rm = CreateResourceManagerWithMocksAndDefaults();
 
-	auto resource = rm->LoadGeneric( "../TestAssets/shaders/hlsl/MinimalShader.csh::main", nullptr, TypeID::get< ComputeShader >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/shaders/hlsl/MinimalShader.csh::main", nullptr, TypeID::get< ComputeShader >() );
 	REQUIRE( resource.IsValid() == true );
 
 	CHECK( resource.Get() != nullptr );

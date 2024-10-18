@@ -15,8 +15,17 @@
 #include "swCommonLib/System/File.h"
 #include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
+#include "swGraphicAPI/MockAssets/GraphicAPI.h"
+
 
 using namespace sw;
+
+
+AssetPath        Translate(ResourceManager* rm, filesystem::Path path)
+{
+	auto translatePath = rm->GetPathsManager()->Translate(path);
+	return AssetPath(translatePath, "");
+}
 
 
 // ================================ //
@@ -24,10 +33,10 @@ using namespace sw;
 TEST_CASE( "GraphicAPI.DX11.ShaderCreator.VertexShader.Create", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
-
 	ShaderInitData init( ShaderType::VertexShader );
 
-	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/MinimalShader.vsh", TypeID::get< VertexShader >(), std::move( init ) );
+	auto rm = CreateResourceManagerWithDefaults();
+	auto result = factory.CreateAsset( Translate(rm.get(), "$(TestAssets)/shaders/hlsl/MinimalShader.vsh"), TypeID::get< VertexShader >(), std::move(init));
 	REQUIRE_IS_VALID( result );
 
 	CHECK( result.Get() != nullptr );
@@ -38,10 +47,10 @@ TEST_CASE( "GraphicAPI.DX11.ShaderCreator.VertexShader.Create", "[GraphicAPI]" )
 TEST_CASE( "GraphicAPI.DX11.ShaderCreator.VertexShader.Create.CompilationFailed", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
-
 	ShaderInitData init( ShaderType::VertexShader );
 
-	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/NotCompiling.vsh", TypeID::get< VertexShader >(), std::move( init ) );
+	auto rm = CreateResourceManagerWithDefaults();
+	auto result = factory.CreateAsset(Translate(rm.get(), "$(TestAssets)/shaders/hlsl/NotCompiling.vsh"), TypeID::get< VertexShader >(), std::move( init ) );
 
 	REQUIRE( result.IsValid() == false );
 	CHECK( result.GetError() != nullptr );
@@ -52,10 +61,10 @@ TEST_CASE( "GraphicAPI.DX11.ShaderCreator.VertexShader.Create.CompilationFailed"
 TEST_CASE( "GraphicAPI.DX11.ShaderCreator.PixelShader.Create", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
-
 	ShaderInitData init( ShaderType::PixelShader );
 
-	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/MinimalShader.psh", TypeID::get< PixelShader >(), std::move( init ) );
+	auto rm = CreateResourceManagerWithDefaults();
+	auto result = factory.CreateAsset(Translate(rm.get(), "$(TestAssets)/shaders/hlsl/MinimalShader.psh"), TypeID::get< PixelShader >(), std::move( init ) );
 	REQUIRE_IS_VALID( result );
 
 	CHECK( result.Get() != nullptr );
@@ -66,10 +75,10 @@ TEST_CASE( "GraphicAPI.DX11.ShaderCreator.PixelShader.Create", "[GraphicAPI]" )
 TEST_CASE( "GraphicAPI.DX11.ShaderCreator.PixelShader.Create.CompilationFailed", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
-
 	ShaderInitData init( ShaderType::PixelShader );
 
-	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/NotCompiling.psh", TypeID::get< PixelShader >(), std::move( init ) );
+	auto rm = CreateResourceManagerWithDefaults();
+	auto result = factory.CreateAsset(Translate(rm.get(), "$(TestAssets)/shaders/hlsl/NotCompiling.psh"), TypeID::get< PixelShader >(), std::move( init ) );
 
 	REQUIRE( result.IsValid() == false );
 	CHECK( result.GetError() != nullptr );
@@ -80,10 +89,10 @@ TEST_CASE( "GraphicAPI.DX11.ShaderCreator.PixelShader.Create.CompilationFailed",
 TEST_CASE( "GraphicAPI.DX11.ShaderCreator.ComputeShader.Create", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
-
 	ShaderInitData init( ShaderType::ComputeShader );
 
-	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/MinimalShader.csh", TypeID::get< ComputeShader >(), std::move( init ) );
+	auto rm = CreateResourceManagerWithDefaults();
+	auto result = factory.CreateAsset(Translate(rm.get(), "$(TestAssets)/shaders/hlsl/MinimalShader.csh"), TypeID::get< ComputeShader >(), std::move( init ) );
 	REQUIRE_IS_VALID( result );
 
 	CHECK( result.Get() != nullptr );
@@ -95,10 +104,10 @@ TEST_CASE( "GraphicAPI.DX11.ShaderCreator.ComputeShader.Create", "[GraphicAPI]" 
 TEST_CASE( "GraphicAPI.DX11.ShaderCreator.ComputeShader.Create.CompilationFailed", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
-
 	ShaderInitData init( ShaderType::ComputeShader );
 
-	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/NotCompiling.csh", TypeID::get< ComputeShader >(), std::move( init ) );
+	auto rm = CreateResourceManagerWithDefaults();
+	auto result = factory.CreateAsset(Translate(rm.get(), "$(TestAssets)/shaders/hlsl/NotCompiling.csh"), TypeID::get< ComputeShader >(), std::move( init ) );
 
 	REQUIRE( result.IsValid() == false );
 	CHECK( result.GetError() != nullptr );
@@ -111,11 +120,15 @@ TEST_CASE( "GraphicAPI.DX11.ShaderCreator.ComputeShader.Create.CompilationFailed
 TEST_CASE( "GraphicAPI.DX11.ShaderCreator.ComputeShader.Create.FromCode", "[GraphicAPI]" )
 {
 	AssetsFactory factory;
-
 	ShaderCodeInitData init( ShaderType::VertexShader );
-	init.SourceCode = filesystem::File::Load( "../TestAssets/shaders/hlsl/MinimalShader.vsh" );
 
-	auto result = factory.CreateAsset( "../TestAssets/shaders/hlsl/MinimalShader.vsh", TypeID::get< VertexShader >(), std::move( init ) );
+	auto rm = CreateResourceManagerWithDefaults();
+    auto assetPath = Translate(rm.get(), "$(TestAssets)/shaders/hlsl/MinimalShader.vsh");
+	auto path = assetPath.GetFile();
+
+	init.SourceCode = filesystem::File::Load( path );
+
+	auto result = factory.CreateAsset(assetPath, TypeID::get< VertexShader >(), std::move( init ) );
 	REQUIRE_IS_VALID( result );
 
 	CHECK( result.Get() != nullptr );
