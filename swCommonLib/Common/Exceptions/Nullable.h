@@ -83,9 +83,9 @@ public:
 
     using                   Parent::ResultBase;
 
+                            Nullable            (const std::string& error);
     template< typename ExceptionType >
                             Nullable            ( std::shared_ptr< ExceptionType >&& error );
-                            Nullable			( const std::string& error );
 
 public:
 

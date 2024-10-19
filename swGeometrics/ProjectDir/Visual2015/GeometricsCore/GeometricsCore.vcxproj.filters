@@ -25,6 +25,9 @@
     <Filter Include="Geometric\Types\Traits">
       <UniqueIdentifier>{fb9386c8-df63-4a64-bce5-fb04924b00a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Geometric\Processors\Transform">
+      <UniqueIdentifier>{e0aa2870-9ed2-4cf6-bcc6-899b942a78d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\GeometricsCore\stdafx.cpp">
@@ -67,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\ProcessorTraits.h">
       <Filter>Geometric\Types\Traits</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\GeometricsCore\Processors\Transform\Translate2D.h">
+      <Filter>Geometric\Processors\Transform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

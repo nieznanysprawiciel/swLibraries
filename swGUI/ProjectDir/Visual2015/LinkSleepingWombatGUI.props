@@ -3,21 +3,22 @@
   <ImportGroup Label="PropertySheets" />
   
   <PropertyGroup Label="UserMacros">
-	<swguiRootDir>$(MSBuildThisFileDirectory)..\..\</swguiRootDir>
-    <swLibrariesDir>$(RootDir)..\</swLibrariesDir>
-	<swguiProjectsDir>$(swguiRootDir)ProjectDir\</swguiProjectsDir>
-	<swguiTestsDir>$(swguiRootDir)Tests\</swguiTestsDir>
-	<swguiReleaseDir>$(swguiProjectsDir)Output\</swguiReleaseDir>
-	<swguiLibDir>$(swguiReleaseDir)LibDir\</swguiLibDir>
-	<swguiBuildDir>$(swguiReleaseDir)BuildDir\</swguiBuildDir>
-	<swguiSourceInclude>$(swguiRootDir)..\</swguiSourceInclude>
-	<swguiSourceDir>$(swguiRootDir)</swguiSourceDir>
-	<swguiExternalDir>$(swguiRootDir)External\</swguiExternalDir>
+    <SubBuild>$(Configuration)-$(PlatformShortName)-$(PlatformToolset)</SubBuild>
+
+    <swguiRootDir>$(MSBuildThisFileDirectory)..\..\</swguiRootDir>
+    <swguiProjectsDir>$(swguiRootDir)ProjectDir\</swguiProjectsDir>
+    <swguiTestsDir>$(swguiRootDir)Tests\</swguiTestsDir>
+    <swguiReleaseDir>$(swguiProjectsDir)Output\</swguiReleaseDir>
+    <swguiLibDir>$(swguiReleaseDir)LibDir\</swguiLibDir>
+    <swguiBuildDir>$(swguiReleaseDir)BuildDir\</swguiBuildDir>
+    <swguiSourceInclude>$(swguiRootDir)..\</swguiSourceInclude>
+    <swguiSourceDir>$(swguiRootDir)</swguiSourceDir>
+    <swguiExternalDir>$(swguiRootDir)External\</swguiExternalDir>
   </PropertyGroup>
   
   <PropertyGroup Label="UserMacros">
     <ReflectionName>Reflection</ReflectionName>
-    <ReflectionLibDir>$(swguiSourceInclude)swCommonLib\Projects\ReleaseDir\LibDir\$(ReflectionName)\$(PlatformToolset)\$(PlatformShortName)\$(Configuration)\</ReflectionLibDir>
+    <ReflectionLibDir>$(swguiSourceInclude)swCommonLib\_Target\$(SubBuild)\LibDir\</ReflectionLibDir>
 	<ReflectionFileName>$(ReflectionName)</ReflectionFileName>
   </PropertyGroup>
   
@@ -29,16 +30,19 @@
   
     <ClCompile>
       <AdditionalIncludeDirectories>$(swguiSourceInclude);$(swguiSourceInclude)swCommonLib/Reflection/src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-	  <PreprocessorDefinitions>FMT_HEADER_ONLY;RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>FMT_HEADER_ONLY;RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
 	 
     <Link>
-		<AdditionalLibraryDirectories>$(ReflectionLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-		<AdditionalDependencies>$(ReflectionFileName).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ReflectionLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(ReflectionFileName).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
 	
     <PostBuildEvent>
-      <Command>copy $(ReflectionLibDir)$(ReflectionFileName).dll $(OutDir)$(ReflectionName).dll %(Command)</Command>
+      <Command>
+        copy $(ReflectionLibDir)$(ReflectionFileName).dll $(OutDir)$(ReflectionName).dll
+        %(Command)
+      </Command>
       <Message>Copy Reflection.dll to output directory.</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>

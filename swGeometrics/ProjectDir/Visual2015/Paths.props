@@ -3,15 +3,23 @@
   <ImportGroup Label="PropertySheets" />
   
   <PropertyGroup Label="UserMacros">
-	<swGeometricsRootDir>$(MSBuildThisFileDirectory)..\..\</swGeometricsRootDir>
-	<swGeometricsProjectsDir>$(swGeometricsRootDir)ProjectDir\</swGeometricsProjectsDir>
-	<swGeometricsTestsDir>$(swGeometricsRootDir)Tests\</swGeometricsTestsDir>
-	<swGeometricsReleaseDir>$(swGeometricsProjectsDir)Output\</swGeometricsReleaseDir>
-	<swGeometricsLibDir>$(swGeometricsReleaseDir)LibDir\</swGeometricsLibDir>
-	<swGeometricsBuildDir>$(swGeometricsReleaseDir)BuildDir\</swGeometricsBuildDir>
-	<swGeometricsSourceInclude>$(swGeometricsRootDir)..\</swGeometricsSourceInclude>
-	<swGeometricsSourceDir>$(swGeometricsRootDir)</swGeometricsSourceDir>
-	<swGeometricsExternalDir>$(swGeometricsRootDir)External\</swGeometricsExternalDir>
+    <SubBuild>$(Configuration)-$(PlatformShortName)-$(PlatformToolset)</SubBuild>
+    
+    <RootDir>$(MSBuildThisFileDirectory)..\..\</RootDir>
+    <ProjectsDir>$(RootDir)Projects\</ProjectsDir>
+    <ReleaseDir>$(RootDir)_Target\</ReleaseDir>
+    
+    <LibDir>$(ReleaseDir)$(SubBuild)\LibDir\</LibDir>
+    <BuildDir>$(ReleaseDir)$(SubBuild)\BinDir\</BuildDir>
+    <IntermediateDir>$(ReleaseDir)$(SubBuild)\Intermediate\</IntermediateDir>
+    <TestsBinariesDir>$(ReleaseDir)$(SubBuild)\TestsDir\</TestsBinariesDir>
+    <WorkDir>$(ReleaseDir)$(SubBuild)\WorkDir\</WorkDir>
+
+    <SourceInclude>$(RootDir)..\</SourceInclude>
+    <SourceDir>$(RootDir)</SourceDir>
+    <TestsDir>$(RootDir)Tests\</TestsDir>
+    <TestResourcesDir>$(RootDir)TestResources\</TestResourcesDir>
+    <ExternalDir>$(RootDir)External\</ExternalDir>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -20,9 +28,9 @@
   
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(swGeometricsSourceInclude);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>FMT_HEADER_ONLY;RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SourceInclude);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+	    <PreprocessorDefinitions>FMT_HEADER_ONLY;RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
 

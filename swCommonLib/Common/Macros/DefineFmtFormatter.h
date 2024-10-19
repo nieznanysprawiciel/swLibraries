@@ -25,7 +25,7 @@ struct ::fmt::formatter< ClassType >                                        \
     auto parse( ParseContext& ctx ) { return ctx.begin(); }                 \
                                                                             \
     template< typename FormatContext >                                      \
-    auto format( const ClassType& d, FormatContext& ctx ) {                 \
+    auto format( const ClassType& d, FormatContext& ctx ) const {           \
         return format_to( ctx.out(), FormatString, FOR_EACH( _APPEND_INST ,__VA_ARGS__ ) );   \
     }                                                                       \
 };
@@ -52,7 +52,7 @@ struct ::fmt::formatter< ClassType >                                        \
     auto parse( ParseContext& ctx ) { return ctx.begin(); }                 \
                                                                             \
     template< typename FormatContext >                                      \
-    auto format( const ClassType& d, FormatContext& ctx ) {                 \
+    auto format( const ClassType& d, FormatContext& ctx ) const {           \
         return format_to( ctx.out(), "{}", Function( d ) );                 \
     }                                                                       \
 };

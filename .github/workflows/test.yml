@@ -1,0 +1,146 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: ./swGUI/GUI.sln
+  TOOLSET: v143
+  ARCH: x64
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        BUILD_CONFIGURATION: [Release]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+      with:
+        msbuild-architecture: ${{env.ARCH}}
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /verbosity:minimal /p:Configuration=${{matrix.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+
+  prepare-tests:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        BUILD_CONFIGURATION: [Debug]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+      with:
+        msbuild-architecture: ${{env.ARCH}}
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /verbosity:minimal /p:Configuration=${{matrix.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Move target binaries
+      shell: bash
+      run: |
+        mkdir tests-bins
+        mkdir tests-bins/swCommonLib
+        mkdir tests-bins/swGraphicAPI
+        mkdir tests-bins/swGeometrics
+        mkdir tests-bins/swGUI
+        mkdir tests-bins/swSerialization
+        cp swCommonLib/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swCommonLib
+        cp swGraphicAPI/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swGraphicAPI
+        cp swGeometrics/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swGeometrics
+        cp swGUI/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swGUI
+        cp swSerialization/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swSerialization
+        ls -al tests-bins/swCommonLib
+        ls -al tests-bins/swGraphicAPI
+        ls -al tests-bins/swGeometrics
+        ls -al tests-bins/swGUI
+        ls -al tests-bins/swSerialization
+
+    - name: Upload binaries swCommonLib
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swCommonLib
+        path: tests-bins/swCommonLib
+
+    - name: Upload binaries swGraphicAPI
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swGraphicAPI
+        path: tests-bins/swGraphicAPI
+
+    - name: Upload binaries swGeometrics
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swGeometrics
+        path: tests-bins/swGeometrics
+
+    - name: Upload binaries swGUI
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swGUI
+        path: tests-bins/swGUI
+
+    - name: Upload binaries swSerialization
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swSerialization
+        path: tests-bins/swSerialization
+
+  test:
+    runs-on: windows-latest
+    needs: prepare-tests
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        sub-project: [swCommonLib, swGraphicAPI, swGeometrics, swGUI, swSerialization]
+    env:
+      TEST_BUILD_CONFIGURATION: Debug
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12' 
+
+      - name: Download binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: artifacts-${{env.TEST_BUILD_CONFIGURATION}}-${{matrix.sub-project}}
+          path: ${{matrix.sub-project}}/test-binaries
+      
+      - name: Move Test Resources
+        shell: bash
+        run: |
+          mkdir -p ${{matrix.sub-project}}/workdir
+          cp -r ${{matrix.sub-project}}/TestResources/* ${{matrix.sub-project}}/workdir || :
+          ls -al .
+          ls -al ${{matrix.sub-project}}/
+          ls -al ${{matrix.sub-project}}/workdir
+      
+      - name: Run Tests
+        shell: bash
+        run: python3 run-tests.py ${{matrix.sub-project}}/test-binaries ${{matrix.sub-project}}/workdir
+

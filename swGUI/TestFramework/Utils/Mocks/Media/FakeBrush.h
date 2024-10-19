@@ -29,7 +29,7 @@ protected:
 
 	std::string			m_shaderFun;
 	std::string		    m_textureFile;
-
+    std::string		    m_cBuffer;
     StackBufferA< Params >      m_constants;
 
 public:
@@ -50,11 +50,13 @@ public:
 	using Brush::NeedsShaderUpdate;
 	using Brush::NeedsTextureUpdate;
 	using Brush::NeedsConstantsUpdate;
+	using Brush::NeedsBufferChange;
 
 public:
 
 	void							SetShaderFunction		( const std::string& shaderFun );
 	void							SetTextureFile			( const std::string& tex );
+	void							ChangeConstsBuffer		( const std::string& newBuffer );
 };
 
 DEFINE_PTR_TYPE( FakeBrush )

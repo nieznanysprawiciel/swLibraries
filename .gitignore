@@ -1,2 +1,10 @@
 swGUI/ProjectDir/Output/TMP/
-swCommonLib/.vs/
+
+_Target/*
+*/_Target
+
+*/.vs/
+*/.idea/
+
+.idea
+.vs 

@@ -8,6 +8,8 @@
 
 
 
+#pragma warning( push )
+#pragma warning( disable: 4996 )
 
 // ================================ //
 //
@@ -18,5 +20,4 @@ std::string             Convert::ErrnoToString          ( int err )
     return std::strerror( errno );
 }
 
-
-
+#pragma warning( pop )

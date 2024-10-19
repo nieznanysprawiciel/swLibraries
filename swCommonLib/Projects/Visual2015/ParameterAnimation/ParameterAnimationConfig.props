@@ -6,14 +6,14 @@
   
   <PropertyGroup Label="UserMacros">
     <ParameterAnimationName>ParameterAnimation</ParameterAnimationName>
-    <ParameterAnimationLibDir>$(LibDir)$(ParameterAnimationName)\</ParameterAnimationLibDir>
+    <ParameterAnimationLibDir>$(LibDir)</ParameterAnimationLibDir>
     <ParameterAnimationSourceDir>$(SourceDir)$(ParameterAnimationName)\</ParameterAnimationSourceDir>
-    <ParameterAnimationFileName>$(ParameterAnimationName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)</ParameterAnimationFileName>
-    <ParameterAnimationBuildDir>$(BuildDir)$(ParameterAnimationName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</ParameterAnimationBuildDir>
+    <ParameterAnimationFileName>$(ParameterAnimationName)</ParameterAnimationFileName>
+    <ParameterAnimationIntDir>$(IntermediateDir)$(ParameterAnimationName)\</ParameterAnimationIntDir>
   </PropertyGroup>
   
   <PropertyGroup>
-    <IntDir>$(ParameterAnimationBuildDir)</IntDir>
+    <IntDir>$(ParameterAnimationIntDir)</IntDir>
     <TargetName>$(ParameterAnimationFileName)</TargetName>
     <OutDir>$(ParameterAnimationLibDir)</OutDir>
   </PropertyGroup>

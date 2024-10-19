@@ -45,6 +45,7 @@ private:
 
 	bool			m_useConstantBuffer : 1;
 	bool			m_invalidateConstants : 1;
+	bool			m_changeCBuffer : 1;
 	bool			m_invalidateShader : 1;
 	bool			m_invalidateTexture : 1;
 
@@ -56,6 +57,7 @@ protected:
 	void			InvalidateConstants		();
 	void			InvalidateShader		();
 	void			InvalidateTexture		();
+	void			InvalidateConstsBuffer	();
 
 	///@}
 
@@ -88,12 +90,14 @@ private:
 	void			ShaderUpdated		();
 	void			TextureUpdated		();
 	void			ConstantsUpdated	();
+	void			BufferChanged		();
 
 protected:
 
 	bool			NeedsShaderUpdate		() const { return m_invalidateShader; }
 	bool			NeedsTextureUpdate		() const { return m_invalidateTexture; }
 	bool			NeedsConstantsUpdate	() const { return m_invalidateConstants; }
+	bool			NeedsBufferChange		() const { return m_changeCBuffer; }
 
 	bool			UsesConstantBuffer		() const { return m_useConstantBuffer; }
 

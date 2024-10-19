@@ -175,6 +175,9 @@ std::wstring                ConvertStringToWstring              ( std::string_vi
 
 }   // impl
 
+// std::codecvt_utf8 deprecated since C++17 without replacement.
+#pragma warning( push )
+#pragma warning( disable: 4996 )
 
 // ================================ //
 //
@@ -193,6 +196,8 @@ inline sw::Nullable< typename std::enable_if< std::is_same< SrcType, std::wstrin
 {
     return sw::impl::ConvertStringToWstring( value );
 }
+
+#pragma warning( pop )
 
 //====================================================================================//
 //				    Arithemetic types

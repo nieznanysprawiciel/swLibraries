@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="LinkSleepingWombatGUI.props" />
+
+  <PropertyGroup Label="UserMacros">
+    <BinaryName>$(ProjectName)</BinaryName>
+    <BinaryDir>$(BuildDir)</BinaryDir>
+    <BinarySourceDir>$(SourceDir)$(BinaryName)\</BinarySourceDir>
+    <BinaryFileName>$(BinaryName)</BinaryFileName>
+    <BinaryIntermediateDir>$(IntermediateDir)$(BinaryName)\</BinaryIntermediateDir>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SourceInclude);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>__UNUSED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>  
+  </ItemDefinitionGroup>
+  
+  <PropertyGroup>
+    <IntDir>$(BinaryIntermediateDir)</IntDir>
+    <TargetName>$(BinaryFileName)</TargetName>
+    <OutDir>$(BinaryDir)</OutDir>
+  </PropertyGroup>
+</Project>

@@ -18,6 +18,7 @@ namespace gui
 FakeBrush::FakeBrush()
 	:	Brush( Brush::ConstantBufferMode::Enable )
 	,	m_shaderFun( "$(CoreGUI-Shader-Dir)/FakeBrush.ps" )
+	,	m_cBuffer( "::FakeBrush-Constants" )
 {}
 
 // ================================ //
@@ -45,7 +46,7 @@ AssetPath			    FakeBrush::TextureSource		()
 //
 AssetPath   			FakeBrush::ConstantsName		()
 {
-	return "::FakeBrush-Constants";
+	return AssetPath( "", m_cBuffer );
 }
 
 // ================================ //
@@ -62,6 +63,17 @@ void					FakeBrush::SetTextureFile		( const std::string& tex )
 {
 	m_textureFile = tex;
 	InvalidateTexture();
+}
+
+// ================================ //
+//
+void					FakeBrush::ChangeConstsBuffer	( const std::string& newBuffer )
+{
+	if( m_cBuffer != newBuffer )
+	{
+		m_cBuffer = newBuffer;
+		InvalidateConstsBuffer();
+	}
 }
 
 

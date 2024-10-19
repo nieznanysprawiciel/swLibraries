@@ -5,8 +5,6 @@
 */
 
 #define RAPIDJSON_HAS_STDSTRING 1
-#define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
-
 
 #include "swSerialization/Interfaces/Deserializer.h"
 

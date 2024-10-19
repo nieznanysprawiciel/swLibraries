@@ -4,13 +4,13 @@
   <Import Project="..\Paths.props" />
   <PropertyGroup Label="UserMacros">
     <HierarchicalChunkedFormatName>HierarchicalChunkedFormat</HierarchicalChunkedFormatName>
-    <HierarchicalChunkedFormatLibDir>$(LibDir)$(HierarchicalChunkedFormatName)\</HierarchicalChunkedFormatLibDir>
+    <HierarchicalChunkedFormatLibDir>$(LibDir)</HierarchicalChunkedFormatLibDir>
     <HierarchicalChunkedFormatSourceDir>$(SourceDir)$(HierarchicalChunkedFormatName)\</HierarchicalChunkedFormatSourceDir>
-    <HierarchicalChunkedFormatFileName>$(HierarchicalChunkedFormatName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)</HierarchicalChunkedFormatFileName>
-    <HierarchicalChunkedFormatBuildDir>$(BuildDir)$(HierarchicalChunkedFormatName)_$(Configuration)_$(PlatformShortName)_$(PlatformToolset)\</HierarchicalChunkedFormatBuildDir>
+    <HierarchicalChunkedFormatFileName>$(HierarchicalChunkedFormatName)</HierarchicalChunkedFormatFileName>
+	<HierarchicalChunkedFormatIntermediateDir>$(IntermediateDir)$(HierarchicalChunkedFormatName)\</HierarchicalChunkedFormatIntermediateDir>
   </PropertyGroup>
   <PropertyGroup>
-    <IntDir>$(HierarchicalChunkedFormatBuildDir)</IntDir>
+    <IntDir>$(HierarchicalChunkedFormatIntermediateDir)</IntDir>
     <TargetName>$(HierarchicalChunkedFormatFileName)</TargetName>
     <OutDir>$(HierarchicalChunkedFormatLibDir)</OutDir>
   </PropertyGroup>

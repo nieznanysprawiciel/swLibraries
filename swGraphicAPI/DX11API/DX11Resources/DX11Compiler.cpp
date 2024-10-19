@@ -114,8 +114,10 @@ Nullable< ComPtr< ID3D10Blob > >		DX11Compiler::CompileShader				( const std::st
 	ComPtr< ID3D10Blob > errorBlob = nullptr;
 
 	UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
-	if( config.Debug )
-		flags |= D3DCOMPILE_DEBUG;
+    if( config.Debug )
+    {
+        flags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+    }
 
 	std::string shaderModel = config.ShaderModel.ToString();
 

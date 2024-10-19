@@ -16,8 +16,8 @@
 
 // Brushes
 #include "Brushes/SolidColorBrush.h"
-#include "Brushes/LinearGradient.h"
-#include "Brushes/RadialGradient.h"
+#include "Brushes/LinearGradientBrush.h"
+#include "Brushes/RadialGradientBrush.h"
 #include "Brushes/ImageBrush.h"
 
 // Geometry

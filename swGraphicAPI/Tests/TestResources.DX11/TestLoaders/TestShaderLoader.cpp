@@ -20,7 +20,7 @@ TEST_CASE( "GraphicAPI.DX11.ShaderLoader.Load.VertexShader", "[GraphicAPI]" )
 {
 	auto rm = CreateResourceManagerWithDefaults();
 
-	auto resource = rm->LoadGeneric( "../TestAssets/shaders/hlsl/MinimalShader.vsh::main", nullptr, TypeID::get< VertexShader >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/shaders/hlsl/MinimalShader.vsh::main", nullptr, TypeID::get< VertexShader >() );
 	REQUIRE( resource.IsValid() == true );
 
 	CHECK( resource.Get() != nullptr );
@@ -32,7 +32,7 @@ TEST_CASE( "GraphicAPI.DX11.ShaderLoader.Load.PixelShader", "[GraphicAPI]" )
 {
 	auto rm = CreateResourceManagerWithDefaults();
 
-	auto resource = rm->LoadGeneric( "../TestAssets/shaders/hlsl/MinimalShader.psh::main", nullptr, TypeID::get< PixelShader >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/shaders/hlsl/MinimalShader.psh::main", nullptr, TypeID::get< PixelShader >() );
 	REQUIRE( resource.IsValid() == true );
 
 	CHECK( resource.Get() != nullptr );
@@ -44,7 +44,7 @@ TEST_CASE( "GraphicAPI.DX11.ShaderLoader.Load.ComputeShader", "[GraphicAPI]" )
 {
 	auto rm = CreateResourceManagerWithDefaults();
 
-	auto resource = rm->LoadGeneric( "../TestAssets/shaders/hlsl/MinimalShader.csh::main", nullptr, TypeID::get< ComputeShader >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/shaders/hlsl/MinimalShader.csh::main", nullptr, TypeID::get< ComputeShader >() );
 	REQUIRE( resource.IsValid() == true );
 
 	CHECK( resource.Get() != nullptr );
@@ -56,7 +56,7 @@ TEST_CASE( "GraphicAPI.DX11.ShaderLoader.Load.VertexShader.CompilationFailed", "
 {
 	auto rm = CreateResourceManagerWithDefaults();
 
-	auto resource = rm->LoadGeneric( "../TestAssets/shaders/hlsl/NotCompiling.vsh::main", nullptr, TypeID::get< VertexShader >() );
+	auto resource = rm->LoadGeneric( "$(TestAssets)/shaders/hlsl/NotCompiling.vsh::main", nullptr, TypeID::get< VertexShader >() );
 	REQUIRE( resource.IsValid() == false );
 
 	CHECK( resource.GetError() != nullptr );

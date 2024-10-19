@@ -5,6 +5,8 @@
 */
 #include "swGraphicAPI/ResourceManager/stdafx.h"
 
+#include "swCommonLib/Common/Converters.h"
+
 #include "Texture.h"
 
 #include "swCommonLib/Common/Converters/Convert.h"
@@ -77,10 +79,7 @@ RTTR_REGISTRATION
 namespace sw
 {
 
-/**@brief Porównuje ze soba dwa obiekty tekstur.
-
-Obiekty s¹ takie same, kiedy odwo³uj¹ siê do tego samego pliku.
-*/
+/**@brief Compares 2 Texture objects. Textures are the same when they refer to the same file.*/
 bool		Texture::operator==( Texture& object )
 {
 	if( this->GetFilePath().String() == object.GetFilePath().String() )
@@ -88,15 +87,10 @@ bool		Texture::operator==( Texture& object )
 	return false;
 }
 
-/**@brief Porównuje ze soba dwa obiekty tekstur.
-
-Obiekty s¹ takie same, kiedy odwo³uj¹ siê do tego samego pliku.
-*/
+/**@brief Compares 2 Texture objects. Textures are the same when they refer to the same file.*/
 bool		Texture::operator==( const std::wstring& fileName )
 {
-    auto convertedFileName = Convert::ToString( fileName );
-
-	if( this->GetFilePath().String() == convertedFileName )
+	if( this->GetFilePath().String() == Convert::ToString(fileName) )
 		return true;
 	return false;
 }

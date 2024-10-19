@@ -18,7 +18,7 @@ namespace gui
 struct RenderingParams
 {
 	Position		ParentOffset;		///< Control offset relative to parent.
-
+    Size2D          VisualSize;         ///< Size of control (bounding box).
 };
 
 // ================================ //

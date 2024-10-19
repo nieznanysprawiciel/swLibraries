@@ -29,50 +29,59 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+
+  <Import Project="..\Paths.props" />
+  <Import Project="..\LibraryConfig.props" />
+  <Import Project="..\LinkReflection.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="CoreGUIConfig.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="CoreGUIConfig.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="CoreGUIConfig.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="CoreGUIConfig.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>swGUI/Core/stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -135,17 +144,20 @@
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\IPanel.h" />
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.h" />
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.h" />
+    <ClInclude Include="..\..\..\Core\Controls\Shapes\Ellipse.h" />
     <ClInclude Include="..\..\..\Core\Controls\Shapes\Rectangle.h" />
     <ClInclude Include="..\..\..\Core\Controls\Shapes\Shape.h" />
     <ClInclude Include="..\..\..\Core\Controls\UIElement.h" />
     <ClInclude Include="..\..\..\Core\Controls\Visual.h" />
     <ClInclude Include="..\..\..\Core\Cultures\CultureInfo.h" />
+    <ClInclude Include="..\..\..\Core\Media\Brushes\AngleGradientBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\Brush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\GradientBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\ImageBrush.h" />
-    <ClInclude Include="..\..\..\Core\Media\Brushes\LinearGradient.h" />
-    <ClInclude Include="..\..\..\Core\Media\Brushes\RadialGradient.h" />
+    <ClInclude Include="..\..\..\Core\Media\Brushes\LinearGradientBrush.h" />
+    <ClInclude Include="..\..\..\Core\Media\Brushes\RadialGradientBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\SolidColorBrush.h" />
+    <ClInclude Include="..\..\..\Core\Media\Geometry\EllipseGeometry.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Geometry.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\Layouts.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.h" />
@@ -206,12 +218,18 @@
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\IPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.cpp" />
+    <ClCompile Include="..\..\..\Core\Controls\Shapes\Ellipse.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Rectangle.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Shape.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Visual.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Brushes\AngleGradientBrush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\Brush.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Brushes\GradientBrush.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Brushes\ImageBrush.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Brushes\LinearGradientBrush.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\SolidColorBrush.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Geometry\EllipseGeometry.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\RectangleGeometry.cpp" />
@@ -266,6 +284,28 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\AngleGradientBrush.psh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\ImageBrush.psh">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\LinearGradientBrush.psh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\SolidColorBrush.psh">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

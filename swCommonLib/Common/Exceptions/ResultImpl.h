@@ -269,7 +269,7 @@ inline bool						ResultBase< ContentType, ErrorType >::operator!=      ( const C
 // ================================ //
 //
 template< typename ContentType, typename ErrorType >
-ResultBase< ContentType, ErrorType >& ResultBase< ContentType, ErrorType >::operator=		( const ResultBase< ContentType, ErrorType >& that )
+inline ResultBase< ContentType, ErrorType >& ResultBase< ContentType, ErrorType >::operator=		( const ResultBase< ContentType, ErrorType >& that )
 {
     if( m_isValid )
         Content.~ContentType();

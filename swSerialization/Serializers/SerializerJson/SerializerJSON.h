@@ -4,8 +4,6 @@
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
-#define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
-
 #include "swSerialization/Interfaces/ISerializer.h"
 
 #include "swSerialization/External/RapidJSON/include/rapidjson/document.h"

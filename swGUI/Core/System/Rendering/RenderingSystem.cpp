@@ -99,6 +99,7 @@ void				RenderingSystem::SetRenderTarget			( IRenderer* renderer, HostWindow* ho
 
 	helper.UpdateBuffer( m_renderingSystemBuffer.Ptr(), paramsBuffer );
 	helper.BindBuffer( m_renderingSystemBuffer.Ptr(), 0, (uint8)ShaderType::VertexShader );
+    helper.BindBuffer( m_renderingSystemBuffer.Ptr(), 0, (uint8)ShaderType::PixelShader );
 
 	helper.ClearRenderTargetAndDepth( host->GetRenderTarget().Ptr(), DirectX::XMFLOAT4( 0.0f, 0.0f, 0.0f, 0.0f ), 1.0f );
 	helper.SetRenderTarget( host->GetRenderTarget().Ptr(), m_rasterizerState.Ptr(), m_transparentBlendState.Ptr(), m_depthState.Ptr() );
@@ -111,10 +112,11 @@ void				RenderingSystem::SetSystemConstants			( IRenderer* renderer, const Rende
 	RenderingHelper helper( renderer );
 
 	StackBufferA< RenderingParams > paramsBuffer;
-	paramsBuffer.ParentOffset = params.ParentOffset;
+	static_cast< RenderingParams& >( paramsBuffer ) = params;
 
 	helper.UpdateBuffer( m_visualBuffer.Ptr(), paramsBuffer );
 	helper.BindBuffer( m_visualBuffer.Ptr(), 1, (uint8)ShaderType::VertexShader );
+    helper.BindBuffer( m_visualBuffer.Ptr(), 1, (uint8)ShaderType::PixelShader );
 }
 
 // ================================ //
@@ -140,6 +142,7 @@ void				RenderingSystem::RenderTree					( IRenderer* renderer, Visual* visual, c
 	RenderingParams params;
 	params.ParentOffset.x = parentParams.ParentOffset.x + visual->GetVisualOffset().x;
 	params.ParentOffset.y = parentParams.ParentOffset.y + visual->GetVisualOffset().y;
+    params.VisualSize = visual->GetSize();
 
 	DrawVisual( renderer, visual, params );
 

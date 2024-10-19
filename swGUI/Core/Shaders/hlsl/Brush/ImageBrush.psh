@@ -1,0 +1,48 @@
+
+
+// Stretch values. Check in ImageBrush.h
+#define None 0
+#define Fill 1
+#define Uniform 2
+#define UniformToFill 3
+
+// ================================ //
+//
+cbuffer ImageBrushConsts : register( b2 )
+{
+    float4		TextureRange;       ///< [minX, maxX, maxY, minY]
+    uint        Stretch;
+}
+
+Texture2D image;
+
+// ================================ //
+//
+SamplerState TextureSampler
+{
+    Filter = LINEAR;
+    AddressU = Wrap;
+    AddressV = Wrap;
+};
+
+// ================================ //
+//
+float2      TransformToRange    ( float4 range, float2 uv )
+{
+    float xRange = range.y - range.x;
+    float yRange = range.z - range.w;
+
+    float2 transformed = float2( range.x, range.w );
+    transformed = transformed.x + uv.x / xRange;
+    transformed.x = transformed.y + uv.y / yRange;
+
+    return transformed;
+}
+
+
+// ================================ //
+//
+float4		BrushFunction		( float4 pos, float2 tex )
+{
+    return image.Sample( TextureSampler, TransformToRange( TextureRange, tex ) );
+}

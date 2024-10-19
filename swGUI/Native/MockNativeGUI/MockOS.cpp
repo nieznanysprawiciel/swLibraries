@@ -18,7 +18,7 @@ filesystem::Path			MockOS::GetTempDir			() const
 //
 filesystem::Path			MockOS::GetApplicationDir	() const
 {
-	return filesystem::Path::WorkingDirectory() / "Application-Dir";
+	return filesystem::Path::WorkingDirectory();
 }
 
 

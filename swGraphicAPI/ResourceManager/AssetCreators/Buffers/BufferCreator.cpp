@@ -8,8 +8,10 @@
 
 #include "BufferCreator.h"
 #include "swGraphicAPI/Resources/MeshResources.h"
+
 #include "swCommonLib/Common/Converters.h"
 #include "swCommonLib/Common/Buffers/BufferTyped.h"
+#include "swCommonLib/Common/fmt.h"
 
 
 
@@ -136,7 +138,7 @@ Nullable< Buffer* >			BufferCreator::CreateConstantsBuffer	( const AssetPath& na
 Nullable< Buffer* >			BufferCreator::CreateConstantsBuffer	( const AssetPath& name, const ConstantBufferInitData& data )
 {
 	if( data.ElementSize % 16 != 0 )
-		return "[BufferCreator] Invalid Buffer size. Should be multiply of 16.";
+		return fmt::format( "[BufferCreator] Invalid Buffer size={}. Should be multiply of 16.", data.ElementSize );
 
 	return ResourcesFactory::CreateBufferFromMemory( name, data.Data, data.CreateBufferInfo() );
 }

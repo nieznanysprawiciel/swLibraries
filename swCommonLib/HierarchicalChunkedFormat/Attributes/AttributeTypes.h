@@ -25,6 +25,7 @@ struct DataPack
 //
 	DataPack()
 		: DataSize( 0 )
+		, Data( nullptr )
 	{}
 };
 

@@ -28,7 +28,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Brush.UpdateShader", "[GUISystem][RenderingSys
 	FakeBrushPtr brush = std::make_shared< FakeBrush >();
 	
 	// Set first shader
-	brush->SetShaderFunction( "WorkingDir-RenderingSystem/shaders/FakeBrush.ps" );
+	brush->SetShaderFunction( "shaders/FakeBrush.ps" );
 	drawing->UpdateBrushShader( framework.GetRenderingSystem()->GetShaderProvider(), brush.get() );
 
 	auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
@@ -37,7 +37,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Brush.UpdateShader", "[GUISystem][RenderingSys
 	CHECK( renderingData.PixelShader != nullptr );
 
 	// Change shader and check if ew shader was loaded.
-	brush->SetShaderFunction( "WorkingDir-RenderingSystem/shaders/FakeBrush2.ps" );
+	brush->SetShaderFunction( "shaders/FakeBrush2.ps" );
 	REQUIRE( brush->NeedsShaderUpdate() == true );										// Update request should be set.
 
 	drawing->UpdateBrushShader( framework.GetRenderingSystem()->GetShaderProvider(), brush.get() );
@@ -58,7 +58,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Pen.UpdateShader", "[GUISystem][RenderingSyste
 	FakeBrushPtr pen = std::make_shared< FakeBrush >();
 	
 	// Set first shader
-	pen->SetShaderFunction( "WorkingDir-RenderingSystem/shaders/FakeBrush.ps" );
+	pen->SetShaderFunction( "shaders/FakeBrush.ps" );
 	drawing->UpdatePenShader( framework.GetRenderingSystem()->GetShaderProvider(), pen.get() );
 
 	auto& renderingData = CLASS_TESTER( Drawing )::GetPenRenderingData( drawing.get() );
@@ -67,7 +67,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Pen.UpdateShader", "[GUISystem][RenderingSyste
 	CHECK( renderingData.PixelShader != nullptr );
 
 	// Change shader and check if ew shader was loaded.
-	pen->SetShaderFunction( "WorkingDir-RenderingSystem/shaders/FakeBrush2.ps" );
+	pen->SetShaderFunction( "shaders/FakeBrush2.ps" );
 	REQUIRE( pen->NeedsShaderUpdate() == true );										// Update request should be set.
 
 	drawing->UpdatePenShader( framework.GetRenderingSystem()->GetShaderProvider(), pen.get() );
@@ -88,7 +88,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateShader", "[GUISystem][Rendering
 	FakeGeometryPtr geom = std::make_shared< FakeGeometry >( Geometry::ConstantBufferMode::Disable );
 	
 	// Set first shader
-	geom->SetShaderFunction( "WorkingDir-RenderingSystem/shaders/FakeGeom.vs" );
+	geom->SetShaderFunction( "shaders/FakeGeom.vs" );
 	drawing->UpdateVertexShader( framework.GetRenderingSystem()->GetShaderProvider(), geom.get() );
 
 	auto& renderingData = CLASS_TESTER( Drawing )::GetGeometryRenderingData( drawing.get() );
@@ -97,7 +97,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateShader", "[GUISystem][Rendering
 	CHECK( renderingData.VertexShader != nullptr );
 
 	// Change shader and check if ew shader was loaded.
-	geom->SetShaderFunction( "WorkingDir-RenderingSystem/shaders/FakeGeom2.vs" );
+	geom->SetShaderFunction( "shaders/FakeGeom2.vs" );
 	REQUIRE( geom->NeedsShaderUpdate() == true );										// Update request should be set.
 
 	drawing->UpdateVertexShader( framework.GetRenderingSystem()->GetShaderProvider(), geom.get() );
@@ -123,14 +123,14 @@ TEST_CASE( "GUI.Rendering.Drawing.Brush.UpdateTexture", "[GUISystem][RenderingSy
 
 	auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
 
-	brush->SetTextureFile( "WorkingDir-RenderingSystem/textures/Tex1.png" );
+	brush->SetTextureFile( "textures/Tex1.png" );
 	REQUIRE( brush->NeedsTextureUpdate() == true );										// Update request should be set.
 
 	drawing->UpdateBrushTexture( framework.GetResourceManagerAPI(), brush.get() );
 	CHECK( renderingData.Texture != nullptr );
 	CHECK( brush->NeedsTextureUpdate() == false );
 
-	brush->SetTextureFile( "WorkingDir-RenderingSystem/textures/Tex2.png" );
+	brush->SetTextureFile( "textures/Tex2.png" );
 	REQUIRE( brush->NeedsTextureUpdate() == true );										// Update request should be set.
 
 	drawing->UpdateBrushTexture( framework.GetResourceManagerAPI(), brush.get() );
@@ -149,14 +149,14 @@ TEST_CASE( "GUI.Rendering.Drawing.Pen.UpdateTexture", "[GUISystem][RenderingSyst
 
 	auto& renderingData = CLASS_TESTER( Drawing )::GetPenRenderingData( drawing.get() );
 
-	pen->SetTextureFile( "WorkingDir-RenderingSystem/textures/Tex1.png" );
+	pen->SetTextureFile( "textures/Tex1.png" );
 	REQUIRE( pen->NeedsTextureUpdate() == true );										// Update request should be set.
 
 	drawing->UpdatePenTexture( framework.GetResourceManagerAPI(), pen.get() );
 	CHECK( renderingData.Texture != nullptr );
 	CHECK( pen->NeedsTextureUpdate() == false );
 
-	pen->SetTextureFile( "WorkingDir-RenderingSystem/textures/Tex2.png" );
+	pen->SetTextureFile( "textures/Tex2.png" );
 	REQUIRE( pen->NeedsTextureUpdate() == true );										// Update request should be set.
 
 	drawing->UpdatePenTexture( framework.GetResourceManagerAPI(), pen.get() );
@@ -219,6 +219,59 @@ TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateConstants", "[GUISystem][Render
 
 	CHECK( renderingData.GeometryConstants != nullptr );
 }
+
+// ================================ //
+// 
+TEST_CASE( "GUI.Rendering.Drawing.Brush.ChangeConstantsBuffer", "[GUISystem][RenderingSystem][Drawing]" )
+{
+	TestFramework framework( 0, nullptr );	framework.Init();
+	
+	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
+	FakeBrushPtr brush = std::make_shared< FakeBrush >();
+
+	auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
+	REQUIRE( renderingData.BrushConstants == nullptr );
+
+	drawing->UpdateBrushConstants( framework.GetResourceManagerAPI(), brush.get() );
+
+	auto prevBuff = renderingData.BrushConstants;
+	CHECK( prevBuff != nullptr );
+
+	brush->ChangeConstsBuffer( "NewBuffer" );
+	CHECK( brush->NeedsBufferChange() == true );
+
+	drawing->UpdateBrushConstants( framework.GetResourceManagerAPI(), brush.get() );
+
+	CHECK( prevBuff != renderingData.BrushConstants );
+	CHECK( brush->NeedsBufferChange() == false );
+}
+
+// ================================ //
+// 
+TEST_CASE( "GUI.Rendering.Drawing.Pen.ChangeConstantsBuffer", "[GUISystem][RenderingSystem][Drawing]" )
+{
+	TestFramework framework( 0, nullptr );	framework.Init();
+	
+	FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
+	FakeBrushPtr pen = std::make_shared< FakeBrush >();
+
+	auto& renderingData = CLASS_TESTER( Drawing )::GetPenRenderingData( drawing.get() );
+	REQUIRE( renderingData.BrushConstants == nullptr );
+
+	drawing->UpdatePenConstants( framework.GetResourceManagerAPI(), pen.get() );
+
+	auto prevBuff = renderingData.BrushConstants;
+	CHECK( prevBuff != nullptr );
+
+	pen->ChangeConstsBuffer( "NewBuffer" );
+	CHECK( pen->NeedsBufferChange() == true );
+
+	drawing->UpdatePenConstants( framework.GetResourceManagerAPI(), pen.get() );
+
+	CHECK( prevBuff != renderingData.BrushConstants );
+	CHECK( pen->NeedsBufferChange() == false );
+}
+
 
 //====================================================================================//
 //			Geometry update	

@@ -23,8 +23,6 @@ class Rectangle : public Shape
 	RTTR_REGISTRATION_FRIEND;
 private:
 
-	float				m_width;				///< Remove in future. This should be implemented in ArrangeCore.
-	float				m_height;				///< Remove in future. This should be implemented in ArrangeCore.
 	float				m_strokeThickness;
 
 protected:
@@ -34,9 +32,9 @@ public:
 	virtual			~Rectangle		() = default;
 
 
-	void				SetWidth			( float width );
-	void				SetHeight			( float height );
-	void				SetThickness		( float thickness );
+	virtual void				SetWidth			( float width ) override;
+	virtual void				SetHeight			( float height ) override;
+	void				        SetThickness		( float thickness );
 
 };
 
