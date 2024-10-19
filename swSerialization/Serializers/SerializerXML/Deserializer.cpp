@@ -32,6 +32,8 @@ struct DeserializerImpl
 	DeserializerImpl()  {}
 };
 
+sw::FilePosition					ComputeXmlPosition(const char* fileBegin, const char* nodeFirstChar);
+
 
 // ================================ //
 //
@@ -57,7 +59,7 @@ IDeserializer::~IDeserializer()
 }
 
 //====================================================================================//
-//			Wczytywanie i parsowanie	
+//			Loading and parsing	
 //====================================================================================//
 
 
@@ -96,8 +98,8 @@ ReturnResult            IDeserializer::LoadFromString   ( std::string content )
     }
     catch( const rapidxml::parse_error & e )
     {
-        auto errorOffset = static_cast< PtrOffset >( e.where< char >() - impl->fileContent.data() );
-        return fmt::format( "Parsing failed. Error: {}, offset: {}", e.what(), errorOffset );
+        auto position = ComputeXmlPosition(impl->fileContent.data(), e.where< char >());
+        return fmt::format( "Parsing failed. Error: {}, line: {} at position: {}", e.what(), position.Line, position.CharPosition );
     }
     catch( const std::exception & e )
     {
@@ -112,29 +114,29 @@ ReturnResult            IDeserializer::LoadFromString   ( std::string content )
 }
 
 //====================================================================================//
-//			Iterowanie po drzewie	
+//			Iterating Tree	
 //====================================================================================//
 
-/**@brief Zwraca nazwê wêz³a, w którym znajduje siê serializator.*/
+/**@brief Returns the name of the node in which the deserializer is located.*/
 const char*		IDeserializer::GetName			() const
 {
 	return impl->valuesStack.top()->name();
 }
 
 
-/**@brief Wyszukuje obiekt o podanej nazwie i wchodzi w g³¹b drzewa.
+/**@brief Searches for an object with the given name and enters the tree.
 
-@param[in] name Nazwa obiektu.
-@return Zwraca false, je¿eli obiekt o danej nazwie nie istnieje.*/
+@param[in] name Object name.
+@return Returns false if an object with the given name does not exist.*/
 bool			IDeserializer::EnterObject		( const std::string& name ) const
 {
 	return EnterObject( name.c_str() );
 }
 
-/**@brief Wyszukuje obiekt o podanej nazwie i wchodzi w g³¹b drzewa.
+/**@brief Searches for an object with the given name and enters the tree.
 
-@param[in] name Nazwa obiektu.
-@return Zwraca false, je¿eli obiekt o danej nazwie nie istnieje.*/
+@param[in] name Object name.
+@return Returns false if an object with the given name does not exist.*/
 bool			IDeserializer::EnterObject		( const char* name ) const
 {
 	assert( !impl->valuesStack.empty() );
@@ -262,8 +264,8 @@ bool			IDeserializer::LastElement() const
 namespace
 {
 
-/**@brief Konwertuje stringa do wartoœci liczbowych. Wykorzystuje funkcjê strol
-i zwraca dok³adnie takie same wartoœci. Zobacz dokumentacjê do biblioteki standardowej c++.*/
+/**@brief Converts a string to numeric values using the `strol` function and returns the same values.
+See the documentation for the C++ standard library.*/
 template< typename ElementType >
 inline ElementType Convert							( const char* valueBegin, char** checkEndPtr )
 {
@@ -276,9 +278,9 @@ const char* convertCharNullTerminator = "\0";
 template<>
 inline const char*	Convert< const char* >			( const char* valueBegin, char** checkEndPtr )
 {
-	// @fixme To jest straszny hack. Gdyby ktoœ z zewn¹trz tej funkcji chcia³ porównaæ
-	// zwracany wskaŸnik checkEndPtr ze wskaŸnikiem, który poda³, to by siê strasznie zdziwi³.
-	// Ale jakoœ mimo wszystko nie chcê sprawdzaæ d³ugoœci tego stringa, kiedy to nie jest potrzebne.
+	// @fixme This is a terrible hack. If someone outside this function wanted to compare
+	// the returned checkEndPtr pointer with the pointer they provided, they would be very surprised.
+	// But somehow, I still don't want to check the length of this string when it's not necessary.
 	*checkEndPtr = const_cast<char*>( convertCharNullTerminator );
 	return valueBegin;
 }

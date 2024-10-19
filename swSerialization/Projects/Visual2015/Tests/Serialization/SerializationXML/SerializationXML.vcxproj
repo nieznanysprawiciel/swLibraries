@@ -52,18 +52,15 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="..\..\..\Paths.props" />
   <Import Project="..\..\..\TestConfig.props" />
   <Import Project="..\..\..\LinkReflection.props" />
-  
   <ItemDefinitionGroup>
     <ClCompile>
-	    <PreprocessorDefinitions>TEST_XML;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-	  </ClCompile>
+      <PreprocessorDefinitions>TEST_XML;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
   </ItemDefinitionGroup>
-
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
@@ -168,6 +165,10 @@
     <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\TestSerializerAPI.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\TestSerializerAttributes.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\TestSerialType.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\..\..\..\TestResources\SerializerTest\XML\Serialization.LineNumber.xml" />
+    <Xml Include="..\..\..\..\..\TestResources\SerializerTest\XML\Serialization.ParsingError.LineNumber.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

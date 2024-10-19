@@ -8,4 +8,17 @@
     <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\TestSerialType.cpp" />
     <ClCompile Include="..\..\..\..\..\Tests\TestXMLSerializer\TestSerializerAttributes.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="TestResources">
+      <UniqueIdentifier>{e580a7f2-d8d0-4d56-8abd-89e91e828d20}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\..\..\..\TestResources\SerializerTest\XML\Serialization.LineNumber.xml">
+      <Filter>TestResources</Filter>
+    </Xml>
+    <Xml Include="..\..\..\..\..\TestResources\SerializerTest\XML\Serialization.ParsingError.LineNumber.xml">
+      <Filter>TestResources</Filter>
+    </Xml>
+  </ItemGroup>
 </Project>
