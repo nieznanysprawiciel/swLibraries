@@ -25,6 +25,8 @@
 
 #include "Structs/StructWithSimpleTypesShared.h"
 
+#include "Templates/TemplateStructWrapper.h"
+
 #include "Polymorphic/BaseObject.h"
 #include "Polymorphic/SharedObject.h"
 #include "Polymorphic/PolymorphicObjectContainer.h"
@@ -146,6 +148,9 @@ RTTR_REGISTRATION
 	rttr::registration::class_< sw::Node >( "Node" )
 		.property( "Children", &sw::Node::Children ) BIND_AS_REF
 		.property( "Generic", &sw::Node::Generic );
+
+	rttr::registration::class_< sw::TemplateWrapper<sw::StructWithSimpleTypes> >("TemplateWrapper<StructWithSimpleTypes>")
+		.property("Data", &sw::TemplateWrapper<sw::StructWithSimpleTypes>::Data) BIND_AS_REF;
 }
 
 

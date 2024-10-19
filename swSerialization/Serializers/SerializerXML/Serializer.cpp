@@ -12,6 +12,8 @@
 #include "swSerialization/External/RapidXML/rapidxml.hpp"
 #include "swSerialization/External/RapidXML/rapidxml_print.hpp"
 
+#include "swSerialization/Serializers/SerializerXML/Escaping.h"
+
 #include <fstream>
 #include <stack>
 #include <stdio.h>
@@ -100,12 +102,12 @@ std::string             ISerializer::SaveString       ( WritingMode mode )
     return xmlString;
 }
 
-/**@brief Tworzy obiekt o podanej nazwie.
+/**@brief Creates an object with the given name.
 
-@param[in] name Nazwa obiektu.*/
+@param[in] name The name of the object.*/
 void ISerializer::EnterObject( const std::string& name )
 {
-	char* nodeName = impl->root.allocate_string( name.c_str() );
+	char* nodeName = AllocateEscaped(impl->root, name);
 	rapidxml::xml_node<>* node = impl->root.allocate_node( rapidxml::node_type::node_element, nodeName );
 	impl->valuesStack.push( node );
 }
@@ -126,34 +128,34 @@ void ISerializer::Exit()
 @param[in] name Nazwa tablicy.*/
 void ISerializer::EnterArray( const std::string& name )
 {
-	char* nodeName = impl->root.allocate_string( name.c_str() );
+	char* nodeName = AllocateEscaped(impl->root, name);
 	rapidxml::xml_node<>* node = impl->root.allocate_node( rapidxml::node_type::node_element, nodeName );
 	impl->valuesStack.push( node );
 }
 
-/**@brief Ustawia parê ( nazwa, wartoœæ ) w aktualnym obiekcie.
+/**@brief Sets a pair (name, value) in the current object.
 
-@param[in] name Nazwa ustawianej zmiennej.
-@param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
+@param[in] name The name of the variable to be set.
+@param[in] value The value to be assigned to the variable.*/
 void ISerializer::SetAttribute( const std::string& name, const std::string& value )
 {
 	SetAttributeHelper( impl, name.c_str(), name.length(), value.c_str(), value.length() );
 }
 
-/**@brief Ustawia parê ( nazwa, wartoœæ ) w aktualnym obiekcie.
+/**@brief Sets a pair (name, value) in the current object.
 
-@param[in] name Nazwa ustawianej zmiennej.
-@param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
+@param[in] name The name of the variable to be set.
+@param[in] value The value to be assigned to the variable.*/
 void ISerializer::SetAttribute( const std::string& name, const char* value )
 {
 	SetAttributeHelper( impl, name.c_str(), name.length(), value, strlen( value ) );
 }
 
 
-/**@brief Ustawia parê ( nazwa, wartoœæ ) w aktualnym obiekcie.
+/**@brief Sets a pair (name, value) in the current object.
 
-@param[in] name Nazwa ustawianej zmiennej.
-@param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
+@param[in] name The name of the variable to be set.
+@param[in] value The value to be assigned to the variable.*/
 void ISerializer::SetAttribute( const std::string& name, uint32 value )
 {
 #define MAX_UINT32_SIGNS 11
@@ -163,10 +165,10 @@ void ISerializer::SetAttribute( const std::string& name, uint32 value )
 	SetAttributeHelper( impl, name.c_str(), name.length(), numericString, valueLength );
 }
 
-/**@brief Ustawia parê ( nazwa, wartoœæ ) w aktualnym obiekcie.
+/**@brief Sets a pair (name, value) in the current object.
 
-@param[in] name Nazwa ustawianej zmiennej.
-@param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
+@param[in] name The name of the variable to be set.
+@param[in] value The value to be assigned to the variable.*/
 void ISerializer::SetAttribute( const std::string& name, uint64 value )
 {
 #define MAX_UINT64_SIGNS 21
@@ -176,10 +178,10 @@ void ISerializer::SetAttribute( const std::string& name, uint64 value )
 	SetAttributeHelper( impl, name.c_str(), name.length(), numericString, valueLength );
 }
 
-/**@brief Ustawia parê ( nazwa, wartoœæ ) w aktualnym obiekcie.
+/**@brief Sets a pair (name, value) in the current object.
 
-@param[in] name Nazwa ustawianej zmiennej.
-@param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
+@param[in] name The name of the variable to be set.
+@param[in] value The value to be assigned to the variable.*/
 void ISerializer::SetAttribute( const std::string& name, int32 value )
 {
 #define MAX_INT32_SIGNS 12
@@ -189,10 +191,10 @@ void ISerializer::SetAttribute( const std::string& name, int32 value )
 	SetAttributeHelper( impl, name.c_str(), name.length(), numericString, valueLength );
 }
 
-/**@brief Ustawia parê ( nazwa, wartoœæ ) w aktualnym obiekcie.
+/**@brief Sets a pair (name, value) in the current object.
 
-@param[in] name Nazwa ustawianej zmiennej.
-@param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
+@param[in] name The name of the variable to be set.
+@param[in] value The value to be assigned to the variable.*/
 void ISerializer::SetAttribute( const std::string& name, int64 value )
 {
 #define MAX_INT64_SIGNS 22
@@ -202,10 +204,10 @@ void ISerializer::SetAttribute( const std::string& name, int64 value )
 	SetAttributeHelper( impl, name.c_str(), name.length(), numericString, valueLength );
 }
 
-/**@brief Ustawia parê ( nazwa, wartoœæ ) w aktualnym obiekcie.
+/**@brief Sets a pair (name, value) in the current object.
 
-@param[in] name Nazwa ustawianej zmiennej.
-@param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
+@param[in] name The name of the variable to be set.
+@param[in] value The value to be assigned to the variable.*/
 void ISerializer::SetAttribute( const std::string& name, bool value )
 {
 	if( value )
@@ -214,10 +216,10 @@ void ISerializer::SetAttribute( const std::string& name, bool value )
 		SetAttributeHelper( impl, name.c_str(), name.length(), "false", 5 );
 }
 
-/**@brief Ustawia parê ( nazwa, wartoœæ ) w aktualnym obiekcie.
+/**@brief Sets a pair (name, value) in the current object.
 
-@param[in] name Nazwa ustawianej zmiennej.
-@param[in] value Wartoœæ, jaka zostanie wpisana do podanej zmiennej.*/
+@param[in] name The name of the variable to be set.
+@param[in] value The value to be assigned to the variable.*/
 void ISerializer::SetAttribute( const std::string& name, double value )
 {
 #define MAX_DOUBLE_SIGNS 52

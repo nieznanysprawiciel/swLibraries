@@ -33,7 +33,7 @@ This will copy Reflection.dll to your output directory.
 
 
 
-/**@brief Base clas for all objects in sleeping wombat libraries.
+/**@brief Base class for all objects in sleeping wombat libraries.
 
 @todo Move to sw namespace.
 
@@ -49,7 +49,7 @@ public:
 
 
 	/**@brief Returns memory size possesed by this class and all it's nested objects.
-	Result shoulb be computed recursivly.*/
+	Result should be computed recursivly.*/
 	virtual Size		MemorySize		() const;
 
 	template< typename TargetType >

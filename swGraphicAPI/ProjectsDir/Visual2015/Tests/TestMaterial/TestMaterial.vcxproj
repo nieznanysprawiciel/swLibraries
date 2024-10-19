@@ -50,6 +50,20 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestMaterial\Utils.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\TestResources\material\invalid-version.swmat" />
+    <None Include="..\..\..\..\TestResources\material\invalid-xml.swmat" />
+    <None Include="..\..\..\..\TestResources\material\no-gs-entry.swmat" />
+    <None Include="..\..\..\..\TestResources\material\no-header.swmat" />
+    <None Include="..\..\..\..\TestResources\material\no-MaterialAsset.swmat" />
+    <None Include="..\..\..\..\TestResources\material\no-ps.swmat" />
+    <None Include="..\..\..\..\TestResources\material\no-textures-entry.swmat" />
+    <None Include="..\..\..\..\TestResources\material\no-vs.swmat" />
+    <None Include="..\..\..\..\TestResources\material\not-existing-ps.swmat" />
+    <None Include="..\..\..\..\TestResources\material\not-existing-texture.swmat" />
+    <None Include="..\..\..\..\TestResources\material\not-existing-vs.swmat" />
+    <None Include="..\..\..\..\TestResources\material\single-texture-entry.swmat" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0FCBB0B0-0459-47F1-B93F-70E6BA6CA1A8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -82,12 +96,10 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="..\..\Paths.props" />
   <Import Project="..\..\TestConfig.props" />
   <Import Project="..\..\LinkReflection.props" />
-
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
@@ -177,7 +189,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

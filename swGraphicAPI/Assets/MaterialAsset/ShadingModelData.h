@@ -25,6 +25,7 @@ class ShadingModelBase : public Object
 private:
 public:
 	ShadingModelBase();
+	virtual				~ShadingModelBase		() = 0 {};
 
 	virtual Size		GetSize		            () = 0;
 	virtual uint8*		GetData		            () = 0;
@@ -51,6 +52,7 @@ public:
 public:
 	explicit			ShadingModelData		();
 	explicit			ShadingModelData		( ShadingModelStruct model );
+    virtual				~ShadingModelData		() = default;
 
 	void				StaticValidate			();
 

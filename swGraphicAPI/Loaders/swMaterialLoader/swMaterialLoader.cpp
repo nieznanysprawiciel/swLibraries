@@ -118,8 +118,9 @@ LoadingResult       SWMaterialLoader::Load              ( const LoadPath& path, 
 {
     IDeserializer		deser( std::make_unique< SerializationContext >() );
 
-    if( !deser.LoadFromFile( path.GetFileTranslated().String() ).IsValid() )
-        return LoaderException::Create( "swMaterialLoader", "Deserialization failed: " + deser.GetError() + " ].", path, TypeID::get< MaterialAsset >() );
+    auto result = deser.LoadFromFile(path.GetFileTranslated().String());
+    if( !result.IsValid() )
+        return LoaderException::Create( "swMaterialLoader", "Deserialization failed: " + result.GetErrorReason(), path, TypeID::get< MaterialAsset >() );
 
     if( deser.EnterObject( STRINGS_0_1_0::FILE_HEADER_STRING ) )
     {
@@ -530,7 +531,8 @@ void                                SWMaterialLoader::WriteShadingModel         
     ser.SetAttribute( STRINGS_0_1_0::SHADING_MODEL_WRAPPER_TYPE_STRING, shadingData->GetTypeName() );
     ser.SetAttribute( STRINGS_0_1_0::BUFFER_SIZE_STRING, shadingData->GetSize() );
 
-    Serialization().Serialize( ser, shadingData );
+    rttr::variant shadingModel = SerializationCore::GetRealType(shadingData).get_property("Data").get_value(shadingData);
+    SerializationCore::DefaultSerialize(ser, shadingModel);
 
     ser.Exit();		// SHADING_DATA_STRING
 }

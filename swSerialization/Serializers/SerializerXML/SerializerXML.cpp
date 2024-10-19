@@ -19,6 +19,7 @@
 namespace sw
 {
 
+sw::FilePosition ComputeXmlPosition(const char* fileBegin, const char* nodeFirstChar);
 
 namespace impl
 {
@@ -128,8 +129,8 @@ ReturnResult            SerializerXML::LoadFromString   ( std::string content )
     }
     catch( const rapidxml::parse_error& e )
     {
-        auto errorOffset = static_cast<PtrOffset>( e.where< char >() - m_content.data() );
-        return fmt::format( "Parsing failed. Error: {}, offset: {}", e.what(), errorOffset );
+        auto position = ComputeXmlPosition(m_content.data(), e.where< char >());
+        return fmt::format("Parsing failed. Error: {}, line: {} at position: {}", e.what(), position.Line, position.CharPosition);
     }
     catch( const std::exception& e )
     {

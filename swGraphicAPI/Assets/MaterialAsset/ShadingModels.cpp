@@ -42,7 +42,7 @@ RTTR_REGISTRATION
 		.property( "Ambient", &sw::PhongMaterial::Ambient ) BIND_AS_PTR
 		.property( "Power", &sw::PhongMaterial::Power );
 
-	rttr::registration::class_< sw::ShadingModelData< sw::PhongMaterial > >( "ShadingModelData< PhongMaterial >" )
+	rttr::registration::class_< sw::ShadingModelData< sw::PhongMaterial > >( "ShadingModelData<PhongMaterial>" )
 		.constructor<>()( rttr::policy::ctor::as_raw_ptr )
 		.property( "Data", &sw::ShadingModelData< sw::PhongMaterial >::Data ) BIND_AS_PTR;
 }

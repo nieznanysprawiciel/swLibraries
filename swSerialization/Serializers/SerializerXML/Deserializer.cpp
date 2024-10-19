@@ -11,6 +11,8 @@
 #include "swCommonLib/Common/fmt.h"
 #include "swCommonLib/Common/Converters/Convert.h"
 
+#include "swSerialization/Serializers/SerializerXML/Escaping.h"
+
 #include <fstream>
 #include <sstream>
 #include <stack>
@@ -142,7 +144,18 @@ bool			IDeserializer::EnterObject		( const char* name ) const
 	assert( !impl->valuesStack.empty() );
 	auto value = impl->valuesStack.top();
 
-	auto enterNode = value->first_node( name );
+    rapidxml::xml_node<>* enterNode = nullptr;
+	if (NeedsEscaping(name))
+	{
+		// We don't want to allocate string on other branches of if statements.
+		auto escapedName = EscapeString(name);
+		enterNode = value->first_node(escapedName.c_str());
+	}
+	else
+	{
+		enterNode = value->first_node(name);
+	}
+
 	if( enterNode == nullptr )
 		return false;
 
@@ -170,7 +183,18 @@ bool			IDeserializer::EnterArray		( const char* name ) const
 	assert( !impl->valuesStack.empty() );
 	auto value = impl->valuesStack.top();
 
-	auto enterNode = value->first_node( name );
+	rapidxml::xml_node<>* enterNode = nullptr;
+	if (NeedsEscaping(name))
+	{
+		// We don't want to allocate string on other branches of if statements.
+		auto escapedName = EscapeString(name);
+		enterNode = value->first_node(escapedName.c_str());
+	}
+	else
+	{
+		enterNode = value->first_node(name);
+	}
+
 	if( enterNode == nullptr )
 		return false;
 
@@ -249,7 +273,7 @@ bool			IDeserializer::LastElement() const
 {
 	auto value = impl->valuesStack.top();
 	
-	auto lastChild = value->last_node( nullptr );		// Wstawienie nullptra oznacza wybranie pierwszego dziecka w kolejnoœci.
+	auto lastChild = value->last_node( nullptr );		// Nullptr means taking first element in order.
 	if( lastChild == nullptr )
 		return false;
 

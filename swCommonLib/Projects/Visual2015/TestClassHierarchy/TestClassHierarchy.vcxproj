@@ -54,6 +54,7 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructSharedPtrContainer.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructWithSimpleTypes.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructWithSimpleTypesShared.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Templates\TemplateStructWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Registration.cpp" />

@@ -20,5 +20,8 @@
     <ClInclude Include="..\..\..\Serializers\SerializerXML\SerializerXML.h">
       <Filter>SerializerXML</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Serializers\SerializerXML\Escaping.h">
+      <Filter>SerializerXML</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
