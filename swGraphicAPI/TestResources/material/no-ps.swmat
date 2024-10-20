@@ -11,7 +11,7 @@
 			<Texture/>
 			<Texture/>
 		</Textures>
-		<ShadingModel WrapperType="ShadingModelData&lt; PhongMaterial &gt;" BufferSize="64">
+		<ShadingModel WrapperType="ShadingModelData&lt;PhongMaterial&gt;" BufferSize="64">
 			<PhongMaterial Power="13.000000">
 				<Diffuse X="0.200000" Y="0.300000" Z="0.400000" W="0.500000"/>
 				<Specular X="0.600000" Y="0.700000" Z="0.750000" W="0.900000"/>
