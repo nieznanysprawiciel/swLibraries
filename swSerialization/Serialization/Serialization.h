@@ -124,21 +124,23 @@ public:
 	template< typename Type >
     ReturnResult	        Serialize			( ISerializer& ser, const Type& object );
 
-    /**@brief Deserialize object from file.*/
+    /**@brief Deserialize object from file.
+	Object will be created internally.*/
     template< typename Type >
     Nullable< Type >        Deserialize			( const filesystem::Path& filePath );
 
-	/**@brief Deserialize object from file.*/
+	/**@brief Deserialize content from file into existing object.*/
 	template< typename Type >
     ReturnResult            Deserialize			( const filesystem::Path& filePath, Type& object );
 
 	/**@brief Deserialize object from provided deserializer.
+	Object will be created internally.
 
 	@note Deserializer must be initialized with context which is derived from SerializationContext.*/
 	template< typename Type >
     Nullable< Type >        Deserialize			( IDeserializer& deser );
 
-    /**@brief Deserialize object from provided deserializer.
+    /**@brief Deserialize object from provided deserializer into existing object.
 
     @note Deserializer must be initialized with context which is derived from SerializationContext.*/
     template< typename Type >

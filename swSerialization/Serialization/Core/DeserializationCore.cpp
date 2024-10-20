@@ -23,15 +23,14 @@
 namespace sw
 {
 
-// ================================ //
-//
 auto SerializationCore::DefaultDeserialize
 (
     const IDeserializer& deser,
     Object* object
 ) -> ReturnResult
 {
-    return DefaultDeserializeImpl(deser, object, object->GetType());
+    auto instance = rttr::variant(object);
+    return DefaultDeserializeImpl(deser, instance, object->GetType());
 }
 
 // ================================ //
@@ -39,7 +38,7 @@ auto SerializationCore::DefaultDeserialize
 auto SerializationCore::DefaultDeserializeImpl
 (
     const IDeserializer& deser,
-    const rttr::instance& object,
+    rttr::variant& object,
     rttr::type dynamicType
 ) -> ReturnResult
 {
@@ -47,8 +46,24 @@ auto SerializationCore::DefaultDeserializeImpl
 
     auto& overrides = deser.GetContext< SerializationContext >()->DeserialOverrides;
     auto& typeDesc = overrides.GetTypeDescriptor(objectType);
-
-    return DeserializePropertiesVec(deser, object, typeDesc.Properties);
+    
+    if (typeDesc.CustomFunction)
+    {
+        auto result = typeDesc.CustomFunction(deser, objectType, object, typeDesc);
+        ReturnIfInvalid(result);
+        
+        // It is expected that function will deserialize object in place.
+        // We should return error if it wasn't the case.
+        if (result.Get().IsPrevious())
+            return Success::True;
+        
+        DestroyObjectIfNew(result.Get());
+        return SerializationException::Create(deser, 
+            fmt::format("User-provided deserialization override returned new object.\
+                         Top level object should be deserialized in place."));
+    }
+    else
+        return DeserializePropertiesVec(deser, object, typeDesc.Properties);
 }
 
 // ================================ //

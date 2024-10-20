@@ -42,9 +42,11 @@ public:
 	static bool				IsPolymorphicType		( TypeID type );
 	
 	static void				DefaultSerialize		( ISerializer& ser, const rttr::variant& object );
-	static ReturnResult     DefaultDeserialize		( const IDeserializer& deser, Object* object );
+    /**@brief Deserialize content into existing object.
+    Function assumes that object type was already read and IDeserializer resides in context of this object.*/
+    static ReturnResult     DefaultDeserialize		( const IDeserializer& deser, Object* object );
 
-	static ReturnResult     DefaultDeserializeImpl	( const IDeserializer& deser, const rttr::instance& object, rttr::type dynamicType );
+	static ReturnResult     DefaultDeserializeImpl	( const IDeserializer& deser, rttr::variant& object, rttr::type dynamicType );
 
 	///@name Types serialization
 	///@{

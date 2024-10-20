@@ -90,7 +90,7 @@ inline ReturnResult         Serialization::Deserialize		( IDeserializer& deser, 
 {
     // Pointer can be copied into instance, but reference must be wrapped, otherwise
     // rttr will try to copy it's value.
-    rttr::instance objectInstance = std::is_pointer< Type >::value ?
+    rttr::variant objectInstance = std::is_pointer< Type >::value ?
         rttr::variant( object ) :
         rttr::variant( std::reference_wrapper< Type >( object ) );
 

@@ -208,11 +208,33 @@ Nullable< VariantWrapper >        DeserOverrideHardcodeDataset      ( const IDes
 
 // ================================ //
 //
+Nullable< VariantWrapper >        DeserInPlaceHardcodeDataset      ( const IDeserializer& deser,
+                                                                     TypeID expectedType,
+                                                                     rttr::variant& prevValue,
+                                                                     DeserialTypeDesc& desc)
+{
+    if (prevValue.can_convert< std::reference_wrapper<BaseObject> >() == false)
+        return fmt::format("Can't convert instance to 'Bstd::reference_wrapper<BaseObject>'. Type: {}",
+            prevValue.get_type().get_name().to_string());
+
+    auto obj = prevValue.get_value< std::reference_wrapper<BaseObject>>();
+
+    auto dataset = deser.GetAttribute("Dataset", 0);
+    auto result = SetDataset(obj.get().m_simpleStruct1, dataset);
+    return result.Ok(VariantWrapper::FromPrevious(prevValue));
+}
+
+
+// ================================ //
+//
 Nullable< VariantWrapper >        DeserOverrideHardcodeDatasetStruct( const IDeserializer& deser,
                                                                       TypeID expectedType,
                                                                       rttr::variant& prevValue,
                                                                       DeserialTypeDesc& desc )
 {
+    if (prevValue.can_convert< std::reference_wrapper< StructWithSimpleTypes > >() == false)
+        return fmt::format("Can't convert instance to 'std::reference_wrapper< StructWithSimpleTypes > >'");
+
     auto& obj = prevValue.get_value< std::reference_wrapper< StructWithSimpleTypes > >();
     auto dataset = deser.GetAttribute( "Dataset", 0 );
 
@@ -242,12 +264,38 @@ TEST_CASE( "Serialization.Overrides.Polymorphic.TopLevel", "[Serialization]" )
     serial.SerialOverride()
         .OverrideType< BaseObject >( &OverrideHardcodeDataset );
     deserial.DeserialOverride()
-        .OverrideType< BaseObject >( &DeserOverrideHardcodeDataset );
+        .OverrideType< BaseObject >( &DeserInPlaceHardcodeDataset);
 
     REQUIRE_IS_VALID( serial.Serialize( "Serialization/Overrides.Polymorphic.TopLevel.ser", expected ) );
     REQUIRE_IS_VALID( deserial.Deserialize( "Serialization/Overrides.Polymorphic.TopLevel.ser", actual ) );
 
     CHECK( actual.m_simpleStruct1 == expected.m_simpleStruct1 );
+}
+
+// ================================ //
+// Serialize dataset number instead of whole structure.
+// Test checks, if error will be returned, when user-provided deserialization function attempts
+// to create new object instead of using existing one.
+TEST_CASE("Serialization.Overrides.Polymorphic.TopLevel.IncorrectOverride", "[Serialization]")
+{
+    BaseObject expected;
+    BaseObject actual;
+    expected.m_simpleStruct1.FillWithDataset3();
+    actual.m_simpleStruct1.FillWithDataset2();
+
+    sw::Serialization serial;
+    sw::Serialization deserial;
+
+    serial.SerialOverride()
+        .OverrideType< BaseObject >(&OverrideHardcodeDataset);
+    deserial.DeserialOverride()
+        .OverrideType< BaseObject >(&DeserOverrideHardcodeDataset);
+
+    REQUIRE_IS_VALID(serial.Serialize("Serialization/Overrides.Polymorphic.TopLevel.IncorrectOverride.ser", expected));
+    auto result = deserial.Deserialize("Serialization/Overrides.Polymorphic.TopLevel.IncorrectOverride.ser", actual);
+    
+    REQUIRE_INVALID(result);
+    CHECK(result.GetErrorReason().find("User-provided deserialization override returned new object") != std::string::npos);
 }
 
 // ================================ //

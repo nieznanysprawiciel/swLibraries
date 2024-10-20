@@ -232,8 +232,6 @@ inline void                     ErrorsCollector::Add                    ( const 
     Add( std::static_pointer_cast< Exception >( exception ) );
 }
 
-// ================================ //
-//
 template< typename ReturnType >
 inline bool						ErrorsCollector::Success				( const Nullable< ReturnType >& result )
 {
@@ -244,8 +242,6 @@ inline bool						ErrorsCollector::Success				( const Nullable< ReturnType >& res
 	return false;
 }
 
-// ================================ //
-//
 template< typename ReturnType >
 inline ReturnType               ErrorsCollector::OnError                ( Nullable< ReturnType >&& result, ReturnType defaultVal )
 {
@@ -256,8 +252,6 @@ inline ReturnType               ErrorsCollector::OnError                ( Nullab
     return std::move( defaultVal );
 }
 
-// ================================ //
-//
 template< typename ReturnType >
 inline Nullable< ReturnType >   ErrorsCollector::Return                 ( ReturnType onSuccess )
 {
