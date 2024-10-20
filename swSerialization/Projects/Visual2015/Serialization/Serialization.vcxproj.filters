@@ -62,6 +62,9 @@
     <ClCompile Include="..\..\..\Serialization\Core\Exceptions\SerializationException.cpp">
       <Filter>PropertySerialization\Core\Exceptions</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Serialization\Core\DeserializationCore.cpp">
+      <Filter>PropertySerialization\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Serialization\Serialization.inl">

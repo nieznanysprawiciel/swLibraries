@@ -31,6 +31,7 @@
     <ClInclude Include="..\..\..\Serialization\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Serialization\Core\DeserializationCore.cpp" />
     <ClCompile Include="..\..\..\Serialization\Core\Exceptions\SerializationException.cpp" />
     <ClCompile Include="..\..\..\Serialization\Core\SerializationCore.cpp" />
     <ClCompile Include="..\..\..\Serialization\Serialization.cpp" />
@@ -90,12 +91,10 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="..\Paths.props" />
   <Import Project="..\LibraryConfig.props" />
   <Import Project="..\LinkReflection.props" />
-  
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
