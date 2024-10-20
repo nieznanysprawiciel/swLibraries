@@ -51,7 +51,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestTwoWaySerialization\TestCases\StructsSerialization.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestTwoWaySerialization\TestCases\TestOverrides.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestTwoWaySerialization\TestCases\TestRttrPreconditions.cpp" />
-    <ClCompile Include="TestTemplateSerialization.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestTwoWaySerialization\TestCases\TestTemplateSerialization.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestTwoWaySerialization\PrecompiledHeader\stdafx.h" />

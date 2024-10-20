@@ -40,7 +40,7 @@
     <ClCompile Include="..\..\..\..\Tests\TestTwoWaySerialization\TestCases\TestOverrides.cpp">
       <Filter>TestCases</Filter>
     </ClCompile>
-    <ClCompile Include="TestTemplateSerialization.cpp">
+    <ClCompile Include="..\..\..\..\Tests\TestTwoWaySerialization\TestCases\TestTemplateSerialization.cpp">
       <Filter>TestCases</Filter>
     </ClCompile>
   </ItemGroup>
