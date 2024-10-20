@@ -60,7 +60,7 @@ auto SerializationCore::DefaultDeserializeImpl
         DestroyObjectIfNew(result.Get());
         return SerializationException::Create(deser, 
             fmt::format("User-provided deserialization override returned new object.\
-                         Top level object should be deserialized in place."));
+                         Expected object to be deserialized in place."));
     }
     else
         return DeserializePropertiesVec(deser, object, typeDesc.Properties);

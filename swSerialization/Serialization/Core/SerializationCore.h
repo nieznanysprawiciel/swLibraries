@@ -33,6 +33,7 @@ typedef std::vector< rttr::variant > VariantVec;
 /**@brief Core serialization/deserialization functions.
 
 This class is usefull only if you write your own serialization implementation.
+You can use functions collected here as building blocks.
 
 @ingroup Serialization*/
 class SerializationCore
