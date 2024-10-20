@@ -65,38 +65,47 @@ jobs:
         mkdir tests-bins/swGraphicAPI
         mkdir tests-bins/swGeometrics
         mkdir tests-bins/swGUI
+        mkdir tests-bins/swSerialization
         cp swCommonLib/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swCommonLib
         cp swGraphicAPI/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swGraphicAPI
         cp swGeometrics/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swGeometrics
         cp swGUI/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swGUI
+        cp swSerialization/_Target/${{matrix.BUILD_CONFIGURATION}}-${{env.ARCH}}-${{env.TOOLSET}}/TestsDir/* tests-bins/swSerialization
         ls -al tests-bins/swCommonLib
         ls -al tests-bins/swGraphicAPI
         ls -al tests-bins/swGeometrics
         ls -al tests-bins/swGUI
+        ls -al tests-bins/swSerialization
 
-    - name: Upload binaries
+    - name: Upload binaries swCommonLib
       uses: actions/upload-artifact@v4
       with:
         name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swCommonLib
         path: tests-bins/swCommonLib
 
-    - name: Upload binaries
+    - name: Upload binaries swGraphicAPI
       uses: actions/upload-artifact@v4
       with:
         name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swGraphicAPI
         path: tests-bins/swGraphicAPI
 
-    - name: Upload binaries
+    - name: Upload binaries swGeometrics
       uses: actions/upload-artifact@v4
       with:
         name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swGeometrics
         path: tests-bins/swGeometrics
 
-    - name: Upload binaries
+    - name: Upload binaries swGUI
       uses: actions/upload-artifact@v4
       with:
         name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swGUI
         path: tests-bins/swGUI
+
+    - name: Upload binaries swSerialization
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifacts-${{matrix.BUILD_CONFIGURATION}}-swSerialization
+        path: tests-bins/swSerialization
 
   test:
     runs-on: windows-latest
@@ -105,7 +114,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sub-project: [swCommonLib, swGraphicAPI, swGeometrics, swGUI]
+        sub-project: [swCommonLib, swGraphicAPI, swGeometrics, swGUI, swSerialization]
     env:
       TEST_BUILD_CONFIGURATION: Debug
     steps:

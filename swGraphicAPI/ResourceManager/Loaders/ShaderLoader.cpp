@@ -91,7 +91,7 @@ LoadingResult									ShaderLoader::Load			( const LoadPath& filePath, TypeID re
 //
 ReturnResult									ShaderLoader::Prefetch		( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
-	return Result::Error;
+	return Success::False;
 }
 
 }	// sw

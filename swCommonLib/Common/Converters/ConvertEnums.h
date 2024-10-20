@@ -32,7 +32,7 @@ std::string				Convert::EnumToString		( SrcType value )
 // ================================ //
 //
 template< typename DstType >
-sw::Nullable< DstType > Convert::StringToEnum		( const std::string& value )
+sw::Nullable< DstType > Convert::StringToEnum		( std::string_view value )
 {
     static_assert( std::is_enum< DstType >::value, "Type is not enum" );
 
@@ -44,12 +44,12 @@ sw::Nullable< DstType > Convert::StringToEnum		( const std::string& value )
 
     rttr::enumeration enumVal = type.get_enumeration();
 
-    rttr::variant result = enumVal.name_to_value( value );
+    rttr::variant result = enumVal.name_to_value( rttr::string_view( value.data(), value.size() ) );
 
     // Note: Don't return error message. Failing conversion is common thing
     // and we don't want to hurt performance.
     if( !result.is_valid() )
-        return ::impl::ConversionException();
+        return sw::impl::ConversionException();
 
     return result.get_value< DstType >();
 }

@@ -6,7 +6,7 @@
 */
 
 
-#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/Structs/StructWithSimpleTypes.h"
 
@@ -21,9 +21,9 @@ const int cArrayReadonlySize = 4;
 
 // ================================ //
 //
-class StaticArrayContainer_Readonly : public EngineObject
+class StaticArrayContainer_Readonly : public Object
 {
-	RTTR_ENABLE( EngineObject );
+	RTTR_ENABLE( Object );
 	RTTR_REGISTRATION_FRIEND
 public:
 

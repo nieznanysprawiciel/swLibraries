@@ -169,7 +169,7 @@ sw::ReturnResult		Application::Initialize()
 {
 	m_guiConfig.DebugGraphics = true;
 
-    sw::ReturnResult result = sw::Result::Success;
+    sw::ReturnResult result = sw::Success::True;
 
 	result = result && DefaultInit( 1024, 768, "Window Tittle" );
 	result = result && OverridePaths();
@@ -205,7 +205,7 @@ sw::ReturnResult		Application::OnInitialized()
         AddControls( m_windows[ 0 ] );
         AddControls2( m_windows[ 1 ] );
 
-        return sw::Result::Success;
+        return sw::Success::True;
     }
     else
 	    return window.GetError();

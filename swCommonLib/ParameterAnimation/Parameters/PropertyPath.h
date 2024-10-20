@@ -7,7 +7,7 @@
 
 #include "swCommonLib/Common/RTTR.h"
 #include "swCommonLib/Common/Properties/Properties.h"
-#include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
+#include "swSerialization/Serialization/Serialization.h"
 
 #include <vector>
 

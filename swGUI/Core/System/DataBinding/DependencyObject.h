@@ -5,7 +5,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 
 #include "BindingInfo.h"
 #include "Binding.h"
@@ -29,9 +29,9 @@ It should correspond to WPF DependencyObject.
 
 @ingroup DataBindingSystem
 @ingroup ControlsFramework*/
-class DependencyObject : public EngineObject
+class DependencyObject : public Object
 {
-	RTTR_ENABLE( EngineObject );
+	RTTR_ENABLE( Object );
 	RTTR_REGISTRATION_FRIEND
 private:
 protected:

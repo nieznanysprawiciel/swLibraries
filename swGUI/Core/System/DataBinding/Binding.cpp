@@ -46,10 +46,10 @@ ReturnResult			Binding::UpdateBinding			( const rttr::variant& dataContext )
 		m_sourceObject = bindingSource.Get().Target;
 		m_sourceProperty = bindingSource.Get().Property;
 
-		return Result::Success;
+		return Success::True;
 	}
 
-	return Result::Error;
+	return Success::False;
 }
 
 // ================================ //
@@ -176,7 +176,7 @@ ReturnResult		Binding::CheckCompatibility			( const rttr::property& targetProper
 
 	m_validConversion = true;
 
-	return Result::Success;
+	return Success::True;
 }
 
 // ================================ //
@@ -206,7 +206,7 @@ ReturnResult		Binding::ValidateBinding			( TypeID srcType, TypeID targetType )
 
 	// Both types should be raw or wrapped. We can't support mixed types.
 	if( srcType.is_wrapper() != targetType.is_wrapper() )
-		return Result::Error;
+		return Success::False;
 
 	// If converter exist, we don't try normal conversion path.
 	if( m_useConverter && m_converter )
@@ -215,20 +215,20 @@ ReturnResult		Binding::ValidateBinding			( TypeID srcType, TypeID targetType )
 		valid = toSource ? valid && ValidateConverterBack( targetType, srcType ) : valid;
 
 		///< @todo Add exceptions.
-		return valid ? Result::Success : Result::Error;
+		return valid ? Success::True : Success::False;
 	}
 
 	valid = toTarget ? valid && srcType.is_derived_from( targetType ) : valid;
 	valid = toSource ? valid && targetType.is_derived_from( srcType ) : valid;
 
-	if( valid ) return Result::Success;
+	if( valid ) return Success::True;
 
 	valid = true;
 	valid = toTarget ? valid && ValidateAutoConversion( srcType, targetType ) : valid;
 	valid = toSource ? valid && ValidateAutoConversion( targetType, srcType ) : valid;
 
-	if( valid ) return Result::Success;
-	return Result::Error;
+	if( valid ) return Success::True;
+	return Success::False;
 }
 
 // ================================ //

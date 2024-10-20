@@ -6,7 +6,7 @@
 */
 
 
-#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 #include "swGraphicAPI/Resources/ResourcePtr.h"
 #include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
 //#include <atomic>
@@ -51,9 +51,9 @@ reference counter to avoid deletion. Use class ResourcePtr for this purpose.
 @todo Zliczanie referencji w Resource nie nadaje siê do wielow¹tkowoœci. Poprawiæ w odpowiednim momencie.
 @todo Rename ResourceObject.h to Resoruce.h
 */
-class Resource : public EngineObject
+class Resource : public Object
 {
-	RTTR_ENABLE( EngineObject );
+	RTTR_ENABLE( Object );
 	RTTR_REGISTRATION_FRIEND
 private:
 

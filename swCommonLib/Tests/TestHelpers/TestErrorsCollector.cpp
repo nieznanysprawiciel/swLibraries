@@ -15,7 +15,7 @@ ReturnResult		FunctionWithException		( bool returnException )
 	if( returnException )
 		return std::make_shared< RuntimeException >( "[Error] Something gone wrong." );
 
-	return Result::Success;
+	return Success::True;
 }
 
 
@@ -209,5 +209,29 @@ TEST_CASE( "Common.Helpers.Exceptions.ErrorsCollector.OnError.InvalidNullable" )
     CHECK( collector.OnError( std::move( someValue ), 1 ) == 1 );
     CHECK( !static_cast< ReturnResult >( collector ).IsValid() );
     CHECK( collector.Get().GetErrorReason() == "Error occured" );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.ErrorsCollector.Return.Invalid" )
+{
+    ErrorsCollector collector;
+    collector.Add( FunctionWithException( true ) );
+
+    auto result = collector.Return( 45 );
+    CHECK( result.IsValid() == false );
+    CHECK( result.GetError() != nullptr );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.ErrorsCollector.Return.Valid" )
+{
+    ErrorsCollector collector;
+    collector.Add( FunctionWithException( false ) );
+
+    auto result = collector.Return( 45 );
+    CHECK( result.IsValid() == true );
+    CHECK( result.Get() == 45 );
 }
 

@@ -7,7 +7,6 @@
 
 
 #include <string>
-#include <codecvt>
 #include <type_traits>
 
 #include "swCommonLib/Common/Exceptions/Nullable.h"
@@ -15,6 +14,14 @@
 #include "ConvertTraits.h"
 
 
+
+/**@brief Errors returned by Convert class.*/
+enum class ConversionError : uint8
+{
+    OutOfRange,                 ///< Source type is out of range of destination type.
+    NotConvertible,             ///< Source type can't be convertd to destination.
+    FloatTruncation             ///< Can't convert due to precision loss.
+};
 
 
 /**@brief Class for converting to/from string.*/
@@ -26,7 +33,7 @@ private:
 	static inline std::string			    EnumToString		( SrcType defaultVal );
 
 	template< typename DstType >
-	static inline sw::Nullable< DstType >   StringToEnum		( const std::string& value );
+	static inline sw::Nullable< DstType >   StringToEnum		( std::string_view value );
 
 public:
 
@@ -35,11 +42,11 @@ public:
 										ToString			( const SrcType& val );
 
 	template< typename DstType >
-	static inline DstType               FromString			( const std::string& val, const DstType& defaultValue );
+	static inline DstType               FromString			( std::string_view val, const DstType& defaultValue );
 
     template< typename DstType >
     static inline sw::Nullable< typename std::enable_if< std::is_enum< DstType >::value, DstType >::type >
-                                        FromString			( const std::string& val );
+                                        FromString			( std::string_view val );
 
 	template< typename SrcType >
 	static inline typename std::enable_if< !std::is_enum< SrcType >::value, std::string >::type
@@ -47,11 +54,15 @@ public:
 
     template< typename DstType >
     static inline sw::Nullable< typename std::enable_if< std::is_arithmetic< DstType >::value, DstType >::type >
-                                        FromString			( const std::string& val );
+                                        FromString			( std::string_view val );
+
+    template< typename DstType >
+    static inline sw::Nullable< typename std::enable_if< std::is_same< DstType, std::string_view >::value, DstType >::type >
+                                        FromString			( std::string_view val )            { return val; }
 
     template< typename DstType >
     static inline sw::Nullable< typename std::enable_if< is_not_specialized< DstType >::value, DstType >::type >
-                                        FromString			( const std::string& val );
+                                        FromString			( std::string_view val );
 
     template<>
     static inline typename std::enable_if< !std::is_enum< std::wstring >::value, std::string >::type
@@ -59,17 +70,38 @@ public:
 
 	template< typename DstType >
 	static inline sw::Nullable< typename std::enable_if< std::is_same< DstType, std::wstring >::value, std::wstring >::type >
-										FromString      	        ( const std::string& value );
+										FromString      	        ( std::string_view value );
+
+
+    template< typename SrcType, typename DstType >
+    static inline sw::Result< typename std::enable_if< both_arithmetic< SrcType, DstType >::value, DstType >::type, ConversionError >
+                                        FromTo            	        ( const SrcType& val );
+
+    template< typename SrcType, typename DstType >
+    static inline sw::Result< typename std::enable_if< is_one_boolean< SrcType, DstType >::value, DstType >::type, ConversionError >
+                                        FromTo            	        ( const SrcType& val );
+
+    template< typename SrcType, typename DstType >
+    static inline sw::Result< typename std::enable_if< std::is_same< SrcType, DstType >::value, DstType >::type, ConversionError >
+                                        FromTo            	        ( const SrcType& val );
+
+    /**@brief Can't convert to std::string_view.*/
+    template< typename SrcType, typename DstType >
+    static inline sw::Result< typename std::enable_if< std::is_same< DstType, std::string_view >::value, DstType >::type, ConversionError >
+                                        FromTo            	        ( const SrcType& val );
 
 public:
 
     /**@brief Type conversion to string using rttr.*/
     template< typename Type >
     static inline std::string           ToString                    ();
+
+    /**@brief Returns human readable error message retrived from errno.*/
+    static std::string                  ErrnoToString               ( int err );
 };
 
 
-namespace impl
+namespace sw::impl
 {
     sw::ExceptionPtr        ConversionException     ();
 }
@@ -90,7 +122,7 @@ inline typename std::enable_if< !std::is_enum< SrcType >::value, std::string >::
 // ================================ //
 //
 template< typename DstType >
-inline DstType				Convert::FromString		( const std::string& val, const DstType& defaultValue )
+inline DstType				Convert::FromString		( std::string_view val, const DstType& defaultValue )
 {
     auto result = Convert::FromString< DstType >( val );
     
@@ -104,10 +136,10 @@ inline DstType				Convert::FromString		( const std::string& val, const DstType& 
 //
 template< typename DstType >
 static inline sw::Nullable< typename std::enable_if< is_not_specialized< DstType >::value, DstType >::type >
-                            Convert::FromString		( const std::string& val )
+                            Convert::FromString		( std::string_view val )
 {
     static_assert( false, "Specialize template" );
-    return ::impl::ConversionException();
+    return sw::impl::ConversionException();
 }
 
 
@@ -126,7 +158,7 @@ inline typename std::enable_if< std::is_enum< SrcType >::value, std::string >::t
 /**@brief Converts string to enum.*/
 template< typename DstType >
 inline sw::Nullable< typename std::enable_if< std::is_enum< DstType >::value, DstType >::type >
-                            Convert::FromString     ( const std::string& val )
+                            Convert::FromString     ( std::string_view val )
 {
     return StringToEnum< DstType >( val );
 }
@@ -134,6 +166,14 @@ inline sw::Nullable< typename std::enable_if< std::is_enum< DstType >::value, Ds
 //====================================================================================//
 //			Wstring to string	
 //====================================================================================//
+
+namespace sw::impl
+{
+
+std::string                 ConvertWstringToString              ( const std::wstring& value );
+std::wstring                ConvertStringToWstring              ( std::string_view value );
+
+}   // impl
 
 // std::codecvt_utf8 deprecated since C++17 without replacement.
 #pragma warning( push )
@@ -145,20 +185,16 @@ template<>
 static inline typename std::enable_if< !std::is_enum< std::wstring >::value, std::string >::type
 							Convert::ToString< std::wstring >   ( const std::wstring& value )
 {
-	typedef std::codecvt_utf8< wchar_t > convert_type;
-	std::wstring_convert< convert_type, wchar_t > converter;
-	return converter.to_bytes( value );
+    return sw::impl::ConvertWstringToString( value );
 }
 
 // ================================ //
 //
 template< typename SrcType >
 inline sw::Nullable< typename std::enable_if< std::is_same< SrcType, std::wstring >::value, std::wstring >::type >
-							Convert::FromString             	( const std::string& value )
+							Convert::FromString             	( std::string_view value )
 {
-	typedef std::codecvt_utf8< wchar_t > convert_type;
-	std::wstring_convert< convert_type, wchar_t > converter;
-	return converter.from_bytes( value );
+    return sw::impl::ConvertStringToWstring( value );
 }
 
 #pragma warning( pop )
@@ -171,11 +207,32 @@ inline sw::Nullable< typename std::enable_if< std::is_same< SrcType, std::wstrin
 //
 template< typename DstType >
 static inline sw::Nullable< typename std::enable_if< std::is_arithmetic< DstType >::value, DstType >::type >
-                            Convert::FromString			( const std::string& val )
+                            Convert::FromString			( std::string_view val )
 {
-    return ::impl::ConvertArithmetic< DstType >( val );
+    return sw::impl::ConvertArithmetic< DstType >( val );
 }
 
+//====================================================================================//
+//			FromTo conversion	
+//====================================================================================//
+
+// ================================ //
+//
+template< typename SrcType, typename DstType >
+inline sw::Result< typename std::enable_if< std::is_same< SrcType, DstType >::value, DstType >::type, ConversionError >
+                            Convert::FromTo     ( const SrcType& val )
+{
+    return val;
+}
+
+// ================================ //
+//
+template< typename SrcType, typename DstType >
+static inline sw::Result< typename std::enable_if< std::is_same< DstType, std::string_view >::value, DstType >::type, ConversionError >
+                            Convert::FromTo     ( const SrcType& val )
+{
+    return ConversionError::NotConvertible;
+}
 
 //====================================================================================//
 //			Type conversion to string	

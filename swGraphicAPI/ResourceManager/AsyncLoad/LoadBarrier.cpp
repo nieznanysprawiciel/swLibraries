@@ -143,7 +143,7 @@ ReturnResult							LoadBarrier::WaitUntilLoaded	( WaitingAsset* asset )
 	if( error != nullptr )
 		return error;
 	else
-		return Result::Success;
+		return Success::True;
 }
 
 // ================================ //

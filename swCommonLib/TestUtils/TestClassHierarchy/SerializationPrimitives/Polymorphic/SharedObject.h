@@ -39,8 +39,8 @@ protected:
 public:
 	explicit		DerivedFromSharedObject		() = default;
 	~DerivedFromSharedObject	() = default;
-
 };
+DEFINE_PTR_TYPE( DerivedFromSharedObject )
 
 
 }	// sw

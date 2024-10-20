@@ -21,5 +21,5 @@ TEST_CASE( "GraphicAPI.DX11.Resources.BlendingState.Creation", "[GraphicAPI][Res
 
 	auto blendingState = graphic.RMApi.CreateBlendingState( "::TransparentBlendState", blendDesc );
 
-	CHECK( blendingState != nullptr );
+	CHECK( blendingState.Get() != nullptr );
 }

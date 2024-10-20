@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="PrecompiledHeader">
+      <UniqueIdentifier>{2e86127b-a4e8-408d-b9ea-e97f80e3d36e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PropertySerialization">
+      <UniqueIdentifier>{5008cbf0-99be-4d98-9402-a04e85fc61b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PropertySerialization\Core">
+      <UniqueIdentifier>{41de06a4-49ec-4d34-bcac-f0da2a91a02c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PropertySerialization\Core\Exceptions">
+      <UniqueIdentifier>{b2ef6960-3232-4a30-8850-0b989d0e736f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Serialization\stdafx.h">
+      <Filter>PrecompiledHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\EngineSerializationContext.h">
+      <Filter>PropertySerialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\Serialization.h">
+      <Filter>PropertySerialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\SerializationContext.h">
+      <Filter>PropertySerialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\Core\SerializationCore.h">
+      <Filter>PropertySerialization\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\Core\Exceptions\SerializationException.h">
+      <Filter>PropertySerialization\Core\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\Core\TypeDescriptor.h">
+      <Filter>PropertySerialization\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\Core\Overrides.h">
+      <Filter>PropertySerialization\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\SerializationTypes.h">
+      <Filter>PropertySerialization</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Serialization\Core\VariantWrapper.h">
+      <Filter>PropertySerialization\Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Serialization\stdafx.cpp">
+      <Filter>PrecompiledHeader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Serialization\Serialization.cpp">
+      <Filter>PropertySerialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Serialization\SerializationContext.cpp">
+      <Filter>PropertySerialization</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Serialization\Core\SerializationCore.cpp">
+      <Filter>PropertySerialization\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Serialization\Core\Exceptions\SerializationException.cpp">
+      <Filter>PropertySerialization\Core\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Serialization\Core\DeserializationCore.cpp">
+      <Filter>PropertySerialization\Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Serialization\Serialization.inl">
+      <Filter>PropertySerialization</Filter>
+    </None>
+    <None Include="..\..\..\Serialization\Core\SerializationCore.inl">
+      <Filter>PropertySerialization\Core</Filter>
+    </None>
+  </ItemGroup>
+</Project>

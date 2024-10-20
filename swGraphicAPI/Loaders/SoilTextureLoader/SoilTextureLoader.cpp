@@ -93,7 +93,7 @@ ReturnResult									SoilTextureLoader::ValidateParameters	( const LoadPath& fil
 	if( loadInfo->Processing.ForceFormat )
 		return LoaderException::Create( "SoilTextureLoader", "ForceFormat option is not supported.", filePath, resourceType );
 
-	return Result::Success;
+	return Success::True;
 }
 
 
@@ -167,7 +167,7 @@ LoadingResult									SoilTextureLoader::Load					( const LoadPath& filePath, Ty
 //
 ReturnResult									SoilTextureLoader::Prefetch				( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
-	return Result::Error;
+	return Success::False;
 }
 
 

@@ -9,6 +9,8 @@
 
 #include "Texture.h"
 
+#include "swCommonLib/Common/Converters/Convert.h"
+
 
 
 RTTR_REGISTRATION

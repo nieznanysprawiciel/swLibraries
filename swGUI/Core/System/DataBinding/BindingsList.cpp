@@ -65,7 +65,7 @@ ReturnResult			BindingsList::AddBinding		( BindingPtr binding )
 
 	AddLinkToSource( bindingInfo );
 
-	return Result::Success;
+	return Success::True;
 }
 
 // ================================ //
@@ -97,7 +97,7 @@ ReturnResult			BindingsList::AddLinkToSource		( const BindingInfoPtr& binding )
 		dependencyObject->AddBindingLink( binding );
 	}
 
-	return Result::Success;
+	return Success::True;
 }
 
 

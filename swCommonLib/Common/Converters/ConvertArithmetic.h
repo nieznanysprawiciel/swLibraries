@@ -6,159 +6,215 @@
 */
 
 
+#include <string_view>
+#include <charconv>
+#include <limits>
 
-#include <stdlib.h>
 
-
-namespace impl
+namespace sw::impl
 {
 
 // ================================ //
 //
 template< typename ElementType >
-inline bool         IsCorrectSign                           ( const std::string& str )
+inline sw::Nullable< ElementType >      ConvertArithmetic   ( std::string_view str )
 {
-    if( str.size() > 1 )
-        return str[ 0 ] != '-';
-    return true;
-}
+    ElementType value;
 
-// ================================ //
-//
-template<> inline bool  IsCorrectSign< int64 >              ( const std::string& str )  { return true; }
-template<> inline bool  IsCorrectSign< int32 >              ( const std::string& str )  { return true; }
-template<> inline bool  IsCorrectSign< int16 >              ( const std::string& str )  { return true; }
-template<> inline bool  IsCorrectSign< int8 >               ( const std::string& str )  { return true; }
-template<> inline bool  IsCorrectSign< float >              ( const std::string& str )  { return true; }
-template<> inline bool  IsCorrectSign< double >             ( const std::string& str )  { return true; }
+    auto [ lastChar, error ] = std::from_chars( str.data(), str.data() + str.size(), value );
 
+    // Check if conversion was succesfull.
+    ///< @todo We could return fail reason here. Consider this in future.
+    if( error != std::errc() )
+        return ConversionException();
 
-
-/**@brief Converts string to numeric types. Uses strol function from std.*/
-template< typename ElementType >
-inline ElementType  ConvertArithmeticImpl   			    ( const char* valueBegin, char** checkEndPtr )
-{
-    assert( false );
-    return false;
-}
-
-
-// ================================ //
-//
-template<>
-inline uint32		ConvertArithmeticImpl< uint32 >         ( const char* valueBegin, char** checkEndPtr )
-{
-    return strtoul( valueBegin, checkEndPtr, 10 );
-}
-
-// ================================ //
-//
-template<>
-inline int32		ConvertArithmeticImpl< int32 >          ( const char* valueBegin, char** checkEndPtr )
-{
-    return strtol( valueBegin, checkEndPtr, 10 );
-}
-
-// ================================ //
-//
-template<>
-inline uint64		ConvertArithmeticImpl< uint64 >         ( const char* valueBegin, char** checkEndPtr )
-{
-    return strtoull( valueBegin, checkEndPtr, 10 );
-}
-
-// ================================ //
-//
-template<>
-inline int64		ConvertArithmeticImpl< int64 >          ( const char* valueBegin, char** checkEndPtr )
-{
-    return strtoll( valueBegin, checkEndPtr, 10 );
-}
-
-
-// ================================ //
-//
-template<>
-inline bool			ConvertArithmeticImpl< bool >           ( const char* valueBegin, char** checkEndPtr )
-{
-    const char* trueString = "true";
-    const char* falseString = "false";
-
-    *checkEndPtr = const_cast< char* >( valueBegin );
-    const char* referenceString;
-    bool returnValue;
-
-    if( **checkEndPtr == 't' )
-    {
-        returnValue = true;
-        referenceString = trueString;
-    }
-    else if( **checkEndPtr == 'f' )
-    {
-        returnValue = false;
-        referenceString = falseString;
-    }
-    else
-        return false;
-
-    int i = 0;
-    do
-    {
-        ++i;
-        *checkEndPtr += 1;
-    } while( **checkEndPtr == *( referenceString + i ) && **checkEndPtr != '\0' );
-
-    return returnValue;
-}
-
-// ================================ //
-//
-template<>
-inline double		ConvertArithmeticImpl< double >         ( const char* valueBegin, char** checkEndPtr )
-{
-    return strtod( valueBegin, checkEndPtr );
-}
-
-// ================================ //
-//
-template<>
-inline float		ConvertArithmeticImpl< float >          ( const char* valueBegin, char** checkEndPtr )
-{
-    return (float)ConvertArithmeticImpl< double >( valueBegin, checkEndPtr );
-}
-
-// ================================ //
-//
-template< typename ElementType >
-inline sw::Nullable< ElementType >      ConvertArithmetic   ( const std::string& str )
-{
-    // strto** functions can't handle negative numbers.
-    if( !IsCorrectSign< ElementType >( str ) )
-        return ::impl::ConversionException();
-
-    const char* attribValue = str.c_str();
-    char* checkEndPtr = nullptr;	        // After conversion we will get here pointer to byte after last parsed element.
-
-    errno = 0;	                            // strto** functions can return ERANGE if value will be out of range.
-
-    auto value = ConvertArithmeticImpl< ElementType >( attribValue, &checkEndPtr );
-    auto errnoVal = errno;
-
-    if( checkEndPtr == attribValue ||       // If we are on the begining, no conversion was performed.
-        *checkEndPtr != '\0' ||             // If we didn't reached terminator character, this means error.
-        errno == ERANGE )
-        return ::impl::ConversionException();
-
-    // Max value for type indicates coversion error. But not for bool.
-    if( value == std::numeric_limits< ElementType >::max() &&
-        !std::is_same< ElementType, bool >::value )
-        return ::impl::ConversionException();
+    // Whole string should be processed. std::from_chars could parse only part of string.
+    if( lastChar != str.data() + str.size() )
+        return ConversionException();
 
     return value;
+}
+
+// ================================ //
+//
+template<>
+inline sw::Nullable< bool >             ConvertArithmetic   ( std::string_view str )
+{
+    using namespace std::literals;
+
+    std::string_view trueString = "true"sv;
+    std::string_view falseString = "false"sv;
+
+    if( str == trueString )
+        return true;
+
+    if( str == falseString )
+        return false;
+
+    return ConversionException();
+}
+
+
+
+// ================================ //
+//
+template< typename Type >
+struct GetUnsigned
+{
+    typedef typename std::make_unsigned< Type >::type type;
+};
+
+// ================================ //
+//
+template<>
+struct GetUnsigned< double >
+{
+    typedef double type;
+};
+
+// ================================ //
+//
+template<>
+struct GetUnsigned< float >
+{
+    typedef float type;
+};
+
+
+// ================================ //
+// Based on https://stackoverflow.com/questions/18625964/checking-if-an-input-is-within-its-range-of-limits-in-c
+template< typename RangeType, typename ValueType,
+typename std::enable_if< 
+    std::numeric_limits< RangeType >::is_signed == std::numeric_limits< ValueType >::is_signed &&
+    std::numeric_limits< RangeType >::is_integer,    
+    void* >::type = nullptr >
+bool                                IsInRange               ( ValueType value )
+{
+    return value >= std::numeric_limits< RangeType >::min() && value <= std::numeric_limits< RangeType >::max();
+}
+
+// ================================ //
+//
+template< typename RangeType, typename ValueType,
+typename std::enable_if<
+    std::numeric_limits< RangeType >::is_signed &&
+    !std::numeric_limits< ValueType >::is_signed &&
+    std::numeric_limits< RangeType >::is_integer,
+    void* >::type = nullptr >
+bool                                IsInRange               ( ValueType value )
+{
+    typedef GetUnsigned< ValueType >::type UnsignedType;
+    return value <= static_cast< UnsignedType >( std::numeric_limits< RangeType >::max() );
+}
+
+// ================================ //
+//
+template< typename RangeType, typename ValueType,
+typename std::enable_if<
+    std::numeric_limits< ValueType >::is_signed &&
+    !std::numeric_limits< RangeType >::is_signed &&
+    std::numeric_limits< RangeType >::is_integer,
+    void* >::type = nullptr >
+bool                                IsInRange               ( ValueType value )
+{
+    typedef GetUnsigned< ValueType >::type UnsignedType;
+    return value >= 0 && static_cast< UnsignedType >( value ) <= std::numeric_limits< RangeType >::max();
+}
+
+// ================================ //
+//
+template< typename RangeType, typename ValueType,
+typename std::enable_if<
+    !std::numeric_limits< RangeType >::is_integer &&
+    std::numeric_limits< ValueType >::is_signed,
+    void* >::type = nullptr >
+bool                                IsInRange               ( ValueType value )
+{
+    return ( value > 0 ? value : -value ) <= std::numeric_limits< RangeType >::max();
+}
+
+// ================================ //
+//
+template< typename RangeType, typename ValueType,
+    typename std::enable_if<
+    !std::numeric_limits< RangeType >::is_integer &&
+    !std::numeric_limits< ValueType >::is_signed,
+    void* >::type = nullptr >
+    bool                                IsInRange               ( ValueType value )
+{
+    return value <= std::numeric_limits< RangeType >::max();
+}
+
+
+//// ================================ //
+//// https://stackoverflow.com/questions/18625964/checking-if-an-input-is-within-its-range-of-limits-in-c
+//template< typename RangeType, typename ValueType >
+//bool                                IsInRange               ( ValueType value )
+//{
+//    if( !std::numeric_limits< RangeType >::is_integer )
+//    {
+//        return ( value > 0 ? value : -value ) <= std::numeric_limits< RangeType >::max();
+//    }
+//
+//    if( std::numeric_limits< RangeType >::is_signed ==
+//        std::numeric_limits< ValueType >::is_signed )
+//    {
+//        return value >= std::numeric_limits< RangeType >::min() &&
+//            value <= std::numeric_limits< RangeType >::max();
+//    }
+//    else if( std::numeric_limits< RangeType >::is_signed )
+//    {
+//        return value <= std::numeric_limits< RangeType >::max();
+//    }
+//    else
+//    {
+//        return value >= 0 && value <= std::numeric_limits< RangeType >::max();
+//    }
+//}
+
+// ================================ //
+//
+template< typename SrcType, typename DstType >
+bool                                WillTruncate            ( SrcType val )
+{
+    if( !std::numeric_limits< SrcType >::is_integer )
+    {
+        // Check if rounding loses precision.
+        if( ceil( val ) == val )
+            return false;
+        return true;
+    }
+
+    return false;
 }
 
 }	// impl
 
 
+
+
+// ================================ //
+//
+template< typename SrcType, typename DstType >
+inline sw::Result< typename std::enable_if< both_arithmetic< SrcType, DstType >::value, DstType >::type, ConversionError >
+                                        Convert::FromTo     ( const SrcType& val )
+{
+    if( sw::impl::WillTruncate< SrcType, DstType >( val ) )
+        return ConversionError::FloatTruncation;
+
+    if( !sw::impl::IsInRange< DstType, SrcType >( val ) )
+        return ConversionError::OutOfRange;
+
+    return static_cast< DstType >( val );
+}
+
+// ================================ //
+//
+template< typename SrcType, typename DstType >
+inline sw::Result< typename std::enable_if< is_one_boolean< SrcType, DstType >::value, DstType >::type, ConversionError >
+                                        Convert::FromTo     ( const SrcType& val )
+{
+    return ConversionError::NotConvertible;
+}
 
 

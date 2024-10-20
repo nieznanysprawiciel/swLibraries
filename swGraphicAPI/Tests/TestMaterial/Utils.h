@@ -65,7 +65,7 @@ inline ReturnResult            Compare         ( MaterialAssetPtr mat, MaterialA
             return "Parametric buffers differ on index " + Convert::ToString( i );
     }
 
-    return Result::Success;
+    return Success::True;
 }
 
 // ================================ //

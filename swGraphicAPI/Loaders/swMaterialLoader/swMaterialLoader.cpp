@@ -9,8 +9,8 @@
 #include "swMaterialLoader.h"
 
 #include "swCommonLib/Common/Converters.h"
-#include "swCommonLib/Serialization/PropertySerialization/Serialization.h"
-#include "swCommonLib/Serialization/Deserializer.h"
+#include "swSerialization/Serialization/Serialization.h"
+#include "swSerialization/Interfaces/Deserializer.h"
 
 #include "swGraphicAPI/Assets/MaterialAsset/ShadingModelData.h"
 #include "swGraphicAPI/Assets/MaterialAsset/PhongMaterialData.h"
@@ -118,8 +118,9 @@ LoadingResult       SWMaterialLoader::Load              ( const LoadPath& path, 
 {
     IDeserializer		deser( std::make_unique< SerializationContext >() );
 
-    if( !deser.LoadFromFile( path.GetFileTranslated().String(), ParsingMode::ParseInsitu ) )
-        return LoaderException::Create( "swMaterialLoader", "Deserialization failed: " + deser.GetError() + " ].", path, TypeID::get< MaterialAsset >() );
+    auto result = deser.LoadFromFile(path.GetFileTranslated().String());
+    if( !result.IsValid() )
+        return LoaderException::Create( "swMaterialLoader", "Deserialization failed: " + result.GetErrorReason(), path, TypeID::get< MaterialAsset >() );
 
     if( deser.EnterObject( STRINGS_0_1_0::FILE_HEADER_STRING ) )
     {
@@ -218,7 +219,7 @@ Nullable< AssetPath >               SWMaterialLoader::DeserializeShader	    ( ID
 
         deser->Exit();
 
-        if( shaderFile && shaderFile )
+        if( shaderFile && shaderEntry )
             return AssetPath( shaderFile, shaderEntry );
 
         // If there's no entrypoint, default main function will be loaded.
@@ -324,7 +325,8 @@ Nullable< MaterialInitData >		SWMaterialLoader::LoadTextures		( IDeserializer* d
 
 				texIdx++;
 			} while( deser->NextElement() && texIdx < cMaxMaterialTextures );
-
+            
+            deser->Exit();
 		}
 		deser->Exit();
 	}
@@ -524,15 +526,13 @@ void                                SWMaterialLoader::WriteShadingModel         
     TypeID shadingModelType = shadingData->GetShadingModelType();
     TypeID shadingModelPtrType = shadingData->GetShadingModelPtrType();
 
-    rttr::variant shadingDataPtr( (void* )shadingData->GetData() );
-    shadingDataPtr.unsafe_convert_void( shadingModelPtrType );
-
     ser.EnterObject( STRINGS_0_1_0::SHADING_DATA_STRING );
 
     ser.SetAttribute( STRINGS_0_1_0::SHADING_MODEL_WRAPPER_TYPE_STRING, shadingData->GetTypeName() );
     ser.SetAttribute( STRINGS_0_1_0::BUFFER_SIZE_STRING, shadingData->GetSize() );
 
-    Serialization().Serialize( ser, shadingDataPtr );
+    rttr::variant shadingModel = SerializationCore::GetRealType(shadingData).get_property("Data").get_value(shadingData);
+    SerializationCore::DefaultSerialize(ser, shadingModel);
 
     ser.Exit();		// SHADING_DATA_STRING
 }

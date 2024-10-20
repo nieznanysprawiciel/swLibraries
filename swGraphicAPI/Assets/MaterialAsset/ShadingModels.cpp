@@ -17,6 +17,21 @@
 
 RTTR_REGISTRATION
 {
+    rttr::registration::class_< DirectX::XMFLOAT4 >( "DirectX::XMFLOAT4" )
+        .property( "X", &DirectX::XMFLOAT4::x )
+        .property( "Y", &DirectX::XMFLOAT4::y )
+        .property( "Z", &DirectX::XMFLOAT4::z )
+        .property( "W", &DirectX::XMFLOAT4::w );
+
+    rttr::registration::class_< DirectX::XMFLOAT3 >( "DirectX::XMFLOAT3" )
+        .property( "X", &DirectX::XMFLOAT3::x )
+        .property( "Y", &DirectX::XMFLOAT3::y )
+        .property( "Z", &DirectX::XMFLOAT3::z );
+
+    rttr::registration::class_< DirectX::XMFLOAT2 >( "DirectX::XMFLOAT2" )
+        .property( "X", &DirectX::XMFLOAT2::x )
+        .property( "Y", &DirectX::XMFLOAT2::y );
+
 	rttr::registration::class_< sw::ShadingModelBase >( "ShadingModelBase" )
 		.property_readonly( "TypeName", &sw::ShadingModelBase::GetShadingModelTypeName );
 
@@ -27,7 +42,7 @@ RTTR_REGISTRATION
 		.property( "Ambient", &sw::PhongMaterial::Ambient ) BIND_AS_PTR
 		.property( "Power", &sw::PhongMaterial::Power );
 
-	rttr::registration::class_< sw::ShadingModelData< sw::PhongMaterial > >( "ShadingModelData< PhongMaterial >" )
+	rttr::registration::class_< sw::ShadingModelData< sw::PhongMaterial > >( "ShadingModelData<PhongMaterial>" )
 		.constructor<>()( rttr::policy::ctor::as_raw_ptr )
 		.property( "Data", &sw::ShadingModelData< sw::PhongMaterial >::Data ) BIND_AS_PTR;
 }

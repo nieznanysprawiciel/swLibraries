@@ -106,7 +106,7 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.Error.CreateFromString", "[Nullab
 // Passing ExceptionPtr to constructor should create invalid Nullable.
 TEST_CASE( "Common.Helpers.Exceptions.Nullable.Error.CreateFromException", "[Nullable]" )
 {
-	Nullable< Dog* > nullableDog( std::make_shared< RuntimeException >( "Something wrong..." ));
+	Nullable< Dog* > nullableDog( std::make_shared< RuntimeException >( "Something wrong..." ) );
 
 	REQUIRE( nullableDog.IsValid() == false );
 	CHECK( nullableDog.GetErrorReason() == "Something wrong..." );
@@ -166,7 +166,7 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.Move.Exception", "[Nullable]" )
 TEST_CASE( "Common.Helpers.Exceptions.Nullable.operator&&", "[Nullable]" )
 {
     ReturnResult invalid( "Something wrong..." );
-    ReturnResult valid = Result::Success;
+    ReturnResult valid = Success::True;
 
     auto result = invalid && valid;
     CHECK( result.IsValid() == false );
@@ -177,6 +177,28 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.operator&&", "[Nullable]" )
     CHECK( result2.GetErrorReason() == "Something wrong..." );
 }
 
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.Nullable.Ok.OnSuccess", "[Nullable]" )
+{
+    ReturnResult valid = Success::True;
+
+    auto nullable = valid.Ok( 5 );
+    CHECK( nullable.IsValid() == true );
+    CHECK( nullable.Get() == 5 );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.Nullable.Ok.Invalid", "[Nullable]" )
+{
+    ReturnResult invalid( "Something wrong..." );
+
+    auto nullable = invalid.Ok( 5 );
+    CHECK( nullable.IsValid() == false );
+    CHECK( nullable.GetError() != nullptr );
+    CHECK( nullable.GetErrorReason() == "Something wrong..." );
+}
 
 
 //====================================================================================//

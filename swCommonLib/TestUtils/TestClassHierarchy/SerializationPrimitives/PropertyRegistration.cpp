@@ -7,7 +7,9 @@
 
 
 #include "StringContainer.h"
+
 #include "Arrays/ArrayContainer.h"
+#include "Arrays/ArrayPolymorphicContainer.h"
 #include "Arrays/StaticArrayContainer.h"
 #include "Arrays/StaticArrayContainer_Readonly.h"
 
@@ -23,10 +25,15 @@
 
 #include "Structs/StructWithSimpleTypesShared.h"
 
+#include "Templates/TemplateStructWrapper.h"
+
 #include "Polymorphic/BaseObject.h"
 #include "Polymorphic/SharedObject.h"
 #include "Polymorphic/PolymorphicObjectContainer.h"
 #include "Polymorphic/PolymorphicSharedPtrContainer.h"
+
+#include "Node.h"
+
 
 #include "swCommonLib/Common/RTTR.h"
 #include "swCommonLib/TestUtils/TestClassHierarchy/SerializationPrimitives/LinkLibrary.h"
@@ -108,7 +115,7 @@ RTTR_REGISTRATION
 
 	rttr::registration::class_< sw::NotRelated >( "NotRelated" )
 		.constructor<>()	( rttr::policy::ctor::as_raw_ptr )
-		.property( "SimpleStruct1", &sw::BaseObject::m_simpleStruct1 ) BIND_AS_PTR;
+		.property( "SimpleStruct1", &sw::NotRelated::m_simpleStruct1 ) BIND_AS_PTR;
 
 	rttr::registration::class_< sw::PolymorphicObjectContainer >( "PolymorphicObjectContainer" )
 		.property( "ObjectPtr", &sw::PolymorphicObjectContainer::ObjectPtr );
@@ -117,6 +124,7 @@ RTTR_REGISTRATION
 		.property( "ObjectPtr", &sw::PolymorphicSharedPtrContainer::ObjectPtr );
 
 	rttr::registration::class_< sw::StringContainer >( "StringContainer" )
+		.constructor<>()	( rttr::policy::ctor::as_raw_ptr )
 		.property( "Description", &sw::StringContainer::Description )
 		.property( "Content", &sw::StringContainer::Content );
 
@@ -125,11 +133,24 @@ RTTR_REGISTRATION
 	rttr::registration::class_< sw::ArrayContainer >( "ArrayContainer" )
 		.property( "StructsVec", &sw::ArrayContainer::StructsVec ) BIND_AS_REF;
 
+	rttr::registration::class_< sw::ArrayPolymorphicContainer >( "ArrayPolymorphicContainer" )
+		.property( "PolymorphicsVec", &sw::ArrayPolymorphicContainer::PolymorphicsVec ) BIND_AS_REF;
+
+    rttr::registration::class_< sw::ArraySharedPolymorphicContainer >( "ArraySharedPolymorphicContainer" )
+        .property( "PolymorphicsVec", &sw::ArraySharedPolymorphicContainer::PolymorphicsVec ) BIND_AS_REF;
+
 	rttr::registration::class_< sw::StaticArrayContainer >( "StaticArrayContainer" )
 		.property( "StructsVec", &sw::StaticArrayContainer::StructsVec );
 
 	rttr::registration::class_< sw::StaticArrayContainer_Readonly >( "StaticArrayContainer_Readonly" )
 		.property_readonly( "StructsVec", &sw::StaticArrayContainer_Readonly::StructsVec ) BIND_AS_REF;
+
+	rttr::registration::class_< sw::Node >( "Node" )
+		.property( "Children", &sw::Node::Children ) BIND_AS_REF
+		.property( "Generic", &sw::Node::Generic );
+
+	rttr::registration::class_< sw::TemplateWrapper<sw::StructWithSimpleTypes> >("TemplateWrapper<StructWithSimpleTypes>")
+		.property("Data", &sw::TemplateWrapper<sw::StructWithSimpleTypes>::Data) BIND_AS_REF;
 }
 
 

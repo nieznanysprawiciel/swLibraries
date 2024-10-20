@@ -4,6 +4,9 @@
     <Filter Include="Tests">
       <UniqueIdentifier>{8eb4feb2-99e1-4661-a858-e2e63f410f12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TestResources">
+      <UniqueIdentifier>{fa7b9cef-8138-4810-a5af-c9222c13d3d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestMaterial\main.cpp" />
@@ -21,5 +24,43 @@
     <ClInclude Include="..\..\..\..\Tests\TestMaterial\Utils.h">
       <Filter>Tests</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\TestResources\material\invalid-version.swmat">
+      <Filter>TestResources</Filter>
+    </None>
+    <None Include="..\..\..\..\TestResources\material\invalid-xml.swmat">
+      <Filter>TestResources</Filter>
+    </None>
+    <None Include="..\..\..\..\TestResources\material\no-gs-entry.swmat">
+      <Filter>TestResources</Filter>
+    </None>
+    <None Include="..\..\..\..\TestResources\material\no-header.swmat">
+      <Filter>TestResources</Filter>
+    </None>
+    <None Include="..\..\..\..\TestResources\material\no-MaterialAsset.swmat">
+      <Filter>TestResources</Filter>
+    </None>
+    <None Include="..\..\..\..\TestResources\material\no-ps.swmat">
+      <Filter>TestResources</Filter>
+    </None>
+    <None Include="..\..\..\..\TestResources\material\not-existing-ps.swmat">
+      <Filter>TestResources</Filter>
+    </None>
+    <None Include="..\..\..\..\TestResources\material\not-existing-texture.swmat">
+      <Filter>TestResources</Filter>
+    </None>
+    <None Include="..\..\..\..\TestResources\material\not-existing-vs.swmat">
+      <Filter>TestResources</Filter>
+    </None>
+    <None Include="..\..\..\..\TestResources\material\no-textures-entry.swmat">
+      <Filter>TestResources</Filter>
+    </None>
+    <None Include="..\..\..\..\TestResources\material\no-vs.swmat">
+      <Filter>TestResources</Filter>
+    </None>
+    <None Include="..\..\..\..\TestResources\material\single-texture-entry.swmat">
+      <Filter>TestResources</Filter>
+    </None>
   </ItemGroup>
 </Project>

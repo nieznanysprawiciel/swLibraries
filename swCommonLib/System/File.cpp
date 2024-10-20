@@ -14,12 +14,14 @@
 
 #include <filesystem>
 
+namespace fs = std::filesystem;
+
 
 // ================================ //
 //
-std::filesystem::path		GetStdPath( const filesystem::Path& path )
+fs::path		        GetStdPath( const filesystem::Path& path )
 {
-	return std::filesystem::path( path.WString() );
+	return fs::path( path.WString() );
 }
 
 
@@ -44,20 +46,20 @@ bool		filesystem::File::Exists	() const
 /**@brief */
 Size		filesystem::File::FileSize	() const
 {
-	return std::filesystem::file_size( GetStdPath( m_filePath ) );
+	return fs::file_size( GetStdPath( m_filePath ) );
 }
 
 /**@brief */
 bool		filesystem::File::Remove	()
 {
-	return std::filesystem::remove( GetStdPath( m_filePath ) );
+	return fs::remove( GetStdPath( m_filePath ) );
 }
 
 /**@brief */
 bool		filesystem::File::Move		( const Path& newPath )
 {
 	std::error_code error;
-	std::filesystem::rename( GetStdPath( m_filePath ), GetStdPath( newPath ), error );
+	fs::rename( GetStdPath( m_filePath ), GetStdPath( newPath ), error );
 	
 	if( error )
 		return false;
@@ -67,7 +69,7 @@ bool		filesystem::File::Move		( const Path& newPath )
 /**@brief */
 bool		filesystem::File::Copy		( const Path& newPath )
 {
-	return std::filesystem::copy_file( GetStdPath( m_filePath ), GetStdPath( newPath ) );
+	return fs::copy_file( GetStdPath( m_filePath ), GetStdPath( newPath ) );
 }
 
 // ================================ //

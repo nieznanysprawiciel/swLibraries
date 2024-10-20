@@ -43,7 +43,7 @@ SwapChain*			MockInitializer::CreateSwapChain	( const SwapChainInitData& swapCha
 /**@brief */
 ReturnResult		MockInitializer::InitAPI			( const GraphicAPIInitData& initData )
 {
-	return Result::Success;
+	return Success::True;
 }
 
 /**@brief */
@@ -59,7 +59,7 @@ void*				MockInitializer::GetRenderTargetHandle	( RenderTarget* renderTarget )
 /**@brief Creates only device and device context.*/
 ReturnResult		MockInitializer::InitDevices		( const GraphicAPIInitData& initData )
 {
-	return Result::Success;
+	return Success::True;
 }
 
 }	// sw

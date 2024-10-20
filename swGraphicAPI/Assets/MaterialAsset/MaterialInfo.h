@@ -29,6 +29,7 @@ struct ParametricBufferInfo
     //
 	ParametricBufferInfo()
 		: BufferType( rttr::type::get_by_name( "" ) )
+        , BufferSize( 0 )
 	{}
 
 	std::string		GetBufferType		() const { return BufferType.get_name().to_string(); }

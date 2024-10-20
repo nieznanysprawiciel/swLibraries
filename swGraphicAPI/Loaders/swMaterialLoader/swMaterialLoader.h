@@ -11,6 +11,9 @@
 #include "swCommonLib/Common/Version.h"
 #include "swCommonLib/System/Path.h"
 
+#include "swSerialization/Interfaces/Serializer.h"
+#include "swSerialization/Interfaces/Deserializer.h"
+
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoader.h"
 

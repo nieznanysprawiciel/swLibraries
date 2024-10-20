@@ -66,14 +66,14 @@ ReturnResult		PathsManager::RegisterAlias			( const std::string& alias, const fi
 		auto iter = m_aliases.find( alias );
 
 		if( iter != m_aliases.end() )
-			return Result::Error;
+			return Success::False;
 
 		m_aliases[ alias ] = Translate( path );
 
-		return Result::Success;
+		return Success::True;
 	}
 
-	return Result::Error;
+	return Success::False;
 }
 
 // ================================ //
@@ -97,14 +97,14 @@ ReturnResult		PathsManager::OverrideAlias			( const std::string& alias, const fi
 		auto iter = m_aliases.find( alias );
 
 		if( iter == m_aliases.end() )
-			return Result::Error;
+			return Success::False;
 
 		m_aliases[ alias ] = Translate( path );
 
-		return Result::Success;
+		return Success::True;
 	}
 
-	return Result::Error;
+	return Success::False;
 }
 
 

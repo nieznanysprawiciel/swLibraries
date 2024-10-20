@@ -28,6 +28,9 @@
     <Filter Include="CatchUtils">
       <UniqueIdentifier>{c529cbd6-ab66-490a-8c6a-31e93f4c132a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SerializationPrimitives\Templates">
+      <UniqueIdentifier>{5c192f01-3f18-4952-9db5-42eaea8cf7aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Animal.h">
@@ -102,8 +105,17 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Polymorphic\PolymorphicSharedPtrContainer.h">
       <Filter>SerializationPrimitives\Polymorphic</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Node.h">
+      <Filter>SerializationPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\ArrayPolymorphicContainer.h">
+      <Filter>SerializationPrimitives\Arrays</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\TestUtils\CatchUtils\ExtendedMacros.h">
       <Filter>CatchUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Templates\TemplateStructWrapper.h">
+      <Filter>SerializationPrimitives\Templates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

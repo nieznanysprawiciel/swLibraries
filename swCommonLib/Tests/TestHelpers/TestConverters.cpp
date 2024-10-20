@@ -207,3 +207,30 @@ TEST_CASE( "Common.Helpers.Converters.ToString.Type", "[Converters]" )
     auto str = Convert::ToString< TriStateEnum >();
     CHECK( str == "TriStateEnum" );
 }
+
+//====================================================================================//
+//			Test cast between arithmetic types.
+//====================================================================================//
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Converters.FromTo.Arithmetic", "[Converters]" )
+{
+    CHECK( Convert::FromTo< int32, int32 >( -1 ).IsValid() == true );
+    CHECK( Convert::FromTo< int32, uint32 >( -1 ).IsValid() == false );
+    CHECK( Convert::FromTo< int32, int16 >( 128333 ).IsValid() == false );
+    CHECK( Convert::FromTo< int32, int16 >( -128333 ).IsValid() == false );
+    CHECK( Convert::FromTo< int32, int16 >( -60000 ).IsValid() == false );
+    CHECK( Convert::FromTo< uint16, int16 >( 60000 ).IsValid() == false );
+    CHECK( Convert::FromTo< int64, int32 >( 2547483647 ).IsValid() == false );
+    CHECK( Convert::FromTo< int64, int64 >( 2547483647 ).IsValid() == true );
+
+    CHECK( Convert::FromTo< float, int64 >( 3.0f ).IsValid() == true );
+    CHECK( Convert::FromTo< float, int64 >( 3.2f ).IsValid() == false );
+
+    CHECK( Convert::FromTo< int64, bool >( 60000 ).IsValid() == false );
+    CHECK( Convert::FromTo< bool, int64 >( true ).IsValid() == false );
+    CHECK( Convert::FromTo< bool, uint32 >( true ).IsValid() == false );
+    CHECK( Convert::FromTo< bool, float >( true ).IsValid() == false );
+}
+

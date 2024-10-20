@@ -32,7 +32,6 @@ namespace DirectX {
     GENERATE_RELATIONAL_OPERATORS(DirectX::XMFLOAT4, x, y, z, w);
 }
 
-
 // ================================ //
 //
 filesystem::Path        Translate       ( ResourceManager* rm, filesystem::Path path )

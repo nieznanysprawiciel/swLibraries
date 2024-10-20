@@ -1,0 +1,17 @@
+<Node>
+    <Children ArraySize="1">
+        <Node>
+            <Children ArraySize="0"/>
+            <Generic>
+                <BaseObject>
+                    <SimpleStruct1 DoubleField="1.0000000000000000000" FloatField="2.0000000000000000000" UIntField64="4" IntField64="5" UIntField32="6" IntField32="-7" UIntField16="8" IntField16="9" UIntField8="10" IntField8="11" CharField="n" BoolField="false"/>
+                </BaseObject>
+            </Generic>
+        </Node>
+    </Children>
+    <Generic>
+        <BaseObject>
+            <SimpleStruct1 DoubleField="1.0000000000000000000" FloatField="2.0000000000000000000" UIntField64="4" IntField64="5" UIntField32="6" IntField32="-7" UIntField16="8" IntField16="9" UIntField8="10" IntField8="11" CharField="n" BoolField="false"/>
+        </BaseObject>
+    </Generic>
+</Node>    

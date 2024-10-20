@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  
+  <PropertyGroup Label="UserMacros">
+    <SubBuild>$(Configuration)-$(PlatformShortName)-$(PlatformToolset)</SubBuild>
+    
+    <RootDir>$(MSBuildThisFileDirectory)..\..\</RootDir>
+    <ProjectsDir>$(RootDir)Projects\</ProjectsDir>
+    <ReleaseDir>$(RootDir)_Target\</ReleaseDir>
+    
+    <LibDir>$(ReleaseDir)$(SubBuild)\LibDir\</LibDir>
+    <BuildDir>$(ReleaseDir)$(SubBuild)\BinDir\</BuildDir>
+    <IntermediateDir>$(ReleaseDir)$(SubBuild)\Intermediate\</IntermediateDir>
+    <TestsBinariesDir>$(ReleaseDir)$(SubBuild)\TestsDir\</TestsBinariesDir>
+    <WorkDir>$(ReleaseDir)$(SubBuild)\WorkDir\</WorkDir>
+
+    <SourceInclude>$(RootDir)..\</SourceInclude>
+    <SourceDir>$(RootDir)</SourceDir>
+    <TestsDir>$(RootDir)Tests\</TestsDir>
+    <TestResourcesDir>$(RootDir)TestResources\</TestResourcesDir>
+    <ExternalDir>$(RootDir)External\</ExternalDir>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <_PropertySheetDisplayName>Paths</_PropertySheetDisplayName>
+  </PropertyGroup>
+  
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SourceInclude);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+	    <PreprocessorDefinitions>FMT_HEADER_ONLY;RTTR_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+</Project>

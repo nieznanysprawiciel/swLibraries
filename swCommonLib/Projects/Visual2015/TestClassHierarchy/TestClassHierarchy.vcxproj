@@ -19,11 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonBase\CommonBase.vcxproj">
+      <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Reflection\Reflection.vcxproj">
       <Project>{59fa8028-2346-4246-854f-14dcfab6ab56}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Serialization\Serialization.vcxproj">
-      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -35,11 +35,13 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Mammals\Mammal.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Zoo.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\ArrayContainer.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\ArrayPolymorphicContainer.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\StaticArrayContainer.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Arrays\StaticArrayContainer_Readonly.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Enums\TriStateEnum.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Enums\TriStateObject.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\LinkLibrary.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Node.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Polymorphic\BaseObject.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Polymorphic\PolymorphicObjectContainer.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Polymorphic\PolymorphicSharedPtrContainer.h" />
@@ -52,6 +54,7 @@
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructSharedPtrContainer.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructWithSimpleTypes.h" />
     <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Structs\StructWithSimpleTypesShared.h" />
+    <ClInclude Include="..\..\..\TestUtils\TestClassHierarchy\SerializationPrimitives\Templates\TemplateStructWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\TestUtils\TestClassHierarchy\Animals\Registration.cpp" />

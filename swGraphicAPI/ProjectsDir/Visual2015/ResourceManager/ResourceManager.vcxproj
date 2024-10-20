@@ -137,9 +137,6 @@
     <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
       <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\Serialization\Serialization.vcxproj">
-      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9F71F0DA-1D72-4E96-93B7-5AC2C9CB6EDE}</ProjectGuid>

@@ -5,7 +5,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "swCommonLib/Serialization/PropertySerialization/EngineObject.h"
+#include "swCommonLib/Common/Object.h"
 #include "swCommonLib/Common/Buffers/BufferRaw.h"
 #include "swCommonLib/Common/Buffers/BufferRange.h"
 
@@ -58,9 +58,9 @@ Check in @ref Drawing class, what should be preferred vertex layout. If you need
 subclass Drawing class.
 
 @ingroup Geometries*/
-class Geometry : public EngineObject
+class Geometry : public Object
 {
-	RTTR_ENABLE( EngineObject );
+	RTTR_ENABLE( Object );
 	RTTR_REGISTRATION_FRIEND
 
 	friend class RenderingSystem;
