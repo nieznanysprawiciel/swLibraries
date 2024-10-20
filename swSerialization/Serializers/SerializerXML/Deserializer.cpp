@@ -34,9 +34,6 @@ struct DeserializerImpl
 	DeserializerImpl()  {}
 };
 
-sw::FilePosition					ComputeXmlPosition(const char* fileBegin, const char* nodeFirstChar);
-
-
 // ================================ //
 //
 IDeserializer::IDeserializer()
@@ -564,35 +561,6 @@ funkcje @ref LoadFromString lub @ref LoadFromFile.*/
 std::string		IDeserializer::GetError			() const
 {
 	return impl->errorString;
-}
-
-
-// ================================ //
-//
-sw::FilePosition					ComputeXmlPosition     ( const char* fileBegin, const char* nodeFirstChar )
-{
-    sw::FilePosition pos;
-    pos.Line = 1;
-    pos.CharPosition = 0;
-
-    const char* xmlPosition = fileBegin;
-    const char* processedLineBegin = xmlPosition;
-
-    while( xmlPosition < nodeFirstChar )
-    {
-        if( *xmlPosition == '\n' )
-        {
-            pos.Line++;
-            processedLineBegin = xmlPosition + 1;
-        }
-
-        xmlPosition++;
-    }
-
-    // Note: numerate position from 1.
-    pos.CharPosition = nodeFirstChar - processedLineBegin + 1;
-
-    return pos;
 }
 
 // ================================ //

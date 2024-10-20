@@ -7,6 +7,7 @@
 
 #include "swSerialization/External/RapidXML/rapidxml.hpp"
 #include "swSerialization/Interfaces/Serializer.h"
+#include "swSerialization/Interfaces/FilePosition.h"
 
 #include <string>
 
@@ -69,6 +70,34 @@ inline char* AllocateEscaped(rapidxml::xml_document<>& root, const std::string& 
 	{
 		return root.allocate_string(name.c_str());
 	}
+}
+
+// ================================ //
+//
+inline sw::FilePosition ComputeXmlPosition(const char* fileBegin, const char* nodeFirstChar)
+{
+    sw::FilePosition pos;
+    pos.Line = 1;
+    pos.CharPosition = 0;
+
+    const char* xmlPosition = fileBegin;
+    const char* processedLineBegin = xmlPosition;
+
+    while (xmlPosition < nodeFirstChar)
+    {
+        if (*xmlPosition == '\n')
+        {
+            pos.Line++;
+            processedLineBegin = xmlPosition + 1;
+        }
+
+        xmlPosition++;
+    }
+
+    // Note: numerate position from 1.
+    pos.CharPosition = nodeFirstChar - processedLineBegin + 1;
+
+    return pos;
 }
 
 } // namespace sw
