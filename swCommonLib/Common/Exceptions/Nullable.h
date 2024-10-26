@@ -83,7 +83,7 @@ public:
 
     using                   Parent::ResultBase;
 
-                            Nullable            (const std::string& error);
+                            Nullable            ( const std::string& error );
     template< typename ExceptionType >
                             Nullable            ( std::shared_ptr< ExceptionType >&& error );
 
@@ -201,7 +201,7 @@ inline Nullable< ContentType >     Nullable< ContentType >::FromError       ( co
 template< typename ContentType >
 inline Nullable< ContentType >     Nullable< ContentType >::FromError       ( const std::string& reason ) 
 { 
-    return FromError( std::make_shared< std::runtime_error >( reason ) ); 
+    return FromError( std::make_shared< RuntimeException >( reason ) );
 }
 
 // ================================ //

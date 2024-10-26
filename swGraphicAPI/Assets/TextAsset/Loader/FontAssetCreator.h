@@ -7,7 +7,7 @@
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreator.h"
 
-#include "FontAsset.h"
+#include "swGraphicAPI/Assets/TextAsset/FontAsset.h"
 
 
 namespace sw

@@ -7,7 +7,7 @@
 
 #include "swGraphicAPI/Resources/Textures/Texture.h"
 
-#include "swGraphicAPI/Assets/TextAsset/FontAssetInitData.h"
+#include "swGraphicAPI/Assets/TextAsset/Loader/FontAssetInitData.h"
 #include "swGraphicAPI/Assets/TextAsset/Glyph.h"
 
 

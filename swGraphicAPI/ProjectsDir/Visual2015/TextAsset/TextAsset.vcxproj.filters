@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Assets\$(ProjectName)\stdafx.cpp" />
+    <ClCompile Include="..\..\..\Assets\TextAsset\FontAsset.cpp" />
+    <ClCompile Include="..\..\..\Assets\TextAsset\Text.cpp" />
+    <ClCompile Include="..\..\..\Assets\TextAsset\Loader\FontAssetCreator.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Assets\TextAsset\Loader\FontAssetInitData.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Assets\TextAsset\Loader\FontLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Assets\TextAsset\FontAsset.h" />
+    <ClInclude Include="..\..\..\Assets\TextAsset\Glyph.h" />
+    <ClInclude Include="..\..\..\Assets\TextAsset\stdafx.h" />
+    <ClInclude Include="..\..\..\Assets\TextAsset\Text.h" />
+    <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FontAssetCreator.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FontAssetInitData.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FontLoader.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FreeType.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Loader">
+      <UniqueIdentifier>{b1f0b646-c550-479e-9378-fe9824719d30}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

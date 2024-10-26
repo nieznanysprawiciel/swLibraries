@@ -33,5 +33,14 @@
       <AdditionalLibraryDirectories>$(FreeTypeLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(FreeTypeFileName).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+
+    <Lib>
+      <AdditionalLibraryDirectories>$(FreeTypeLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(FreeTypeFileName).lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
 </Project>

@@ -164,6 +164,60 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextAsset", "..\swGraphicAP
 		{5476CBF5-F7F9-488F-B55C-B6331B82C54A} = {5476CBF5-F7F9-488F-B55C-B6331B82C54A}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestResources", "TestResources", "{E1A698D8-011C-4359-A108-C3B32B54A2C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "material", "material", "{996F7639-5642-45DC-876A-21C7993F1349}"
+	ProjectSection(SolutionItems) = preProject
+		..\swGraphicAPI\TestResources\material\invalid-version.swmat = ..\swGraphicAPI\TestResources\material\invalid-version.swmat
+		..\swGraphicAPI\TestResources\material\invalid-xml.swmat = ..\swGraphicAPI\TestResources\material\invalid-xml.swmat
+		..\swGraphicAPI\TestResources\material\no-gs-entry.swmat = ..\swGraphicAPI\TestResources\material\no-gs-entry.swmat
+		..\swGraphicAPI\TestResources\material\no-header.swmat = ..\swGraphicAPI\TestResources\material\no-header.swmat
+		..\swGraphicAPI\TestResources\material\no-MaterialAsset.swmat = ..\swGraphicAPI\TestResources\material\no-MaterialAsset.swmat
+		..\swGraphicAPI\TestResources\material\no-ps.swmat = ..\swGraphicAPI\TestResources\material\no-ps.swmat
+		..\swGraphicAPI\TestResources\material\no-textures-entry.swmat = ..\swGraphicAPI\TestResources\material\no-textures-entry.swmat
+		..\swGraphicAPI\TestResources\material\no-vs.swmat = ..\swGraphicAPI\TestResources\material\no-vs.swmat
+		..\swGraphicAPI\TestResources\material\not-existing-ps.swmat = ..\swGraphicAPI\TestResources\material\not-existing-ps.swmat
+		..\swGraphicAPI\TestResources\material\not-existing-texture.swmat = ..\swGraphicAPI\TestResources\material\not-existing-texture.swmat
+		..\swGraphicAPI\TestResources\material\not-existing-vs.swmat = ..\swGraphicAPI\TestResources\material\not-existing-vs.swmat
+		..\swGraphicAPI\TestResources\material\single-texture-entry.swmat = ..\swGraphicAPI\TestResources\material\single-texture-entry.swmat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mock", "mock", "{E4FB35C1-ED4C-4DE8-A92E-AE816F20AF08}"
+	ProjectSection(SolutionItems) = preProject
+		..\swGraphicAPI\TestResources\mock\example.mock = ..\swGraphicAPI\TestResources\mock\example.mock
+		..\swGraphicAPI\TestResources\mock\example1.mock = ..\swGraphicAPI\TestResources\mock\example1.mock
+		..\swGraphicAPI\TestResources\mock\example2.mock = ..\swGraphicAPI\TestResources\mock\example2.mock
+		..\swGraphicAPI\TestResources\mock\example3.mock = ..\swGraphicAPI\TestResources\mock\example3.mock
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "texture", "texture", "{3B49D614-8687-492C-BA8B-622D833E1E99}"
+	ProjectSection(SolutionItems) = preProject
+		..\swGraphicAPI\TestResources\texture\big-lightweight.png = ..\swGraphicAPI\TestResources\texture\big-lightweight.png
+		..\swGraphicAPI\TestResources\texture\random-pixels.bmp = ..\swGraphicAPI\TestResources\texture\random-pixels.bmp
+		..\swGraphicAPI\TestResources\texture\random-pixels.jpg = ..\swGraphicAPI\TestResources\texture\random-pixels.jpg
+		..\swGraphicAPI\TestResources\texture\random-pixels.png = ..\swGraphicAPI\TestResources\texture\random-pixels.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shaders", "shaders", "{F1C45F0A-5461-43D0-B73C-AF7994CBBAED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hlsl", "hlsl", "{9C1F5085-2B56-48A9-91CA-93D85CFBCCB6}"
+	ProjectSection(SolutionItems) = preProject
+		..\swGraphicAPI\TestResources\shaders\hlsl\MinimalShader.csh = ..\swGraphicAPI\TestResources\shaders\hlsl\MinimalShader.csh
+		..\swGraphicAPI\TestResources\shaders\hlsl\MinimalShader.psh = ..\swGraphicAPI\TestResources\shaders\hlsl\MinimalShader.psh
+		..\swGraphicAPI\TestResources\shaders\hlsl\MinimalShader.vsh = ..\swGraphicAPI\TestResources\shaders\hlsl\MinimalShader.vsh
+		..\swGraphicAPI\TestResources\shaders\hlsl\NotCompiing.psh = ..\swGraphicAPI\TestResources\shaders\hlsl\NotCompiing.psh
+		..\swGraphicAPI\TestResources\shaders\hlsl\NotCompiling.csh = ..\swGraphicAPI\TestResources\shaders\hlsl\NotCompiling.csh
+		..\swGraphicAPI\TestResources\shaders\hlsl\NotCompiling.vsh = ..\swGraphicAPI\TestResources\shaders\hlsl\NotCompiling.vsh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fonts", "fonts", "{2CDA8A31-2F49-43B3-82CD-271BE83EC203}"
+	ProjectSection(SolutionItems) = preProject
+		..\swGraphicAPI\TestResources\fonts\ELICEN.otf = ..\swGraphicAPI\TestResources\fonts\ELICEN.otf
+		..\swGraphicAPI\TestResources\fonts\ELICEN.ttf = ..\swGraphicAPI\TestResources\fonts\ELICEN.ttf
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestText", "..\swGraphicAPI\ProjectsDir\Visual2015\Tests\TestText\TestText.vcxproj", "{1F535690-1AB1-47EA-961B-183C4DCF46D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -628,6 +682,14 @@ Global
 		{1D15DC68-41B7-4C76-8250-411582E5ACBF}.Release|x64.Build.0 = Release|x64
 		{1D15DC68-41B7-4C76-8250-411582E5ACBF}.Release|x86.ActiveCfg = Release|Win32
 		{1D15DC68-41B7-4C76-8250-411582E5ACBF}.Release|x86.Build.0 = Release|Win32
+		{1F535690-1AB1-47EA-961B-183C4DCF46D3}.Debug|x64.ActiveCfg = Debug|x64
+		{1F535690-1AB1-47EA-961B-183C4DCF46D3}.Debug|x64.Build.0 = Debug|x64
+		{1F535690-1AB1-47EA-961B-183C4DCF46D3}.Debug|x86.ActiveCfg = Debug|Win32
+		{1F535690-1AB1-47EA-961B-183C4DCF46D3}.Debug|x86.Build.0 = Debug|Win32
+		{1F535690-1AB1-47EA-961B-183C4DCF46D3}.Release|x64.ActiveCfg = Release|x64
+		{1F535690-1AB1-47EA-961B-183C4DCF46D3}.Release|x64.Build.0 = Release|x64
+		{1F535690-1AB1-47EA-961B-183C4DCF46D3}.Release|x86.ActiveCfg = Release|Win32
+		{1F535690-1AB1-47EA-961B-183C4DCF46D3}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -711,6 +773,14 @@ Global
 		{36978EBD-9F8D-4A5D-98B7-4664EF50F807} = {DE666E4F-976E-47D7-8F9E-607F801EDD0C}
 		{279D5FBE-D687-4D72-8A39-122B6EF72A69} = {33EAE5FD-B685-4FC7-B96D-B3EA53A4C985}
 		{1D15DC68-41B7-4C76-8250-411582E5ACBF} = {2D8B624F-F50D-4177-9433-DFCC6460E402}
+		{E1A698D8-011C-4359-A108-C3B32B54A2C0} = {9CC57B89-7D1B-4C37-96E9-53F6D7329EA8}
+		{996F7639-5642-45DC-876A-21C7993F1349} = {E1A698D8-011C-4359-A108-C3B32B54A2C0}
+		{E4FB35C1-ED4C-4DE8-A92E-AE816F20AF08} = {E1A698D8-011C-4359-A108-C3B32B54A2C0}
+		{3B49D614-8687-492C-BA8B-622D833E1E99} = {E1A698D8-011C-4359-A108-C3B32B54A2C0}
+		{F1C45F0A-5461-43D0-B73C-AF7994CBBAED} = {E1A698D8-011C-4359-A108-C3B32B54A2C0}
+		{9C1F5085-2B56-48A9-91CA-93D85CFBCCB6} = {F1C45F0A-5461-43D0-B73C-AF7994CBBAED}
+		{2CDA8A31-2F49-43B3-82CD-271BE83EC203} = {E1A698D8-011C-4359-A108-C3B32B54A2C0}
+		{1F535690-1AB1-47EA-961B-183C4DCF46D3} = {AD4FFF37-D748-47D4-AF31-78C2C7D87D42}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A341301D-630D-4C6A-B843-1A50FC78565A}

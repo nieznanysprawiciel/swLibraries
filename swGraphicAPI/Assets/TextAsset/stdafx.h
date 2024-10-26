@@ -6,7 +6,7 @@
 
 
 /// @note You can disable all headers in precompiled header with one macro.
-/// All cpp files should be precompiled header independet and explicitly include needed headers.
+/// All cpp files should be precompiled header independent and explicitly include needed headers.
 #ifndef DISABLE_PRECOMPILED_HEADER
 
 
@@ -20,18 +20,14 @@
 
 #include "swCommonLib/Common/RTTR.h"
 
-#include "swGraphicAPI/Resources/MeshResources.h"
-#include "swGraphicAPI/Resources/PipelineStates/BlendingState.h"
-#include "swGraphicAPI/Resources/PipelineStates/DepthStencilState.h"
-#include "swGraphicAPI/Resources/PipelineStates/RasterizerState.h"
 #include "swGraphicAPI/Rendering/GraphicAPIConstants.h"
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
-#include "swGraphicAPI/Resources/ResourcesFactory.h"
-#include "swGraphicAPI/Resources/SwapChain.h"
 
 #include "swCommonLib/System/File.h"
 #include "swCommonLib/Common/Buffers/BufferTyped.h"
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 
 #undef min
