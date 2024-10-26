@@ -28,6 +28,9 @@
     <Filter Include="Geometric\Processors\Transform">
       <UniqueIdentifier>{e0aa2870-9ed2-4cf6-bcc6-899b942a78d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Geometric\Types\Math">
+      <UniqueIdentifier>{b2d4b061-0840-4231-8c30-e20b29100d42}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\GeometricsCore\stdafx.cpp">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\GeometricsCore\Processors\Transform\Translate2D.h">
       <Filter>Geometric\Processors\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\GeometricsCore\Types\Math\Types.h">
+      <Filter>Geometric\Types\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -33,6 +33,7 @@
     <ClInclude Include="..\..\..\GeometricsCore\Processors\Transform\Translate2D.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\Accessors\DefaultAccessors.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\IndexTypes.h" />
+    <ClInclude Include="..\..\..\GeometricsCore\Types\Math\Types.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\GeneratorTraits.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\ProcessorTraits.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\VertexLayouts\VertexShape2D.h" />
@@ -54,7 +55,6 @@
     <RootNamespace>Geometric</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -81,7 +81,6 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
@@ -100,21 +99,17 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="..\Paths.props" />
   <Import Project="..\LibraryConfig.props" />
   <Import Project="..\LinkReflection.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>swGeometrics/GeometricsCore/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemDefinitionGroup>
-
-
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
