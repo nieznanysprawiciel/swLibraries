@@ -5,6 +5,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
+#include "swCommonLib/Common/RTTR.h"
 #include "swGraphicAPI/Resources/Textures/Texture.h"
 
 #include "swGraphicAPI/Assets/TextAsset/Loader/FontAssetInitData.h"
@@ -34,15 +35,14 @@ class FontAsset : public Resource
     RTTR_REGISTRATION_FRIEND;
 protected:
 
-    TexturePtr											m_fontAtlas;
-	
-	uint32												m_fontSize;
+    TexturePtr			m_fontAtlas;
+	uint32				m_fontSize;
 
 	/**Stores information how to render and layout each character*/
-	std::map< wchar_t, Glyph >							m_glyphs;
+	std::map< wchar_t, Glyph >			m_glyphs;
 
 	/**Each character pair can be shifted indiidually to give text better look in terms of spacing. */
-	std::map< std::pair< wchar_t, wchar_t >, float >	m_kerning;
+	std::map< KerningPair, float >		m_kerning;
 
 
 public:

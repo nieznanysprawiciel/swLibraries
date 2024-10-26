@@ -76,7 +76,7 @@
   <Import Project="..\..\Paths.props" />
   <Import Project="..\..\TestConfig.props" />
   <Import Project="..\..\LinkReflection.props" />
-  <!-- <Import Project="..\..\ImportFreeType.props" /> -->
+
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">

@@ -25,6 +25,21 @@ struct Glyph
     uint32          TextureY;   // y pixel coord of the bitmap's bottom-left corner
 
     Size            Padding;
+
+public:
+    explicit Glyph()
+        : CharCode( 0 )
+        , GlyphIdx( 0 )
+        , Width( 0 )
+        , Height( 0 )
+        , AdvanceX( 0 )
+        , AdvanceY( 0 )
+        , BearingX( 0 )
+        , BearingY( 0 )
+        , TextureX( 0 )
+        , TextureY( 0 )
+        , Padding( 0 )
+    {}
 };
 
 } // sw

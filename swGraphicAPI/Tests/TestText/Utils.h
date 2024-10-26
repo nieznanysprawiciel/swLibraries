@@ -24,7 +24,7 @@ inline std::unique_ptr< ResourceManager >			CreateResourceManagerWithFonts	()
     rm->RegisterLoader( std::make_shared< FreeTypeLoader >() );
 
     auto pm = rm->GetPathsManager();
-    pm->RegisterAlias( "$(FontsAssets)", "$(TestAssets)/fonts/" );
+    pm->RegisterAlias( "$(FontAssets)", "$(TestAssets)/fonts/" );
 
     return std::move( rm );
 }

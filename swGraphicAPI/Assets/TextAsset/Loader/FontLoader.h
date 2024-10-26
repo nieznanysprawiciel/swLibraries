@@ -24,14 +24,11 @@ class FreeTypeLoader : public IAssetLoader
 protected:
 public:
     explicit						FreeTypeLoader    () = default;
-    virtual                         ~FreeTypeLoader   ();
+    virtual                         ~FreeTypeLoader   () = default;
 
     virtual bool					CanLoad				( const AssetPath& filePath, TypeID resourceType )															override;
     virtual LoadingResult			Load				( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI context )		override;
     virtual ReturnResult			Prefetch			( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )		override;
-
-public:
-
 };
 
 
