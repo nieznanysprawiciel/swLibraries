@@ -63,6 +63,7 @@ bool                FreeTypeLoader::CanLoad( const AssetPath& filePath, TypeID r
     std::string allowedExtensions[] =
     {
         ".ttf",
+        ".otf",
     };
 
     TypeID allowedTypes[] =
