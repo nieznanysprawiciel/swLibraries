@@ -31,4 +31,8 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Loader.Basic", "[GraphicAPI][FontLoader][Fre
 
     auto font = api.Load< FontAsset >( "$(FontAssets)/ELICEN.ttf", &init );
     REQUIRE( font.IsValid() );
+
+    auto numChars = FontLoaderData::DefaultCharacterSet().length();
+    CHECK( font.Get()->GetGlyphs().size() == numChars );
+    CHECK( font.Get()->GetKerning().size() == numChars * numChars );
 }

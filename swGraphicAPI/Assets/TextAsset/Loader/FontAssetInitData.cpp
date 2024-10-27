@@ -19,7 +19,7 @@ namespace sw
 
 std::wstring            FontLoaderData::DefaultCharacterSet()
 {
-    return std::wstring( L"1234568790.~,/?“‘:;[]{}\\|`!@#$%^&*()-_+=<>–°\"'abcdefghijklmnopqrstuvxyz¹êæŸ¿³œóñwABCDEFGHIJKLMNOPQRSTUVXYZ¥ÊÆ¯£ŒÓÑWÄÖÜAAOAŠAÇÉEEËÎIÔOUUÜY©" );
+    return std::wstring( L"1234568790.~,/?“‘:;[]{}\\|`!@#$%^&*()-_+=<>–°\"'abcdefghijklmnopqrstuvxyz¹êæŸ¿³œóñwABCDEFGHIJKLMNOPQRSTUVXYZ¥ÊÆ¯£ŒÓÑWÄÖÜŠÇÉËÎÔ©" );
 }
 
 TypeID                  FontLoaderData::GetAssetType    () const { return TypeID::get< FontAsset >(); }

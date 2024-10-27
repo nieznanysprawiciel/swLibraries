@@ -51,8 +51,15 @@ public:
     std::string			FontName		() const { return GetAssetPath().GetFile().GetFileName(); }
     uint32              FontSize		() const { return m_fontSize; }
 
+    const Glyph&		GetGlyph		( wchar_t character ) const;
+    float				GetKerning		( wchar_t first, wchar_t second ) const;
+
+	const std::map< wchar_t, Glyph >&		GetGlyphs	() const;
+    const std::map< KerningPair, float >&	GetKerning	() const;
+
+    const TexturePtr&						GetFontAtlas() const { return m_fontAtlas; }
 private:
-	~FontAsset();
+	~FontAsset() = default;
 };
 
 DEFINE_RESOURCE_PTR_TYPE( FontAsset );
