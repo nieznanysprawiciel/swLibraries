@@ -20,9 +20,11 @@
 
 #include <algorithm>
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_FAILURE_USERMSG
 #include "SOIL/stb_image.h"
+#include "SOIL/stb_image_write.h"
 
 
 namespace sw
@@ -168,6 +170,26 @@ LoadingResult									SoilTextureLoader::Load					( const LoadPath& filePath, Ty
 ReturnResult									SoilTextureLoader::Prefetch				( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	return Success::False;
+}
+
+// ================================ //
+//
+ReturnResult									SoilTextureLoader::Save					( const filesystem::Path& filePath, const BufferRange buffer, uint32 width, uint32 height )
+{
+    Size expectedSize = width * height * 4;
+    if( buffer.DataSize != expectedSize )
+        return ReturnResult( fmt::format( "Buffer size: {} doesn't match expected image width = {}, height = {}", expectedSize, width, height ) );
+
+	int save_result = stbi_write_png
+	(
+		filePath.String().c_str(),
+		width, height, 4,
+		buffer.DataPtr, 0
+	);
+
+    if( save_result != 0 )
+		return ReturnResult( fmt::format( "Failed to save texture to file: {}", filePath.String() ) );
+	return Success::True;
 }
 
 

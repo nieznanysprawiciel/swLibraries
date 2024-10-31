@@ -34,6 +34,7 @@ public:
 	virtual LoadingResult			Load				( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )		override;
 	virtual ReturnResult			Prefetch			( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )		override;
 
+	static ReturnResult				Save				( const filesystem::Path& filePath, const BufferRange data, uint32 width, uint32 height );
 
 public:
 

@@ -53,6 +53,9 @@
     <ProjectReference Include="..\ResourceManager\ResourceManager.vcxproj">
       <Project>{9f71f0da-1d72-4e96-93b7-5ac2c9cb6ede}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\SoilTextureLoader\SoilTextureLoader.vcxproj">
+      <Project>{7275758b-1abc-4b28-bb42-cbdbcd2584d1}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

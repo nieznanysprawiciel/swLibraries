@@ -72,6 +72,7 @@ public:
 
 	void					Normalize		();
 	void					MakeAbsolute	();
+    Path				    ChangeExtension	( const std::string& extension ) const;
 
 
 	//bool					HasRoot			() const;
@@ -285,6 +286,25 @@ inline void				Path::Normalize()
 inline void				Path::MakeAbsolute	()
 {
 	m_path.make_absolute();
+}
+
+// ================================ //
+//
+inline Path				Path::ChangeExtension( const std::string& extension ) const
+{
+    auto ext = m_path.extension();
+	auto filename = m_path.filename();
+
+    if( filename == "." || filename == ".." )
+        return Path( *this );
+
+	auto startPos = filename.rfind( ext );
+	if( startPos != std::string::npos )
+	{
+		filename.replace( startPos, filename.length(), extension );
+		return m_path.parent_path() / filename;
+	}
+    return Path( *this );
 }
 
 ///**@brief */

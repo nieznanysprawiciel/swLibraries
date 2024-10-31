@@ -9,6 +9,7 @@
 #include "swCommonLib/Common/RTTR.h"
 
 #include "BufferRaw.h"
+#include "BufferRange.h"
 
 #include <memory>
 #include <assert.h>
@@ -66,6 +67,7 @@ public:
 
 	/**@brief Creates raw buffer. Note that new buffer will be owner of memory and this object ends empty.*/
 	BufferRaw			MoveToRawBuffer	();
+    BufferRange         GetView			() { return BufferRange( GetRawData(), GetSize() ); }
 
 public:
 	static BufferRaw	CreateEmpty		();

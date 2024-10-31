@@ -12,6 +12,7 @@
 #include "swGraphicAPI/ResourceManager/Exceptions/LoaderException.h"
 #include "swGeometrics/GeometricsCore/Types/Math/SimpleMath.h"
 
+#include "swGraphicAPI/Loaders/SoilTextureLoader/SoilTextureLoader.h"
 #include "swGraphicAPI/Assets/TextAsset/FontAsset.h"
 #include "swGraphicAPI/Assets/TextAsset/Loader/FreeType.h"
 #include <swGraphicAPI/Resources/Textures/TextureInitData.h>
@@ -130,6 +131,8 @@ Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const LoadPath& filePat
 
     auto buffer = RenderAtlasToBuffer( fontLayout, altlasWidth, altlasHeight );
 
+    SoilTextureLoader::Save( filePath.GetFileTranslated().ChangeExtension( ".png" ), buffer.GetView(), altlasWidth, altlasHeight);
+
     TextureInitData texInfo( buffer.MoveToRawBuffer() );
     texInfo.Width = altlasWidth;
     texInfo.Height = altlasHeight;
@@ -137,7 +140,7 @@ Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const LoadPath& filePat
     texInfo.TextureUsage = TextureUsageInfo();
     texInfo.Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
 
-    return factory.CreateAsset< Texture >( AssetPath( filePath.GetFileTranslated(), "/FontAtlas" ), std::move( texInfo ) );
+    return factory.CreateAsset< Texture >( AssetPath( filePath.GetFileTranslated(), "/FontAtlas"), std::move(texInfo));
 }
 
 // ================================ //
@@ -145,6 +148,9 @@ Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const LoadPath& filePat
 BufferTyped< u32 >            FreeTypeLoader::RenderAtlasToBuffer( FontLayout& initData, uint32 width, uint32 height )
 {
     auto buffer = BufferTyped< u32 >( width * height );
+
+    std::memset( buffer.GetRawData(), 0, buffer.GetSize() );
+
     return buffer;
 }
 
