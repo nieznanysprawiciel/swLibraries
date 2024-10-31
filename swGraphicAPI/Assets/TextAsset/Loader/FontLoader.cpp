@@ -8,11 +8,13 @@
 
 #include "FontLoader.h"
 
-#include <swGraphicAPI/ResourceManager/Loaders/Tools/CanLoad.h>
+#include "swGraphicAPI/ResourceManager/Loaders/Tools/CanLoad.h"
 #include "swGraphicAPI/ResourceManager/Exceptions/LoaderException.h"
+#include "swGeometrics/GeometricsCore/Types/Math/SimpleMath.h"
 
 #include "swGraphicAPI/Assets/TextAsset/FontAsset.h"
 #include "swGraphicAPI/Assets/TextAsset/Loader/FreeType.h"
+#include <swGraphicAPI/Resources/Textures/TextureInitData.h>
 
 
 namespace sw
@@ -93,8 +95,9 @@ LoadingResult       FreeTypeLoader::Load( const LoadPath& filePath, TypeID resou
 
     FontInitData fontDesc( loadInfo->FontSize );
 
-    fontDesc.Glyphs = BuildGlyphs( freeType.Get(), loadInfo->CharacterSet ).Get();
-    fontDesc.Kerning = BuildKerning( freeType.Get(), loadInfo->CharacterSet ).Get();
+    fontDesc.Layout.Glyphs = BuildGlyphs( freeType.Get(), loadInfo->CharacterSet ).Get();
+    fontDesc.Layout.Kerning = BuildKerning( freeType.Get(), loadInfo->CharacterSet ).Get();
+    fontDesc.FontAtlas = RenderAtlas( filePath, fontDesc.Layout, context ).Get();
 
     auto result = context.CreateGenericAsset( filePath.GetOriginalPath(), loadInfo->GetAssetType(), std::move( fontDesc ) );
     if( result.IsValid() )
@@ -105,10 +108,46 @@ LoadingResult       FreeTypeLoader::Load( const LoadPath& filePath, TypeID resou
 
 // ================================ //
 // 
-ReturnResult        FreeTypeLoader::Prefetch( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
+ReturnResult                FreeTypeLoader::Prefetch( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
     return ReturnResult( fmt::format( "Prefetch operation not supported" ) );
 }
+
+// ================================ //
+// 
+Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const LoadPath& filePath, FontLayout& fontLayout, RMLoaderAPI factory )
+{
+    auto glyphsPerRow = (u32)std::ceil( sqrt( (float)fontLayout.Glyphs.size() ) );
+
+    auto maxWidth = fontLayout.GetMaxWidth();
+    auto maxHeight = fontLayout.GetMaxHeight();
+
+    auto altlasWidth = maxWidth * glyphsPerRow;
+    auto altlasHeight = maxHeight * glyphsPerRow;
+
+    altlasWidth = RoundUpToPowerOfTwo( maxWidth * glyphsPerRow );
+    altlasHeight = RoundUpToPowerOfTwo( maxHeight * glyphsPerRow );
+
+    auto buffer = RenderAtlasToBuffer( fontLayout, altlasWidth, altlasHeight );
+
+    TextureInitData texInfo( buffer.MoveToRawBuffer() );
+    texInfo.Width = altlasWidth;
+    texInfo.Height = altlasHeight;
+    texInfo.MipMaps = MipMapsInfo( MipMapFilter::Lanczos3 );
+    texInfo.TextureUsage = TextureUsageInfo();
+    texInfo.Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
+
+    return factory.CreateAsset< Texture >( AssetPath( filePath.GetFileTranslated(), "/FontAtlas" ), std::move( texInfo ) );
+}
+
+// ================================ //
+// 
+BufferTyped< u32 >            FreeTypeLoader::RenderAtlasToBuffer( FontLayout& initData, uint32 width, uint32 height )
+{
+    auto buffer = BufferTyped< u32 >( width * height );
+    return buffer;
+}
+
 
 // ================================ //
 // FreeTypeLibrary implementation
@@ -163,8 +202,8 @@ Nullable<Glyph>             FreeTypeLibrary::LoadGlyph( wchar_t character ) cons
 
     newGlyph.CharCode = character;
     newGlyph.GlyphIdx = gindex;
-    newGlyph.Width = this->Face->glyph->metrics.height;
-    newGlyph.Height = this->Face->glyph->metrics.width;
+    newGlyph.Width = this->Face->glyph->metrics.height >> FT_PrecisionMult;
+    newGlyph.Height = this->Face->glyph->metrics.width >> FT_PrecisionMult;
 
     newGlyph.BearingX = this->Face->glyph->metrics.horiBearingX >> FT_PrecisionMult;
     newGlyph.BearingY = this->Face->glyph->metrics.horiBearingY >> FT_PrecisionMult;

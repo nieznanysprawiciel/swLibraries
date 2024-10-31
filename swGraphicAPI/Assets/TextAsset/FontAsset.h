@@ -38,11 +38,7 @@ protected:
     TexturePtr			m_fontAtlas;
 	uint32				m_fontSize;
 
-	/**Stores information how to render and layout each character*/
-	std::map< wchar_t, Glyph >			m_glyphs;
-
-	/**Each character pair can be shifted indiidually to give text better look in terms of spacing. */
-	std::map< KerningPair, float >		m_kerning;
+    FontLayout          m_layout;
 
 
 public:

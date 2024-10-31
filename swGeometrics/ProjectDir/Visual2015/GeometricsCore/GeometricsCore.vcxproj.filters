@@ -80,5 +80,8 @@
     <ClInclude Include="..\..\..\GeometricsCore\Types\Math\Types.h">
       <Filter>Geometric\Types\Math</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\GeometricsCore\Types\Math\SimpleMath.h">
+      <Filter>Geometric\Types\Math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
