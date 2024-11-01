@@ -54,14 +54,22 @@ public:
 	Size				GetSize			() const		{ return m_count * sizeof( ContentType ); }
 	Size				ElementsCount	() const		{ return m_count; }
 	Size				ElementSize		() const		{ return sizeof( ContentType ); }
+	
+	bool				IsValid			() const { return m_data != nullptr; }
+	
 	uint8*				GetRawData		()				{ return reinterpret_cast< uint8* >( m_data ); }
 	const uint8*		GetRawData		() const		{ return reinterpret_cast< const uint8* >( m_data ); }
-	bool				IsValid			() const		{ return m_data != nullptr; }
+	
+	ContentType*		GetData		    () { return static_cast< ContentType* >( m_data ); }
+	const ContentType*	GetData		    () const { return static_cast< const ContentType* >( m_data ); }
+	
 
 public:
 
 	ContentType&		operator[]		( Size idx );
 	const ContentType&	operator[]		( Size idx ) const;
+
+	void				ZeroMemory();
 
 public:
 
@@ -188,6 +196,14 @@ inline const ContentType&	BufferTyped< ContentType, Alloc >::operator[]		( Size 
 {
 	assert( idx < m_count );
 	return m_data[ idx ];
+}
+
+// ================================ //
+//
+template<typename ContentType, class Alloc>
+inline void					BufferTyped< ContentType, Alloc >::ZeroMemory()
+{
+	std::memset( this->GetRawData(), 0, this->GetSize());
 }
 
 // ================================ //

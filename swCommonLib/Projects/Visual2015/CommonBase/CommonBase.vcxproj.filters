@@ -239,5 +239,11 @@
     <ClInclude Include="..\..\..\Common\Exceptions\Result.h">
       <Filter>Common\Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Common\Buffers\Image.h">
+      <Filter>Common\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Buffers\ImageRegion.h">
+      <Filter>Common\Buffers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
