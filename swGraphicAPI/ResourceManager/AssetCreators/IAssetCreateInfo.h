@@ -39,7 +39,7 @@ public:
 	This function can be used to give identitifiers for internal Resources in files, when there
 	are multiple Assets to load. Other use case are generated or partially generated Assets, which
 	need to be distinguished. As an example we can generate Texture with mipmaps or without them.*/
-	virtual std::string				ResourceKey		    () const		= 0;
+	virtual std::string				ResourceKey		    () const { return ""; }
 };
 
 
