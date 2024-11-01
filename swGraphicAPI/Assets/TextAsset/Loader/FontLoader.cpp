@@ -96,14 +96,17 @@ LoadingResult       FreeTypeLoader::Load( const LoadPath& filePath, TypeID resou
     ReturnIfInvalid( freeType );
     ReturnIfInvalid( freeType.Get().CreateFace( filePath, loadInfo->FontSize ) );
 
+    AssetPath atlasPath = AssetPath( filePath.GetFileTranslated(), fmt::format( "/Atlas{}", loadInfo->ResourceKey() ) );
+    AssetPath fontAssetPath = AssetPath( filePath.GetFileTranslated(), loadInfo->ResourceKey() );
+
     FontInitData fontDesc( loadInfo->FontSize );
 
     fontDesc.Layout.Padding = 1;
     fontDesc.Layout.Glyphs = BuildGlyphs( freeType.Get(), loadInfo->CharacterSet ).Get();
     fontDesc.Layout.Kerning = BuildKerning( freeType.Get(), loadInfo->CharacterSet ).Get();
-    fontDesc.FontAtlas = RenderAtlas( freeType, filePath, fontDesc.Layout, context ).Get();
+    fontDesc.FontAtlas = RenderAtlas( freeType, atlasPath, fontDesc.Layout, context ).Get();
 
-    auto result = context.CreateGenericAsset( filePath.GetOriginalPath(), loadInfo->GetAssetType(), std::move( fontDesc ) );
+    auto result = context.CreateGenericAsset( fontAssetPath, loadInfo->GetAssetType(), std::move( fontDesc ) );
     if( result.IsValid() )
         return LoadingResult( result.Get() );
     else
@@ -119,7 +122,7 @@ ReturnResult                FreeTypeLoader::Prefetch( const LoadPath& filePath, 
 
 // ================================ //
 // 
-Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const FreeTypeLibrary& freeType, const LoadPath& filePath, FontLayout& fontLayout, RMLoaderAPI factory )
+Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const FreeTypeLibrary& freeType, const AssetPath& filePath, FontLayout& fontLayout, RMLoaderAPI factory )
 {
     auto glyphsPerRow = (u32)std::ceil( sqrt( (float)fontLayout.Glyphs.size() ) );
 
@@ -135,14 +138,14 @@ Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const FreeTypeLibrary& 
 
     auto image = RenderAtlasToBuffer( freeType, fontLayout, altlasWidth, altlasHeight );
 
-    SoilTextureLoader::Save( filePath.GetFileTranslated().ChangeExtension( ".png" ), image );
+    SoilTextureLoader::Save( filePath.GetFile().ChangeExtension( ".png" ), image );
 
     TextureInitData texInfo( std::move( image ) );
     texInfo.MipMaps = MipMapsInfo( MipMapFilter::Lanczos3 );
     texInfo.TextureUsage = TextureUsageInfo();
     texInfo.Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
 
-    return factory.CreateAsset< Texture >( AssetPath( filePath.GetFileTranslated(), "/FontAtlas"), std::move(texInfo));
+    return factory.CreateAsset< Texture >( filePath, std::move(texInfo));
 }
 
 // ================================ //

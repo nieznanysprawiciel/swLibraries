@@ -51,7 +51,8 @@ struct BufferInitData : public sw::IAssetCreateInfo
 		Data = nullptr;
 	}
 
-	virtual TypeID		GetAssetType	() const override;
+	virtual TypeID			GetAssetType	() const override;
+	virtual std::string		ResourceKey		() const override { return ""; }
 
 public:
 	RTTR_ENABLE( sw::IAssetCreateInfo );

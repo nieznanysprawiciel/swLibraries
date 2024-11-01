@@ -36,7 +36,7 @@ public:
 
 public:
     /**@brief Renders Texture Atlas. Modifies FontLayout by adding texture mapping.*/
-    Nullable< TexturePtr >          RenderAtlas         ( const FreeTypeLibrary& freeType, const LoadPath& filePath, FontLayout& initData, RMLoaderAPI factor );
+    Nullable< TexturePtr >          RenderAtlas         ( const FreeTypeLibrary& freeType, const AssetPath& filePath, FontLayout& initData, RMLoaderAPI factor );
     Image< u32 >                    RenderAtlasToBuffer ( const FreeTypeLibrary& freeType, FontLayout& initData, uint32 width, uint32 height );
 };
 

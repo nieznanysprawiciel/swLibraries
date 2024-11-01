@@ -56,11 +56,18 @@ public:
 public:
 
 	
-	virtual TypeID	GetAssetType		() const		{ return TypeID::get< Texture >(); }
+	virtual TypeID			GetAssetType		() const		{ return TypeID::get< Texture >(); }
+	virtual std::string		ResourceKey			() const override;
 
 };
 
-
+// ================================ //
+//
+inline std::string		TextureLoadInfo::ResourceKey() const
+{
+    // TODO: Implement
+	return std::string();
+}
 
 
 }	// sw

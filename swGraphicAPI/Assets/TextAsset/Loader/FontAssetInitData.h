@@ -72,7 +72,8 @@ public:
 
 public:
     /**Returns type of asset that can be created using this structure.*/
-    virtual TypeID		GetAssetType	    () const override;
+    virtual TypeID		    GetAssetType	    () const override;
+    virtual std::string		ResourceKey		    () const override;
 };
 
 
@@ -102,7 +103,9 @@ public:
 
 public:
     /**Returns type of asset that can be created using this structure.*/
-    virtual TypeID		GetAssetType	    () const override;
+    virtual TypeID		    GetAssetType	    () const override;
+    virtual std::string		ResourceKey		    () const override;
+
 };
 
 

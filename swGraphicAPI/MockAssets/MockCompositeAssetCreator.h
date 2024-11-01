@@ -33,6 +33,7 @@ public:
 
 public:
 	virtual TypeID					GetAssetType	() const { return TypeID::get< MockCompositeAsset >(); }
+	virtual std::string				ResourceKey		() const override { return ""; }
 };
 
 

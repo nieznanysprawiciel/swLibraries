@@ -37,6 +37,10 @@ public:
         RenderTargetDescriptor descriptor = *this;
         return descriptor;
     }
+
+    // ================================ //
+    //
+    virtual std::string		ResourceKey		() const override { return ""; }
 };
 
 /**@brief Create RenderTarget from existing SwapChain.
@@ -55,6 +59,10 @@ public:
     {
         return TypeID::get< RenderTarget >();
     }
+
+    // ================================ //
+    //
+    virtual std::string		ResourceKey		() const override { return ""; }
 };
 
 

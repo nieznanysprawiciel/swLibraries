@@ -133,3 +133,24 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Loader.Font.Arial", "[GraphicAPI][FontLoader
 
     CHECK( NoOverlappingGlyphs( font.Get()->GetLayout() ) );
 }
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.Loaders.Font.Loader.2Sizes", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
+{
+    auto rm = CreateResourceManagerWithFonts();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    FontLoaderData init( 16 );
+
+    auto font = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init );
+    REQUIRE_IS_VALID( font );
+
+    FontLoaderData init2( 30 );
+
+    auto font2 = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init2 );
+    REQUIRE_IS_VALID( font );
+
+    CHECK( font.Get()->GetFontAtlas() != font2.Get()->GetFontAtlas());
+}
+

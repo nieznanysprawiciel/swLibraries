@@ -5,7 +5,7 @@
 */
 #include "swGraphicAPI/Assets/TextAsset/stdafx.h"
 
-
+#include "swCommonLib/Common/fmt.h"
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
 #include "swGraphicAPI/ResourceManager/ResourceManagerAPI.h"
 #include "swGraphicAPI/Assets/TextAsset/FontAsset.h"
@@ -27,7 +27,24 @@ std::wstring            FontLoaderData::DefaultCharacterSet()
 }
 
 TypeID                  FontLoaderData::GetAssetType    () const { return TypeID::get< FontAsset >(); }
+
+// ================================ //
+// 
+
+std::string             FontLoaderData::ResourceKey() const
+{
+    return fmt::format( "/Font?fontSize={},genMipMaps={}", this->FontSize, this->GenerateMipmaps );
+}
+
 TypeID                  FontInitData::GetAssetType      () const { return TypeID::get< FontAsset >(); }
+
+// ================================ //
+// 
+
+std::string             FontInitData::ResourceKey() const
+{
+    return fmt::format( "/Font?fontSize={},genMipMaps={}", this->FontSize, this->FontAtlas->GetDescriptor().GenerateMipMaps );
+}
 
 // ================================ //
 // 

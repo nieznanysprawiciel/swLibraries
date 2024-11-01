@@ -29,7 +29,8 @@ public:
 public:
 	// ================================ //
 	//
-	TypeID		MockAssetLoadInfo::GetAssetType	() const override { return TypeID::get< MockAsset >(); }
+	TypeID					GetAssetType	() const override { return TypeID::get< MockAsset >(); }
+	virtual std::string		ResourceKey		() const override { return ""; }
 };
 
 

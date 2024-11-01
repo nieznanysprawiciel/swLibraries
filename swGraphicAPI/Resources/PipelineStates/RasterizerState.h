@@ -69,6 +69,7 @@ public:
 public:
 
 	virtual TypeID			GetAssetType			() const override { return TypeID::get< RasterizerState >(); }
+	virtual std::string		ResourceKey				() const override { return ""; }
 };
 
 

@@ -92,7 +92,8 @@ public:
 
 
 public:
-	virtual TypeID		GetAssetType	() const override { return TypeID::get< RenderTarget >(); }
+	virtual TypeID			GetAssetType	() const override { return TypeID::get< RenderTarget >(); }
+	virtual std::string		ResourceKey		() const override { return ""; }
 };
 
 /**@brief Class representing render target.

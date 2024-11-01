@@ -50,7 +50,7 @@ public:
     float				GetKerning		( wchar_t first, wchar_t second ) const;
     const FontLayout&   GetLayout		() const { return m_layout; }
 
-    const TexturePtr&						GetFontAtlas() const { return m_fontAtlas; }
+    const TexturePtr&   GetFontAtlas    () const { return m_fontAtlas; }
 private:
 	~FontAsset() = default;
 };
