@@ -138,7 +138,7 @@ Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const FreeTypeLibrary& 
 
     auto image = RenderAtlasToBuffer( freeType, fontLayout, altlasWidth, altlasHeight );
 
-    SoilTextureLoader::Save( filePath.GetFile().ChangeExtension( ".png" ), image );
+    //SoilTextureLoader::Save( filePath.GetFile().ChangeExtension( ".png" ), image );
 
     TextureInitData texInfo( std::move( image ) );
     texInfo.MipMaps = MipMapsInfo( MipMapFilter::Lanczos3 );

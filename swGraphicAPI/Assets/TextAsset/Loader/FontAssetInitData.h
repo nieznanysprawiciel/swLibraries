@@ -13,7 +13,7 @@
 #include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreateInfo.h"
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
 
-#include "swGraphicAPI/Assets/TextAsset/Glyph.h"
+#include "swGraphicAPI/Assets/TextAsset/Loader/Glyph.h"
 
 namespace sw
 {

@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Assets\TextAsset\FontAsset.h" />
-    <ClInclude Include="..\..\..\Assets\TextAsset\Glyph.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\stdafx.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\Text.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FontAssetCreator.h">
@@ -29,6 +28,9 @@
       <Filter>Loader</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FreeType.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Assets\TextAsset\Loader\Glyph.h">
       <Filter>Loader</Filter>
     </ClInclude>
   </ItemGroup>

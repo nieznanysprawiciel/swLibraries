@@ -9,7 +9,7 @@
 #include "swGraphicAPI/Resources/Textures/Texture.h"
 
 #include "swGraphicAPI/Assets/TextAsset/Loader/FontAssetInitData.h"
-#include "swGraphicAPI/Assets/TextAsset/Glyph.h"
+#include "swGraphicAPI/Assets/TextAsset/Loader/Glyph.h"
 
 
 namespace sw

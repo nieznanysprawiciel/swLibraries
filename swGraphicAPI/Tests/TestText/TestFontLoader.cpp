@@ -42,7 +42,7 @@ bool    NoOverlappingGlyphs( const FontLayout& layout )
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.Loaders.Font.Loader.FontFormat.ttf", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
+TEST_CASE( "GraphicAPI.Loaders.Font.Format.ttf", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
 {
     auto rm = CreateResourceManagerWithFonts();
     auto api = ResourceManagerAPI( rm.get() );
@@ -65,7 +65,7 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Loader.FontFormat.ttf", "[GraphicAPI][FontLo
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.Loaders.Font.Loader.FontFormat.otf", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
+TEST_CASE( "GraphicAPI.Loaders.Font.Format.otf", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
 {
     auto rm = CreateResourceManagerWithFonts();
     auto api = ResourceManagerAPI( rm.get() );
@@ -88,7 +88,7 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Loader.FontFormat.otf", "[GraphicAPI][FontLo
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.Loaders.Font.Loader.Font.Arial", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
+TEST_CASE( "GraphicAPI.Loaders.Font.Arial", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
 {
     auto rm = CreateResourceManagerWithFonts();
     auto api = ResourceManagerAPI( rm.get() );
@@ -136,7 +136,7 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Loader.Font.Arial", "[GraphicAPI][FontLoader
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.Loaders.Font.Loader.2Sizes", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
+TEST_CASE( "GraphicAPI.Loaders.Font.SameFont.2Sizes", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
 {
     auto rm = CreateResourceManagerWithFonts();
     auto api = ResourceManagerAPI( rm.get() );

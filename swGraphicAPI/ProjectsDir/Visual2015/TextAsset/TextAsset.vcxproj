@@ -41,11 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Assets\TextAsset\FontAsset.h" />
-    <ClInclude Include="..\..\..\Assets\TextAsset\Glyph.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FontAssetCreator.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FontAssetInitData.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FontLoader.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FreeType.h" />
+    <ClInclude Include="..\..\..\Assets\TextAsset\Loader\Glyph.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\stdafx.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\Text.h" />
   </ItemGroup>
