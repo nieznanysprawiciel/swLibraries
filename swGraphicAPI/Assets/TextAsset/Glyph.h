@@ -24,7 +24,7 @@ struct Glyph
     uint32          TextureX;   // x pixel coord of the bitmap's bottom-left corner
     uint32          TextureY;   // y pixel coord of the bitmap's bottom-left corner
 
-    Size            Padding;
+    Size            Padding;    // Padding around glyph in texture atlas. It's used to prevent texture bleeding.
 
 public:
     explicit Glyph()

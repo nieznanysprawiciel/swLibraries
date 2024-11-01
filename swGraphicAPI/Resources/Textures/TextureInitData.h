@@ -8,6 +8,7 @@
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreateInfo.h"
 #include "swCommonLib/Common/Buffers/BufferRaw.h"
+#include "swCommonLib/Common/Buffers/Image.h"
 #include "swGraphicAPI/Resources/Textures/Texture.h"
 
 
@@ -38,8 +39,9 @@ public:
 	MipMapsInfo			MipMaps;					///< Mipmaps generation information.
 	TextureUsageInfo	TextureUsage;
 
-// ================================ //
-//
+public:
+	// ================================ //
+	//
 	explicit		TextureInitData( BufferRaw&& buffer )
 		:	Data( std::move( buffer ) )
 	{
@@ -56,6 +58,25 @@ public:
 		Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
 	}
 	
+	template< typename ContentType, class Alloc = std::allocator< ContentType > >
+	explicit		TextureInitData( Image< ContentType, Alloc> && image )
+		: Data( std::move( image.Move().MoveToRawBuffer() ) )
+		, Width( image.GetWidth() )
+        , Height( image.GetHeight() )
+	{
+		ArraySize = 1;
+		TextureUsage.CPURead = false;
+		TextureUsage.CPUWrite = false;
+		TextureUsage.AllowShareResource = false;
+		IsCubeMap = false;
+		MipMaps.GenerateMipMaps = false;
+		TextureUsage.Usage = ResourceUsage::Default;
+		MipMaps.Filter = MipMapFilter::Unknown;
+		MipMaps.CutOffMipMaps = 0;
+		TextureType = TextureType::Texture2D;
+		Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
+	}
+
 	// ================================ //
 	//
 	uint16				NumMipMapLevels	() const

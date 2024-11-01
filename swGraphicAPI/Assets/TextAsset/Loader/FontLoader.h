@@ -6,7 +6,7 @@
 */
 
 #include "swCommonLib/Common/Exceptions/Nullable.h"
-#include "swCommonLib/Common/Buffers/BufferTyped.h"
+#include "swCommonLib/Common/Buffers/Image.h"
 
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoader.h"
@@ -16,6 +16,7 @@ namespace sw
 {
 
 struct FontLayout;
+class FreeTypeLibrary;
 
 
 /**@brief Loads fonts using FreeType Library.
@@ -35,8 +36,8 @@ public:
 
 public:
     /**@brief Renders Texture Atlas. Modifies FontLayout by adding texture mapping.*/
-    Nullable< TexturePtr >          RenderAtlas         ( const LoadPath& filePath, FontLayout& initData, RMLoaderAPI factor );
-    BufferTyped< u32 >              RenderAtlasToBuffer ( FontLayout& initData, uint32 width, uint32 height );
+    Nullable< TexturePtr >          RenderAtlas         ( const FreeTypeLibrary& freeType, const LoadPath& filePath, FontLayout& initData, RMLoaderAPI factor );
+    Image< u32 >                    RenderAtlasToBuffer ( const FreeTypeLibrary& freeType, FontLayout& initData, uint32 width, uint32 height );
 };
 
 

@@ -18,6 +18,9 @@
 namespace sw
 {
 
+// ================================ //
+// 
+
 std::wstring            FontLoaderData::DefaultCharacterSet()
 {
     return std::wstring( L"1234568790.~,/?“‘:;[]{}\\|`!@#$%^&*()-_+=<>–°\"'abcdefghijklmnopqrstuvxyz¹êæŸ¿³œóñwABCDEFGHIJKLMNOPQRSTUVXYZ¥ÊÆ¯£ŒÓÑWÄÖÜŠÇÉËÎÔ©" );
@@ -26,16 +29,38 @@ std::wstring            FontLoaderData::DefaultCharacterSet()
 TypeID                  FontLoaderData::GetAssetType    () const { return TypeID::get< FontAsset >(); }
 TypeID                  FontInitData::GetAssetType      () const { return TypeID::get< FontAsset >(); }
 
+// ================================ //
+// 
+
 uint32                  FontLayout::GetMaxHeight() const
 {
     auto max = std::max_element( this->Glyphs.begin(), this->Glyphs.end(), []( const auto& a, const auto& b ) { return a.second.Height < b.second.Height; } );
     return (*max).second.Height;
 }
 
+// ================================ //
+// 
+
 uint32                  FontLayout::GetMaxWidth() const
 {
     auto max = std::max_element( this->Glyphs.begin(), this->Glyphs.end(), []( const auto& a, const auto& b ) { return a.second.Width < b.second.Width; } );
     return (*max).second.Width;
+}
+
+// ================================ //
+// 
+
+uint32                  FontLayout::GetMaxHeightWithPadding() const
+{
+    return GetMaxHeight() + 2*Padding;
+}
+
+// ================================ //
+// 
+
+uint32                  FontLayout::GetMaxWidthWithPadding() const
+{
+    return GetMaxWidth() + 2 * Padding;
 }
 
 }	// sw

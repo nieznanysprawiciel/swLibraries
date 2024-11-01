@@ -8,6 +8,8 @@
 
 #include "FontLoader.h"
 
+#include "swCommonLib/Common/Buffers/ImageRegion.h"
+
 #include "swGraphicAPI/ResourceManager/Loaders/Tools/CanLoad.h"
 #include "swGraphicAPI/ResourceManager/Exceptions/LoaderException.h"
 #include "swGeometrics/GeometricsCore/Types/Math/SimpleMath.h"
@@ -96,9 +98,10 @@ LoadingResult       FreeTypeLoader::Load( const LoadPath& filePath, TypeID resou
 
     FontInitData fontDesc( loadInfo->FontSize );
 
+    fontDesc.Layout.Padding = 1;
     fontDesc.Layout.Glyphs = BuildGlyphs( freeType.Get(), loadInfo->CharacterSet ).Get();
     fontDesc.Layout.Kerning = BuildKerning( freeType.Get(), loadInfo->CharacterSet ).Get();
-    fontDesc.FontAtlas = RenderAtlas( filePath, fontDesc.Layout, context ).Get();
+    fontDesc.FontAtlas = RenderAtlas( freeType, filePath, fontDesc.Layout, context ).Get();
 
     auto result = context.CreateGenericAsset( filePath.GetOriginalPath(), loadInfo->GetAssetType(), std::move( fontDesc ) );
     if( result.IsValid() )
@@ -116,12 +119,13 @@ ReturnResult                FreeTypeLoader::Prefetch( const LoadPath& filePath, 
 
 // ================================ //
 // 
-Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const LoadPath& filePath, FontLayout& fontLayout, RMLoaderAPI factory )
+Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const FreeTypeLibrary& freeType, const LoadPath& filePath, FontLayout& fontLayout, RMLoaderAPI factory )
 {
     auto glyphsPerRow = (u32)std::ceil( sqrt( (float)fontLayout.Glyphs.size() ) );
 
-    auto maxWidth = fontLayout.GetMaxWidth();
-    auto maxHeight = fontLayout.GetMaxHeight();
+    uint32 padding = 1;
+    auto maxWidth = fontLayout.GetMaxWidthWithPadding();
+    auto maxHeight = fontLayout.GetMaxHeightWithPadding();
 
     auto altlasWidth = maxWidth * glyphsPerRow;
     auto altlasHeight = maxHeight * glyphsPerRow;
@@ -129,13 +133,11 @@ Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const LoadPath& filePat
     altlasWidth = RoundUpToPowerOfTwo( maxWidth * glyphsPerRow );
     altlasHeight = RoundUpToPowerOfTwo( maxHeight * glyphsPerRow );
 
-    auto buffer = RenderAtlasToBuffer( fontLayout, altlasWidth, altlasHeight );
+    auto image = RenderAtlasToBuffer( freeType, fontLayout, altlasWidth, altlasHeight );
 
-    SoilTextureLoader::Save( filePath.GetFileTranslated().ChangeExtension( ".png" ), buffer.GetView(), altlasWidth, altlasHeight);
+    SoilTextureLoader::Save( filePath.GetFileTranslated().ChangeExtension( ".png" ), image );
 
-    TextureInitData texInfo( buffer.MoveToRawBuffer() );
-    texInfo.Width = altlasWidth;
-    texInfo.Height = altlasHeight;
+    TextureInitData texInfo( std::move( image ) );
     texInfo.MipMaps = MipMapsInfo( MipMapFilter::Lanczos3 );
     texInfo.TextureUsage = TextureUsageInfo();
     texInfo.Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
@@ -145,13 +147,48 @@ Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const LoadPath& filePat
 
 // ================================ //
 // 
-BufferTyped< u32 >            FreeTypeLoader::RenderAtlasToBuffer( FontLayout& initData, uint32 width, uint32 height )
+Image< u32 >                FreeTypeLoader::RenderAtlasToBuffer( const FreeTypeLibrary& freeType, FontLayout& fontLayout, uint32 width, uint32 height )
 {
-    auto buffer = BufferTyped< u32 >( width * height );
+    auto image = Image< u32 >( width, height );
+    image.ZeroMemory();
 
-    std::memset( buffer.GetRawData(), 0, buffer.GetSize() );
+    uint8* currAddress = image.GetRawData();
 
-    return buffer;
+    auto glyphsIter = fontLayout.Glyphs.begin();
+    auto maxWidth = fontLayout.GetMaxWidthWithPadding();
+    auto maxHeight = fontLayout.GetMaxHeightWithPadding();
+
+    uint32 curX = 0;
+    uint32 curY = 0;
+
+    for( auto& [wchar, glyph] : fontLayout.Glyphs )
+    {
+        // Adjust rectangle to keep padding around glyph.
+        ImageRect rect =
+        { 
+            curX + fontLayout.Padding, 
+            curY + fontLayout.Padding, 
+            glyph.Width, 
+            glyph.Height
+        };
+        auto region = ImageRegion< u32 >::From( image, rect ).Get();
+
+        freeType.RenderGlyph( glyph, region );
+
+        glyph.TextureX = rect.X;
+        glyph.TextureY = rect.Y;
+        glyph.Padding = fontLayout.Padding;
+
+        curX += maxWidth;
+        // No more space in current row, move to next.
+        if( curX + maxWidth >= width )
+        {
+            curX = 0;
+            curY += maxHeight;
+        }
+    }
+
+    return image;
 }
 
 
@@ -208,8 +245,8 @@ Nullable<Glyph>             FreeTypeLibrary::LoadGlyph( wchar_t character ) cons
 
     newGlyph.CharCode = character;
     newGlyph.GlyphIdx = gindex;
-    newGlyph.Width = this->Face->glyph->metrics.height >> FT_PrecisionMult;
-    newGlyph.Height = this->Face->glyph->metrics.width >> FT_PrecisionMult;
+    newGlyph.Height = this->Face->glyph->metrics.height >> FT_PrecisionMult;
+    newGlyph.Width = this->Face->glyph->metrics.width >> FT_PrecisionMult;
 
     newGlyph.BearingX = this->Face->glyph->metrics.horiBearingX >> FT_PrecisionMult;
     newGlyph.BearingY = this->Face->glyph->metrics.horiBearingY >> FT_PrecisionMult;
@@ -242,5 +279,60 @@ Nullable<float>             FreeTypeLibrary::Kerning( wchar_t first, wchar_t sec
 
     return Nullable<float>( float( kerning.x >> FT_PrecisionMult ) );
 }
+
+// ================================ //
+// 
+void                        FreeTypeLibrary::RenderGlyph( const Glyph& glyph, ImageRegion< u32 >& image ) const
+{
+    FT_Load_Glyph( this->Face, glyph.GlyphIdx, FT_LOAD_RENDER );
+
+    FT_Bitmap* bitmap = &this->Face->glyph->bitmap;
+    
+    for( uint32 x = 0; x < image.GetWidth(); x++ )
+    {
+        for( uint32 y = 0; y < image.GetHeight(); y++ )
+        {
+            auto pixel = bitmap->buffer[ y * bitmap->width + x ];
+            image( x, y ) = 0x00FFFFFF + ((u32)pixel << 24);
+        }
+    }
+}
+
+///* load glyph image into the slot (erase previous one) */
+//error = FT_Load_Char( face, text[ n ], FT_LOAD_RENDER );
+//if( error )
+//    continue;                 /* ignore errors */
+
+///* now, draw to our target surface (convert position) */
+//draw_bitmap( &slot->bitmap,
+//    slot->bitmap_left,
+//    target_height - slot->bitmap_top );
+
+
+//void
+//draw_bitmap( FT_Bitmap* bitmap,
+//    FT_Int      x,
+//    FT_Int      y )
+//{
+//    FT_Int  i, j, p, q;
+//    FT_Int  x_max = x + bitmap->width;
+//    FT_Int  y_max = y + bitmap->rows;
+//
+//
+//    /* for simplicity, we assume that `bitmap->pixel_mode' */
+//    /* is `FT_PIXEL_MODE_GRAY' (i.e., not a bitmap font)   */
+//
+//    for( i = x, p = 0; i < x_max; i++, p++ )
+//    {
+//        for( j = y, q = 0; j < y_max; j++, q++ )
+//        {
+//            if( i < 0 || j < 0 ||
+//                i >= WIDTH || j >= HEIGHT )
+//                continue;
+//
+//            image[ j ][ i ] |= bitmap->buffer[ q * bitmap->width + p ];
+//        }
+//    }
+//}
 
 }

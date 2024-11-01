@@ -20,6 +20,8 @@ static const char* ftErrorString( FT_Error error )
 
 
 #include "swCommonLib/Common/Exceptions/Nullable.h"
+#include "swCommonLib/Common/Buffers/ImageRegion.h"
+#include "swGeometrics/GeometricsCore/Types/Math/Types.h"
 
 namespace sw
 {
@@ -43,6 +45,9 @@ public:
 
     Nullable< Glyph >   LoadGlyph		( wchar_t character ) const;
     Nullable< float >   Kerning         ( wchar_t first, wchar_t second ) const;
+
+    /**Renders Glyph to bitmap in selected rectangle.*/
+    void                RenderGlyph		( const Glyph& glyph, ImageRegion< u32 >& image ) const;
 };
 
 

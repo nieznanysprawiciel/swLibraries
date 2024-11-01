@@ -33,9 +33,19 @@ struct FontLayout
     /**Each character pair can be shifted individually to give text better look in terms of spacing. */
     std::map< KerningPair, float >		Kerning;
 
+    /**Padding around glyph in texture atlas. It's used to prevent texture bleeding.*/
+    uint32                              Padding;
+
+public:
+    explicit FontLayout()
+        : Padding( 1 )
+    {}
+
 public:
     uint32      GetMaxHeight() const;
     uint32      GetMaxWidth() const;
+    uint32      GetMaxHeightWithPadding() const;
+    uint32      GetMaxWidthWithPadding() const;
 };
 
 

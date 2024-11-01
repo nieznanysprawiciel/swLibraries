@@ -174,17 +174,20 @@ ReturnResult									SoilTextureLoader::Prefetch				( const LoadPath& filePath, 
 
 // ================================ //
 //
-ReturnResult									SoilTextureLoader::Save					( const filesystem::Path& filePath, const BufferRange buffer, uint32 width, uint32 height )
+ReturnResult									SoilTextureLoader::Save					( const filesystem::Path& filePath, const Image< u32 >& image )
 {
-    Size expectedSize = width * height * 4;
-    if( buffer.DataSize != expectedSize )
-        return ReturnResult( fmt::format( "Buffer size: {} doesn't match expected image width = {}, height = {}", expectedSize, width, height ) );
+	if( image.GetChannels() != 4 )
+		return ReturnResult( fmt::format( "Saving images with {} channels isn't supported", image.GetChannels() ) );
+
+    Size expectedSize = image.GetWidth() * image.GetHeight() * image.GetChannels();
+    if( image.GetSize() != expectedSize )
+        return ReturnResult( fmt::format( "Buffer size: {} doesn't match expected image width = {}, height = {}", expectedSize, image.GetWidth(), image.GetHeight() ) );
 
 	int save_result = stbi_write_png
 	(
 		filePath.String().c_str(),
-		width, height, 4,
-		buffer.DataPtr, 0
+		image.GetWidth(), image.GetHeight(), image.GetChannels(),
+		image.GetRawData(), 0
 	);
 
     if( save_result != 0 )
