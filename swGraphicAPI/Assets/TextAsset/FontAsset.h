@@ -40,7 +40,6 @@ protected:
 
     FontLayout          m_layout;
 
-
 public:
 	explicit			FontAsset		( AssetPath filePath, FontInitData&& initData );
 
@@ -49,9 +48,7 @@ public:
 
     const Glyph&		GetGlyph		( wchar_t character ) const;
     float				GetKerning		( wchar_t first, wchar_t second ) const;
-
-	const std::map< wchar_t, Glyph >&		GetGlyphs	() const;
-    const std::map< KerningPair, float >&	GetKerning	() const;
+    const FontLayout&   GetLayout		() const { return m_layout; }
 
     const TexturePtr&						GetFontAtlas() const { return m_fontAtlas; }
 private:

@@ -29,16 +29,6 @@ float               FontAsset::GetKerning( wchar_t first, wchar_t second ) const
     return this->m_layout.Kerning.at( std::make_pair( first, second ) );
 }
 
-const std::map<wchar_t, Glyph>&         FontAsset::GetGlyphs() const
-{
-    return this->m_layout.Glyphs;
-}
-
-const std::map<KerningPair, float>&     FontAsset::GetKerning() const
-{
-    return this->m_layout.Kerning;
-}
-
 }    // sw
 
 

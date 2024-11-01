@@ -63,5 +63,17 @@ uint32                  FontLayout::GetMaxWidthWithPadding() const
     return GetMaxWidth() + 2 * Padding;
 }
 
+// ================================ //
+// 
+
+ImageRect               FontLayout::GetGlyphCoords( wchar_t character ) const
+{
+    auto iter = this->Glyphs.find( character );
+    if( iter != this->Glyphs.end() )
+        return iter->second.GetGlyphCoords();
+
+    return ImageRect{ 0, 0, 0, 0 };
+}
+
 }	// sw
 

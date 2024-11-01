@@ -17,6 +17,28 @@
 
 using namespace sw;
 
+// ================================ //
+// 
+bool    NoOverlappingGlyphs( const FontLayout& layout )
+{
+    for( auto glyph1 = layout.Glyphs.begin(); glyph1 != layout.Glyphs.end(); ++glyph1 )
+    {
+        for( auto glyph2 = layout.Glyphs.begin(); glyph2 != layout.Glyphs.end(); ++glyph2 )
+        {
+            if( glyph1 != glyph2 )
+            {
+                auto rect1 = glyph1->second.GetGlyphCoords();
+                auto rect2 = glyph2->second.GetGlyphCoords();
+
+                if( rect1.Intersects( rect2 ) )
+                    return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 
 // ================================ //
 // 
@@ -31,12 +53,14 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Loader.FontFormat.ttf", "[GraphicAPI][FontLo
     REQUIRE_IS_VALID( font );
 
     auto numChars = FontLoaderData::DefaultCharacterSet().length();
-    CHECK( font.Get()->GetGlyphs().size() == numChars );
-    CHECK( font.Get()->GetKerning().size() == numChars * numChars );
+    CHECK( font.Get()->GetLayout().Glyphs.size() == numChars);
+    CHECK( font.Get()->GetLayout().Kerning.size() == numChars * numChars );
 
     REQUIRE( font.Get()->GetFontAtlas() != nullptr );
     CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Height == 256 );
     CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Width == 512 );
+
+    CHECK( NoOverlappingGlyphs( font.Get()->GetLayout() ) );
 }
 
 // ================================ //
@@ -52,12 +76,14 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Loader.FontFormat.otf", "[GraphicAPI][FontLo
     REQUIRE_IS_VALID( font );
 
     auto numChars = FontLoaderData::DefaultCharacterSet().length();
-    CHECK( font.Get()->GetGlyphs().size() == numChars );
-    CHECK( font.Get()->GetKerning().size() == numChars * numChars );
+    CHECK( font.Get()->GetLayout().Glyphs.size() == numChars );
+    CHECK( font.Get()->GetLayout().Kerning.size() == numChars * numChars );
 
     REQUIRE( font.Get()->GetFontAtlas() != nullptr );
     CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Height == 512 );
     CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Width == 512 );
+
+    CHECK( NoOverlappingGlyphs( font.Get()->GetLayout() ) );
 }
 
 // ================================ //
@@ -73,8 +99,8 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Loader.Font.Arial", "[GraphicAPI][FontLoader
     REQUIRE_IS_VALID( font );
 
     auto numChars = FontLoaderData::DefaultCharacterSet().length();
-    CHECK( font.Get()->GetGlyphs().size() == numChars );
-    CHECK( font.Get()->GetKerning().size() == numChars * numChars );
+    CHECK( font.Get()->GetLayout().Glyphs.size() == numChars );
+    CHECK( font.Get()->GetLayout().Kerning.size() == numChars * numChars );
 
     REQUIRE( font.Get()->GetFontAtlas() != nullptr );
     CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Height == 256 );
@@ -104,4 +130,6 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Loader.Font.Arial", "[GraphicAPI][FontLoader
     CHECK( questGlyph.AdvanceY == 0 );
     CHECK( questGlyph.BearingX == 0 );
     CHECK( questGlyph.BearingY == 12 );
+
+    CHECK( NoOverlappingGlyphs( font.Get()->GetLayout() ) );
 }

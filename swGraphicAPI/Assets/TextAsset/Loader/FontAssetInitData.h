@@ -7,6 +7,7 @@
 
 
 #include "swCommonLib/Common/TypesDefinitions.h"
+#include "swCommonLib/Common/Buffers/ImageRegion.h"
 
 #include "swGraphicAPI/Resources/MeshResources.h"
 #include "swGraphicAPI/ResourceManager/AssetCreators/IAssetCreateInfo.h"
@@ -46,6 +47,8 @@ public:
     uint32      GetMaxWidth() const;
     uint32      GetMaxHeightWithPadding() const;
     uint32      GetMaxWidthWithPadding() const;
+
+    ImageRect   GetGlyphCoords( wchar_t character ) const;
 };
 
 

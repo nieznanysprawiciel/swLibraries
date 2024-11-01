@@ -40,6 +40,19 @@ public:
         , TextureY( 0 )
         , Padding( 0 )
     {}
+
+    ImageRect   GetGlyphCoords() const;
 };
+
+inline ImageRect            Glyph::GetGlyphCoords() const
+{
+    return ImageRect
+    {
+        this->TextureX,
+        this->TextureY,
+        this->Width,
+        this->Height
+    };
+}
 
 } // sw
