@@ -298,41 +298,4 @@ void                        FreeTypeLibrary::RenderGlyph( const Glyph& glyph, Im
     }
 }
 
-///* load glyph image into the slot (erase previous one) */
-//error = FT_Load_Char( face, text[ n ], FT_LOAD_RENDER );
-//if( error )
-//    continue;                 /* ignore errors */
-
-///* now, draw to our target surface (convert position) */
-//draw_bitmap( &slot->bitmap,
-//    slot->bitmap_left,
-//    target_height - slot->bitmap_top );
-
-
-//void
-//draw_bitmap( FT_Bitmap* bitmap,
-//    FT_Int      x,
-//    FT_Int      y )
-//{
-//    FT_Int  i, j, p, q;
-//    FT_Int  x_max = x + bitmap->width;
-//    FT_Int  y_max = y + bitmap->rows;
-//
-//
-//    /* for simplicity, we assume that `bitmap->pixel_mode' */
-//    /* is `FT_PIXEL_MODE_GRAY' (i.e., not a bitmap font)   */
-//
-//    for( i = x, p = 0; i < x_max; i++, p++ )
-//    {
-//        for( j = y, q = 0; j < y_max; j++, q++ )
-//        {
-//            if( i < 0 || j < 0 ||
-//                i >= WIDTH || j >= HEIGHT )
-//                continue;
-//
-//            image[ j ][ i ] |= bitmap->buffer[ q * bitmap->width + p ];
-//        }
-//    }
-//}
-
 }
