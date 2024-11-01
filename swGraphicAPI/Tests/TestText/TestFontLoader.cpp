@@ -1,6 +1,6 @@
 #include "swCommonLib/External/Catch/catch.hpp"
 /**
-@file TestSWMaterialLoader.cpp
+@file TestFontLoader.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
@@ -33,6 +33,10 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Loader.FontFormat.ttf", "[GraphicAPI][FontLo
     auto numChars = FontLoaderData::DefaultCharacterSet().length();
     CHECK( font.Get()->GetGlyphs().size() == numChars );
     CHECK( font.Get()->GetKerning().size() == numChars * numChars );
+
+    REQUIRE( font.Get()->GetFontAtlas() != nullptr );
+    CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Height == 256 );
+    CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Width == 512 );
 }
 
 // ================================ //
@@ -50,6 +54,10 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Loader.FontFormat.otf", "[GraphicAPI][FontLo
     auto numChars = FontLoaderData::DefaultCharacterSet().length();
     CHECK( font.Get()->GetGlyphs().size() == numChars );
     CHECK( font.Get()->GetKerning().size() == numChars * numChars );
+
+    REQUIRE( font.Get()->GetFontAtlas() != nullptr );
+    CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Height == 512 );
+    CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Width == 512 );
 }
 
 // ================================ //
@@ -67,4 +75,33 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Loader.Font.Arial", "[GraphicAPI][FontLoader
     auto numChars = FontLoaderData::DefaultCharacterSet().length();
     CHECK( font.Get()->GetGlyphs().size() == numChars );
     CHECK( font.Get()->GetKerning().size() == numChars * numChars );
+
+    REQUIRE( font.Get()->GetFontAtlas() != nullptr );
+    CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Height == 256 );
+    CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Width == 256 );
+
+    // Check a few letters  to confirm that there is no regression
+    auto wGlyph = font.Get()->GetGlyph( L'W' );
+    CHECK( wGlyph.Width == 15 );
+    CHECK( wGlyph.Height == 12 );
+    CHECK( wGlyph.AdvanceX == 15 );
+    CHECK( wGlyph.AdvanceY == 0 );
+    CHECK( wGlyph.BearingX == 0 );
+    CHECK( wGlyph.BearingY == 12 );
+
+    auto sGlyph = font.Get()->GetGlyph( L'Œ' );
+    CHECK( sGlyph.Width == 10 );
+    CHECK( sGlyph.Height == 15 );
+    CHECK( sGlyph.AdvanceX == 11 );
+    CHECK( sGlyph.AdvanceY == 0 );
+    CHECK( sGlyph.BearingX == 0 );
+    CHECK( sGlyph.BearingY == 15 );
+
+    auto questGlyph = font.Get()->GetGlyph( L'?' );
+    CHECK( questGlyph.Width == 9 );
+    CHECK( questGlyph.Height == 12 );
+    CHECK( questGlyph.AdvanceX == 9 );
+    CHECK( questGlyph.AdvanceY == 0 );
+    CHECK( questGlyph.BearingX == 0 );
+    CHECK( questGlyph.BearingY == 12 );
 }
