@@ -6,6 +6,7 @@
 */
 
 #include "swCommonLib\TestUtils\CatchUtils\ExtendedMacros.h"
+#include "swCommonLib/Common/Converters/Convert.h"
 
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
 #include "swGraphicAPI/ResourceManager/ResourceManagerAPI.h"
@@ -115,7 +116,7 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Arial", "[GraphicAPI][FontLoader][FreeTypeLo
     CHECK( wGlyph.BearingX == 0 );
     CHECK( wGlyph.BearingY == 12 );
 
-    auto sGlyph = font.Get()->GetGlyph( L'Œ' );
+    auto sGlyph = font.Get()->GetGlyph( Convert::FromString< std::wstring >( std::string_view( "Åš" ) ).Get()[ 0 ] );
     CHECK( sGlyph.Width == 10 );
     CHECK( sGlyph.Height == 15 );
     CHECK( sGlyph.AdvanceX == 11 );
