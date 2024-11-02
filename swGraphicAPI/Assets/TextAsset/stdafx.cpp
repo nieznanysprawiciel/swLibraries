@@ -3,7 +3,7 @@
 
 #include "swGraphicAPI/Assets/TextAsset/stdafx.h"
 
-
+#include "swCommonLib/Common/Converters/Convert.h"
 
 // TODO: reference any additional headers you need in STDAFX.H
 // and not in this file

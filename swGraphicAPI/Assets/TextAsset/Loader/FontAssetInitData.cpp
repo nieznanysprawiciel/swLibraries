@@ -23,8 +23,13 @@ namespace sw
 
 std::wstring            FontLoaderData::DefaultCharacterSet()
 {
-    return std::wstring( L"1234568790.~,/?“‘:;[]{}\\|`!@#$%^&*()-_+=<>–°\"'abcdefghijklmnopqrstuvxyz¹êæŸ¿³œóñwABCDEFGHIJKLMNOPQRSTUVXYZ¥ÊÆ¯£ŒÓÑWÄÖÜŠÇÉËÎÔ©" );
+    // Convert assumes that string is utf8 encoded.
+    std::string_view charset = { "1234568790.~,/?â€œâ€˜:;[]{}\\|`!@#$%^&*()-_+=<>â€“Â°\"'abcdefghijklmnopqrstuvxyzÄ…Ä™Ä‡ÅºÅ¼Å‚Å›Ã³Å„wABCDEFGHIJKLMNOPQRSTUVXYZÄ„Ä˜Ä†Å¹Å»ÅÅšÃ“ÅƒWÃ„Ã–ÃœÅ Å½Ã‡Ã‰Ã‹ÃÃ”Â©" };
+    return Convert::FromString< std::wstring >( charset ).Get();
 }
+
+// ================================ //
+//
 
 TypeID                  FontLoaderData::GetAssetType    () const { return TypeID::get< FontAsset >(); }
 
