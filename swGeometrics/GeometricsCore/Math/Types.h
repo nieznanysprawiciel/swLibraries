@@ -42,5 +42,13 @@ public:
 	}
 };
 
+inline Position2d operator+( Position2d left, Position2d right ) {
+	return Position2d( left.x + right.x, left.y + right.y );
 }
 
+inline Position2d& operator+=( Position2d& left, Position2d right ) {
+	left = left + right;
+	return left;
+}
+
+}

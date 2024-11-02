@@ -21,7 +21,7 @@ static const char* ftErrorString( FT_Error error )
 
 #include "swCommonLib/Common/Exceptions/Nullable.h"
 #include "swCommonLib/Common/Buffers/ImageRegion.h"
-#include "swGeometrics/GeometricsCore/Types/Math/Types.h"
+#include "swGeometrics/GeometricsCore/Math/Types.h"
 
 namespace sw
 {

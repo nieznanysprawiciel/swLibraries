@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\GeometricsCore\Generators\Generator.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Generators\Validation.h" />
+    <ClInclude Include="..\..\..\GeometricsCore\Math\Math.h" />
+    <ClInclude Include="..\..\..\GeometricsCore\Math\Types.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Processors\Converter.inl">
       <FileType>CppHeader</FileType>
     </ClInclude>
@@ -33,8 +35,6 @@
     <ClInclude Include="..\..\..\GeometricsCore\Processors\Transform\Translate2D.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\Accessors\DefaultAccessors.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\IndexTypes.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\Types\Math\SimpleMath.h" />
-    <ClInclude Include="..\..\..\GeometricsCore\Types\Math\Types.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\GeneratorTraits.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\ProcessorTraits.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\VertexLayouts\VertexShape2D.h" />

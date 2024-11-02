@@ -12,7 +12,7 @@
 
 #include "swGraphicAPI/ResourceManager/Loaders/Tools/CanLoad.h"
 #include "swGraphicAPI/ResourceManager/Exceptions/LoaderException.h"
-#include "swGeometrics/GeometricsCore/Types/Math/SimpleMath.h"
+#include "swGeometrics/GeometricsCore/Math/Math.h"
 
 #include "swGraphicAPI/Loaders/SoilTextureLoader/SoilTextureLoader.h"
 #include "swGraphicAPI/Assets/TextAsset/FontAsset.h"
