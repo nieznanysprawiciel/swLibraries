@@ -10,6 +10,7 @@
 #include "swCommonLib/Common/Exceptions/ErrorsCollector.h"
 
 #include "swGeometrics/GeometricsCore/Types/Traits/ProcessorTraits.h"
+#include "swGeometrics/GeometricsCore/Types/Accessors/DefaultAccessors.h"
 
 
 namespace sw {

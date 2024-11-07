@@ -13,6 +13,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestText\TestFontLoader.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestText\TestArranger.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Tests\TestText\Utils.h" />

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestText\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestText\TestArranger.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestText\TestFontLoader.cpp" />
   </ItemGroup>
   <ItemGroup>

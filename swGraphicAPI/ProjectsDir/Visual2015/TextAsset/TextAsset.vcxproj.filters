@@ -39,4 +39,7 @@
       <UniqueIdentifier>{b1f0b646-c550-479e-9378-fe9824719d30}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Assets\TextAsset\Text.inl" />
+  </ItemGroup>
 </Project>

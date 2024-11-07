@@ -52,12 +52,10 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-
   <Import Project="..\Paths.props" />
   <Import Project="..\LibraryConfig.props" />
   <Import Project="..\LinkReflection.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -74,14 +72,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
-
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>swGUI/Core/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemDefinitionGroup>
-
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -201,6 +197,7 @@
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\Drawing.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\IDrawing.h" />
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\TextDrawing.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\RenderingHelpers.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\RenderingParams.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\RenderingSystem.h" />
@@ -263,6 +260,7 @@
     <ClCompile Include="..\..\..\Core\System\Initializers.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\Drawing.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.cpp" />
+    <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\TextDrawing.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\RenderingHelpers.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\RenderingSystem.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\Shading\ShaderBuilder.cpp" />

@@ -21,6 +21,8 @@ struct Glyph
     int32           BearingX;   // The horizontal distance from the current cursor position to the leftmost border of the glyph image's bounding box.
     int32           BearingY;   // The vertical distance from the current cursor position (on the baseline) to the topmost border of the glyph image's bounding box.
     
+    /**Coordinates are expressed in pixels. @ref Glyph::Width and @ref Glyph::Height can be used to compute
+    other edges of the rectangle.*/
     uint32          TextureX;   // x pixel coord of the bitmap's bottom-left corner
     uint32          TextureY;   // y pixel coord of the bitmap's bottom-left corner
 

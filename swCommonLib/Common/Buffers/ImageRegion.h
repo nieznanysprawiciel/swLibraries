@@ -37,7 +37,7 @@ class ImageRegion
 private:
 protected:
 
-    Image< ContentType, Alloc >& m_image;
+    Image< ContentType, Alloc >&    m_image;
     ImageRect                       m_region;
 
     /**Fallback Pixel returned in case access operation was attempted outside

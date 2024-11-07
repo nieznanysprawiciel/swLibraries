@@ -34,6 +34,7 @@
     </ClCompile>
     <ClInclude Include="..\..\..\GeometricsCore\Processors\Transform\Translate2D.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\Accessors\DefaultAccessors.h" />
+    <ClInclude Include="..\..\..\GeometricsCore\Types\Accessors\TextAccessors.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\IndexTypes.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\GeneratorTraits.h" />
     <ClInclude Include="..\..\..\GeometricsCore\Types\Traits\ProcessorTraits.h" />

@@ -1,6 +1,6 @@
 #pragma once
 /**
-@file IndexGeometry.h
+@file IndexedGeometry.h
 @author nieznanysprawiciel
 @copyright File is part of graphic engine SWEngine.
 */

@@ -39,7 +39,7 @@ struct GeometryRenderingData
     BufferPtr                   IndexBuffer;		///< Index Buffer containing both fill and border indicies.
     BufferPtr                   GeometryConstants;	///< Constant buffer bound to Vertex Shader.
     VertexShaderPtr             VertexShader;		///< Vertex Shader.
-    ShaderInputLayoutPtr        Layout;				///< Bertex layout.
+    ShaderInputLayoutPtr        Layout;				///< Vertex layout.
 	uint32                      FillEnd;			///< End of fill indicies in buffer.
 	uint32                      BorderEnd;			///< End of border indicies in buffer.
 	PrimitiveTopology           Topology;			///< Geometry topology.

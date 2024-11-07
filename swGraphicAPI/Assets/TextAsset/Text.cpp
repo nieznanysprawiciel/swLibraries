@@ -5,6 +5,9 @@
 */
 #include "swGraphicAPI/Assets/TextAsset/stdafx.h"
 
+#include "swGeometrics/GeometricsCore/Generators/Generator.h"
+#include "swGeometrics/BasicShapes/CoordsUV/PlanarUV.h"
+
 #include "Text.h"
 
 
@@ -15,7 +18,7 @@ namespace sw
 
 // ================================ //
 
-std::vector< Position2d >             TextArrange::ArrangeText( const std::wstring& text, const FontLayout& layout ) const
+std::vector< Position2d >             TextArranger::ArrangeText( const std::wstring& text, const FontLayout& layout ) const
 {
     std::vector< Position2d > letters;
     letters.reserve( text.length() );
@@ -42,10 +45,10 @@ std::vector< Position2d >             TextArrange::ArrangeText( const std::wstri
 
 // ================================ //
 
-std::vector< Position2d >               TextArrange::ArrangeLine( std::wstring_view text, const FontLayout& layout, Position2d translate ) const
+std::vector< Position2d >               TextArranger::ArrangeLine( std::wstring_view text, const FontLayout& layout, Position2d translate ) const
 {
     std::vector< Position2d > letters;
-    letters.reserve( text.find_first_of( L"\n\r") );
+    letters.reserve( EstimateLineLength( text ) );
 
     Size lastSpace = 0;
 
@@ -70,14 +73,14 @@ std::vector< Position2d >               TextArrange::ArrangeLine( std::wstring_v
         {
             auto& glyph = glyphIter->second;
 
-            if( this->UseKerning && charIdx > 0 )
+            if ( this->UseKerning && charIdx > 0 && !IsWhitespace( text[ charIdx - 1 ] ) )
             {
                 auto kerShift = layout.Kerning.at( std::make_pair( text[ charIdx - 1 ], text[ charIdx ] ) );
-                translate += Position2d( kerShift / this->AspectRatio, 0.0 );
+                translate += Position2d( kerShift, 0.0 );
             }
 
             letters.push_back( translate );
-            translate += Position2d( this->Interspace + ( glyph.AdvanceX / this->AspectRatio ), 0.f );
+            translate += Position2d( this->Interspace + glyph.AdvanceX, 0.f );
         }
         else
         {
@@ -100,7 +103,7 @@ std::vector< Position2d >               TextArrange::ArrangeLine( std::wstring_v
 
 // ================================ //
 
-void                TextArrange::ApplyAlignement( const FontLayout& layout, std::vector< Position2d >& letters, std::wstring_view text ) const
+void                TextArranger::ApplyAlignement( const FontLayout& layout, std::vector< Position2d >& letters, std::wstring_view text ) const
 {
     if( letters.empty() || text.length() < letters.size() )
         return;
@@ -109,7 +112,7 @@ void                TextArrange::ApplyAlignement( const FontLayout& layout, std:
     Position2d last = letters[ charIdx ];
     auto& glyph = layout.Glyphs.at( text[ charIdx ] );
 
-    float textWidth = letters.back().x - letters.front().x + ( glyph.AdvanceX / this->AspectRatio );
+    float textWidth = letters.back().x - letters.front().x + glyph.AdvanceX;
     float remainingSpace = this->Bounds.Right - this->Bounds.Left - textWidth;
 
 
@@ -163,7 +166,7 @@ void                TextArrange::ApplyAlignement( const FontLayout& layout, std:
 
 // ================================ //
 
-bool                TextArrange::IsWhitespace        ( wchar_t character )
+bool                TextArranger::IsWhitespace        ( wchar_t character )
 {
     if( character == L' ' || character == L'\n' || character == L'\r' )
         return true;
@@ -172,7 +175,7 @@ bool                TextArrange::IsWhitespace        ( wchar_t character )
 
 // ================================ //
 
-bool                TextArrange::IsNewline             ( wchar_t character )
+bool                TextArranger::IsNewline             ( wchar_t character )
 {
     if( character == L'\n' || character == L'\r' )
         return true;
@@ -181,11 +184,50 @@ bool                TextArrange::IsNewline             ( wchar_t character )
 
 // ================================ //
 
-bool                TextArrange::IsSpace               ( wchar_t character )
+bool                TextArranger::IsSpace               ( wchar_t character )
 {
     if( character == L' ' )
         return true;
     return false;
+}
+
+// ================================ //
+
+Size                TextArranger::EstimateLineLength( std::wstring_view text ) { 
+    auto endline = text.find_first_of( L"\n\r" );
+    return endline != std::string::npos ? endline : text.length();
+}
+
+// ================================ //
+
+Nullable< geom::IndexedGeometry< geom::VertexShape2D, Index32 > >    TextArranger::GenerateGeometry( const std::wstring& text, const FontAssetPtr font, bool genBackground ) const
+{
+    auto letters = this->ArrangeText( text, font->GetLayout() );
+    
+    TextGeometryGenerator< geom::VertexShape2D, Index32, geom::TextAcc< geom::VertexShape2D > > generator( std::move( letters ), font, text );
+    generator.GenerateBackground = genBackground;
+    generator.Bounds = this->Bounds;
+
+    return geom::Generate< geom::IndexedGeometry< geom::VertexShape2D, Index32 > >( generator );
+}
+
+// ================================ //
+
+Nullable< geom::IndexedGeometry< geom::VertexText2D, Index32 > >      TextArranger::GenerateGeometryTextured( const std::wstring& text, const FontAssetPtr font, bool genBackground ) const
+{
+    auto letters = this->ArrangeText( text, font->GetLayout() );
+
+    TextGeometryGenerator< geom::VertexText2D, Index32, geom::TexturedTextAcc< geom::VertexText2D > > generator( std::move( letters ), font, text);
+    generator.GenerateBackground = genBackground;
+    generator.Bounds = this->Bounds;
+
+    geom::PlanarUV< geom::VertexText2D > planarUV;
+    planarUV.MinX = this->Bounds.Left;
+    planarUV.MinY = this->Bounds.Bottom;
+    planarUV.MaxX = this->Bounds.Right;
+    planarUV.MaxY = this->Bounds.Top;
+
+    return geom::Generate< geom::IndexedGeometry< geom::VertexText2D, Index32 > >( generator, planarUV );
 }
 
 }	// sw

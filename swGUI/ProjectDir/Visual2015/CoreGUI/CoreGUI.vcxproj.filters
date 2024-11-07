@@ -327,6 +327,9 @@
     <ClInclude Include="..\..\..\Core\Media\Brushes\AngleGradientBrush.h">
       <Filter>Core\Media\Brushes</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\TextDrawing.h">
+      <Filter>Core\System\Rendering\Drawings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\System\Events\IEventArgs.cpp">
@@ -478,6 +481,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Core\Media\Brushes\ImageBrush.cpp">
       <Filter>Core\Media\Brushes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\TextDrawing.cpp">
+      <Filter>Core\System\Rendering\Drawings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
