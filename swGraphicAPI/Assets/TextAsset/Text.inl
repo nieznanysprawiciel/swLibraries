@@ -88,7 +88,6 @@ inline void         TextGeometryGenerator< VertexType, IndexType, TextAcc >::Gen
 {
     auto idx = FindLetterIndex( vertexIdx );
     auto wch = m_text.at( idx );
-    auto& glyph = m_layout.Glyphs.at( wch );
     Position2d translate = m_letters[ idx ];
 
     if( TextArranger::IsWhitespace( wch ) )
@@ -97,6 +96,8 @@ inline void         TextGeometryGenerator< VertexType, IndexType, TextAcc >::Gen
         return;
     }
 
+    auto& glyph = m_layout.Glyphs.at( wch );
+    
     PutLetterVertex( vertex, glyph, translate, vertexIdx );
     PutLetterUV( vertex, glyph, translate, vertexIdx );
 }

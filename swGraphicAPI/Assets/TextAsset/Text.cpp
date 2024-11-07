@@ -34,6 +34,7 @@ std::vector< Position2d >             TextArranger::ArrangeText( const std::wstr
         ApplyAlignement( layout, line, lineString );
 
         charIdx += line.size();
+        letters.insert( letters.end(), line.begin(), line.end() );
         translate = Position2d( this->Bounds.Left, translate.y - this->NewLineSize );
 
         if( this->CutOutOfBounds && translate.y < this->Bounds.Bottom )
