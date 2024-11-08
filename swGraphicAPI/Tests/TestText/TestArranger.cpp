@@ -44,4 +44,13 @@ TEST_CASE( "GraphicAPI.Text.Generate.TrickyTexts.SpacesAndNewlines", "[GraphicAP
 
     auto geometry4 = arranger.GenerateGeometry( L"Hello World\n\n\n\n", font.Get(), false );
     REQUIRE_IS_VALID( geometry4 );
+
+    auto geometry5 = arranger.GenerateGeometry( L"Hello World \n", font.Get(), false );
+    REQUIRE_IS_VALID( geometry5 );
+
+    auto geometry6 = arranger.GenerateGeometry( L"Hello World \n ", font.Get(), false );
+    REQUIRE_IS_VALID( geometry6 );
+
+    auto geometry7 = arranger.GenerateGeometry( L"Hello World \nHello World\nHello World\n", font.Get(), false );
+    REQUIRE_IS_VALID( geometry7 );
 }
