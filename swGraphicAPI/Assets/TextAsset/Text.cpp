@@ -110,10 +110,7 @@ void                TextArranger::ApplyAlignement( const FontLayout& layout, std
         return;
 
     Size charIdx = letters.size() - 1;
-    Position2d last = letters[ charIdx ];
-    auto& glyph = layout.Glyphs.at( text[ charIdx ] );
-
-    float textWidth = letters.back().x - letters.front().x + glyph.AdvanceX;
+    float textWidth = TextWidth( letters, text.data(), layout );
     float remainingSpace = this->Bounds.Right - this->Bounds.Left - textWidth;
 
 
@@ -163,6 +160,34 @@ void                TextArranger::ApplyAlignement( const FontLayout& layout, std
     default:
         break;
     }
+}
+
+// ================================ //
+
+float               TextArranger::TextWidth( const std::vector< Position2d >& letters, const std::wstring& text, const FontLayout& layout ) const
+{
+    Size charIdx = letters.size() - 1;
+    Position2d last = letters[ charIdx ];
+    float adjustLast = 0.0;
+
+    if( IsSpace( text[ charIdx ] ) )
+    {
+        // If last character was space, we want to adjust to last character before.
+        adjustLast = -( this->SpaceSize + this->Interspace );
+    }
+    else if( IsNewline( text[ charIdx ] ) )
+    {
+        // Ignore newline, since last character is already in correct position.
+        float adjustLast = 0.0;
+    }
+    else
+    {
+        // Normal character. We need to move forward to right edge.
+        auto& glyph = layout.Glyphs.at( text[ charIdx ] );
+        adjustLast = (float)glyph.Width - (float)glyph.BearingX;
+    }
+
+    return letters.back().x - letters.front().x + adjustLast;
 }
 
 // ================================ //

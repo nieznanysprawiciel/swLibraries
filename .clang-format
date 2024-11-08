@@ -206,7 +206,7 @@ SpaceBeforeCpp11BracedList: false
 SpaceBeforeCtorInitializerColon: true
 SpaceBeforeInheritanceColon: true
 # Add a space before opening the parentheses: Never, ControlStatements, Always
-SpaceBeforeParens: ControlStatements
+SpaceBeforeParens: Never
 SpacesInParens: Custom
 SpacesInParensOptions:
   # ExceptDoubleParentheses: true
@@ -225,7 +225,7 @@ SpacesInCStyleCastParentheses: false
 # Add a space before the (after and) of the parentheses
 SpacesInParentheses: false
 # Add a space before the [after and] of the square brackets, the declaration of lamda expressions and arrays of unspecified size will not be affected
-SpacesInSquareBrackets: false
+SpacesInSquareBrackets: true
 # Standard: Cpp03, Cpp11, Auto
 Standard: Cpp11
 # tab width

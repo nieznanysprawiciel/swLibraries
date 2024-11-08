@@ -5,6 +5,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
+#include <optional>
 
 #include "swCommonLib/Common/TypesDefinitions.h"
 #include "swCommonLib/Common/Buffers/ImageRegion.h"

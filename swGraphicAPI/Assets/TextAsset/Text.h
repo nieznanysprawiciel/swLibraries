@@ -68,6 +68,8 @@ public:
     std::vector< Position2d >   ArrangeLine( std::wstring_view text, const FontLayout& layout, Position2d startPosition ) const;
     void                        ApplyAlignement( const FontLayout& layout, std::vector< Position2d >& letters, std::wstring_view text ) const;
     
+    float                       TextWidth( const std::vector< Position2d >& letters, const std::wstring& text, const FontLayout& layout ) const; 
+
     static bool                 IsWhitespace( wchar_t character );
     static bool                 IsNewline( wchar_t character );
     static bool                 IsSpace( wchar_t character );
