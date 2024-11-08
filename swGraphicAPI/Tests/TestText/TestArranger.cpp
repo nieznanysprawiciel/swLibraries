@@ -53,4 +53,13 @@ TEST_CASE( "GraphicAPI.Text.Generate.TrickyTexts.SpacesAndNewlines", "[GraphicAP
 
     auto geometry7 = arranger.GenerateGeometry( L"Hello World \nHello World\nHello World\n", font.Get(), false );
     REQUIRE_IS_VALID( geometry7 );
+
+    auto geometry8 = arranger.GenerateGeometry( L"    ", font.Get(), false );
+    REQUIRE_IS_VALID( geometry8 );
+
+    auto geometry9 = arranger.GenerateGeometry( L"\n", font.Get(), false );
+    REQUIRE_IS_VALID( geometry9 );
+
+    auto geometry10 = arranger.GenerateGeometry( L"", font.Get(), false );
+    REQUIRE_IS_VALID( geometry10 );
 }
