@@ -63,3 +63,70 @@ TEST_CASE( "GraphicAPI.Text.Generate.TrickyTexts.SpacesAndNewlines", "[GraphicAP
     auto geometry10 = arranger.GenerateGeometry( L"", font.Get(), false );
     REQUIRE_IS_VALID( geometry10 );
 }
+
+// ================================ //
+//
+TEST_CASE( "GraphicAPI.Text.Generate.WithBackground", "[GraphicAPI][Text]" )
+{
+    auto rm = CreateResourceManagerWithFonts();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    FontLoaderData init( 16 );
+
+    auto font = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init );
+    REQUIRE_IS_VALID( font );
+
+    TextArranger arranger;
+    auto geometry = arranger.GenerateGeometry( L"Hello World", font.Get(), true );
+    REQUIRE_IS_VALID( geometry );
+
+    CHECK( geometry.Get().Verticies.ElementsCount() == 48 );
+    CHECK( geometry.Get().Indicies.ElementsCount() == 72 );
+}
+
+// ================================ //
+//
+TEST_CASE( "GraphicAPI.Text.Generate.Textured", "[GraphicAPI][Text]" )
+{
+    auto rm = CreateResourceManagerWithFonts();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    FontLoaderData init( 16 );
+
+    auto font = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init );
+    REQUIRE_IS_VALID( font );
+
+    TextArranger arranger;
+    auto geometry = arranger.GenerateGeometryTextured( L"Hello World", font.Get(), true );
+    REQUIRE_IS_VALID( geometry );
+
+    CHECK( geometry.Get().Verticies.ElementsCount() == 48 );
+    CHECK( geometry.Get().Indicies.ElementsCount() == 72 );
+}
+
+// ================================ //
+// Zero bounds can crash PlanarUV generator.
+TEST_CASE( "GraphicAPI.Text.Generate.ZeroBounds", "[GraphicAPI][Text]" )
+{
+    auto rm = CreateResourceManagerWithFonts();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    FontLoaderData init( 16 );
+
+    auto font = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init );
+    REQUIRE_IS_VALID( font );
+
+    TextArranger arranger;
+    arranger.Bounds = { 0.0f, 0.0f, 0.0f, 0.0f };
+    auto geometry = arranger.GenerateGeometry( L"Hello World", font.Get(), true );
+    REQUIRE_IS_VALID( geometry );
+
+    CHECK( geometry.Get().Verticies.ElementsCount() == 48 );
+    CHECK( geometry.Get().Indicies.ElementsCount() == 72 );
+
+    auto geometry2 = arranger.GenerateGeometryTextured( L"Hello World", font.Get(), true );
+    REQUIRE_IS_VALID( geometry2 );
+
+    CHECK( geometry2.Get().Verticies.ElementsCount() == 48 );
+    CHECK( geometry2.Get().Indicies.ElementsCount() == 72 );
+}

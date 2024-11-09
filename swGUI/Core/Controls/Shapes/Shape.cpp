@@ -13,7 +13,7 @@
 
 RTTR_REGISTRATION
 {
-	rttr::registration::class_< sw::gui::DependencyObject >( "sw::gui::Shape" )
+    rttr::registration::class_< sw::gui::Shape >( "sw::gui::Shape" )
 		.property( "Fill", &sw::gui::Shape::GetFill, &sw::gui::Shape::SetFill )
 		.property( "Stroke", &sw::gui::Shape::GetStroke, &sw::gui::Shape::SetStroke );
 }
@@ -51,7 +51,7 @@ void					Shape::SetStroke				( BrushPtr pen )
 {
 	m_stroke = pen;
 
-	// Create new Drawing only if i previously existed. Drawing doesn't exist if Geometry is not set.
+	// Create new Drawing only if it previously existed. Drawing doesn't exist if Geometry is not set.
 	if( m_drawing && m_stroke != m_drawing->GetPen() )
 	{
 		m_drawing = std::make_shared< GeometryDrawing >( m_drawing->GetBrush(), m_stroke, m_drawing->GetGeometry() );

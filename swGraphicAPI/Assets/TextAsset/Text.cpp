@@ -116,13 +116,13 @@ void                TextArranger::ApplyAlignement( const FontLayout& layout, std
 
     switch( this->TextAlign )
     {
-    case TextAlignmentType::Left:
+    case TextAlignment::Left:
     {
         // Nothing to do. Text is aligned to left by default.
         break;
     }
 
-    case TextAlignmentType::Center:
+    case TextAlignment::Center:
     {
         float offset = remainingSpace / 2.0f;
         for( auto& letter : letters )
@@ -130,14 +130,14 @@ void                TextArranger::ApplyAlignement( const FontLayout& layout, std
         break;
     }
 
-    case TextAlignmentType::Right:
+    case TextAlignment::Right:
     {
         for( auto& letter : letters )
             letter.x += remainingSpace;
         break;
     }
 
-    case TextAlignmentType::Justification:
+    case TextAlignment::Justify:
     {
         // Find all spaces which will be extended.
         auto numSpaces = std::count_if( text.begin(), text.begin() + charIdx, [](wchar_t c) { return IsWhitespace(c);  });
@@ -226,34 +226,59 @@ Size                TextArranger::EstimateLineLength( std::wstring_view text ) {
 
 // ================================ //
 
-Nullable< geom::IndexedGeometry< geom::VertexShape2D, Index32 > >    TextArranger::GenerateGeometry( const std::wstring& text, const FontAssetPtr font, bool genBackground ) const
-{
-    auto letters = this->ArrangeText( text, font->GetLayout() );
+Rect2d              TextArranger::ComputeTextBounds( const std::vector< Position2d >& letters ) { 
+    if( letters.empty() )
+        // PlanarUV requires non-zero size.
+        return Rect2d{ 0.f, 0.000001f, 0.f, 0.000001f };
     
-    TextGeometryGenerator< geom::VertexShape2D, Index32, geom::TextAcc< geom::VertexShape2D > > generator( std::move( letters ), font, text );
-    generator.GenerateBackground = genBackground;
-    generator.Bounds = this->Bounds;
+    auto [ minX, maxX ] =
+        std::minmax_element( letters.begin(), letters.end(), []( auto& pos1, auto& pos2 ) { return pos1.x < pos2.x; } );
+    auto [ minY, maxY ] =
+        std::minmax_element( letters.begin(), letters.end(), []( auto& pos1, auto& pos2 ) { return pos1.y < pos2.y; } );
 
-    return geom::Generate< geom::IndexedGeometry< geom::VertexShape2D, Index32 > >( generator );
+    auto bb = Rect2d{ minX->x, maxX->x, minY->y, maxY->y };
+    
+    // PlanarUV requires non-zero size.
+    bb.Right = bb.Right - bb.Left == 0.0f ? 0.000001f : bb.Right;
+    bb.Bottom = bb.Top - bb.Bottom == 0.0f ? 0.000001f : bb.Bottom;
+
+    return bb;
 }
 
 // ================================ //
 
-Nullable< geom::IndexedGeometry< geom::VertexText2D, Index32 > >      TextArranger::GenerateGeometryTextured( const std::wstring& text, const FontAssetPtr font, bool genBackground ) const
+Nullable< geom::IndexedGeometryBuffer< geom::VertexShape2D, Index32 > >
+TextArranger::GenerateGeometry( const std::wstring& text, const FontAssetPtr font, bool genBackground ) const
 {
     auto letters = this->ArrangeText( text, font->GetLayout() );
+    auto textBB = ComputeTextBounds( letters );
+    
+    TextGeometryGenerator< geom::VertexShape2D, Index32, geom::TextAcc< geom::VertexShape2D > > generator( std::move( letters ), font, text );
+    generator.GenerateBackground = genBackground;
+    generator.Bounds = this->WrapText ? this->Bounds : textBB;
+
+    return geom::Generate< geom::IndexedGeometryBuffer< geom::VertexShape2D, Index32 > >( generator );
+}
+
+// ================================ //
+
+Nullable< geom::IndexedGeometryBuffer< geom::VertexText2D, Index32 > >
+TextArranger::GenerateGeometryTextured( const std::wstring& text, const FontAssetPtr font, bool genBackground ) const
+{
+    auto letters = this->ArrangeText( text, font->GetLayout() );
+    auto textBB = ComputeTextBounds( letters );
 
     TextGeometryGenerator< geom::VertexText2D, Index32, geom::TexturedTextAcc< geom::VertexText2D > > generator( std::move( letters ), font, text);
     generator.GenerateBackground = genBackground;
-    generator.Bounds = this->Bounds;
+    generator.Bounds = this->WrapText ? this->Bounds : textBB;
 
     geom::PlanarUV< geom::VertexText2D > planarUV;
-    planarUV.MinX = this->Bounds.Left;
-    planarUV.MinY = this->Bounds.Bottom;
-    planarUV.MaxX = this->Bounds.Right;
-    planarUV.MaxY = this->Bounds.Top;
+    planarUV.MinX = generator.Bounds.Left;
+    planarUV.MinY = generator.Bounds.Top;
+    planarUV.MaxX = generator.Bounds.Right;
+    planarUV.MaxY = generator.Bounds.Bottom;
 
-    return geom::Generate< geom::IndexedGeometry< geom::VertexText2D, Index32 > >( generator, planarUV );
+    return geom::Generate< geom::IndexedGeometryBuffer< geom::VertexText2D, Index32 > >( generator, planarUV );
 }
 
 }	// sw

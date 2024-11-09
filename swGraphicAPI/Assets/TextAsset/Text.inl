@@ -15,12 +15,14 @@ namespace sw
 template< typename VertexType, typename IndexType, typename TextAcc >
 inline Size         TextGeometryGenerator< VertexType, IndexType, TextAcc >::GetNumberVerticies() const
 {
-    auto numSpaces = std::count_if( m_text.begin(), m_text.end(), []( wchar_t c ) { return TextArranger::IsWhitespace( c ); } );
+    // Whitespaces could be remove, but it complicates code and isn't worth at this moment.
+    //auto numSpaces = std::count_if( m_text.begin(), m_text.end(), []( wchar_t c ) { return TextArranger::IsWhitespace( c ); } );
+    auto numSpaces = 0;
     auto numLettersVerts = 4 * ( m_text.length() - numSpaces );
 
     if( GenerateBackground )
     {
-        auto numBackgroundVerts = 4 * 4;
+        auto numBackgroundVerts = 4;
         return numLettersVerts + numBackgroundVerts;
     }
     else
@@ -34,6 +36,22 @@ inline Size         TextGeometryGenerator< VertexType, IndexType, TextAcc >::Get
 {
     // Each letter is rectangle that has 4 vertices. We need 6 indices to draw 2 triangles.
     return 3 * GetNumberVerticies() / 2;
+}
+
+// ================================ //
+
+template < typename VertexType, typename IndexType, typename TextAcc >
+inline Size         TextGeometryGenerator< VertexType, IndexType, TextAcc >::GetNumberTextIndicies() const
+{
+    return GetNumberIndicies() - GetNumberBorderIndicies();
+}
+
+// ================================ //
+
+template < typename VertexType, typename IndexType, typename TextAcc >
+inline Size         TextGeometryGenerator< VertexType, IndexType, TextAcc >::GetNumberBorderIndicies() const
+{
+    return GenerateBackground ? 6 : 0;
 }
 
 // ================================ //
@@ -98,8 +116,8 @@ inline void         TextGeometryGenerator< VertexType, IndexType, TextAcc >::Gen
 
     auto& glyph = m_layout.Glyphs.at( wch );
     
-    PutLetterVertex( vertex, glyph, translate, vertexIdx );
-    PutLetterUV( vertex, glyph, translate, vertexIdx );
+    PutLetterVertex( vertex, glyph, translate, idx );
+    PutLetterUV( vertex, glyph, translate, idx );
 }
 
 // ================================ //
