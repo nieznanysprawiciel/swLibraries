@@ -5,6 +5,9 @@
 */
 #include "swGUI/Core/stdafx.h"
 
+#include "swCommonLib/Common/Logging/Logger.h"
+#include "swCommonLib/Common/Logging/ConsoleLogger.h"
+
 
 #include "GUISystem.h"
 
@@ -158,6 +161,9 @@ void				GUISystem::CloseLogic		()
 /**@brief Invoke this function in application entry point (main).*/
 ReturnResult		GUISystem::Init()
 {
+    // @todo If user changed logger, we should honour this decision and not override it.
+    sw::ILogger::SetLogger( std::make_unique< sw::ConsoleLogger >() );
+
     ReturnResult result = Success::True;
 
 	result = result && Initialize();		// Initialize subsystems.

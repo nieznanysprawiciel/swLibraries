@@ -84,6 +84,9 @@
     <ClCompile Include="..\..\..\Common\Converters\ConvertErrno.cpp">
       <Filter>Common\Converters</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Common\Logging\Logger.cpp">
+      <Filter>Common\Logging</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Common\MemoryChunk.h">
@@ -244,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Buffers\ImageRegion.h">
       <Filter>Common\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Logging\ConsoleLogger.h">
+      <Filter>Common\Logging</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

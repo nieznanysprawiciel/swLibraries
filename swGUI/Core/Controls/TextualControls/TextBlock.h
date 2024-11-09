@@ -58,6 +58,7 @@ protected:
 
     TextAlignment       m_textAlignment;
     FontSizeType        m_fontSize;
+    std::wstring        m_text;
 
 public:
 
@@ -85,7 +86,7 @@ public:
     void                SetFontWeight( FontWeight fontWeight );
 
     void                SetText( const std::wstring& text );
-    std::wstring        GetText() const;
+    std::wstring        GetText() const { return m_text; }
 
 
     GeometryPtr         GetGeometry() const { return m_drawing->GetGeometry(); }

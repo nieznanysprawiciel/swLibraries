@@ -274,6 +274,9 @@
     <ClCompile Include="..\..\..\Core\System\Time\Clock.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
+      <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\swGeometrics\ProjectDir\Visual2015\BasicShapes\BasicShapes.vcxproj">
       <Project>{b70c60c2-29eb-4302-80ef-9d396749d545}</Project>
     </ProjectReference>

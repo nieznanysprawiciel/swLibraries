@@ -31,7 +31,7 @@ TextGeometry::TextGeometry( FontAssetPtr font )
 
 // ================================ //
 
-void TextGeometry::SetText( const std::wstring& text )
+void                TextGeometry::SetText( const std::wstring& text )
 {
     m_text = text;
     InvalidateGeometry();

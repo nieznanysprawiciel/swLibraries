@@ -10,6 +10,7 @@
 #include "RenderingHelpers.h"
 
 #include "swCommonLib/Common/Buffers/StackBuffer.h"
+#include "swCommonLib/Common/Logging/Logger.h"
 
 #include "swGUI/Core/System/HostWindow.h"
 
@@ -124,6 +125,11 @@ void				RenderingSystem::SetSystemConstants			( IRenderer* renderer, const Rende
 void				RenderingSystem::DrawVisual					( IRenderer* renderer, Visual* visual, const RenderingParams& params )
 {
     auto result = visual->UpdateDrawingResources( m_resourceManager, &m_shaderProvider );
+	if( !result.IsValid() )
+    {
+        LOG_WARN( fmt::format( "Failed to update IDrawing resources for Visual: {}", result.GetErrorReason() ) );
+        return;
+    }
 
 	IDrawing* drawing = visual->QueryDrawing();
 	if( drawing )

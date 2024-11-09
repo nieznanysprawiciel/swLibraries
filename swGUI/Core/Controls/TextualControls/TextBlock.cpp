@@ -54,7 +54,10 @@ ReturnResult    TextBlock::UpdateDrawingResources( ResourceManagerAPI& api, Shad
         auto font = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init );
         ReturnIfInvalid( font );
 
-        SetGeometry( std::make_shared< TextGeometry >( font.Get() ) );
+        auto geometry = std::make_shared< TextGeometry >( font.Get() );
+        geometry->SetText( m_text );
+
+        SetGeometry( geometry );
     }
 
     return Success::True;
@@ -90,6 +93,15 @@ void            TextBlock::SetForeground( BrushPtr pen )
 
 // ================================ //
 //
+
+void            TextBlock::SetText( const std::wstring& text )
+{
+    m_text = text;
+    if( m_drawing )
+        m_drawing->GetTextGeometry()->SetText( text );
+}
+
+// ================================ //
 
 void            TextBlock::SetGeometry( GeometryPtr geom )
 {

@@ -34,7 +34,7 @@ public:
 
 public:
 
-	const TextGeometryPtr&	GetTextGeometry() const { return std::static_pointer_cast< TextGeometry >( GetGeometry() ); }
+	const TextGeometryPtr	GetTextGeometry() const { return std::static_pointer_cast< TextGeometry >( GetGeometry() ); }
     
 };
 

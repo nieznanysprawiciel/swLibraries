@@ -24,6 +24,7 @@
     <ClCompile Include="..\..\..\Common\Exceptions\Common\FileNotFoundException.cpp" />
     <ClCompile Include="..\..\..\Common\Exceptions\Common\InvalidCodeLogicException.cpp" />
     <ClCompile Include="..\..\..\Common\Exceptions\ExceptionsList.cpp" />
+    <ClCompile Include="..\..\..\Common\Logging\Logger.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\Semaphore.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\ThreadsBarrier.cpp" />
     <ClCompile Include="..\..\..\Common\Multithreading\ThreadsLatch.cpp" />
@@ -57,6 +58,7 @@
     <ClInclude Include="..\..\..\Common\Exceptions\Result.h" />
     <ClInclude Include="..\..\..\Common\Exceptions\ResultImpl.h" />
     <ClInclude Include="..\..\..\Common\fmt.h" />
+    <ClInclude Include="..\..\..\Common\Logging\ConsoleLogger.h" />
     <ClInclude Include="..\..\..\Common\Logging\Logger.h" />
     <ClInclude Include="..\..\..\Common\Macros\DefineFmtFormatter.h" />
     <ClInclude Include="..\..\..\Common\Macros\ForEach.h" />

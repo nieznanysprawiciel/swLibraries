@@ -2,6 +2,7 @@
 
 #include "swGUI/Core/Controls/Shapes/Rectangle.h"
 #include "swGUI/Core/Controls/Shapes/Ellipse.h"
+#include "swGUI/Core/Controls/TextualControls/TextBlock.h"
 
 #include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
 #include "swGUI/Core/Media/Brushes/LinearGradientBrush.h"
@@ -63,6 +64,24 @@ void		AddEllipse						( HostWindow* host, BrushPtr brush, BrushPtr stroke, float
 	host->AddChild( std::move( ellipseControl ) );
 }
 
+// ================================ //
+//
+void		AddText			( HostWindow* host, BrushPtr brush, BrushPtr pen, float width, float height, Position pos, const std::wstring& text )
+{
+    TextBlockOPtr textBlock = TextBlockOPtr( new TextBlock() );
+
+    textBlock->SetBackground( brush );
+    textBlock->SetForeground( pen );
+
+    textBlock->SetHeight( height );
+    textBlock->SetWidth( width );
+
+    textBlock->SetOffset( pos );
+    textBlock->SetText( text );
+
+    host->AddChild( std::move( textBlock ) );
+}
+
 
 // ================================ //
 //
@@ -120,6 +139,10 @@ void		AddControls						( HostWindow* host )
 	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
 
 	AddRectangle( host, gradientBrush, stroke, 120, 768, 2, Position( 750, 0 ) );
+
+	auto background = std::make_shared< SolidColorBrush >( Color( 1.0, 0.0, 0.0, 1.0 ) );
+    auto pen = std::make_shared< SolidColorBrush >( Color( 0.0, 1.0, 0.0, 1.0 ) );
+    AddText( host, background, pen, 200, 200, Position( 100, 500 ), L"Hello World" );
 }
 
 
