@@ -123,6 +123,8 @@ void				RenderingSystem::SetSystemConstants			( IRenderer* renderer, const Rende
 //
 void				RenderingSystem::DrawVisual					( IRenderer* renderer, Visual* visual, const RenderingParams& params )
 {
+    auto result = visual->UpdateDrawingResources( m_resourceManager, &m_shaderProvider );
+
 	IDrawing* drawing = visual->QueryDrawing();
 	if( drawing )
 	{

@@ -98,6 +98,10 @@ protected:
 	bool					UpdateGeometryConstants	( ResourceManagerAPI rm, Geometry* geometry );
 
 	bool					CreateAndSetLayout		( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry );
+    template< typename VertexType >
+	bool					CreateAndSetLayoutForVertexType( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry );
+    template < typename VertexStruct >
+    ShaderInputLayoutPtr	CreateLayout			( ResourceManagerAPI rm, ShaderProvider* sp );
 	///@}
 
 	///@name Rendering functions.
@@ -138,6 +142,22 @@ public:
 DEFINE_PTR_TYPE( Drawing )
 
 
-}	// gui
+
+// ================================ //
+//
+
+template < typename VertexType >
+inline bool			Drawing::CreateAndSetLayoutForVertexType( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry )
+{
+    if( !m_geometryData.Layout )
+    {
+        m_geometryData.Layout = CreateLayout< VertexShape2D >( rm, sp );
+        return true;
+    }
+
+    return false;
+}
+
+}  // namespace gui
 }	// sw
 

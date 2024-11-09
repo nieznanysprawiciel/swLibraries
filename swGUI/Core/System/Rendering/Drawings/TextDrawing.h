@@ -5,10 +5,10 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-#include "Drawing.h"
+#include "GeometryDrawing.h"
 
 #include "swGUI/Core/Media/Brushes/Brush.h"
-#include "swGUI/Core/Media/Geometry/Geometry.h"
+#include "swGUI/Core/Media/Geometry/TextGeometry.h"
 
 
 namespace sw {
@@ -18,20 +18,15 @@ namespace gui
 /**@brief Draws text and it's background.
 
 @ingroup Drawing*/
-class TextDrawing : public Drawing
+class TextDrawing : public GeometryDrawing
 {
-	RTTR_ENABLE( Drawing );
+    RTTR_ENABLE( GeometryDrawing );
 	RTTR_REGISTRATION_FRIEND
 private:
 
-	BrushPtr		m_brush;		///< Brush used to fill background.
-	BrushPtr		m_pen;			///< Brush used to draw text.
-	GeometryPtr		m_backgroundGeometry;	///< Geometry to draw background.
-	GeometryPtr		m_textGeometry;			///< Geometry to draw Text Glyphs.
-
 public:
 
-	explicit				TextDrawing				( BrushPtr brush, BrushPtr pen, GeometryPtr bakcground, GeometryPtr text );
+	explicit				TextDrawing				( BrushPtr brush, BrushPtr pen, GeometryPtr text );
 
 
 	virtual void			Render					( IRenderer* renderer ) override;
@@ -39,9 +34,8 @@ public:
 
 public:
 
-	const BrushPtr&			GetBrush					() const { return m_brush; }
-	const BrushPtr&			GetPen						() const { return m_pen; }
-	const GeometryPtr&		GetGeometry					() const { return m_textGeometry; }
+	const TextGeometryPtr&	GetTextGeometry() const { return std::static_pointer_cast< TextGeometry >( GetGeometry() ); }
+    
 };
 
 DEFINE_PTR_TYPE( TextDrawing )

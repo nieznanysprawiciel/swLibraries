@@ -7,7 +7,8 @@
 
 #include "GeometryDrawing.h"
 
-
+#include "swGraphicAPI/ResourceManager/ResourceManagerAPI.h"
+#include "swGUI/Core/System/Rendering/Shading/ShaderProvider.h"
 
 
 namespace sw {

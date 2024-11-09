@@ -12,7 +12,7 @@
 
 #include "Thickness.h"
 
-
+#include "swGeometrics/GeometricsCore/Math/Types.h"
 
 
 namespace sw {
@@ -29,33 +29,7 @@ typedef DirectX::XMFLOAT2	Size2D;
 typedef DirectX::XMFLOAT2	Point;
 typedef DirectX::XMFLOAT4	Color;
 
-
-/**@brief Rectangle structure.*/
-struct Rect
-{
-	float			Left;
-	float			Right;
-	float			Top;
-	float			Bottom;
-
-    // ================================ //
-    //
-	float		GetWidth	() { return Right - Left; }
-	float		GetHeight	() { return Top - Bottom; }
-
-	bool		Intersects	( const Position& pos )
-	{
-		if( pos.x < Left )
-			return false;
-		if( pos.x > Right )
-			return false;
-		if( pos.y < Bottom )
-			return false;
-		if( pos.y > Top )
-			return false;
-		return true;
-	}
-};
+using Rect = Rect2d;
 
 }	// gui
 }	// sw

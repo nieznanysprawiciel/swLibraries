@@ -109,6 +109,9 @@
     <Filter Include="Core\Controls\Shapes">
       <UniqueIdentifier>{b7199566-0673-43ab-9d50-9914c784bd14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Controls\TextualControls">
+      <UniqueIdentifier>{b27c9c50-875b-40af-942d-89819d5be873}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\targetver.h">
@@ -330,6 +333,15 @@
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\TextDrawing.h">
       <Filter>Core\System\Rendering\Drawings</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\Media\Geometry\TextGeometry.h">
+      <Filter>Core\Media\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\Controls\TextualControls\TextBlock.h">
+      <Filter>Core\Controls\TextualControls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Core\Controls\FrameworkElement.h">
+      <Filter>Core\Controls</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\System\Events\IEventArgs.cpp">
@@ -484,6 +496,15 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\TextDrawing.cpp">
       <Filter>Core\System\Rendering\Drawings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Media\Geometry\TextGeometry.cpp">
+      <Filter>Core\Media\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Controls\TextualControls\TextBlock.cpp">
+      <Filter>Core\Controls\TextualControls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Core\Controls\FrameworkElement.cpp">
+      <Filter>Core\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

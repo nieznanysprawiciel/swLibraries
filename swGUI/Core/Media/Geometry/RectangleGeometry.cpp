@@ -53,23 +53,16 @@ void				RectangleGeometry::SetThickness		( float thickness )
 
 // ================================ //
 //
-bool				RectangleGeometry::HitTest			( const Point& point )
+bool				RectangleGeometry::HitTest			( const Point& point ) const
 {
-	if( point.x < 0.0 || point.x > m_width )
-		return false;
-
-	if( point.y < 0.0 || point.y > m_height )
-		return false;
-
-	return true;
+    return Rect{ 0.0, m_width, 0.0, m_height }.Intersects( point );
 }
 
 // ================================ //
 //
-bool				RectangleGeometry::HitTest			( const Rect& rectangle )
+bool				RectangleGeometry::HitTest			( const Rect& rectangle ) const
 {
-	assert( !"Implement me" );
-	return false;
+    return Rect{ 0.0, m_width, 0.0, m_height }.Intersects( rectangle );
 }
 
 // ================================ //

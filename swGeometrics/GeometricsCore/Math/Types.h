@@ -25,10 +25,10 @@ struct Rect2d
 	float			Bottom;
 
 public:
-	float		GetWidth	() { return Right - Left; }
-	float		GetHeight	() { return Top - Bottom; }
+	float		GetWidth	() const { return Right - Left; }
+	float		GetHeight	() const { return Top - Bottom; }
 
-	bool		Intersects	( const Position2d& pos )
+	bool		Intersects	( const Position2d& pos ) const
 	{
 		if( pos.x < Left )
 			return false;
@@ -40,6 +40,8 @@ public:
 			return false;
 		return true;
 	}
+
+	bool		Intersects( const Rect2d& other ) const;
 };
 
 inline Position2d operator+( Position2d left, Position2d right ) {
@@ -49,6 +51,32 @@ inline Position2d operator+( Position2d left, Position2d right ) {
 inline Position2d& operator+=( Position2d& left, Position2d right ) {
 	left = left + right;
 	return left;
+}
+
+namespace impl
+{
+
+// ================================ //
+//
+inline bool valueInRange( float value, float min, float max ) { return ( value >= min ) && ( value <= max ); }
+
+}  // namespace
+
+// ================================ //
+// https://stackoverflow.com/a/306379
+
+inline bool Rect2d::Intersects( const Rect2d& other ) const
+{
+    const Rect2d& A = *this;
+    const Rect2d& B = other;
+
+    bool xOverlap = impl::valueInRange( A.Left, B.Left, B.Left + B.GetWidth() )
+                    || impl::valueInRange( B.Left, A.Left, A.Left + A.GetWidth() );
+
+    bool yOverlap = impl::valueInRange( A.Top, B.Top, B.Top + B.GetHeight() )
+                    || impl::valueInRange( B.Top, A.Top, A.Top + A.GetHeight() );
+
+    return xOverlap && yOverlap;
 }
 
 }

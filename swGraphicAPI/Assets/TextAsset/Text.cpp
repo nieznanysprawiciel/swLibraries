@@ -18,7 +18,18 @@ namespace sw
 
 // ================================ //
 
-std::vector< Position2d >             TextArranger::ArrangeText( const std::wstring& text, const FontLayout& layout ) const
+TextArranger                TextArranger::CreateFrom( const FontAssetPtr font )
+{
+    TextArranger arranger;
+    arranger.SpaceSize = font->GetLayout().SpaceWidth();
+    arranger.NewLineSize = font->GetLayout().NewLineSize();
+
+    return arranger;
+}
+
+// ================================ //
+
+std::vector< Position2d >   TextArranger::ArrangeText( const std::wstring& text, const FontLayout& layout ) const
 {
     std::vector< Position2d > letters;
     letters.reserve( text.length() );

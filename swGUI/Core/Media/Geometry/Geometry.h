@@ -104,10 +104,10 @@ public:
 	///@{
 
 	/**@brief Check intersection of geometry shape with point.*/
-	virtual bool	HitTest					( const Point& point )			= 0;
+	virtual bool	HitTest					( const Point& point ) const		= 0;
 
 	/**@brief Check intersection of geometry shape with rectangle.*/
-	virtual bool	HitTest					( const Rect& rectangle )		= 0;
+	virtual bool	HitTest					( const Rect& rectangle ) const		= 0;
 
 	///@}
 

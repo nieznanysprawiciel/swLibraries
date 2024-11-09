@@ -8,9 +8,11 @@
 
 #include "Drawing.h"
 
+#include "swGraphicAPI/ResourceManager/ResourceManagerAPI.h"
+#include "swGUI/Core/System/Rendering/Shading/ShaderProvider.h"
+
 #include "swGUI/Core/Media/Brushes/Brush.h"
 #include "swGUI/Core/Media/Geometry/Geometry.h"
-
 #include "swGUI/Core/Media/Geometry/Layouts/VertexShape2D.h"
 
 #include "swGUI/Core/System/Rendering/RenderingHelpers.h"
@@ -219,7 +221,7 @@ bool			Drawing::UpdateGeometryConstants	( ResourceManagerAPI rm, Geometry* geome
 // ================================ //
 //
 template< typename VertexStruct >
-ShaderInputLayoutPtr		        CreateLayout	( ResourceManagerAPI rm, ShaderProvider* sp )
+ShaderInputLayoutPtr		Drawing::CreateLayout( ResourceManagerAPI rm, ShaderProvider* sp )
 {
 	auto layout = rm.GetCached< ShaderInputLayout >( GetLayoutName< VertexStruct >() );
 	if( !layout )
@@ -235,13 +237,7 @@ ShaderInputLayoutPtr		        CreateLayout	( ResourceManagerAPI rm, ShaderProvid
 //
 bool			Drawing::CreateAndSetLayout			( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry )
 {
-	if( !m_geometryData.Layout )
-	{
-		m_geometryData.Layout = CreateLayout< VertexShape2D >( rm, sp );
-		return true;
-	}
-
-	return false;
+    return CreateAndSetLayoutForVertexType< VertexShape2D >( rm, sp, geometry );
 }
 
 //====================================================================================//

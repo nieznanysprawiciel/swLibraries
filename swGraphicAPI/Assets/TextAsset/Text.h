@@ -21,7 +21,7 @@ namespace sw
 
 /**@brief Decides how text should be aligned.
 @ingroup Text*/
-enum class TextAlignment
+enum class TextAlignment : u8
 {
     Left,
     Center,
@@ -60,6 +60,9 @@ public:
         , Bounds( { 0.0f, 0.0f, 0.0f, 0.0f } )
     {}
 
+    /**@brief Creates Arranger setting some default values from FontAsset.*/
+    static TextArranger         CreateFrom( const FontAssetPtr font );
+
 public:
     std::vector< Position2d >   ArrangeText( const std::wstring& text, const FontLayout& layout ) const;
     std::vector< Position2d >   ArrangeLine( std::wstring_view text, const FontLayout& layout, Position2d startPosition ) const;
@@ -76,6 +79,8 @@ public:
 public:
     Nullable< geom::IndexedGeometryBuffer< geom::VertexShape2D, Index32 > >   GenerateGeometry( const std::wstring& text, const FontAssetPtr font, bool genBackground ) const;
     Nullable< geom::IndexedGeometryBuffer< geom::VertexText2D, Index32 > >    GenerateGeometryTextured( const std::wstring& text, const FontAssetPtr font, bool genBackground ) const;
+
+    Size                        NumBorderIndicies() const { return 6; }
 };
 
 

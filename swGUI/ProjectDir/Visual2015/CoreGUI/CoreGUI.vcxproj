@@ -140,9 +140,11 @@
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\IPanel.h" />
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.h" />
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.h" />
+    <ClInclude Include="..\..\..\Core\Controls\FrameworkElement.h" />
     <ClInclude Include="..\..\..\Core\Controls\Shapes\Ellipse.h" />
     <ClInclude Include="..\..\..\Core\Controls\Shapes\Rectangle.h" />
     <ClInclude Include="..\..\..\Core\Controls\Shapes\Shape.h" />
+    <ClInclude Include="..\..\..\Core\Controls\TextualControls\TextBlock.h" />
     <ClInclude Include="..\..\..\Core\Controls\UIElement.h" />
     <ClInclude Include="..\..\..\Core\Controls\Visual.h" />
     <ClInclude Include="..\..\..\Core\Cultures\CultureInfo.h" />
@@ -158,6 +160,7 @@
     <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\Layouts.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\RectangleGeometry.h" />
+    <ClInclude Include="..\..\..\Core\Media\Geometry\TextGeometry.h" />
     <ClInclude Include="..\..\..\Core\Media\Media.h" />
     <ClInclude Include="..\..\..\Core\stdafx.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\AccessKey.h" />
@@ -215,9 +218,11 @@
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\IPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.cpp" />
+    <ClCompile Include="..\..\..\Core\Controls\FrameworkElement.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Ellipse.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Rectangle.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Shape.cpp" />
+    <ClCompile Include="..\..\..\Core\Controls\TextualControls\TextBlock.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Visual.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\AngleGradientBrush.cpp" />
@@ -230,6 +235,7 @@
     <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\RectangleGeometry.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Geometry\TextGeometry.cpp" />
     <ClCompile Include="..\..\..\Core\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -279,6 +285,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\swGraphicAPI\ProjectsDir\Visual2015\SoilTextureLoader\SoilTextureLoader.vcxproj">
       <Project>{7275758b-1abc-4b28-bb42-cbdbcd2584d1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\swGraphicAPI\ProjectsDir\Visual2015\TextAsset\TextAsset.vcxproj">
+      <Project>{1d15dc68-41b7-4c76-8250-411582e5acbf}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

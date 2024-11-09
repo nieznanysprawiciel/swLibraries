@@ -97,5 +97,13 @@ ImageRect               FontLayout::GetGlyphCoords( wchar_t character ) const
     return ImageRect{ 0, 0, 0, 0 };
 }
 
-}	// sw
+// ================================ //
+// Computing space character size
+// Space width should be get form : https://www.mail-archive.com/freetype@nongnu.org/msg01384.html
+float           FontLayout::SpaceWidth() const { return (float)Glyphs.at( L'0' ).AdvanceX; }
 
+// ================================ //
+
+float           FontLayout::NewLineSize() const { return (float)Glyphs.at( L'0' ).Height; }
+
+}	// sw

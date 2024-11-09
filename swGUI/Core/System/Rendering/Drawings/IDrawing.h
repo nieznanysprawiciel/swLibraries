@@ -24,7 +24,7 @@ namespace gui
 {
 
 
-/**@brief Base class for rendering entities.
+/**@brief Base class for rendering entities. Drawing object gives Visual it's appearance.
 @ingroup Drawing*/
 class IDrawing : public Object
 {
@@ -40,7 +40,20 @@ public:
 
 private:
 
-	virtual void			RebuildResources	( ResourceManagerAPI resourceManager, ShaderProvider* sp ) = 0;
+	/**@brief Changing parameters of Drawing objects may require reloading some of subresources.
+	
+	@ref IDrawing::RebuildResources	will be called by @ref RenderingSystem before rendering IDrawing
+	on screen. RenderingSystem defers Resources update until it is necessary. That means that changing
+	parameters of IDrawing object should only mark some Resources as invalid and reload them only 
+	when IDrawing::RebuildResources	is called.
+	This way if swGUI user updates model mulitple times in one animation frame, RenderingSystem won't
+	suffer performance penalty.*/
+	virtual void			RebuildResources	( sw::ResourceManagerAPI resourceManager, ShaderProvider* sp ) = 0;
+
+	/**@brief Allows to implement custom rendering logic for different types of visual objects.
+	For example rendering Text has some aspects that are different from standard geometry.
+	
+	IDrawing::Render function is called by @ref RenderingSystem each time part of screen must be redrawn.*/
 	virtual void			Render				( IRenderer* renderer ) = 0;
 
 };

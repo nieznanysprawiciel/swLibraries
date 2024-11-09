@@ -57,7 +57,7 @@ AllowShortBlocksOnASingleLine: false
 # Allow short case labels on the same line
 AllowShortCaseLabelsOnASingleLine: false
 # Allow short functions to be placed on the same line: None, InlineOnly (defined in the class), Empty (empty function), Inline (defined in the class, empty function), All
-AllowShortFunctionsOnASingleLine: All
+AllowShortFunctionsOnASingleLine: Inline
 # Allow short if statements to stay on the same line
 AllowShortIfStatementsOnASingleLine: false
 # Allow short loops to stay on the same line

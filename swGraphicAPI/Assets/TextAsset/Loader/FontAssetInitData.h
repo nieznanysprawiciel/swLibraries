@@ -23,7 +23,7 @@ class FontAsset;
 class ResourceManager;
 
 typedef std::pair< wchar_t, wchar_t > KerningPair;
-
+typedef uint8                         FontSizeType;
 
 /**@brief Struct contains describing individual characters in font.
 @ingroup Text*/
@@ -50,6 +50,9 @@ public:
     uint32      GetMaxWidthWithPadding() const;
 
     ImageRect   GetGlyphCoords( wchar_t character ) const;
+
+    float       SpaceWidth() const;
+    float       NewLineSize() const;
 };
 
 
@@ -61,12 +64,12 @@ struct FontInitData : public IAssetCreateInfo
 public:
 
     TexturePtr          FontAtlas;
-    uint32              FontSize;
+    FontSizeType        FontSize;
 
     FontLayout          Layout;
 
 public:
-    explicit FontInitData	( uint32 fontSize )
+    explicit FontInitData( FontSizeType fontSize )
         : FontAtlas( nullptr )
         , FontSize( fontSize )
     {}
@@ -88,11 +91,11 @@ public:
 
     /**Characters that will be rendered to texture atlas.*/
     std::wstring        CharacterSet;
-    uint32              FontSize;
+    FontSizeType        FontSize;
     bool                GenerateMipmaps;
 
 public:
-	explicit FontLoaderData	( uint32 fontSize )
+    explicit FontLoaderData( FontSizeType fontSize )
         : FontSize( fontSize )
         , GenerateMipmaps( false )
         , CharacterSet( DefaultCharacterSet() )
