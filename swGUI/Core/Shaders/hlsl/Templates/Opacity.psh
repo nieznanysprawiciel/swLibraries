@@ -5,8 +5,8 @@
 struct OutputVS
 {
 	linear			float4 Pos : SV_Position;
-    noperspective   float2 Mask : TEXCOORD;
     noperspective   float2 Tex : TEXCOORD;
+    noperspective   float2 Mask : TEXCOORD;
 };
 
 // ================================ //

@@ -23,7 +23,15 @@ TextDrawing::TextDrawing( BrushPtr brush, BrushPtr pen, GeometryPtr text ) : Geo
 void            TextDrawing::Render( IRenderer* renderer )
 {
     // TODO: Check if it is correct for text
-    GeometryDrawing::Render( renderer );
+    //GeometryDrawing::Render( renderer );
+
+	UpdateGeometryCBContent( renderer, GetGeometry().get() );
+
+    UpdateBrushCBContent( renderer, GetBrush().get() );
+    RenderFill( renderer );
+
+    UpdatePenCBContent( renderer, GetPen().get() );
+    RenderBorder( renderer );
 }
 
 // ================================ //
@@ -41,7 +49,7 @@ void            TextDrawing::RebuildResources( ResourceManagerAPI rm, ShaderProv
     UpdateGeometryConstants( rm, geometry );
 
     // Brush updates
-    UpdateBrushShader( sp, brush, sp->GetOpacityPSTemplate() );
+    UpdateBrushShader( sp, brush, sp->GetBasicPSTemplate() );
     UpdateBrushTexture( rm, brush );
     UpdateBrushConstants( rm, brush );
     UpdateBrushOpacityMask( rm, nullptr );

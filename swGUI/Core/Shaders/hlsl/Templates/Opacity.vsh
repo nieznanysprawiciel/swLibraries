@@ -5,8 +5,8 @@
 struct InputVS
 {
 	float4 Pos : POSITION;
-    float2 Mask : TEXCOORD;
     float2 Tex : TEXCOORD;
+    float2 Mask : TEXCOORD;
 };
 
 // ================================ //
@@ -14,8 +14,8 @@ struct InputVS
 struct OutputVS
 {
 	linear			float4 Pos : SV_Position;
-	noperspective	float2 Mask: TEXCOORD;
     noperspective	float2 Tex : TEXCOORD;
+	noperspective	float2 Mask: TEXCOORD;
 };
 
 // ================================ //
@@ -68,7 +68,7 @@ OutputVS		main	( InputVS input )
 	OutputVS output = (OutputVS)0;
 
     output.Pos = GeometryFunctionPos(input.Pos, input.Mask, input.Tex);
-    output.Mask = GeometryFunctionAtlas(input.Pos, input.Mask, input.Tex);
+    output.Mask = GeometryFunctionMask(input.Pos, input.Mask, input.Tex);
     output.Tex = GeometryFunctionTex(input.Pos, input.Mask, input.Tex);
 
 	output.Pos = swTransformVertex( output.Pos.xy );

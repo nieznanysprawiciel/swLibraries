@@ -23,8 +23,8 @@ struct VertexShape2D
 struct VertexText2D
 {
 	DirectX::XMFLOAT2		Position;
-	DirectX::XMFLOAT2		AtlasCoords;
 	DirectX::XMFLOAT2		UV;
+	DirectX::XMFLOAT2		AtlasCoords;
 };
 
 

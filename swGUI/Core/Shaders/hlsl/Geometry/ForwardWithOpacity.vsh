@@ -9,7 +9,7 @@ float4			GeometryFunctionPos		( float4 pos, float2 maskUV, float2 tex )
 
 // ================================ //
 //
-float2			GeometryFunctionAtlas	( float4 pos, float2 maskUV, float2 tex )
+float2			GeometryFunctionMask	( float4 pos, float2 maskUV, float2 tex )
 {
     return maskUV;
 }

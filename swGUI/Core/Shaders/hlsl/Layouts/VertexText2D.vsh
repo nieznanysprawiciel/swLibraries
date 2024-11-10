@@ -3,8 +3,8 @@
 struct InputVS
 {
 	float4 Pos : POSITION;
+    float2 Tex : TEXCOORD;
 	float2 Atlas : TEXCOORD;
-	float2 Tex : TEXCOORD;
 };
 
 struct OutputVS

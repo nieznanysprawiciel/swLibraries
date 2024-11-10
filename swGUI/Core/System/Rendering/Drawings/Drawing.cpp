@@ -218,7 +218,7 @@ bool			Drawing::UpdateGeometry				( ResourceManagerAPI rm, Geometry* geometry )
 		if( !vertexBuffer || !indexBuffer )
 		{
 			auto indexSize = data.ExtendedIB ? sizeof( Index32 ) : sizeof( Index16 );
-			auto vertexSize = sizeof( VertexShape2D );
+			auto vertexSize = data.VertexBuffer.GetType().get_sizeof();
 
 			vertexBuffer = rm.CreateVertexBuffer( vbName, data.VertexBuffer, (uint32)vertexSize ).Get();    /// @todo What in case of error?
 			indexBuffer = rm.CreateIndexBuffer( ibName, data.IndexBuffer, (uint32)indexSize ).Get();        /// @todo What in case of error?

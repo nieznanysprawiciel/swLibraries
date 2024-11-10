@@ -211,7 +211,7 @@ inline void         TextGeometryGenerator< VertexType, IndexType, TextAcc >::Gen
     while( curVertex < numVerts )
     {
         AddTriangleCW( idxBuffer, startIdx, curVertex, curVertex + 1, curVertex + 2 );
-        AddTriangleCW( idxBuffer, startIdx, curVertex + 1, curVertex + 2, curVertex + 3 );
+        AddTriangleCW( idxBuffer, startIdx, curVertex + 1, curVertex + 3, curVertex + 2 );
 
         curVertex += 4;
     }
