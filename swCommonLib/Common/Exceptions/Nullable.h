@@ -12,6 +12,7 @@
 #include <memory>
 #include <type_traits>
 #include <assert.h>
+#include <functional>
 
 #include "ResultImpl.h"
 
@@ -135,6 +136,10 @@ public:
     Otherwise it returns Exception.*/
     template< typename RetType >
     Nullable< RetType >     Ok                  ( RetType&& onSuccess ) const;
+
+    /**@brief Takes lambda mapping error to different error. It allows to add context
+    to exception returned from called function.*/
+    Nullable< void >        MapErr              ( const std::function< Nullable< void >( typename ErrorType ) >& mapper );
 };
 
 Nullable< void >            operator&&		    ( const Nullable< void >& that, const Nullable< void >& second );
@@ -312,6 +317,15 @@ inline typename Nullable< void >::ErrorType		Nullable< void >::GetError () const
     if( m_isValid )
         assert( false ); // FIXME: error handling(?)
     return Error;
+}
+
+// ================================ //
+//
+inline ReturnResult             Nullable< void >::MapErr( const std::function< ReturnResult( typename ErrorType ) >& mapper )
+{
+    if( !IsValid() )
+        return mapper( Error );
+    return Success::True;
 }
 
 }	// sw

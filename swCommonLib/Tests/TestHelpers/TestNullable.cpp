@@ -9,6 +9,7 @@
 #include "swCommonLib/Common/Exceptions/ErrorsCollector.h"
 #include "swCommonLib/Common/Exceptions/ExceptionsList.h"
 #include "swCommonLib/Common/Exceptions/Nullable.h"
+#include "swCommonLib/Common/fmt.h"
 
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/Animals/Mammals/Dog.h"
@@ -198,6 +199,17 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.Ok.Invalid", "[Nullable]" )
     CHECK( nullable.IsValid() == false );
     CHECK( nullable.GetError() != nullptr );
     CHECK( nullable.GetErrorReason() == "Something wrong..." );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.Nullable.MapErr", "[Nullable]" )
+{
+    ReturnResult invalid( "Something wrong..." );
+    ReturnResult mappedErr = invalid.MapErr( []( auto e ) { return fmt::format( "Failure: {}", e ); } );
+
+    CHECK( mappedErr.IsValid() == false );
+    CHECK( mappedErr.GetErrorReason() == "Failure: Something wrong..." );
 }
 
 

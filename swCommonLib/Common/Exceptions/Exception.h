@@ -9,6 +9,7 @@
 
 #include "swCommonLib/Common/TypesDefinitions.h"
 #include "swCommonLib/Common/RTTR.h"
+#include "swCommonLib/Common/Macros/DefineFmtFormatter.h"
 
 #include <exception>
 #include <string>
@@ -81,3 +82,8 @@ DEFINE_PTR_TYPE( RuntimeException )
 
 }	// sw
 
+
+DEFINE_FMT_FORMATTER( sw::Exception, "{}", ErrorMessage() );
+DEFINE_FMT_FORMATTER_PTR( sw::ExceptionPtr, "{}", ErrorMessage() );
+DEFINE_FMT_FORMATTER( sw::RuntimeException, "{}", ErrorMessage() );
+DEFINE_FMT_FORMATTER_PTR( sw::RuntimeExceptionPtr, "{}", ErrorMessage() );
