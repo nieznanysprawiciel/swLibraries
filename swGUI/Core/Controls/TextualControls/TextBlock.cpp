@@ -45,19 +45,20 @@ IDrawing*       TextBlock::QueryDrawing() const
 
 // ================================ //
 
-ReturnResult    TextBlock::UpdateDrawingResources( ResourceManagerAPI& api, ShaderProvider* sp )
+ReturnResult    TextBlock::UpdateDrawingResources( ResourceManagerAPI& api )
 {
     if( FontNeedsUpdate() )
     {
         // TODO: take FontWeight and FontStyle into account
         FontLoaderData init( 16 );
-        auto font = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init );
+        auto font = api.Load< FontAsset >( "$(Application-Dir)/arial.ttf", &init );
         ReturnIfInvalid( font );
 
         auto geometry = std::make_shared< TextGeometry >( font.Get() );
         geometry->SetText( m_text );
 
         SetGeometry( geometry );
+        FontUpdated();
     }
 
     return Success::True;

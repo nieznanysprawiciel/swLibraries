@@ -18,7 +18,6 @@ namespace sw {
 namespace gui
 {
 
-class ShaderProvider;
 class sw::ResourceManagerAPI;
 
 
@@ -77,7 +76,7 @@ public:
 	This could be avoided if all 3 parameters would be avaiable on @ref TextDrawing level,
 	but such a solution would force repeating all parameters in TextDrawing and TextBlock
 	and would prevent from creating higher level abstractions that use simpler bulding blocks.*/
-    virtual ReturnResult			UpdateDrawingResources( sw::ResourceManagerAPI& resourceManager, ShaderProvider* sp ){ return Success::True; };
+    virtual ReturnResult			UpdateDrawingResources( sw::ResourceManagerAPI& resourceManager ){ return Success::True; };
 
 	Position						GetVisualOffset		() const { return m_offset; }
     Size2D                          GetSize             () const { return m_size; }

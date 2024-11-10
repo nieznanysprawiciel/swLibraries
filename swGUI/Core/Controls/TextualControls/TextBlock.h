@@ -105,7 +105,7 @@ public:
     virtual bool            HitTest( const Point& point ) override;
     
     virtual IDrawing*       QueryDrawing() const;
-    virtual ReturnResult    UpdateDrawingResources( sw::ResourceManagerAPI& resourceManager, ShaderProvider* sp ) override;
+    virtual ReturnResult    UpdateDrawingResources( sw::ResourceManagerAPI& resourceManager ) override;
 };
 
 DEFINE_OPTR_TYPE( TextBlock );

@@ -124,7 +124,7 @@ void				RenderingSystem::SetSystemConstants			( IRenderer* renderer, const Rende
 //
 void				RenderingSystem::DrawVisual					( IRenderer* renderer, Visual* visual, const RenderingParams& params )
 {
-    auto result = visual->UpdateDrawingResources( m_resourceManager, &m_shaderProvider );
+    auto result = visual->UpdateDrawingResources( m_resourceManager );
 	if( !result.IsValid() )
     {
         LOG_WARN( fmt::format( "Failed to update IDrawing resources for Visual: {}", result.GetErrorReason() ) );
