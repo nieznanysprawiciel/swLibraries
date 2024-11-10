@@ -8,6 +8,7 @@
 #include "TextDrawing.h"
 
 #include "swGUI/Core/Media/Geometry/Layouts/VertexShape2D.h"
+#include "swCommonLib/Common/Logging/Logger.h"
 
 
 namespace sw {
@@ -38,27 +39,32 @@ void            TextDrawing::Render( IRenderer* renderer )
 
 void            TextDrawing::RebuildResources( ResourceManagerAPI rm, ShaderProvider* sp )
 {
+    ErrorsCollector results;
+
     auto brush = GetBrush().get();
     auto pen = GetPen().get();
     auto geometry = GetGeometry().get();
 
     // Geometry updates
-    CreateAndSetLayoutForVertexType< VertexText2D >( rm, sp, geometry );
-    UpdateVertexShader( sp, geometry, sp->GetOpacityVSTemplate() );
-    UpdateGeometry( rm, geometry );
-    UpdateGeometryConstants( rm, geometry );
+    results.Add( CreateAndSetLayoutForVertexType< VertexText2D >( rm, sp, geometry ) );
+    results.Add( UpdateVertexShader( sp, geometry, sp->GetOpacityVSTemplate() ) );
+    results.Add( UpdateGeometry( rm, geometry ) );
+    results.Add( UpdateGeometryConstants( rm, geometry ) );
 
     // Brush updates
-    UpdateBrushShader( sp, brush, sp->GetBasicPSTemplate() );
-    UpdateBrushTexture( rm, brush );
-    UpdateBrushConstants( rm, brush );
-    UpdateBrushOpacityMask( rm, nullptr );
+    results.Add( UpdateBrushShader( sp, brush, sp->GetBasicPSTemplate() ) );
+    results.Add( UpdateBrushTexture( rm, brush ) );
+    results.Add( UpdateBrushConstants( rm, brush ) );
+    results.Add( UpdateBrushOpacityMask( rm, nullptr ) );
 
     // Pen updates
-    UpdatePenShader( sp, pen, sp->GetOpacityPSTemplate() );
-    UpdatePenTexture( rm, pen );
-    UpdatePenConstants( rm, pen );
-    UpdatePenOpacityMask( rm, GetTextGeometry()->GetFont()->GetFontAtlas() );
+    results.Add( UpdatePenShader( sp, pen, sp->GetOpacityPSTemplate() ) );
+    results.Add( UpdatePenTexture( rm, pen ) );
+    results.Add( UpdatePenConstants( rm, pen ) );
+    results.Add( UpdatePenOpacityMask( rm, GetTextGeometry()->GetFont()->GetFontAtlas() ) );
+
+    if( !results.IsValid() )
+        LOG_ERROR( fmt::format( "Error during rebuilding resources for text drawing: {}", results.GetException() ) );
 }
 
 }  // namespace gui

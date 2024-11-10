@@ -40,7 +40,9 @@ void				GeometryDrawing::Render					( IRenderer* renderer )
 //
 void				GeometryDrawing::RebuildResources		( ResourceManagerAPI rm, ShaderProvider* sp )
 {
-	DefaultRebuildResources( rm, sp, m_brush.get(), m_pen.get(), m_geometry.get() );
+	auto result = DefaultRebuildResources( rm, sp, m_brush.get(), m_pen.get(), m_geometry.get() );
+    if( !result.IsValid() )
+        LOG_ERROR( fmt::format( "Error during rebuilding resources for geometry drawing.", result.GetError() ) );
 }
 
 
