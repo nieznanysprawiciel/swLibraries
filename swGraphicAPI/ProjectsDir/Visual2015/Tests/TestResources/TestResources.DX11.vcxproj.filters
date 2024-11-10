@@ -35,6 +35,9 @@
     <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\TestLoaders\TestRenderTargetLoader.cpp">
       <Filter>Tests\TestLoaders</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestResources.DX11\stdafx.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
@@ -46,5 +49,10 @@
     <Filter Include="Tests\TestLoaders">
       <UniqueIdentifier>{f06c9516-1a7c-449c-a40b-c8ac070afd54}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Tests\TestResources.DX11\stdafx.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

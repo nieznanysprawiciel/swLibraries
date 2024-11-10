@@ -1,14 +1,12 @@
+#include "swGraphicAPI/Tests/TestResources.DX11/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
-
 /**
 @file TestLayoutCreator.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-
 #include "swGraphicAPI/ResourceManager/AssetCreators/AssetsFactory.h"
-
 #include "swGraphicAPI/ResourceManager/AssetCreators/Shaders/LayoutCreator.h"
 #include "swGraphicAPI/Resources/Shaders/LayoutInitData.h"
 
