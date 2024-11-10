@@ -31,7 +31,7 @@ FakeGeometry::FakeGeometry( Geometry::ConstantBufferMode cbMode )
 
 // ================================ //
 //
-bool			FakeGeometry::HitTest		( const Point& point )
+bool			FakeGeometry::HitTest		( const Point& point ) const
 {
 	assert( !"Implement me" );
 	return false;
@@ -39,7 +39,7 @@ bool			FakeGeometry::HitTest		( const Point& point )
 
 // ================================ //
 //
-bool			FakeGeometry::HitTest		( const Rect& rectangle )
+bool			FakeGeometry::HitTest		( const Rect& rectangle ) const
 {
 	assert( !"Implement me" );
 	return false;
