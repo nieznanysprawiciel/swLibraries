@@ -64,7 +64,9 @@ public:
     must be prepared for it.
 
     Don't use LoadGeneric to load assets from file that you are loading. Load Generic should be used to load
-    assets referenced by file, but placed in other files.*/
+    assets referenced by file, but placed in other files.
+    
+    @todo This function can return nullptr if Asset won't be found. Use Nullable instead.*/
     ResourcePointer								GetCachedGeneric			( const AssetPath& name, TypeID type );
 
     /**@copydoc ResourceManager::LoadGeneric*/

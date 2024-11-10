@@ -101,16 +101,20 @@ LoadingResult       FreeTypeLoader::Load( const LoadPath& filePath, TypeID resou
 
     FontInitData fontDesc( loadInfo->FontSize );
 
-    fontDesc.Layout.Padding = 1;
-    fontDesc.Layout.Glyphs = BuildGlyphs( freeType.Get(), loadInfo->CharacterSet ).Get();
-    fontDesc.Layout.Kerning = BuildKerning( freeType.Get(), loadInfo->CharacterSet ).Get();
-    fontDesc.FontAtlas = RenderAtlas( freeType, atlasPath, fontDesc.Layout, context ).Get();
+    try
+    {
+        fontDesc.Layout.Padding = 1;
+        fontDesc.Layout.Glyphs = BuildGlyphs( freeType.Get(), loadInfo->CharacterSet ).Get();
+        fontDesc.Layout.Kerning = BuildKerning( freeType.Get(), loadInfo->CharacterSet ).Get();
+        fontDesc.FontAtlas = RenderAtlas( freeType, atlasPath, fontDesc.Layout, context ).Get();
 
-    auto result = context.CreateGenericAsset( fontAssetPath, loadInfo->GetAssetType(), std::move( fontDesc ) );
-    if( result.IsValid() )
+        auto result = context.CreateGenericAsset( fontAssetPath, loadInfo->GetAssetType(), std::move( fontDesc ) );
         return LoadingResult( result.Get() );
-    else
-        return LoadingResult( result.GetError() );
+    }
+    catch( const RuntimeException& ex )
+    {
+        return LoaderException::Create( "FreeTypeLoader", ex.ErrorMessage(), filePath, resourceType );
+    }
 }
 
 // ================================ //
@@ -124,6 +128,10 @@ ReturnResult                FreeTypeLoader::Prefetch( const LoadPath& filePath, 
 // 
 Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const FreeTypeLibrary& freeType, const AssetPath& filePath, FontLayout& fontLayout, RMLoaderAPI factory )
 {
+    auto cached = factory.GetCached< Texture >( filePath );
+    if( cached )
+        return cached;
+
     auto glyphsPerRow = (u32)std::ceil( sqrt( (float)fontLayout.Glyphs.size() ) );
 
     uint32 padding = 1;

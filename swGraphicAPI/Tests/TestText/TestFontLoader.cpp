@@ -5,6 +5,8 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
+#include <regex>
+
 #include "swCommonLib\TestUtils\CatchUtils\ExtendedMacros.h"
 #include "swCommonLib/Common/Converters/Convert.h"
 
@@ -153,5 +155,33 @@ TEST_CASE( "GraphicAPI.Loaders.Font.SameFont.2Sizes", "[GraphicAPI][FontLoader][
     REQUIRE_IS_VALID( font );
 
     CHECK( font.Get()->GetFontAtlas() != font2.Get()->GetFontAtlas());
+}
+
+// ================================ //
+// 
+TEST_CASE( "GraphicAPI.Loaders.Correctness.ExitingAtlas", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
+{
+    // Don't register FontCreator. Loader will create atlas, but won't be able to create FontAsset.
+    // This way we are able to check how loader behaves when atals exists in the second pass.
+    auto rm = CreateResourceManagerWithMocksAndDefaults();
+    rm->RegisterLoader( std::make_shared< FreeTypeLoader >() );
+
+    auto pm = rm->GetPathsManager();
+    pm->RegisterAlias( "$(FontAssets)", "$(TestAssets)/fonts/" );
+
+    auto api = ResourceManagerAPI( rm.get() );
+
+    FontLoaderData init( 16 );
+
+    auto font = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init );
+    REQUIRE_INVALID( font );
+    REQUIRE( std::regex_match( font.GetErrorReason(), std::regex( ".*Asset creator.*FontAsset.*not registered.*" ) ) );
+
+    // Register creator so Loader will be able to create FontAsset this time,
+    // but it must handle existing atlas correctly.
+    rm->RegisterAssetCreator( FontCreator::CreateCreator() );
+
+    auto font2 = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init );
+    REQUIRE_IS_VALID( font2 );
 }
 

@@ -24,6 +24,7 @@ ResourceManagerAPI::ResourceManagerAPI( ResourceManager* resourceManager )
 
 // ================================ //
 //
+
 ResourcePointer                     ResourceManagerAPI::GetGeneric                  ( const AssetPath& name, TypeID type )
 {
     return m_resourceManager->GetGeneric( name, type );
@@ -31,6 +32,7 @@ ResourcePointer                     ResourceManagerAPI::GetGeneric              
 
 // ================================ //
 //
+
 ResourcePointer                     ResourceManagerAPI::GetCachedGeneric            ( const AssetPath& name, TypeID type )
 {
     /// @todo Call creation from cache, when caching mechanism is ready.
@@ -39,6 +41,7 @@ ResourcePointer                     ResourceManagerAPI::GetCachedGeneric        
 
 // ================================ //
 //
+
 sw::Nullable< ResourcePointer >		ResourceManagerAPI::LoadGeneric				    ( const AssetPath& assetName, const IAssetLoadInfo* desc, TypeID type )
 {
     return m_resourceManager->LoadGeneric( assetName, desc, type );
@@ -46,6 +49,7 @@ sw::Nullable< ResourcePointer >		ResourceManagerAPI::LoadGeneric				    ( const 
 
 // ================================ //
 //
+
 Nullable< ResourcePointer >			ResourceManagerAPI::CreateGenericAsset			( const AssetPath& name, TypeID assetType, IAssetCreateInfo&& createInfo )
 {
     return m_resourceManager->CreateGenericAsset( name, assetType, std::move( createInfo ) );
