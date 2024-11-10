@@ -92,12 +92,16 @@ LoadingResult       FreeTypeLoader::Load( const LoadPath& filePath, TypeID resou
 
     auto loadInfo = static_cast< const FontLoaderData* >( assetDesc );
 
+    AssetPath atlasPath = AssetPath( filePath.GetFileTranslated(), fmt::format( "/Atlas{}", loadInfo->ResourceKey() ) );
+    AssetPath fontAssetPath = AssetPath( filePath.GetFileTranslated(), loadInfo->ResourceKey() );
+
+    auto cached = context.GetCachedGeneric( fontAssetPath, resourceType );
+    if( cached )
+        return LoadingResult( cached );
+
     auto freeType = FreeTypeLibrary::Create();
     ReturnIfInvalid( freeType );
     ReturnIfInvalid( freeType.Get().CreateFace( filePath, loadInfo->FontSize ) );
-
-    AssetPath atlasPath = AssetPath( filePath.GetFileTranslated(), fmt::format( "/Atlas{}", loadInfo->ResourceKey() ) );
-    AssetPath fontAssetPath = AssetPath( filePath.GetFileTranslated(), loadInfo->ResourceKey() );
 
     FontInitData fontDesc( loadInfo->FontSize );
 

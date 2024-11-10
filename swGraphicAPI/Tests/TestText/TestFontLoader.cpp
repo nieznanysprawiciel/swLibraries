@@ -139,7 +139,7 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Arial", "[GraphicAPI][FontLoader][FreeTypeLo
 
 // ================================ //
 // 
-TEST_CASE( "GraphicAPI.Loaders.Font.SameFont.2Sizes", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
+TEST_CASE( "GraphicAPI.Loaders.SameFont.2Sizes", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
 {
     auto rm = CreateResourceManagerWithFonts();
     auto api = ResourceManagerAPI( rm.get() );
@@ -155,6 +155,31 @@ TEST_CASE( "GraphicAPI.Loaders.Font.SameFont.2Sizes", "[GraphicAPI][FontLoader][
     REQUIRE_IS_VALID( font );
 
     CHECK( font.Get()->GetFontAtlas() != font2.Get()->GetFontAtlas());
+}
+
+// ================================ //
+// Single file can be used to create many different Assets. In case of fonts we can have different sizes of the same
+// font loaded. ResourceManager doesn't have mechanisms for this, so FontLoader uses hack and never registers
+// any font without internal path.
+// The consequence is that second attempt to load asset won't fetch it from cache, but will call Loader again.
+// Better mechanisms for this should be implemented in ResourceManager, but for now we must make sure that
+// Loader can handle this situation correctly.
+TEST_CASE( "GraphicAPI.Loaders.SameFont.SecondLoading", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
+{
+    auto rm = CreateResourceManagerWithFonts();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    FontLoaderData init( 16 );
+
+    auto font = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init );
+    REQUIRE_IS_VALID( font );
+
+    FontLoaderData init2( 16 );
+
+    auto font2 = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init2 );
+    REQUIRE_IS_VALID( font );
+
+    CHECK( font.Get() == font2.Get() );
 }
 
 // ================================ //
