@@ -66,9 +66,26 @@ bool			Drawing::UpdateBrushShader			( ShaderProvider* sp, Brush* brush )
 
 // ================================ //
 //
+
+bool			Drawing::UpdateBrushShader			( ShaderProvider* sp, Brush* brush, filesystem::Path shaderTemplate )
+{
+    return UpdateShaderImpl( sp, brush, m_brushData, shaderTemplate );
+}
+
+// ================================ //
+//
 bool			Drawing::UpdateBrushTexture			( ResourceManagerAPI rm, Brush* brush )
 {
 	return UpdateTextureImpl( rm, brush, m_brushData );
+}
+
+// ================================ //
+
+bool			Drawing::UpdateBrushOpacityMask		( ResourceManagerAPI rm, TexturePtr mask )
+{
+    auto prev = m_brushData.Texture[ 1 ];
+    m_brushData.Texture[ 1 ] = mask;
+    return mask != prev;
 }
 
 // ================================ //
@@ -106,9 +123,27 @@ bool			Drawing::UpdatePenShader			( ShaderProvider* sp, Brush* pen )
 
 // ================================ //
 //
+
+bool			Drawing::UpdatePenShader			( ShaderProvider* sp, Brush* pen, filesystem::Path shaderTemplate )
+{
+    return UpdateShaderImpl( sp, pen, m_penData, shaderTemplate );
+}
+
+// ================================ //
+//
 bool			Drawing::UpdatePenTexture			( ResourceManagerAPI rm, Brush* pen )
 {
 	return UpdateTextureImpl( rm, pen, m_penData );
+}
+
+// ================================ //
+//
+
+bool			Drawing::UpdatePenOpacityMask		( ResourceManagerAPI rm, TexturePtr mask )
+{
+    auto prev = m_penData.Texture[ 1 ];
+    m_penData.Texture[ 1 ] = mask;
+    return mask != prev;
 }
 
 // ================================ //
@@ -141,16 +176,24 @@ bool			Drawing::UpdatePenConstants			( ResourceManagerAPI rm, Brush* pen )
 //
 bool			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry )
 {
-	if( geometry->NeedsShaderUpdate() )
-	{
-		auto brushFunPath = geometry->ShaderFunctionFile();
-		m_geometryData.VertexShader = sp->GenerateVS( sp->GetBasicVSTemplate(), brushFunPath );
+    return UpdateVertexShader( sp, geometry, sp->GetBasicVSTemplate() );
+}
 
-		geometry->ShaderUpdated();
-		return true;
-	}
+// ================================ //
+//
 
-	return false;
+bool			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry, filesystem::Path shaderTemplate )
+{
+    if( geometry->NeedsShaderUpdate() )
+    {
+        auto brushFunPath = geometry->ShaderFunctionFile();
+        m_geometryData.VertexShader = sp->GenerateVS( shaderTemplate, brushFunPath );
+
+        geometry->ShaderUpdated();
+        return true;
+    }
+
+    return false;
 }
 
 // ================================ //
@@ -246,18 +289,26 @@ bool			Drawing::CreateAndSetLayout			( ResourceManagerAPI rm, ShaderProvider* sp
 
 // ================================ //
 //
+
+bool			Drawing::UpdateShaderImpl( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData, filesystem::Path shaderTemplate )
+{
+    if( brush->NeedsShaderUpdate() )
+    {
+        auto brushFunPath = brush->ShaderFunctionFile();
+        brushData.PixelShader = sp->GeneratePS( shaderTemplate, brushFunPath );
+
+        brush->ShaderUpdated();
+        return true;
+    }
+
+    return false;
+}
+
+// ================================ //
+//
 bool			Drawing::UpdateShaderImpl			( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData )
 {
-	if( brush->NeedsShaderUpdate() )
-	{
-		auto brushFunPath = brush->ShaderFunctionFile();
-		brushData.PixelShader = sp->GeneratePS( sp->GetBasicPSTemplate(), brushFunPath );
-
-		brush->ShaderUpdated();
-		return true;
-	}
-
-	return false;
+    return UpdateShaderImpl( sp, brush, brushData, sp->GetBasicPSTemplate() );
 }
 
 // ================================ //
@@ -271,7 +322,7 @@ bool			Drawing::UpdateTextureImpl			( ResourceManagerAPI rm, Brush* brush, impl:
 		// If texture was alredy loaded it will use it.
 		///@todo WPF supports not only textures loaded from disk, but also textures from resources
 		///referenced by URL. We should change this implementation in future probably.
-		brushData.Texture = rm.LoadTexture( textureSource ).Get();      /// @todo What in case of error?
+        brushData.Texture[0] = rm.LoadTexture( textureSource ).Get();  /// @todo What in case of error?
 
 		brush->TextureUpdated();
 		return true;
@@ -370,7 +421,8 @@ void			Drawing::RenderImpl					( IRenderer* renderer, impl::GeometryRenderingDat
 	setShaderCmd.PixelShader = brush.PixelShader.Ptr();
 	RenderingHelper::ClearTextureState( setShaderCmd );
 
-	helper.SetTexture( setShaderCmd, brush.Texture.Ptr(), 0, (uint8)ShaderType::PixelShader );
+	for( auto i = 0; i < std::size( brush.Texture ); i++ )
+        helper.SetTexture( setShaderCmd, brush.Texture[ i ].Ptr(), i, (uint8)ShaderType::PixelShader );
 	renderer->SetShaderState( setShaderCmd );
 
 	helper.BindBuffer( brush.BrushConstants.Ptr(), 2, (uint8)ShaderType::PixelShader );

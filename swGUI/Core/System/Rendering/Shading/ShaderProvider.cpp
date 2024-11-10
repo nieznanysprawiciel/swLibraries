@@ -23,6 +23,8 @@ namespace impl
 {
 	const filesystem::Path		gBasicPSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Basic.psh";
 	const filesystem::Path		gBasicVSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Basic.vsh";
+    const filesystem::Path      gOpacityPSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Opacity.psh";
+    const filesystem::Path      gOpacityVSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Opacity.vsh";
 }
 
 
@@ -45,6 +47,22 @@ const filesystem::Path&				ShaderProvider::GetBasicPSTemplate		() const
 const filesystem::Path&				ShaderProvider::GetBasicVSTemplate		() const
 {
 	return impl::gBasicVSTemplatePath;
+}
+
+// ================================ //
+//
+
+const filesystem::Path&             ShaderProvider::GetOpacityPSTemplate() const
+{
+    return impl::gOpacityPSTemplatePath;
+}
+
+// ================================ //
+//
+
+const filesystem::Path&             ShaderProvider::GetOpacityVSTemplate() const
+{
+    return impl::gOpacityVSTemplatePath;
 }
 
 // ================================ //

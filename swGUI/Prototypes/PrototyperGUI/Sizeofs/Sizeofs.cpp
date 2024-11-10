@@ -15,10 +15,12 @@
 
 #include "swGUI/Core/System/GUISystem.h"
 #include "swGUI/Core/Controls/UIElement.h"
+#include "swGUI/Core/Controls/FrameworkElement.h"
 #include "swGUI/Core/Controls/Visual.h"
 
 #include "swGUI/Core/Controls/Shapes/Rectangle.h"
 #include "swGUI/Core/Controls/Shapes/Ellipse.h"
+#include "swGUI/Core/Controls/TextualControls/TextBlock.h"
 
 #include "swGUI/Core/System/DataBinding/BindingInfo.h"
 
@@ -59,6 +61,7 @@ void			PrintGUIElementsSizeofs		()
 	PrintSizeofType< sw::gui::DependencyObject >( std::cout );
 	PrintSizeofType< sw::gui::Visual >( std::cout );
 	PrintSizeofType< sw::gui::UIElement >( std::cout );
+    PrintSizeofType< sw::gui::FrameworkElement >( std::cout );
 	PrintSizeofType< sw::gui::HostWindow >( std::cout );
 
 	std::cout << std::endl;
@@ -75,6 +78,7 @@ void			PrintControlsSizeofs		()
 	PrintSizeofType< sw::gui::Shape >( std::cout );
 	PrintSizeofType< sw::gui::Rectangle >( std::cout );
 	PrintSizeofType< sw::gui::Ellipse >( std::cout );
+    PrintSizeofType< sw::gui::TextBlock >( std::cout );
 	
 	std::cout << std::endl;
 }

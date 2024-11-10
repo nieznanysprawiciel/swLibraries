@@ -39,6 +39,8 @@ public:
 
 	const filesystem::Path&			GetBasicPSTemplate		() const;
 	const filesystem::Path&			GetBasicVSTemplate		() const;
+    const filesystem::Path&         GetOpacityPSTemplate	() const;
+    const filesystem::Path&         GetOpacityVSTemplate	() const;
 
 public:
 

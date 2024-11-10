@@ -30,31 +30,27 @@ void            TextDrawing::Render( IRenderer* renderer )
 
 void            TextDrawing::RebuildResources( ResourceManagerAPI rm, ShaderProvider* sp )
 {
-    // TODO: Rebuild font
-    
-
-
-    bool result = true;
-
     auto brush = GetBrush().get();
     auto pen = GetPen().get();
     auto geometry = GetGeometry().get();
 
     // Geometry updates
-    result = CreateAndSetLayoutForVertexType< VertexText2D >( rm, sp, geometry ) && result;
-    result = UpdateVertexShader( sp, geometry ) && result;
-    result = UpdateGeometry( rm, geometry ) && result;
-    result = UpdateGeometryConstants( rm, geometry ) && result;
+    CreateAndSetLayoutForVertexType< VertexText2D >( rm, sp, geometry );
+    UpdateVertexShader( sp, geometry, sp->GetOpacityVSTemplate() );
+    UpdateGeometry( rm, geometry );
+    UpdateGeometryConstants( rm, geometry );
 
     // Brush updates
-    result = UpdateBrushShader( sp, brush ) && result;
-    result = UpdateBrushTexture( rm, brush ) && result;
-    result = UpdateBrushConstants( rm, brush ) && result;
+    UpdateBrushShader( sp, brush, sp->GetOpacityPSTemplate() );
+    UpdateBrushTexture( rm, brush );
+    UpdateBrushConstants( rm, brush );
+    UpdateBrushOpacityMask( rm, nullptr );
 
     // Pen updates
-    result = UpdatePenShader( sp, pen ) && result;
-    result = UpdatePenTexture( rm, pen ) && result;
-    result = UpdatePenConstants( rm, pen ) && result;
+    UpdatePenShader( sp, pen, sp->GetOpacityPSTemplate() );
+    UpdatePenTexture( rm, pen );
+    UpdatePenConstants( rm, pen );
+    UpdatePenOpacityMask( rm, GetTextGeometry()->GetFont()->GetFontAtlas() );
 }
 
 }  // namespace gui

@@ -140,9 +140,9 @@ void		AddControls						( HostWindow* host )
 
 	AddRectangle( host, gradientBrush, stroke, 120, 768, 2, Position( 750, 0 ) );
 
-	auto background = std::make_shared< SolidColorBrush >( Color( 1.0, 0.0, 0.0, 1.0 ) );
-    auto pen = std::make_shared< SolidColorBrush >( Color( 0.0, 1.0, 0.0, 1.0 ) );
-    AddText( host, background, pen, 200, 200, Position( 100, 500 ), L"Hello World" );
+	//auto background = std::make_shared< SolidColorBrush >( Color( 1.0, 1.0, 1.0, 1.0 ) );
+ //   auto pen = std::make_shared< SolidColorBrush >( Color( 1.0, 1.0, 1.0, 1.0 ) );
+ //   AddText( host, background, pen, 200, 200, Position( 100, 500 ), L"Hello World" );
 }
 
 

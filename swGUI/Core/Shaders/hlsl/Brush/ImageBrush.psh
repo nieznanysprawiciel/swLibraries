@@ -14,7 +14,7 @@ cbuffer ImageBrushConsts : register( b2 )
     uint        Stretch;
 }
 
-Texture2D image;
+Texture2D image : register(t0);
 
 // ================================ //
 //

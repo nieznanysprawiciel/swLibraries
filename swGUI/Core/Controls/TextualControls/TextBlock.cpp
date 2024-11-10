@@ -56,6 +56,8 @@ ReturnResult    TextBlock::UpdateDrawingResources( ResourceManagerAPI& api )
 
         auto geometry = std::make_shared< TextGeometry >( font.Get() );
         geometry->SetText( m_text );
+        geometry->SetWidth( GetSize().x );
+        geometry->SetHeight( GetSize().y );
 
         SetGeometry( geometry );
         FontUpdated();

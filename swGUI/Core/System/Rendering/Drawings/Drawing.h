@@ -47,12 +47,15 @@ struct GeometryRenderingData
 };
 
 
+const u8 NumBrushTextures = 2;
+
+
 /**@brief Represents brush using graphic API structures.*/
 struct BrushRenderingData
 {
-    PixelShaderPtr      		PixelShader;		///< Pixel Shader.
-	BufferPtr       		    BrushConstants;		///< Constant buffer bound to Pixel Shader.
-	TexturePtr      	        Texture;			///< Optional texture bound to Pixel Shader.
+    PixelShaderPtr      		PixelShader;					///< Pixel Shader.
+	BufferPtr       		    BrushConstants;					///< Constant buffer bound to Pixel Shader.
+    TexturePtr      	        Texture[ NumBrushTextures ];	///< Optional texture bound to Pixel Shader.
 };
 
 
@@ -86,14 +89,19 @@ protected:
 	bool					DefaultRebuildResources	( ResourceManagerAPI rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry );
 
 	bool					UpdateBrushShader		( ShaderProvider* sp, Brush* brush );
+	bool					UpdateBrushShader		( ShaderProvider* sp, Brush* brush, filesystem::Path shaderTemplate );
 	bool					UpdateBrushTexture		( ResourceManagerAPI rm, Brush* brush );
+	bool					UpdateBrushOpacityMask	( ResourceManagerAPI rm, TexturePtr mask );
 	bool					UpdateBrushConstants	( ResourceManagerAPI rm, Brush* brush );
 
 	bool					UpdatePenShader			( ShaderProvider* sp, Brush* pen );
+	bool					UpdatePenShader			( ShaderProvider* sp, Brush* pen, filesystem::Path shaderTemplate );
 	bool					UpdatePenTexture		( ResourceManagerAPI rm, Brush* pen );
+	bool					UpdatePenOpacityMask	( ResourceManagerAPI rm, TexturePtr mask );
 	bool					UpdatePenConstants		( ResourceManagerAPI rm, Brush* pen );
 
 	bool					UpdateVertexShader		( ShaderProvider* sp, Geometry* geometry );
+    bool                    UpdateVertexShader		( ShaderProvider* sp, Geometry* geometry, filesystem::Path shaderTemplate );
 	bool					UpdateGeometry			( ResourceManagerAPI rm, Geometry* geometry );
 	bool					UpdateGeometryConstants	( ResourceManagerAPI rm, Geometry* geometry );
 
@@ -125,6 +133,7 @@ protected:
 
 private:
 
+	bool					UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData, filesystem::Path shaderTemplate );
 	bool					UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData );
 	bool					UpdateTextureImpl		( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData );
 

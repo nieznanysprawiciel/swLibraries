@@ -540,5 +540,17 @@
     <FxCompile Include="..\..\..\Core\Shaders\hlsl\Brush\ImageBrush.psh">
       <Filter>Core\Shaders\hlsl\Brush</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Layouts\VertexText2D.vsh">
+      <Filter>Core\Shaders\hlsl\Layouts</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Geometry\ForwardWithOpacity.vsh">
+      <Filter>Core\Shaders\hlsl\Geometry</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Templates\Opacity.psh">
+      <Filter>Core\Shaders\hlsl\Templates</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Templates\Opacity.vsh">
+      <Filter>Core\Shaders\hlsl\Templates</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -82,6 +82,7 @@ GeometryData		TextGeometry::Generate			()
 {
     auto arranger = TextArranger::CreateFrom( m_font );
     arranger.Bounds = Rect{ 0.0, m_width, 0.0, m_height };
+    arranger.WrapText = true;
     
     auto geometry = arranger.GenerateGeometryTextured( m_text, m_font, true );
 
@@ -92,7 +93,7 @@ GeometryData		TextGeometry::Generate			()
 	geomData.ExtendedIB = true;
 	geomData.Topology = PrimitiveTopology::Triangles;
 
-	return std::move( geomData );
+	return geomData;
 }
 
 // ================================ //
@@ -107,7 +108,7 @@ BufferRange			TextGeometry::BufferData		()
 //
 filesystem::Path    TextGeometry::ShaderFunctionFile	()
 {
-	return "$(CoreGUI-Shader-Dir)/Geometry/ForwardAttributes.vsh";
+	return "$(CoreGUI-Shader-Dir)/Geometry/ForwardWithOpacity.vsh";
 }
 
 // ================================ //
