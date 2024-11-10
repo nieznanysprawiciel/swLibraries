@@ -12,6 +12,7 @@
 #include "swGUI/Core/System/Rendering/Shading/ShaderProvider.h"
 
 #include "swCommonLib/Common/Buffers/BufferRange.h"
+#include "swCommonLib/Common/Logging/Logger.h"
 
 
 namespace sw {
@@ -86,30 +87,30 @@ protected:
 	/// Derived classes should use these API functions to set rendering state.
 	/// They shouldn't have direct access to rendering structures.
 	///@{
-	bool					DefaultRebuildResources	( ResourceManagerAPI rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry );
+	ReturnResult			DefaultRebuildResources		( ResourceManagerAPI rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry );
 
-	bool					UpdateBrushShader		( ShaderProvider* sp, Brush* brush );
-	bool					UpdateBrushShader		( ShaderProvider* sp, Brush* brush, filesystem::Path shaderTemplate );
-	bool					UpdateBrushTexture		( ResourceManagerAPI rm, Brush* brush );
-	bool					UpdateBrushOpacityMask	( ResourceManagerAPI rm, TexturePtr mask );
-	bool					UpdateBrushConstants	( ResourceManagerAPI rm, Brush* brush );
+	ReturnResult            UpdateBrushShader			( ShaderProvider* sp, Brush* brush );
+    ReturnResult            UpdateBrushShader			( ShaderProvider* sp, Brush* brush, filesystem::Path shaderTemplate );
+    ReturnResult            UpdateBrushTexture			( ResourceManagerAPI rm, Brush* brush );
+    ReturnResult            UpdateBrushOpacityMask		( ResourceManagerAPI rm, TexturePtr mask );
+    ReturnResult            UpdateBrushConstants		( ResourceManagerAPI rm, Brush* brush );
 
-	bool					UpdatePenShader			( ShaderProvider* sp, Brush* pen );
-	bool					UpdatePenShader			( ShaderProvider* sp, Brush* pen, filesystem::Path shaderTemplate );
-	bool					UpdatePenTexture		( ResourceManagerAPI rm, Brush* pen );
-	bool					UpdatePenOpacityMask	( ResourceManagerAPI rm, TexturePtr mask );
-	bool					UpdatePenConstants		( ResourceManagerAPI rm, Brush* pen );
+	ReturnResult            UpdatePenShader				( ShaderProvider* sp, Brush* pen );
+    ReturnResult            UpdatePenShader				( ShaderProvider* sp, Brush* pen, filesystem::Path shaderTemplate );
+    ReturnResult            UpdatePenTexture			( ResourceManagerAPI rm, Brush* pen );
+    ReturnResult            UpdatePenOpacityMask		( ResourceManagerAPI rm, TexturePtr mask );
+    ReturnResult            UpdatePenConstants			( ResourceManagerAPI rm, Brush* pen );
 
-	bool					UpdateVertexShader		( ShaderProvider* sp, Geometry* geometry );
-    bool                    UpdateVertexShader		( ShaderProvider* sp, Geometry* geometry, filesystem::Path shaderTemplate );
-	bool					UpdateGeometry			( ResourceManagerAPI rm, Geometry* geometry );
-	bool					UpdateGeometryConstants	( ResourceManagerAPI rm, Geometry* geometry );
+	ReturnResult			UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry );
+    ReturnResult			UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry, filesystem::Path shaderTemplate );
+    ReturnResult			UpdateGeometry				( ResourceManagerAPI rm, Geometry* geometry );
+    ReturnResult            UpdateGeometryConstants		( ResourceManagerAPI rm, Geometry* geometry );
 
-	bool					CreateAndSetLayout		( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry );
+	ReturnResult			CreateAndSetLayout			( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry );
     template< typename VertexType >
-	bool					CreateAndSetLayoutForVertexType( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry );
+    ReturnResult			CreateAndSetLayoutForVertexType( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry );
     template < typename VertexStruct >
-    ShaderInputLayoutPtr	CreateLayout			( ResourceManagerAPI rm, ShaderProvider* sp );
+    sw::Nullable< ShaderInputLayoutPtr >	CreateLayout( ResourceManagerAPI rm, ShaderProvider* sp );
 	///@}
 
 	///@name Rendering functions.
@@ -133,12 +134,12 @@ protected:
 
 private:
 
-	bool					UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData, filesystem::Path shaderTemplate );
-	bool					UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData );
-	bool					UpdateTextureImpl		( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData );
+	ReturnResult			UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData, filesystem::Path shaderTemplate );
+	ReturnResult			UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData );
+	ReturnResult			UpdateTextureImpl		( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData );
 
-	void					UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::BrushRenderingData& brushData );
-	void					UpdateCBContentImpl		( IRenderer* renderer, Buffer* buffer, BufferRange bufferData );
+	ReturnResult			UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::BrushRenderingData& brushData );
+	ReturnResult			UpdateCBContentImpl		( IRenderer* renderer, Buffer* buffer, BufferRange bufferData );
 
 	void					RenderImpl				( IRenderer* renderer, impl::GeometryRenderingData& geom, impl::BrushRenderingData& brush, uint32 start, uint32 end );
 
@@ -156,15 +157,34 @@ DEFINE_PTR_TYPE( Drawing )
 //
 
 template < typename VertexType >
-inline bool			Drawing::CreateAndSetLayoutForVertexType( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry )
+inline ReturnResult			Drawing::CreateAndSetLayoutForVertexType( ResourceManagerAPI rm, ShaderProvider* sp,
+                                                              Geometry* geometry )
 {
     if( !m_geometryData.Layout )
     {
-        m_geometryData.Layout = CreateLayout< VertexShape2D >( rm, sp );
-        return true;
+        auto result = CreateLayout< VertexType >( rm, sp );
+        ReturnIfInvalid( result );
+
+        m_geometryData.Layout = result.Get();
     }
 
-    return false;
+    return Success::True;
+}
+
+// ================================ //
+//
+
+template < typename VertexStruct >
+sw::Nullable< ShaderInputLayoutPtr >	Drawing::CreateLayout( ResourceManagerAPI rm, ShaderProvider* sp )
+{
+    auto layout = rm.GetCached< ShaderInputLayout >( GetLayoutName< VertexStruct >() );
+    if( !layout )
+    {
+        return rm.CreateLayout( GetLayoutName< VertexStruct >(), CreateLayoutDescriptor< VertexStruct >() )
+                 .MapErr( []( auto e ) { return fmt::format( "Failed to create layout for vertex type: {}. {}", GetLayoutName< VertexStruct >(), e ); } );
+    }
+
+    return layout;
 }
 
 }  // namespace gui

@@ -47,12 +47,12 @@ struct VertexText2D
 // ================================ //
 //
 template<> 
-InputLayoutDescriptor CreateLayoutDescriptor< VertexText2D >();
+InputLayoutDescriptor           CreateLayoutDescriptor< VertexText2D >();
 
 // ================================ //
 //
 template<>
-const AssetPath& GetLayoutName< VertexText2D >();
+const AssetPath&                GetLayoutName< VertexText2D >();
 
 }	// gui
 }	// sw

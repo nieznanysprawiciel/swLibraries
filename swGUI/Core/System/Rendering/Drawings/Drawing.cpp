@@ -8,6 +8,7 @@
 
 #include "Drawing.h"
 
+#include "swCommonLib/Common/Exceptions/ErrorsCollector.h"
 #include "swGraphicAPI/ResourceManager/ResourceManagerAPI.h"
 #include "swGUI/Core/System/Rendering/Shading/ShaderProvider.h"
 
@@ -34,32 +35,32 @@ Drawing::Drawing()
 
 // ================================ //
 //
-bool			Drawing::DefaultRebuildResources	( ResourceManagerAPI rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry )
+ReturnResult			Drawing::DefaultRebuildResources	( ResourceManagerAPI rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry )
 {
-	bool result = true;
+    ErrorsCollector results;
 
 	// Geometry updates
-	result = CreateAndSetLayout( rm, sp, geometry ) && result;
-	result = UpdateVertexShader( sp, geometry ) && result;
-	result = UpdateGeometry( rm, geometry ) && result;
-	result = UpdateGeometryConstants( rm, geometry ) && result;
+    results.Add( CreateAndSetLayout( rm, sp, geometry ) );
+	results.Add( UpdateVertexShader( sp, geometry ) );
+	results.Add( UpdateGeometry( rm, geometry ) );
+	results.Add( UpdateGeometryConstants( rm, geometry ) );
 
 	// Brush updates
-	result = UpdateBrushShader( sp, brush ) && result;
-	result = UpdateBrushTexture( rm, brush ) && result;
-	result = UpdateBrushConstants( rm, brush ) && result;
+	results.Add( UpdateBrushShader( sp, brush ) );
+	results.Add( UpdateBrushTexture( rm, brush ) );
+	results.Add( UpdateBrushConstants( rm, brush ) );
 
 	// Pen updates
-	result = UpdatePenShader( sp, pen ) && result;
-	result = UpdatePenTexture( rm, pen ) && result;
-	result = UpdatePenConstants( rm, pen ) && result;
+	results.Add( UpdatePenShader( sp, pen ) );
+	results.Add( UpdatePenTexture( rm, pen ) );
+	results.Add( UpdatePenConstants( rm, pen ) );
 
-	return result;
+	return results;
 }
 
 // ================================ //
 //
-bool			Drawing::UpdateBrushShader			( ShaderProvider* sp, Brush* brush )
+ReturnResult			Drawing::UpdateBrushShader			( ShaderProvider* sp, Brush* brush )
 {
 	return UpdateShaderImpl( sp, brush, m_brushData );
 }
@@ -67,30 +68,29 @@ bool			Drawing::UpdateBrushShader			( ShaderProvider* sp, Brush* brush )
 // ================================ //
 //
 
-bool			Drawing::UpdateBrushShader			( ShaderProvider* sp, Brush* brush, filesystem::Path shaderTemplate )
+ReturnResult			Drawing::UpdateBrushShader			( ShaderProvider* sp, Brush* brush, filesystem::Path shaderTemplate )
 {
     return UpdateShaderImpl( sp, brush, m_brushData, shaderTemplate );
 }
 
 // ================================ //
 //
-bool			Drawing::UpdateBrushTexture			( ResourceManagerAPI rm, Brush* brush )
+ReturnResult			Drawing::UpdateBrushTexture			( ResourceManagerAPI rm, Brush* brush )
 {
 	return UpdateTextureImpl( rm, brush, m_brushData );
 }
 
 // ================================ //
 
-bool			Drawing::UpdateBrushOpacityMask		( ResourceManagerAPI rm, TexturePtr mask )
+ReturnResult			Drawing::UpdateBrushOpacityMask		( ResourceManagerAPI rm, TexturePtr mask )
 {
-    auto prev = m_brushData.Texture[ 1 ];
     m_brushData.Texture[ 1 ] = mask;
-    return mask != prev;
+    return Success::True;
 }
 
 // ================================ //
 //
-bool			Drawing::UpdateBrushConstants		( ResourceManagerAPI rm, Brush* brush )
+ReturnResult			Drawing::UpdateBrushConstants		( ResourceManagerAPI rm, Brush* brush )
 {
 	if( ( !m_brushData.BrushConstants && brush->UsesConstantBuffer() ) 
 		|| brush->NeedsBufferChange() )
@@ -108,15 +108,15 @@ bool			Drawing::UpdateBrushConstants		( ResourceManagerAPI rm, Brush* brush )
 			brush->BufferChanged();
 
 		m_brushData.BrushConstants = constantsBuffer;
-		return true;
+        return Success::True;
 	}
 
-	return false;
+	return Success::True;
 }
 
 // ================================ //
 //
-bool			Drawing::UpdatePenShader			( ShaderProvider* sp, Brush* pen )
+ReturnResult			Drawing::UpdatePenShader			( ShaderProvider* sp, Brush* pen )
 {
 	return UpdateShaderImpl( sp, pen, m_penData );
 }
@@ -124,14 +124,14 @@ bool			Drawing::UpdatePenShader			( ShaderProvider* sp, Brush* pen )
 // ================================ //
 //
 
-bool			Drawing::UpdatePenShader			( ShaderProvider* sp, Brush* pen, filesystem::Path shaderTemplate )
+ReturnResult			Drawing::UpdatePenShader			( ShaderProvider* sp, Brush* pen, filesystem::Path shaderTemplate )
 {
     return UpdateShaderImpl( sp, pen, m_penData, shaderTemplate );
 }
 
 // ================================ //
 //
-bool			Drawing::UpdatePenTexture			( ResourceManagerAPI rm, Brush* pen )
+ReturnResult			Drawing::UpdatePenTexture			( ResourceManagerAPI rm, Brush* pen )
 {
 	return UpdateTextureImpl( rm, pen, m_penData );
 }
@@ -139,16 +139,15 @@ bool			Drawing::UpdatePenTexture			( ResourceManagerAPI rm, Brush* pen )
 // ================================ //
 //
 
-bool			Drawing::UpdatePenOpacityMask		( ResourceManagerAPI rm, TexturePtr mask )
+ReturnResult			Drawing::UpdatePenOpacityMask		( ResourceManagerAPI rm, TexturePtr mask )
 {
-    auto prev = m_penData.Texture[ 1 ];
     m_penData.Texture[ 1 ] = mask;
-    return mask != prev;
+    return Success::True;
 }
 
 // ================================ //
 //
-bool			Drawing::UpdatePenConstants			( ResourceManagerAPI rm, Brush* pen )
+ReturnResult			Drawing::UpdatePenConstants			( ResourceManagerAPI rm, Brush* pen )
 {
 	if( ( !m_penData.BrushConstants && pen->UsesConstantBuffer() )
 		|| pen->NeedsBufferChange() )
@@ -166,15 +165,15 @@ bool			Drawing::UpdatePenConstants			( ResourceManagerAPI rm, Brush* pen )
 			pen->BufferChanged();
 
 		m_penData.BrushConstants = constantsBuffer;
-		return true;
+        return Success::True;
 	}
 
-	return false;
+	return Success::True;
 }
 
 // ================================ //
 //
-bool			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry )
+ReturnResult			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry )
 {
     return UpdateVertexShader( sp, geometry, sp->GetBasicVSTemplate() );
 }
@@ -182,7 +181,7 @@ bool			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry )
 // ================================ //
 //
 
-bool			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry, filesystem::Path shaderTemplate )
+ReturnResult			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry, filesystem::Path shaderTemplate )
 {
     if( geometry->NeedsShaderUpdate() )
     {
@@ -190,15 +189,15 @@ bool			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry, f
         m_geometryData.VertexShader = sp->GenerateVS( shaderTemplate, brushFunPath );
 
         geometry->ShaderUpdated();
-        return true;
+        return Success::True;
     }
 
-    return false;
+    return Success::True;
 }
 
 // ================================ //
 //
-bool			Drawing::UpdateGeometry				( ResourceManagerAPI rm, Geometry* geometry )
+ReturnResult			Drawing::UpdateGeometry				( ResourceManagerAPI rm, Geometry* geometry )
 {
 	if( geometry->NeedsGeometryUpdate() )
 	{
@@ -233,15 +232,15 @@ bool			Drawing::UpdateGeometry				( ResourceManagerAPI rm, Geometry* geometry )
 		m_geometryData.ExtendedIB = data.ExtendedIB;
 
 		geometry->GeometryUpdated();
-		return true;
+        return Success::True;
 	}
 
-	return false;
+	return Success::True;
 }
 
 // ================================ //
 //
-bool			Drawing::UpdateGeometryConstants	( ResourceManagerAPI rm, Geometry* geometry )
+ReturnResult			Drawing::UpdateGeometryConstants	( ResourceManagerAPI rm, Geometry* geometry )
 {
 	if( !m_geometryData.GeometryConstants && geometry->UsesConstantBuffer() )
 	{
@@ -255,30 +254,15 @@ bool			Drawing::UpdateGeometryConstants	( ResourceManagerAPI rm, Geometry* geome
 		}
 
 		m_geometryData.GeometryConstants = constantsBuffer;
-		return true;
+        return Success::True;
 	}
 
-	return false;
+	return Success::True;
 }
 
 // ================================ //
 //
-template< typename VertexStruct >
-ShaderInputLayoutPtr		Drawing::CreateLayout( ResourceManagerAPI rm, ShaderProvider* sp )
-{
-	auto layout = rm.GetCached< ShaderInputLayout >( GetLayoutName< VertexStruct >() );
-	if( !layout )
-	{
-		layout = rm.CreateLayout( GetLayoutName< VertexStruct >(), CreateLayoutDescriptor< VertexStruct >() ).Get();     /// @todo What in case of error?
-	}
-
-	return layout;
-}
-
-
-// ================================ //
-//
-bool			Drawing::CreateAndSetLayout			( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry )
+ReturnResult			Drawing::CreateAndSetLayout			( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry )
 {
     return CreateAndSetLayoutForVertexType< VertexShape2D >( rm, sp, geometry );
 }
@@ -290,7 +274,7 @@ bool			Drawing::CreateAndSetLayout			( ResourceManagerAPI rm, ShaderProvider* sp
 // ================================ //
 //
 
-bool			Drawing::UpdateShaderImpl( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData, filesystem::Path shaderTemplate )
+ReturnResult			Drawing::UpdateShaderImpl( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData, filesystem::Path shaderTemplate )
 {
     if( brush->NeedsShaderUpdate() )
     {
@@ -298,22 +282,22 @@ bool			Drawing::UpdateShaderImpl( ShaderProvider* sp, Brush* brush, impl::BrushR
         brushData.PixelShader = sp->GeneratePS( shaderTemplate, brushFunPath );
 
         brush->ShaderUpdated();
-        return true;
+        return Success::True;
     }
 
-    return false;
+    return Success::True;
 }
 
 // ================================ //
 //
-bool			Drawing::UpdateShaderImpl			( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData )
+ReturnResult			Drawing::UpdateShaderImpl			( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData )
 {
     return UpdateShaderImpl( sp, brush, brushData, sp->GetBasicPSTemplate() );
 }
 
 // ================================ //
 //
-bool			Drawing::UpdateTextureImpl			( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData )
+ReturnResult			Drawing::UpdateTextureImpl			( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData )
 {
 	if( brush->NeedsTextureUpdate() )
 	{
@@ -325,10 +309,10 @@ bool			Drawing::UpdateTextureImpl			( ResourceManagerAPI rm, Brush* brush, impl:
         brushData.Texture[0] = rm.LoadTexture( textureSource ).Get();  /// @todo What in case of error?
 
 		brush->TextureUpdated();
-		return true;
+        return Success::True;
 	}
 
-	return false;
+	return Success::True;
 }
 
 
@@ -387,7 +371,7 @@ void			Drawing::RenderBorder				( IRenderer* renderer )
 
 // ================================ //
 //
-void			Drawing::UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::BrushRenderingData& brushData )
+ReturnResult	Drawing::UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::BrushRenderingData& brushData )
 {
 	if( brush->UsesConstantBuffer() )
 	{
@@ -396,11 +380,12 @@ void			Drawing::UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::
 		
 		/// @todo Error handling
 	}
+    return Success::True;
 }
 
 // ================================ //
 //
-void			Drawing::UpdateCBContentImpl		( IRenderer* renderer, Buffer* buffer, BufferRange bufferData )
+ReturnResult	 Drawing::UpdateCBContentImpl( IRenderer* renderer, Buffer* buffer, BufferRange bufferData )
 {
 	UpdateBufferCommand cmd;
 	cmd.Buffer = buffer;
@@ -408,6 +393,7 @@ void			Drawing::UpdateCBContentImpl		( IRenderer* renderer, Buffer* buffer, Buff
 	cmd.Size = (uint32)bufferData.DataSize;
 
 	renderer->UpdateBuffer( cmd );
+    return Success::True;
 }
 
 // ================================ //
