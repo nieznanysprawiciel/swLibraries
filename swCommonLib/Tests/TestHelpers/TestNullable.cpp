@@ -164,7 +164,19 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.Move.Exception", "[Nullable]" )
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Exceptions.Nullable.operator&&", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Exceptions.Nullable.MapErr", "[Nullable]" )
+{
+    Nullable< Dog* > nullableDog( "Something wrong..." );
+    auto mappedErr = nullableDog.MapErr( []( auto e ) { return fmt::format( "Failure: {}", e ); } );
+
+    REQUIRE( mappedErr.IsValid() == false );
+    CHECK( mappedErr.GetErrorReason() == "Failure: Something wrong..." );
+    CHECK( mappedErr.GetError() != nullptr );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.ReturnResult.operator&&", "[Nullable]" )
 {
     ReturnResult invalid( "Something wrong..." );
     ReturnResult valid = Success::True;
@@ -180,7 +192,7 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.operator&&", "[Nullable]" )
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Exceptions.Nullable.Ok.OnSuccess", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Exceptions.ReturnResult.Ok.OnSuccess", "[Nullable]" )
 {
     ReturnResult valid = Success::True;
 
@@ -191,7 +203,7 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.Ok.OnSuccess", "[Nullable]" )
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Exceptions.Nullable.Ok.Invalid", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Exceptions.ReturnResult.Ok.Invalid", "[Nullable]" )
 {
     ReturnResult invalid( "Something wrong..." );
 
@@ -203,7 +215,7 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.Ok.Invalid", "[Nullable]" )
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Exceptions.Nullable.MapErr", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Exceptions.ReturnResult.MapErr", "[Nullable]" )
 {
     ReturnResult invalid( "Something wrong..." );
     ReturnResult mappedErr = invalid.MapErr( []( auto e ) { return fmt::format( "Failure: {}", e ); } );

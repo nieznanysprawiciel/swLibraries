@@ -99,6 +99,10 @@ public:
     static Nullable			FromError           ( const std::string& reason );
     static Nullable			FromError           ();
 
+public:
+    /**@brief Takes lambda mapping error to different error. It allows to add context
+    to exception returned from called function.*/
+    Nullable< ContentType > MapErr              ( const std::function< Nullable< ContentType >( typename ErrorType ) >& mapper );
 };
 
 
@@ -217,6 +221,15 @@ inline Nullable< ContentType >     Nullable< ContentType >::FromError       ()
     return Nullable< ContentType >(); 
 }
 
+// ================================ //
+//
+template< typename ContentType >
+inline  Nullable< ContentType >     Nullable< ContentType >::MapErr( const std::function< Nullable< ContentType >( typename ErrorType ) >& mapper )
+{
+    if( !IsValid() )
+        return mapper( Error );
+    return *this;
+}
 
 //====================================================================================//
 //			Specialization for void	
