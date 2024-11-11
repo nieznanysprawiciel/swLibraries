@@ -72,7 +72,7 @@ public:
 private:
 	D3D11_INPUT_ELEMENT_DESC	CreateRow		( const char* semanticName, ResourceFormat format, unsigned int inputSlot,
 												  unsigned int byteOffset, bool perInstance, unsigned int instanceDataStep ) const;
-	Size						CountSemantic	( const char* semanticName ) const;
+	Size						CountSemantic	( LayoutVec elements, const char* semanticName ) const;
 
 private:
 
@@ -110,7 +110,11 @@ DX11LayoutTranslator::LayoutVec	DX11LayoutTranslator::Translate		( const InputLa
 	LayoutVec elements;
 
 	for( auto& element : layoutDesc.GetEntries() )
+	{
 		elements.push_back( Translate( element ) );
+        auto& last = elements.back();
+        last.SemanticIndex = (UINT)CountSemantic( elements, last.SemanticName ) - 1;
+	}
 
 	return elements;
 }
@@ -163,16 +167,16 @@ D3D11_INPUT_ELEMENT_DESC		DX11LayoutTranslator::CreateRow		( const char* semanti
 		inputElement.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_INSTANCE_DATA;
 	else
 		inputElement.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
-	inputElement.SemanticIndex = (UINT)CountSemantic( semanticName );
+	inputElement.SemanticIndex = (UINT)0;	// Will be updated later, because here we don't have context of all entries
 
 	return inputElement;
 }
 
 // ================================ //
 //
-Size							DX11LayoutTranslator::CountSemantic	( const char* semanticName ) const
+Size							DX11LayoutTranslator::CountSemantic	( LayoutVec elements, const char* semanticName ) const
 {
-	return std::count_if( m_inputElement.begin(), m_inputElement.end(), [ semanticName ]( const D3D11_INPUT_ELEMENT_DESC& element )
+	return std::count_if( elements.begin(), elements.end(), [ semanticName ]( const D3D11_INPUT_ELEMENT_DESC& element )
 	{
 		return strcmp( element.SemanticName, semanticName ) == 0;
 	} );
