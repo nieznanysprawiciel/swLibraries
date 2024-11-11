@@ -40,6 +40,9 @@
     <Filter Include="Common\Macros">
       <UniqueIdentifier>{f0fcd031-f63d-4102-98a8-3ff30ae6411d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Profile">
+      <UniqueIdentifier>{3604edbf-f45e-4f1b-93b5-4a804216b273}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Common\Properties\Properties.cpp">
@@ -86,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Common\Logging\Logger.cpp">
       <Filter>Common\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\Profile\PerformanceCheck.cpp">
+      <Filter>Common\Profile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Logging\ConsoleLogger.h">
       <Filter>Common\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Profile\PerformanceCheck.h">
+      <Filter>Common\Profile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

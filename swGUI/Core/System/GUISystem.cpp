@@ -7,6 +7,7 @@
 
 #include "swCommonLib/Common/Logging/Logger.h"
 #include "swCommonLib/Common/Logging/ConsoleLogger.h"
+#include "swCommonLib/Common/Profile/PerformanceCheck.h"
 
 
 #include "GUISystem.h"
@@ -23,7 +24,6 @@
 
 #include <map>
 #include <string>
-
 
 
 namespace sw {
@@ -106,6 +106,8 @@ int					GUISystem::MainLoop()
 @return Returns true if application should end. Otherwise returns false.*/
 bool				GUISystem::MainLoopCore()
 {
+    START_PERFORMANCE_CHECK( MAIN_LOOP_RUN )
+
 	// Process native events.
 	bool end = m_nativeGUI->MainLoop( m_guiConfig.UseBlockingMode );
 	if( end ) return true;
@@ -118,20 +120,27 @@ bool				GUISystem::MainLoopCore()
 	OnIdle( frameTime );
 	RenderGUI( frameTime );
 
+	END_PERFORMANCE_CHECK( MAIN_LOOP_RUN )
 	return false;
 }
 
 /**@brief Processes messages and passes them to focused window.*/
 void				GUISystem::HandleEvents		( const FrameTime& frameTime )
 {
+    START_PERFORMANCE_CHECK( HANDLE_EVENTS )
+
 	for( auto window : m_windows )
 		window->HandleInput( frameTime );
+
+	END_PERFORMANCE_CHECK( HANDLE_EVENTS )
 }
 
 // ================================ //
 //
 void				GUISystem::RenderGUI		( const FrameTime& frameTime )
 {
+    START_PERFORMANCE_CHECK( RENDER )
+
 	if( m_guiConfig.RedrawOnlyFocused && m_focusedWindow )
 	{
 		m_renderingSystem->RenderTree( m_focusedWindow );
@@ -146,6 +155,8 @@ void				GUISystem::RenderGUI		( const FrameTime& frameTime )
 			window->GetSwapChain()->Present( GetSyncInterval() );
 		}
 	}
+
+	END_PERFORMANCE_CHECK( RENDER )
 }
 
 // ================================ //
@@ -163,6 +174,8 @@ void				GUISystem::CloseLogic		()
 /**@brief Invoke this function in application entry point (main).*/
 ReturnResult		GUISystem::Init()
 {
+    START_PERFORMANCE_CHECK( GUI_INIT )
+
     // @todo If user changed logger, we should honour this decision and not override it.
     sw::ILogger::SetLogger( std::make_unique< sw::ConsoleLogger >() );
 
@@ -173,6 +186,7 @@ ReturnResult		GUISystem::Init()
 
 	m_clock.Start();	// Start clock as last in initialization.
 
+	END_PERFORMANCE_CHECK( GUI_INIT )
 	return result;
 }
 
