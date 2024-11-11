@@ -115,9 +115,10 @@ inline void         TextGeometryGenerator< VertexType, IndexType, TextAcc >::Gen
     }
 
     auto& glyph = m_layout.Glyphs.at( wch );
-    
-    PutLetterVertex( vertex, glyph, translate, idx );
-    PutLetterUV( vertex, glyph, translate, idx );
+    vertexIdx = GenerateBackground ? vertexIdx - 4 : vertexIdx;
+
+    PutLetterVertex( vertex, glyph, translate, vertexIdx );
+    PutLetterUV( vertex, glyph, translate, vertexIdx );
 }
 
 // ================================ //

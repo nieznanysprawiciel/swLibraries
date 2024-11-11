@@ -5,8 +5,8 @@
 struct InputVS
 {
 	float4 Pos : POSITION;
-    float2 Tex : TEXCOORD;
-    float2 Mask : TEXCOORD;
+    float2 Tex : TEXCOORD0;
+    float2 Mask : TEXCOORD1;
 };
 
 // ================================ //
@@ -14,8 +14,8 @@ struct InputVS
 struct OutputVS
 {
 	linear			float4 Pos : SV_Position;
-    noperspective	float2 Tex : TEXCOORD;
-	noperspective	float2 Mask: TEXCOORD;
+    noperspective	float2 Tex : TEXCOORD0;
+	noperspective	float2 Mask: TEXCOORD1;
 };
 
 // ================================ //

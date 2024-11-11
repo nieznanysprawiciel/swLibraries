@@ -50,9 +50,9 @@ template <> InputLayoutDescriptor CreateLayoutDescriptor< VertexText2D >()
     desc.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT,
                    offsetof( VertexText2D, Position ) );
     desc.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT,
-                   offsetof( VertexText2D, AtlasCoords ) );
-    desc.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT,
                    offsetof( VertexText2D, UV ) );
+    desc.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT,
+                   offsetof( VertexText2D, AtlasCoords ) );
 
     return std::move( desc );
 }
