@@ -133,6 +133,7 @@ void PerformanceCheck::Print( std::ostream& output, std::vector< _PerformanceDat
 	const auto dataWidth = 16;
     const auto recordWidth = 32;
 
+	output << std::left;
 	output << std::setw( recordWidth ) << "Performance test:";
     output << std::setw( dataWidth ) << "Average (ms)";
     output << std::setw( dataWidth ) << "Minimum (ms)";

@@ -85,11 +85,12 @@ GeometryData		TextGeometry::Generate			()
     arranger.WrapText = true;
     
     auto geometry = arranger.GenerateGeometryTextured( m_text, m_font, true );
+    auto numIndicies = geometry.Get().Indicies.ElementsCount();
 
 	GeometryData geomData( geometry.Get().Verticies.MoveToRawBuffer(), geometry.Get().Indicies.MoveToRawBuffer() );
     // The roles are reversed. Fill is background and border is text.
 	geomData.FillIdxEnd = (uint32)arranger.NumBorderIndicies();
-    geomData.BorderIdxEnd = (uint32)geometry.Get().Indicies.GetSize();
+    geomData.BorderIdxEnd = (uint32)numIndicies;
 	geomData.ExtendedIB = true;
 	geomData.Topology = PrimitiveTopology::Triangles;
 

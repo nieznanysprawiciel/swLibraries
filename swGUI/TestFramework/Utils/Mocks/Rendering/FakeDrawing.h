@@ -37,6 +37,7 @@ public:
 	using Drawing::UpdateGeometryConstants;
 
 	using Drawing::CreateAndSetLayout;
+	using Drawing::CreateAndSetLayoutForVertexType;
 
 public:
 

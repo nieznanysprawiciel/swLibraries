@@ -143,17 +143,26 @@ void				GUISystem::RenderGUI		( const FrameTime& frameTime )
 
 	if( m_guiConfig.RedrawOnlyFocused && m_focusedWindow )
 	{
+        START_PERFORMANCE_CHECK( RENDER_TREE )
 		m_renderingSystem->RenderTree( m_focusedWindow );
+        END_PERFORMANCE_CHECK( RENDER_TREE )
+
+		START_PERFORMANCE_CHECK( SWAPCHAIN_PRESENT )
 		m_focusedWindow->GetSwapChain()->Present( GetSyncInterval() );
+        END_PERFORMANCE_CHECK( SWAPCHAIN_PRESENT )
 	}
 
 	if( !m_guiConfig.RedrawOnlyFocused )
 	{
+        START_PERFORMANCE_CHECK( RENDER_TREE )
 		for( auto window : m_windows )
-		{
 			m_renderingSystem->RenderTree( window );
+        END_PERFORMANCE_CHECK( RENDER_TREE )
+		
+		START_PERFORMANCE_CHECK( SWAPCHAIN_PRESENT )
+		for( auto window : m_windows )
 			window->GetSwapChain()->Present( GetSyncInterval() );
-		}
+        END_PERFORMANCE_CHECK( SWAPCHAIN_PRESENT )
 	}
 
 	END_PERFORMANCE_CHECK( RENDER )
