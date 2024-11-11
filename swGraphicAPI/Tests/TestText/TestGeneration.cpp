@@ -1,6 +1,6 @@
 #include "swCommonLib/External/Catch/catch.hpp"
 /**
-@file TestArranger.cpp
+@file TestGeneration.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */

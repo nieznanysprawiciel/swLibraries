@@ -13,7 +13,10 @@
     <ClCompile Include="..\..\..\..\Tests\TestText\TestFontLoader.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Tests\TestText\TestArranger.cpp">
+    <ClCompile Include="..\..\..\..\Tests\TestText\TestGeneration.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestText\TestArrange.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
   </ItemGroup>

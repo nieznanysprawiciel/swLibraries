@@ -70,6 +70,15 @@ uint32                  FontLayout::GetMaxWidth() const
 }
 
 // ================================ //
+
+uint32                  FontLayout::GetMaxBearingY() const
+{
+    auto max = std::max_element( this->Glyphs.begin(), this->Glyphs.end(),
+                                 []( const auto& a, const auto& b ) { return a.second.BearingY < b.second.BearingY; } );
+    return ( *max ).second.BearingY;
+}
+
+// ================================ //
 // 
 
 uint32                  FontLayout::GetMaxHeightWithPadding() const

@@ -342,6 +342,9 @@
     <ClInclude Include="..\..\..\Core\Controls\FrameworkElement.h">
       <Filter>Core\Controls</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\Media\Colors.h">
+      <Filter>Core\Media</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\System\Events\IEventArgs.cpp">

@@ -46,6 +46,7 @@ public:
 public:
     uint32      GetMaxHeight() const;
     uint32      GetMaxWidth() const;
+    uint32      GetMaxBearingY() const;
     uint32      GetMaxHeightWithPadding() const;
     uint32      GetMaxWidthWithPadding() const;
 

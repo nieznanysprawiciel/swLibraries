@@ -71,14 +71,11 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  
-  
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>PERFORMANCE_CHECK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
-
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -162,6 +159,7 @@
     <ClInclude Include="..\..\..\Core\Media\Brushes\LinearGradientBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\RadialGradientBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\SolidColorBrush.h" />
+    <ClInclude Include="..\..\..\Core\Media\Colors.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\EllipseGeometry.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Geometry.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\Layouts.h" />

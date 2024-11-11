@@ -34,7 +34,8 @@ std::vector< Position2d >   TextArranger::ArrangeText( const std::wstring& text,
     std::vector< Position2d > letters;
     letters.reserve( text.length() );
     
-    Position2d translate( this->Bounds.Left, this->Bounds.Top );
+    // Offset position from top using max hight of the letter relative to baseline (bearingY).
+    Position2d translate( this->Bounds.Left, this->Bounds.Top - layout.GetMaxBearingY() );
     Size charIdx = 0;
 
     while( charIdx < text.length() )
