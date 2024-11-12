@@ -284,9 +284,9 @@ TextArranger::GenerateGeometryTextured( const std::wstring& text, const FontAsse
 
     geom::PlanarUV< geom::VertexText2D > planarUV;
     planarUV.MinX = generator.Bounds.Left;
-    planarUV.MinY = generator.Bounds.Top;
+    planarUV.MaxY = generator.Bounds.Top;
     planarUV.MaxX = generator.Bounds.Right;
-    planarUV.MaxY = generator.Bounds.Bottom;
+    planarUV.MinY = generator.Bounds.Bottom;
 
     return geom::Generate< geom::IndexedGeometryBuffer< geom::VertexText2D, Index32 > >( generator, planarUV );
 }

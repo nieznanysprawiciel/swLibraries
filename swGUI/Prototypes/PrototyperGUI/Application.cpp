@@ -21,15 +21,9 @@
 
 using namespace sw::gui;
 
-const std::wstring sLoremIpsum = L"Lorem ipsum dolor sit amet, consectetur adipiscing elit. \
-Pellentesque pulvinar est id vehicula rutrum. Aliquam luctus consectetur erat consectetur\
-pretium. Morbi nec mi nec quam feugiat pharetra a consequat magna. Sed ac dui nec felis \
-iaculis ultricies. Vivamus a maximus massa. Duis feugiat justo quis eros vestibulum, non mattis\
-turpis tincidunt. Proin tristique, felis auctor placerat maximus, dui augue hendrerit risus, \
-consectetur molestie nisl quam ac dui. Aliquam et erat arcu. Nam at nisl dapibus sem fringilla \
-sodales sit amet in turpis. Vivamus interdum nunc vitae orci pretium aliquam. Vivamus ut \
-consectetur diam. Duis dictum auctor accumsan. Morbi a nibh leo. Nam elementum lorem sit \
-amet dignissim hendrerit.";
+const std::wstring sLoremIpsum = L"Lorem ipsum is a dummy or placeholder text commonly used\
+in graphic design, publishing, and web development to fill empty spaces in a layout that do\
+not yet have content.";
 
 // ================================ //
 //
@@ -152,10 +146,9 @@ void		AddControls						( HostWindow* host )
 
 	AddRectangle( host, gradientBrush, stroke, 120, 768, 2, Position( 750, 0 ) );
 	
-	auto background = std::make_shared< SolidColorBrush >( Colors::Transparent );
-    auto pen = std::make_shared< SolidColorBrush >( Colors::White );
-    //AddText( host, background, pen, 200, 200, Position( 50, 600 ), L"Hello World" );
-    AddText( host, background, pen, 300, 200, Position( 50, 200 ), sLoremIpsum );
+	auto background = std::make_shared< SolidColorBrush >( Colors::White );
+    auto pen = std::make_shared< SolidColorBrush >( Colors::Black );
+    AddText( host, background, pen, 200, 200, Position( 50, 400 ), sLoremIpsum );
 }
 
 
