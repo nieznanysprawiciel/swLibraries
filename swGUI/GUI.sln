@@ -218,6 +218,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fonts", "fonts", "{2CDA8A31
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestText", "..\swGraphicAPI\ProjectsDir\Visual2015\Tests\TestText\TestText.vcxproj", "{1F535690-1AB1-47EA-961B-183C4DCF46D3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextShowcase", "ProjectDir\Visual2015\Prototypes\TextShowcase\TextShowcase.vcxproj", "{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -690,6 +692,14 @@ Global
 		{1F535690-1AB1-47EA-961B-183C4DCF46D3}.Release|x64.Build.0 = Release|x64
 		{1F535690-1AB1-47EA-961B-183C4DCF46D3}.Release|x86.ActiveCfg = Release|Win32
 		{1F535690-1AB1-47EA-961B-183C4DCF46D3}.Release|x86.Build.0 = Release|Win32
+		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913}.Debug|x64.ActiveCfg = Debug|x64
+		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913}.Debug|x64.Build.0 = Debug|x64
+		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913}.Debug|x86.ActiveCfg = Debug|Win32
+		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913}.Debug|x86.Build.0 = Debug|Win32
+		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913}.Release|x64.ActiveCfg = Release|x64
+		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913}.Release|x64.Build.0 = Release|x64
+		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913}.Release|x86.ActiveCfg = Release|Win32
+		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -781,6 +791,7 @@ Global
 		{9C1F5085-2B56-48A9-91CA-93D85CFBCCB6} = {F1C45F0A-5461-43D0-B73C-AF7994CBBAED}
 		{2CDA8A31-2F49-43B3-82CD-271BE83EC203} = {E1A698D8-011C-4359-A108-C3B32B54A2C0}
 		{1F535690-1AB1-47EA-961B-183C4DCF46D3} = {AD4FFF37-D748-47D4-AF31-78C2C7D87D42}
+		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913} = {BBD5CA36-CFDA-417A-94F4-80E738794723}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A341301D-630D-4C6A-B843-1A50FC78565A}
