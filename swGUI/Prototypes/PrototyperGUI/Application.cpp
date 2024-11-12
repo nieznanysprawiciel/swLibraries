@@ -9,6 +9,8 @@
 #include "swGUI/Core/Media/Brushes/AngleGradientBrush.h"
 #include "swGUI/Core/Media/Brushes/ImageBrush.h"
 
+#include "swGUI/Core/Media/Colors.h"
+
 #include "PrototyperUtils.h"
 
 
@@ -18,6 +20,16 @@
 
 
 using namespace sw::gui;
+
+const std::wstring sLoremIpsum = L"Lorem ipsum dolor sit amet, consectetur adipiscing elit. \
+Pellentesque pulvinar est id vehicula rutrum. Aliquam luctus consectetur erat consectetur\
+pretium. Morbi nec mi nec quam feugiat pharetra a consequat magna. Sed ac dui nec felis \
+iaculis ultricies. Vivamus a maximus massa. Duis feugiat justo quis eros vestibulum, non mattis\
+turpis tincidunt. Proin tristique, felis auctor placerat maximus, dui augue hendrerit risus, \
+consectetur molestie nisl quam ac dui. Aliquam et erat arcu. Nam at nisl dapibus sem fringilla \
+sodales sit amet in turpis. Vivamus interdum nunc vitae orci pretium aliquam. Vivamus ut \
+consectetur diam. Duis dictum auctor accumsan. Morbi a nibh leo. Nam elementum lorem sit \
+amet dignissim hendrerit.";
 
 // ================================ //
 //
@@ -139,10 +151,11 @@ void		AddControls						( HostWindow* host )
 	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
 
 	AddRectangle( host, gradientBrush, stroke, 120, 768, 2, Position( 750, 0 ) );
-
-	auto background = std::make_shared< SolidColorBrush >( Color( 0.5, 0.5, 0.5, 1.0 ) );
-    auto pen = std::make_shared< SolidColorBrush >( Color( 1.0, 1.0, 1.0, 1.0 ) );
-    AddText( host, background, pen, 200, 200, Position( 50, 600 ), L"Hello World" );
+	
+	auto background = std::make_shared< SolidColorBrush >( Colors::Transparent );
+    auto pen = std::make_shared< SolidColorBrush >( Colors::White );
+    //AddText( host, background, pen, 200, 200, Position( 50, 600 ), L"Hello World" );
+    AddText( host, background, pen, 300, 200, Position( 50, 200 ), sLoremIpsum );
 }
 
 

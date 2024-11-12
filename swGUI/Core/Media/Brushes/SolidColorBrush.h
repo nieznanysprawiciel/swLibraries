@@ -10,6 +10,7 @@
 
 #include "swCommonLib/Common/Buffers/StackBuffer.h"
 #include "swGUI/Core/System/CommonTypes/CommonTypes.h"
+#include "swGUI/Core/Media/Colors.h"
 
 
 namespace sw {
@@ -39,6 +40,7 @@ protected:
 public:
 	explicit		SolidColorBrush		();
 	explicit		SolidColorBrush		( const Color& color );
+    explicit		SolidColorBrush		( ColorExt color );
 					~SolidColorBrush	() = default;
 
 	void			SetColor			( const Color& color )		{ m_constants.Color = color; }

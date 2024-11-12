@@ -22,8 +22,6 @@ TextArranger                TextArranger::CreateFrom( const FontAssetPtr font )
 {
     TextArranger arranger;
     arranger.SpaceSize = font->GetLayout().SpaceWidth();
-    arranger.NewLineSize = font->GetLayout().NewLineSize();
-
     return arranger;
 }
 
@@ -47,7 +45,7 @@ std::vector< Position2d >   TextArranger::ArrangeText( const std::wstring& text,
 
         charIdx += line.size();
         letters.insert( letters.end(), line.begin(), line.end() );
-        translate = Position2d( this->Bounds.Left, translate.y - this->NewLineSize );
+        translate = Position2d( this->Bounds.Left, translate.y - this->Interline * layout.NewLineSize() );
 
         if( this->CutOutOfBounds && translate.y < this->Bounds.Bottom )
             break;

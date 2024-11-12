@@ -19,21 +19,6 @@ namespace gui
 
 TextDrawing::TextDrawing( BrushPtr brush, BrushPtr pen, GeometryPtr text ) : GeometryDrawing( brush, pen, text ) {}
 
-// ================================ //
-
-void            TextDrawing::Render( IRenderer* renderer )
-{
-    // TODO: Check if it is correct for text
-    //GeometryDrawing::Render( renderer );
-
-	UpdateGeometryCBContent( renderer, GetGeometry().get() );
-
-    UpdateBrushCBContent( renderer, GetBrush().get() );
-    RenderFill( renderer );
-
-    UpdatePenCBContent( renderer, GetPen().get() );
-    RenderBorder( renderer );
-}
 
 // ================================ //
 

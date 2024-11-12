@@ -30,6 +30,15 @@ SolidColorBrush::SolidColorBrush( const Color& color )
 
 // ================================ //
 //
+SolidColorBrush::SolidColorBrush( ColorExt color )
+	: Brush( Brush::ConstantBufferMode::Enable ) 
+{
+    m_constants.Color = color.Into();
+}
+
+
+// ================================ //
+//
 BufferRange				SolidColorBrush::BufferData			()
 {
 	return m_constants.GetView();

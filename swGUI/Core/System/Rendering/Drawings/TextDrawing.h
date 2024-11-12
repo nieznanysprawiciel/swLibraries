@@ -28,9 +28,7 @@ public:
 
 	explicit				TextDrawing				( BrushPtr brush, BrushPtr pen, GeometryPtr text );
 
-
-	virtual void			Render					( IRenderer* renderer ) override;
-	virtual void			RebuildResources		( ResourceManagerAPI rm, ShaderProvider* sp );
+	virtual void			RebuildResources		( ResourceManagerAPI rm, ShaderProvider* sp ) override;
 
 public:
 

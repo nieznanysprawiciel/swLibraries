@@ -83,6 +83,7 @@ GeometryData		TextGeometry::Generate			()
     auto arranger = TextArranger::CreateFrom( m_font );
     arranger.Bounds = Rect{ 0.0, m_width, 0.0, m_height };
     arranger.WrapText = true;
+    arranger.TextAlign = TextAlignment::Left;
     
     auto geometry = arranger.GenerateGeometryTextured( m_text, m_font, true );
     auto numIndicies = geometry.Get().Indicies.ElementsCount();

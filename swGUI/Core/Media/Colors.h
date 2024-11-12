@@ -13,9 +13,10 @@ namespace sw {
 namespace gui
 {
 
+
 /**@brief Predefined colors according to:
 https://learn.microsoft.com/en-us/dotnet/api/system.windows.media.colors?view=windowsdesktop-8.0*/
-enum class Colors : uint32
+enum class Colors : u32
 {
     AliceBlue = 0xFFF0F8FF,
     AntiqueWhite = 0xFFFAEBD7,
@@ -160,6 +161,55 @@ enum class Colors : uint32
     YellowGreen = 0xFF9ACD32
 };
 
+
+
+
+/**@brief Color representation using 32-bit integer.
+
+@todo Currently name `Color` is already used as float4 color.
+Maybe the names should be replaced.*/
+class ColorExt
+{
+protected:
+    static const u32 RedMask = 0x00FF0000;
+    static const u32 GreenMask = 0x0000FF00;
+    static const u32 BlueMask = 0x000000FF;
+    static const u32 AlphaMask = 0xFF000000;
+
+    static const u8 RedMaskShift = 16;
+    static const u8 GreenMaskShift = 8;
+    static const u8 BlueMaskShift = 0;
+    static const u8 AlphaMaskShift = 24;
+
+private:
+    u32 m_color;
+
+public:
+    ColorExt( u32 color ) : m_color( color ) {}
+    ColorExt( Colors color ) : m_color( (u32)color ) {}
+
+    Color   Into() const;
+
+public:
+
+    u8      Red() const { return u8( ( m_color & ColorExt::RedMask ) >> ColorExt::RedMaskShift ); }
+    u8      Green() const { return u8( ( m_color & ColorExt::GreenMask ) >> ColorExt::GreenMaskShift ); }
+    u8      Blue() const { return u8( ( m_color & ColorExt::BlueMask ) >> ColorExt::BlueMaskShift ); }
+    u8      Alpha() const { return u8( ( m_color & ColorExt::AlphaMask ) >> ColorExt::AlphaMaskShift ); }
+
+    float   scRed() const { return (float)Red() / 256.f; }
+    float   scGreen() const { return (float)Green() / 256.f; }
+    float   scBlue() const { return (float)Blue() / 256.f; }
+    float   scAlpha() const { return (float)Alpha() / 256.f; }
+
+};
+
+// ================================ //
+
+inline Color    ColorExt::Into() const
+{
+    return Color( scRed(), scGreen(), scBlue(), scAlpha() );
+}
 
 
 }  // namespace gui

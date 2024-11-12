@@ -36,7 +36,7 @@ class TextArranger
 {
 public:
     float                   Interspace;
-    float                   NewLineSize;
+    float                   Interline;      //< Multiplier to compute distance between lines.
     float                   SpaceSize;
     TextAlignment           TextAlign;
     bool                    UseKerning;
@@ -51,7 +51,7 @@ public:
 public:
     explicit TextArranger()
         : Interspace( 0.0f )
-        , NewLineSize( 0.0f )
+        , Interline( 1.5f )
         , SpaceSize( 0.0f )
         , TextAlign( TextAlignment::Left )
         , UseKerning( true )

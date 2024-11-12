@@ -21,9 +21,9 @@ using namespace sw;
 
 const std::wstring sLoremIpsum = L"Lorem ipsum dolor sit amet, consectetur adipiscing elit. \
 Pellentesque pulvinar est id vehicula rutrum. Aliquam luctus consectetur erat consectetur\
- pretium. Morbi nec mi nec quam feugiat pharetra a consequat magna. Sed ac dui nec felis \
+pretium. Morbi nec mi nec quam feugiat pharetra a consequat magna. Sed ac dui nec felis \
 iaculis ultricies. Vivamus a maximus massa. Duis feugiat justo quis eros vestibulum, non mattis\
- turpis tincidunt. Proin tristique, felis auctor placerat maximus, dui augue hendrerit risus, \
+turpis tincidunt. Proin tristique, felis auctor placerat maximus, dui augue hendrerit risus, \
 consectetur molestie nisl quam ac dui. Aliquam et erat arcu. Nam at nisl dapibus sem fringilla \
 sodales sit amet in turpis. Vivamus interdum nunc vitae orci pretium aliquam. Vivamus ut \
 consectetur diam. Duis dictum auctor accumsan. Morbi a nibh leo. Nam elementum lorem sit \
@@ -31,9 +31,9 @@ amet dignissim hendrerit.";
 
 const std::wstring sLoremIpsumWithNewlines = L"Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n\
 Pellentesque pulvinar est id vehicula rutrum. Aliquam luctus consectetur erat consectetur\n\
- pretium. Morbi nec mi nec quam feugiat pharetra a consequat magna. Sed ac dui nec felis \n\
+pretium. Morbi nec mi nec quam feugiat pharetra a consequat magna. Sed ac dui nec felis \n\
 iaculis ultricies. Vivamus a maximus massa. Duis feugiat justo quis eros vestibulum, non mattis\n\
- turpis tincidunt. Proin tristique, felis auctor placerat maximus, dui augue hendrerit risus, \n\
+turpis tincidunt. Proin tristique, felis auctor placerat maximus, dui augue hendrerit risus, \n\
 consectetur molestie nisl quam ac dui. Aliquam et erat arcu. Nam at nisl dapibus sem fringilla \n\
 sodales sit amet in turpis. Vivamus interdum nunc vitae orci pretium aliquam. Vivamus ut \n\
 consectetur diam. Duis dictum auctor accumsan. Morbi a nibh leo. Nam elementum lorem sit \n\
