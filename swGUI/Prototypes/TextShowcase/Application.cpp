@@ -20,12 +20,17 @@ using namespace sw::gui;
 
 const std::wstring sLoremIpsum = L"Lorem ipsum is a dummy or placeholder text commonly used \
 in graphic design, publishing, and web development to fill empty spaces in a layout that do \
-not yet have content.";
+not yet have content.\n\
+Lorem ipsum is typically a corrupted version of De finibus bonorum et malorum, \
+a 1st - century BC text by the Roman statesman and philosopher Cicero, with words altered, added, \
+and removed to make it nonsensical and improper Latin. \
+The first two words themselves are a truncation of dolorem ipsum( \"pain itself\" ).";
+
 
 
 // ================================ //
 //
-void		AddText			( HostWindow* host, BrushPtr brush, BrushPtr pen, float width, float height, Position pos, const std::wstring& text )
+TextBlock*  AddText			( HostWindow* host, BrushPtr brush, BrushPtr pen, float width, float height, Position pos, const std::wstring& text )
 {
     TextBlockOPtr textBlock = TextBlockOPtr( new TextBlock() );
 
@@ -38,7 +43,9 @@ void		AddText			( HostWindow* host, BrushPtr brush, BrushPtr pen, float width, f
     textBlock->SetOffset( pos );
     textBlock->SetText( text );
 
+    auto ptr = textBlock.get();
     host->AddChild( std::move( textBlock ) );
+    return ptr;
 }
 
 
@@ -46,9 +53,81 @@ void		AddText			( HostWindow* host, BrushPtr brush, BrushPtr pen, float width, f
 //
 void		AddControls						( HostWindow* host )
 {
-	auto background = std::make_shared< SolidColorBrush >( Colors::Transparent );
-    auto pen = std::make_shared< SolidColorBrush >( Colors::White );
-    AddText( host, background, pen, 200, 200, Position( 50, 100 ), sLoremIpsum );
+    {
+        auto background = std::make_shared< SolidColorBrush >( Colors::Transparent );
+        auto pen = std::make_shared< SolidColorBrush >( Colors::White );
+        AddText( host, background, pen, 300, 300, Position( 50, 50 ), sLoremIpsum );
+    }
+    {
+        auto background = std::make_shared< SolidColorBrush >( Colors::WhiteSmoke );
+        auto pen = std::make_shared< SolidColorBrush >( Colors::Black );
+        auto textBlock = AddText( host, background, pen, 300, 300, Position( 400, 50 ), sLoremIpsum );
+        textBlock->SetTextAlignment( sw::TextAlignment::Justify );
+    }
+    {
+        auto background = std::make_shared< SolidColorBrush >( Colors::WhiteSmoke );
+        auto pen = std::make_shared< SolidColorBrush >( Colors::Black );
+        auto textBlock = AddText( host, background, pen, 300, 300, Position( 750, 50 ), sLoremIpsum );
+        textBlock->SetTextAlignment( sw::TextAlignment::Right );
+    }
+    {
+        auto background = std::make_shared< SolidColorBrush >( Colors::WhiteSmoke );
+        auto pen = std::make_shared< SolidColorBrush >( Colors::Black );
+        auto textBlock = AddText( host, background, pen, 300, 300, Position( 1100, 50 ), sLoremIpsum );
+        textBlock->SetTextAlignment( sw::TextAlignment::Center );
+    }
+
+    {
+        auto pen = std::make_shared< ImageBrush >();
+        pen->SetTexture( "$(Application-Dir)/pool-water-texture.jpg" );
+
+        auto background = std::make_shared< SolidColorBrush >( Colors::Transparent );
+        auto textBlock = AddText( host, background, pen, 300, 300, Position( 50, 350 ), L"ABO" );
+        textBlock->SetTextAlignment( sw::TextAlignment::Justify );
+        textBlock->SetFontSize( 80 );
+    }
+
+
+    {
+        auto background = std::make_shared< ImageBrush >();
+        background->SetTexture( "$(Application-Dir)/pool-water-texture.jpg" );
+
+        auto pen = std::make_shared< SolidColorBrush >( Colors::WhiteSmoke );
+        auto textBlock = AddText( host, background, pen, 300, 300, Position( 50, 450 ), sLoremIpsum );
+        textBlock->SetTextAlignment( sw::TextAlignment::Justify );
+    }
+    {
+        auto pen = std::make_shared< ImageBrush >();
+        pen->SetTexture( "$(Application-Dir)/pool-water-texture.jpg" );
+
+        auto background = std::make_shared< SolidColorBrush >( Colors::WhiteSmoke );
+        auto textBlock = AddText( host, background, pen, 300, 300, Position( 400, 450 ), sLoremIpsum );
+        textBlock->SetTextAlignment( sw::TextAlignment::Justify );
+    }
+    {
+        auto pen = std::make_shared< AngleGradientBrush >();
+        pen->SetGradientCenter( Point( 0.5f, 0.5f ) );
+        pen->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+        pen->AddGradientStop( GradientStop( 0xFFFFFF00, 0.3f ) );
+        pen->AddGradientStop( GradientStop( 0xFF00FFFF, 0.7f ) );
+        pen->AddGradientStop( GradientStop( 0xFF0000FF, 1.0f ) );
+
+        auto background = std::make_shared< SolidColorBrush >( Colors::Transparent );
+        auto textBlock = AddText( host, background, pen, 300, 300, Position( 750, 450 ), sLoremIpsum );
+        textBlock->SetTextAlignment( sw::TextAlignment::Left );
+    }
+    {
+        auto pen = std::make_shared< LinearGradientBrush >();
+        pen->SetGradientAxis( Point( 0.0f, 0.0f ), Point( 1.0f, 1.0f ) );
+        pen->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+        pen->AddGradientStop( GradientStop( 0xFF00FF00, 0.4f ) );
+        pen->AddGradientStop( GradientStop( 0xFF0000FF, 0.7f ) );
+        pen->AddGradientStop( GradientStop( 0xFFFFFF00, 1.0f ) );
+
+        auto background = std::make_shared< SolidColorBrush >( Colors::Transparent );
+        auto textBlock = AddText( host, background, pen, 300, 300, Position( 1100, 450 ), sLoremIpsum );
+        textBlock->SetTextAlignment( sw::TextAlignment::Left );
+    }
 }
 
 

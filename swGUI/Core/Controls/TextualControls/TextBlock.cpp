@@ -28,7 +28,7 @@ namespace gui
 
 TextBlock::TextBlock()
     : m_invalidateFont( true )
-    , m_fontSize( 12 )
+    , m_fontSize( 16 )
     , m_fontStyle( FontStyle::Normal )
     , m_fontWeight( FontWeight::Normal )
     , m_textAlignment( TextAlignment::Left )
@@ -50,7 +50,7 @@ ReturnResult    TextBlock::UpdateDrawingResources( ResourceManagerAPI& api )
     if( FontNeedsUpdate() )
     {
         // TODO: take FontWeight and FontStyle into account
-        FontLoaderData init( 16 );
+        FontLoaderData init( m_fontSize );
         auto font = api.Load< FontAsset >( "$(Application-Dir)/arial.ttf", &init );
         ReturnIfInvalid( font );
 
@@ -58,6 +58,7 @@ ReturnResult    TextBlock::UpdateDrawingResources( ResourceManagerAPI& api )
         geometry->SetText( m_text );
         geometry->SetWidth( GetSize().x );
         geometry->SetHeight( GetSize().y );
+        geometry->SetAlignment( m_textAlignment );
 
         SetGeometry( geometry );
         FontUpdated();
@@ -95,6 +96,14 @@ void            TextBlock::SetForeground( BrushPtr pen )
 }
 
 // ================================ //
+
+void            TextBlock::SetFontSize( uint32 size )
+{
+    m_fontSize = size;
+    InvalidateFont();
+}
+
+// ================================ //
 //
 
 void            TextBlock::SetText( const std::wstring& text )
@@ -102,6 +111,16 @@ void            TextBlock::SetText( const std::wstring& text )
     m_text = text;
     if( m_drawing )
         m_drawing->GetTextGeometry()->SetText( text );
+}
+
+// ================================ //
+
+void            TextBlock::SetTextAlignment( TextAlignment alignment )
+{
+    m_textAlignment = alignment;
+    if( m_drawing )
+        m_drawing->GetTextGeometry()->SetAlignment( alignment );
+
 }
 
 // ================================ //

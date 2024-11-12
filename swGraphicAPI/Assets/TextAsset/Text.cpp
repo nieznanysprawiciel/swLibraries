@@ -119,7 +119,7 @@ void                TextArranger::ApplyAlignement( const FontLayout& layout, std
     if( letters.empty() || text.length() < letters.size() )
         return;
 
-    Size charIdx = letters.size() - 1;
+    Size lastCharIdx = letters.size() - 1;
     float textWidth = TextWidth( letters, text.data(), layout );
     float remainingSpace = this->Bounds.Right - this->Bounds.Left - textWidth;
 
@@ -150,20 +150,19 @@ void                TextArranger::ApplyAlignement( const FontLayout& layout, std
     case TextAlignment::Justify:
     {
         // Find all spaces which will be extended.
-        auto numSpaces = std::count_if( text.begin(), text.begin() + charIdx, [](wchar_t c) { return IsWhitespace(c);  });
+        auto numSpaces = std::count_if( text.begin(), text.begin() + lastCharIdx, [](wchar_t c) { return IsWhitespace(c);  });
         
         // Distribute remaining space equally between all spaces.
         // (Besides last one: we have one place less between than number of chars)
-        float offset = remainingSpace / ( numSpaces - 1 );
+        float offsetPerSpace = remainingSpace / ( numSpaces - 1 );
+        float curOffset = 0.0f;
 
-        for( Size charIdx = 0; charIdx < text.length(); charIdx++ )
+        for( Size i = 0; i < letters.size(); i++ )
         {
-            if( IsWhitespace( text[ charIdx ] ) )
-            {
-                for( Size i = 0; i < letters.size(); i++ )
-                    if( IsWhitespace( text[ i ] ) )
-                    letters[ i ].x += offset;
-            }
+            if( IsWhitespace( text[ i ] ) )
+                curOffset += offsetPerSpace;
+            
+            letters[ i ].x += curOffset;
         }
         break;
     }

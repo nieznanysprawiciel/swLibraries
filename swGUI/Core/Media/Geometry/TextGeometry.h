@@ -26,6 +26,10 @@ protected:
     float               m_width;
     float               m_height;
 
+    TextAlignment       m_textAlignment;
+
+    Size                m_counter;  //< Counter for unique buffer name.
+
 public:
 
     explicit TextGeometry( FontAssetPtr font );
@@ -42,6 +46,8 @@ public:
     void                    SetWidth( float width );
     void                    SetHeight( float height );
 
+    void                    SetAlignment( TextAlignment alignment );
+
 public:
 
     // Inherited via Geometry
@@ -53,6 +59,9 @@ public:
     virtual filesystem::Path         ShaderFunctionFile() override;
     virtual std::string              GeometryName() override;
     virtual AssetPath                ConstantsName() override;
+
+private:
+    static Size             NextCounter();
 };
 
 DEFINE_PTR_TYPE( TextGeometry )

@@ -54,10 +54,10 @@ protected:
     std::string         m_fontFamily;
     FontStyle           m_fontStyle;
     FontWeight          m_fontWeight;
+    FontSizeType        m_fontSize;
     bool                m_invalidateFont;
 
     TextAlignment       m_textAlignment;
-    FontSizeType        m_fontSize;
     std::wstring        m_text;
 
 public:
@@ -77,7 +77,7 @@ public:
     std::string         GetFontFamily() const { return m_fontFamily; }
     
     void                SetFontSize( uint32 size );
-    uint32              GetFontSize() const;
+    uint32              GetFontSize() const { return m_fontSize; }
 
     FontStyle           GetFontStyle() const { return m_fontStyle; }
     void                SetFontStyle( FontStyle fontStyle );
@@ -87,6 +87,9 @@ public:
 
     void                SetText( const std::wstring& text );
     std::wstring        GetText() const { return m_text; }
+
+    void                SetTextAlignment( TextAlignment alignment );
+    TextAlignment       GetTextAlignment() const { return m_textAlignment; }
 
 
     GeometryPtr         GetGeometry() const { return m_drawing->GetGeometry(); }

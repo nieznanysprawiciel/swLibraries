@@ -23,11 +23,25 @@ namespace sw {
 namespace gui
 {
 
+static Size s_counter = 0;
+
+// ================================ //
+
+Size TextGeometry::NextCounter()
+{
+    return ++s_counter;
+}
+
 // ================================ //
 //
 TextGeometry::TextGeometry( FontAssetPtr font )
 	: Geometry( Geometry::ConstantBufferMode::Disable ) 
-    , m_font( font ) {}
+    , m_font( font )
+    , m_width( 100.0f )
+    , m_height( 100.0f )
+    , m_textAlignment( TextAlignment::Left )
+    , m_counter( NextCounter() )
+{}
 
 // ================================ //
 
@@ -61,6 +75,14 @@ void				TextGeometry::SetHeight( float height )
     InvalidateGeometry();
 }
 
+// ================================ //
+
+void                TextGeometry::SetAlignment( TextAlignment alignment )
+{
+    m_textAlignment = alignment;
+    InvalidateGeometry();
+}
+
 
 // ================================ //
 //
@@ -83,7 +105,7 @@ Nullable< GeometryData >    TextGeometry::Generate()
     auto arranger = TextArranger::CreateFrom( m_font );
     arranger.Bounds = Rect{ 0.0, m_width, 0.0, -m_height };
     arranger.WrapText = true;
-    arranger.TextAlign = TextAlignment::Left;
+    arranger.TextAlign = m_textAlignment;
     
     auto geometry = arranger.GenerateGeometryTextured( m_text, m_font, true );
     ReturnIfInvalid( geometry );
@@ -119,7 +141,8 @@ filesystem::Path    TextGeometry::ShaderFunctionFile	()
 //
 std::string		    TextGeometry::GeometryName		()
 {
-    return fmt::format( "/TextGeometry{}", m_font->GetAssetPath().GetInternalPath() );
+    // TextGeometry needs unique buffer, that won't be shared with other components.
+    return fmt::format( "/TextGeometry/counter={}", m_counter );
 }
 
 // ================================ //
