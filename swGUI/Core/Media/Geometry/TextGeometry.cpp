@@ -66,26 +66,28 @@ void				TextGeometry::SetHeight( float height )
 //
 bool                TextGeometry::HitTest( const Point& point ) const
 {
-    return Rect{ 0.0, m_width, 0.0, m_height }.Intersects( point );
+    return Rect{ 0.0, m_width, 0.0, -m_height }.Intersects( point );
 }
 
 // ================================ //
 //
 bool                TextGeometry::HitTest( const Rect& rectangle ) const
 {
-    return Rect{ 0.0, m_width, 0.0, m_height }.Intersects( rectangle );
+    return Rect{ 0.0, m_width, 0.0, -m_height }.Intersects( rectangle );
 }
 
 // ================================ //
 //
-GeometryData		TextGeometry::Generate			()
+Nullable< GeometryData >    TextGeometry::Generate()
 {
     auto arranger = TextArranger::CreateFrom( m_font );
-    arranger.Bounds = Rect{ 0.0, m_width, 0.0, m_height };
+    arranger.Bounds = Rect{ 0.0, m_width, 0.0, -m_height };
     arranger.WrapText = true;
     arranger.TextAlign = TextAlignment::Left;
     
     auto geometry = arranger.GenerateGeometryTextured( m_text, m_font, true );
+    ReturnIfInvalid( geometry );
+
     auto numIndicies = geometry.Get().Indicies.ElementsCount();
 
 	GeometryData geomData( geometry.Get().Verticies.MoveToRawBuffer(), geometry.Get().Indicies.MoveToRawBuffer() );
@@ -100,7 +102,7 @@ GeometryData		TextGeometry::Generate			()
 
 // ================================ //
 //
-BufferRange			TextGeometry::BufferData		()
+BufferRange			        TextGeometry::BufferData		()
 {
 	// Rectangle doesn't use contants buffer.
 	return BufferRange();

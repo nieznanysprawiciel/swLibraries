@@ -73,7 +73,7 @@ bool				EllipseGeometry::HitTest			( const Rect& rectangle ) const
 
 // ================================ //
 //
-GeometryData		EllipseGeometry::Generate			()
+Nullable< GeometryData >	EllipseGeometry::Generate()
 {
 	geom::EllipseWithBorder< VertexShape2D, Index16 > ellipse;
 	ellipse.Width = m_width;
@@ -88,7 +88,7 @@ GeometryData		EllipseGeometry::Generate			()
 	planarUV.MaxY = 0.0f;
 
 	auto geometry = geom::Generate< geom::IndexedGeometryBuffer< VertexShape2D, Index16 > >( ellipse, geom::Translate2D< VertexShape2D >( m_width / 2, -m_height / 2 ), planarUV );
-	/// @todo Error handling or logging.
+    ReturnIfInvalid( geometry );
 
 	GeometryData geomData( geometry.Get().Verticies.MoveToRawBuffer(), geometry.Get().Indicies.MoveToRawBuffer() );
 	geomData.FillIdxEnd = (uint32)ellipse.GetNumberFillIndicies();
@@ -101,7 +101,7 @@ GeometryData		EllipseGeometry::Generate			()
 
 // ================================ //
 //
-BufferRange			EllipseGeometry::BufferData							()
+BufferRange					EllipseGeometry::BufferData()
 {
 	// Rectangle doesn't use contants buffer.
 	return BufferRange();

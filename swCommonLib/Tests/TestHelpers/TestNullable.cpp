@@ -166,8 +166,7 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.Move.Exception", "[Nullable]" )
 //
 TEST_CASE( "Common.Helpers.Exceptions.Nullable.MapErr", "[Nullable]" )
 {
-    Nullable< Dog* > nullableDog( "Something wrong..." );
-    auto mappedErr = nullableDog.MapErr( []( auto e ) { return fmt::format( "Failure: {}", e ); } );
+    auto mappedErr = Nullable< Dog* >( "Something wrong..." ).MapErr( []( auto e ) { return fmt::format( "Failure: {}", e ); } );
 
     REQUIRE( mappedErr.IsValid() == false );
     CHECK( mappedErr.GetErrorReason() == "Failure: Something wrong..." );
@@ -217,8 +216,7 @@ TEST_CASE( "Common.Helpers.Exceptions.ReturnResult.Ok.Invalid", "[Nullable]" )
 //
 TEST_CASE( "Common.Helpers.Exceptions.ReturnResult.MapErr", "[Nullable]" )
 {
-    ReturnResult invalid( "Something wrong..." );
-    ReturnResult mappedErr = invalid.MapErr( []( auto e ) { return fmt::format( "Failure: {}", e ); } );
+    ReturnResult mappedErr = ReturnResult( "Something wrong..." ).MapErr( []( auto e ) { return fmt::format( "Failure: {}", e ); } );
 
     CHECK( mappedErr.IsValid() == false );
     CHECK( mappedErr.GetErrorReason() == "Failure: Something wrong..." );

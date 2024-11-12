@@ -102,7 +102,7 @@ public:
 public:
     /**@brief Takes lambda mapping error to different error. It allows to add context
     to exception returned from called function.*/
-    Nullable< ContentType > MapErr              ( const std::function< Nullable< ContentType >( typename ErrorType ) >& mapper );
+    Nullable< ContentType > MapErr              ( const std::function< Nullable< ContentType >( typename ErrorType ) >& mapper ) &&;
 };
 
 
@@ -143,7 +143,7 @@ public:
 
     /**@brief Takes lambda mapping error to different error. It allows to add context
     to exception returned from called function.*/
-    Nullable< void >        MapErr              ( const std::function< Nullable< void >( typename ErrorType ) >& mapper );
+    Nullable< void >        MapErr              ( const std::function< Nullable< void >( typename ErrorType ) >& mapper ) &&;
 };
 
 Nullable< void >            operator&&		    ( const Nullable< void >& that, const Nullable< void >& second );
@@ -224,11 +224,11 @@ inline Nullable< ContentType >     Nullable< ContentType >::FromError       ()
 // ================================ //
 //
 template< typename ContentType >
-inline  Nullable< ContentType >     Nullable< ContentType >::MapErr( const std::function< Nullable< ContentType >( typename ErrorType ) >& mapper )
+inline Nullable< ContentType >     Nullable< ContentType >::MapErr( const std::function< Nullable< ContentType >( typename ErrorType ) >& mapper ) &&
 {
     if( !IsValid() )
         return mapper( Error );
-    return *this;
+    return Nullable< ContentType > ( std::move( this->Content ) );
 }
 
 //====================================================================================//
@@ -334,7 +334,7 @@ inline typename Nullable< void >::ErrorType		Nullable< void >::GetError () const
 
 // ================================ //
 //
-inline ReturnResult             Nullable< void >::MapErr( const std::function< ReturnResult( typename ErrorType ) >& mapper )
+inline ReturnResult             Nullable< void >::MapErr( const std::function< ReturnResult( typename ErrorType ) >& mapper ) &&
 {
     if( !IsValid() )
         return mapper( Error );

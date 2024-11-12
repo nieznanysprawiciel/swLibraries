@@ -211,7 +211,9 @@ ReturnResult			Drawing::UpdateGeometry				( ResourceManagerAPI rm, Geometry* geo
 
 		/// @todo Optimise. We should generate data only if necessary. Introduce Asset for geometric
 		/// data that will hold all information needed for rendering.
-		GeometryData data = geometry->Generate();
+        auto result = geometry->Generate().MapErr( []( auto e ) { return fmt::format( "[Drawing] Failed to generate Geometry: {}", e ); } );
+        ReturnIfInvalid( result );
+        GeometryData& data = result.Get();
 
 		// Create new buffers if they didn't existed.
 		if( !vertexBuffer || !indexBuffer )
