@@ -47,7 +47,7 @@ bool			FakeGeometry::HitTest		( const Rect& rectangle ) const
 
 // ================================ //
 //
-GeometryData	FakeGeometry::Generate		()
+Nullable< GeometryData >	FakeGeometry::Generate()
 {
 	BufferTyped< VertexShape2D > vertexBuffer( 4 );
 	BufferTyped< Index16 > indexBuffer( 6 );
@@ -59,7 +59,7 @@ GeometryData	FakeGeometry::Generate		()
 
 // ================================ //
 //
-BufferRange		        FakeGeometry::BufferData	()
+BufferRange					FakeGeometry::BufferData	()
 {
 	return m_buffer.GetView();
 }
