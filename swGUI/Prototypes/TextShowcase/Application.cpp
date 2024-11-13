@@ -100,7 +100,7 @@ void		AddControls						( HostWindow* host )
         auto pen = std::make_shared< ImageBrush >();
         pen->SetTexture( "$(Application-Dir)/pool-water-texture.jpg" );
 
-        auto background = std::make_shared< SolidColorBrush >( Colors::WhiteSmoke );
+        auto background = std::make_shared< SolidColorBrush >( Colors::Transparent );
         auto textBlock = AddText( host, background, pen, 300, 300, Position( 400, 450 ), sLoremIpsum );
         textBlock->SetTextAlignment( sw::TextAlignment::Justify );
     }

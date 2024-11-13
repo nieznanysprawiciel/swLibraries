@@ -150,11 +150,12 @@ void                TextArranger::ApplyAlignement( const FontLayout& layout, std
     case TextAlignment::Justify:
     {
         // Find all spaces which will be extended.
-        auto numSpaces = std::count_if( text.begin(), text.begin() + lastCharIdx, [](wchar_t c) { return IsWhitespace(c);  });
+        auto numSpaces = std::count_if( text.begin(), text.begin() + lastCharIdx, [](wchar_t c) { return IsWhitespace(c); });
+        auto trailingSpaces = CountTrailingWhitespaces( std::wstring_view( text.data(), lastCharIdx ) );
         
         // Distribute remaining space equally between all spaces.
         // (Besides last one: we have one place less between than number of chars)
-        float offsetPerSpace = remainingSpace / ( numSpaces - 1 );
+        float offsetPerSpace = remainingSpace / ( numSpaces - trailingSpaces );
         float curOffset = 0.0f;
 
         for( Size i = 0; i < letters.size(); i++ )
@@ -175,28 +176,18 @@ void                TextArranger::ApplyAlignement( const FontLayout& layout, std
 
 float               TextArranger::TextWidth( const std::vector< Position2d >& letters, const std::wstring& text, const FontLayout& layout ) const
 {
-    Size charIdx = letters.size() - 1;
-    Position2d last = letters[ charIdx ];
-    float adjustLast = 0.0;
+    Size lastCharIdx = letters.size() - 1;
+    Size trailingSpaces = CountTrailingWhitespaces( std::wstring_view( text.c_str(), letters.size() ) );
+    i64 lastNonSpace = (i64)lastCharIdx - (i64)trailingSpaces;
 
-    if( IsSpace( text[ charIdx ] ) )
-    {
-        // If last character was space, we want to adjust to last character before.
-        adjustLast = -( this->SpaceSize + this->Interspace );
-    }
-    else if( IsNewline( text[ charIdx ] ) )
-    {
-        // Ignore newline, since last character is already in correct position.
-        float adjustLast = 0.0;
-    }
-    else
-    {
-        // Normal character. We need to move forward to right edge.
-        auto& glyph = layout.Glyphs.at( text[ charIdx ] );
-        adjustLast = (float)glyph.Width - (float)glyph.BearingX;
-    }
+    if( lastNonSpace < 0 )
+        return 0.0f;  // No characters in text (only spaces or newlines)
 
-    return letters.back().x - letters.front().x + adjustLast;
+    // We need to find right edge of the last non whitespace character in line.
+    auto lastRightEdge = TopRightVertex( layout.Glyphs.at( text[ lastNonSpace ] ), letters[ lastNonSpace ] ).x;
+    auto firstLeftEdge = TopLeftVertex( layout.Glyphs.at( text[ 0 ] ), letters[ 0 ] ).x;
+
+    return lastRightEdge - firstLeftEdge;
 }
 
 // ================================ //
@@ -252,6 +243,54 @@ Rect2d              TextArranger::ComputeTextBounds( const std::vector< Position
     bb.Bottom = bb.Top - bb.Bottom == 0.0f ? 0.000001f : bb.Bottom;
 
     return bb;
+}
+
+// ================================ //
+
+Size                TextArranger::CountTrailingWhitespaces( const std::wstring_view& text )
+{
+    for( auto iter = text.rbegin(); iter != text.rend(); iter++ )
+    {
+        if( !IsWhitespace( *iter ) )
+            return std::distance( text.rbegin(), iter );
+    }
+
+    return 0;
+}
+
+// ================================ //
+
+Position2d          TextArranger::TopLeftVertex( const Glyph& glyph, Position2d position )
+{
+    Position2d bearing = Position2d( (float)glyph.BearingX, (float)glyph.BearingY );
+    return position + bearing;
+}
+
+// ================================ //
+
+Position2d          TextArranger::TopRightVertex( const Glyph& glyph, Position2d position )
+{
+    Position2d bearing = Position2d( (float)glyph.BearingX, (float)glyph.BearingY );
+    Position2d quadTopRight = Position2d( (float)glyph.Width, 0.f );
+    return quadTopRight + position + bearing;
+}
+
+// ================================ //
+
+Position2d          TextArranger::BottomLeftVertex( const Glyph& glyph, Position2d position )
+{
+    Position2d bearing = Position2d( (float)glyph.BearingX, (float)glyph.BearingY );
+    Position2d quadBottomLeft = Position2d( 0.f, -(float)glyph.Height );
+    return quadBottomLeft + position + bearing;
+}
+
+// ================================ //
+
+Position2d          TextArranger::BottomRightVertex( const Glyph& glyph, Position2d position )
+{
+    Position2d bearing = Position2d( (float)glyph.BearingX, (float)glyph.BearingY );
+    Position2d quadBottomRight = Position2d( (float)glyph.Width, -(float)glyph.Height );
+    return quadBottomRight + position + bearing;
 }
 
 // ================================ //

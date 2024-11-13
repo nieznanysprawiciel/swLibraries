@@ -75,6 +75,12 @@ public:
     static bool                 IsSpace( wchar_t character );
     static Size                 EstimateLineLength( std::wstring_view text );
     static Rect2d               ComputeTextBounds( const std::vector< Position2d >& letters );
+    static Size                 CountTrailingWhitespaces( const std::wstring_view& text );
+
+    static Position2d           TopLeftVertex( const Glyph& glyph, Position2d pos );
+    static Position2d           TopRightVertex( const Glyph& glyph, Position2d pos );
+    static Position2d           BottomLeftVertex( const Glyph& glyph, Position2d pos );
+    static Position2d           BottomRightVertex( const Glyph& glyph, Position2d pos );
 
 public:
     Nullable< geom::IndexedGeometryBuffer< geom::VertexShape2D, Index32 > >   GenerateGeometry( const std::wstring& text, const FontAssetPtr font, bool genBackground ) const;

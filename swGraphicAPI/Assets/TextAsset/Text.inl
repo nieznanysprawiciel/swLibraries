@@ -147,25 +147,19 @@ inline void
 TextGeometryGenerator< VertexType, IndexType, TextAcc >::PutLetterVertex( VertexType& vertex, const Glyph& glyph,
                                                                           Position2d position, Size vertexIdx ) const
 {
-    Position2d bearing = Position2d( (float)glyph.BearingX, (float)glyph.BearingY );
-
     switch ( vertexIdx % 4 )
     {
         case 0:
-            Position2d quadTopLeft = Position2d( 0.f, 0.f );
-            TextAcc::GetPos( vertex ) = quadTopLeft + position + bearing;
+            TextAcc::GetPos( vertex ) = TextArranger::TopLeftVertex( glyph, position );
             break;
         case 1:
-            Position2d quadTopRight = Position2d( (float)glyph.Width, 0.f );
-            TextAcc::GetPos( vertex ) = quadTopRight + position + bearing;
+            TextAcc::GetPos( vertex ) = TextArranger::TopRightVertex( glyph, position );
             break;
         case 2:
-            Position2d quadBottomLeft = Position2d( 0.f, -(float)glyph.Height );
-            TextAcc::GetPos( vertex ) = quadBottomLeft + position + bearing;
+            TextAcc::GetPos( vertex ) = TextArranger::BottomLeftVertex( glyph, position );
             break;
         case 3:
-            Position2d quadBottomRight = Position2d( (float)glyph.Width, -(float)glyph.Height );
-            TextAcc::GetPos( vertex ) = quadBottomRight + position + bearing;
+            TextAcc::GetPos( vertex ) = TextArranger::BottomRightVertex( glyph, position );
             break;
     }
 }
