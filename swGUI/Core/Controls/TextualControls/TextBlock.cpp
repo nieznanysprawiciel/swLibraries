@@ -17,12 +17,27 @@ RTTR_REGISTRATION
 {
     rttr::registration::class_< sw::gui::TextBlock >( "sw::gui::TextBlock" )
         .property( "Background", &sw::gui::TextBlock::GetBackground, &sw::gui::TextBlock::SetBackground )
-        .property( "Foreground", &sw::gui::TextBlock::GetForeground, &sw::gui::TextBlock::SetForeground );
+        .property( "Foreground", &sw::gui::TextBlock::GetForeground, &sw::gui::TextBlock::SetForeground )
+        .property( "FontFamily", &sw::gui::TextBlock::GetFontFamily, &sw::gui::TextBlock::SetFontFamily )
+        .property( "FontStyle", &sw::gui::TextBlock::GetFontStyle, &sw::gui::TextBlock::SetFontStyle )
+        .property( "FontWeight", &sw::gui::TextBlock::GetFontWeight, &sw::gui::TextBlock::SetFontWeight )
+        .property( "FontSize", &sw::gui::TextBlock::GetFontSize, &sw::gui::TextBlock::SetFontSize )
+        .property( "TextAlignment", &sw::gui::TextBlock::GetTextAlignment, &sw::gui::TextBlock::SetTextAlignment )
+        .property( "Text", &sw::gui::TextBlock::GetText, &sw::gui::TextBlock::SetText );
 }
 
 namespace sw {
 namespace gui
 {
+
+static DependencyProperty sBackground = DependencyProperty::Register( "Background", TypeID::get< TextBlock >() );
+static DependencyProperty sForeground = DependencyProperty::Register( "Foreground", TypeID::get< TextBlock >() );
+static DependencyProperty sFontFamily = DependencyProperty::Register( "FontFamily", TypeID::get< TextBlock >() );
+static DependencyProperty sFontStyle = DependencyProperty::Register( "FontStyle", TypeID::get< TextBlock >() );
+static DependencyProperty sFontWeight = DependencyProperty::Register( "FontWeight", TypeID::get< TextBlock >() );
+static DependencyProperty sFontSize = DependencyProperty::Register( "FontSize", TypeID::get< TextBlock >() );
+static DependencyProperty sTextAlignment = DependencyProperty::Register( "TextAlignment", TypeID::get< TextBlock >() );
+static DependencyProperty sText = DependencyProperty::Register( "Text", TypeID::get< TextBlock >() );
 
 // ================================ //
 
@@ -72,12 +87,13 @@ ReturnResult    TextBlock::UpdateDrawingResources( ResourceManagerAPI& api )
 
 void            TextBlock::SetBackground( BrushPtr brush )
 {
-    m_background = brush;
-
-    // Create new Drawing only if it previously existed. Drawing doesn't exist if Geometry is not set.
-    if( m_drawing && m_background != m_drawing->GetBrush() )
+    if( DependencyObject::SetValue( sBackground, brush, &TextBlock::m_background ) )
     {
-        m_drawing = std::make_shared< TextDrawing >( m_background, m_drawing->GetPen(), m_drawing->GetGeometry() );
+        // Create new Drawing only if it previously existed. Drawing doesn't exist if Geometry is not set.
+        if( m_drawing && m_background != m_drawing->GetBrush() )
+        {
+            m_drawing = std::make_shared< TextDrawing >( m_background, m_drawing->GetPen(), m_drawing->GetGeometry() );
+        }
     }
 }
 
@@ -86,40 +102,65 @@ void            TextBlock::SetBackground( BrushPtr brush )
 
 void            TextBlock::SetForeground( BrushPtr pen )
 {
-    m_pen = pen;
-
-    // Create new Drawing only if i previously existed. Drawing doesn't exist if Geometry is not set.
-    if( m_drawing && m_pen != m_drawing->GetPen() )
+    if( DependencyObject::SetValue( sForeground, pen, &TextBlock::m_pen ) )
     {
-        m_drawing = std::make_shared< TextDrawing >( m_drawing->GetBrush(), m_pen, m_drawing->GetGeometry() );
+        // Create new Drawing only if i previously existed. Drawing doesn't exist if Geometry is not set.
+        if( m_drawing && m_pen != m_drawing->GetPen() )
+        {
+            m_drawing = std::make_shared< TextDrawing >( m_drawing->GetBrush(), m_pen, m_drawing->GetGeometry() );
+        }
     }
 }
 
 // ================================ //
 
-void            TextBlock::SetFontSize( uint32 size )
+void            TextBlock::SetFontFamily( const std::string& fontFamily )
 {
-    m_fontSize = size;
-    InvalidateFont();
+    if( DependencyObject::SetValue( sFontFamily, fontFamily, &TextBlock::m_fontFamily ) )
+        InvalidateFont();
+}
+
+// ================================ //
+
+void            TextBlock::SetFontSize( FontSizeType size )
+{
+    if( DependencyObject::SetValue( sFontSize, size, &TextBlock::m_fontSize ) )
+        InvalidateFont();
+}
+
+// ================================ //
+
+void            TextBlock::SetFontStyle( FontStyle fontStyle )
+{
+    if( DependencyObject::SetValue( sFontStyle, fontStyle, &TextBlock::m_fontStyle ) )
+        InvalidateFont();
 }
 
 // ================================ //
 //
 
+void            TextBlock::SetFontWeight( FontWeight fontWeight )
+{
+    if( DependencyObject::SetValue( sFontWeight, fontWeight, &TextBlock::m_fontWeight ) )
+        InvalidateFont();
+}
+
+// ================================ //
+
 void            TextBlock::SetText( const std::wstring& text )
 {
-    m_text = text;
-    if( m_drawing )
-        m_drawing->GetTextGeometry()->SetText( text );
+    if( DependencyObject::SetValue( sText, text, &TextBlock::m_text ) )
+        if( m_drawing )
+            m_drawing->GetTextGeometry()->SetText( text );
 }
 
 // ================================ //
 
 void            TextBlock::SetTextAlignment( TextAlignment alignment )
 {
-    m_textAlignment = alignment;
-    if( m_drawing )
-        m_drawing->GetTextGeometry()->SetAlignment( alignment );
+    if( DependencyObject::SetValue( sTextAlignment, alignment, &TextBlock::m_textAlignment ) )
+        if( m_drawing )
+            m_drawing->GetTextGeometry()->SetAlignment( alignment );
 
 }
 

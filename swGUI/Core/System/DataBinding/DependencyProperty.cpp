@@ -5,7 +5,7 @@
 */
 #include "swGUI/Core/stdafx.h"
 
-
+#include "swCommonLib/Common/Exceptions/Common/InvalidCodeLogicException.h"
 #include "DependencyProperty.h"
 
 #include <assert.h>
@@ -19,7 +19,8 @@ namespace gui
 //
 DependencyProperty			DependencyProperty::Register		( rttr::property& property )
 {
-	assert( property.is_valid() );
+	if( !property.is_valid() )
+        throw InvalidCodeLogicException::Create( "Registering DependencyProperty: rttr property is not valid.", __FILE__, __LINE__ );
 	return DependencyProperty( property );
 }
 

@@ -61,8 +61,9 @@ public:
 	template< typename ClassType, typename PropertyType >
 	using FieldMemberPtr = PropertyType ( ClassType::* );
 
+	/**@brief Sets dependency property value and returns bool flag indicating if values changed.*/
 	template< typename ClassType, typename PropertyType >
-	void			SetValue			( const DependencyProperty& prop, PropertyType value, FieldMemberPtr< ClassType, PropertyType > fieldPtr );
+	bool			SetValue			( const DependencyProperty& prop, PropertyType value, FieldMemberPtr< ClassType, PropertyType > fieldPtr );
 
 private:
 

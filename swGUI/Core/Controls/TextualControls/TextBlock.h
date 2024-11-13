@@ -74,10 +74,10 @@ public:
     BrushPtr            GetForeground() const { return m_pen; }
 
     void                SetFontFamily( const std::string& fontFamily );
-    std::string         GetFontFamily() const { return m_fontFamily; }
+    const std::string&  GetFontFamily() const { return m_fontFamily; }
     
-    void                SetFontSize( uint32 size );
-    uint32              GetFontSize() const { return m_fontSize; }
+    void                SetFontSize( FontSizeType size );
+    FontSizeType        GetFontSize() const { return m_fontSize; }
 
     FontStyle           GetFontStyle() const { return m_fontStyle; }
     void                SetFontStyle( FontStyle fontStyle );
@@ -86,7 +86,7 @@ public:
     void                SetFontWeight( FontWeight fontWeight );
 
     void                SetText( const std::wstring& text );
-    std::wstring        GetText() const { return m_text; }
+    const std::wstring& GetText() const { return m_text; }
 
     void                SetTextAlignment( TextAlignment alignment );
     TextAlignment       GetTextAlignment() const { return m_textAlignment; }
