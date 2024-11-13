@@ -92,20 +92,24 @@ std::vector< Position2d >               TextArranger::ArrangeLine( std::wstring_
 
             letters.push_back( translate );
             translate += Position2d( this->Interspace + glyph.AdvanceX, 0.f );
+
+            // Conditionally wrapping text for known characters. For unknown characters we assume, that the next
+            // character will be correct and wrapping will happen than.
+            // We need to know glyph vertex right edge, so this logic can't be moved after.
+            if( this->WrapText && TopRightVertex( glyph, translate ).x + layout.Padding > this->Bounds.Right )
+            {
+                // Text crossed right bound. We need to break line.
+                // Removing all characters since last space. Next call to ArrangeLine will handle those characters
+                // again.
+                letters.erase( letters.begin() + ( lastSpace + 1 ), letters.end() );
+                break;
+            }
         }
         else
         {
             // Unknown character: put space instead.
             letters.push_back( translate );
             translate += Position2d( this->SpaceSize + this->Interspace, 0.f );
-        }
-
-        if( this->WrapText && translate.x > this->Bounds.Right )
-        {
-            // Text crossed right bound. We need to break line.
-            // Removing all characters since last space. Next call to ArrangeLine will handle those characters again.
-            letters.erase( letters.begin() + (lastSpace + 1), letters.end() );
-            break;
         }
     }
 
@@ -184,8 +188,9 @@ float               TextArranger::TextWidth( const std::vector< Position2d >& le
         return 0.0f;  // No characters in text (only spaces or newlines)
 
     // We need to find right edge of the last non whitespace character in line.
-    auto lastRightEdge = TopRightVertex( layout.Glyphs.at( text[ lastNonSpace ] ), letters[ lastNonSpace ] ).x;
-    auto firstLeftEdge = TopLeftVertex( layout.Glyphs.at( text[ 0 ] ), letters[ 0 ] ).x;
+    auto lastRightEdge = TopRightVertex( layout.Glyphs.at( text[ lastNonSpace ] ), letters[ lastNonSpace ] ).x + layout.Padding;
+    // We don't take TopLeftVertex, because it's translated by bearingX, which causes natural padding.
+    auto firstLeftEdge = letters[ 0 ].x;
 
     return lastRightEdge - firstLeftEdge;
 }
