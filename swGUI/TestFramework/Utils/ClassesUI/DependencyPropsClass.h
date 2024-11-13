@@ -27,11 +27,13 @@ public:
 
 	static DependencyProperty sNumberItemsProperty;
 	static DependencyProperty sContainerNameProperty;
+    static DependencyProperty sRandomNameProperty;
 
 private:
 
 	uint32			m_numberItems;
 	std::string		m_containerName;
+    std::string     m_randomName;
 
 public:
 
@@ -45,6 +47,9 @@ public:
 
 	const std::string&		GetContainerName		() const { return m_containerName; }
 	void					SetContainerName		( const std::string& value ) { DependencyObject::SetValue( sContainerNameProperty, value, &DependencyPropsClass::m_containerName ); }
+
+	const std::string&		GetRandomName			() const { return m_randomName; }
+	void					SetRandomName			( const std::string& value ) { DependencyObject::SetValue( sRandomNameProperty, value, &DependencyPropsClass::m_randomName ); }
 };
 
 

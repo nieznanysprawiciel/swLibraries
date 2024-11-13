@@ -72,11 +72,13 @@ ReturnResult			BindingsList::AddBinding		( BindingPtr binding )
 //
 void					BindingsList::AddBindingLink		( const BindingInfoPtr& binding )
 {
-	auto sourcePropInfo = FindBinding( binding->GetProperty() );
+    // We are the source of the Binding soe our BIndingInfo object should be reverse of the target.
+    auto sourceProperty = binding->GetBinding()->GetSourceProperty();
+    auto sourcePropInfo = FindBinding( sourceProperty );
 	
 	// If BindingInfo object didn't exist, we create new one with empty binding.
 	if( sourcePropInfo == nullptr )
-		sourcePropInfo = std::make_shared< BindingInfo >( binding->GetProperty() );
+        sourcePropInfo = std::make_shared< BindingInfo >( sourceProperty );
 
 	sourcePropInfo->AddBindingLink( binding );
 	m_bindings.push_back( sourcePropInfo );
