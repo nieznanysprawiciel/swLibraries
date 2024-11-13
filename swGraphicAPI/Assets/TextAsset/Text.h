@@ -46,6 +46,7 @@ public:
     bool                    WrapText;
     /**Text crossing lower Bound won't be generated.*/
     bool                    CutOutOfBounds;
+    bool                    SnapToPixel;    //< Avoids letters blurring if they are not aligned to pixel grid.
     Rect2d                  Bounds;
 
 public:
@@ -57,6 +58,7 @@ public:
         , UseKerning( true )
         , WrapText( false )
         , CutOutOfBounds( false )
+        , SnapToPixel( true )
         , Bounds( { 0.0f, 0.0f, 0.0f, 0.0f } )
     {}
 
@@ -69,6 +71,7 @@ public:
     void                        ApplyAlignement( const FontLayout& layout, std::vector< Position2d >& letters, std::wstring_view text ) const;
     
     float                       TextWidth( const std::vector< Position2d >& letters, const std::wstring& text, const FontLayout& layout ) const; 
+    float                       MoveToPixelGrid( float value ) const;
 
     static bool                 IsWhitespace( wchar_t character );
     static bool                 IsNewline( wchar_t character );

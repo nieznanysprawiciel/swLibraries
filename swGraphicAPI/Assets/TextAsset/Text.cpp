@@ -47,6 +47,8 @@ std::vector< Position2d >   TextArranger::ArrangeText( const std::wstring& text,
         letters.insert( letters.end(), line.begin(), line.end() );
         translate = Position2d( this->Bounds.Left, translate.y - this->Interline * layout.NewLineSize() );
 
+        // @todo Should check bottom edge of the text, not advance position.
+        // It should take into account that letters have different sizes and stick out in different way.
         if( this->CutOutOfBounds && translate.y < this->Bounds.Bottom )
             break;
     }
@@ -140,14 +142,14 @@ void                TextArranger::ApplyAlignement( const FontLayout& layout, std
     {
         float offset = remainingSpace / 2.0f;
         for( auto& letter : letters )
-            letter.x += offset;
+            letter.x = MoveToPixelGrid( offset + letter.x );
         break;
     }
 
     case TextAlignment::Right:
     {
         for( auto& letter : letters )
-            letter.x += remainingSpace;
+            letter.x = MoveToPixelGrid( remainingSpace + letter.x );
         break;
     }
 
@@ -174,7 +176,7 @@ void                TextArranger::ApplyAlignement( const FontLayout& layout, std
             if( IsWhitespace( text[ i ] ) )
                 curOffset += offsetPerSpace;
             
-            letters[ i ].x += curOffset;
+            letters[ i ].x = MoveToPixelGrid( curOffset + letters[ i ].x );
         }
         break;
     }
@@ -200,6 +202,15 @@ float               TextArranger::TextWidth( const std::vector< Position2d >& le
     auto firstLeftEdge = letters[ 0 ].x;
 
     return lastRightEdge - firstLeftEdge;
+}
+
+// ================================ //
+
+float               TextArranger::MoveToPixelGrid( float value ) const
+{
+    if( this->SnapToPixel )
+        return std::round( value );
+    return value;
 }
 
 // ================================ //
