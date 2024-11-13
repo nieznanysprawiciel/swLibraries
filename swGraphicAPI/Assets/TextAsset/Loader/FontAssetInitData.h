@@ -49,6 +49,8 @@ public:
     uint32      GetMaxBearingY() const;
     uint32      GetMaxHeightWithPadding() const;
     uint32      GetMaxWidthWithPadding() const;
+    uint32      GetMaxHightAboveBaseline() const;  //< Allow to compute how much font sticks out above baseline.
+    uint32      GetMaxHightBelowBaseline() const;  //< Allow to compute how much font sticks out below baseline.
 
     ImageRect   GetGlyphCoords( wchar_t character ) const;
 

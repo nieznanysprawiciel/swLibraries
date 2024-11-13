@@ -47,9 +47,8 @@ std::vector< Position2d >   TextArranger::ArrangeText( const std::wstring& text,
         letters.insert( letters.end(), line.begin(), line.end() );
         translate = Position2d( this->Bounds.Left, translate.y - this->Interline * layout.NewLineSize() );
 
-        // @todo Should check bottom edge of the text, not advance position.
-        // It should take into account that letters have different sizes and stick out in different way.
-        if( this->CutOutOfBounds && translate.y < this->Bounds.Bottom )
+        // Check maximal bottom edge of the text for the most sticking out letter.
+        if( this->CutOutOfBounds && translate.y - layout.GetMaxHightBelowBaseline() < this->Bounds.Bottom )
             break;
     }
 
@@ -249,7 +248,7 @@ Size                TextArranger::EstimateLineLength( std::wstring_view text ) {
 
 // ================================ //
 
-Rect2d              TextArranger::ComputeTextBounds( const std::vector< Position2d >& letters ) { 
+Rect2d              TextArranger::ComputeTextBounds( const std::vector< Position2d >& letters, const FontLayout& layout ) { 
     if( letters.empty() )
         // PlanarUV requires non-zero size.
         return Rect2d{ 0.f, 0.000001f, 0.f, 0.000001f };
@@ -259,11 +258,12 @@ Rect2d              TextArranger::ComputeTextBounds( const std::vector< Position
     auto [ minY, maxY ] =
         std::minmax_element( letters.begin(), letters.end(), []( auto& pos1, auto& pos2 ) { return pos1.y < pos2.y; } );
 
-    auto bb = Rect2d{ minX->x, maxX->x, minY->y, maxY->y };
+    auto bb = Rect2d{ minX->x, maxX->x, maxY->y + layout.GetMaxHightAboveBaseline(),
+                      minY->y - layout.GetMaxHightBelowBaseline() };
     
     // PlanarUV requires non-zero size.
-    bb.Right = bb.Right - bb.Left == 0.0f ? 0.000001f : bb.Right;
-    bb.Bottom = bb.Top - bb.Bottom == 0.0f ? 0.000001f : bb.Bottom;
+    bb.Right = bb.Right - bb.Left == 0.0f ? bb.Left + 0.000001f : bb.Right;
+    bb.Bottom = bb.Top - bb.Bottom == 0.0f ? bb.Bottom - 0.000001f : bb.Bottom;
 
     return bb;
 }
@@ -278,7 +278,7 @@ Size                TextArranger::CountTrailingWhitespaces( const std::wstring_v
             return std::distance( text.rbegin(), iter );
     }
 
-    return 0;
+    return text.length();
 }
 
 // ================================ //
@@ -322,7 +322,7 @@ Nullable< geom::IndexedGeometryBuffer< geom::VertexShape2D, Index32 > >
 TextArranger::GenerateGeometry( const std::wstring& text, const FontAssetPtr font, bool genBackground ) const
 {
     auto letters = this->ArrangeText( text, font->GetLayout() );
-    auto textBB = ComputeTextBounds( letters );
+    auto textBB = ComputeTextBounds( letters, font->GetLayout() );
     
     TextGeometryGenerator< geom::VertexShape2D, Index32, geom::TextAcc< geom::VertexShape2D > > generator( std::move( letters ), font, text );
     generator.GenerateBackground = genBackground;
@@ -337,7 +337,7 @@ Nullable< geom::IndexedGeometryBuffer< geom::VertexText2D, Index32 > >
 TextArranger::GenerateGeometryTextured( const std::wstring& text, const FontAssetPtr font, bool genBackground ) const
 {
     auto letters = this->ArrangeText( text, font->GetLayout() );
-    auto textBB = ComputeTextBounds( letters );
+    auto textBB = ComputeTextBounds( letters, font->GetLayout() );
 
     TextGeometryGenerator< geom::VertexText2D, Index32, geom::TexturedTextAcc< geom::VertexText2D > > generator( std::move( letters ), font, text);
     generator.GenerateBackground = genBackground;

@@ -19,25 +19,13 @@
 using namespace sw;
 
 
-const std::wstring sLoremIpsum = L"Lorem ipsum dolor sit amet, consectetur adipiscing elit. \
-Pellentesque pulvinar est id vehicula rutrum. Aliquam luctus consectetur erat consectetur\
-pretium. Morbi nec mi nec quam feugiat pharetra a consequat magna. Sed ac dui nec felis \
-iaculis ultricies. Vivamus a maximus massa. Duis feugiat justo quis eros vestibulum, non mattis\
-turpis tincidunt. Proin tristique, felis auctor placerat maximus, dui augue hendrerit risus, \
-consectetur molestie nisl quam ac dui. Aliquam et erat arcu. Nam at nisl dapibus sem fringilla \
-sodales sit amet in turpis. Vivamus interdum nunc vitae orci pretium aliquam. Vivamus ut \
-consectetur diam. Duis dictum auctor accumsan. Morbi a nibh leo. Nam elementum lorem sit \
-amet dignissim hendrerit.";
-
-const std::wstring sLoremIpsumWithNewlines = L"Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n\
-Pellentesque pulvinar est id vehicula rutrum. Aliquam luctus consectetur erat consectetur\n\
-pretium. Morbi nec mi nec quam feugiat pharetra a consequat magna. Sed ac dui nec felis \n\
-iaculis ultricies. Vivamus a maximus massa. Duis feugiat justo quis eros vestibulum, non mattis\n\
-turpis tincidunt. Proin tristique, felis auctor placerat maximus, dui augue hendrerit risus, \n\
-consectetur molestie nisl quam ac dui. Aliquam et erat arcu. Nam at nisl dapibus sem fringilla \n\
-sodales sit amet in turpis. Vivamus interdum nunc vitae orci pretium aliquam. Vivamus ut \n\
-consectetur diam. Duis dictum auctor accumsan. Morbi a nibh leo. Nam elementum lorem sit \n\
-amet dignissim hendrerit.";
+const std::wstring sLoremIpsum = L"Lorem ipsum is a dummy or placeholder text commonly used \
+in graphic design, publishing, and web development to fill empty spaces in a layout that do \
+not yet have content.\n\
+Lorem ipsum is typically a corrupted version of De finibus bonorum et malorum, \
+a 1st - century BC text by the Roman statesman and philosopher Cicero, with words altered, added, \
+and removed to make it nonsensical and improper Latin. \
+The first two words themselves are a truncation of dolorem ipsum( \"pain itself\" ).";
 
 
 
@@ -45,6 +33,12 @@ bool AlmostEqual( float a, float b )
 {
     const float EPSILON = 0.00001f;
     return fabs( a - b ) < EPSILON;
+}
+
+bool PixelEqual( float a, float b )
+{
+    const float EPSILON = 0.6f;
+    return fabs( a - b ) <= EPSILON;
 }
 
 // ================================ //
@@ -59,8 +53,8 @@ TEST_CASE( "GraphicAPI.Text.Arrange.WithBounds.AlignLeft", "[GraphicAPI][Text]" 
     auto font = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init );
     REQUIRE_IS_VALID( font );
 
-    TextArranger arranger;
-    arranger.Bounds = { 0.0f, 200.0f, 0.0f, 200.0f };
+    auto arranger = TextArranger::CreateFrom( font );
+    arranger.Bounds = { 0.0f, 300.0f, 0.0f, -300.0f };
     arranger.WrapText = true;
     arranger.TextAlign = TextAlignment::Left;
 
@@ -68,6 +62,7 @@ TEST_CASE( "GraphicAPI.Text.Arrange.WithBounds.AlignLeft", "[GraphicAPI][Text]" 
     REQUIRE_IS_VALID( geometry );
 
     auto& vertexBuf = geometry.Get().Verticies;
+    CHECK( vertexBuf.ElementsCount() == 4 * sLoremIpsum.length() );
 
     Size numLeftAligned = 0;
     Size numRightAligned = 0;
@@ -77,16 +72,17 @@ TEST_CASE( "GraphicAPI.Text.Arrange.WithBounds.AlignLeft", "[GraphicAPI][Text]" 
 
     for( auto idx = 0; idx < vertexBuf.ElementsCount(); idx++ )
     {
+        if( TextArranger::IsWhitespace( sLoremIpsum[ idx / 4 ] ) )
+            continue;
+
         auto& vertex = vertexBuf[ idx ].Position;
-        numLeftAligned += AlmostEqual( vertex.x, 0.0 ) ? 1 : 0;
-        numRightAligned += AlmostEqual( vertex.x, 200.0 ) ? 1 : 0;
+        numLeftAligned += PixelEqual( vertex.x, 0.5 ) ? 1 : 0;
         numRightOutside += vertex.x > arranger.Bounds.Right ? 1 : 0;
         numLeftOutside += vertex.x < arranger.Bounds.Left ? 1 : 0;
         numTopOutside += vertex.y > arranger.Bounds.Top ? 1 : 0;
     }
 
-    CHECK( numLeftAligned == 28 );
-    CHECK( numRightAligned == 0 );
+    CHECK( numLeftAligned == 30 );
     CHECK( numRightOutside == 0 );
     CHECK( numLeftOutside == 0 );
     CHECK( numTopOutside == 0 );
@@ -104,8 +100,8 @@ TEST_CASE( "GraphicAPI.Text.Arrange.WithBounds.AlignRight", "[GraphicAPI][Text]"
     auto font = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init );
     REQUIRE_IS_VALID( font );
 
-    TextArranger arranger;
-    arranger.Bounds = { 0.0f, 200.0f, 0.0f, 200.0f };
+    auto arranger = TextArranger::CreateFrom( font );
+    arranger.Bounds = { 0.0f, 300.0f, 0.0f, -300.0f };
     arranger.WrapText = true;
     arranger.TextAlign = TextAlignment::Right;
 
@@ -113,6 +109,7 @@ TEST_CASE( "GraphicAPI.Text.Arrange.WithBounds.AlignRight", "[GraphicAPI][Text]"
     REQUIRE_IS_VALID( geometry );
 
     auto& vertexBuf = geometry.Get().Verticies;
+    CHECK( vertexBuf.ElementsCount() == 4 * sLoremIpsum.length() );
 
     Size numLeftAligned = 0;
     Size numRightAligned = 0;
@@ -122,16 +119,19 @@ TEST_CASE( "GraphicAPI.Text.Arrange.WithBounds.AlignRight", "[GraphicAPI][Text]"
 
     for( auto idx = 0; idx < vertexBuf.ElementsCount(); idx++ )
     {
+        if( TextArranger::IsWhitespace( sLoremIpsum[ idx / 4 ] ) )
+            continue;
+
         auto& vertex = vertexBuf[ idx ].Position;
-        numLeftAligned += AlmostEqual( vertex.x, 0.0 ) ? 1 : 0;
-        numRightAligned += AlmostEqual( vertex.x, 200.0 ) ? 1 : 0;
+        numLeftAligned += PixelEqual( vertex.x, 0.5 ) ? 1 : 0;
+        numRightAligned += PixelEqual( vertex.x, 299.5 ) ? 1 : 0;
         numRightOutside += vertex.x > arranger.Bounds.Right ? 1 : 0;
         numLeftOutside += vertex.x < arranger.Bounds.Left ? 1 : 0;
         numTopOutside += vertex.y > arranger.Bounds.Top ? 1 : 0;
     }
 
     CHECK( numLeftAligned == 0 );
-    CHECK( numRightAligned == 28 );
+    CHECK( numRightAligned == 30 );
     CHECK( numRightOutside == 0 );
     CHECK( numLeftOutside == 0 );
     CHECK( numTopOutside == 0 );
@@ -149,8 +149,8 @@ TEST_CASE( "GraphicAPI.Text.Arrange.WithBounds.Justify", "[GraphicAPI][Text]" )
     auto font = api.Load< FontAsset >( "$(FontAssets)/arial.ttf", &init );
     REQUIRE_IS_VALID( font );
 
-    TextArranger arranger;
-    arranger.Bounds = { 0.0f, 200.0f, 0.0f, 200.0f };
+    auto arranger = TextArranger::CreateFrom( font );
+    arranger.Bounds = { 0.0f, 300.0f, 0.0f, -300.0f };
     arranger.WrapText = true;
     arranger.TextAlign = TextAlignment::Justify;
 
@@ -158,6 +158,7 @@ TEST_CASE( "GraphicAPI.Text.Arrange.WithBounds.Justify", "[GraphicAPI][Text]" )
     REQUIRE_IS_VALID( geometry );
 
     auto& vertexBuf = geometry.Get().Verticies;
+    CHECK( vertexBuf.ElementsCount() == 4 * sLoremIpsum.length() );
 
     Size numLeftAligned = 0;
     Size numRightAligned = 0;
@@ -167,16 +168,19 @@ TEST_CASE( "GraphicAPI.Text.Arrange.WithBounds.Justify", "[GraphicAPI][Text]" )
 
     for( auto idx = 0; idx < vertexBuf.ElementsCount(); idx++ )
     {
+        if( TextArranger::IsWhitespace( sLoremIpsum[ idx / 4 ] ) )
+            continue;
+
         auto& vertex = vertexBuf[ idx ].Position;
-        numLeftAligned += AlmostEqual( vertex.x, 0.0 ) ? 1 : 0;
-        numRightAligned += AlmostEqual( vertex.x, 200.0 ) ? 1 : 0;
+        numLeftAligned += PixelEqual( vertex.x, 0.5 ) ? 1 : 0;
+        numRightAligned += PixelEqual( vertex.x, 299.5 ) ? 1 : 0;
         numRightOutside += vertex.x > arranger.Bounds.Right ? 1 : 0;
         numLeftOutside += vertex.x < arranger.Bounds.Left ? 1 : 0;
         numTopOutside += vertex.y > arranger.Bounds.Top ? 1 : 0;
     }
 
-    CHECK( numLeftAligned == 28 );
-    CHECK( numRightAligned == 28 );
+    CHECK( numLeftAligned == 30 );
+    CHECK( numRightAligned == 26 );     // We have 2 paragraphs, each last line is not justified.
     CHECK( numRightOutside == 0 );
     CHECK( numLeftOutside == 0 );
     CHECK( numTopOutside == 0 );

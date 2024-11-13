@@ -95,6 +95,23 @@ uint32                  FontLayout::GetMaxWidthWithPadding() const
 }
 
 // ================================ //
+
+uint32                  FontLayout::GetMaxHightAboveBaseline() const
+{
+    return GetMaxBearingY();
+}
+
+// ================================ //
+
+uint32                  FontLayout::GetMaxHightBelowBaseline() const
+{
+    auto max = std::max_element( this->Glyphs.begin(), this->Glyphs.end(),
+                                 []( const auto& a, const auto& b )
+                                 { return a.second.Height - a.second.BearingY < b.second.Height - b.second.BearingY; } );
+    return ( *max ).second.Height - ( *max ).second.BearingY;
+}
+
+// ================================ //
 // 
 
 ImageRect               FontLayout::GetGlyphCoords( wchar_t character ) const

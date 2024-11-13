@@ -77,7 +77,7 @@ public:
     static bool                 IsNewline( wchar_t character );
     static bool                 IsSpace( wchar_t character );
     static Size                 EstimateLineLength( std::wstring_view text );
-    static Rect2d               ComputeTextBounds( const std::vector< Position2d >& letters );
+    static Rect2d               ComputeTextBounds( const std::vector< Position2d >& letters, const FontLayout& layout );
     static Size                 CountTrailingWhitespaces( const std::wstring_view& text );
 
     static Position2d           TopLeftVertex( const Glyph& glyph, Position2d pos );
