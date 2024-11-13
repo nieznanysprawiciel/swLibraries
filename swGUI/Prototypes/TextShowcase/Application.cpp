@@ -10,6 +10,7 @@
 #include "swGUI/Core/Media/Brushes/ImageBrush.h"
 
 #include "swGUI/Core/Media/Colors.h"
+#include "swCommonLib/Common/Logging/Logger.h"
 
 #include "PrototyperUtils.h"
 
@@ -51,7 +52,7 @@ TextBlock*  AddText			( HostWindow* host, BrushPtr brush, BrushPtr pen, float wi
 
 // ================================ //
 //
-void		AddControls						( HostWindow* host )
+void		Application::AddControls						( HostWindow* host )
 {
     {
         auto background = std::make_shared< SolidColorBrush >( Colors::Transparent );
@@ -85,6 +86,20 @@ void		AddControls						( HostWindow* host )
         auto textBlock = AddText( host, background, pen, 300, 300, Position( 50, 350 ), L"ABO" );
         textBlock->SetTextAlignment( sw::TextAlignment::Justify );
         textBlock->SetFontSize( 80 );
+    }
+
+    {
+        auto pen = std::make_shared< SolidColorBrush >( Colors::BurlyWood );
+        auto background = std::make_shared< SolidColorBrush >( Colors::Transparent );
+        auto textBlock = AddText( host, background, pen, 300, 100, Position( 350, 350 ), L"" );
+        textBlock->SetTextAlignment( sw::TextAlignment::Justify );
+        textBlock->SetFontSize( 60 );
+        textBlock->SetDataContext( &m_viewModel );
+
+        auto binding = Binding::Create( "Text", textBlock, "TimeCounter", BindingMode::TwoWay );
+        auto result = textBlock->AddBinding( binding );
+        if( !result.IsValid() )
+            LOG_ERROR( fmt::format( "Binding failed: {}", result.GetErrorReason() ) );
     }
 
 
@@ -135,6 +150,7 @@ void		AddControls						( HostWindow* host )
 //
 Application::Application	( int argc, char** argv, sw::gui::INativeGUI* gui )
 	:	sw::gui::GUISystem( argc, argv, gui )
+    ,   m_viewModel( ViewModel() )
 {}
 
 
@@ -180,4 +196,6 @@ void		Application::OnClosing()
 
 /**@brief */
 void		Application::OnIdle( const sw::gui::FrameTime& frameTime )
-{ }
+{
+    m_viewModel.SetTimeCounter( std::to_wstring( frameTime.Time ) );
+}

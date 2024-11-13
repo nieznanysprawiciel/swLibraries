@@ -158,6 +158,7 @@
     <ClCompile Include="..\..\..\..\Prototypes\TextShowcase\Application.cpp" />
     <ClCompile Include="..\..\..\..\Prototypes\TextShowcase\main.cpp" />
     <ClCompile Include="..\..\..\..\Prototypes\TextShowcase\PrototyperUtils.cpp" />
+    <ClCompile Include="..\..\..\..\Prototypes\TextShowcase\ViewModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Prototypes\TextShowcase\Application.h" />
