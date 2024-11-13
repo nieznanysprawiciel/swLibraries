@@ -153,6 +153,13 @@ void                TextArranger::ApplyAlignement( const FontLayout& layout, std
 
     case TextAlignment::Justify:
     {
+        // The last line in paragraph is not justified. Should be aligned left.
+        // Assumption: text contains not only one line, but whole text starting from this line.
+        // The second condition checks cases when text doesn't end with newline and it last character
+        // in whole text.
+        if( IsNewline( text[ lastCharIdx ] ) || letters.size() == text.length() )
+            return;
+
         // Find all spaces which will be extended.
         auto numSpaces = std::count_if( text.begin(), text.begin() + lastCharIdx, [](wchar_t c) { return IsWhitespace(c); });
         auto trailingSpaces = CountTrailingWhitespaces( std::wstring_view( text.data(), lastCharIdx ) );
