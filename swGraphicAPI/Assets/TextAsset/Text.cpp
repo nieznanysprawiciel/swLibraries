@@ -11,6 +11,15 @@
 #include "Text.h"
 
 
+RTTR_REGISTRATION
+{
+    rttr::registration::enumeration< sw::TextAlignment >( "sw::TextAlignment" )(
+        rttr::value( "Left", sw::TextAlignment::Left ),
+        rttr::value( "Center", sw::TextAlignment::Center ),
+        rttr::value( "Right", sw::TextAlignment::Right ),
+        rttr::value( "Justify", sw::TextAlignment::Justify ) );
+}
+
 namespace sw
 {
 

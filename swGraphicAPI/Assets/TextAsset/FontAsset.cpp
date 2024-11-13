@@ -9,8 +9,16 @@
 
 
 
+RTTR_REGISTRATION
+{
+    rttr::registration::class_< sw::FontAsset >( "sw::FontAsset" )
+        .property( "FontSize", &sw::FontAsset::m_fontSize );
+}
+
 namespace sw
 {
+
+// ================================ //
 
 FontAsset::FontAsset( AssetPath filePath, FontInitData&& initData )
     : Resource( filePath )
@@ -19,10 +27,14 @@ FontAsset::FontAsset( AssetPath filePath, FontInitData&& initData )
     , m_layout( std::move( initData.Layout) )
 {}
 
+// ================================ //
+
 const Glyph&        FontAsset::GetGlyph( wchar_t character ) const
 {
     return this->m_layout.Glyphs.at( character );
 }
+
+// ================================ //
 
 float               FontAsset::GetKerning( wchar_t first, wchar_t second ) const
 {
