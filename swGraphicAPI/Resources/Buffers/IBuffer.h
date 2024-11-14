@@ -7,9 +7,10 @@
 
 #include "swGraphicAPI/Resources/ResourceObject.h"
 #include "swGraphicAPI/Rendering/GraphicAPIConstants.h"
-#include "ResourcePtr.h"
+#include "swGraphicAPI/Resources/ResourcePtr.h"
 
 #include "swCommonLib/Common/MemoryChunk.h"
+#include "swCommonLib/Common/Buffers/BufferRange.h"
 #include "swCommonLib/System/Path.h"
 
 
@@ -70,8 +71,12 @@ struct BufferInfo
 	bool								Use4BytesIndex;		///< Index buffer consists of 4 bytes instead of 2 bytes indicies.
 	///@}
 
-	BufferInfo()
+	explicit BufferInfo()
 		: DataType( rttr::type::get_by_name( "" ) )	// Set invalid type.
+        , NumElements( 0 )
+        , ElementSize( 0 )
+        , Usage( ResourceUsage::Default )
+        , BufferType( BufferType::ConstantBuffer )
 	{}
 
 };
@@ -89,8 +94,21 @@ protected:
 	explicit		IBuffer		( const AssetPath& assetPath ) : Resource( assetPath ) {}
 	virtual			~IBuffer	() = default;
 public:
-	virtual MemoryChunk			CopyData		() = 0;				///<Kopiuje dane z bufora i umieszcza je w zwracanym MemoryChunku.
-	virtual const BufferInfo&	GetDescriptor	() const = 0;		///<Returns buffer descriptor.
+	virtual MemoryChunk			CopyData		() = 0;				///< Copies data from GPU to MemoryChunk.
+	virtual const BufferInfo&	GetDescriptor	() const = 0;		///< Returns buffer descriptor.
+
+	/**@brief Updates part of the buffer at offset.
+	For buffer to be updatable it must be created with @ref ResourceUsage::Default
+	or @ref ResourceUsage::Dynamic.*/
+    virtual ReturnResult		UpdateData		( BufferRange data, PtrOffset offset ) = 0;
+    
+	/**@brief Resizes buffer to fit the data pointed by newData parameter.
+	No other parameters of the Buffer are changed. Buffer is updated with new content.
+	
+	This operation will most probably create new buffer and remove old one.
+	Should be avoided for performance reasons.
+	Currently Buffer can be only resized up. If Buffer is larger than expected data, it will be only updated.*/
+    virtual ReturnResult		Resize			( BufferRange newData ) = 0;
 };
 
 

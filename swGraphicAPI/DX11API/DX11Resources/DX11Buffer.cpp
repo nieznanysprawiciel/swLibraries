@@ -7,9 +7,13 @@
 
 #include "DX11Buffer.h"
 #include "DX11Initializer/DX11ConstantsMapper.h"
+#include "swGraphicAPI/DX11API/DX11Initializer/DX11Utils.h"
 
 #include "swCommonLib/Common/Converters.h"
 #include "swCommonLib/Common/Exceptions/Nullable.h"
+#include "swCommonLib/Common/fmt.h"
+
+#include <limits>
 
 
 
@@ -55,7 +59,6 @@ sw::Nullable< Buffer* >				DX11Buffer::CreateFromMemory	( const AssetPath& name,
 	else if( bufferInfo.BufferType == BufferType::ConstantBuffer )
 		bindFlag = ResourceBinding::RB_ConstantsBuffer;
 
-	// Wype³niamy deskryptor bufora
 	D3D11_BUFFER_DESC bufferDesc;
 	ZeroMemory( &bufferDesc, sizeof( bufferDesc ) );
 	bufferDesc.Usage = DX11ConstantsMapper::Get( bufferInfo.Usage );
@@ -66,7 +69,7 @@ sw::Nullable< Buffer* >				DX11Buffer::CreateFromMemory	( const AssetPath& name,
 	D3D11_SUBRESOURCE_DATA initData;
 	if( data )
 	{
-		// Je¿eli bufor nie istnieje to do funkcji tworz¹cej bufor powinniœmy podaæ nullptr.
+		// If the buffer does not exist, we should pass nullptr to the buffer creation function.
 		ZeroMemory( &initData, sizeof( initData ) );
 		initData.pSysMem = data;
 		initDataPtr = &initData;
@@ -76,32 +79,31 @@ sw::Nullable< Buffer* >				DX11Buffer::CreateFromMemory	( const AssetPath& name,
 	ID3D11Buffer* newBuffer;
 	result = device->CreateBuffer( &bufferDesc, initDataPtr, &newBuffer );
 	if( FAILED( result ) )
-		return "[DX11Buffer] Buffer creation failed.";
+        return fmt::format( "[DX11Buffer] Buffer creation failed. {}", DX11Utils::ErrorString( result ) );
 
 	DX11Buffer* newBufferObject = new DX11Buffer( name, bufferInfo, newBuffer );
 	return newBufferObject;
 }
 
+/**@brief Copies the buffer memory and returns it in a MemoryChunk.
 
-/**@brief Kopiuje pamiêæ bufora i zwraca w MemoryChunku.
+The function returns the buffer content. The memory is copied twice.
+First to a temporary buffer on the GPU, and then after mapping to RAM,
+it is copied to a MemoryChunk.
 
-Funkcja zwraca zawartoœæ bufora. Pamiêæ jest kopiowana dwukrotnie.
-Najpierw na GPU do tymczasowego bufora, a potem po zmapowaniu na pamiêæ RAM,
-odbywa siê kopiowanie do MemoryChunka.
+@todo It would not be necessary to perform copying on the GPU if the buffer was created with the flags
+D3D11_USAGE_STAGING or D3D11_USAGE_DEFAULT. The flags need to be checked and copying should be done only when necessary.
 
-@todo Nie trzeba by wykonywaæ kopiowania na GPU, gdyby bufor by³ stworzony z flag¹
-D3D11_USAGE_STAGING lub D3D11_USAGE_DEFAULT. Trzeba sprawdziæ flagi i robiæ kopiowanie tylko, gdy to konieczne.
-
-@attention Funkcja nie nadaje siê do wykonania wielow¹tkowego. U¿ywa DeviceContextu do kopiowania danych
-w zwi¹zku z czym wymaga synchronizacji z innymi funkcjami renderuj¹cymi.
-*/
+@attention The function is not suitable for multithreading. It uses DeviceContext for copying data,
+therefore it requires synchronization with other rendering functions.
+@todo Maybe function should take Renderer as a parameter than?*/
 MemoryChunk									DX11Buffer::CopyData()
 {
-	// Trzeba stworzyæ nowy bufor
+	// Trzeba stworzyï¿½ nowy bufor
 	D3D11_BUFFER_DESC bufferDesc;
 	ZeroMemory( &bufferDesc, sizeof( bufferDesc ) );
 	bufferDesc.Usage = D3D11_USAGE::D3D11_USAGE_STAGING;
-	//bufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE;		// Przy fladze usage::staging nie mo¿na bindowaæ zasobu do potoku graficznego.
+	//bufferDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE;		// With usage::staging flag, the resource cannot be bound to the graphics pipeline.
 	bufferDesc.ByteWidth = m_elementSize * m_elementCount;
 	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
 
@@ -111,7 +113,7 @@ MemoryChunk									DX11Buffer::CopyData()
 	if( FAILED( result ) )
 		return MemoryChunk();
 
-	// Kopiowanie zawartoœci miêdzy buforami
+	// Copying the contents between buffers
 	device_context->CopyResource( newBuffer, m_buffer.Get() );
 
 	D3D11_MAPPED_SUBRESOURCE data;
@@ -126,6 +128,79 @@ MemoryChunk									DX11Buffer::CopyData()
 	newBuffer->Release();
 
 	return std::move( memoryChunk );
+}
+
+// ================================ //
+
+ReturnResult			DX11Buffer::UpdateData( BufferRange data, PtrOffset offset )
+{
+    // Buffer must be updatable.
+    if( m_descriptor.Usage == ResourceUsage::Static || m_descriptor.Usage == ResourceUsage::Staging )
+        return fmt::format( "Buffer not updatable. Create with ResourceUsage Default or Dynamic. (Current: {})",
+                            Convert::ToString( m_descriptor.Usage ) );
+
+	auto bufferSize = m_elementSize * m_elementCount;
+    if( offset + data.DataSize > bufferSize )
+        return fmt::format( "Update: Data size exceeds Buffer size. Buffer size: {}, Data size: {}, Offset: {}", bufferSize,
+                            data.DataSize, offset );
+
+    if( m_descriptor.Usage == ResourceUsage::Dynamic )
+    {
+        D3D11_MAPPED_SUBRESOURCE updateData;
+        HRESULT result = device_context->Map( m_buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &updateData );
+        if( SUCCEEDED( result ) )
+        {
+            memcpy( (uint8*)updateData.pData + offset, data.DataPtr, data.DataSize );
+            device_context->Unmap( m_buffer.Get(), 0 );
+
+            return Success::True;
+        }
+        else
+            return fmt::format( "Failed to map Buffer: {}", DX11Utils::ErrorString( result ) );
+    }
+    else
+    {
+        // ResourceUsage::Default
+        D3D11_BOX destRegion;
+        destRegion.left = (UINT)offset;
+        destRegion.right = (UINT)( data.DataSize + offset );
+        destRegion.top = 0;
+        destRegion.bottom = 0;
+        destRegion.front = 0;
+        destRegion.back = 0;
+
+        device_context->UpdateSubresource( m_buffer.Get(), 0, &destRegion, data.DataPtr, 0, 0 );
+        return Success::True;
+    }
+
+    return Success::True;
+}
+
+// ================================ //
+
+ReturnResult			DX11Buffer::Resize( BufferRange newData )
+{
+    auto bufferSize = m_elementSize * m_elementCount;
+	if( newData.DataSize <= bufferSize )
+	{
+		// No need to resize. TODO: consider if we shoudl ever scale buffers down.
+        return UpdateData( newData, 0 );
+	}
+
+	if( newData.DataSize / m_elementSize > std::numeric_limits< uint32 >::max() )
+        return "Expected size exceeds maximum Buffer element count.";
+	
+	BufferInfo newDesc = m_descriptor;
+    newDesc.NumElements = uint32( newData.DataSize / m_elementSize );
+
+	auto result = DX11Buffer::CreateFromMemory( GetAssetPath(), newData.DataPtr, newDesc );
+    ReturnIfInvalid( result );
+
+	// Replacing pointer should automatically release the old Buffer.
+	m_buffer = static_cast< DX11Buffer* >( result.Get() )->Get();
+    m_descriptor = newDesc;
+
+    return Success::True;
 }
 
 
