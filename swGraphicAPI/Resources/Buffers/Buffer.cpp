@@ -39,7 +39,7 @@ namespace sw
 
 // ================================ //
 //
-Buffer::Buffer( const AssetPath& assetPath, unsigned int elementSize, unsigned int elementCount )
+Buffer::Buffer( const AssetPath& assetPath, uint32 elementSize, uint32 elementCount )
 	:	IBuffer( assetPath )
 	,	m_elementSize( elementSize )
 	,	m_elementCount( elementCount )

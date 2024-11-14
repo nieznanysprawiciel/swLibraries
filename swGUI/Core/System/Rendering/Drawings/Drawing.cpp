@@ -215,15 +215,44 @@ ReturnResult			Drawing::UpdateGeometry				( ResourceManagerAPI rm, Geometry* geo
         ReturnIfInvalid( result );
         GeometryData& data = result.Get();
 
-		// Create new buffers if they didn't existed.
-		if( !vertexBuffer || !indexBuffer )
+		// Create new buffers if they didn't exist.
+		if( !vertexBuffer )
+		{
+            auto vertexSize = data.VertexBuffer.GetType().get_sizeof();
+            auto result = rm.CreateVertexBuffer( vbName, data.VertexBuffer, (uint32)vertexSize );
+            ReturnIfInvalid( result );
+
+            vertexBuffer = result.Get();
+		}
+		else if( data.VertexBuffer.GetSize() > vertexBuffer->GetBytesSize() )
+		{
+            ReturnIfInvalid( vertexBuffer->Resize( data.VertexBuffer.AsRange() ) );
+		}
+		else
+		{
+			// Buffer is large enough for the new data.
+            // Note that we never resize buffer to smaller size. Maybe we should?
+            ReturnIfInvalid( vertexBuffer->UpdateData( data.VertexBuffer.AsRange(), 0 ) );
+		}
+		
+		if( !indexBuffer )
 		{
 			auto indexSize = data.ExtendedIB ? sizeof( Index32 ) : sizeof( Index16 );
-			auto vertexSize = data.VertexBuffer.GetType().get_sizeof();
+            auto result = rm.CreateIndexBuffer( ibName, data.IndexBuffer, (uint32)indexSize );
+            ReturnIfInvalid( result );
 
-			vertexBuffer = rm.CreateVertexBuffer( vbName, data.VertexBuffer, (uint32)vertexSize ).Get();    /// @todo What in case of error?
-			indexBuffer = rm.CreateIndexBuffer( ibName, data.IndexBuffer, (uint32)indexSize ).Get();        /// @todo What in case of error?
+			indexBuffer = result.Get();
 		}
+        else if( data.IndexBuffer.GetSize() > indexBuffer->GetBytesSize() )
+        {
+            ReturnIfInvalid( indexBuffer->Resize( data.IndexBuffer.AsRange() ) );
+        }
+        else
+        {
+            // Buffer is large enough for the new data.
+            // Note that we never resize buffer to smaller size. Maybe we should?
+            ReturnIfInvalid( indexBuffer->UpdateData( data.IndexBuffer.AsRange(), 0 ) );
+        }
 
 		m_geometryData.VertexBuffer = vertexBuffer;
 		m_geometryData.IndexBuffer = indexBuffer;

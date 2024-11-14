@@ -91,7 +91,7 @@ void		Application::AddControls						( HostWindow* host )
     {
         auto pen = std::make_shared< SolidColorBrush >( Colors::BurlyWood );
         auto background = std::make_shared< SolidColorBrush >( Colors::Transparent );
-        auto textBlock = AddText( host, background, pen, 300, 100, Position( 350, 350 ), L"" );
+        auto textBlock = AddText( host, background, pen, 400, 100, Position( 350, 350 ), L"" );
         textBlock->SetTextAlignment( sw::TextAlignment::Justify );
         textBlock->SetFontSize( 60 );
         textBlock->SetDataContext( &m_viewModel );
