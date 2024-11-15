@@ -13,6 +13,9 @@
     <ClCompile Include="..\..\..\Assets\TextAsset\Loader\FontLoader.cpp">
       <Filter>Loader</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Assets\TextAsset\Loader\FontPicker.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Assets\TextAsset\FontAsset.h" />
@@ -31,6 +34,9 @@
       <Filter>Loader</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Assets\TextAsset\Loader\Glyph.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FontPicker.h">
       <Filter>Loader</Filter>
     </ClInclude>
   </ItemGroup>

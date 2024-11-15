@@ -53,23 +53,23 @@ The first two words themselves are a truncation of dolorem ipsum( \"pain itself\
 // 
 TEST_CASE( "GUI.Controls.TextBlock", "[GUISystem][Controls][Text]" )
 {
-    TestFramework*   framework = GetGlobalTestFramework();
+    TestFramework* framework = GetGlobalTestFramework();
     FrameworkCleaner cleaner( framework );
 
     MockGUI* mockNativeGUI = static_cast< MockGUI* >( framework->GetNativeGUI() );
-
     auto window = framework->CreateNativeHostWindow( 400, 400, "Test Window" ).Get();
+    
+    // Window must be focused to be rendered.
+    mockNativeGUI->SendChangeFocus( window->GetNativeWindow(), true );
 
     auto background = std::make_shared< SolidColorBrush >( Colors::WhiteSmoke );
     auto pen = std::make_shared< SolidColorBrush >( Colors::Black );
 
     auto text = AddText( window, background, pen, 300, 300, Position( 0, 40 ), sLoremIpsum );
+    REQUIRE( text->QueryDrawing() != nullptr );
     REQUIRE( text->GetGeometry() != nullptr );
 
-    // Window must be focused to be rendered.
-    mockNativeGUI->SendChangeFocus( window->GetNativeWindow(), true );
-
     // Run single frame. If something was wrong it should fails here.
-    framework->MainLoopCore();
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
 }
 

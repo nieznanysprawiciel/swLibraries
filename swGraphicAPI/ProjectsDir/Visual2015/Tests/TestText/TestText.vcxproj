@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Tests\TestText\main.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestText\TestArrange.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestText\TestFontPicker.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestText\TestGeneration.cpp" />
     <ClCompile Include="..\..\..\..\Tests\TestText\TestFontLoader.cpp" />
   </ItemGroup>

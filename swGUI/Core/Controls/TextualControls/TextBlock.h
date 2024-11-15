@@ -9,30 +9,14 @@
 
 #include "swGUI/Core/Media/Brushes/Brush.h"
 #include "swGUI/Core/System/Rendering/Drawings/TextDrawing.h"
+
 #include "swGraphicAPI/Assets/TextAsset/Text.h"
+#include "swGraphicAPI/Assets/TextAsset/FontPicker.h"
 
 
 namespace sw {
 namespace gui
 {
-
-/**@brief Font style.
-@ingroup Text*/
-enum class FontStyle : u8
-{
-    Normal,
-    Italic,
-    // Oblique
-};
-
-/**@brief Font thickness.
-@ingroup Text*/
-enum class FontWeight : u8
-{
-    Light,
-    Normal,
-    UltraBold,
-};
 
 /**@brief Simple Text presenter.
 @ingroup Text

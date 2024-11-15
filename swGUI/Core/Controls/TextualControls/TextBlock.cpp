@@ -15,15 +15,6 @@
 
 RTTR_REGISTRATION
 {
-    rttr::registration::enumeration< sw::gui::FontWeight >( "sw::gui::FontWeight" )(
-        rttr::value( "Light", sw::gui::FontWeight::Light ),
-        rttr::value( "Normal", sw::gui::FontWeight::Normal ),
-        rttr::value( "UltraBold", sw::gui::FontWeight::UltraBold ) );
-
-    rttr::registration::enumeration< sw::gui::FontStyle >( "sw::gui::FontStyle" )(
-        rttr::value( "Normal", sw::gui::FontStyle::Normal ),
-        rttr::value( "Italic", sw::gui::FontStyle::Italic ) );
-
     rttr::registration::class_< sw::gui::TextBlock >( "sw::gui::TextBlock" )
         .property( "Background", &sw::gui::TextBlock::GetBackground, &sw::gui::TextBlock::SetBackground )
         .property( "Foreground", &sw::gui::TextBlock::GetForeground, &sw::gui::TextBlock::SetForeground )

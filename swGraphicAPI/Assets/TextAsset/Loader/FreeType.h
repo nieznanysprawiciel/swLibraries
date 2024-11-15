@@ -22,6 +22,8 @@ static const char* ftErrorString( FT_Error error )
 #include "swCommonLib/Common/Exceptions/Nullable.h"
 #include "swCommonLib/Common/Buffers/ImageRegion.h"
 #include "swGeometrics/GeometricsCore/Math/Types.h"
+#include "swGraphicAPI/Assets/TextAsset/Loader/FontPicker.h"
+
 
 namespace sw
 {
@@ -48,6 +50,8 @@ public:
 
     /**Renders Glyph to bitmap in selected rectangle.*/
     void                RenderGlyph		( const Glyph& glyph, ImageRegion< u32 >& image ) const;
+
+    FontSearchEntry     Metadata        () const;
 };
 
 

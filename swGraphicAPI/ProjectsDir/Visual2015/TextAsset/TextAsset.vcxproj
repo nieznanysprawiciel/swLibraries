@@ -37,6 +37,7 @@
     <ClCompile Include="..\..\..\Assets\TextAsset\Loader\FontAssetCreator.cpp" />
     <ClCompile Include="..\..\..\Assets\TextAsset\Loader\FontAssetInitData.cpp" />
     <ClCompile Include="..\..\..\Assets\TextAsset\Loader\FontLoader.cpp" />
+    <ClCompile Include="..\..\..\Assets\TextAsset\Loader\FontPicker.cpp" />
     <ClCompile Include="..\..\..\Assets\TextAsset\Text.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +45,7 @@
     <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FontAssetCreator.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FontAssetInitData.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FontLoader.h" />
+    <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FontPicker.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\Loader\FreeType.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\Loader\Glyph.h" />
     <ClInclude Include="..\..\..\Assets\TextAsset\stdafx.h" />
