@@ -174,7 +174,7 @@ ReturnResult									SoilTextureLoader::Prefetch				( const LoadPath& filePath, 
 
 // ================================ //
 //
-ReturnResult									SoilTextureLoader::Save					( const filesystem::Path& filePath, const Image< u32 >& image )
+ReturnResult									SoilTextureLoader::Save					( const fs::Path& filePath, const Image< u32 >& image )
 {
 	if( image.GetChannels() != 4 )
 		return ReturnResult( fmt::format( "Saving images with {} channels isn't supported", image.GetChannels() ) );

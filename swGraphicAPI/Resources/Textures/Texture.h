@@ -132,7 +132,7 @@ struct TextureInfo
 													///< Set value to 1 if you want to replace original texture with first mipmap.
 
 	uint32				MemorySize;					///< Texture size in memory.
-	filesystem::Path	FilePath;					///< Texture path or name. @deprecated Remove, after we get rid of old creation functions.
+	fs::Path			FilePath;					///< Texture path or name. @deprecated Remove, after we get rid of old creation functions.
 
 // ================================ //
 //

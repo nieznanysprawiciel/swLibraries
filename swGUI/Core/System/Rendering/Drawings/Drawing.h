@@ -90,19 +90,19 @@ protected:
 	ReturnResult			DefaultRebuildResources		( ResourceManagerAPI rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry );
 
 	ReturnResult            UpdateBrushShader			( ShaderProvider* sp, Brush* brush );
-    ReturnResult            UpdateBrushShader			( ShaderProvider* sp, Brush* brush, filesystem::Path shaderTemplate );
+    ReturnResult            UpdateBrushShader			( ShaderProvider* sp, Brush* brush, fs::Path shaderTemplate );
     ReturnResult            UpdateBrushTexture			( ResourceManagerAPI rm, Brush* brush );
     ReturnResult            UpdateBrushOpacityMask		( ResourceManagerAPI rm, TexturePtr mask );
     ReturnResult            UpdateBrushConstants		( ResourceManagerAPI rm, Brush* brush );
 
 	ReturnResult            UpdatePenShader				( ShaderProvider* sp, Brush* pen );
-    ReturnResult            UpdatePenShader				( ShaderProvider* sp, Brush* pen, filesystem::Path shaderTemplate );
+    ReturnResult            UpdatePenShader				( ShaderProvider* sp, Brush* pen, fs::Path shaderTemplate );
     ReturnResult            UpdatePenTexture			( ResourceManagerAPI rm, Brush* pen );
     ReturnResult            UpdatePenOpacityMask		( ResourceManagerAPI rm, TexturePtr mask );
     ReturnResult            UpdatePenConstants			( ResourceManagerAPI rm, Brush* pen );
 
 	ReturnResult			UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry );
-    ReturnResult			UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry, filesystem::Path shaderTemplate );
+    ReturnResult			UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry, fs::Path shaderTemplate );
     ReturnResult			UpdateGeometry				( ResourceManagerAPI rm, Geometry* geometry );
     ReturnResult            UpdateGeometryConstants		( ResourceManagerAPI rm, Geometry* geometry );
 
@@ -134,7 +134,7 @@ protected:
 
 private:
 
-	ReturnResult			UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData, filesystem::Path shaderTemplate );
+	ReturnResult			UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData, fs::Path shaderTemplate );
 	ReturnResult			UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData );
 	ReturnResult			UpdateTextureImpl		( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData );
 

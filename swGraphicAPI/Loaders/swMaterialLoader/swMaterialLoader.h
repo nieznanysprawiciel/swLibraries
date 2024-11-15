@@ -56,7 +56,7 @@ public:
 public:
 
     static Version                  GetVersion          ();
-    void							SaveMaterial	    ( const filesystem::Path& fileName, MaterialAsset* mat );
+    void							SaveMaterial	    ( const fs::Path& fileName, MaterialAsset* mat );
 
 private:
 

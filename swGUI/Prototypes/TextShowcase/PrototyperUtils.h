@@ -16,7 +16,7 @@ namespace gui
 
 // ================================ //
 //
-filesystem::Path		FindCoreGUISourcePath			( const filesystem::Path& binaryPath );
+fs::Path		FindCoreGUISourcePath			( const fs::Path& binaryPath );
 
 
 }	// gui

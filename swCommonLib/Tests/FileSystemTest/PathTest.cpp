@@ -10,10 +10,10 @@
 
 TEST_CASE( "Path - Comparision operator" )
 {
-	filesystem::Path reference( "assets/wombat.jpg" );
-	filesystem::Path difference( "assets/wombat2.jpg" );
+	sw::fs::Path reference( "assets/wombat.jpg" );
+	sw::fs::Path difference( "assets/wombat2.jpg" );
 
-	filesystem::Path newPath( reference );
+	sw::fs::Path newPath( reference );
 
 	CHECK( reference == newPath );
 	CHECK( reference.String() == newPath.String() );
@@ -29,15 +29,15 @@ TEST_CASE( "Path - Comparision operator" )
 // Path should return right result for examples from http://en.cppreference.com/w/cpp/experimental/fs/path/extension
 TEST_CASE( "Path - Aquire Extension" )
 {
-	filesystem::Path path1( "/foo/bar.txt" );
-	filesystem::Path path2( "/foo/bar." );
-	filesystem::Path path3( "/foo/bar" );
-	filesystem::Path path4( "/foo/bar.txt/bar.cc" );
-	filesystem::Path path5( "/foo/bar.txt/bar." );
-	filesystem::Path path6( "/foo/bar.txt/bar" );
-	filesystem::Path path7( "/foo/." );
-	filesystem::Path path8( "/foo/.." );
-	filesystem::Path path9( "/foo/.hidden" );
+	sw::fs::Path path1( "/foo/bar.txt" );
+	sw::fs::Path path2( "/foo/bar." );
+	sw::fs::Path path3( "/foo/bar" );
+	sw::fs::Path path4( "/foo/bar.txt/bar.cc" );
+	sw::fs::Path path5( "/foo/bar.txt/bar." );
+	sw::fs::Path path6( "/foo/bar.txt/bar" );
+	sw::fs::Path path7( "/foo/." );
+	sw::fs::Path path8( "/foo/.." );
+	sw::fs::Path path9( "/foo/.hidden" );
 
 	CHECK( path1.GetExtension() == ".txt" );
 	CHECK( path2.GetExtension() == "." );
@@ -54,13 +54,13 @@ TEST_CASE( "Path - Aquire Extension" )
 //
 TEST_CASE( "Path.ChangeExtension" )
 {
-	filesystem::Path path1( "/foo/bar.txt" );
-	filesystem::Path path2( "/foo/bar." );
-	filesystem::Path path3( "/foo/bar" );
-	filesystem::Path path4( "/foo/bar.txt/bar.cc" );
-	filesystem::Path path7( "/foo/." );
-	filesystem::Path path8( "/foo/.." );
-	filesystem::Path path9( "/foo/.hidden" );
+	sw::fs::Path path1( "/foo/bar.txt" );
+	sw::fs::Path path2( "/foo/bar." );
+	sw::fs::Path path3( "/foo/bar" );
+	sw::fs::Path path4( "/foo/bar.txt/bar.cc" );
+	sw::fs::Path path7( "/foo/." );
+	sw::fs::Path path8( "/foo/.." );
+	sw::fs::Path path9( "/foo/.hidden" );
 
 	CHECK( path1.ChangeExtension( ".png" ) == "/foo/bar.png");
 	CHECK( path2.ChangeExtension( ".png" ) == "/foo/bar.png" );

@@ -105,7 +105,7 @@ namespace impl
 
 // ================================ //
 // CoreGUI path should have swGUI in path. We look for this string in binaryPath.
-filesystem::Path		FindCoreGUISourcePath			( const filesystem::Path& binaryPath )
+fs::Path				FindCoreGUISourcePath			( const fs::Path& binaryPath )
 {
 	auto path = binaryPath;
 	auto fileName = path.GetFileName();
@@ -121,7 +121,7 @@ filesystem::Path		FindCoreGUISourcePath			( const filesystem::Path& binaryPath )
 		fileName = path.GetFileName();
 	}
 
-	return filesystem::Path();
+	return fs::Path();
 }
 
 }	// impl

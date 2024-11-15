@@ -25,7 +25,7 @@ class WaitingAsset
 	friend class LoadBarrier;
 private:
 
-	filesystem::Path			m_fileName;
+	fs::Path					m_fileName;
 	std::atomic< uint16	>		m_numWaiting;
 	bool						m_ready;
 
@@ -36,7 +36,7 @@ private:
 
 public:
 	WaitingAsset		() = default;
-	WaitingAsset		( const filesystem::Path& filePath );
+	WaitingAsset		( const fs::Path& filePath );
 	~WaitingAsset		();
 
 
@@ -58,7 +58,7 @@ private:
 	bool				LoadingCompleted	( ExceptionPtr error );
 
 	/**@brief Check if file is during laoding.*/
-	bool				Compare				( const filesystem::Path& filePath );
+	bool				Compare				( const fs::Path& filePath );
 
 	/**@brief Returns error or nullptr.*/
 	ExceptionPtr		GetError			() const { return m_error; }
@@ -84,20 +84,20 @@ public:
 	Otherwise new WaitingAsset object is created to block future loads.
 	@return Function returns true if asset already existed. If WaitingAsset was created in this function call function returns true.
 	Note: WaitingAsset should never be nullptr.*/
-	std::pair< WaitingAsset*, bool >		RequestAsset		( const filesystem::Path& filePath );
+	std::pair< WaitingAsset*, bool >		RequestAsset		( const fs::Path& filePath );
 
 	/**@brief Function waits until asset will be loaded.*/
 	ReturnResult							WaitUntilLoaded		( WaitingAsset* asset );
 
 	/**@brief Notify all threads waiting for this asset.*/
-	void									LoadingCompleted	( const filesystem::Path& filePath );
+	void									LoadingCompleted	( const fs::Path& filePath );
 
 	/**@brief Notify all threads waiting for this asset that loading failed.*/
-	void									LoadingFailed		( const filesystem::Path& filePath, ExceptionPtr error );
+	void									LoadingFailed		( const fs::Path& filePath, ExceptionPtr error );
 
 private:
 
-	void									LoadingFinishedImpl	( const filesystem::Path& filePath, ExceptionPtr error );
+	void									LoadingFinishedImpl	( const fs::Path& filePath, ExceptionPtr error );
 
     bool                                    RemoveWaitingAsset	( WaitingAsset* asset );
 

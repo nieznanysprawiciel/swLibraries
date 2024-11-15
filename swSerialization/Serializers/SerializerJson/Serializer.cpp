@@ -111,7 +111,7 @@ ISerializer::~ISerializer()
 ReturnResult            ISerializer::SaveFile         ( const std::string& fileName, WritingMode mode )
 {
     // Ensure directory exists.
-    filesystem::Dir::CreateDirectory( fileName );
+    fs::Dir::CreateDirectory( fileName );
 
     std::ofstream file;
     file.open( fileName );

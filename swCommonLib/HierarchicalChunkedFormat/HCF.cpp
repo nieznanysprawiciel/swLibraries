@@ -24,7 +24,7 @@ namespace sw
 
 // ================================ //
 //
-bool		HCF::LoadFile		( const filesystem::Path& filePath, bool readOnly )
+bool		HCF::LoadFile		( const fs::Path& filePath, bool readOnly )
 {
 	return m_impl.LoadFile( filePath, readOnly );
 }
@@ -38,14 +38,14 @@ bool		HCF::Load			( DataPtr data, Size size )
 
 // ================================ //
 //
-bool		HCF::WriteFile		( const filesystem::Path& filePath )
+bool		HCF::WriteFile		( const fs::Path& filePath )
 {
 	return m_impl.WriteFile( filePath );
 }
 
 // ================================ //
 //
-bool		HCF::OpenFile		( const filesystem::Path& filePath, WriteMode mode )
+bool		HCF::OpenFile		( const fs::Path& filePath, WriteMode mode )
 {
 	return m_impl.OpenFile( filePath, WriteMode::DirectToFile == mode ? true : false );
 }

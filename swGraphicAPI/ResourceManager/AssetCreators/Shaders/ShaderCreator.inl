@@ -53,7 +53,7 @@ inline Nullable< Resource* >		ShaderCreator< ShaderObjectType >::Create			( cons
 	if( type == TypeID::get< ShaderInitData >() )
 	{
 		auto& init = static_cast< ShaderInitData&& >( createInfo );
-		std::string code = filesystem::File::Load( assetName.GetFile() );
+		std::string code = fs::File::Load( assetName.GetFile() );
 		
 		return CreateShader( assetName, init.Type, code, init.EntryFunction );
 	}

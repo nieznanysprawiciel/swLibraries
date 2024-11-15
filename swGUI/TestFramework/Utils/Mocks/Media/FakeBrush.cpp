@@ -30,7 +30,7 @@ BufferRange				FakeBrush::BufferData			()
 
 // ================================ //
 //
-filesystem::Path		FakeBrush::ShaderFunctionFile	()
+fs::Path				FakeBrush::ShaderFunctionFile	()
 {	
 	return m_shaderFun;
 }

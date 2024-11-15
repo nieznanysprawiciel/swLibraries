@@ -109,7 +109,7 @@ BufferRange					EllipseGeometry::BufferData()
 
 // ================================ //
 //
-filesystem::Path    EllipseGeometry::ShaderFunctionFile					()
+fs::Path			EllipseGeometry::ShaderFunctionFile					()
 {
 	return "$(CoreGUI-Shader-Dir)/Geometry/ForwardAttributes.vsh";
 }

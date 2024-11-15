@@ -103,7 +103,7 @@ SerializerJSON::SerializerJSON      ( ISerializationContextPtr serContext )
 ReturnResult            SerializerJSON::SaveFile         ( const std::string& fileName, WritingMode mode ) const
 {
     // Ensure directory exists.
-    filesystem::Dir::CreateDirectory( fileName );
+    fs::Dir::CreateDirectory( fileName );
 
     std::ofstream file;
     file.open( fileName );

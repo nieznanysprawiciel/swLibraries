@@ -45,7 +45,7 @@ public:
 
 // ================================ //
 //
-AssetPath        Translate(ResourceManager* rm, filesystem::Path path)
+AssetPath        Translate(ResourceManager* rm, fs::Path path)
 {
 	auto translatePath = rm->GetPathsManager()->Translate(path);
 	return AssetPath(translatePath, "");

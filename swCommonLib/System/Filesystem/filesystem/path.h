@@ -83,7 +83,7 @@ public:
             return "";
 
 		// Ignore special cases
-		if( name == "." || name == ".." )
+        if( name == "." || name == ".." || name[ 0 ] == '.' )
 			return "";
 
         return name.substr(pos);

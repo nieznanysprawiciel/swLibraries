@@ -55,7 +55,7 @@ Chunk			ImplHCF::GetRootChunk()
 
 // ================================ //
 //
-bool			ImplHCF::OpenFile	( const filesystem::Path& filePath, bool writeDirect )
+bool			ImplHCF::OpenFile	( const fs::Path& filePath, bool writeDirect )
 {
 	m_file = fopen( filePath.String().c_str(), "wb" );
 	
@@ -80,7 +80,7 @@ bool			ImplHCF::OpenFile	( const filesystem::Path& filePath, bool writeDirect )
 
 // ================================ //
 //
-bool			ImplHCF::WriteFile	( const filesystem::Path& filePath )
+bool			ImplHCF::WriteFile	( const fs::Path& filePath )
 {
 	if( m_directWrite )
 	{
@@ -103,7 +103,7 @@ bool			ImplHCF::WriteFile	( const filesystem::Path& filePath )
 
 // ================================ //
 //
-bool			ImplHCF::LoadFile		( const filesystem::Path& filePath, bool readOnly )
+bool			ImplHCF::LoadFile		( const fs::Path& filePath, bool readOnly )
 {
 	m_fileReadOnly = readOnly;
 	m_directWrite = false;

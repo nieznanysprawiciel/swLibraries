@@ -308,7 +308,7 @@ AssetPath					Resource::GetAssetPath		() const
 
 // ================================ //
 //
-filesystem::Path			Resource::GetFilePath		() const
+fs::Path					Resource::GetFilePath		() const
 {
 	return AssetPath::FromString( m_name ).Get().GetFile();
 }

@@ -373,7 +373,7 @@ ReturnResult							ResourceManager::AddGenericResource		( const AssetPath& name,
 
 // ================================ //
 //
-filesystem::Path						ResourceManager::Translate					( const filesystem::Path& path )
+fs::Path								ResourceManager::Translate					( const fs::Path& path )
 {
 	return LoadPath::Translate( path, m_pathsManager.get() );
 }

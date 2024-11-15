@@ -62,20 +62,20 @@ class FontPicker
 {
 private:
 
-    std::vector< filesystem::Path >     m_searchPaths;
+    std::vector< fs::Path >     m_searchPaths;
 
 protected:
 public:
     explicit FontPicker() = default;
     ~FontPicker() = default;
 
-    void        RegisterSearchPath( const filesystem::Path& path );
+    void        RegisterSearchPath( const fs::Path& path );
 
 public:
     Nullable< FontSearchEntry >                 FindFontFile( PathsManager* pm, const std::string& fontFamily, FontWeight weight, FontStyle style ) const;
     Nullable< std::vector< FontSearchEntry > >  ListFonts( PathsManager* pm ) const;
     Nullable< std::vector< FontSearchEntry > >  ListFontVariants( PathsManager* pm, const std::string& fontFamily ) const;
-    Nullable< FontSearchEntry >                 FontMetadata( PathsManager* pm, const filesystem::Path& path ) const;
+    Nullable< FontSearchEntry >                 FontMetadata( PathsManager* pm, const fs::Path& path ) const;
 };
 
 

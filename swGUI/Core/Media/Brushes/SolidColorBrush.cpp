@@ -46,7 +46,7 @@ BufferRange				SolidColorBrush::BufferData			()
 
 // ================================ //
 //
-filesystem::Path        SolidColorBrush::ShaderFunctionFile	()
+fs::Path				SolidColorBrush::ShaderFunctionFile	()
 {
 	return "$(CoreGUI-Shader-Dir)/Brush/SolidColorBrush.psh";
 }

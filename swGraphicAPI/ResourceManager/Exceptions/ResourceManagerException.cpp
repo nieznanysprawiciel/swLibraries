@@ -15,7 +15,7 @@ namespace sw
 
 // ================================ //
 //
-ResourceManagerException::ResourceManagerException					( const std::string& error, const filesystem::Path& name, TypeID assetType )
+ResourceManagerException::ResourceManagerException					( const std::string& error, const fs::Path& name, TypeID assetType )
 	:	RuntimeException( error )
 	,	m_resourceName( name )
 	,	m_resourceType( assetType )

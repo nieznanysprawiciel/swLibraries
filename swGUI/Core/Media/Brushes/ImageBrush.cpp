@@ -53,7 +53,7 @@ BufferRange				ImageBrush::BufferData			()
 
 // ================================ //
 //
-filesystem::Path        ImageBrush::ShaderFunctionFile	()
+fs::Path                ImageBrush::ShaderFunctionFile	()
 {
     return "$(CoreGUI-Shader-Dir)/Brush/ImageBrush.psh";
 }

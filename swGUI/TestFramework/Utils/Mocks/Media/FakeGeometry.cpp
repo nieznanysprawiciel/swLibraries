@@ -66,7 +66,7 @@ BufferRange					FakeGeometry::BufferData	()
 
 // ================================ //
 //
-filesystem::Path		FakeGeometry::ShaderFunctionFile	()
+fs::Path				FakeGeometry::ShaderFunctionFile	()
 {
 	return m_shaderFun;
 }

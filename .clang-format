@@ -37,8 +37,8 @@ BraceWrapping:
 # Add a space after @property, \@property (readonly) instead of \@property(readonly).
 ObjCSpaceAfterProperty: true
 # Offset of access specifiers (public, private, etc.)
-AccessModifierOffset: 0
-IndentAccessModifiers: true
+AccessModifierOffset: -4
+IndentAccessModifiers: false
 # Alignment after opening brackets (opening parentheses, opening angle brackets, opening square brackets): Align, DontAlign, AlwaysBreak (always wrap after opening brackets)
 AlignAfterOpenBracket: Align
 # When assigning consecutively, align all equal signs

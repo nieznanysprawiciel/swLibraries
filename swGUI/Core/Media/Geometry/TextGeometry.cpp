@@ -132,7 +132,7 @@ BufferRange			        TextGeometry::BufferData		()
 
 // ================================ //
 //
-filesystem::Path    TextGeometry::ShaderFunctionFile	()
+fs::Path            TextGeometry::ShaderFunctionFile	()
 {
 	return "$(CoreGUI-Shader-Dir)/Geometry/ForwardWithOpacity.vsh";
 }

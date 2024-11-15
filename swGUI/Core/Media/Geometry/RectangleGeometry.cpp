@@ -104,7 +104,7 @@ BufferRange					RectangleGeometry::BufferData		()
 
 // ================================ //
 //
-filesystem::Path    RectangleGeometry::ShaderFunctionFile	()
+fs::Path			RectangleGeometry::ShaderFunctionFile	()
 {
 	return "$(CoreGUI-Shader-Dir)/Geometry/ForwardAttributes.vsh";
 }

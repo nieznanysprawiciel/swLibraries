@@ -11,9 +11,9 @@
 #include <string>
 
 
-namespace filesystem
+namespace sw {
+namespace fs
 {
-
 
 /**@brief File abstraction layer.
 
@@ -23,27 +23,26 @@ class File
 {
 private:
 
-	Path			m_filePath;
+    Path m_filePath;
 
 protected:
 public:
-	explicit		File	( const Path& path );
-	explicit		File	( Path&& path );
-					~File	() = default;
+    explicit File( const Path& path );
+    explicit File( Path&& path );
+    ~File() = default;
 
-	bool			Exists		() const;
-	Size			FileSize	() const;
+    bool        Exists() const;
+    Size        FileSize() const;
 
-	bool			Remove		();
-	bool			Move		( const Path& newPath );
-	bool			Copy		( const Path& newPath );
-
+    bool        Remove();
+    bool        Move( const Path& newPath );
+    bool        Copy( const Path& newPath );
 
 public:
 
-	static std::string		Load		( const Path& path );
-	static bool				Save		( const Path& path, const std::string& content );
+    static std::string Load( const Path& path );
+    static bool        Save( const Path& path, const std::string& content );
 };
 
-}	// filesystem
-
+}  // namespace fs
+}  // namespace sw

@@ -56,7 +56,7 @@ public:
 
     virtual Nullable< GeometryData > Generate() override;
     virtual BufferRange              BufferData() override;
-    virtual filesystem::Path         ShaderFunctionFile() override;
+    virtual fs::Path                 ShaderFunctionFile() override;
     virtual std::string              GeometryName() override;
     virtual AssetPath                ConstantsName() override;
 

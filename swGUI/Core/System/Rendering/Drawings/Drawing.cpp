@@ -68,7 +68,7 @@ ReturnResult			Drawing::UpdateBrushShader			( ShaderProvider* sp, Brush* brush )
 // ================================ //
 //
 
-ReturnResult			Drawing::UpdateBrushShader			( ShaderProvider* sp, Brush* brush, filesystem::Path shaderTemplate )
+ReturnResult			Drawing::UpdateBrushShader			( ShaderProvider* sp, Brush* brush, fs::Path shaderTemplate )
 {
     return UpdateShaderImpl( sp, brush, m_brushData, shaderTemplate );
 }
@@ -124,7 +124,7 @@ ReturnResult			Drawing::UpdatePenShader			( ShaderProvider* sp, Brush* pen )
 // ================================ //
 //
 
-ReturnResult			Drawing::UpdatePenShader			( ShaderProvider* sp, Brush* pen, filesystem::Path shaderTemplate )
+ReturnResult			Drawing::UpdatePenShader			( ShaderProvider* sp, Brush* pen, fs::Path shaderTemplate )
 {
     return UpdateShaderImpl( sp, pen, m_penData, shaderTemplate );
 }
@@ -181,7 +181,7 @@ ReturnResult			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geo
 // ================================ //
 //
 
-ReturnResult			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry, filesystem::Path shaderTemplate )
+ReturnResult			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry, fs::Path shaderTemplate )
 {
     if( geometry->NeedsShaderUpdate() )
     {
@@ -305,7 +305,7 @@ ReturnResult			Drawing::CreateAndSetLayout			( ResourceManagerAPI rm, ShaderProv
 // ================================ //
 //
 
-ReturnResult			Drawing::UpdateShaderImpl( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData, filesystem::Path shaderTemplate )
+ReturnResult			Drawing::UpdateShaderImpl( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData, fs::Path shaderTemplate )
 {
     if( brush->NeedsShaderUpdate() )
     {

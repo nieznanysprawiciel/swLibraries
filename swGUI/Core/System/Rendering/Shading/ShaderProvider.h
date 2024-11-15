@@ -37,24 +37,24 @@ public:
 
 public:
 
-	const filesystem::Path&			GetBasicPSTemplate		() const;
-	const filesystem::Path&			GetBasicVSTemplate		() const;
-    const filesystem::Path&         GetOpacityPSTemplate	() const;
-    const filesystem::Path&         GetOpacityVSTemplate	() const;
+	const fs::Path&			GetBasicPSTemplate		() const;
+	const fs::Path&			GetBasicVSTemplate		() const;
+    const fs::Path&         GetOpacityPSTemplate	() const;
+    const fs::Path&         GetOpacityVSTemplate	() const;
 
 public:
 
-    PixelShaderPtr             		GeneratePS				( const filesystem::Path& templatePath, const filesystem::Path& brushFunPath ) const;
-    VertexShaderPtr		            GenerateVS				( const filesystem::Path& templatePath, const filesystem::Path& geomFunPath ) const;
+    PixelShaderPtr             		GeneratePS				( const fs::Path& templatePath, const fs::Path& brushFunPath ) const;
+    VertexShaderPtr		            GenerateVS				( const fs::Path& templatePath, const fs::Path& geomFunPath ) const;
 
 	const PathsManager*				GetPathsManager			() const { return m_pathsManager; }
 
 private:
 
     template< typename ShaderType >
-    ResourcePtr< ShaderType >       GenerateShader          ( const filesystem::Path& templatePath, const filesystem::Path& customFunPath ) const;
+    ResourcePtr< ShaderType >       GenerateShader          ( const fs::Path& templatePath, const fs::Path& customFunPath ) const;
 
-	std::string						BuildShaderSource		( const filesystem::Path& templatePath, const filesystem::Path& brushFunPath ) const;
+	std::string						BuildShaderSource		( const fs::Path& templatePath, const fs::Path& brushFunPath ) const;
 };
 
 

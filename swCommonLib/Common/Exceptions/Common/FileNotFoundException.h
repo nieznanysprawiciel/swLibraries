@@ -24,25 +24,25 @@ class FileNotFoundException : public Exception
 private:
 protected:
 
-	filesystem::Path		m_path;
+	fs::Path		m_path;
 
 public:
-	explicit		FileNotFoundException		( filesystem::Path filePath );
+	explicit		FileNotFoundException		( fs::Path filePath );
 	virtual			~FileNotFoundException		() = default;
 
 public:
 
 	virtual std::string			ErrorMessage		() const;
 
-	const filesystem::Path&		GetFilePath			() const { return m_path; }
+	const fs::Path&		GetFilePath			() const { return m_path; }
 
 public:
-    static FileNotFoundExceptionPtr     Create      ( filesystem::Path filePath );
+    static FileNotFoundExceptionPtr     Create      ( fs::Path filePath );
 };
 
 // ================================ //
 //
-inline FileNotFoundExceptionPtr        FileNotFoundException::Create       ( filesystem::Path filePath )
+inline FileNotFoundExceptionPtr        FileNotFoundException::Create       ( fs::Path filePath )
 {
     return std::make_shared< FileNotFoundException >( std::move( filePath ) );
 }

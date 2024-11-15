@@ -21,10 +21,10 @@ namespace gui
 
 namespace impl
 {
-	const filesystem::Path		gBasicPSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Basic.psh";
-	const filesystem::Path		gBasicVSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Basic.vsh";
-    const filesystem::Path      gOpacityPSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Opacity.psh";
-    const filesystem::Path      gOpacityVSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Opacity.vsh";
+	const fs::Path		gBasicPSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Basic.psh";
+	const fs::Path		gBasicVSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Basic.vsh";
+    const fs::Path      gOpacityPSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Opacity.psh";
+    const fs::Path      gOpacityVSTemplatePath = "$(CoreGUI-Shader-Dir)/Templates/Opacity.vsh";
 }
 
 
@@ -37,14 +37,14 @@ ShaderProvider::ShaderProvider		( ResourceManagerAPI resManager, const PathsMana
 
 // ================================ //
 //
-const filesystem::Path&				ShaderProvider::GetBasicPSTemplate		() const
+const fs::Path&				        ShaderProvider::GetBasicPSTemplate		() const
 {
 	return impl::gBasicPSTemplatePath;
 }
 
 // ================================ //
 //
-const filesystem::Path&				ShaderProvider::GetBasicVSTemplate		() const
+const fs::Path&				        ShaderProvider::GetBasicVSTemplate		() const
 {
 	return impl::gBasicVSTemplatePath;
 }
@@ -52,7 +52,7 @@ const filesystem::Path&				ShaderProvider::GetBasicVSTemplate		() const
 // ================================ //
 //
 
-const filesystem::Path&             ShaderProvider::GetOpacityPSTemplate() const
+const fs::Path&                     ShaderProvider::GetOpacityPSTemplate() const
 {
     return impl::gOpacityPSTemplatePath;
 }
@@ -60,7 +60,7 @@ const filesystem::Path&             ShaderProvider::GetOpacityPSTemplate() const
 // ================================ //
 //
 
-const filesystem::Path&             ShaderProvider::GetOpacityVSTemplate() const
+const fs::Path&                     ShaderProvider::GetOpacityVSTemplate() const
 {
     return impl::gOpacityVSTemplatePath;
 }
@@ -69,8 +69,8 @@ const filesystem::Path&             ShaderProvider::GetOpacityVSTemplate() const
 // At this moment PixelShader and VertexShader generation works the same,
 // so we can use common function.
 template< typename ShaderType >
-inline ResourcePtr< ShaderType >    ShaderProvider::GenerateShader      (   const filesystem::Path& templatePath,
-                                                                            const filesystem::Path& customFunPath ) const
+inline ResourcePtr< ShaderType >    ShaderProvider::GenerateShader      (   const fs::Path& templatePath,
+                                                                            const fs::Path& customFunPath ) const
 {
     AssetPath tmpShaderFile( fmt::format( "$(TMP)/shaders/{}+{}", templatePath.GetFileName(), customFunPath.GetFileName() ), "main" );
 
@@ -84,37 +84,37 @@ inline ResourcePtr< ShaderType >    ShaderProvider::GenerateShader      (   cons
         return nullptr;         /// @todo Better error handling. Maybe we should return Nullable.
 
     // Note: We save this shader only for debuggins purpose. Shader is created from string.
-    filesystem::File::Save( m_pathsManager->Translate( tmpShaderFile.GetFile() ), shaderSource );
+    fs::File::Save( m_pathsManager->Translate( tmpShaderFile.GetFile() ), shaderSource );
 
     return m_resourceManager.CreateShader< ShaderType >( tmpShaderFile, std::move( shaderSource ) ).Get();
 }
 
 // ================================ //
 //
-PixelShaderPtr          			ShaderProvider::GeneratePS			(	const filesystem::Path& templatePath,
-																			const filesystem::Path& brushFunPath ) const
+PixelShaderPtr          			ShaderProvider::GeneratePS			(	const fs::Path& templatePath,
+																			const fs::Path& brushFunPath ) const
 {
     return GenerateShader< PixelShader >( templatePath, brushFunPath );
 }
 
 // ================================ //
 //
-VertexShaderPtr         			ShaderProvider::GenerateVS			( const filesystem::Path& templatePath,
-																		  const filesystem::Path& geomFunPath ) const
+VertexShaderPtr         			ShaderProvider::GenerateVS			( const fs::Path& templatePath,
+																		  const fs::Path& geomFunPath ) const
 {
     return GenerateShader< VertexShader >( templatePath, geomFunPath );
 }
 
 // ================================ //
 //
-std::string							ShaderProvider::BuildShaderSource	(	const filesystem::Path& templatePath,
-																			const filesystem::Path& brushFunPath ) const
+std::string							ShaderProvider::BuildShaderSource	(	const fs::Path& templatePath,
+																			const fs::Path& brushFunPath ) const
 {
 	auto templateAbsPath = m_pathsManager->Translate( templatePath );
 	auto brushAbsPath = m_pathsManager->Translate( brushFunPath );
 
-	auto templateSource = filesystem::File::Load( templateAbsPath );
-	auto brushSource = filesystem::File::Load( brushAbsPath );
+	auto templateSource = fs::File::Load( templateAbsPath );
+	auto brushSource = fs::File::Load( brushAbsPath );
 
 	return m_shaderBuilder.BuildShader( templateSource, brushSource );
 }

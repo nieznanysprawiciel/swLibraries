@@ -69,7 +69,7 @@ LoadingResult									ShaderLoader::Load			( const LoadPath& filePath, TypeID re
 {
 	if( filePath.GetFile().Exists() )
 	{
-		std::string fileContent = filesystem::File::Load( filePath.GetFile() );
+		std::string fileContent = fs::File::Load( filePath.GetFile() );
 
 		ShaderCodeInitData init( ShaderInitData::GetFromTypeID( resourceType ), std::move( fileContent ) );
 

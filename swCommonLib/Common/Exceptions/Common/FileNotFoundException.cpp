@@ -13,7 +13,7 @@ namespace sw
 
 // ================================ //
 //
-FileNotFoundException::FileNotFoundException					( filesystem::Path filePath )
+FileNotFoundException::FileNotFoundException					( fs::Path filePath )
 	:	m_path( std::move( filePath ) )
 {}
 

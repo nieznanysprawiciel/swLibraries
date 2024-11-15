@@ -21,7 +21,7 @@ std::regex gAliasFormat( "^\\$\\([_\\-.[:alnum:]]+\\)$" );
 
 // ================================ //
 //
-filesystem::Path	PathsManager::Translate				( const filesystem::Path& path ) const
+fs::Path			PathsManager::Translate				( const fs::Path& path ) const
 {
 	// Absolut paths don't need translation.
 	if( path.IsRelative() )
@@ -35,7 +35,7 @@ filesystem::Path	PathsManager::Translate				( const filesystem::Path& path ) con
 				auto iter = m_aliases.find( alias );
 				if( iter != m_aliases.end() )
 				{
-                    filesystem::Path relativePart = path.RelativeTo( filesystem::Path( alias ) );
+                    fs::Path relativePart = path.ClipFromRoot( 1 );
 					return iter->second / relativePart;
 				}
 			}
@@ -47,7 +47,7 @@ filesystem::Path	PathsManager::Translate				( const filesystem::Path& path ) con
 
 // ================================ //
 //
-Nullable< filesystem::Path >		PathsManager::FindAlias		( const std::string& alias ) const
+Nullable< fs::Path >	PathsManager::FindAlias		( const std::string& alias ) const
 {
 	auto iter = m_aliases.find( alias );
 
@@ -59,7 +59,7 @@ Nullable< filesystem::Path >		PathsManager::FindAlias		( const std::string& alia
 
 // ================================ //
 //
-ReturnResult		PathsManager::RegisterAlias			( const std::string& alias, const filesystem::Path& path )
+ReturnResult		PathsManager::RegisterAlias			( const std::string& alias, const fs::Path& path )
 {
 	if( IsValidAlias( alias ) )
 	{
@@ -90,7 +90,7 @@ bool				PathsManager::IsValidAlias			( const std::string& alias )
 
 // ================================ //
 //
-ReturnResult		PathsManager::OverrideAlias			( const std::string& alias, const filesystem::Path& path )
+ReturnResult		PathsManager::OverrideAlias			( const std::string& alias, const fs::Path& path )
 {
 	if( IsValidAlias( alias ) )
 	{

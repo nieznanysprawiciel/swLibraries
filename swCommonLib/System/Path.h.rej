@@ -1,0 +1,61 @@
+diff a/swCommonLib/System/Path.h b/swCommonLib/System/Path.h	(rejected hunks)
+@@ -222,56 +222,17 @@
+ }
+ 
+ /**@brief Normalizes path.
+-@attention Obecna implementacja mo�e nie dzia�a� do ko�ca.*/
++@attention The current implementation may not work completely.*/
+ inline void				Path::Normalize()
+ {
+-	auto& tokens = m_path.get_tokens();
+-	std::string normalized = "";
+-
+-	// Avoid reallocating string all the time.
+-	size_t maxLen = 0;
+-	for( auto& token : tokens )
+-		maxLen += token.size();
+-
+-	normalized.reserve( maxLen );
+-	normalized = *tokens.crbegin();
+-
+-	size_t tokensToOmit = 0;
+-	for( auto i = ++tokens.crbegin(); i != tokens.crend(); ++i )
+-	{
+-		if( *i == ".." )
+-		{
+-			tokensToOmit++;
+-		}
+-		else
+-		{
+-			if( tokensToOmit == 0 )
+-			{
+-				// Add token to path from back to beginning.
+-				normalized = *i + "/" + normalized;
+-			}
+-			else
+-			{
+-				tokensToOmit--;
+-			}
+-		}
+-	}
+-
+-	// Add all .. signs that remained to the beginning.
+-	while( tokensToOmit > 0 )
+-	{
+-		normalized = "../" + normalized;
+-		tokensToOmit--;
+-	}
+-
+-	m_path = path_impl( normalized );
++	m_path = m_path.lexically_normal();
+ }
+ 
+ // ================================ //
+ //
+ inline void				Path::MakeAbsolute	()
+ {
+-	m_path.make_absolute();
++    m_path = std::filesystem::absolute( m_path );
+ }
+ 
+ // ================================ //

@@ -74,7 +74,7 @@ public:
 	/**@brief Returns file name containing function used in Pixel Shader.
 	
 	Pixel Shader is combined from shader template and function defined by Brush.*/
-	virtual filesystem::Path	ShaderFunctionFile	() = 0;
+	virtual fs::Path			ShaderFunctionFile	() = 0;
 
 	/**@brief Name of texture to find in resources.*/
 	virtual AssetPath	        TextureSource		() = 0;

@@ -26,7 +26,7 @@ class PathsManager
 private:
 protected:
 
-	std::map< std::string, filesystem::Path >		m_aliases;
+	std::map< std::string, fs::Path >		m_aliases;
 
 public:
 	explicit		PathsManager		() = default;
@@ -34,8 +34,8 @@ public:
 
 public:
 
-	filesystem::Path				Translate			( const filesystem::Path& path ) const;
-	Nullable< filesystem::Path >	FindAlias			( const std::string& alias ) const;
+	fs::Path				Translate			( const fs::Path& path ) const;
+	Nullable< fs::Path >	FindAlias			( const std::string& alias ) const;
 
 public:
 
@@ -45,13 +45,13 @@ public:
 	/**@brief Adds new alias.
 	Alias must have valid format $(ALIAS_NAME). If alias already existed it won't be overwritten.
 	@return If user provides existing or invalid alias, function returns false.*/
-	ReturnResult			RegisterAlias		( const std::string& alias, const filesystem::Path& path );
+	ReturnResult			RegisterAlias		( const std::string& alias, const fs::Path& path );
 
 	///@}
 
 	///@name API for TestFramework. Don't use in normal applications.
 	///@{
-	ReturnResult			OverrideAlias		( const std::string& alias, const filesystem::Path& path );
+	ReturnResult			OverrideAlias		( const std::string& alias, const fs::Path& path );
 
 	///@}
 

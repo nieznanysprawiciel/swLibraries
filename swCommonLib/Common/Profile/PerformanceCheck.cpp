@@ -104,7 +104,7 @@ void PerformanceCheck::PrintPerformanceStatisticsAsync(const std::string& output
 /**@brief Actual printing function.*/
 void PerformanceCheck::PrintToFile(const std::string& outputFile, std::vector<_PerformanceData> data_copy)
 {
-    filesystem::Dir::CreateDirectory( ( filesystem::Path::WorkingDirectory() / outputFile ) );
+    fs::Dir::CreateDirectory( ( fs::Path::WorkingDirectory() / outputFile ) );
 
 	std::fstream output;
 	output.open(outputFile.c_str(), std::fstream::out | std::fstream::app);

@@ -115,7 +115,7 @@ public:
 
 	/**@brief Serialize object to file.*/
 	template< typename Type >
-    ReturnResult	        Serialize			( const filesystem::Path& filePath, const Type& object );
+    ReturnResult	        Serialize			( const fs::Path& filePath, const Type& object );
 
 	/**@brief Serialize object to provided serializer.
 	This serialization doesn't write it's output anywhere.
@@ -127,11 +127,11 @@ public:
     /**@brief Deserialize object from file.
 	Object will be created internally.*/
     template< typename Type >
-    Nullable< Type >        Deserialize			( const filesystem::Path& filePath );
+    Nullable< Type >        Deserialize			( const fs::Path& filePath );
 
 	/**@brief Deserialize content from file into existing object.*/
 	template< typename Type >
-    ReturnResult            Deserialize			( const filesystem::Path& filePath, Type& object );
+    ReturnResult            Deserialize			( const fs::Path& filePath, Type& object );
 
 	/**@brief Deserialize object from provided deserializer.
 	Object will be created internally.

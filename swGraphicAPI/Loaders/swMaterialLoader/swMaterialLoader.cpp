@@ -224,7 +224,7 @@ Nullable< AssetPath >               SWMaterialLoader::DeserializeShader	    ( ID
 
         // If there's no entrypoint, default main function will be loaded.
         if( shaderFile )
-            return AssetPath( shaderFile, filesystem::Path() );
+            return AssetPath( shaderFile, fs::Path() );
     }
 
     return "No shader.";
@@ -436,7 +436,7 @@ Nullable< MaterialInitData >		SWMaterialLoader::LoadAdditionalBuffers	( IDeseria
 
 // ================================ //
 //
-void								SWMaterialLoader::SaveMaterial	        ( const filesystem::Path& fileName, MaterialAsset* mat )
+void								SWMaterialLoader::SaveMaterial	        ( const fs::Path& fileName, MaterialAsset* mat )
 {
     ISerializer ser( std::make_unique< SerializationContext >() );
 

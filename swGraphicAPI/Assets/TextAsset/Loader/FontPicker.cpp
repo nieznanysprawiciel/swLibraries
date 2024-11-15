@@ -29,7 +29,7 @@ namespace sw
 {
 // ================================ //
 
-void                            FontPicker::RegisterSearchPath( const filesystem::Path& path )
+void                            FontPicker::RegisterSearchPath( const fs::Path& path )
 {
     m_searchPaths.push_back( path );
 }
@@ -51,7 +51,7 @@ Nullable< std::vector< FontSearchEntry > >  FontPicker::ListFonts( PathsManager*
     for( auto path : m_searchPaths )
     {
         auto dir = pm->Translate( path );
-        auto files = filesystem::Dir::ListFiles( dir );
+        auto files = fs::Dir::ListFiles( dir );
         for( auto file : files )
         {
             auto meta = FontMetadata( pm, file );
@@ -72,7 +72,7 @@ Nullable< std::vector< FontSearchEntry > >  FontPicker::ListFontVariants( PathsM
 
 // ================================ //
 
-Nullable< FontSearchEntry >                 FontPicker::FontMetadata( PathsManager* pm, const filesystem::Path& path ) const
+Nullable< FontSearchEntry >                 FontPicker::FontMetadata( PathsManager* pm, const fs::Path& path ) const
 {
     auto freeType = FreeTypeLibrary::Create();
     ReturnIfInvalid( freeType );

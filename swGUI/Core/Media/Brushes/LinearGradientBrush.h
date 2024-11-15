@@ -45,7 +45,7 @@ public:
 
 
 	virtual	BufferRange		    BufferData			() override;
-	virtual filesystem::Path	ShaderFunctionFile	() override;
+	virtual fs::Path			ShaderFunctionFile	() override;
 
 	void					    SetGradientAxis		( Point start, Point end );
 

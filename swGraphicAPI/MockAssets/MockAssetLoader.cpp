@@ -40,7 +40,7 @@ LoadingResult		MockAssetLoader::Load				( const LoadPath& filePath, TypeID resou
 	
 	if( filePath.GetFile().Exists() )
 	{
-		createInfo.Content = filesystem::File::Load( filePath.GetFile() );
+		createInfo.Content = fs::File::Load( filePath.GetFile() );
 
 		auto res = factory.CreateGenericAsset( filePath.GetOriginalPath(), TypeID::get< MockAsset >(), std::move( createInfo ) );
 		if( !res.IsValid() )
