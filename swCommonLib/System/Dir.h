@@ -7,7 +7,7 @@
 
 #include "Path.h"
 
-
+#include <vector>
 
 namespace filesystem
 {
@@ -23,7 +23,8 @@ public:
 	~Dir() = default;
 
 
-	static bool			CreateDirectory		( const filesystem::Path& path );
+	static bool					CreateDirectory		( const filesystem::Path& path );
+    static std::vector< Path >	ListFiles			( const filesystem::Path& path );
 };
 
 

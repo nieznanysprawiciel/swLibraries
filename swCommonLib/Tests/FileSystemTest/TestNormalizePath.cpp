@@ -99,6 +99,6 @@ TEST_CASE( "Filesystem.Normalize.RamainingDots.DotsOnly" )
 	filesystem::Path path( "../../" );
 	path.Normalize();
 
-	CHECK( path == "../../" );
+	CHECK( path == filesystem::Path( "../../" ) );
 }
 

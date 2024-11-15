@@ -14,6 +14,7 @@
 #include "swSerialization/External/RapidXML/rapidxml_print.hpp"
 
 #include <fstream>
+#include <sstream>
 
 
 namespace sw

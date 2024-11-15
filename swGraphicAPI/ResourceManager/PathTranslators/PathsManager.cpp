@@ -26,7 +26,7 @@ filesystem::Path	PathsManager::Translate				( const filesystem::Path& path ) con
 	// Absolut paths don't need translation.
 	if( path.IsRelative() )
 	{
-		const auto& segments = path.GetTokens();
+		const auto segments = path.GetTokens();
 		if( segments.size() > 0 )
 		{
 			const auto& alias = segments[ 0 ];
@@ -35,7 +35,7 @@ filesystem::Path	PathsManager::Translate				( const filesystem::Path& path ) con
 				auto iter = m_aliases.find( alias );
 				if( iter != m_aliases.end() )
 				{
-					filesystem::Path relativePart = path.ClipFromRoot( 1 );
+                    filesystem::Path relativePart = path.RelativeTo( filesystem::Path( alias ) );
 					return iter->second / relativePart;
 				}
 			}

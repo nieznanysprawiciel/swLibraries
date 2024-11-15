@@ -11,7 +11,7 @@
 #include "swGUI/Core/System/Rendering/Drawings/TextDrawing.h"
 
 #include "swGraphicAPI/Assets/TextAsset/Text.h"
-#include "swGraphicAPI/Assets/TextAsset/FontPicker.h"
+#include "swGraphicAPI/Assets/TextAsset/Loader/FontPicker.h"
 
 
 namespace sw {

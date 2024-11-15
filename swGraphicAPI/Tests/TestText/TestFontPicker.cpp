@@ -41,3 +41,20 @@ TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.Metadata", "[GraphicAPI][FontLoad
     CHECK( meta2.Get().Style == FontStyle::Normal );
     CHECK( meta2.Get().Weight == FontWeight::Normal );
 }
+
+// ================================ //
+//
+TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.ListFonts", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
+{
+    auto rm = CreateResourceManagerWithFonts();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    FontPicker picker;
+    picker.RegisterSearchPath( "$(FontAssets)" );
+
+    auto list = picker.ListFonts( rm->GetPathsManager() );
+    REQUIRE_IS_VALID( list );
+
+    auto& files = list.Get();
+    CHECK( files.size() == 3 );
+}

@@ -47,12 +47,12 @@ TEST_CASE( "Path - Aquire Extension" )
 	CHECK( path6.GetExtension() == "" );
 	CHECK( path7.GetExtension() == "" );
 	CHECK( path8.GetExtension() == "" );
-	CHECK( path9.GetExtension() == ".hidden" );
+	CHECK( path9.GetExtension() == "" );
 }
 
 // ================================ //
 //
-TEST_CASE( "Path.ChnageExtension" )
+TEST_CASE( "Path.ChangeExtension" )
 {
 	filesystem::Path path1( "/foo/bar.txt" );
 	filesystem::Path path2( "/foo/bar." );
@@ -69,6 +69,6 @@ TEST_CASE( "Path.ChnageExtension" )
 
 	CHECK( path7.ChangeExtension( ".png" ) == "/foo/." );
 	CHECK( path8.ChangeExtension( ".png" ) == "/foo/.." );
-	CHECK( path9.ChangeExtension( ".png" ) == "/foo/.png" );
+	CHECK( path9.ChangeExtension( ".png" ) == "/foo/.hidden.png" );
 }
 

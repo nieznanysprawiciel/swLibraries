@@ -6,6 +6,7 @@
 #include "swGraphicAPI/Assets/TextAsset/stdafx.h"
 
 #include "swCommonLib/Common/RTTR.h"
+#include "swCommonLib/System/Dir.h"
 #include "swGraphicAPI/Assets/TextAsset/Loader/FreeType.h"
 
 
@@ -45,7 +46,21 @@ Nullable< FontSearchEntry >     FontPicker::FindFontFile( PathsManager* pm, cons
 
 Nullable< std::vector< FontSearchEntry > >  FontPicker::ListFonts( PathsManager* pm ) const
 {
-    return Nullable< std::vector< FontSearchEntry > >();
+    std::vector< FontSearchEntry > entries;
+
+    for( auto path : m_searchPaths )
+    {
+        auto dir = pm->Translate( path );
+        auto files = filesystem::Dir::ListFiles( dir );
+        for( auto file : files )
+        {
+            auto meta = FontMetadata( pm, file );
+            if( meta.IsValid() )
+                entries.push_back( meta.Get() );
+        }
+    }
+
+    return entries;
 }
 
 // ================================ //
