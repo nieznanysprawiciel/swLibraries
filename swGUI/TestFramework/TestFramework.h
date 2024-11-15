@@ -9,6 +9,7 @@
 #include "swGUI/Core/System/GUISystem.h"
 #include "swInputLibrary/InputCore/Debugging/EventCapture.h"
 
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 
 
 /**@defgroup GUITestFramework TestFramework
@@ -161,6 +162,22 @@ private:
 	virtual void	        OnIdle					( const FrameTime& frameTime ) override {};
 
     ReturnResult	        OverridePaths			();
+};
+
+
+// ================================ //
+//
+struct FrameworkCleaner
+{
+    TestFramework* Framework;
+
+    // ================================ //
+    //
+    FrameworkCleaner( TestFramework* framework ) : Framework( framework ) {}
+
+    // ================================ //
+    //
+    ~FrameworkCleaner() { Framework->Clean(); }
 };
 
 

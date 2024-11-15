@@ -18,7 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
       <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
@@ -26,57 +25,55 @@
     <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\Reflection\Reflection.vcxproj">
       <Project>{59fa8028-2346-4246-854f-14dcfab6ab56}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\Serialization\Serialization.vcxproj">
-      <Project>{561754cb-295d-4d69-8dbc-bc069d1a636a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\swCommonLib\Projects\Visual2015\SerializerXML\SerializerXML.vcxproj">
-      <Project>{91cc6d16-f22c-434a-95e0-35ee857054c7}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\CoreGUI\CoreGUI.vcxproj">
       <Project>{c6dab3ee-e9a7-47fc-9b33-a8f4250c219b}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\TestFramework\TestFramework.DX11.vcxproj">
+      <Project>{95122780-02bb-4a2e-83e6-8c088f2332dd}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Tests\TestControls\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestControls\TestTextBlock.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{22C79F18-F938-4A9E-A4B0-B77E8F87429D}</ProjectGuid>
+    <ProjectGuid>{68A29892-2C39-4068-AE0F-5021D29B8CE5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>TestTemplate</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>TestControls</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="..\..\Paths.props" />
   <Import Project="..\..\TestConfig.props" />
   <Import Project="..\..\LinkReflection.props" />
   <Import Project="..\..\LinkSleepingWombatGUI.props" />
-
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">

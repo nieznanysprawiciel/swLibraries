@@ -41,24 +41,6 @@ void		AddRectangle					( HostWindow* host, BrushPtr brush, BrushPtr stroke, floa
     host->AddChild( std::move( rectangleControl ) );
 }
 
-// ================================ //
-//
-struct FrameworkCleaner
-{
-    TestFramework*      Framework;
-
-    // ================================ //
-    //
-    FrameworkCleaner( TestFramework* framework )
-        : Framework( framework )
-    {}
-
-    // ================================ //
-    //
-    ~FrameworkCleaner()
-    {        Framework->Clean();    }
-};
-
 //====================================================================================//
 //			Test cases	
 //====================================================================================//

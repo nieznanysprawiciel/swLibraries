@@ -220,6 +220,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestText", "..\swGraphicAPI
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextShowcase", "ProjectDir\Visual2015\Prototypes\TextShowcase\TextShowcase.vcxproj", "{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestControls", "ProjectDir\Visual2015\Tests\TestControls\TestControls.vcxproj", "{68A29892-2C39-4068-AE0F-5021D29B8CE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -700,6 +702,14 @@ Global
 		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913}.Release|x64.Build.0 = Release|x64
 		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913}.Release|x86.ActiveCfg = Release|Win32
 		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913}.Release|x86.Build.0 = Release|Win32
+		{68A29892-2C39-4068-AE0F-5021D29B8CE5}.Debug|x64.ActiveCfg = Debug|x64
+		{68A29892-2C39-4068-AE0F-5021D29B8CE5}.Debug|x64.Build.0 = Debug|x64
+		{68A29892-2C39-4068-AE0F-5021D29B8CE5}.Debug|x86.ActiveCfg = Debug|Win32
+		{68A29892-2C39-4068-AE0F-5021D29B8CE5}.Debug|x86.Build.0 = Debug|Win32
+		{68A29892-2C39-4068-AE0F-5021D29B8CE5}.Release|x64.ActiveCfg = Release|x64
+		{68A29892-2C39-4068-AE0F-5021D29B8CE5}.Release|x64.Build.0 = Release|x64
+		{68A29892-2C39-4068-AE0F-5021D29B8CE5}.Release|x86.ActiveCfg = Release|Win32
+		{68A29892-2C39-4068-AE0F-5021D29B8CE5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -792,6 +802,7 @@ Global
 		{2CDA8A31-2F49-43B3-82CD-271BE83EC203} = {E1A698D8-011C-4359-A108-C3B32B54A2C0}
 		{1F535690-1AB1-47EA-961B-183C4DCF46D3} = {AD4FFF37-D748-47D4-AF31-78C2C7D87D42}
 		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913} = {BBD5CA36-CFDA-417A-94F4-80E738794723}
+		{68A29892-2C39-4068-AE0F-5021D29B8CE5} = {CAC5582E-F5A0-42EA-85DE-325A7C0651D8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A341301D-630D-4C6A-B843-1A50FC78565A}

@@ -92,7 +92,7 @@ public:
     TextAlignment       GetTextAlignment() const { return m_textAlignment; }
 
 
-    GeometryPtr         GetGeometry() const { return m_drawing->GetGeometry(); }
+    GeometryPtr         GetGeometry() const { return m_drawing ? m_drawing->GetGeometry() : nullptr; }
 
 protected:
 
