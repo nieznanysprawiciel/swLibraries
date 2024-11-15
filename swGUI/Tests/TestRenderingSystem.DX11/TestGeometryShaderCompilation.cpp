@@ -33,3 +33,23 @@ TEST_CASE( "GUI.Rendering.DX11.Geometry.ShaderCompilation.ForwardAttributes", "[
 	CHECK( renderingData.VertexShader != nullptr );
 }
 
+// ================================ //
+// Test default shader for forwarding attributes.
+TEST_CASE( "GUI.Rendering.DX11.Geometry.ShaderCompilation.ForwardWithOpacity", "[GUISystem][RenderingSystem][Drawing]" )
+{
+    TestFramework* framework = GetGlobalTestFramework();
+
+    FakeDrawingPtr  drawing = std::make_shared< FakeDrawing >();
+    FakeGeometryPtr geom = std::make_shared< FakeGeometry >( Geometry::ConstantBufferMode::Disable );
+    ShaderProvider* sp = framework->GetRenderingSystem()->GetShaderProvider();
+
+    geom->SetShaderFunction( "$(CoreGUI-Shader-Dir)/Geometry/ForwardWithOpacity.vsh" );
+
+    drawing->UpdateVertexShader( sp, geom.get(), sp->GetOpacityVSTemplate() );
+
+    auto& renderingData = CLASS_TESTER( Drawing )::GetGeometryRenderingData( drawing.get() );
+
+    INFO( "[Default ForwardWithOpacity.vsh] Shader compilation failed." );
+    CHECK( renderingData.VertexShader != nullptr );
+}
+
