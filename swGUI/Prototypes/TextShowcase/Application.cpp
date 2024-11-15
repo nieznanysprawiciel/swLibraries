@@ -162,6 +162,7 @@ sw::ReturnResult		Application::Initialize()
 {
 	m_guiConfig.DebugGraphics = true;
     m_guiConfig.UseBlockingMode = false;
+    m_guiConfig.UseVSync = true;
 
     sw::ReturnResult result = sw::Success::True;
 
