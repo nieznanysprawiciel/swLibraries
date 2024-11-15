@@ -161,6 +161,7 @@ You can set different GraphicApi or input api.*/
 sw::ReturnResult		Application::Initialize()
 {
 	m_guiConfig.DebugGraphics = true;
+    m_guiConfig.UseBlockingMode = false;
 
     sw::ReturnResult result = sw::Success::True;
 

@@ -46,10 +46,9 @@ DX11Buffer::~DX11Buffer()
 	m_buffer = nullptr;
 }
 
-
 // ================================ //
 //
-sw::Nullable< Buffer* >				DX11Buffer::CreateFromMemory	( const AssetPath& name, const uint8* data, const BufferInfo& bufferInfo )
+sw::Nullable< ID3D11Buffer* >		DX11Buffer::CreateFromMemoryImpl	( const AssetPath& name, const uint8* data, const BufferInfo& bufferInfo )
 {
 	ResourceBinding bindFlag;
 	if( bufferInfo.BufferType == BufferType::VertexBuffer )
@@ -80,9 +79,15 @@ sw::Nullable< Buffer* >				DX11Buffer::CreateFromMemory	( const AssetPath& name,
 	result = device->CreateBuffer( &bufferDesc, initDataPtr, &newBuffer );
 	if( FAILED( result ) )
         return fmt::format( "[DX11Buffer] Buffer creation failed. {}", DX11Utils::ErrorString( result ) );
+    return newBuffer;
+}
 
-	DX11Buffer* newBufferObject = new DX11Buffer( name, bufferInfo, newBuffer );
-	return newBufferObject;
+// ================================ //
+//
+sw::Nullable< Buffer* >				DX11Buffer::CreateFromMemory	( const AssetPath& name, const uint8* data, const BufferInfo& bufferInfo )
+{
+	auto result = CreateFromMemoryImpl( name, data, bufferInfo );
+	return new DX11Buffer( name, bufferInfo, result.Get() );
 }
 
 /**@brief Copies the buffer memory and returns it in a MemoryChunk.
@@ -165,9 +170,9 @@ ReturnResult			DX11Buffer::UpdateData( BufferRange data, PtrOffset offset )
         destRegion.left = (UINT)offset;
         destRegion.right = (UINT)( data.DataSize + offset );
         destRegion.top = 0;
-        destRegion.bottom = 0;
+        destRegion.bottom = 1;
         destRegion.front = 0;
-        destRegion.back = 0;
+        destRegion.back = 1;
 
         device_context->UpdateSubresource( m_buffer.Get(), 0, &destRegion, data.DataPtr, 0, 0 );
         return Success::True;
@@ -183,7 +188,7 @@ ReturnResult			DX11Buffer::Resize( BufferRange newData )
     auto bufferSize = m_elementSize * m_elementCount;
 	if( newData.DataSize <= bufferSize )
 	{
-		// No need to resize. TODO: consider if we shoudl ever scale buffers down.
+		// No need to resize. TODO: consider if we should ever scale buffers down.
         return UpdateData( newData, 0 );
 	}
 
@@ -193,12 +198,13 @@ ReturnResult			DX11Buffer::Resize( BufferRange newData )
 	BufferInfo newDesc = m_descriptor;
     newDesc.NumElements = uint32( newData.DataSize / m_elementSize );
 
-	auto result = DX11Buffer::CreateFromMemory( GetAssetPath(), newData.DataPtr, newDesc );
+	auto result = DX11Buffer::CreateFromMemoryImpl( GetAssetPath(), newData.DataPtr, newDesc );
     ReturnIfInvalid( result );
 
 	// Replacing pointer should automatically release the old Buffer.
-	m_buffer = static_cast< DX11Buffer* >( result.Get() )->Get();
+    m_buffer = result.Get();
     m_descriptor = newDesc;
+    m_elementCount = newDesc.NumElements;
 
     return Success::True;
 }
