@@ -315,12 +315,13 @@ void                        FreeTypeLibrary::RenderGlyph( const Glyph& glyph, Im
 
 // ================================ //
 
-FontSearchEntry             FreeTypeLibrary::Metadata() const
+FontMetadata                FreeTypeLibrary::Metadata() const
 {
-    return FontSearchEntry{
+    return FontMetadata{
         this->Face->family_name, this->Face->style_name,
-        ( this->Face->style_flags & FT_STYLE_FLAG_BOLD ) ? FontWeight::UltraBold : FontWeight::Normal,
-        ( this->Face->style_flags & FT_STYLE_FLAG_ITALIC ) ? FontStyle::Italic : FontStyle::Normal, LoadPath( AssetPath(), AssetPath() ) };
+        bool( this->Face->style_flags & FT_STYLE_FLAG_ITALIC ),
+        bool( this->Face->style_flags & FT_STYLE_FLAG_BOLD )
+    };
 }
 
 }

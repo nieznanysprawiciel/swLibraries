@@ -33,13 +33,25 @@ enum class FontWeight : u8
     UltraBold,
 };
 
-/**@brief Data structure retuned by @ref FontPicker.
+/**@brief Structure storing Font metadata.
+@ingroup Text*/
+struct FontMetadata
+{
+    std::string Family;
+    std::string StyleName;  //< String name of the style retrieved from font metadata.
+
+    /**@brief Indicates that Font is italic. Note that StyleName can contain more details about style.*/
+    bool        IsItalic;
+    /**@brief Indicates that Font is bold. Note that StyleName can contain more details about different
+    styles of bold. Those 3 fields should be mapped to @ref FontWeight and @ref FontStyle enums.*/
+    bool        IsBold;
+};
+
+/**@brief Data structure returned by @ref FontPicker.
 @ingroup Text*/
 struct FontSearchEntry
 {
-public:
-    std::string Family;
-    std::string StyleName;  //< String name of the style retrieved from font metadata.
+    FontMetadata Metadata;
 
     FontWeight  Weight;
     FontStyle   Style;

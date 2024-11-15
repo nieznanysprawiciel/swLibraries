@@ -51,7 +51,7 @@ public:
     /**Renders Glyph to bitmap in selected rectangle.*/
     void                RenderGlyph		( const Glyph& glyph, ImageRegion< u32 >& image ) const;
 
-    FontSearchEntry     Metadata        () const;
+    FontMetadata        Metadata() const;
 };
 
 

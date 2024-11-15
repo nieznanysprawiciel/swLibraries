@@ -52,7 +52,7 @@ Nullable< std::vector< FontSearchEntry > >  FontPicker::ListFonts( PathsManager*
     {
         auto dir = pm->Translate( path );
         auto files = fs::Dir::ListFiles( dir );
-        for( auto file : files )
+        for( auto& file : files )
         {
             auto meta = FontMetadata( pm, file );
             if( meta.IsValid() )
@@ -81,8 +81,13 @@ Nullable< FontSearchEntry >                 FontPicker::FontMetadata( PathsManag
     ReturnIfInvalid( freeType.Get().CreateFace( loadPath, 3 ) );
 
     auto meta = freeType.Get().Metadata();
-    meta.Path = loadPath;
-    return meta;
+    return FontSearchEntry
+    { 
+        meta,
+        meta.IsBold ? FontWeight::UltraBold : FontWeight::Normal,
+        meta.IsItalic ? FontStyle::Italic : FontStyle::Normal,
+        loadPath
+    };
 }
 
 }  // sw
