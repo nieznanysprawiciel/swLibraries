@@ -16,7 +16,6 @@ so it cannot be implemented fully portably.*/
 
 
 #include <filesystem>
-#include "Filesystem/filesystem/path.h"
 
 
 #include <string>
@@ -31,13 +30,11 @@ namespace fs
 {
 
 
-/**@brief Wrapper for Path.
-Class can't use std::filesystem::path, because in some places library use Resources names
-that contain illigal signs.*/
+/**@brief Wrapper for std path.*/
 class Path
 {
 private:
-	::filesystem::path_impl		m_path;
+    std::filesystem::path m_path;
 
 public:
 
@@ -45,7 +42,6 @@ public:
 							Path			( const Path& path )			= default;
 							Path			( Path&& path )					= default;
 							Path			( const std::wstring& path );
-							Path			( const std::filesystem::path& path );
 
 	template< class Source >
 							Path			( const Source& source );
@@ -76,7 +72,7 @@ public:
 	Path					Normalize		() const;
 	Path					MakeAbsolute	() const;
     Path				    ChangeExtension	( const std::string& extension ) const;
-
+    Path                    RelativeTo		( const Path& base ) const;
 
 	//bool					HasRoot			() const;
 	bool					HasFileName		() const;
@@ -97,9 +93,7 @@ public:
 public:
 
 	///@note This function may change or disapear in future.
-	const std::vector< std::string >&		GetTokens			() const;
-
-	Path									ClipFromRoot		( int num ) const;
+	std::vector< std::string >		GetTokens			() const;
 };
 
 
@@ -107,7 +101,7 @@ public:
 //
 template< class Source >
 inline		Path::Path		( const Source& source )
-	:	m_path( ::filesystem::path_impl( source ) )
+	:	m_path( std::filesystem::path( source ) )
 {}
 
 // ================================ //
@@ -119,14 +113,7 @@ inline		Path::Path()
 //
 inline		Path::Path		( const std::wstring& path )
 {
-	m_path = ::filesystem::path_impl( Convert::ToString( path ) );
-}
-
-// ================================ //
-
-inline		Path::Path		( const std::filesystem::path& path )
-{
-    m_path = ::filesystem::path_impl( path.string() );
+	m_path = std::filesystem::path( Convert::ToString( path ) );
 }
 
 // ================================ //
@@ -171,36 +158,29 @@ inline bool		Path::operator!=	( const Path& other ) const
 //
 inline bool		Path::operator<		( const Path& other ) const
 {
-	return m_path.str() < other.m_path.str();
+	return m_path < other.m_path;
 }
 
 // ================================ //
 //
 inline bool		Path::operator<=	( const Path& other ) const
 {
-	return m_path.str() <= other.m_path.str();
+	return m_path <= other.m_path;
 }
 
 // ================================ //
 //
 inline bool		Path::operator>		( const Path& other ) const
 {
-	return m_path.str() > other.m_path.str();
+	return m_path > other.m_path;
 }
 
 // ================================ //
 //
 inline bool		Path::operator>=	( const Path& other ) const
 {
-	return m_path.str() >= other.m_path.str();
+	return m_path >= other.m_path;
 }
-
-///**@brief Por�wnuje �cie�ki. Przed por�wnaniem �cie�ki s� normalizowane.
-//Paths must exist on file system.*/
-//inline bool		Path::Compare		( const Path& path1, const Path& path2 )
-//{
-//	return experimental::equivalent( path1.m_path, path2.m_path );
-//}
 
 // ================================ //
 
@@ -213,27 +193,25 @@ inline std::ostream&	operator<<( std::ostream& os, const Path& value )
 /**@brief */
 inline std::string		Path::String() const
 {
-	return m_path.str();
+	return m_path.string();
 }
 
 /**@brief */
 inline std::wstring		Path::WString() const
 {
-	return Convert::FromString< std::wstring >( m_path.str() );
+    return m_path.wstring();
 }
 
 /**@brief */
 inline std::string		Path::GetFileName() const
 {
-	return m_path.filename();
+	return m_path.filename().string();
 }
 
 /**@brief */
 inline std::string		Path::GetExtension() const
 {
-    if( !HasFileName() )
-        return "";
-	return m_path.extension();
+	return m_path.extension().string();
 }
 
 /**@brief */
@@ -255,53 +233,14 @@ inline Path				Path::GetDirectory() const
 @attention Current implementation might not work fully.*/
 inline Path				Path::Normalize() const
 {
-	auto& tokens = m_path.get_tokens();
-	std::string normalized = "";
-
-	// Avoid reallocating string all the time.
-	size_t maxLen = 0;
-	for( auto& token : tokens )
-		maxLen += token.size();
-
-	normalized.reserve( maxLen );
-	normalized = *tokens.crbegin();
-
-	size_t tokensToOmit = 0;
-	for( auto i = ++tokens.crbegin(); i != tokens.crend(); ++i )
-	{
-		if( *i == ".." )
-		{
-			tokensToOmit++;
-		}
-		else
-		{
-			if( tokensToOmit == 0 )
-			{
-				// Add token to path from back to beginning.
-				normalized = *i + "/" + normalized;
-			}
-			else
-			{
-				tokensToOmit--;
-			}
-		}
-	}
-
-	// Add all .. signs that remained to the beginning.
-	while( tokensToOmit > 0 )
-	{
-		normalized = "../" + normalized;
-		tokensToOmit--;
-	}
-
-	return ::filesystem::path_impl( normalized );
+    return m_path.lexically_normal();
 }
 
 // ================================ //
 //
 inline Path				Path::MakeAbsolute	() const
 {
-	return m_path.make_absolute();
+    return std::filesystem::absolute( m_path );
 }
 
 // ================================ //
@@ -309,18 +248,19 @@ inline Path				Path::MakeAbsolute	() const
 inline Path				Path::ChangeExtension( const std::string& extension ) const
 {
     auto ext = m_path.extension();
-	auto filename = m_path.filename();
+    auto filename = m_path.filename().string();
 
     if( filename == "." || filename == ".." )
         return Path( *this );
 
-	auto startPos = filename.rfind( ext );
-	if( startPos != std::string::npos )
-	{
-		filename.replace( startPos, filename.length(), extension );
-		return m_path.parent_path() / filename;
-	}
-    return Path( *this );
+    return std::filesystem::path( m_path ).replace_extension( std::filesystem::path( extension ) );
+}
+
+// ================================ //
+
+inline Path				Path::RelativeTo( const Path& base ) const
+{
+    return m_path.lexically_relative( base.m_path );
 }
 
 ///**@brief */
@@ -362,14 +302,14 @@ inline bool				Path::IsAbsolut() const
 /**@brief Check if file exists.*/
 inline bool				Path::Exists() const
 {
-	return m_path.exists();
+    return std::filesystem::exists( m_path );
 }
 
 // ================================ //
 //
 inline Path				Path::WorkingDirectory()
 {
-    return ::filesystem::path_impl::getcwd();
+    return std::filesystem::current_path();
 }
 
 /**@brief */
@@ -382,16 +322,13 @@ inline Path				operator/( const Path& path1, const Path& path2 )
 
 // ================================ //
 //
-inline const std::vector< std::string >&		Path::GetTokens	() const
+inline std::vector< std::string >	Path::GetTokens	() const
 {
-	return m_path.get_tokens();
-}
+    std::vector< std::string > tokens;
+    for( auto it = m_path.begin(); it != m_path.end(); ++it )
+        tokens.push_back( it->string() );
 
-// ================================ //
-//
-inline Path										Path::ClipFromRoot		( int num ) const
-{
-	return Path( m_path.clip_from_root( num ) );
+    return tokens;
 }
 
 }

@@ -35,7 +35,7 @@ fs::Path			PathsManager::Translate				( const fs::Path& path ) const
 				auto iter = m_aliases.find( alias );
 				if( iter != m_aliases.end() )
 				{
-                    fs::Path relativePart = path.ClipFromRoot( 1 );
+                    fs::Path relativePart = path.RelativeTo( alias );
 					return iter->second / relativePart;
 				}
 			}

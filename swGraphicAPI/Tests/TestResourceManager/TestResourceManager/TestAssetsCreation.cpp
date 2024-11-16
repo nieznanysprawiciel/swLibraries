@@ -67,7 +67,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.CreateAsset.SingleAsset", "[GraphicAPI]" 
 	REQUIRE( result.IsValid() );
 
 	CHECK( result.Get() != nullptr );
-	CHECK( rm.GetGeneric( "::RandomBuffer", TypeID::get< Buffer >() ) != nullptr );
+	CHECK( rm.GetGeneric( "::/RandomBuffer", TypeID::get< Buffer >() ) != nullptr );
 }
 
 // ================================ //

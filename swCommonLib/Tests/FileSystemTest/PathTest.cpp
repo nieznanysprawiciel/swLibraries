@@ -89,8 +89,8 @@ TEST_CASE( "Path.Combine" )
     CHECK( path4 / path3 == "boa/bao" );
     CHECK( path7 / path3 == "/foo/./boa/bao" );
     CHECK( path8 / path3 == "/foo/../boa/bao" );
-    CHECK( path7 / path4 == "/foo/." );
-    CHECK( path8 / path4 == "/foo/.." );
+    CHECK( path7 / path4 == "/foo/./" );
+    CHECK( path8 / path4 == "/foo/../" );
     CHECK( path2 / path3 == "/foo/bar/boa/bao" );
 }
 

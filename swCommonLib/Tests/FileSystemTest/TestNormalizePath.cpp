@@ -81,6 +81,8 @@ TEST_CASE( "Filesystem.Normalize.RamainingDots.3Dots.NameBetween" )
 TEST_CASE( "Filesystem.Normalize.RamainingDots.DotsOnly" )
 {
 	sw::fs::Path path( "../../" );
-	CHECK( path.Normalize() == sw::fs::Path( "../../" ) );
+	// std::filesystem::path removes trailing slash.
+	// It is not convinient but acceptable behavior.
+	CHECK( path.Normalize() == sw::fs::Path( "../.." ) );
 }
 
