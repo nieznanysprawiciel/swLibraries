@@ -5,6 +5,7 @@
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
+#include <algorithm>
 
 #include "swCommonLib/Common/Converters/Convert.h"
 #include "swCommonLib\TestUtils\CatchUtils\ExtendedMacros.h"
@@ -43,7 +44,7 @@ TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.Metadata", "[GraphicAPI][FontLoad
 }
 
 // ================================ //
-//
+// Test checks if FontPicker will be able to handle incorrect files in provided directories.
 TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.ListFonts", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
 {
     auto rm = CreateResourceManagerWithFonts();
@@ -57,4 +58,26 @@ TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.ListFonts", "[GraphicAPI][FontLoa
 
     auto& files = list.Get();
     CHECK( files.size() == 3 );
+    
+    CHECK( std::find_if( files.begin(), files.end(), []( auto& file ) { return file.Metadata.Family == "Arial"; } )
+           != files.end() );
+    CHECK( std::find_if( files.begin(), files.end(), []( auto& file ) { return file.Metadata.Family == "ELICEN"; } )
+           != files.end() );
+}
+
+// ================================ //
+//
+TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.Metadata.IncorrectFiles", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
+{
+    auto rm = CreateResourceManagerWithFonts();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    FontPicker picker;
+    picker.RegisterSearchPath( "$(FontAssets)" );
+
+    auto meta = picker.FontMetadata( rm->GetPathsManager(), "$(FontAssets)/not-font.txt" );
+    REQUIRE_INVALID( meta );
+
+    meta = picker.FontMetadata( rm->GetPathsManager(), "$(FontAssets)/incorrect.ttf" );
+    REQUIRE_INVALID( meta );
 }

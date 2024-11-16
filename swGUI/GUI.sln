@@ -212,8 +212,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hlsl", "hlsl", "{9C1F5085-2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fonts", "fonts", "{2CDA8A31-2F49-43B3-82CD-271BE83EC203}"
 	ProjectSection(SolutionItems) = preProject
+		..\swGraphicAPI\TestResources\fonts\arial.ttf = ..\swGraphicAPI\TestResources\fonts\arial.ttf
 		..\swGraphicAPI\TestResources\fonts\ELICEN.otf = ..\swGraphicAPI\TestResources\fonts\ELICEN.otf
 		..\swGraphicAPI\TestResources\fonts\ELICEN.ttf = ..\swGraphicAPI\TestResources\fonts\ELICEN.ttf
+		..\swGraphicAPI\TestResources\fonts\incorrect.ttf = ..\swGraphicAPI\TestResources\fonts\incorrect.ttf
+		..\swGraphicAPI\TestResources\fonts\not-font.txt = ..\swGraphicAPI\TestResources\fonts\not-font.txt
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestText", "..\swGraphicAPI\ProjectsDir\Visual2015\Tests\TestText\TestText.vcxproj", "{1F535690-1AB1-47EA-961B-183C4DCF46D3}"
