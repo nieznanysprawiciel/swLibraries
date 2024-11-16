@@ -34,7 +34,6 @@
     <ClCompile Include="..\..\..\Common\Version.cpp" />
     <ClCompile Include="..\..\..\System\Dir.cpp" />
     <ClCompile Include="..\..\..\System\File.cpp" />
-    <ClCompile Include="..\..\..\System\Filesystem\filesystem\path.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Common\Buffers\BufferRange.h" />
@@ -88,9 +87,6 @@
     <ClInclude Include="..\..\..\Common\Version.h" />
     <ClInclude Include="..\..\..\System\Dir.h" />
     <ClInclude Include="..\..\..\System\File.h" />
-    <ClInclude Include="..\..\..\System\Filesystem\filesystem\fwd.h" />
-    <ClInclude Include="..\..\..\System\Filesystem\filesystem\path.h" />
-    <ClInclude Include="..\..\..\System\Filesystem\filesystem\resolver.h" />
     <ClInclude Include="..\..\..\System\Path.h" />
   </ItemGroup>
   <ItemGroup>

@@ -22,9 +22,6 @@
     <Filter Include="Common\Logging">
       <UniqueIdentifier>{c846e1e2-4296-4192-b226-3874455dc193}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Filesystem">
-      <UniqueIdentifier>{8a21dd59-2a45-46e5-b3ec-17912109b0cf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common\Exceptions">
       <UniqueIdentifier>{1d235bb2-b3b8-46d7-bc00-c5300c1fcb32}</UniqueIdentifier>
     </Filter>
@@ -62,9 +59,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Common\Multithreading\ThreadsLatch.cpp">
       <Filter>Common\Multithreading</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\System\Filesystem\filesystem\path.cpp">
-      <Filter>System\Filesystem</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Common\Object.cpp">
       <Filter>Common</Filter>
@@ -166,15 +160,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Multithreading\UniqueLock.h">
       <Filter>Common\Multithreading</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\System\Filesystem\filesystem\fwd.h">
-      <Filter>System\Filesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\System\Filesystem\filesystem\path.h">
-      <Filter>System\Filesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\System\Filesystem\filesystem\resolver.h">
-      <Filter>System\Filesystem</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Exceptions\Nullable.h">
       <Filter>Common\Exceptions</Filter>
