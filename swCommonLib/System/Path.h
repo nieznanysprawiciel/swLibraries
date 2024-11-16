@@ -1,7 +1,7 @@
 #pragma once
 /**
 @file Path.h
-@author 
+@author nieznanysprawiciel
 @copyright This file is part of the SWEngine graphics engine.
 
 Implementation of the Path class. Since Path is not yet part of the C++ standard,
@@ -17,6 +17,7 @@ so it cannot be implemented fully portably.*/
 
 #include <filesystem>
 #include "Filesystem/filesystem/path.h"
+
 
 #include <string>
 #include <codecvt>
@@ -44,6 +45,7 @@ public:
 							Path			( const Path& path )			= default;
 							Path			( Path&& path )					= default;
 							Path			( const std::wstring& path );
+							Path			( const std::filesystem::path& path );
 
 	template< class Source >
 							Path			( const Source& source );
@@ -71,8 +73,8 @@ public:
 	Path					GetParent		() const;
 	Path					GetDirectory	() const;
 
-	void					Normalize		();
-	void					MakeAbsolute	();
+	Path					Normalize		() const;
+	Path					MakeAbsolute	() const;
     Path				    ChangeExtension	( const std::string& extension ) const;
 
 
@@ -117,11 +119,14 @@ inline		Path::Path()
 //
 inline		Path::Path		( const std::wstring& path )
 {
-	//typedef std::codecvt_utf8< wchar_t > ConvertType;
-	//std::wstring_convert< ConvertType, wchar_t > converter;
-	//auto pathStr = converter.to_bytes( path );
+	m_path = ::filesystem::path_impl( Convert::ToString( path ) );
+}
 
-	m_path = ::filesystem::path_impl( path );
+// ================================ //
+
+inline		Path::Path		( const std::filesystem::path& path )
+{
+    m_path = ::filesystem::path_impl( path.string() );
 }
 
 // ================================ //
@@ -197,6 +202,14 @@ inline bool		Path::operator>=	( const Path& other ) const
 //	return experimental::equivalent( path1.m_path, path2.m_path );
 //}
 
+// ================================ //
+
+inline std::ostream&	operator<<( std::ostream& os, const Path& value )
+{
+    os << value.String();
+    return os;
+}
+
 /**@brief */
 inline std::string		Path::String() const
 {
@@ -206,7 +219,7 @@ inline std::string		Path::String() const
 /**@brief */
 inline std::wstring		Path::WString() const
 {
-	return m_path.wstr();
+	return Convert::FromString< std::wstring >( m_path.str() );
 }
 
 /**@brief */
@@ -239,8 +252,8 @@ inline Path				Path::GetDirectory() const
 }
 
 /**@brief Normalizes path.
-@attention Obecna implementacja mo�e nie dzia�a� do ko�ca.*/
-inline void				Path::Normalize()
+@attention Current implementation might not work fully.*/
+inline Path				Path::Normalize() const
 {
 	auto& tokens = m_path.get_tokens();
 	std::string normalized = "";
@@ -281,14 +294,14 @@ inline void				Path::Normalize()
 		tokensToOmit--;
 	}
 
-	m_path = ::filesystem::path_impl( normalized );
+	return ::filesystem::path_impl( normalized );
 }
 
 // ================================ //
 //
-inline void				Path::MakeAbsolute	()
+inline Path				Path::MakeAbsolute	() const
 {
-	m_path.make_absolute();
+	return m_path.make_absolute();
 }
 
 // ================================ //

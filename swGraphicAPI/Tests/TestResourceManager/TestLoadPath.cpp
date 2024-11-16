@@ -50,7 +50,7 @@ TEST_CASE( "GraphicAPI.ResourceManager.PathAliases.LoadPath.TranslateEmpty", "[G
     auto loadPath = LoadPath( path, rm->GetPathsManager() );
 
     CHECK( loadPath.GetFileOriginal() == "" );
-    CHECK( loadPath.GetFileTranslated().String() == "" );
+    CHECK( loadPath.GetFileTranslated() == "" );
 }
 
 // ================================ //
@@ -63,6 +63,6 @@ TEST_CASE( "GraphicAPI.ResourceManager.PathAliases.LoadPath.TranslateRelative", 
     auto loadPath = LoadPath( path, rm->GetPathsManager() );
 
     CHECK( loadPath.GetFileOriginal() == "TestAssets/example.mock" );
-    CHECK( loadPath.GetFileTranslated() == ( fs::Path::WorkingDirectory() / "TestAssets/example.mock" ).String() );
+    CHECK( loadPath.GetFileTranslated() == fs::Path::WorkingDirectory() / "TestAssets/example.mock" );
 }
 

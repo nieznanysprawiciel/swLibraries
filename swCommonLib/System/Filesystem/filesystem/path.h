@@ -42,7 +42,7 @@ public:
 #endif
     };
 
-    path_impl() : m_type(native_path), m_absolute(false) { }
+    path_impl() : m_type( posix_path ), m_absolute( false ) {}
 
     path_impl(const path_impl &path)
         : m_type(path.m_type), m_path(path.m_path), m_absolute(path.m_absolute) {}
@@ -144,7 +144,8 @@ public:
         return oss.str();
     }
 
-    void set(const std::string &str, path_type type = native_path) {
+    void set( const std::string& str, path_type type = posix_path )
+    {
         m_type = type;
         if (type == windows_path) {
             m_path = tokenize(str, "/\\");
@@ -183,8 +184,8 @@ public:
 	static path_impl getcwd();
 
 #if defined(_WIN32)
-	std::wstring wstr( path_type type = native_path ) const;
-	void set( const std::wstring &wstring, path_type type = native_path );
+    std::wstring wstr( path_type type = posix_path ) const;
+    void         set( const std::wstring& wstring, path_type type = posix_path );
     path_impl &operator=(const std::wstring &str) { set(str); return *this; }
 #endif
 
@@ -198,6 +199,10 @@ protected:
         
         std::string::size_type lastPos = 0;
         std::string::size_type pos = string.find_first_of( delim, lastPos );
+
+        // We need to avoid pushing empty token, because it will cause problems later
+        if( string.empty() )
+            return tokens;
 
         while( lastPos != std::string::npos ) {
             if( pos != lastPos )

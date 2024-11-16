@@ -112,9 +112,7 @@ inline fs::Path			        LoadPath::Translate			( const fs::Path& path, const Pa
 	if( translated.IsRelative() && !translated.IsEmpty() )
 		translated = fs::Path::WorkingDirectory() / translated;
 
-	translated.Normalize();
-
-	return translated;
+	return translated.Normalize();
 }
 
 // ================================ //

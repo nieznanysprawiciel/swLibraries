@@ -8,7 +8,7 @@
 
 
 
-TEST_CASE( "Path - Comparision operator" )
+TEST_CASE( "Path.ComparisionOperator" )
 {
 	sw::fs::Path reference( "assets/wombat.jpg" );
 	sw::fs::Path difference( "assets/wombat2.jpg" );
@@ -27,7 +27,7 @@ TEST_CASE( "Path - Comparision operator" )
 
 // ================================ //
 // Path should return right result for examples from http://en.cppreference.com/w/cpp/experimental/fs/path/extension
-TEST_CASE( "Path - Aquire Extension" )
+TEST_CASE( "Path.AquireExtension" )
 {
 	sw::fs::Path path1( "/foo/bar.txt" );
 	sw::fs::Path path2( "/foo/bar." );
@@ -70,5 +70,40 @@ TEST_CASE( "Path.ChangeExtension" )
 	CHECK( path7.ChangeExtension( ".png" ) == "/foo/." );
 	CHECK( path8.ChangeExtension( ".png" ) == "/foo/.." );
 	CHECK( path9.ChangeExtension( ".png" ) == "/foo/.hidden.png" );
+}
+
+// ================================ //
+//
+TEST_CASE( "Path.Combine" )
+{
+    sw::fs::Path path1( "/foo/bar" );
+    sw::fs::Path path2( "/foo/bar/" );
+    sw::fs::Path path3( "boa/bao" );
+    sw::fs::Path path4( "" );
+    sw::fs::Path path7( "/foo/." );
+    sw::fs::Path path8( "/foo/.." );
+    sw::fs::Path path9( "/foo/.hidden" );
+
+    CHECK( path1 / path3 == "/foo/bar/boa/bao" );
+    CHECK( path1 / path4 == "/foo/bar/" );	// Because we add empty path `bar` is treated as directory.
+    CHECK( path4 / path3 == "boa/bao" );
+    CHECK( path7 / path3 == "/foo/./boa/bao" );
+    CHECK( path8 / path3 == "/foo/../boa/bao" );
+    CHECK( path7 / path4 == "/foo/." );
+    CHECK( path8 / path4 == "/foo/.." );
+    CHECK( path2 / path3 == "/foo/bar/boa/bao" );
+}
+
+// ================================ //
+//
+TEST_CASE( "Path.ForbiddenChars" )
+{
+    sw::fs::Path path1( "/foo:blaa" );
+    sw::fs::Path path2( "/foo::blaa" );
+    sw::fs::Path path3( "/foo?blaa=3" );
+
+	CHECK( path1 == "/foo:blaa" );
+    CHECK( path2 == "/foo::blaa" );
+    CHECK( path3 == "/foo?blaa=3" );
 }
 

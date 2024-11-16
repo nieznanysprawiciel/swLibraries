@@ -34,7 +34,7 @@ inline std::unique_ptr< ResourceManager >			CreateResourceManagerWithMocks				()
 	std::unique_ptr< ResourceManager > rm = std::make_unique< ResourceManager >();
 
 	auto pm = rm->GetPathsManager();
-	pm->RegisterAlias( "$(TestAssets)", "." );
+	pm->RegisterAlias( "$(TestAssets)", "" );
 	pm->RegisterAlias( "$(MocksDir)", "$(TestAssets)/mock/" );
     pm->RegisterAlias( "$(TestWorkingDir)", "Working-Dir" );
 

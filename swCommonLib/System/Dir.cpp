@@ -44,7 +44,7 @@ std::vector< Path >			Dir::ListFiles( const fs::Path& path )
 Use only if you must.*/
 std::filesystem::path		Path::GetStdPath() const
 {
-    return std::filesystem::path( m_path.wstr() );
+    return std::filesystem::path( m_path.str() );
 }
 
 }
