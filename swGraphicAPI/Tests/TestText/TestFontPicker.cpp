@@ -102,6 +102,47 @@ TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.ListFonts.MultiVariant", "[Graphi
 
 // ================================ //
 //
+TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.ChooseFont", "[GraphicAPI][FontLoader]" )
+{
+    auto rm = CreateResourceManagerWithFonts();
+    auto api = ResourceManagerAPI( rm.get() );
+
+    FontPicker picker;
+    picker.RegisterSearchPath( "$(FontAssets)" );
+    picker.RegisterSearchPath( "$(FontAssets)/multi-variant" );
+
+    auto chosen = picker.ChooseFontFile( rm->GetPathsManager(), "Source Sans Pro", FontWeight::Black, FontStyle::Normal, true );
+    REQUIRE_IS_VALID( chosen );
+    CHECK( chosen.Get().Metadata.Family == "Source Sans Pro" );
+    CHECK( chosen.Get().Metadata.Weight == FontWeight::Black );
+    CHECK( chosen.Get().Metadata.Style == FontStyle::Normal );
+    
+    chosen = picker.ChooseFontFile( rm->GetPathsManager(), "Source Sans Pro", FontWeight::Light, FontStyle::Italic, true );
+    REQUIRE_INVALID( chosen );
+
+    chosen = picker.ChooseFontFile( rm->GetPathsManager(), "Source Sans Pro", FontWeight::Light, FontStyle::Italic, false );
+    REQUIRE_IS_VALID( chosen );
+    CHECK( chosen.Get().Metadata.Weight == FontWeight::ExtraLight );
+    CHECK( chosen.Get().Metadata.Style == FontStyle::Italic );
+
+    chosen = picker.ChooseFontFile( rm->GetPathsManager(), "Source Sans Pro", FontWeight::SemiBold, FontStyle::Italic, false );
+    REQUIRE_IS_VALID( chosen );
+    CHECK( chosen.Get().Metadata.Weight == FontWeight::SemiBold );
+    CHECK( chosen.Get().Metadata.Style == FontStyle::Normal );
+
+    chosen = picker.ChooseFontFile( rm->GetPathsManager(), "Source Sans Pro", FontWeight::Black, FontStyle::Italic, false );
+    REQUIRE_IS_VALID( chosen );
+    CHECK( chosen.Get().Metadata.Weight == FontWeight::Black );
+    CHECK( chosen.Get().Metadata.Style == FontStyle::Normal );
+
+    chosen = picker.ChooseFontFile( rm->GetPathsManager(), "Source Sans Pro", FontWeight::Normal, FontStyle::Italic, false );
+    REQUIRE_IS_VALID( chosen );
+    CHECK( chosen.Get().Metadata.Weight == FontWeight::ExtraLight );
+    CHECK( chosen.Get().Metadata.Style == FontStyle::Italic );
+}
+
+// ================================ //
+//
 TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.ParseStyle", "[GraphicAPI][FontLoader]" )
 {
     auto result = FontPicker::ParseFontStyle( "Regular" );

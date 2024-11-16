@@ -57,19 +57,40 @@ void                            FontPicker::RegisterSearchPath( const fs::Path& 
 
 // ================================ //
 
-Nullable< FontSearchEntry >     FontPicker::FindFontFile( PathsManager* pm, const std::string& fontFamily,
-                                                          FontWeight weight, FontStyle style ) const
+Nullable< FontSearchEntry >     FontPicker::ChooseFontFile( PathsManager* pm, const std::string& fontFamily,
+                                                      FontWeight weight, FontStyle style, bool exact ) const
 {
     auto varaints = ListFontVariants( pm, fontFamily );
     ReturnIfInvalid( varaints );
+
+    std::map< FontSearchEntry*, std::pair< u16, u16 > > metric;
 
     for( auto& variant : varaints.Get() )
     {
         if( variant.Metadata.Weight == weight && variant.Metadata.Style == style )
             return variant;
+
+        metric[ &variant ] =
+            std::make_pair( ClosenessMetric( variant.Metadata.Weight ), ClosenessMetric( variant.Metadata.Style ) );
     }
 
-    return fmt::format( "Non of {} {} variants matches the chosen one.", varaints.Get().size(), fontFamily );
+    if( exact )
+        return fmt::format( "Non of {} {} variants matches the chosen one.", varaints.Get().size(), fontFamily );
+
+    auto expected = std::make_pair( ClosenessMetric( weight ), ClosenessMetric( style ) );
+    auto closestMatch =
+        std::min_element( metric.begin(), metric.end(),
+                          [ &expected ]( const std::pair< FontSearchEntry*, std::pair< u16, u16 > >& left,
+                                         const std::pair< FontSearchEntry*, std::pair< u16, u16 > >& right )
+                          {
+                              auto leftDist = std::abs( left.second.first - expected.first )
+                                              + std::abs( left.second.second - expected.second );
+                              auto rightDist = std::abs( right.second.first - expected.first )
+                                               + std::abs( right.second.second - expected.second );
+
+                              return leftDist < rightDist;
+                          } );
+    return *(closestMatch->first);
 }
 
 // ================================ //
@@ -145,6 +166,66 @@ FontMetadata                            FontPicker::QueryMetadata( FreeTypeLibra
     meta.Style = style.IsValid() ? style.Get() : ftMeta.IsItalic ? FontStyle::Italic : FontStyle::Normal;
 
     return meta;
+}
+
+// ================================ //
+
+u16             FontPicker::ClosenessMetric( FontWeight value )
+{
+    // Values represent thicness of the Font according to: https://en.wikipedia.org/wiki/Font
+    // The assumption is: the closer the thickness, the better the match.
+    switch( value )
+    {
+        case sw::FontWeight::Thin:
+            return 100;
+        case sw::FontWeight::ExtraLight:
+        case sw::FontWeight::UltraLight:
+            return 200;
+        case sw::FontWeight::Light:
+            return 300;
+        case sw::FontWeight::Normal:
+        case sw::FontWeight::Regular:
+            return 400;
+        case sw::FontWeight::Medium:
+            return 500;
+        case sw::FontWeight::DemiBold:
+        case sw::FontWeight::SemiBold:
+            return 600;
+        case sw::FontWeight::Bold:
+            return 700;
+        case sw::FontWeight::ExtraBold:
+        case sw::FontWeight::UltraBold:
+            return 800;
+        case sw::FontWeight::Black:
+        case sw::FontWeight::Heavy:
+            return 900;
+        case sw::FontWeight::ExtraBlack:
+        case sw::FontWeight::UltraBlack:
+            return 950;
+        default:
+            return (u16)60000;
+    }
+}
+
+// ================================ //
+
+u16             FontPicker::ClosenessMetric( FontStyle value )
+{
+    // Note: those are rather arbitrary numbers.
+    // Oblique is should be very close to Italic, but far away from Normal and Condensed.
+    switch( value )
+    {
+        case sw::FontStyle::Normal:
+            return 100;
+        case sw::FontStyle::Oblique:
+            return 350;
+        case sw::FontStyle::Italic:
+            return 300;
+        case sw::FontStyle::Condensed:
+            return 900;
+        default:
+            return 60000;
+    }
 }
 
 // ================================ //

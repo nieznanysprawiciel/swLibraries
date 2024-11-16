@@ -117,7 +117,10 @@ public:
     void        RegisterSearchPath( const fs::Path& path );
 
 public:
-    Nullable< FontSearchEntry >                 FindFontFile( PathsManager* pm, const std::string& fontFamily, FontWeight weight, FontStyle style ) const;
+    /**@brief Finds Font file that meets the criteria.
+    @param exact If flag is enabled, the exact Font in the family will be chosen even if none meets the criteria.
+    Otherwise the closest file is chosen.*/
+    Nullable< FontSearchEntry >                 ChooseFontFile( PathsManager* pm, const std::string& fontFamily, FontWeight weight, FontStyle style, bool exact ) const;
     Nullable< std::vector< FontSearchEntry > >  ListFonts( PathsManager* pm ) const;
     Nullable< std::vector< FontSearchEntry > >  ListFontVariants( PathsManager* pm, const std::string& fontFamily ) const;
     Nullable< FontSearchEntry >                 GetFontMetadata( PathsManager* pm, const fs::Path& path ) const;
@@ -126,6 +129,9 @@ public:
     static Nullable< FontWeight >           ParseFontWeight( const std::string& styleName );
     static Nullable< FontStyle >            ParseFontStyle( const std::string& styleName );
     static FontMetadata                     QueryMetadata( FreeTypeLibrary& freeType );
+    
+    static u16          ClosenessMetric( FontWeight value );
+    static u16          ClosenessMetric( FontStyle value );
 };
 
 
