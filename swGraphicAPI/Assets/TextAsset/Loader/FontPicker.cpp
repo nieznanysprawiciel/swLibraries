@@ -59,7 +59,7 @@ Nullable< FontSearchEntry >     FontPicker::FindFontFile( PathsManager* pm, cons
 
     for( auto& variant : varaints.Get() )
     {
-        if( variant.Weight == weight && variant.Style == style )
+        if( variant.Metadata.Weight == weight && variant.Metadata.Style == style )
             return variant;
     }
 
@@ -114,23 +114,32 @@ Nullable< FontSearchEntry >                 FontPicker::FontMetadata( PathsManag
     auto loadPath = LoadPath( AssetPath( path, "" ), pm );
     ReturnIfInvalid( freeType.Get().CreateFace( loadPath, 3 ) );
 
-    auto meta = freeType.Get().Metadata();
-    auto style = ParseFontStyle( meta.StyleName );
-    auto weight = ParseFontWeight( meta.StyleName );
+    auto ftMeta = freeType.Get().Metadata();
+    auto style = ParseFontStyle( ftMeta.StyleName );
+    auto weight = ParseFontWeight( ftMeta.StyleName );
+
+    auto meta = ::sw::FontMetadata();
+    meta.Family = std::move( ftMeta.Family );
+    meta.StyleName = std::move( ftMeta.StyleName );
+    meta.Weight = weight.IsValid() ? weight.Get() : FontWeight::Normal;
+    meta.Style = style.IsValid() ? style.Get() : FontStyle::Normal;
 
     return FontSearchEntry
     { 
         meta,
-        weight.IsValid() ? weight.Get() : FontWeight::Normal,
-        style.IsValid() ? style.Get() : FontStyle::Normal,
         loadPath
     };
 }
 
 // ================================ //
+
 template< typename EnumType >
-Nullable< EnumType >            ExtractEnum( const std::string& styleName )
+Nullable< std::vector< EnumType > >     ExtractEnum( const std::string& styleName )
 {
+    std::string style = styleName;
+    for( auto& c : style )
+        c = std::tolower( c );
+
     auto enumType = TypeID::get< EnumType >().get_enumeration();
     if( !enumType.is_valid() )
         return fmt::format( "Enum {} is not registered.", TypeID::get< EnumType >().get_name().to_string() );
@@ -139,28 +148,52 @@ Nullable< EnumType >            ExtractEnum( const std::string& styleName )
     for( auto variant : enumType.get_names() )
     {
         auto name = variant.to_string();
-        if( styleName.find( name ) != std::string::npos )
-            candidates.push_back( enumType.name_to_value( name ).get_value< EnumType >() );
+        for( auto& c : name )
+            c = std::tolower( c );
+
+        if( style.find( name ) != std::string::npos )
+            candidates.push_back( enumType.name_to_value( variant ).get_value< EnumType >() );
     }
 
-    if( candidates.empty() )
-        return fmt::format( "No matching enum value for {}.", styleName );
-
-    return candidates[ 0 ];
+    return candidates;
 }
 
 // ================================ //
 
 Nullable< FontWeight >              FontPicker::ParseFontWeight( const std::string& styleName )
 {
-    return ExtractEnum< FontWeight >( styleName );
+    auto candidates = ExtractEnum< FontWeight >( styleName );
+    ReturnIfInvalid( candidates );
+
+    switch( candidates.Get().size() )
+    {
+        case 0:
+            return FontWeight::Normal;
+        case 1:
+            return candidates.Get().front();
+        default:
+            std::sort( candidates.Get().begin(), candidates.Get().end() );
+            return candidates.Get().back();
+    }
 }
 
 // ================================ //
 
 Nullable< FontStyle >               FontPicker::ParseFontStyle( const std::string& styleName )
 {
-    return ExtractEnum< FontStyle >( styleName );
+    auto candidates = ExtractEnum< FontStyle >( styleName );
+    ReturnIfInvalid( candidates );
+
+    switch( candidates.Get().size() )
+    {
+        case 0:
+            return FontStyle::Normal;
+        case 1:
+            return candidates.Get().front();
+        default:
+            std::sort( candidates.Get().begin(), candidates.Get().end() );
+            return candidates.Get().back();
+    }
 }
 
 }  // sw

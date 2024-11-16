@@ -315,9 +315,9 @@ void                        FreeTypeLibrary::RenderGlyph( const Glyph& glyph, Im
 
 // ================================ //
 
-FontMetadata                FreeTypeLibrary::Metadata() const
+FTFontMetadata              FreeTypeLibrary::Metadata() const
 {
-    return FontMetadata{
+    return FTFontMetadata {
         this->Face->family_name, this->Face->style_name,
         bool( this->Face->style_flags & FT_STYLE_FLAG_ITALIC ),
         bool( this->Face->style_flags & FT_STYLE_FLAG_BOLD )

@@ -28,6 +28,21 @@ static const char* ftErrorString( FT_Error error )
 namespace sw
 {
 
+/**@brief Structure storing Font metadata.
+@ingroup Text*/
+struct FTFontMetadata
+{
+    std::string Family;
+    std::string StyleName;  //< String name of the style retrieved from font metadata.
+
+    /**@brief Indicates that Font is italic. Note that StyleName can contain more details about style.*/
+    bool IsItalic;
+    /**@brief Indicates that Font is bold. Note that StyleName can contain more details about different
+    styles of bold. Those 3 fields should be mapped to @ref FontWeight and @ref FontStyle enums.*/
+    bool IsBold;
+};
+
+
 /**FT_Library object is not multithreaded, so the new one must be created for each new
 loading operation. This class serves as RAII guard to free resources after loading is done.*/
 class FreeTypeLibrary
@@ -51,7 +66,7 @@ public:
     /**Renders Glyph to bitmap in selected rectangle.*/
     void                RenderGlyph		( const Glyph& glyph, ImageRegion< u32 >& image ) const;
 
-    FontMetadata        Metadata() const;
+    FTFontMetadata      Metadata() const;
 };
 
 

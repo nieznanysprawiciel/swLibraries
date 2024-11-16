@@ -23,10 +23,10 @@ Not all types are supported by all fonts.
 @ingroup Text*/
 enum class FontStyle : u8
 {
-    Normal,
-    Italic,
-    Oblique,
-    Condensed,
+    Normal = 0,
+    Italic = 3,
+    Oblique = 1,
+    Condensed = 2,
 };
 
 /**@brief Font thickness.
@@ -35,57 +35,60 @@ Compatible with WPF types.
 @ingroup Text*/
 enum class FontWeight : u8
 {
-    Bold,
+    // u8 representation reflects order of precendens when chosing which weight to use.
+    Thin = 1,
 
-    DemiBold,
-    SemiBold,
-    
-    Light,
-    
-    Medium,
+    Light = 2,
 
-    Normal,
-    Regular,
-    
-    Thin,
+    // ExtraLight and UltraLight are eqivalent.
+    ExtraLight = 3,
+    UltraLight = 4,
 
-    Black,
-    Heavy,
+    // Normal and Regular are eqivalent.
+    Normal = 5,
+    Regular = 6,
 
-    ExtraBlack,
-    UltraBlack,
+    Medium = 7,
 
-    ExtraBold,
-    UltraBold,
+    Bold = 8,
 
-    ExtraLight,
-    UltraLight
+    // DemiBold and SemiBold are eqivalent.
+    DemiBold = 9,
+    SemiBold = 10,
+
+    // Black and Heavy are eqivalent.
+    Black = 11,
+    Heavy = 12,
+
+    // ExtraBlack and UltraBlack are eqivalent.
+    ExtraBlack = 13,
+    UltraBlack = 14,
+
+    // ExtraBold and UltraBold are eqivalent.
+    ExtraBold = 15,
+    UltraBold = 16
 };
 
 /**@brief Structure storing Font metadata.
+
+Weight and Style are extracted from StyleName, which can contain more details about style
+than enums can represent. The closest match is chosen.
 @ingroup Text*/
 struct FontMetadata
 {
     std::string Family;
     std::string StyleName;  //< String name of the style retrieved from font metadata.
 
-    /**@brief Indicates that Font is italic. Note that StyleName can contain more details about style.*/
-    bool        IsItalic;
-    /**@brief Indicates that Font is bold. Note that StyleName can contain more details about different
-    styles of bold. Those 3 fields should be mapped to @ref FontWeight and @ref FontStyle enums.*/
-    bool        IsBold;
+    FontWeight  Weight;
+    FontStyle   Style;
 };
 
 /**@brief Data structure returned by @ref FontPicker.
 @ingroup Text*/
 struct FontSearchEntry
 {
-    FontMetadata Metadata;
-
-    FontWeight  Weight;
-    FontStyle   Style;
-
-    LoadPath    Path;
+    FontMetadata    Metadata;
+    LoadPath        Path;
 };
 
 
@@ -135,6 +138,18 @@ inline std::ostream& operator<<( std::ostream& stream, const FontWeight& value )
 {
     stream << Convert::ToString( value );
     return stream;
+}
+
+/**@brief Sorting helps determine which version should be chosen if there are multiple candidates.*/
+inline bool operator>( const FontWeight& left, const FontWeight& right )
+{
+    return static_cast< u8 >( left ) > static_cast< u8 >( right );
+}
+
+/**@brief Sorting helps determine which version should be chosen if there are multiple candidates.*/
+inline bool operator>( const FontStyle& left, const FontStyle& right )
+{
+    return static_cast< u8 >( left ) > static_cast< u8 >( right );
 }
 
 }	// sw

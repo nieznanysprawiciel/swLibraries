@@ -225,6 +225,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextShowcase", "ProjectDir\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestControls", "ProjectDir\Visual2015\Tests\TestControls\TestControls.vcxproj", "{68A29892-2C39-4068-AE0F-5021D29B8CE5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "multi-variant", "multi-variant", "{E7B804D9-7066-4A74-8642-D2FD5FC01F80}"
+	ProjectSection(SolutionItems) = preProject
+		..\swGraphicAPI\TestResources\fonts\multi-variant\source-sans-pro.black.ttf = ..\swGraphicAPI\TestResources\fonts\multi-variant\source-sans-pro.black.ttf
+		..\swGraphicAPI\TestResources\fonts\multi-variant\source-sans-pro.extralight-italic.ttf = ..\swGraphicAPI\TestResources\fonts\multi-variant\source-sans-pro.extralight-italic.ttf
+		..\swGraphicAPI\TestResources\fonts\multi-variant\source-sans-pro.semibold.ttf = ..\swGraphicAPI\TestResources\fonts\multi-variant\source-sans-pro.semibold.ttf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -806,6 +813,7 @@ Global
 		{1F535690-1AB1-47EA-961B-183C4DCF46D3} = {AD4FFF37-D748-47D4-AF31-78C2C7D87D42}
 		{D5E21347-CDBD-4B7B-B7A6-C7F94DEE4913} = {BBD5CA36-CFDA-417A-94F4-80E738794723}
 		{68A29892-2C39-4068-AE0F-5021D29B8CE5} = {CAC5582E-F5A0-42EA-85DE-325A7C0651D8}
+		{E7B804D9-7066-4A74-8642-D2FD5FC01F80} = {2CDA8A31-2F49-43B3-82CD-271BE83EC203}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A341301D-630D-4C6A-B843-1A50FC78565A}

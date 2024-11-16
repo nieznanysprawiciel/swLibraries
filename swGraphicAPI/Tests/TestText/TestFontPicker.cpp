@@ -33,14 +33,14 @@ TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.Metadata", "[GraphicAPI][FontLoad
     auto meta = picker.FontMetadata( rm->GetPathsManager(), "$(FontAssets)/arial.ttf" );
     REQUIRE_IS_VALID( meta );
     CHECK( meta.Get().Metadata.Family == "Arial" );
-    CHECK( meta.Get().Style == FontStyle::Normal );
-    CHECK( meta.Get().Weight == FontWeight::Regular );
+    CHECK( meta.Get().Metadata.Style == FontStyle::Normal );
+    CHECK( meta.Get().Metadata.Weight == FontWeight::Regular );
 
     auto meta2 = picker.FontMetadata( rm->GetPathsManager(), "$(FontAssets)/ELICEN.ttf" );
     REQUIRE( meta2.IsValid() );
     CHECK( meta2.Get().Metadata.Family == "ELICEN" );
-    CHECK( meta2.Get().Style == FontStyle::Normal );
-    CHECK( meta2.Get().Weight == FontWeight::Regular );
+    CHECK( meta2.Get().Metadata.Style == FontStyle::Normal );
+    CHECK( meta2.Get().Metadata.Weight == FontWeight::Regular );
 }
 
 // ================================ //
@@ -97,7 +97,7 @@ TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.ListFonts.MultiVariant", "[Graphi
     REQUIRE_IS_VALID( list );
 
     auto& files = list.Get();
-    CHECK( files.size() == 15 );
+    CHECK( files.size() == 6 );
 }
 
 // ================================ //
@@ -147,6 +147,14 @@ TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.ParseStyle", "[GraphicAPI][FontLo
     result = FontPicker::ParseFontStyle( "Semibold" );
     REQUIRE_IS_VALID( result );
     CHECK( result.Get() == FontStyle::Normal );
+
+    result = FontPicker::ParseFontStyle( "Condensed Bold" );
+    REQUIRE_IS_VALID( result );
+    CHECK( result.Get() == FontStyle::Normal );
+
+    result = FontPicker::ParseFontStyle( "Condensed Bold Italic" );
+    REQUIRE_IS_VALID( result );
+    CHECK( result.Get() == FontStyle::Italic );
 }
 
 // ================================ //
@@ -155,7 +163,7 @@ TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.ParseWeight", "[GraphicAPI][FontL
 {
     auto result = FontPicker::ParseFontWeight( "Regular" );
     REQUIRE_IS_VALID( result );
-    CHECK( result.Get() == FontWeight::Normal );
+    CHECK( result.Get() == FontWeight::Regular );
 
     result = FontPicker::ParseFontWeight( "Black Italic" );
     REQUIRE_IS_VALID( result );
