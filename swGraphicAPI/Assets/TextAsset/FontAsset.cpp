@@ -12,7 +12,8 @@
 RTTR_REGISTRATION
 {
     rttr::registration::class_< sw::FontAsset >( "sw::FontAsset" )
-        .property( "FontSize", &sw::FontAsset::m_fontSize );
+        .property( "FontSize", &sw::FontAsset::m_fontSize )
+        .property( "Metadata", &sw::FontAsset::m_metadata ) BIND_AS_REF;
 }
 
 namespace sw

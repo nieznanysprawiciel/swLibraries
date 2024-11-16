@@ -10,6 +10,7 @@
 
 #include "swGraphicAPI/Assets/TextAsset/Loader/FontAssetInitData.h"
 #include "swGraphicAPI/Assets/TextAsset/Loader/Glyph.h"
+#include "swGraphicAPI/Assets/TextAsset/Loader/FontPicker.h"
 
 
 namespace sw
@@ -36,7 +37,8 @@ class FontAsset : public Resource
 protected:
 
     TexturePtr			m_fontAtlas;
-	uint32				m_fontSize;
+    FontSizeType        m_fontSize;
+    FontMetadata        m_metadata;
 
     FontLayout          m_layout;
 
@@ -49,6 +51,7 @@ public:
     const Glyph&		GetGlyph		( wchar_t character ) const;
     float				GetKerning		( wchar_t first, wchar_t second ) const;
     const FontLayout&   GetLayout		() const { return m_layout; }
+    const FontMetadata& GetMetadata     () const { return m_metadata; }
 
     const TexturePtr&   GetFontAtlas    () const { return m_fontAtlas; }
 private:

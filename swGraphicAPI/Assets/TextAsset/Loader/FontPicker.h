@@ -91,6 +91,7 @@ struct FontSearchEntry
     LoadPath        Path;
 };
 
+class FreeTypeLibrary;
 
 /**@brief Finds @ref Font file that fits best to given parameters.
 
@@ -119,11 +120,12 @@ public:
     Nullable< FontSearchEntry >                 FindFontFile( PathsManager* pm, const std::string& fontFamily, FontWeight weight, FontStyle style ) const;
     Nullable< std::vector< FontSearchEntry > >  ListFonts( PathsManager* pm ) const;
     Nullable< std::vector< FontSearchEntry > >  ListFontVariants( PathsManager* pm, const std::string& fontFamily ) const;
-    Nullable< FontSearchEntry >                 FontMetadata( PathsManager* pm, const fs::Path& path ) const;
+    Nullable< FontSearchEntry >                 GetFontMetadata( PathsManager* pm, const fs::Path& path ) const;
 
 public:
-    static Nullable< FontWeight >          ParseFontWeight( const std::string& styleName );
-    static Nullable< FontStyle >           ParseFontStyle( const std::string& styleName );
+    static Nullable< FontWeight >           ParseFontWeight( const std::string& styleName );
+    static Nullable< FontStyle >            ParseFontStyle( const std::string& styleName );
+    static FontMetadata                     QueryMetadata( FreeTypeLibrary& freeType );
 };
 
 

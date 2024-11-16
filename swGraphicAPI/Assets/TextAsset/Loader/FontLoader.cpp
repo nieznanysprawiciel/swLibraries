@@ -111,6 +111,7 @@ LoadingResult       FreeTypeLoader::Load( const LoadPath& filePath, TypeID resou
         fontDesc.Layout.Glyphs = BuildGlyphs( freeType.Get(), loadInfo->CharacterSet ).Get();
         fontDesc.Layout.Kerning = BuildKerning( freeType.Get(), loadInfo->CharacterSet ).Get();
         fontDesc.FontAtlas = RenderAtlas( freeType, atlasPath, fontDesc.Layout, context ).Get();
+        fontDesc.Metadata = FontPicker::QueryMetadata( freeType );
 
         auto result = context.CreateGenericAsset( fontAssetPath, loadInfo->GetAssetType(), std::move( fontDesc ) );
         return LoadingResult( result.Get() );

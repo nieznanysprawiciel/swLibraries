@@ -30,13 +30,13 @@ TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.Metadata", "[GraphicAPI][FontLoad
     FontPicker picker;
     picker.RegisterSearchPath( "$(FontAssets)" );
 
-    auto meta = picker.FontMetadata( rm->GetPathsManager(), "$(FontAssets)/arial.ttf" );
+    auto meta = picker.GetFontMetadata( rm->GetPathsManager(), "$(FontAssets)/arial.ttf" );
     REQUIRE_IS_VALID( meta );
     CHECK( meta.Get().Metadata.Family == "Arial" );
     CHECK( meta.Get().Metadata.Style == FontStyle::Normal );
     CHECK( meta.Get().Metadata.Weight == FontWeight::Regular );
 
-    auto meta2 = picker.FontMetadata( rm->GetPathsManager(), "$(FontAssets)/ELICEN.ttf" );
+    auto meta2 = picker.GetFontMetadata( rm->GetPathsManager(), "$(FontAssets)/ELICEN.ttf" );
     REQUIRE( meta2.IsValid() );
     CHECK( meta2.Get().Metadata.Family == "ELICEN" );
     CHECK( meta2.Get().Metadata.Style == FontStyle::Normal );
@@ -75,10 +75,10 @@ TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.Metadata.IncorrectFiles", "[Graph
     FontPicker picker;
     picker.RegisterSearchPath( "$(FontAssets)" );
 
-    auto meta = picker.FontMetadata( rm->GetPathsManager(), "$(FontAssets)/not-font.txt" );
+    auto meta = picker.GetFontMetadata( rm->GetPathsManager(), "$(FontAssets)/not-font.txt" );
     REQUIRE_INVALID( meta );
 
-    meta = picker.FontMetadata( rm->GetPathsManager(), "$(FontAssets)/incorrect.ttf" );
+    meta = picker.GetFontMetadata( rm->GetPathsManager(), "$(FontAssets)/incorrect.ttf" );
     REQUIRE_INVALID( meta );
 }
 

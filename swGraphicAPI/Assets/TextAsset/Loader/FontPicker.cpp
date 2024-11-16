@@ -38,6 +38,12 @@ RTTR_REGISTRATION
         rttr::value( "Normal", sw::FontStyle::Normal ),
         rttr::value( "Oblique", sw::FontStyle::Oblique ),
         rttr::value( "Italic", sw::FontStyle::Italic ) );
+
+    rttr::registration::class_< sw::FontMetadata >( "sw::FontMetadata" )
+        .property( "Family", &sw::FontMetadata::Family )
+        .property( "StyleName", &sw::FontMetadata::StyleName )
+        .property( "Style", &sw::FontMetadata::Style )
+        .property( "Weight", &sw::FontMetadata::Weight );
 }
 
 namespace sw
@@ -78,7 +84,7 @@ Nullable< std::vector< FontSearchEntry > >  FontPicker::ListFonts( PathsManager*
         auto files = fs::Dir::ListFiles( dir );
         for( auto& file : files )
         {
-            auto meta = FontMetadata( pm, file );
+            auto meta = GetFontMetadata( pm, file );
             if( meta.IsValid() )
                 entries.push_back( meta.Get() );
         }
@@ -106,7 +112,7 @@ Nullable< std::vector< FontSearchEntry > >  FontPicker::ListFontVariants( PathsM
 
 // ================================ //
 
-Nullable< FontSearchEntry >                 FontPicker::FontMetadata( PathsManager* pm, const fs::Path& path ) const
+Nullable< FontSearchEntry >                 FontPicker::GetFontMetadata( PathsManager* pm, const fs::Path& path ) const
 {
     auto freeType = FreeTypeLibrary::Create();
     ReturnIfInvalid( freeType );
@@ -114,21 +120,31 @@ Nullable< FontSearchEntry >                 FontPicker::FontMetadata( PathsManag
     auto loadPath = LoadPath( AssetPath( path, "" ), pm );
     ReturnIfInvalid( freeType.Get().CreateFace( loadPath, 3 ) );
 
-    auto ftMeta = freeType.Get().Metadata();
-    auto style = ParseFontStyle( ftMeta.StyleName );
-    auto weight = ParseFontWeight( ftMeta.StyleName );
-
-    auto meta = ::sw::FontMetadata();
-    meta.Family = std::move( ftMeta.Family );
-    meta.StyleName = std::move( ftMeta.StyleName );
-    meta.Weight = weight.IsValid() ? weight.Get() : FontWeight::Normal;
-    meta.Style = style.IsValid() ? style.Get() : FontStyle::Normal;
+    auto meta = QueryMetadata( freeType.Get() );
 
     return FontSearchEntry
     { 
         meta,
         loadPath
     };
+}
+
+// ================================ //
+
+FontMetadata                            FontPicker::QueryMetadata( FreeTypeLibrary& freeType )
+{
+    auto ftMeta = freeType.Metadata();
+
+    auto style = ParseFontStyle( ftMeta.StyleName );
+    auto weight = ParseFontWeight( ftMeta.StyleName );
+
+    auto meta = ::sw::FontMetadata();
+    meta.Family = std::move( ftMeta.Family );
+    meta.StyleName = std::move( ftMeta.StyleName );
+    meta.Weight = weight.IsValid() ? weight.Get() : ftMeta.IsBold ? FontWeight::Bold : FontWeight::Normal;
+    meta.Style = style.IsValid() ? style.Get() : ftMeta.IsItalic ? FontStyle::Italic : FontStyle::Normal;
+
+    return meta;
 }
 
 // ================================ //

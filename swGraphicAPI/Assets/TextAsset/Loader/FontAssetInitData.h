@@ -15,6 +15,7 @@
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
 
 #include "swGraphicAPI/Assets/TextAsset/Loader/Glyph.h"
+#include "swGraphicAPI/Assets/TextAsset/Loader/FontPicker.h"
 
 namespace sw
 {
@@ -68,6 +69,7 @@ public:
 
     TexturePtr          FontAtlas;
     FontSizeType        FontSize;
+    FontMetadata        Metadata;
 
     FontLayout          Layout;
 
