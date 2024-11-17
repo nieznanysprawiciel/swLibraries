@@ -132,4 +132,12 @@ float           FontLayout::SpaceWidth() const { return (float)Glyphs.at( L'0' )
 
 float           FontLayout::NewLineSize() const { return (float)Glyphs.at( L'0' ).Height; }
 
-}	// sw
+// ================================ //
+
+std::string     ChooseFontLoadData::ResourceKey() const
+{
+    return fmt::format( "/Font?fontSize={},family={},weight={},style={}", this->FontSize, this->FontFamily,
+                        this->FontWeight, this->FontStyle );
+}
+
+}  // namespace sw

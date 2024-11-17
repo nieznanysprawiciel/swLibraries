@@ -10,6 +10,7 @@
 
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoader.h"
+#include "swGraphicAPI/Assets/TextAsset/Loader/FontPicker.h"
 
 
 namespace sw
@@ -26,9 +27,13 @@ http://freetype.org/freetype2/docs/tutorial/step1.html#section-1
 class FreeTypeLoader : public IAssetLoader
 {
 protected:
+
+    FontPicker      m_fontPicker;
+
 public:
-    explicit						FreeTypeLoader    () = default;
-    virtual                         ~FreeTypeLoader   () = default;
+    explicit						FreeTypeLoader      () = default;
+    explicit                        FreeTypeLoader      ( FontPicker&& picker );
+    virtual                         ~FreeTypeLoader     () = default;
 
     virtual bool					CanLoad				( const AssetPath& filePath, TypeID resourceType )															override;
     virtual LoadingResult			Load				( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI context )		override;

@@ -120,6 +120,10 @@ TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.ChooseFont", "[GraphicAPI][FontLo
     chosen = picker.ChooseFontFile( rm->GetPathsManager(), "Source Sans Pro", FontWeight::Light, FontStyle::Italic, true );
     REQUIRE_INVALID( chosen );
 
+    // DemiBold is eqivalent to SemiBold so exact match should be found.
+    chosen = picker.ChooseFontFile( rm->GetPathsManager(), "Source Sans Pro", FontWeight::DemiBold, FontStyle::Normal, true );
+    REQUIRE_IS_VALID( chosen );
+
     chosen = picker.ChooseFontFile( rm->GetPathsManager(), "Source Sans Pro", FontWeight::Light, FontStyle::Italic, false );
     REQUIRE_IS_VALID( chosen );
     CHECK( chosen.Get().Metadata.Weight == FontWeight::ExtraLight );
@@ -191,7 +195,7 @@ TEST_CASE( "GraphicAPI.Loaders.Font.FontPicker.ParseStyle", "[GraphicAPI][FontLo
 
     result = FontPicker::ParseFontStyle( "Condensed Bold" );
     REQUIRE_IS_VALID( result );
-    CHECK( result.Get() == FontStyle::Normal );
+    CHECK( result.Get() == FontStyle::Condensed );
 
     result = FontPicker::ParseFontStyle( "Condensed Bold Italic" );
     REQUIRE_IS_VALID( result );

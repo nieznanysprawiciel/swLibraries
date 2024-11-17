@@ -63,6 +63,7 @@ public:
     using ResourceManagerAPI::LoadComputeShader;
     using ResourceManagerAPI::LoadShader;
 
+    using ResourceManagerAPI::GetPathsManager;
 };
 
 

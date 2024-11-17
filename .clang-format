@@ -94,9 +94,7 @@ EmptyLineAfterAccessModifier: Leave
 # Describe the regular expression of the comment with special meaning, it should not be divided into multiple lines or changed in other ways
 # CommentPragmas:'^ IWYU pragma:'
 # The initialization list of the constructor is either all on the same line or on their own line
-ConstructorInitializerAllOnOneLineOrOnePerLine: true
-# The comfort list of constructors all wrap
-AllowAllConstructorInitializersOnNextLine: false
+AllowAllConstructorInitializersOnNextLine: true
 # The indentation width of the initialization list of the constructor
 ConstructorInitializerIndentWidth: 4
 # The indentation width of the continued line

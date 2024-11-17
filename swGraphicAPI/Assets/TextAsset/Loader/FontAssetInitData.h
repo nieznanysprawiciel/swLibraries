@@ -117,6 +117,30 @@ public:
 
 };
 
+/**@brief Load font by providing parameters which will be resolved by FontPicker.
+@ingroup Text*/
+struct ChooseFontLoadData : public FontLoaderData
+{
+    RTTR_ENABLE( FontLoaderData );
+public:
+
+    std::string FontFamily;
+    FontWeight  FontWeight;
+    FontStyle   FontStyle;
+    bool        MatchExact;
+
+public:
+    explicit ChooseFontLoadData( const std::string& fontFamuly, FontSizeType fontSize )
+        : FontLoaderData( fontSize )
+        , FontFamily( fontFamuly )
+        , FontWeight( FontWeight::Normal )
+        , FontStyle( FontStyle::Normal )
+        , MatchExact( true )
+    {}
+
+public:
+    virtual std::string ResourceKey() const override;
+};
 
 
 

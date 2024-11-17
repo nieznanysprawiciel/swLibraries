@@ -210,3 +210,29 @@ TEST_CASE( "GraphicAPI.Loaders.Correctness.ExitingAtlas", "[GraphicAPI][FontLoad
     REQUIRE_IS_VALID( font2 );
 }
 
+// ================================ //
+//
+TEST_CASE( "GraphicAPI.Loaders.PickFont", "[GraphicAPI][FontLoader][FreeTypeLoader]" )
+{
+    auto rm = CreateResourceManagerWithMocksAndDefaults();
+    auto pm = rm->GetPathsManager();
+
+    FontPicker picker;
+    picker.RegisterSearchPath( "$(FontAssets)" );
+    pm->RegisterAlias( "$(FontAssets)", "$(TestAssets)/fonts/" );
+
+    rm->RegisterLoader( std::make_shared< FreeTypeLoader >( std::move( picker ) ) );
+    rm->RegisterAssetCreator( FontCreator::CreateCreator() );
+
+    ChooseFontLoadData init( "Arial", 16 );
+    init.FontWeight = FontWeight::Normal;
+    init.FontStyle = FontStyle::Normal;
+
+    auto api = ResourceManagerAPI( rm.get() );
+    auto font = api.Load< FontAsset >( "", &init );
+    REQUIRE_IS_VALID( font );
+    
+    CHECK( font.Get()->GetMetadata().Family == "Arial" );
+    CHECK( font.Get()->GetMetadata().Style == FontStyle::Normal );
+    CHECK( font.Get()->GetMetadata().Weight == FontWeight::Regular );  // Regular is eqivalent to Normal
+}

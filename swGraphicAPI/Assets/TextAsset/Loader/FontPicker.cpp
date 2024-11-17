@@ -69,7 +69,7 @@ Nullable< FontSearchEntry >     FontPicker::ChooseFontFile( PathsManager* pm, co
 
     for( auto& variant : variants.Get() )
     {
-        if( variant.Metadata.Weight == weight && variant.Metadata.Style == style )
+        if( Eqivalent( variant.Metadata.Weight, weight ) && Eqivalent( variant.Metadata.Style, style ) )
             return variant;
 
         metric[ &variant ] =

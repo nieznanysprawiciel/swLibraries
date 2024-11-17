@@ -60,6 +60,9 @@ Nullable< std::map<KerningPair, float> >        BuildKerning( const FreeTypeLibr
     return collector.Return( kerning );
 }
 
+// ================================ //
+
+FreeTypeLoader::FreeTypeLoader( FontPicker&& picker ) : m_fontPicker( std::move( picker ) ) {}
 
 // ================================ //
 // 
@@ -77,7 +80,11 @@ bool                FreeTypeLoader::CanLoad( const AssetPath& filePath, TypeID r
         TypeID::get< Resource >()
     };
 
-    return DefaultCanLoad( filePath, resourceType, allowedExtensions, allowedTypes );
+    // Variant for ChooseFontLoadData descriptor.
+    if( filePath.GetFile().IsEmpty() )
+        return CanLoadType( resourceType, allowedTypes );
+    else
+        return DefaultCanLoad( filePath, resourceType, allowedExtensions, allowedTypes );
 }
 
 // ================================ //
@@ -87,13 +94,32 @@ LoadingResult       FreeTypeLoader::Load( const LoadPath& filePath, TypeID resou
     if( assetDesc == nullptr )
         return LoaderException::Create( "FreeTypeLoader", "Asset descriptor is null.", filePath, resourceType );
 
-    if( assetDesc->get_type() != TypeID::get< FontLoaderData >() )
-        return LoaderException::Create( "FreeTypeLoader", "Unsupported descriptor type [ " + assetDesc->get_type().get_name().to_string() + " ].", filePath, resourceType );
+    if( assetDesc->get_type() != TypeID::get< FontLoaderData >()
+        && assetDesc->get_type() != TypeID::get< ChooseFontLoadData >() )
+    {
+        return LoaderException::Create(
+            "FreeTypeLoader", "Unsupported descriptor type [ " + assetDesc->get_type().get_name().to_string() + " ].",
+            filePath, resourceType );
+    }
+
+    LoadPath fontPath = filePath;
+    if( assetDesc->get_type() == TypeID::get< ChooseFontLoadData >() )
+    {
+        auto loadInfo = static_cast< const ChooseFontLoadData* >( assetDesc );
+        auto chosen =
+            m_fontPicker.ChooseFontFile( context.GetPathsManager(), loadInfo->FontFamily, loadInfo->FontWeight, loadInfo->FontStyle, loadInfo->MatchExact );
+        ReturnIfInvalid( chosen );
+
+        fontPath = chosen.Get().Path;
+    }
 
     auto loadInfo = static_cast< const FontLoaderData* >( assetDesc );
 
-    AssetPath atlasPath = AssetPath( filePath.GetFileTranslated(), fmt::format( "/Atlas{}", loadInfo->ResourceKey() ) );
-    AssetPath fontAssetPath = AssetPath( filePath.GetFileTranslated(), loadInfo->ResourceKey() );
+    // Note: ResourceKey is taken from parent descriptor, because since we have exact file path, we don't need to distinguish
+    // between different styles and weights. The goal of havinf internal path is to avoid duplicate loading of the same font.
+    AssetPath atlasPath =
+        AssetPath( fontPath.GetFileTranslated(), fmt::format( "/Atlas{}", loadInfo->FontLoaderData::ResourceKey() ) );
+    AssetPath fontAssetPath = AssetPath( fontPath.GetFileTranslated(), loadInfo->FontLoaderData::ResourceKey() );
 
     auto cached = context.GetCachedGeneric( fontAssetPath, resourceType );
     if( cached )
@@ -101,7 +127,7 @@ LoadingResult       FreeTypeLoader::Load( const LoadPath& filePath, TypeID resou
 
     auto freeType = FreeTypeLibrary::Create();
     ReturnIfInvalid( freeType );
-    ReturnIfInvalid( freeType.Get().CreateFace( filePath, loadInfo->FontSize ) );
+    ReturnIfInvalid( freeType.Get().CreateFace( fontPath, loadInfo->FontSize ) );
 
     FontInitData fontDesc( loadInfo->FontSize );
 
@@ -118,7 +144,7 @@ LoadingResult       FreeTypeLoader::Load( const LoadPath& filePath, TypeID resou
     }
     catch( const RuntimeException& ex )
     {
-        return LoaderException::Create( "FreeTypeLoader", ex.ErrorMessage(), filePath, resourceType );
+        return LoaderException::Create( "FreeTypeLoader", ex.ErrorMessage(), fontPath, resourceType );
     }
 }
 
@@ -154,7 +180,7 @@ Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const FreeTypeLibrary& 
     //SoilTextureLoader::Save( filePath.GetFile().ChangeExtension( ".png" ), image );
 
     TextureInitData texInfo( std::move( image ) );
-    texInfo.MipMaps = MipMapsInfo( MipMapFilter::Lanczos3 );
+    texInfo.MipMaps = MipMapsInfo();
     texInfo.TextureUsage = TextureUsageInfo();
     texInfo.Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
 

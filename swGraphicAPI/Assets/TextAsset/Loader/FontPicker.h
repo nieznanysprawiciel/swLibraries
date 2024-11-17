@@ -161,6 +161,18 @@ inline bool operator>( const FontStyle& left, const FontStyle& right )
     return static_cast< u8 >( left ) > static_cast< u8 >( right );
 }
 
+/**@brief Checks if enum variants can be treated as equal.*/
+inline bool Eqivalent( const FontStyle& left, const FontStyle& right )
+{
+    return FontPicker::ClosenessMetric( left ) == FontPicker::ClosenessMetric( right );
+}
+
+/**@brief Checks if enum variants can be treated as equal.*/
+inline bool Eqivalent( const FontWeight& left, const FontWeight& right )
+{
+    return FontPicker::ClosenessMetric( left ) == FontPicker::ClosenessMetric( right );
+}
+
 }	// sw
 
 DEFINE_FMT_FORMATTER_ENUM( sw::FontWeight );
