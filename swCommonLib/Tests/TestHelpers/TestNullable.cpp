@@ -173,6 +173,29 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.MapErr", "[Nullable]" )
     CHECK( mappedErr.GetError() != nullptr );
 }
 
+Nullable< NotCopyable > CreateNotCopyable( bool move )
+{
+    if( move )
+		return std::move( NotCopyable() );
+    else
+        return NotCopyable();
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.Nullable.NotCopyAble", "[Nullable]" )
+{
+    auto mappedErr =
+        Nullable< NotCopyable >( "Something wrong..." ).MapErr( []( auto e ) { return fmt::format( "Failure: {}", e ); } );
+
+    REQUIRE( mappedErr.IsValid() == false );
+    CHECK( mappedErr.GetErrorReason() == "Failure: Something wrong..." );
+    CHECK( mappedErr.GetError() != nullptr );
+
+	auto result = CreateNotCopyable( true );
+    REQUIRE( result.IsValid() == true );
+}
+
 // ================================ //
 //
 TEST_CASE( "Common.Helpers.Exceptions.ReturnResult.operator&&", "[Nullable]" )

@@ -199,7 +199,7 @@ inline Nullable< Type >            Nullable< ContentType >::Move    ()
 //
 template< typename ContentType >
 inline Nullable< ContentType >     Nullable< ContentType >::FromError       ( const ErrorType& error ) 
-{ 
+{
     Nullable< ContentType > ret; 
     ret.Error = error; 
     return ret; 
@@ -209,7 +209,7 @@ inline Nullable< ContentType >     Nullable< ContentType >::FromError       ( co
 //
 template< typename ContentType >
 inline Nullable< ContentType >     Nullable< ContentType >::FromError       ( const std::string& reason ) 
-{ 
+{
     return FromError( std::make_shared< RuntimeException >( reason ) );
 }
 

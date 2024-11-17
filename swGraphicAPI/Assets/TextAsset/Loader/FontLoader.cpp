@@ -134,8 +134,8 @@ LoadingResult       FreeTypeLoader::Load( const LoadPath& filePath, TypeID resou
     try
     {
         fontDesc.Layout.Padding = 1;
-        fontDesc.Layout.Glyphs = BuildGlyphs( freeType.Get(), loadInfo->CharacterSet ).Get();
-        fontDesc.Layout.Kerning = BuildKerning( freeType.Get(), loadInfo->CharacterSet ).Get();
+        fontDesc.Layout.Glyphs = BuildGlyphs( freeType, loadInfo->CharacterSet ).Get();
+        fontDesc.Layout.Kerning = BuildKerning( freeType, loadInfo->CharacterSet ).Get();
         fontDesc.FontAtlas = RenderAtlas( freeType, atlasPath, fontDesc.Layout, context ).Get();
         fontDesc.Metadata = FontPicker::QueryMetadata( freeType );
 
@@ -241,28 +241,56 @@ Image< u32 >                FreeTypeLoader::RenderAtlasToBuffer( const FreeTypeL
 const auto FT_PrecisionMult = 6;
 
 // ================================ //
+
+FreeTypeLibrary::~FreeTypeLibrary()
+{
+    if( this->FT )
+    {
+        if( this->FT->Face )
+        {
+            FT_Done_Face( this->FT->Face );
+            this->FT->Face = nullptr;
+        }
+
+        if( this->FT->Library )
+        {
+            FT_Done_FreeType( this->FT->Library );
+            this->FT->Library = nullptr;
+        }
+    }
+}
+
+// ================================ //
+
+ReturnResult            FreeTypeLibrary::CreateLibrary()
+{
+    auto error = FT_Init_FreeType( &this->FT->Library );
+    if( error )
+        return fmt::format( "Failed to initialize FreeType library. Error: {}", ftErrorString( error ) );
+    return Success::True;
+}
+
+// ================================ //
 // 
 Nullable<FreeTypeLibrary>   FreeTypeLibrary::Create()
 {
-    FT_Library library;
-    auto error = FT_Init_FreeType( &library );
-    if( error )
-        return Nullable< FreeTypeLibrary >::FromError( fmt::format( "Failed to initialize FreeType library." ) );
-    return FreeTypeLibrary( library );
+    FreeTypeLibrary freeType;
+    ReturnIfInvalid( freeType.CreateLibrary() );
+    return freeType;
 }
 
 // ================================ //
 // 
 ReturnResult                FreeTypeLibrary::CreateFace( const LoadPath& filePath, uint32 fontSize )
 {
-    FT_Error error = FT_New_Face( this->Library, filePath.GetFile().String().c_str(), 0, &this->Face);
+    FT_Error error = FT_New_Face( this->FT->Library, filePath.GetFile().String().c_str(), 0, &this->FT->Face);
     if( error != FT_Err_Ok )
     {
         return ReturnResult( fmt::format( "Failed to create face from font file: {}, error: {}",
             filePath.GetFile().String(), ftErrorString( error ) ) );
     }
 
-    FT_Error error2 = FT_Set_Pixel_Sizes( this->Face, (FT_UInt)fontSize, (FT_UInt)fontSize );
+    FT_Error error2 = FT_Set_Pixel_Sizes( this->FT->Face, (FT_UInt)fontSize, (FT_UInt)fontSize );
     if( error2 != FT_Err_Ok )
     {
         return ReturnResult( fmt::format( "Failed to set pixel size: {}, error: {}",
@@ -276,9 +304,9 @@ ReturnResult                FreeTypeLibrary::CreateFace( const LoadPath& filePat
 // 
 Nullable<Glyph>             FreeTypeLibrary::LoadGlyph( wchar_t character ) const
 {
-    FT_UInt gindex = FT_Get_Char_Index( this->Face, character );
+    FT_UInt gindex = FT_Get_Char_Index( this->FT->Face, character );
     
-    auto result = FT_Load_Glyph( this->Face, gindex, FT_LOAD_NO_BITMAP );
+    auto result = FT_Load_Glyph( this->FT->Face, gindex, FT_LOAD_NO_BITMAP );
     if( result != FT_Err_Ok )
         return std::make_shared< RuntimeException> ( fmt::format("Error loading glyph for character '{}': {}",
             Convert::ToString( character ), ftErrorString( result ) ) );
@@ -287,13 +315,13 @@ Nullable<Glyph>             FreeTypeLibrary::LoadGlyph( wchar_t character ) cons
 
     newGlyph.CharCode = character;
     newGlyph.GlyphIdx = gindex;
-    newGlyph.Height = this->Face->glyph->metrics.height >> FT_PrecisionMult;
-    newGlyph.Width = this->Face->glyph->metrics.width >> FT_PrecisionMult;
+    newGlyph.Height = this->FT->Face->glyph->metrics.height >> FT_PrecisionMult;
+    newGlyph.Width = this->FT->Face->glyph->metrics.width >> FT_PrecisionMult;
 
-    newGlyph.BearingX = this->Face->glyph->metrics.horiBearingX >> FT_PrecisionMult;
-    newGlyph.BearingY = this->Face->glyph->metrics.horiBearingY >> FT_PrecisionMult;
-    newGlyph.AdvanceX = this->Face->glyph->advance.x >> FT_PrecisionMult;
-    newGlyph.AdvanceY = this->Face->glyph->advance.y >> FT_PrecisionMult;
+    newGlyph.BearingX = this->FT->Face->glyph->metrics.horiBearingX >> FT_PrecisionMult;
+    newGlyph.BearingY = this->FT->Face->glyph->metrics.horiBearingY >> FT_PrecisionMult;
+    newGlyph.AdvanceX = this->FT->Face->glyph->advance.x >> FT_PrecisionMult;
+    newGlyph.AdvanceY = this->FT->Face->glyph->advance.y >> FT_PrecisionMult;
 
     return Nullable<Glyph>( newGlyph );
 }
@@ -304,10 +332,10 @@ Nullable<float>             FreeTypeLibrary::Kerning( wchar_t first, wchar_t sec
 {
     FT_Vector kerning;
 
-    auto leftGlyphIdx = FT_Get_Char_Index( this->Face, first );
-    auto rightGlyphIdx = FT_Get_Char_Index( this->Face, second );
+    auto leftGlyphIdx = FT_Get_Char_Index( this->FT->Face, first );
+    auto rightGlyphIdx = FT_Get_Char_Index( this->FT->Face, second );
 
-    auto result = FT_Get_Kerning( this->Face,
+    auto result = FT_Get_Kerning( this->FT->Face,
         leftGlyphIdx,
         rightGlyphIdx,
         FT_KERNING_DEFAULT,
@@ -326,9 +354,9 @@ Nullable<float>             FreeTypeLibrary::Kerning( wchar_t first, wchar_t sec
 // 
 void                        FreeTypeLibrary::RenderGlyph( const Glyph& glyph, ImageRegion< u32 >& image ) const
 {
-    FT_Load_Glyph( this->Face, glyph.GlyphIdx, FT_LOAD_RENDER );
+    FT_Load_Glyph( this->FT->Face, glyph.GlyphIdx, FT_LOAD_RENDER );
 
-    FT_Bitmap* bitmap = &this->Face->glyph->bitmap;
+    FT_Bitmap* bitmap = &this->FT->Face->glyph->bitmap;
     
     for( uint32 x = 0; x < image.GetWidth(); x++ )
     {
@@ -345,10 +373,11 @@ void                        FreeTypeLibrary::RenderGlyph( const Glyph& glyph, Im
 FTFontMetadata              FreeTypeLibrary::Metadata() const
 {
     return FTFontMetadata {
-        this->Face->family_name, this->Face->style_name,
-        bool( this->Face->style_flags & FT_STYLE_FLAG_ITALIC ),
-        bool( this->Face->style_flags & FT_STYLE_FLAG_BOLD )
+        this->FT->Face->family_name, this->FT->Face->style_name,
+        bool( this->FT->Face->style_flags & FT_STYLE_FLAG_ITALIC ),
+        bool( this->FT->Face->style_flags & FT_STYLE_FLAG_BOLD )
     };
 }
 
 }
+

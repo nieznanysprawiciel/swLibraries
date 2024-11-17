@@ -26,6 +26,15 @@ struct PhysicalProperties
 	{}
 };
 
+/**@brief Not-copyable object.
+@ingroup TestClassHierarchy*/
+struct NotCopyable
+{
+    NotCopyable() = default;
+    NotCopyable( const NotCopyable& ) = delete;
+    NotCopyable( NotCopyable&& ) = default;
+    NotCopyable& operator=( const NotCopyable& ) = delete;
+};
 
 }	// sw
 

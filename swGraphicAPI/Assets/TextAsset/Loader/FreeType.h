@@ -42,18 +42,33 @@ struct FTFontMetadata
     bool IsBold;
 };
 
+namespace impl
+{
+
+/**@brief Those types must be allocated on heap, otherwise FreeType library will crash.*/
+struct FTTypes
+{
+    FT_Library Library;
+    FT_Face    Face;
+};
+
+}
+
 
 /**FT_Library object is not multithreaded, so the new one must be created for each new
 loading operation. This class serves as RAII guard to free resources after loading is done.*/
 class FreeTypeLibrary
 {
 public:
-    FT_Library  Library;
-    FT_Face     Face;
+
+    std::unique_ptr< impl::FTTypes > FT;
 
 public:
-    explicit		FreeTypeLibrary	( FT_Library library ) : Library( library ), Face( nullptr ) {}
-                    ~FreeTypeLibrary() = default;
+    explicit FreeTypeLibrary()
+        : FT( std::make_unique< impl::FTTypes >( impl::FTTypes{ nullptr, nullptr } ) )
+    {}
+                    FreeTypeLibrary	( FreeTypeLibrary&& freeType ) = default;
+                    ~FreeTypeLibrary();
 public:
     static Nullable<FreeTypeLibrary>   Create();
 
@@ -67,6 +82,9 @@ public:
     void                RenderGlyph		( const Glyph& glyph, ImageRegion< u32 >& image ) const;
 
     FTFontMetadata      Metadata() const;
+
+private:
+    ReturnResult        CreateLibrary();
 };
 
 
