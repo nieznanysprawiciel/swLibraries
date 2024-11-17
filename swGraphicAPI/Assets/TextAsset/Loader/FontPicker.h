@@ -27,6 +27,7 @@ enum class FontStyle : u8
     Italic = 3,
     Oblique = 1,
     Condensed = 2,
+    Narrow = 4
 };
 
 /**@brief Font thickness.

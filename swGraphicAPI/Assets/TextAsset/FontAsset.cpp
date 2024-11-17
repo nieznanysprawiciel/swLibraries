@@ -26,6 +26,7 @@ FontAsset::FontAsset( AssetPath filePath, FontInitData&& initData )
     , m_fontSize( initData.FontSize )
     , m_fontAtlas( initData.FontAtlas )
     , m_layout( std::move( initData.Layout) )
+    , m_metadata( initData.Metadata )
 {}
 
 // ================================ //

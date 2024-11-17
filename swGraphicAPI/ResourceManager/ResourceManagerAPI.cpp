@@ -278,6 +278,13 @@ Nullable< DepthStencilStatePtr >    ResourceManagerAPI::CreateDepthStencilState 
     return CreateAsset< DepthStencilState >( name, DepthStencilInfo( info ) );
 }
 
+// ================================ //
+
+PathsManager*                       ResourceManagerAPI::GetPathsManager() const
+{
+    return m_resourceManager->GetPathsManager();
+}
+
 
 }	// sw
 

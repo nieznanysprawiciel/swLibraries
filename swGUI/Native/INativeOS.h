@@ -28,7 +28,7 @@ public:
 
 	virtual	fs::Path		GetTempDir			() const = 0;
 	virtual fs::Path		GetApplicationDir	() const = 0;
-
+    virtual fs::Path        GetSystemFontsDir	() const = 0;
 };
 
 

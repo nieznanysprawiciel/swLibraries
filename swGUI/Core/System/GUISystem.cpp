@@ -324,6 +324,7 @@ ReturnResult		GUISystem::DefaultInitCorePaths			()
 
     result = result && m_pathsManager->RegisterAlias( "$(TMP)", m_nativeGUI->GetOS()->GetTempDir() );
     result = result && m_pathsManager->RegisterAlias( "$(CoreGUI-Dir)", m_nativeGUI->GetOS()->GetApplicationDir() );
+    result = result && m_pathsManager->RegisterAlias( "$(SystemFonts)", m_nativeGUI->GetOS()->GetSystemFontsDir() );
 
 	return result;
 }

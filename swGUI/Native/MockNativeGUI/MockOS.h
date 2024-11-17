@@ -28,7 +28,7 @@ public:
 
 	virtual fs::Path			GetTempDir			() const override;
 	virtual fs::Path			GetApplicationDir	() const override;
-
+    virtual fs::Path            GetSystemFontsDir	() const override;
 };
 
 

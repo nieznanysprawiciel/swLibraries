@@ -37,6 +37,8 @@ RTTR_REGISTRATION
     rttr::registration::enumeration< sw::FontStyle >( "sw::FontStyle" )(
         rttr::value( "Normal", sw::FontStyle::Normal ),
         rttr::value( "Oblique", sw::FontStyle::Oblique ),
+        rttr::value( "Condensed", sw::FontStyle::Condensed ),
+        rttr::value( "Narrow", sw::FontStyle::Narrow ),
         rttr::value( "Italic", sw::FontStyle::Italic ) );
 
     rttr::registration::class_< sw::FontMetadata >( "sw::FontMetadata" )
@@ -60,12 +62,12 @@ void                            FontPicker::RegisterSearchPath( const fs::Path& 
 Nullable< FontSearchEntry >     FontPicker::ChooseFontFile( PathsManager* pm, const std::string& fontFamily,
                                                       FontWeight weight, FontStyle style, bool exact ) const
 {
-    auto varaints = ListFontVariants( pm, fontFamily );
-    ReturnIfInvalid( varaints );
+    auto variants = ListFontVariants( pm, fontFamily );
+    ReturnIfInvalid( variants );
 
     std::map< FontSearchEntry*, std::pair< u16, u16 > > metric;
 
-    for( auto& variant : varaints.Get() )
+    for( auto& variant : variants.Get() )
     {
         if( variant.Metadata.Weight == weight && variant.Metadata.Style == style )
             return variant;
@@ -75,7 +77,7 @@ Nullable< FontSearchEntry >     FontPicker::ChooseFontFile( PathsManager* pm, co
     }
 
     if( exact )
-        return fmt::format( "Non of {} {} variants matches the chosen one.", varaints.Get().size(), fontFamily );
+        return fmt::format( "Non of {} {} variants matches the chosen one.", variants.Get().size(), fontFamily );
 
     auto expected = std::make_pair( ClosenessMetric( weight ), ClosenessMetric( style ) );
     auto closestMatch =
@@ -221,6 +223,8 @@ u16             FontPicker::ClosenessMetric( FontStyle value )
             return 350;
         case sw::FontStyle::Italic:
             return 300;
+        case sw::FontStyle::Narrow:
+            return 800;
         case sw::FontStyle::Condensed:
             return 900;
         default:

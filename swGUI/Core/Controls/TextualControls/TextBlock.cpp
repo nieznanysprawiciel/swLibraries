@@ -8,6 +8,8 @@
 #include "TextBlock.h"
 
 #include "swGraphicAPI/ResourceManager/ResourceManagerAPI.h"
+#include "swGraphicAPI/Assets/TextAsset/Loader/FontPicker.h"
+
 #include "swGUI/Core/System/Rendering/Shading/ShaderProvider.h"
 #include "swGUI/Core/System/Rendering/Drawings/TextDrawing.h"
 
@@ -64,9 +66,16 @@ ReturnResult    TextBlock::UpdateDrawingResources( ResourceManagerAPI& api )
 {
     if( FontNeedsUpdate() )
     {
-        // TODO: take FontWeight and FontStyle into account
+        FontPicker picker;
+        picker.RegisterSearchPath( "$(Application-Dir)" );
+        picker.RegisterSearchPath( "$(SystemFonts)" );
+
+        auto chosen = picker.ChooseFontFile( api.GetPathsManager(), m_fontFamily, m_fontWeight, m_fontStyle, false );
+        ReturnIfInvalid( chosen );  // Maybe other default font could be used instead of returning error.
+
         FontLoaderData init( m_fontSize );
-        auto font = api.Load< FontAsset >( "$(Application-Dir)/arial.ttf", &init );
+        //auto font = api.Load< FontAsset >( "$(Application-Dir)/arial.ttf", &init );
+        auto font = api.Load< FontAsset >( chosen.Get().Path.GetOriginalPath(), &init );
         ReturnIfInvalid( font );
 
         auto geometry = std::make_shared< TextGeometry >( font.Get() );

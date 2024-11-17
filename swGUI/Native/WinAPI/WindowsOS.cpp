@@ -38,6 +38,16 @@ fs::Path			WindowsOS::GetApplicationDir	() const
 	return path.GetParent();	// Get rid of filename.
 }
 
+// ================================ //
+
+fs::Path			WindowsOS::GetSystemFontsDir() const
+{
+	// In the future we shoudl check Registry:
+	// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts
+
+    return fs::Path( "C:\\Windows\\Fonts" );
+}
+
 
 }	// gui
 }	// sw

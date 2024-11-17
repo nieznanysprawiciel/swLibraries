@@ -21,6 +21,14 @@ fs::Path			MockOS::GetApplicationDir	() const
 	return fs::Path::WorkingDirectory();
 }
 
+// ================================ //
+
+fs::Path			MockOS::GetSystemFontsDir() const
+{
+	// @todo Can we think of better directory?
+    return fs::Path::WorkingDirectory();
+}
+
 
 }	// gui
 }	// sw

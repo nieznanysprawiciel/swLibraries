@@ -20,6 +20,7 @@ namespace sw
 {
 
 class ResourceManager;
+class PathsManager;
 
 
 /**@brief ResourceManager API and additional functions.
@@ -161,6 +162,7 @@ public:
 
     ///@}
 
+    PathsManager*                               GetPathsManager             () const;
 
 protected:
 
