@@ -177,21 +177,24 @@ Nullable< TexturePtr >      FreeTypeLoader::RenderAtlas( const FreeTypeLibrary& 
 
     auto image = RenderAtlasToBuffer( freeType, fontLayout, altlasWidth, altlasHeight );
 
-    //SoilTextureLoader::Save( filePath.GetFile().ChangeExtension( ".png" ), image );
+    //auto file = sw::fs::Path::WorkingDirectory() / filePath.GetFile().ChangeExtension( ".png" ).GetFileName();
+    //SoilTextureLoader::Save( file, image.ToRGBAImage() );
 
     TextureInitData texInfo( std::move( image ) );
     texInfo.MipMaps = MipMapsInfo();
     texInfo.TextureUsage = TextureUsageInfo();
-    texInfo.Format = ResourceFormat::RESOURCE_FORMAT_R8G8B8A8_UNORM;
+    texInfo.Format = ResourceFormat::RESOURCE_FORMAT_A8_UNORM;
 
     return factory.CreateAsset< Texture >( filePath, std::move(texInfo));
 }
 
 // ================================ //
 // 
-Image< u32 >                FreeTypeLoader::RenderAtlasToBuffer( const FreeTypeLibrary& freeType, FontLayout& fontLayout, uint32 width, uint32 height )
+Image< u8 >                 FreeTypeLoader::RenderAtlasToBuffer( const FreeTypeLibrary& freeType, FontLayout& fontLayout, uint32 width, uint32 height )
 {
-    auto image = Image< u32 >( width, height );
+    // Some fonts contain for example emoticons, which use rgb channels.
+    // In future we should handle this case.
+    auto image = Image< u8 >( width, height );
     image.ZeroMemory();
 
     uint8* currAddress = image.GetRawData();
@@ -213,7 +216,7 @@ Image< u32 >                FreeTypeLoader::RenderAtlasToBuffer( const FreeTypeL
             glyph.Width, 
             glyph.Height
         };
-        auto region = ImageRegion< u32 >::From( image, rect ).Get();
+        auto region = ImageRegion< u8 >::From( image, rect ).Get();
 
         freeType.RenderGlyph( glyph, region );
 
@@ -352,18 +355,18 @@ Nullable<float>             FreeTypeLibrary::Kerning( wchar_t first, wchar_t sec
 
 // ================================ //
 // 
-void                        FreeTypeLibrary::RenderGlyph( const Glyph& glyph, ImageRegion< u32 >& image ) const
+void                        FreeTypeLibrary::RenderGlyph( const Glyph& glyph, ImageRegion< u8 >& image ) const
 {
     FT_Load_Glyph( this->FT->Face, glyph.GlyphIdx, FT_LOAD_RENDER );
 
     FT_Bitmap* bitmap = &this->FT->Face->glyph->bitmap;
     
-    for( uint32 x = 0; x < image.GetWidth(); x++ )
+    for( uint32 y = 0; y < image.GetHeight(); y++ )
     {
-        for( uint32 y = 0; y < image.GetHeight(); y++ )
+        for( uint32 x = 0; x < image.GetWidth(); x++ )
         {
             auto pixel = bitmap->buffer[ y * bitmap->width + x ];
-            image( x, y ) = 0x00FFFFFF + ((u32)pixel << 24);
+            image( x, y ) = (u8)pixel;
         }
     }
 }

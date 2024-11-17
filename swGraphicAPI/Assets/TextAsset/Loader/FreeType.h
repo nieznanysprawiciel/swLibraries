@@ -79,7 +79,7 @@ public:
     Nullable< float >   Kerning         ( wchar_t first, wchar_t second ) const;
 
     /**Renders Glyph to bitmap in selected rectangle.*/
-    void                RenderGlyph		( const Glyph& glyph, ImageRegion< u32 >& image ) const;
+    void                RenderGlyph		( const Glyph& glyph, ImageRegion< u8 >& image ) const;
 
     FTFontMetadata      Metadata() const;
 

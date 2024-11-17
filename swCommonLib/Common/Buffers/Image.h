@@ -37,6 +37,7 @@ public:
         , m_fallback( ContentType() )
     {
         assert( m_buffer.ElementsCount() == m_width * m_height );
+        assert( ( width * sizeof( ContentType ) ) % 4 == 0 );
     }
 
     explicit Image( uint32 width, uint32 height )
@@ -44,7 +45,9 @@ public:
         , m_width( width )
         , m_height( height )
         , m_fallback( ContentType() )
-    {}
+    {
+        assert( ( width * sizeof( ContentType ) ) % 4 == 0 );
+    }
 
     Image( const Image& image ) = default;
     Image( Image&& image ) = default;
@@ -69,6 +72,7 @@ public:
 public:
 
     ContentType&        operator()      ( uint32 x, uint32 y );
+    const ContentType&  operator()      ( uint32 x, uint32 y ) const;
     void				ZeroMemory      () { m_buffer.ZeroMemory(); }
 
     /**Checks if there was no write attempt outside of image bounds.*/
@@ -77,6 +81,9 @@ public:
 public:
     /**@brief Takes ownership of memory buffer.*/
     BufferTyped< ContentType, Alloc >		Move			();
+
+    /**@brief Creates another image with all 4 channels.*/
+    Image< u32 >        ToRGBAImage     () const;
 };
 
 // ================================ //
@@ -93,10 +100,40 @@ inline ContentType&                     Image<ContentType, Alloc>::operator()( u
 // ================================ //
 //
 
+template< typename ContentType, class Alloc >
+inline const ContentType&               Image< ContentType, Alloc >::operator()( uint32 x, uint32 y ) const
+{
+    if( x >= m_width || y >= m_height )
+        return m_fallback;
+    return m_buffer[ y * m_width + x ];
+}
+
+// ================================ //
+//
+
 template<typename ContentType, class Alloc >
 inline BufferTyped<ContentType, Alloc>  Image<ContentType, Alloc>::Move()
 {
     return std::move( this->m_buffer );
+}
+
+// ================================ //
+
+template< typename ContentType, class Alloc >
+inline Image< u32 >                     Image< ContentType, Alloc >::ToRGBAImage() const
+{
+    Image< u32 > result( m_width, m_height );
+
+    for( uint32 y = 0; y < m_height; y++ )
+    {
+        for( uint32 x = 0; x < m_width; x++ )
+        {
+            const auto& pixel = (*this)( x, y );
+            result( x, y ) = 0x00FFFFFF + ( (uint32)pixel << 24 );
+        }
+    }
+
+    return result;
 }
 
 }
