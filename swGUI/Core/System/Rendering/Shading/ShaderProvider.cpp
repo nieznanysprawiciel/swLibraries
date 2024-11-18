@@ -69,8 +69,9 @@ const fs::Path&                     ShaderProvider::GetOpacityVSTemplate() const
 // At this moment PixelShader and VertexShader generation works the same,
 // so we can use common function.
 template< typename ShaderType >
-inline ResourcePtr< ShaderType >    ShaderProvider::GenerateShader      (   const fs::Path& templatePath,
-                                                                            const fs::Path& customFunPath ) const
+inline 
+Nullable< ResourcePtr< ShaderType > >   ShaderProvider::GenerateShader      (   const fs::Path& templatePath,
+                                                                                const fs::Path& customFunPath ) const
 {
     AssetPath tmpShaderFile( fmt::format( "$(TMP)/shaders/{}+{}", templatePath.GetFileName(), customFunPath.GetFileName() ), "main" );
 
@@ -81,17 +82,17 @@ inline ResourcePtr< ShaderType >    ShaderProvider::GenerateShader      (   cons
     // Shader didn't exist, so we must build it.
     auto shaderSource = BuildShaderSource( templatePath, customFunPath );
     if( shaderSource.empty() )
-        return nullptr;         /// @todo Better error handling. Maybe we should return Nullable.
+        return fmt::format( "Shader source is empty. Template: {}, Custom: {}", templatePath, customFunPath );
 
     // Note: We save this shader only for debuggins purpose. Shader is created from string.
     fs::File::Save( m_pathsManager->Translate( tmpShaderFile.GetFile() ), shaderSource );
 
-    return m_resourceManager.CreateShader< ShaderType >( tmpShaderFile, std::move( shaderSource ) ).Get();
+    return m_resourceManager.CreateShader< ShaderType >( tmpShaderFile, std::move( shaderSource ) );
 }
 
 // ================================ //
 //
-PixelShaderPtr          			ShaderProvider::GeneratePS			(	const fs::Path& templatePath,
+Nullable< PixelShaderPtr >          ShaderProvider::GeneratePS			(	const fs::Path& templatePath,
 																			const fs::Path& brushFunPath ) const
 {
     return GenerateShader< PixelShader >( templatePath, brushFunPath );
@@ -99,7 +100,7 @@ PixelShaderPtr          			ShaderProvider::GeneratePS			(	const fs::Path& templa
 
 // ================================ //
 //
-VertexShaderPtr         			ShaderProvider::GenerateVS			( const fs::Path& templatePath,
+Nullable< VertexShaderPtr >         ShaderProvider::GenerateVS			( const fs::Path& templatePath,
 																		  const fs::Path& geomFunPath ) const
 {
     return GenerateShader< VertexShader >( templatePath, geomFunPath );

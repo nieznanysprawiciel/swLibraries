@@ -186,9 +186,14 @@ ReturnResult			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geo
     if( geometry->NeedsShaderUpdate() )
     {
         auto brushFunPath = geometry->ShaderFunctionFile();
-        m_geometryData.VertexShader = sp->GenerateVS( shaderTemplate, brushFunPath );
+        auto result = sp->GenerateVS( shaderTemplate, brushFunPath );
+        
+		// If shader failed to build, we don't want to repeat attempt in next loop.
+		geometry->ShaderUpdated();
 
-        geometry->ShaderUpdated();
+		ReturnIfInvalid( result );
+
+        m_geometryData.VertexShader = result.Get(); 
         return Success::True;
     }
 
@@ -310,9 +315,14 @@ ReturnResult			Drawing::UpdateShaderImpl( ShaderProvider* sp, Brush* brush, impl
     if( brush->NeedsShaderUpdate() )
     {
         auto brushFunPath = brush->ShaderFunctionFile();
-        brushData.PixelShader = sp->GeneratePS( shaderTemplate, brushFunPath );
+        auto result = sp->GeneratePS( shaderTemplate, brushFunPath );
 
+        // If shader failed to build, we don't want to repeat attempt in next loop.
         brush->ShaderUpdated();
+
+        ReturnIfInvalid( result );
+
+        brushData.PixelShader = result.Get();
         return Success::True;
     }
 

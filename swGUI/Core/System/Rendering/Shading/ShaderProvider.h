@@ -44,17 +44,17 @@ public:
 
 public:
 
-    PixelShaderPtr             		GeneratePS				( const fs::Path& templatePath, const fs::Path& brushFunPath ) const;
-    VertexShaderPtr		            GenerateVS				( const fs::Path& templatePath, const fs::Path& geomFunPath ) const;
+    Nullable< PixelShaderPtr >		GeneratePS				( const fs::Path& templatePath, const fs::Path& brushFunPath ) const;
+    Nullable< VertexShaderPtr >		GenerateVS				( const fs::Path& templatePath, const fs::Path& geomFunPath ) const;
 
 	const PathsManager*				GetPathsManager			() const { return m_pathsManager; }
 
 private:
 
     template< typename ShaderType >
-    ResourcePtr< ShaderType >       GenerateShader          ( const fs::Path& templatePath, const fs::Path& customFunPath ) const;
+    Nullable< ResourcePtr< ShaderType > >	GenerateShader          ( const fs::Path& templatePath, const fs::Path& customFunPath ) const;
 
-	std::string						BuildShaderSource		( const fs::Path& templatePath, const fs::Path& brushFunPath ) const;
+	std::string								BuildShaderSource		( const fs::Path& templatePath, const fs::Path& brushFunPath ) const;
 };
 
 
