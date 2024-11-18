@@ -30,11 +30,15 @@ Nullable< std::map<wchar_t, Glyph> >            BuildGlyphs( const FreeTypeLibra
     ErrorsCollector collector;
     std::map<wchar_t, Glyph> glyphs;
 
-    for( auto character : charset )
+    for( Size idx = 0; idx < charset.length(); idx++ )
     {
+        auto character = charset[ idx ];
         auto glyph = freeType.LoadGlyph( character );
         if( collector.Success( glyph ) )
+        {
             glyphs[ character ] = glyph.Get();
+            glyphs[ character ].GlyphIdx = (uint16)idx;
+        }
     }
 
     return collector.Return( glyphs );
@@ -42,22 +46,22 @@ Nullable< std::map<wchar_t, Glyph> >            BuildGlyphs( const FreeTypeLibra
 
 // ================================ //
 // 
-Nullable< std::map<KerningPair, float> >        BuildKerning( const FreeTypeLibrary& freeType, const std::wstring& charset )
+Nullable< Image< float > >                      BuildKerning( const FreeTypeLibrary& freeType, const std::wstring& charset )
 {
     ErrorsCollector collector;
-    std::map<KerningPair, float> kerning;
+    Image< float >  kerning( (uint32)charset.length(), (uint32)charset.length() );
 
-    for( auto first : charset )
+    for( uint32 y = 0; y < charset.length(); y++ )
     {
-        for( auto second : charset )
+        for( uint32 x = 0; x < charset.length(); x++ )
         {
-            auto kern = freeType.Kerning( first, second );
+            auto kern = freeType.Kerning( charset[ x ], charset[ y ] );
             if( collector.Success( kern ) )
-                kerning[ std::make_pair( first, second ) ] = kern.Get();
+                kerning( x, y ) = kern.Get();
         }
     }
 
-    return collector.Return( kerning );
+    return collector.Return( std::move( kerning ) );
 }
 
 // ================================ //
@@ -129,13 +133,15 @@ LoadingResult       FreeTypeLoader::Load( const LoadPath& filePath, TypeID resou
     ReturnIfInvalid( freeType );
     ReturnIfInvalid( freeType.Get().CreateFace( fontPath, loadInfo->FontSize ) );
 
-    FontInitData fontDesc( loadInfo->FontSize );
-
     try
     {
-        fontDesc.Layout.Padding = 1;
-        fontDesc.Layout.Glyphs = BuildGlyphs( freeType, loadInfo->CharacterSet ).Get();
-        fontDesc.Layout.Kerning = BuildKerning( freeType, loadInfo->CharacterSet ).Get();
+        auto glyphs = BuildGlyphs( freeType, loadInfo->CharacterSet ).Get();
+        auto kerning = BuildKerning( freeType, loadInfo->CharacterSet ).Get();
+
+        FontLayout fontLayout( glyphs, std::move( kerning ) );
+        fontLayout.Padding = 1;
+
+        FontInitData fontDesc( std::move( fontLayout ), loadInfo->FontSize );
         fontDesc.FontAtlas = RenderAtlas( freeType, atlasPath, fontDesc.Layout, context ).Get();
         fontDesc.Metadata = FontPicker::QueryMetadata( freeType );
 
@@ -222,7 +228,6 @@ Image< u8 >                 FreeTypeLoader::RenderAtlasToBuffer( const FreeTypeL
 
         glyph.TextureX = rect.X;
         glyph.TextureY = rect.Y;
-        glyph.Padding = fontLayout.Padding;
 
         curX += maxWidth;
         // No more space in current row, move to next.
@@ -317,7 +322,8 @@ Nullable<Glyph>             FreeTypeLibrary::LoadGlyph( wchar_t character ) cons
     auto newGlyph = Glyph();
 
     newGlyph.CharCode = character;
-    newGlyph.GlyphIdx = gindex;
+    newGlyph.FtIdx = gindex;
+    newGlyph.GlyphIdx = 0;
     newGlyph.Height = this->FT->Face->glyph->metrics.height >> FT_PrecisionMult;
     newGlyph.Width = this->FT->Face->glyph->metrics.width >> FT_PrecisionMult;
 
@@ -357,7 +363,7 @@ Nullable<float>             FreeTypeLibrary::Kerning( wchar_t first, wchar_t sec
 // 
 void                        FreeTypeLibrary::RenderGlyph( const Glyph& glyph, ImageRegion< u8 >& image ) const
 {
-    FT_Load_Glyph( this->FT->Face, glyph.GlyphIdx, FT_LOAD_RENDER );
+    FT_Load_Glyph( this->FT->Face, glyph.FtIdx, FT_LOAD_RENDER );
 
     FT_Bitmap* bitmap = &this->FT->Face->glyph->bitmap;
     

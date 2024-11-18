@@ -96,7 +96,7 @@ std::vector< Position2d >               TextArranger::ArrangeLine( std::wstring_
 
             if ( this->UseKerning && charIdx > 0 && !IsWhitespace( text[ charIdx - 1 ] ) )
             {
-                auto kerShift = layout.Kerning.at( std::make_pair( text[ charIdx - 1 ], text[ charIdx ] ) );
+                auto kerShift = layout.GetKerning( text[ charIdx - 1 ], text[ charIdx ] );
                 translate += Position2d( kerShift, 0.0 );
             }
 

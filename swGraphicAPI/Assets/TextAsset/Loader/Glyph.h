@@ -10,8 +10,9 @@ http://freetype.org/freetype2/docs/tutorial/step2.html#section-2
 @ingroup Text*/
 struct Glyph
 {
-    uint16          CharCode;
-    uint16          GlyphIdx;   // Index of glyph in freetype font
+    wchar_t         CharCode;
+    uint16          FtIdx;      // Index of glyph in free type.
+    uint16          GlyphIdx;   // Index of glyph in character set for which Font is created. Used to index Kerning table.
 
     uint32          Width;
     uint32          Height;
@@ -26,12 +27,11 @@ struct Glyph
     uint32          TextureX;   // x pixel coord of the bitmap's bottom-left corner
     uint32          TextureY;   // y pixel coord of the bitmap's bottom-left corner
 
-    Size            Padding;    // Padding around glyph in texture atlas. It's used to prevent texture bleeding.
-
 public:
     explicit Glyph()
         : CharCode( 0 )
         , GlyphIdx( 0 )
+        , FtIdx( 0 )
         , Width( 0 )
         , Height( 0 )
         , AdvanceX( 0 )
@@ -40,7 +40,6 @@ public:
         , BearingY( 0 )
         , TextureX( 0 )
         , TextureY( 0 )
-        , Padding( 0 )
     {}
 
     ImageRect   GetGlyphCoords() const;

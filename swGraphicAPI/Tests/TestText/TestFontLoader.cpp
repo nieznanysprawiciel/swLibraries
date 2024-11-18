@@ -57,7 +57,7 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Format.ttf", "[GraphicAPI][FontLoader][FreeT
 
     auto numChars = FontLoaderData::DefaultCharacterSet().length();
     CHECK( font.Get()->GetLayout().Glyphs.size() == numChars);
-    CHECK( font.Get()->GetLayout().Kerning.size() == numChars * numChars );
+    CHECK( font.Get()->GetLayout().Kerning.ElementsCount() == numChars * numChars );
 
     REQUIRE( font.Get()->GetFontAtlas() != nullptr );
     CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Height == 256 );
@@ -80,7 +80,7 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Format.otf", "[GraphicAPI][FontLoader][FreeT
 
     auto numChars = FontLoaderData::DefaultCharacterSet().length();
     CHECK( font.Get()->GetLayout().Glyphs.size() == numChars );
-    CHECK( font.Get()->GetLayout().Kerning.size() == numChars * numChars );
+    CHECK( font.Get()->GetLayout().Kerning.ElementsCount() == numChars * numChars );
 
     REQUIRE( font.Get()->GetFontAtlas() != nullptr );
     CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Height == 512 );
@@ -103,7 +103,7 @@ TEST_CASE( "GraphicAPI.Loaders.Font.Arial", "[GraphicAPI][FontLoader][FreeTypeLo
 
     auto numChars = FontLoaderData::DefaultCharacterSet().length();
     CHECK( font.Get()->GetLayout().Glyphs.size() == numChars );
-    CHECK( font.Get()->GetLayout().Kerning.size() == numChars * numChars );
+    CHECK( font.Get()->GetLayout().Kerning.ElementsCount() == numChars * numChars );
 
     REQUIRE( font.Get()->GetFontAtlas() != nullptr );
     CHECK( font.Get()->GetFontAtlas()->GetDescriptor().Height == 256 );

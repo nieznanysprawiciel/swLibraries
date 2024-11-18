@@ -40,7 +40,7 @@ const Glyph&        FontAsset::GetGlyph( wchar_t character ) const
 
 float               FontAsset::GetKerning( wchar_t first, wchar_t second ) const
 {
-    return this->m_layout.Kerning.at( std::make_pair( first, second ) );
+    return this->m_layout.GetKerning( first, second );
 }
 
 }    // sw

@@ -134,6 +134,15 @@ float           FontLayout::NewLineSize() const { return (float)Glyphs.at( L'0' 
 
 // ================================ //
 
+float           FontLayout::GetKerning( wchar_t first, wchar_t second ) const
+{
+    auto idx1 = Glyphs.at( first ).GlyphIdx;
+    auto idx2 = Glyphs.at( second ).GlyphIdx;
+    return Kerning( idx1, idx2 );
+}
+
+// ================================ //
+
 std::string     ChooseFontLoadData::ResourceKey() const
 {
     return fmt::format( "/Font?fontSize={},family={},weight={},style={}", this->FontSize, this->FontFamily,

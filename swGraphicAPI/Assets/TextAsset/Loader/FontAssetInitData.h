@@ -34,15 +34,20 @@ struct FontLayout
     std::map< wchar_t, Glyph >			Glyphs;
 
     /**Each character pair can be shifted individually to give text better look in terms of spacing. */
-    std::map< KerningPair, float >		Kerning;
+    Image< float >                      Kerning;
 
     /**Padding around glyph in texture atlas. It's used to prevent texture bleeding.*/
     uint32                              Padding;
 
 public:
-    explicit FontLayout()
+    explicit FontLayout( std::map< wchar_t, Glyph > glyphs, Image< float > kerning )
         : Padding( 1 )
+        , Glyphs( std::move( glyphs ) )
+        , Kerning( std::move( kerning ) )
     {}
+
+    FontLayout( FontLayout&& other ) = default;
+    FontLayout& operator=( FontLayout&& other ) = default;
 
 public:
     uint32      GetMaxHeight() const;
@@ -54,6 +59,7 @@ public:
     uint32      GetMaxHightBelowBaseline() const;  //< Allow to compute how much font sticks out below baseline.
 
     ImageRect   GetGlyphCoords( wchar_t character ) const;
+    float       GetKerning( wchar_t first, wchar_t second ) const;
 
     float       SpaceWidth() const;
     float       NewLineSize() const;
@@ -74,9 +80,10 @@ public:
     FontLayout          Layout;
 
 public:
-    explicit FontInitData( FontSizeType fontSize )
+    explicit FontInitData( FontLayout&& layout, FontSizeType fontSize )
         : FontAtlas( nullptr )
         , FontSize( fontSize )
+        , Layout( std::move( layout ) )
     {}
 
 public:
