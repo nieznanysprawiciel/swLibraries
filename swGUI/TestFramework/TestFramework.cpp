@@ -96,7 +96,12 @@ ReturnResult			TestFramework::OverridePaths	()
 {
 	auto coreGUISourcePath = impl::FindCoreGUISourcePath( m_nativeGUI->GetOS()->GetApplicationDir() );
 
-	return m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" );
+	ErrorsCollector results;
+
+	results.Add( m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" ) );
+    results.Add( m_pathsManager->OverrideAlias( "$(SystemFonts)", coreGUISourcePath / "TestResources/fonts" ) );
+
+	return results;
 }
 
 
