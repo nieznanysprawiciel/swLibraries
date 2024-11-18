@@ -5,7 +5,7 @@
 #include "swGUI/Native/MockNativeGUI/MockGUI.h"
 
 #include "swGUI/Core/Controls/TextualControls/TextBlock.h"
-#include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
+#include "swGUI/Core/Media/Media.h"
 
 
 using namespace sw;
@@ -187,4 +187,109 @@ TEST_CASE( "GUI.Controls.TextBlock.Resources.LazyLoading", "[GUISystem][Controls
     CHECK( newFont->GetMetadata().Family == "Source Sans Pro" );
     CHECK( newFont->GetMetadata().Style == FontStyle::Normal );
     CHECK( newFont->GetMetadata().Weight == FontWeight::Bold );
+}
+
+// ================================ //
+//
+TEST_CASE( "GUI.Controls.TextBlock.Brushes.Combinations", "[GUISystem][Controls][Text]" )
+{
+    TestFramework*   framework = GetGlobalTestFramework();
+    FrameworkCleaner cleaner( framework );
+
+    MockGUI* mockNativeGUI = static_cast< MockGUI* >( framework->GetNativeGUI() );
+    auto     window = framework->CreateNativeHostWindow( 400, 400, "Test Window" ).Get();
+
+    // Window must be focused to be rendered.
+    mockNativeGUI->SendChangeFocus( window->GetNativeWindow(), true );
+
+    auto background = std::make_shared< SolidColorBrush >( Colors::WhiteSmoke );
+    auto pen = std::make_shared< SolidColorBrush >( Colors::Black );
+
+    auto text = AddText( window, background, pen, 300, 300, Position( 0, 40 ), sLoremIpsum );
+
+    // Run single frame. If something was wrong it should fails here.
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    auto angleBrush = std::make_shared< AngleGradientBrush >();
+    angleBrush->SetGradientCenter( Point( 0.5f, 0.5f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFFFFFF00, 0.3f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFF00FFFF, 0.7f ) );
+    angleBrush->AddGradientStop( GradientStop( 0xFF0000FF, 1.0f ) );
+
+    auto linearGradientBrush = std::make_shared< LinearGradientBrush >();
+    linearGradientBrush->SetGradientAxis( Point( 0.0f, 0.0f ), Point( 1.0f, 1.0f ) );
+    linearGradientBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
+    linearGradientBrush->AddGradientStop( GradientStop( 0xFF00FF00, 0.4f ) );
+    linearGradientBrush->AddGradientStop( GradientStop( 0xFF0000FF, 0.7f ) );
+    linearGradientBrush->AddGradientStop( GradientStop( 0xFFFFFF00, 1.0f ) );
+
+    auto imageBrush = std::make_shared< ImageBrush >();
+    imageBrush->SetTexture( "$(CoreGUI-Dir)/TestResources/textures/Tex1.png" );
+
+    auto solidBrush = std::make_shared< SolidColorBrush >( Colors::Aquamarine );
+
+    // SolidColorBrush text combinations
+    text->SetBackground( angleBrush );
+    text->SetForeground( solidBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    text->SetBackground( linearGradientBrush );
+    text->SetForeground( solidBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    text->SetBackground( imageBrush );
+    text->SetForeground( solidBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    // AngleGradientBrush text combinations
+    text->SetBackground( angleBrush );
+    text->SetForeground( angleBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    text->SetBackground( linearGradientBrush );
+    text->SetForeground( angleBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    text->SetBackground( solidBrush );
+    text->SetForeground( angleBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    text->SetBackground( imageBrush );
+    text->SetForeground( angleBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    // LinearGradientBrush text combinations
+    text->SetBackground( angleBrush );
+    text->SetForeground( linearGradientBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    text->SetBackground( linearGradientBrush );
+    text->SetForeground( linearGradientBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    text->SetBackground( solidBrush );
+    text->SetForeground( linearGradientBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    text->SetBackground( imageBrush );
+    text->SetForeground( linearGradientBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    // ImageBrush text combinations
+    text->SetBackground( angleBrush );
+    text->SetForeground( imageBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    text->SetBackground( linearGradientBrush );
+    text->SetForeground( imageBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    text->SetBackground( solidBrush );
+    text->SetForeground( imageBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
+
+    text->SetBackground( imageBrush );
+    text->SetForeground( imageBrush );
+    REQUIRE_NOTHROW( framework->MainLoopCore() );
 }

@@ -98,6 +98,7 @@ ReturnResult			TestFramework::OverridePaths	()
 
 	ErrorsCollector results;
 
+	results.Add( m_pathsManager->OverrideAlias( "$(CoreGUI-Dir)", coreGUISourcePath ) );
 	results.Add( m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" ) );
     results.Add( m_pathsManager->OverrideAlias( "$(SystemFonts)", coreGUISourcePath / "TestResources/fonts" ) );
 
