@@ -49,7 +49,7 @@ void            TextDrawing::RebuildResources( ResourceManagerAPI rm, ShaderProv
     results.Add( UpdatePenOpacityMask( rm, GetTextGeometry()->GetFont()->GetFontAtlas() ) );
 
     if( !results.IsValid() )
-        LOG_ERROR( fmt::format( "Error during rebuilding resources for text drawing: {}", results.GetException() ) );
+        LOG_ERROR( fmt::format( "Error during rebuilding resources for TextDrawing: {}", results.GetException() ) );
 }
 
 }  // namespace gui

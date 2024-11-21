@@ -183,7 +183,7 @@ ReturnResult			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geo
 
 ReturnResult			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry, fs::Path shaderTemplate )
 {
-    if( geometry->NeedsShaderUpdate() )
+    if( !m_geometryData.VertexShader || geometry->NeedsShaderUpdate() )
     {
         auto brushFunPath = geometry->ShaderFunctionFile();
         auto result = sp->GenerateVS( shaderTemplate, brushFunPath );
@@ -312,7 +312,7 @@ ReturnResult			Drawing::CreateAndSetLayout			( ResourceManagerAPI rm, ShaderProv
 
 ReturnResult			Drawing::UpdateShaderImpl( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData, fs::Path shaderTemplate )
 {
-    if( brush->NeedsShaderUpdate() )
+    if( !brushData.PixelShader || brush->NeedsShaderUpdate() )
     {
         auto brushFunPath = brush->ShaderFunctionFile();
         auto result = sp->GeneratePS( shaderTemplate, brushFunPath );
@@ -417,9 +417,10 @@ ReturnResult	Drawing::UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, 
 	if( brush->UsesConstantBuffer() )
 	{
 		if( brushData.BrushConstants.Ptr() != nullptr )
-			UpdateCBContentImpl( renderer, brushData.BrushConstants.Ptr(), brush->BufferData() );
-		
-		/// @todo Error handling
+		{
+            auto result = UpdateCBContentImpl( renderer, brushData.BrushConstants.Ptr(), brush->BufferData() );
+            ReturnIfInvalid( result );
+		}
 	}
     return Success::True;
 }
