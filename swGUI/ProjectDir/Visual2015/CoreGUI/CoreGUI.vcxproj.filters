@@ -345,6 +345,9 @@
     <ClInclude Include="..\..\..\Core\Media\Colors.h">
       <Filter>Core\Media</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Core\System\CommonTypes\UpdateTracker.h">
+      <Filter>Core\System\CommonTypes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Core\System\Events\IEventArgs.cpp">

@@ -171,6 +171,7 @@
     <ClInclude Include="..\..\..\Core\System\CommonTypes\AccessKey.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\CommonTypes.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\Thickness.h" />
+    <ClInclude Include="..\..\..\Core\System\CommonTypes\UpdateTracker.h" />
     <ClInclude Include="..\..\..\Core\System\Config\GUISystemConfig.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\Binding.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\BindingInfo.h" />

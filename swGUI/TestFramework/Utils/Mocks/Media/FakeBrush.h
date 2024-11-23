@@ -50,7 +50,6 @@ public:
 	using Brush::NeedsShaderUpdate;
 	using Brush::NeedsTextureUpdate;
 	using Brush::NeedsConstantsUpdate;
-	using Brush::NeedsBufferChange;
 
 public:
 

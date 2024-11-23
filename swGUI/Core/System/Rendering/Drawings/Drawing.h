@@ -10,6 +10,7 @@
 
 #include "swGraphicAPI/Resources/MeshResources.h"
 #include "swGUI/Core/System/Rendering/Shading/ShaderProvider.h"
+#include "swGUI/Core/System/CommonTypes/UpdateTracker.h"
 
 #include "swCommonLib/Common/Buffers/BufferRange.h"
 #include "swCommonLib/Common/Logging/Logger.h"
@@ -45,6 +46,10 @@ struct GeometryRenderingData
 	uint32                      BorderEnd;			///< End of border indicies in buffer.
 	PrimitiveTopology           Topology;			///< Geometry topology.
 	bool                        ExtendedIB;			///< Index Buffer uses 4-bytes indicies.
+
+	UpdateTracker16             ShaderState;		///< Shader update tracker.
+	UpdateTracker16             ConstantsState;		///< Constants update tracker.
+	UpdateTracker16             GeometryState;		///< Geometry update tracker.
 };
 
 
@@ -57,6 +62,10 @@ struct BrushRenderingData
     PixelShaderPtr      		PixelShader;					///< Pixel Shader.
 	BufferPtr       		    BrushConstants;					///< Constant buffer bound to Pixel Shader.
     TexturePtr      	        Texture[ NumBrushTextures ];	///< Optional texture bound to Pixel Shader.
+    
+	UpdateTracker16             ShaderState;                    ///< Shader update tracker.
+    UpdateTracker16             TextureState;                   ///< Texture update tracker.
+    UpdateTracker16             ConstantsState;                 ///< Constants update tracker.
 };
 
 
@@ -140,6 +149,8 @@ private:
 
 	ReturnResult			UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::BrushRenderingData& brushData );
 	ReturnResult			UpdateCBContentImpl		( IRenderer* renderer, Buffer* buffer, BufferRange bufferData );
+
+	ReturnResult			UpdateBrushBufferImpl	( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData );
 
 	void					RenderImpl				( IRenderer* renderer, impl::GeometryRenderingData& geom, impl::BrushRenderingData& brush, uint32 start, uint32 end );
 

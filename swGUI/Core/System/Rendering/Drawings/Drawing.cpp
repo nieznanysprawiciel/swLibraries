@@ -92,26 +92,7 @@ ReturnResult			Drawing::UpdateBrushOpacityMask		( ResourceManagerAPI rm, Texture
 //
 ReturnResult			Drawing::UpdateBrushConstants		( ResourceManagerAPI rm, Brush* brush )
 {
-	if( ( !m_brushData.BrushConstants && brush->UsesConstantBuffer() ) 
-		|| brush->NeedsBufferChange() )
-	{
-		AssetPath name = brush->ConstantsName();
-
-		ResourcePtr< Buffer > constantsBuffer = rm.GetCached< Buffer >( name );
-		if( !constantsBuffer )
-		{
-			auto bufferRange = brush->BufferData();
-			constantsBuffer = rm.CreateConstantsBuffer( name, bufferRange ).Get();      /// @todo What in case of error?
-		}
-
-		if( brush->NeedsBufferChange() )
-			brush->BufferChanged();
-
-		m_brushData.BrushConstants = constantsBuffer;
-        return Success::True;
-	}
-
-	return Success::True;
+    return UpdateBrushBufferImpl( rm, brush, m_brushData );
 }
 
 // ================================ //
@@ -149,26 +130,34 @@ ReturnResult			Drawing::UpdatePenOpacityMask		( ResourceManagerAPI rm, TexturePt
 //
 ReturnResult			Drawing::UpdatePenConstants			( ResourceManagerAPI rm, Brush* pen )
 {
-	if( ( !m_penData.BrushConstants && pen->UsesConstantBuffer() )
-		|| pen->NeedsBufferChange() )
-	{
-		AssetPath name = pen->ConstantsName();
+    return UpdateBrushBufferImpl( rm, pen, m_penData );
+}
 
-		ResourcePtr< Buffer > constantsBuffer = rm.GetCached< Buffer >( name );
-		if( !constantsBuffer )
-		{
-			auto bufferRange = pen->BufferData();
-			constantsBuffer = rm.CreateConstantsBuffer( name, bufferRange ).Get();      /// @todo What in case of error?
-		}
+// ================================ //
 
-		if( pen->NeedsBufferChange() )
-			pen->BufferChanged();
+ReturnResult			Drawing::UpdateBrushBufferImpl		( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData )
+{
+    if( ( !brushData.BrushConstants && brush->UsesConstantBuffer() ) || brush->NeedsConstantsUpdate( brushData.ConstantsState ) )
+    {
+        AssetPath name = brush->ConstantsName();
 
-		m_penData.BrushConstants = constantsBuffer;
+        ResourcePtr< Buffer > constantsBuffer = rm.GetCached< Buffer >( name );
+        if( !constantsBuffer )
+        {
+            auto bufferRange = brush->BufferData();
+            auto buffer = rm.CreateConstantsBuffer( name, bufferRange );
+            ReturnIfInvalid( buffer );
+
+            constantsBuffer = buffer.Get();
+        }
+
+        brush->ConstantsUpdated( brushData.ConstantsState );
+
+        brushData.BrushConstants = constantsBuffer;
         return Success::True;
-	}
+    }
 
-	return Success::True;
+    return Success::True;
 }
 
 // ================================ //
@@ -183,13 +172,13 @@ ReturnResult			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geo
 
 ReturnResult			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry, fs::Path shaderTemplate )
 {
-    if( !m_geometryData.VertexShader || geometry->NeedsShaderUpdate() )
+    if( !m_geometryData.VertexShader || geometry->NeedsShaderUpdate( m_geometryData.ShaderState ) )
     {
         auto brushFunPath = geometry->ShaderFunctionFile();
         auto result = sp->GenerateVS( shaderTemplate, brushFunPath );
         
 		// If shader failed to build, we don't want to repeat attempt in next loop.
-		geometry->ShaderUpdated();
+        geometry->ShaderUpdated( m_geometryData.ShaderState );
 
 		ReturnIfInvalid( result );
 
@@ -204,7 +193,7 @@ ReturnResult			Drawing::UpdateVertexShader			( ShaderProvider* sp, Geometry* geo
 //
 ReturnResult			Drawing::UpdateGeometry				( ResourceManagerAPI rm, Geometry* geometry )
 {
-	if( geometry->NeedsGeometryUpdate() )
+    if( geometry->NeedsGeometryUpdate( m_geometryData.GeometryState ) )
 	{
 		std::string name = geometry->GeometryName();
 
@@ -267,7 +256,7 @@ ReturnResult			Drawing::UpdateGeometry				( ResourceManagerAPI rm, Geometry* geo
 		m_geometryData.BorderEnd = data.BorderIdxEnd;
 		m_geometryData.ExtendedIB = data.ExtendedIB;
 
-		geometry->GeometryUpdated();
+		geometry->GeometryUpdated( m_geometryData.GeometryState );
         return Success::True;
 	}
 
@@ -312,13 +301,13 @@ ReturnResult			Drawing::CreateAndSetLayout			( ResourceManagerAPI rm, ShaderProv
 
 ReturnResult			Drawing::UpdateShaderImpl( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData, fs::Path shaderTemplate )
 {
-    if( !brushData.PixelShader || brush->NeedsShaderUpdate() )
+    if( !brushData.PixelShader || brush->NeedsShaderUpdate( brushData.ShaderState ) )
     {
         auto brushFunPath = brush->ShaderFunctionFile();
         auto result = sp->GeneratePS( shaderTemplate, brushFunPath );
 
         // If shader failed to build, we don't want to repeat attempt in next loop.
-        brush->ShaderUpdated();
+        brush->ShaderUpdated( brushData.ShaderState );
 
         ReturnIfInvalid( result );
 
@@ -340,7 +329,7 @@ ReturnResult			Drawing::UpdateShaderImpl			( ShaderProvider* sp, Brush* brush, i
 //
 ReturnResult			Drawing::UpdateTextureImpl			( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData )
 {
-	if( brush->NeedsTextureUpdate() )
+    if( brush->NeedsTextureUpdate( brushData.TextureState ) )
 	{
         AssetPath textureSource = brush->TextureSource();
 
@@ -349,7 +338,7 @@ ReturnResult			Drawing::UpdateTextureImpl			( ResourceManagerAPI rm, Brush* brus
 		///referenced by URL. We should change this implementation in future probably.
         brushData.Texture[0] = rm.LoadTexture( textureSource ).Get();  /// @todo What in case of error?
 
-		brush->TextureUpdated();
+		brush->TextureUpdated( brushData.TextureState );
         return Success::True;
 	}
 
@@ -385,14 +374,13 @@ void			Drawing::UpdateGeometryCBContent	( IRenderer* renderer, Geometry* geom )
 		geom->UsesSharedBuffer() )
 	{
 		UpdateCBContentImpl( renderer, m_geometryData.GeometryConstants.Ptr(), geom->BufferData() );
-		geom->ConstantsUpdated();
+        geom->ConstantsUpdated( m_geometryData.ConstantsState );
 	}
 	else if( geom->UsesConstantBuffer() && 
-			!geom->UsesSharedBuffer() &&
-			 geom->NeedsConstantsUpdate() )
+			!geom->UsesSharedBuffer() && geom->NeedsConstantsUpdate( m_geometryData.ConstantsState ) )
 	{
 		UpdateCBContentImpl( renderer, m_geometryData.GeometryConstants.Ptr(), geom->BufferData() );
-		geom->ConstantsUpdated();
+        geom->ConstantsUpdated( m_geometryData.ConstantsState );
 	}
 }
 

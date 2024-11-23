@@ -8,6 +8,7 @@
 
 
 #include "Brush.h"
+#include "swGUI/Core/Media/Geometry/Geometry.h"
 
 
 
@@ -19,9 +20,6 @@ namespace gui
 //
 Brush::Brush		( ConstantBufferMode enableCB )
 	:	m_useConstantBuffer( enableCB == ConstantBufferMode::Enable )
-	,	m_invalidateConstants( false )
-	,	m_invalidateTexture( false )
-	,	m_changeCBuffer( false )
 {
 	InvalidateShader();
 }
@@ -31,57 +29,44 @@ Brush::Brush		( ConstantBufferMode enableCB )
 //
 void			Brush::InvalidateConstants		()
 {
-	m_invalidateConstants = true;
+    m_constantsState.Invalidate();
 }
 
 // ================================ //
 //
 void			Brush::InvalidateShader			()
 {
-	m_invalidateShader = true;
+    m_shaderState.Invalidate();
 }
 
 // ================================ //
 //
 void			Brush::InvalidateTexture		()
 {
-	m_invalidateTexture = true;
+    m_textureState.Invalidate();
 }
 
 // ================================ //
 //
-void			Brush::InvalidateConstsBuffer	()
+void			Brush::ShaderUpdated			( UpdateTracker16& tracker )
 {
-	m_changeCBuffer = true;
+    tracker.Synchronize( m_shaderState );
 }
 
 // ================================ //
 //
-void			Brush::ShaderUpdated			()
+void			Brush::TextureUpdated			( UpdateTracker16& tracker )
 {
-	m_invalidateShader = false;
+    tracker.Synchronize( m_textureState );
 }
 
 // ================================ //
 //
-void			Brush::TextureUpdated			()
+void			Brush::ConstantsUpdated			( UpdateTracker16& tracker )
 {
-	m_invalidateTexture = false;
+    tracker.Synchronize( m_constantsState );
 }
 
-// ================================ //
-//
-void			Brush::ConstantsUpdated			()
-{
-	m_invalidateConstants = false;
-}
-
-// ================================ //
-//
-void			Brush::BufferChanged			()
-{
-	m_changeCBuffer = false;
-}
 
 }	// gui
 }	// sw

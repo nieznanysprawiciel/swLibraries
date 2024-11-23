@@ -72,7 +72,7 @@ void					FakeBrush::ChangeConstsBuffer	( const std::string& newBuffer )
 	if( m_cBuffer != newBuffer )
 	{
 		m_cBuffer = newBuffer;
-		InvalidateConstsBuffer();
+		InvalidateConstants();
 	}
 }
 
