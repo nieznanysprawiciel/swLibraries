@@ -108,7 +108,9 @@ class FontPicker
 {
 private:
 
-    std::vector< fs::Path >     m_searchPaths;
+    std::vector< fs::Path >         m_searchPaths;
+
+    mutable std::map< fs::Path, FontMetadata >  m_metadataCache;
 
 protected:
 public:
