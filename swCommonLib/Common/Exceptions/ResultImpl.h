@@ -112,6 +112,7 @@ public:
 
     ContentType&&               Get			    () &&;
     operator ContentType&&                      () && = delete;
+
 };
 
 

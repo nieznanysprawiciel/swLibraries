@@ -1,11 +1,10 @@
+#include "swGraphicAPI/Tests/TestResources.DX11/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
-
 /**
 @file TestShaderCreator.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
-
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/AssetsFactory.h"
 
@@ -21,7 +20,7 @@
 using namespace sw;
 
 
-AssetPath        Translate(ResourceManager* rm, filesystem::Path path)
+AssetPath        Translate(ResourceManager* rm, fs::Path path)
 {
 	auto translatePath = rm->GetPathsManager()->Translate(path);
 	return AssetPath(translatePath, "");
@@ -126,7 +125,7 @@ TEST_CASE( "GraphicAPI.DX11.ShaderCreator.ComputeShader.Create.FromCode", "[Grap
     auto assetPath = Translate(rm.get(), "$(TestAssets)/shaders/hlsl/MinimalShader.vsh");
 	auto path = assetPath.GetFile();
 
-	init.SourceCode = filesystem::File::Load( path );
+	init.SourceCode = fs::File::Load( path );
 
 	auto result = factory.CreateAsset(assetPath, TypeID::get< VertexShader >(), std::move( init ) );
 	REQUIRE_IS_VALID( result );

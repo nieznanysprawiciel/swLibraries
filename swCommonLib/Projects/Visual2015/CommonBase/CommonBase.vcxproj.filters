@@ -22,9 +22,6 @@
     <Filter Include="Common\Logging">
       <UniqueIdentifier>{c846e1e2-4296-4192-b226-3874455dc193}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Filesystem">
-      <UniqueIdentifier>{8a21dd59-2a45-46e5-b3ec-17912109b0cf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common\Exceptions">
       <UniqueIdentifier>{1d235bb2-b3b8-46d7-bc00-c5300c1fcb32}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,9 @@
     </Filter>
     <Filter Include="Common\Macros">
       <UniqueIdentifier>{f0fcd031-f63d-4102-98a8-3ff30ae6411d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Profile">
+      <UniqueIdentifier>{3604edbf-f45e-4f1b-93b5-4a804216b273}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,9 +60,6 @@
     <ClCompile Include="..\..\..\Common\Multithreading\ThreadsLatch.cpp">
       <Filter>Common\Multithreading</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\System\Filesystem\filesystem\path.cpp">
-      <Filter>System\Filesystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Common\Object.cpp">
       <Filter>Common</Filter>
     </ClCompile>
@@ -83,6 +80,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Common\Converters\ConvertErrno.cpp">
       <Filter>Common\Converters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\Logging\Logger.cpp">
+      <Filter>Common\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Common\Profile\PerformanceCheck.cpp">
+      <Filter>Common\Profile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,15 +161,6 @@
     <ClInclude Include="..\..\..\Common\Multithreading\UniqueLock.h">
       <Filter>Common\Multithreading</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\System\Filesystem\filesystem\fwd.h">
-      <Filter>System\Filesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\System\Filesystem\filesystem\path.h">
-      <Filter>System\Filesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\System\Filesystem\filesystem\resolver.h">
-      <Filter>System\Filesystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Common\Exceptions\Nullable.h">
       <Filter>Common\Exceptions</Filter>
     </ClInclude>
@@ -238,6 +232,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Common\Exceptions\Result.h">
       <Filter>Common\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Buffers\Image.h">
+      <Filter>Common\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Buffers\ImageRegion.h">
+      <Filter>Common\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Logging\ConsoleLogger.h">
+      <Filter>Common\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Common\Profile\PerformanceCheck.h">
+      <Filter>Common\Profile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

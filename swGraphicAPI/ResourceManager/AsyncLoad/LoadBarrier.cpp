@@ -14,7 +14,7 @@ namespace sw
 
 // ================================ //
 //
-WaitingAsset::WaitingAsset	( const filesystem::Path& filePath )
+WaitingAsset::WaitingAsset	( const fs::Path& filePath )
 	:	m_fileName( filePath )
 	,	m_numWaiting( 0 )
 	,	m_ready( false )
@@ -79,7 +79,7 @@ bool			WaitingAsset::LoadingCompleted		( ExceptionPtr error )
 
 // ================================ //
 //
-bool			WaitingAsset::Compare				( const filesystem::Path& filePath )
+bool			WaitingAsset::Compare				( const fs::Path& filePath )
 {
 	return m_fileName == filePath;
 }
@@ -99,7 +99,7 @@ LoadBarrier::~LoadBarrier()
 
 // ================================ //
 //
-std::pair< WaitingAsset*, bool >		LoadBarrier::RequestAsset		( const filesystem::Path& filePath )
+std::pair< WaitingAsset*, bool >		LoadBarrier::RequestAsset		( const fs::Path& filePath )
 {
 	std::unique_lock< std::mutex > lock( m_lock );
 
@@ -148,21 +148,21 @@ ReturnResult							LoadBarrier::WaitUntilLoaded	( WaitingAsset* asset )
 
 // ================================ //
 //
-void									LoadBarrier::LoadingCompleted	( const filesystem::Path& filePath )
+void									LoadBarrier::LoadingCompleted	( const fs::Path& filePath )
 {
 	LoadingFinishedImpl( filePath, nullptr );
 }
 
 // ================================ //
 //
-void									LoadBarrier::LoadingFailed		( const filesystem::Path& filePath, ExceptionPtr error )
+void									LoadBarrier::LoadingFailed		( const fs::Path& filePath, ExceptionPtr error )
 {
 	LoadingFinishedImpl( filePath, error );
 }
 
 // ================================ //
 //
-void									LoadBarrier::LoadingFinishedImpl( const filesystem::Path& filePath, ExceptionPtr error )
+void									LoadBarrier::LoadingFinishedImpl( const fs::Path& filePath, ExceptionPtr error )
 {
     std::unique_lock< std::mutex > lock( m_lock );
 

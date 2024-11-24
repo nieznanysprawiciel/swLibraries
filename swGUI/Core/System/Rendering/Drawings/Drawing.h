@@ -10,8 +10,10 @@
 
 #include "swGraphicAPI/Resources/MeshResources.h"
 #include "swGUI/Core/System/Rendering/Shading/ShaderProvider.h"
+#include "swGUI/Core/System/CommonTypes/UpdateTracker.h"
 
 #include "swCommonLib/Common/Buffers/BufferRange.h"
+#include "swCommonLib/Common/Logging/Logger.h"
 
 
 namespace sw {
@@ -39,20 +41,31 @@ struct GeometryRenderingData
     BufferPtr                   IndexBuffer;		///< Index Buffer containing both fill and border indicies.
     BufferPtr                   GeometryConstants;	///< Constant buffer bound to Vertex Shader.
     VertexShaderPtr             VertexShader;		///< Vertex Shader.
-    ShaderInputLayoutPtr        Layout;				///< Bertex layout.
+    ShaderInputLayoutPtr        Layout;				///< Vertex layout.
 	uint32                      FillEnd;			///< End of fill indicies in buffer.
 	uint32                      BorderEnd;			///< End of border indicies in buffer.
 	PrimitiveTopology           Topology;			///< Geometry topology.
 	bool                        ExtendedIB;			///< Index Buffer uses 4-bytes indicies.
+
+	UpdateTracker16             ShaderState;		///< Shader update tracker.
+	UpdateTracker16             ConstantsState;		///< Constants update tracker.
+	UpdateTracker16             GeometryState;		///< Geometry update tracker.
 };
+
+
+const u8 NumBrushTextures = 2;
 
 
 /**@brief Represents brush using graphic API structures.*/
 struct BrushRenderingData
 {
-    PixelShaderPtr      		PixelShader;		///< Pixel Shader.
-	BufferPtr       		    BrushConstants;		///< Constant buffer bound to Pixel Shader.
-	TexturePtr      	        Texture;			///< Optional texture bound to Pixel Shader.
+    PixelShaderPtr      		PixelShader;					///< Pixel Shader.
+	BufferPtr       		    BrushConstants;					///< Constant buffer bound to Pixel Shader.
+    TexturePtr      	        Texture[ NumBrushTextures ];	///< Optional texture bound to Pixel Shader.
+    
+	UpdateTracker16             ShaderState;                    ///< Shader update tracker.
+    UpdateTracker16             TextureState;                   ///< Texture update tracker.
+    UpdateTracker16             ConstantsState;                 ///< Constants update tracker.
 };
 
 
@@ -83,21 +96,30 @@ protected:
 	/// Derived classes should use these API functions to set rendering state.
 	/// They shouldn't have direct access to rendering structures.
 	///@{
-	bool					DefaultRebuildResources	( ResourceManagerAPI rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry );
+	ReturnResult			DefaultRebuildResources		( ResourceManagerAPI rm, ShaderProvider* sp, Brush* brush, Brush* pen, Geometry* geometry );
 
-	bool					UpdateBrushShader		( ShaderProvider* sp, Brush* brush );
-	bool					UpdateBrushTexture		( ResourceManagerAPI rm, Brush* brush );
-	bool					UpdateBrushConstants	( ResourceManagerAPI rm, Brush* brush );
+	ReturnResult            UpdateBrushShader			( ShaderProvider* sp, Brush* brush );
+    ReturnResult            UpdateBrushShader			( ShaderProvider* sp, Brush* brush, fs::Path shaderTemplate );
+    ReturnResult            UpdateBrushTexture			( ResourceManagerAPI rm, Brush* brush );
+    ReturnResult            UpdateBrushOpacityMask		( ResourceManagerAPI rm, TexturePtr mask );
+    ReturnResult            UpdateBrushConstants		( ResourceManagerAPI rm, Brush* brush );
 
-	bool					UpdatePenShader			( ShaderProvider* sp, Brush* pen );
-	bool					UpdatePenTexture		( ResourceManagerAPI rm, Brush* pen );
-	bool					UpdatePenConstants		( ResourceManagerAPI rm, Brush* pen );
+	ReturnResult            UpdatePenShader				( ShaderProvider* sp, Brush* pen );
+    ReturnResult            UpdatePenShader				( ShaderProvider* sp, Brush* pen, fs::Path shaderTemplate );
+    ReturnResult            UpdatePenTexture			( ResourceManagerAPI rm, Brush* pen );
+    ReturnResult            UpdatePenOpacityMask		( ResourceManagerAPI rm, TexturePtr mask );
+    ReturnResult            UpdatePenConstants			( ResourceManagerAPI rm, Brush* pen );
 
-	bool					UpdateVertexShader		( ShaderProvider* sp, Geometry* geometry );
-	bool					UpdateGeometry			( ResourceManagerAPI rm, Geometry* geometry );
-	bool					UpdateGeometryConstants	( ResourceManagerAPI rm, Geometry* geometry );
+	ReturnResult			UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry );
+    ReturnResult			UpdateVertexShader			( ShaderProvider* sp, Geometry* geometry, fs::Path shaderTemplate );
+    ReturnResult			UpdateGeometry				( ResourceManagerAPI rm, Geometry* geometry );
+    ReturnResult            UpdateGeometryConstants		( ResourceManagerAPI rm, Geometry* geometry );
 
-	bool					CreateAndSetLayout		( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry );
+	ReturnResult			CreateAndSetLayout			( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry );
+    template< typename VertexType >
+    ReturnResult			CreateAndSetLayoutForVertexType( ResourceManagerAPI rm, ShaderProvider* sp, Geometry* geometry );
+    template < typename VertexStruct >
+    sw::Nullable< ShaderInputLayoutPtr >	CreateLayout( ResourceManagerAPI rm, ShaderProvider* sp );
 	///@}
 
 	///@name Rendering functions.
@@ -121,11 +143,14 @@ protected:
 
 private:
 
-	bool					UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData );
-	bool					UpdateTextureImpl		( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData );
+	ReturnResult			UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData, fs::Path shaderTemplate );
+	ReturnResult			UpdateShaderImpl		( ShaderProvider* sp, Brush* brush, impl::BrushRenderingData& brushData );
+	ReturnResult			UpdateTextureImpl		( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData );
 
-	void					UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::BrushRenderingData& brushData );
-	void					UpdateCBContentImpl		( IRenderer* renderer, Buffer* buffer, BufferRange bufferData );
+	ReturnResult			UpdateCBContentImpl		( IRenderer* renderer, Brush* brush, impl::BrushRenderingData& brushData );
+	ReturnResult			UpdateCBContentImpl		( IRenderer* renderer, Buffer* buffer, BufferRange bufferData );
+
+	ReturnResult			UpdateBrushBufferImpl	( ResourceManagerAPI rm, Brush* brush, impl::BrushRenderingData& brushData );
 
 	void					RenderImpl				( IRenderer* renderer, impl::GeometryRenderingData& geom, impl::BrushRenderingData& brush, uint32 start, uint32 end );
 
@@ -138,6 +163,41 @@ public:
 DEFINE_PTR_TYPE( Drawing )
 
 
-}	// gui
+
+// ================================ //
+//
+
+template < typename VertexType >
+inline ReturnResult			Drawing::CreateAndSetLayoutForVertexType( ResourceManagerAPI rm, ShaderProvider* sp,
+                                                              Geometry* geometry )
+{
+    if( !m_geometryData.Layout )
+    {
+        auto result = CreateLayout< VertexType >( rm, sp );
+        ReturnIfInvalid( result );
+
+        m_geometryData.Layout = result.Get();
+    }
+
+    return Success::True;
+}
+
+// ================================ //
+//
+
+template < typename VertexStruct >
+sw::Nullable< ShaderInputLayoutPtr >	Drawing::CreateLayout( ResourceManagerAPI rm, ShaderProvider* sp )
+{
+    auto layout = rm.GetCached< ShaderInputLayout >( GetLayoutName< VertexStruct >() );
+    if( !layout )
+    {
+        return rm.CreateLayout( GetLayoutName< VertexStruct >(), CreateLayoutDescriptor< VertexStruct >() )
+                 .MapErr( []( auto e ) { return fmt::format( "Failed to create layout for vertex type: {}. {}", GetLayoutName< VertexStruct >(), e ); } );
+    }
+
+    return layout;
+}
+
+}  // namespace gui
 }	// sw
 

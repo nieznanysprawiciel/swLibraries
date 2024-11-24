@@ -9,16 +9,24 @@ namespace gui
 
 // ================================ //
 //
-filesystem::Path			MockOS::GetTempDir			() const
+fs::Path			MockOS::GetTempDir			() const
 {
-	return filesystem::Path::WorkingDirectory() / "TMP";
+	return fs::Path::WorkingDirectory() / "TMP";
 }
 
 // ================================ //
 //
-filesystem::Path			MockOS::GetApplicationDir	() const
+fs::Path			MockOS::GetApplicationDir	() const
 {
-	return filesystem::Path::WorkingDirectory();
+	return fs::Path::WorkingDirectory();
+}
+
+// ================================ //
+
+fs::Path			MockOS::GetSystemFontsDir() const
+{
+	// @todo Can we think of better directory?
+    return fs::Path::WorkingDirectory();
 }
 
 

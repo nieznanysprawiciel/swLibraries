@@ -14,6 +14,7 @@
 #include "swSerialization/External/RapidXML/rapidxml_print.hpp"
 
 #include <fstream>
+#include <sstream>
 
 
 namespace sw
@@ -68,7 +69,7 @@ SerializerXML::SerializerXML( ISerializationContextPtr serContext )
 ReturnResult            SerializerXML::SaveFile         ( const std::string& fileName, WritingMode mode ) const
 {
     // Ensure directory exists.
-    filesystem::Dir::CreateDirectory( fileName );
+    fs::Dir::CreateDirectory( fileName );
 
     std::ofstream file;
     file.open( fileName, std::ios::out | std::ios::trunc );

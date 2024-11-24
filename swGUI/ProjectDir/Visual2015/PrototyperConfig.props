@@ -18,6 +18,15 @@
   </ItemDefinitionGroup>
   
   <PropertyGroup>
+    <LocalDebuggerWorkingDirectory>$(WorkDir)</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+
+  <Target Name="CreateDirectories" AfterTargets="Build">
+    <MakeDir Directories="$(WorkDir)"/>
+  </Target>
+
+  <PropertyGroup>
     <IntDir>$(BinaryIntermediateDir)</IntDir>
     <TargetName>$(BinaryFileName)</TargetName>
     <OutDir>$(BinaryDir)</OutDir>

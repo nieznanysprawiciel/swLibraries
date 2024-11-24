@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{a0e9df26-f8ca-44ef-a676-c7785e289e14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{666c55d9-44df-40e2-be00-1099dece8b39}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Tests\TestText\main.cpp" />
+    <ClCompile Include="..\..\..\..\Tests\TestText\TestFontLoader.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestText\TestGeneration.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestText\TestArrange.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Tests\TestText\TestFontPicker.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Tests\TestText\Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\..\..\..\TestResources\fonts\ELICEN.otf">
+      <Filter>Resources</Filter>
+    </Font>
+    <Font Include="..\..\..\..\TestResources\fonts\ELICEN.ttf">
+      <Filter>Resources</Filter>
+    </Font>
+  </ItemGroup>
+</Project>

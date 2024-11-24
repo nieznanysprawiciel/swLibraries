@@ -1,6 +1,6 @@
 #pragma once
 /**
-@file Default.h
+@file DefaultAccessors.h
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
@@ -25,6 +25,7 @@ struct DefaultUVAcc
 {
 	static decltype( VertexType::UV )&				Get				( VertexType& vertex ) { return vertex.UV; }
 };
+
 
 }	// geom
 }	// sw

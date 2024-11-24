@@ -55,9 +55,9 @@ public:
 	Chunk			GetRootChunk	();
 	Chunk			CreateRootChunk	();
 
-	bool			OpenFile		( const filesystem::Path& filePath, bool writeDirect );
-	bool			WriteFile		( const filesystem::Path& filePath );
-	bool			LoadFile		( const filesystem::Path& filePath, bool readOnly );
+	bool			OpenFile		( const fs::Path& filePath, bool writeDirect );
+	bool			WriteFile		( const fs::Path& filePath );
+	bool			LoadFile		( const fs::Path& filePath, bool readOnly );
 
 	Attribute		AddGlobalAttribute	( AttributeType type, const DataPtr data, Size dataSize );
 	Attribute		AddAttribute		( AttributeReprPtr& list, AttributeType type, const DataPtr data, Size dataSize );

@@ -9,6 +9,7 @@
 #include "swCommonLib/Common/Exceptions/ErrorsCollector.h"
 #include "swCommonLib/Common/Exceptions/ExceptionsList.h"
 #include "swCommonLib/Common/Exceptions/Nullable.h"
+#include "swCommonLib/Common/fmt.h"
 
 
 #include "swCommonLib/TestUtils/TestClassHierarchy/Animals/Mammals/Dog.h"
@@ -163,7 +164,41 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.Move.Exception", "[Nullable]" )
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Exceptions.Nullable.operator&&", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Exceptions.Nullable.MapErr", "[Nullable]" )
+{
+    auto mappedErr = Nullable< Dog* >( "Something wrong..." ).MapErr( []( auto e ) { return fmt::format( "Failure: {}", e ); } );
+
+    REQUIRE( mappedErr.IsValid() == false );
+    CHECK( mappedErr.GetErrorReason() == "Failure: Something wrong..." );
+    CHECK( mappedErr.GetError() != nullptr );
+}
+
+Nullable< NotCopyable > CreateNotCopyable( bool move )
+{
+    if( move )
+		return std::move( NotCopyable() );
+    else
+        return NotCopyable();
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.Nullable.NotCopyAble", "[Nullable]" )
+{
+    auto mappedErr =
+        Nullable< NotCopyable >( "Something wrong..." ).MapErr( []( auto e ) { return fmt::format( "Failure: {}", e ); } );
+
+    REQUIRE( mappedErr.IsValid() == false );
+    CHECK( mappedErr.GetErrorReason() == "Failure: Something wrong..." );
+    CHECK( mappedErr.GetError() != nullptr );
+
+	auto result = CreateNotCopyable( true );
+    REQUIRE( result.IsValid() == true );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.ReturnResult.operator&&", "[Nullable]" )
 {
     ReturnResult invalid( "Something wrong..." );
     ReturnResult valid = Success::True;
@@ -179,7 +214,7 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.operator&&", "[Nullable]" )
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Exceptions.Nullable.Ok.OnSuccess", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Exceptions.ReturnResult.Ok.OnSuccess", "[Nullable]" )
 {
     ReturnResult valid = Success::True;
 
@@ -190,7 +225,7 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.Ok.OnSuccess", "[Nullable]" )
 
 // ================================ //
 //
-TEST_CASE( "Common.Helpers.Exceptions.Nullable.Ok.Invalid", "[Nullable]" )
+TEST_CASE( "Common.Helpers.Exceptions.ReturnResult.Ok.Invalid", "[Nullable]" )
 {
     ReturnResult invalid( "Something wrong..." );
 
@@ -198,6 +233,16 @@ TEST_CASE( "Common.Helpers.Exceptions.Nullable.Ok.Invalid", "[Nullable]" )
     CHECK( nullable.IsValid() == false );
     CHECK( nullable.GetError() != nullptr );
     CHECK( nullable.GetErrorReason() == "Something wrong..." );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Exceptions.ReturnResult.MapErr", "[Nullable]" )
+{
+    ReturnResult mappedErr = ReturnResult( "Something wrong..." ).MapErr( []( auto e ) { return fmt::format( "Failure: {}", e ); } );
+
+    CHECK( mappedErr.IsValid() == false );
+    CHECK( mappedErr.GetErrorReason() == "Failure: Something wrong..." );
 }
 
 

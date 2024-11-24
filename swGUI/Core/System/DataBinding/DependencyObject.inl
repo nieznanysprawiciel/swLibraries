@@ -1,4 +1,10 @@
 #pragma once
+/**
+@file DependencyObject.inl
+@author nieznanysprawiciel
+@copyright File is part of Sleeping Wombat Libraries.
+*/
+
 
 #include "DependencyObject.h"
 
@@ -10,10 +16,12 @@ namespace gui
 // ================================ //
 //
 template< typename ClassType, typename PropertyType >
-inline void					DependencyObject::SetValue			( const DependencyProperty& prop,
+inline bool					DependencyObject::SetValue			( const DependencyProperty& prop,
 																  PropertyType value,
 																  FieldMemberPtr< ClassType, PropertyType > fieldPtr )
 {
+    assert( prop.Property.get_type() == TypeID::get< PropertyType >() );
+
 	// Prevent from infinite loop in case of TwoWay binding mode.
 	if( value != GetValue( fieldPtr ) )
 	{
@@ -23,7 +31,9 @@ inline void					DependencyObject::SetValue			( const DependencyProperty& prop,
 		
 		if( bindingInfo )
 			bindingInfo->PropagateToSource();
+        return true;
 	}
+    return false;
 }
 
 

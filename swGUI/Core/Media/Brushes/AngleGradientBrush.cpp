@@ -32,7 +32,7 @@ BufferRange			AngleGradientBrush::BufferData			()
 
 // ================================ //
 //
-filesystem::Path	AngleGradientBrush::ShaderFunctionFile	()
+fs::Path	        AngleGradientBrush::ShaderFunctionFile	()
 {
     return "$(CoreGUI-Shader-Dir)/Brush/AngleGradientBrush.psh";
 }

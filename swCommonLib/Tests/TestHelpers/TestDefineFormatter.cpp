@@ -29,7 +29,10 @@ struct Test1
 //
     std::string     ToString    () const    { return str; }
 };
+
 DEFINE_FMT_FORMATTER( Test1, "{}", ToString() );
+DEFINE_PTR_TYPE( Test1 )
+DEFINE_FMT_FORMATTER_PTR( Test1Ptr, "{}", ToString() );
 
 
 // ================================ //
@@ -66,6 +69,15 @@ TEST_CASE( "Common.Helpers.Macros.DEFINE_FMT_FORMATTER.UseMemberFunction", "[Ver
 {
     Test1 test = { "Test passed" };
     CHECK( fmt::format( "{}", test ) == "Test passed" );
+}
+
+// ================================ //
+//
+TEST_CASE( "Common.Helpers.Macros.DEFINE_FMT_FORMATTER_PTR.UseMemberFunction", "[Version]" )
+{
+    Test1 test = { "Test passed" };
+    auto testPtr = std::make_shared< Test1 >( test );
+    CHECK( fmt::format( "{}", testPtr ) == "Test passed" );
 }
 
 // ================================ //

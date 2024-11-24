@@ -1,3 +1,4 @@
+#include "swGraphicAPI/Tests/TestResources.DX11/stdafx.h"
 #include "swGraphicAPI/MockAssets/GraphicAPI.h"
 
 Graphic& graphic = GetGraphic();

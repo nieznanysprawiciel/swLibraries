@@ -17,14 +17,14 @@ namespace sw
 // ================================ //
 //
 template< typename Type >
-inline ReturnResult			Serialization::Serialize		( const filesystem::Path& filePath, const Type& object )
+inline ReturnResult			Serialization::Serialize		( const fs::Path& filePath, const Type& object )
 {
 	ISerializer ser( std::static_pointer_cast< ISerializationContext >( m_context ) );
 
     auto result = Serialize< Type >( ser, object );
 	if( result.IsValid() )
 	{
-		filesystem::Dir::CreateDirectory( filePath );
+		fs::Dir::CreateDirectory( filePath );
         return ser.SaveFile( filePath.String(), WritingMode::Readable );
 	}
 
@@ -49,7 +49,7 @@ inline ReturnResult			Serialization::Serialize		( ISerializer& ser, const Type& 
 // ================================ //
 //
 template< typename Type >
-inline Nullable< Type >     Serialization::Deserialize      ( const filesystem::Path& filePath )
+inline Nullable< Type >     Serialization::Deserialize      ( const fs::Path& filePath )
 {
     IDeserializer deser( std::static_pointer_cast< ISerializationContext >( m_context ) );
 
@@ -63,7 +63,7 @@ inline Nullable< Type >     Serialization::Deserialize      ( const filesystem::
 // ================================ //
 //
 template< typename Type >
-inline ReturnResult			Serialization::Deserialize		( const filesystem::Path& filePath, Type& object )
+inline ReturnResult			Serialization::Deserialize		( const fs::Path& filePath, Type& object )
 {
 	IDeserializer deser( std::static_pointer_cast< ISerializationContext >( m_context ) );
 

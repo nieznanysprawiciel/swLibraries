@@ -94,7 +94,7 @@ public:
 	virtual AssetPath			GetAssetPath			() const;
 
 	/**@brief Returns Resource path in filesystem*/
-	virtual filesystem::Path	GetFilePath				() const;
+	virtual fs::Path			GetFilePath				() const;
 
 public:
 

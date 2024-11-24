@@ -36,11 +36,11 @@ public:
 
     /**@brief Gets file path ready to loading.
     Note that this path don't have aliases. If you want to build paths, better use not translated version.*/
-    const filesystem::Path& GetFile				() const { return m_translatedPath.GetFile(); }
+    const fs::Path&         GetFile				() const { return m_translatedPath.GetFile(); }
 
-    const filesystem::Path& GetInternalPath		() const { return m_originalPath.GetInternalPath(); }
-    const filesystem::Path& GetFileTranslated	() const { return m_translatedPath.GetFile(); }
-    const filesystem::Path& GetFileOriginal		() const { return m_originalPath.GetFile(); }
+    const fs::Path&         GetInternalPath		() const { return m_originalPath.GetInternalPath(); }
+    const fs::Path&         GetFileTranslated	() const { return m_translatedPath.GetFile(); }
+    const fs::Path&         GetFileOriginal		() const { return m_originalPath.GetFile(); }
 
     const AssetPath& GetOriginalPath		    () const { return m_originalPath; }
     const AssetPath& GetTranslatedPath	        () const { return m_translatedPath; }
@@ -48,7 +48,7 @@ public:
 public:
 
     /**@brief Extends internal path and returns new object.*/
-    LoadPath						operator/			( const filesystem::Path& path ) const;
+    LoadPath						operator/			( const fs::Path& path ) const;
 
 public:
 
@@ -56,7 +56,7 @@ public:
 
 public:
 
-    static filesystem::Path			Translate			( const filesystem::Path& path, const PathsManager* pm );
+    static fs::Path			        Translate			( const fs::Path& path, const PathsManager* pm );
     static AssetPath				Translate			( const AssetPath& name, const PathsManager* pm );
 };
 
@@ -88,7 +88,7 @@ inline LoadPath::LoadPath		( AssetPath original, const PathsManager* pm )
 
 // ================================ //
 //
-inline LoadPath					LoadPath::operator/			( const filesystem::Path& path ) const
+inline LoadPath					LoadPath::operator/			( const fs::Path& path ) const
 {
 	auto newInternalPath = GetInternalPath() / path;
 	return LoadPath( AssetPath( GetFileOriginal(), newInternalPath ), AssetPath( GetFileTranslated(), newInternalPath ) );
@@ -103,18 +103,16 @@ inline std::string				LoadPath::Print				() const
 
 // ================================ //
 //
-inline filesystem::Path			LoadPath::Translate			( const filesystem::Path& path, const PathsManager* pm )
+inline fs::Path			        LoadPath::Translate			( const fs::Path& path, const PathsManager* pm )
 {
 	auto translated = pm->Translate( path );
 
 	// @todo If working directory changes this code translates to another path.
 	// Is this expected behavior in this case?
 	if( translated.IsRelative() && !translated.IsEmpty() )
-		translated = filesystem::Path::WorkingDirectory() / translated;
+		translated = fs::Path::WorkingDirectory() / translated;
 
-	translated.Normalize();
-
-	return translated;
+	return translated.Normalize();
 }
 
 // ================================ //

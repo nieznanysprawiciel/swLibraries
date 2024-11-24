@@ -40,8 +40,8 @@ sw::LoadBarrier			gLoadBarrier;
 std::vector< int >		gOrderChecker;
 std::mutex				gCheckerLock;
 
-filesystem::Path assetFile( "assets/wombat.jpg" );
-filesystem::Path independentAsset( "assets/texture.jpg" );
+sw::fs::Path assetFile( "assets/wombat.jpg" );
+sw::fs::Path independentAsset( "assets/texture.jpg" );
 
 bool threadsInternalResult[ numThreads ];
 bool notNullWaitingAsset[ numThreads ];

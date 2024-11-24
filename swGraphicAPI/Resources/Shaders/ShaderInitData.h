@@ -39,7 +39,8 @@ public:
 		,	EntryFunction( "main" )
 	{}
 
-	virtual TypeID		GetAssetType	() const override;
+	virtual TypeID			GetAssetType	() const override;
+	virtual std::string		ResourceKey		() const override { return fmt::format( "/?entrypoint={},type={}", EntryFunction, GetAssetType().get_name().to_string() ); }
 
 public:
 

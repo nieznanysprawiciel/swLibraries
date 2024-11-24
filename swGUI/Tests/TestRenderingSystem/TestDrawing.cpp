@@ -1,5 +1,6 @@
 #include "swCommonLib/External/Catch/catch.hpp"
 
+#include "swCommonLib/TestUtils/CatchUtils/ExtendedMacros.h"
 #include "swGUI/TestFramework/TestFramework.h"
 
 #include "swGUI/Core/System/Rendering/Drawings/Drawing.h"
@@ -29,7 +30,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Brush.UpdateShader", "[GUISystem][RenderingSys
 	
 	// Set first shader
 	brush->SetShaderFunction( "shaders/FakeBrush.ps" );
-	drawing->UpdateBrushShader( framework.GetRenderingSystem()->GetShaderProvider(), brush.get() );
+    REQUIRE_IS_VALID( drawing->UpdateBrushShader( framework.GetRenderingSystem()->GetShaderProvider(), brush.get() ) );
 
 	auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
 
@@ -38,13 +39,13 @@ TEST_CASE( "GUI.Rendering.Drawing.Brush.UpdateShader", "[GUISystem][RenderingSys
 
 	// Change shader and check if ew shader was loaded.
 	brush->SetShaderFunction( "shaders/FakeBrush2.ps" );
-	REQUIRE( brush->NeedsShaderUpdate() == true );										// Update request should be set.
+    REQUIRE( brush->NeedsShaderUpdate( renderingData.ShaderState ) == true );  // Update request should be set.
 
-	drawing->UpdateBrushShader( framework.GetRenderingSystem()->GetShaderProvider(), brush.get() );
+	REQUIRE_IS_VALID( drawing->UpdateBrushShader( framework.GetRenderingSystem()->GetShaderProvider(), brush.get() ) );
 	CHECK( renderingData.PixelShader != nullptr );										// Shader was loaded.
 	CHECK( renderingData.PixelShader != prevShader );									// Shader is different then previous shader.
 
-	CHECK( brush->NeedsShaderUpdate() == false );										// Update function should reset update flag.
+	CHECK( brush->NeedsShaderUpdate( renderingData.ShaderState ) == false );  // Update function should reset update flag.
 }
 
 // ================================ //
@@ -59,7 +60,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Pen.UpdateShader", "[GUISystem][RenderingSyste
 	
 	// Set first shader
 	pen->SetShaderFunction( "shaders/FakeBrush.ps" );
-	drawing->UpdatePenShader( framework.GetRenderingSystem()->GetShaderProvider(), pen.get() );
+    REQUIRE_IS_VALID( drawing->UpdatePenShader( framework.GetRenderingSystem()->GetShaderProvider(), pen.get() ) );
 
 	auto& renderingData = CLASS_TESTER( Drawing )::GetPenRenderingData( drawing.get() );
 
@@ -68,13 +69,13 @@ TEST_CASE( "GUI.Rendering.Drawing.Pen.UpdateShader", "[GUISystem][RenderingSyste
 
 	// Change shader and check if ew shader was loaded.
 	pen->SetShaderFunction( "shaders/FakeBrush2.ps" );
-	REQUIRE( pen->NeedsShaderUpdate() == true );										// Update request should be set.
+    REQUIRE( pen->NeedsShaderUpdate( renderingData.ShaderState ) == true );  // Update request should be set.
 
-	drawing->UpdatePenShader( framework.GetRenderingSystem()->GetShaderProvider(), pen.get() );
+	REQUIRE_IS_VALID( drawing->UpdatePenShader( framework.GetRenderingSystem()->GetShaderProvider(), pen.get() ) );
 	CHECK( renderingData.PixelShader != nullptr );										// Shader was loaded.
 	CHECK( renderingData.PixelShader != prevShader );									// Shader is different then previous shader.
 
-	CHECK( pen->NeedsShaderUpdate() == false );										// Update function should reset update flag.
+	CHECK( pen->NeedsShaderUpdate( renderingData.ShaderState ) == false );  // Update function should reset update flag.
 }
 
 // ================================ //
@@ -89,7 +90,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateShader", "[GUISystem][Rendering
 	
 	// Set first shader
 	geom->SetShaderFunction( "shaders/FakeGeom.vs" );
-	drawing->UpdateVertexShader( framework.GetRenderingSystem()->GetShaderProvider(), geom.get() );
+    REQUIRE_IS_VALID( drawing->UpdateVertexShader( framework.GetRenderingSystem()->GetShaderProvider(), geom.get() ) );
 
 	auto& renderingData = CLASS_TESTER( Drawing )::GetGeometryRenderingData( drawing.get() );
 
@@ -98,13 +99,13 @@ TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateShader", "[GUISystem][Rendering
 
 	// Change shader and check if ew shader was loaded.
 	geom->SetShaderFunction( "shaders/FakeGeom2.vs" );
-	REQUIRE( geom->NeedsShaderUpdate() == true );										// Update request should be set.
+    REQUIRE( geom->NeedsShaderUpdate( renderingData.ShaderState ) == true );  // Update request should be set.
 
-	drawing->UpdateVertexShader( framework.GetRenderingSystem()->GetShaderProvider(), geom.get() );
+	REQUIRE_IS_VALID( drawing->UpdateVertexShader( framework.GetRenderingSystem()->GetShaderProvider(), geom.get() ) );
 	CHECK( renderingData.VertexShader != nullptr );										// Shader was loaded.
 	CHECK( renderingData.VertexShader != prevShader );									// Shader is different then previous shader.
 
-	CHECK( geom->NeedsShaderUpdate() == false );										// Update function should reset update flag.
+	CHECK( geom->NeedsShaderUpdate(renderingData.ShaderState) == false );				// Update function should reset update flag.
 }
 
 
@@ -124,18 +125,18 @@ TEST_CASE( "GUI.Rendering.Drawing.Brush.UpdateTexture", "[GUISystem][RenderingSy
 	auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
 
 	brush->SetTextureFile( "textures/Tex1.png" );
-	REQUIRE( brush->NeedsTextureUpdate() == true );										// Update request should be set.
+    REQUIRE( brush->NeedsTextureUpdate( renderingData.TextureState ) == true );  // Update request should be set.
 
-	drawing->UpdateBrushTexture( framework.GetResourceManagerAPI(), brush.get() );
+	REQUIRE_IS_VALID( drawing->UpdateBrushTexture( framework.GetResourceManagerAPI(), brush.get() ) );
 	CHECK( renderingData.Texture != nullptr );
-	CHECK( brush->NeedsTextureUpdate() == false );
+    CHECK( brush->NeedsTextureUpdate( renderingData.TextureState ) == false );
 
 	brush->SetTextureFile( "textures/Tex2.png" );
-	REQUIRE( brush->NeedsTextureUpdate() == true );										// Update request should be set.
+    REQUIRE( brush->NeedsTextureUpdate( renderingData.TextureState ) == true );  // Update request should be set.
 
-	drawing->UpdateBrushTexture( framework.GetResourceManagerAPI(), brush.get() );
+	REQUIRE_IS_VALID( drawing->UpdateBrushTexture( framework.GetResourceManagerAPI(), brush.get() ) );
 	CHECK( renderingData.Texture != nullptr );
-	CHECK( brush->NeedsTextureUpdate() == false );
+    CHECK( brush->NeedsTextureUpdate( renderingData.TextureState ) == false );
 }
 
 // ================================ //
@@ -150,18 +151,18 @@ TEST_CASE( "GUI.Rendering.Drawing.Pen.UpdateTexture", "[GUISystem][RenderingSyst
 	auto& renderingData = CLASS_TESTER( Drawing )::GetPenRenderingData( drawing.get() );
 
 	pen->SetTextureFile( "textures/Tex1.png" );
-	REQUIRE( pen->NeedsTextureUpdate() == true );										// Update request should be set.
+    REQUIRE( pen->NeedsTextureUpdate( renderingData.TextureState ) == true );  // Update request should be set.
 
-	drawing->UpdatePenTexture( framework.GetResourceManagerAPI(), pen.get() );
+	REQUIRE_IS_VALID( drawing->UpdatePenTexture( framework.GetResourceManagerAPI(), pen.get() ) );
 	CHECK( renderingData.Texture != nullptr );
-	CHECK( pen->NeedsTextureUpdate() == false );
+    CHECK( pen->NeedsTextureUpdate( renderingData.TextureState ) == false );
 
 	pen->SetTextureFile( "textures/Tex2.png" );
-	REQUIRE( pen->NeedsTextureUpdate() == true );										// Update request should be set.
+    REQUIRE( pen->NeedsTextureUpdate( renderingData.TextureState ) == true );  // Update request should be set.
 
-	drawing->UpdatePenTexture( framework.GetResourceManagerAPI(), pen.get() );
+	REQUIRE_IS_VALID( drawing->UpdatePenTexture( framework.GetResourceManagerAPI(), pen.get() ) );
 	CHECK( renderingData.Texture != nullptr );
-	CHECK( pen->NeedsTextureUpdate() == false );
+    CHECK( pen->NeedsTextureUpdate( renderingData.TextureState ) == false );
 }
 
 
@@ -181,7 +182,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Brush.UpdateConstants", "[GUISystem][Rendering
 	auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
 	REQUIRE( renderingData.BrushConstants == nullptr );
 
-	drawing->UpdateBrushConstants( framework.GetResourceManagerAPI(), brush.get() );
+	REQUIRE_IS_VALID( drawing->UpdateBrushConstants( framework.GetResourceManagerAPI(), brush.get() ) );
 
 	CHECK( renderingData.BrushConstants != nullptr );
 }
@@ -198,7 +199,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Pen.UpdateConstants", "[GUISystem][RenderingSy
 	auto& renderingData = CLASS_TESTER( Drawing )::GetPenRenderingData( drawing.get() );
 	REQUIRE( renderingData.BrushConstants == nullptr );
 
-	drawing->UpdatePenConstants( framework.GetResourceManagerAPI(), pen.get() );
+	REQUIRE_IS_VALID( drawing->UpdatePenConstants( framework.GetResourceManagerAPI(), pen.get() ) );
 
 	CHECK( renderingData.BrushConstants != nullptr );
 }
@@ -215,7 +216,7 @@ TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateConstants", "[GUISystem][Render
 	auto& renderingData = CLASS_TESTER( Drawing )::GetGeometryRenderingData( drawing.get() );
 	REQUIRE( renderingData.GeometryConstants == nullptr );
 
-	drawing->UpdateGeometryConstants( framework.GetResourceManagerAPI(), geom.get() );
+	REQUIRE_IS_VALID( drawing->UpdateGeometryConstants( framework.GetResourceManagerAPI(), geom.get() ) );
 
 	CHECK( renderingData.GeometryConstants != nullptr );
 }
@@ -232,18 +233,18 @@ TEST_CASE( "GUI.Rendering.Drawing.Brush.ChangeConstantsBuffer", "[GUISystem][Ren
 	auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
 	REQUIRE( renderingData.BrushConstants == nullptr );
 
-	drawing->UpdateBrushConstants( framework.GetResourceManagerAPI(), brush.get() );
+	REQUIRE_IS_VALID( drawing->UpdateBrushConstants( framework.GetResourceManagerAPI(), brush.get() ) );
 
 	auto prevBuff = renderingData.BrushConstants;
 	CHECK( prevBuff != nullptr );
 
 	brush->ChangeConstsBuffer( "NewBuffer" );
-	CHECK( brush->NeedsBufferChange() == true );
+	CHECK( brush->NeedsConstantsUpdate( renderingData.ConstantsState ) == true );
 
-	drawing->UpdateBrushConstants( framework.GetResourceManagerAPI(), brush.get() );
+	REQUIRE_IS_VALID( drawing->UpdateBrushConstants( framework.GetResourceManagerAPI(), brush.get() ) );
 
 	CHECK( prevBuff != renderingData.BrushConstants );
-	CHECK( brush->NeedsBufferChange() == false );
+    CHECK( brush->NeedsConstantsUpdate( renderingData.ConstantsState ) == false );
 }
 
 // ================================ //
@@ -258,18 +259,18 @@ TEST_CASE( "GUI.Rendering.Drawing.Pen.ChangeConstantsBuffer", "[GUISystem][Rende
 	auto& renderingData = CLASS_TESTER( Drawing )::GetPenRenderingData( drawing.get() );
 	REQUIRE( renderingData.BrushConstants == nullptr );
 
-	drawing->UpdatePenConstants( framework.GetResourceManagerAPI(), pen.get() );
+	REQUIRE_IS_VALID( drawing->UpdatePenConstants( framework.GetResourceManagerAPI(), pen.get() ) );
 
 	auto prevBuff = renderingData.BrushConstants;
 	CHECK( prevBuff != nullptr );
 
 	pen->ChangeConstsBuffer( "NewBuffer" );
-	CHECK( pen->NeedsBufferChange() == true );
+    CHECK( pen->NeedsConstantsUpdate( renderingData.ConstantsState ) == true );
 
-	drawing->UpdatePenConstants( framework.GetResourceManagerAPI(), pen.get() );
+	REQUIRE_IS_VALID( drawing->UpdatePenConstants( framework.GetResourceManagerAPI(), pen.get() ) );
 
 	CHECK( prevBuff != renderingData.BrushConstants );
-	CHECK( pen->NeedsBufferChange() == false );
+    CHECK( pen->NeedsConstantsUpdate( renderingData.ConstantsState ) == false );
 }
 
 
@@ -290,29 +291,29 @@ TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateGeometry", "[GUISystem][Renderi
 	auto& renderingData = CLASS_TESTER( Drawing )::GetGeometryRenderingData( drawing.get() );
 	REQUIRE( renderingData.VertexBuffer == nullptr );
 	REQUIRE( renderingData.IndexBuffer == nullptr );
-	REQUIRE( geom->NeedsGeometryUpdate() == true );
+    REQUIRE( geom->NeedsGeometryUpdate( renderingData.GeometryState ) == true );
 	
 	// Initialization of geometry.
-	drawing->UpdateGeometry( framework.GetResourceManagerAPI(), geom.get() );
+    REQUIRE_IS_VALID( drawing->UpdateGeometry( framework.GetResourceManagerAPI(), geom.get() ) );
 
 	CHECK( renderingData.VertexBuffer != nullptr );
 	CHECK( renderingData.IndexBuffer != nullptr );
-	CHECK( geom->NeedsGeometryUpdate() == false );
+    CHECK( geom->NeedsGeometryUpdate( renderingData.GeometryState ) == false );
 
 	// Change geometry and check if buffers were updated.
 	auto vb = renderingData.VertexBuffer;
 	auto ib = renderingData.IndexBuffer;
 
 	geom->ChangeGeometry( "NewGeom" );
-	CHECK( geom->NeedsGeometryUpdate() == true );
+    CHECK( geom->NeedsGeometryUpdate( renderingData.GeometryState ) == true );
 
-	drawing->UpdateGeometry( framework.GetResourceManagerAPI(), geom.get() );
+	REQUIRE_IS_VALID( drawing->UpdateGeometry( framework.GetResourceManagerAPI(), geom.get() ) );
 
 	CHECK( renderingData.VertexBuffer != nullptr );
 	CHECK( renderingData.IndexBuffer != nullptr );
 	CHECK( renderingData.VertexBuffer != vb );			// New buffers should be generated.
 	CHECK( renderingData.IndexBuffer != ib );			// New buffers should be generated.
-	CHECK( geom->NeedsGeometryUpdate() == false );
+    CHECK( geom->NeedsGeometryUpdate( renderingData.GeometryState ) == false );
 }
 
 // ================================ //
@@ -327,17 +328,17 @@ TEST_CASE( "GUI.Rendering.Drawing.Geometry.UpdateGeometry.UseExisting", "[GUISys
 	auto& renderingData = CLASS_TESTER( Drawing )::GetGeometryRenderingData( drawing.get() );
 	
 	geom->ChangeGeometry( "Geometry1" );
-	drawing->UpdateGeometry( framework.GetResourceManagerAPI(), geom.get() );
+    REQUIRE_IS_VALID( drawing->UpdateGeometry( framework.GetResourceManagerAPI(), geom.get() ) );
 
 	auto vb = renderingData.VertexBuffer;
 	auto ib = renderingData.IndexBuffer;
 
 	geom->ChangeGeometry( "Geometry2" );
-	drawing->UpdateGeometry( framework.GetResourceManagerAPI(), geom.get() );
+	REQUIRE_IS_VALID( drawing->UpdateGeometry( framework.GetResourceManagerAPI(), geom.get() ) );
 
 	// Use Geometry1 again.
 	geom->ChangeGeometry( "Geometry1" );
-	drawing->UpdateGeometry( framework.GetResourceManagerAPI(), geom.get() );
+	REQUIRE_IS_VALID( drawing->UpdateGeometry( framework.GetResourceManagerAPI(), geom.get() ) );
 
 	CHECK( renderingData.VertexBuffer == vb );
 	CHECK( renderingData.IndexBuffer == ib );

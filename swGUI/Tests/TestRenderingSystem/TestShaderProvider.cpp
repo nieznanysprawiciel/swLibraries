@@ -29,7 +29,8 @@ TEST_CASE( "GUI.ShaderProvider.GeneratePS", "[GUISystem][RenderingSystem]" )
 	ShaderProvider sp( framework.GetResourceManagerAPI(), framework.GetPathsManager() );
 
 	auto shader = sp.GeneratePS( "shaders/FakeTemplate.ps", "shaders/FakeBrush.ps" );
-	CHECK( shader.Ptr() != nullptr );
+    REQUIRE_IS_VALID( shader );
+    CHECK( shader.Get().Ptr() != nullptr );
 }
 
 // ================================ //
@@ -40,7 +41,8 @@ TEST_CASE( "GUI.ShaderProvider.GenerateVS", "[GUISystem][RenderingSystem]" )
 	ShaderProvider sp( framework.GetResourceManagerAPI(), framework.GetPathsManager() );
 
 	auto shader = sp.GenerateVS( "shaders/FakeTemplate.vs", "shaders/FakeGeom.vs" );
-	CHECK( shader.Ptr() != nullptr );
+    REQUIRE_IS_VALID( shader );
+    CHECK( shader.Get().Ptr() != nullptr );
 }
 
 // ================================ //
@@ -52,19 +54,19 @@ TEST_CASE( "GUI.ShaderProvider.GenerateVS.SecondTime", "[GUISystem][RenderingSys
 
     auto shader1 = sp.GenerateVS( "shaders/FakeTemplate.vs", "shaders/FakeGeom.vs" );
     auto shader2 = sp.GenerateVS( "shaders/FakeTemplate.vs", "shaders/FakeGeom.vs" );
-    CHECK( shader1 == shader2 );
+    REQUIRE_IS_VALID( shader1 );
+    REQUIRE_IS_VALID( shader2 );
+    CHECK( shader1.Get() == shader2.Get() );
 }
 
 // ================================ //
-// ShaderProvider shouldn't generate the same shader twice.
-TEST_CASE( "GUI.ShaderProvider.GeneratePS.SecondTime", "[GUISystem][RenderingSystem]" )
+//
+TEST_CASE( "GUI.ShaderProvider.GeneratePS.ErrorHandling.NoCode", "[GUISystem][RenderingSystem]" )
 {
-    TestFramework framework( 0, nullptr );	framework.Init();
+    TestFramework framework( 0, nullptr );
+    framework.Init();
     ShaderProvider sp( framework.GetResourceManagerAPI(), framework.GetPathsManager() );
 
-    auto shader1 = sp.GeneratePS( "shaders/FakeTemplate.ps", "shaders/FakeGeom.ps" );
-    auto shader2 = sp.GeneratePS( "shaders/FakeTemplate.ps", "shaders/FakeGeom.ps" );
-    CHECK( shader1 == shader2 );
+    auto shader = sp.GeneratePS( "shaders/FakeTemplate-NotExisting.ps", "shaders/FakeBrush-NotExisting.ps" );
+    REQUIRE_INVALID( shader );
 }
-
-

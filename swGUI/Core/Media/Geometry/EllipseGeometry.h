@@ -36,15 +36,15 @@ public:
 public:
 
 	// Inherited via Geometry
-	virtual bool				HitTest				( const Point& point )		override;
-	virtual bool				HitTest				( const Rect& rectangle )	override;
+	virtual bool				HitTest				( const Point& point ) const		override;
+	virtual bool				HitTest				( const Rect& rectangle ) const		override;
 
-	virtual GeometryData		Generate			()							override;
-	virtual BufferRange			BufferData			()							override;
+	virtual Nullable< GeometryData >		Generate			() override;
+	virtual BufferRange						BufferData			() override;
 
-	virtual filesystem::Path    ShaderFunctionFile	()							override;
-	virtual std::string		    GeometryName		()							override;
-	virtual AssetPath		    ConstantsName		()							override;
+	virtual fs::Path			ShaderFunctionFile	() override;
+	virtual std::string		    GeometryName		() override;
+	virtual AssetPath		    ConstantsName		() override;
 
 };
 

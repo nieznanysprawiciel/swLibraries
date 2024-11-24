@@ -72,7 +72,7 @@ ISerializer::~ISerializer()
 ReturnResult            ISerializer::SaveFile         ( const std::string& fileName, WritingMode mode )
 {
     // Ensure directory exists.
-    filesystem::Dir::CreateDirectory( fileName );
+    fs::Dir::CreateDirectory( fileName );
 
     while( impl->valuesStack.size() > 1 )
         this->Exit();

@@ -1,11 +1,10 @@
+#include "swGraphicAPI/Tests/TestResources.DX11/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
-
 /**
 @file TestBlendingStateCreator.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
-
 
 #include "swGraphicAPI/ResourceManager/AssetCreators/AssetsFactory.h"
 

@@ -48,4 +48,22 @@ MemoryChunk							MockBuffer::CopyData			()
 	return std::move( memoryChunk );
 }
 
+// ================================ //
+
+ReturnResult						MockBuffer::UpdateData( BufferRange data, PtrOffset offset )
+{
+    // Buffer must be updatable.
+    if( m_descriptor.Usage == ResourceUsage::Static || m_descriptor.Usage == ResourceUsage::Staging )
+        return fmt::format( "Buffer not updatable. Create with ResourceUsage Default or Dynamic. (Current: {})",
+                            Convert::ToString( m_descriptor.Usage ) );
+    return Success::True;
+}
+
+// ================================ //
+
+ReturnResult						MockBuffer::Resize( BufferRange newData )
+{
+    return Success::True;
+}
+
 }	// sw

@@ -31,7 +31,7 @@ FakeGeometry::FakeGeometry( Geometry::ConstantBufferMode cbMode )
 
 // ================================ //
 //
-bool			FakeGeometry::HitTest		( const Point& point )
+bool			FakeGeometry::HitTest		( const Point& point ) const
 {
 	assert( !"Implement me" );
 	return false;
@@ -39,7 +39,7 @@ bool			FakeGeometry::HitTest		( const Point& point )
 
 // ================================ //
 //
-bool			FakeGeometry::HitTest		( const Rect& rectangle )
+bool			FakeGeometry::HitTest		( const Rect& rectangle ) const
 {
 	assert( !"Implement me" );
 	return false;
@@ -47,7 +47,7 @@ bool			FakeGeometry::HitTest		( const Rect& rectangle )
 
 // ================================ //
 //
-GeometryData	FakeGeometry::Generate		()
+Nullable< GeometryData >	FakeGeometry::Generate()
 {
 	BufferTyped< VertexShape2D > vertexBuffer( 4 );
 	BufferTyped< Index16 > indexBuffer( 6 );
@@ -59,14 +59,14 @@ GeometryData	FakeGeometry::Generate		()
 
 // ================================ //
 //
-BufferRange		        FakeGeometry::BufferData	()
+BufferRange					FakeGeometry::BufferData	()
 {
 	return m_buffer.GetView();
 }
 
 // ================================ //
 //
-filesystem::Path		FakeGeometry::ShaderFunctionFile	()
+fs::Path				FakeGeometry::ShaderFunctionFile	()
 {
 	return m_shaderFun;
 }

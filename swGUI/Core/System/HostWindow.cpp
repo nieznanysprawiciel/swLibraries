@@ -9,6 +9,10 @@
 #include "HostWindow.h"
 
 #include "swCommonLib/Common/Converters.h"
+#include "swCommonLib/Common/Profile/PerformanceCheck.h"
+#include "swCommonLib/Common/Logging/Logger.h"
+#include "CommonTypes/CommonTypes.h"
+
 
 #include "swGraphicAPI/Rendering/IGraphicAPIInitializer.h"
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
@@ -16,7 +20,6 @@
 
 #include "swInputLibrary/InputCore/Helpers/InputDispatcher.h"
 
-#include "CommonTypes/CommonTypes.h"
 
 
 // Temporary
@@ -29,6 +32,7 @@ RTTR_REGISTRATION
 	rttr::registration::class_< sw::gui::HostWindow >( "sw::gui::HostWindow" );
 }
 
+static const char* PERFORMANCE_STATISTICS_FILE_PATH = "logs/performance.txt";
 
 
 namespace sw {
@@ -86,6 +90,24 @@ Size				HostWindow::GetMemorySize		()
 	size += m_hostLogic.GetMemorySize();
 
 	return size;
+}
+
+// ================================ //
+
+void				HostWindow::OnKeyDown			( UIElement* sender, KeyEventArgs* e )
+{
+    switch( e->Key )
+    {
+    case input::Keyboard::PhysicalKeys::KEY_F1:
+		PRINT_STATISTICS_CONSOLE();
+		PRINT_STATISTICS( PERFORMANCE_STATISTICS_FILE_PATH );
+		break;
+    case input::Keyboard::PhysicalKeys::KEY_F2:
+		PERFORMACE_CHECK_CLEAR_SAMPLES;
+        LOG_INFO( "Performance statistics - clearing samples." );
+    default:
+        break;
+    }
 }
 
 /**@brief Removes control from GUI system.*/

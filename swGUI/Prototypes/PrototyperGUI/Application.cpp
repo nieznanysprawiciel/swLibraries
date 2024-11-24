@@ -2,11 +2,14 @@
 
 #include "swGUI/Core/Controls/Shapes/Rectangle.h"
 #include "swGUI/Core/Controls/Shapes/Ellipse.h"
+#include "swGUI/Core/Controls/TextualControls/TextBlock.h"
 
 #include "swGUI/Core/Media/Brushes/SolidColorBrush.h"
 #include "swGUI/Core/Media/Brushes/LinearGradientBrush.h"
 #include "swGUI/Core/Media/Brushes/AngleGradientBrush.h"
 #include "swGUI/Core/Media/Brushes/ImageBrush.h"
+
+#include "swGUI/Core/Media/Colors.h"
 
 #include "PrototyperUtils.h"
 
@@ -17,6 +20,10 @@
 
 
 using namespace sw::gui;
+
+const std::wstring sLoremIpsum = L"Lorem ipsum is a dummy or placeholder text commonly used\
+in graphic design, publishing, and web development to fill empty spaces in a layout that do\
+not yet have content.";
 
 // ================================ //
 //
@@ -63,6 +70,24 @@ void		AddEllipse						( HostWindow* host, BrushPtr brush, BrushPtr stroke, float
 	host->AddChild( std::move( ellipseControl ) );
 }
 
+// ================================ //
+//
+void		AddText			( HostWindow* host, BrushPtr brush, BrushPtr pen, float width, float height, Position pos, const std::wstring& text )
+{
+    TextBlockOPtr textBlock = TextBlockOPtr( new TextBlock() );
+
+    textBlock->SetBackground( brush );
+    textBlock->SetForeground( pen );
+
+    textBlock->SetHeight( height );
+    textBlock->SetWidth( width );
+
+    textBlock->SetOffset( pos );
+    textBlock->SetText( text );
+
+    host->AddChild( std::move( textBlock ) );
+}
+
 
 // ================================ //
 //
@@ -86,7 +111,7 @@ void		AddControls						( HostWindow* host )
 	brush = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 1.0, 1.0 ) );
 	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
 
-	AddEllipse( host, stroke, brush, 100, 200, 8, Position( 200, 300 ) );
+	AddEllipse( host, stroke, brush, 100, 200, 8, Position( 200, 150 ) );
 
 	auto gradientBrush = std::make_shared< LinearGradientBrush >();
 	gradientBrush->AddGradientStop( GradientStop( 0xFFFF0000, 0.0f ) );
@@ -120,6 +145,10 @@ void		AddControls						( HostWindow* host )
 	stroke = std::make_shared< SolidColorBrush >( Color( 0.0, 0.0, 0.0, 1.0 ) );
 
 	AddRectangle( host, gradientBrush, stroke, 120, 768, 2, Position( 750, 0 ) );
+	
+	auto background = std::make_shared< SolidColorBrush >( Colors::White );
+    auto pen = std::make_shared< SolidColorBrush >( Colors::Black );
+    AddText( host, background, pen, 200, 200, Position( 50, 400 ), sLoremIpsum );
 }
 
 

@@ -53,28 +53,21 @@ void				RectangleGeometry::SetThickness		( float thickness )
 
 // ================================ //
 //
-bool				RectangleGeometry::HitTest			( const Point& point )
+bool				RectangleGeometry::HitTest			( const Point& point ) const
 {
-	if( point.x < 0.0 || point.x > m_width )
-		return false;
-
-	if( point.y < 0.0 || point.y > m_height )
-		return false;
-
-	return true;
+    return Rect{ 0.0, m_width, 0.0, -m_height }.Intersects( point );
 }
 
 // ================================ //
 //
-bool				RectangleGeometry::HitTest			( const Rect& rectangle )
+bool				RectangleGeometry::HitTest			( const Rect& rectangle ) const
 {
-	assert( !"Implement me" );
-	return false;
+    return Rect{ 0.0, m_width, 0.0, -m_height }.Intersects( rectangle );
 }
 
 // ================================ //
 //
-GeometryData		RectangleGeometry::Generate			()
+Nullable< GeometryData >	RectangleGeometry::Generate()
 {
 	geom::RectangleWithBorder< VertexShape2D, Index16 > rect;
 	rect.TopLeftX = 0.0f;
@@ -90,7 +83,7 @@ GeometryData		RectangleGeometry::Generate			()
 	planarUV.MaxY = 0.0f;
 
 	auto geometry = geom::Generate< geom::IndexedGeometryBuffer< VertexShape2D, Index16 > >( rect, planarUV );
-	/// @todo Error handling or logging.
+    ReturnIfInvalid( geometry );
 
 	GeometryData geomData( geometry.Get().Verticies.MoveToRawBuffer(), geometry.Get().Indicies.MoveToRawBuffer() );
 	geomData.FillIdxEnd = (uint32)rect.GetNumberFillIndicies();
@@ -103,7 +96,7 @@ GeometryData		RectangleGeometry::Generate			()
 
 // ================================ //
 //
-BufferRange			RectangleGeometry::BufferData		()
+BufferRange					RectangleGeometry::BufferData		()
 {
 	// Rectangle doesn't use contants buffer.
 	return BufferRange();
@@ -111,7 +104,7 @@ BufferRange			RectangleGeometry::BufferData		()
 
 // ================================ //
 //
-filesystem::Path    RectangleGeometry::ShaderFunctionFile	()
+fs::Path			RectangleGeometry::ShaderFunctionFile	()
 {
 	return "$(CoreGUI-Shader-Dir)/Geometry/ForwardAttributes.vsh";
 }

@@ -141,6 +141,34 @@ TEST_CASE( "Binding_DependencyObject_TwoWayBinding", "[GUI][BindingSystem]" )
 	CHECK( child->GetContainerName() == "Value number 2" );
 }
 
+// ================================ //
+// 
+TEST_CASE( "Binding.DependencyObject.TwoWayBinding.DifferentName", "[GUI][BindingSystem]" )
+{
+    std::unique_ptr< gui::DependencyPropsClass > root = std::make_unique< gui::DependencyPropsClass >();
+    std::unique_ptr< gui::DependencyPropsClass > child = std::make_unique< gui::DependencyPropsClass >();
+
+    root->SetDataContext( child.get() );
+    auto initContainerName = root->GetContainerName();
+    auto initRandomName = child->GetRandomName();
+
+    auto binding = gui::Binding::Create( "RandomName", root.get(), "ContainerName", gui::BindingMode::TwoWay );
+    REQUIRE( root->AddBinding( binding ).IsValid() );
+
+    // To target direction.
+    CHECK_NOTHROW( child->SetContainerName( "Newly set value" ) );
+    CHECK( root->GetRandomName() == "Newly set value" );
+    CHECK( root->GetContainerName() == initContainerName );  // Shouldn't change.
+    CHECK( child->GetContainerName() == "Newly set value" );
+    CHECK( child->GetRandomName() == initRandomName );
+
+    // To source direction.
+    CHECK_NOTHROW( root->SetRandomName( "Value number 2" ) );
+    CHECK( root->GetRandomName() == "Value number 2" );
+    CHECK( root->GetContainerName() == initContainerName );  // Shouldn't change.
+    CHECK( child->GetContainerName() == "Value number 2" );
+    CHECK( child->GetRandomName() == initRandomName );
+}
 
 // ================================ //
 // Circular dependancies shouldn't cause dead lock.
@@ -172,4 +200,3 @@ TEST_CASE( "Binding_DependencyObject_CircularDependencies_TwoWay", "[GUI][Bindin
 	CHECK( child3->GetNumberItems() == 394 );
 	CHECK( child4->GetNumberItems() == 394 );
 }
-

@@ -1,0 +1,58 @@
+
+
+// ================================ //
+//
+struct OutputVS
+{
+	linear			float4 Pos : SV_Position;
+    noperspective   float2 Tex : TEXCOORD0;
+    noperspective   float2 Mask : TEXCOORD1;
+};
+
+// ================================ //
+//
+cbuffer RenderingSystemConsts : register( b0 )
+{
+    float2		_swViewportSize;
+}
+
+// ================================ //
+//
+cbuffer VisualConsts : register( b1 )
+{
+    float2		_swVisualOffset;
+    float2      _swVisualSize;
+}
+
+Texture2D opacityMask : register(t1);
+
+// ================================ //
+//
+SamplerState OpacitySampler
+{
+    Filter = LINEAR;
+    AddressU = Wrap;
+    AddressV = Wrap;
+};
+
+// ================================ //
+//
+float2		swTransformToDirectX			( float2 tex )
+{
+	float2 directxTex = tex;
+	directxTex.y = 1.0 - directxTex.y;
+
+	return directxTex;
+}
+
+#UserCode
+
+// ================================ //
+//
+float4		main	( OutputVS input ) : SV_Target
+{
+	float4 color = BrushFunction( input.Pos, input.Tex );
+    float4 opacity = opacityMask.Sample(OpacitySampler, input.Mask);
+    color.a = color.a * opacity.a;
+    return color;
+}

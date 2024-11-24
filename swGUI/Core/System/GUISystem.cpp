@@ -5,6 +5,10 @@
 */
 #include "swGUI/Core/stdafx.h"
 
+#include "swCommonLib/Common/Logging/Logger.h"
+#include "swCommonLib/Common/Logging/ConsoleLogger.h"
+#include "swCommonLib/Common/Profile/PerformanceCheck.h"
+
 
 #include "GUISystem.h"
 
@@ -13,12 +17,14 @@
 #include "swGraphicAPI/ResourceManager/ResourceManager.h"
 
 #include "swGraphicAPI/Loaders/SoilTextureLoader/SoilTextureLoader.h"
+#include "swGraphicAPI/Assets/TextAsset/Loader/FontLoader.h"
+#include "swGraphicAPI/Assets/TextAsset/Loader/FontAssetCreator.h"
+#include "swGraphicAPI/Assets/TextAsset/Loader/FontPicker.h"
 
 #include "swInputLibrary/InputCore/Debugging/EventCapture.h"
 
 #include <map>
 #include <string>
-
 
 
 namespace sw {
@@ -101,6 +107,8 @@ int					GUISystem::MainLoop()
 @return Returns true if application should end. Otherwise returns false.*/
 bool				GUISystem::MainLoopCore()
 {
+    START_PERFORMANCE_CHECK( MAIN_LOOP_RUN )
+
 	// Process native events.
 	bool end = m_nativeGUI->MainLoop( m_guiConfig.UseBlockingMode );
 	if( end ) return true;
@@ -113,34 +121,52 @@ bool				GUISystem::MainLoopCore()
 	OnIdle( frameTime );
 	RenderGUI( frameTime );
 
+	END_PERFORMANCE_CHECK( MAIN_LOOP_RUN )
 	return false;
 }
 
 /**@brief Processes messages and passes them to focused window.*/
 void				GUISystem::HandleEvents		( const FrameTime& frameTime )
 {
+    START_PERFORMANCE_CHECK( HANDLE_EVENTS )
+
 	for( auto window : m_windows )
 		window->HandleInput( frameTime );
+
+	END_PERFORMANCE_CHECK( HANDLE_EVENTS )
 }
 
 // ================================ //
 //
 void				GUISystem::RenderGUI		( const FrameTime& frameTime )
 {
+    START_PERFORMANCE_CHECK( RENDER )
+
 	if( m_guiConfig.RedrawOnlyFocused && m_focusedWindow )
 	{
+        START_PERFORMANCE_CHECK( RENDER_TREE )
 		m_renderingSystem->RenderTree( m_focusedWindow );
+        END_PERFORMANCE_CHECK( RENDER_TREE )
+
+		START_PERFORMANCE_CHECK( SWAPCHAIN_PRESENT )
 		m_focusedWindow->GetSwapChain()->Present( GetSyncInterval() );
+        END_PERFORMANCE_CHECK( SWAPCHAIN_PRESENT )
 	}
 
 	if( !m_guiConfig.RedrawOnlyFocused )
 	{
+        START_PERFORMANCE_CHECK( RENDER_TREE )
 		for( auto window : m_windows )
-		{
 			m_renderingSystem->RenderTree( window );
+        END_PERFORMANCE_CHECK( RENDER_TREE )
+		
+		START_PERFORMANCE_CHECK( SWAPCHAIN_PRESENT )
+		for( auto window : m_windows )
 			window->GetSwapChain()->Present( GetSyncInterval() );
-		}
+        END_PERFORMANCE_CHECK( SWAPCHAIN_PRESENT )
 	}
+
+	END_PERFORMANCE_CHECK( RENDER )
 }
 
 // ================================ //
@@ -158,6 +184,11 @@ void				GUISystem::CloseLogic		()
 /**@brief Invoke this function in application entry point (main).*/
 ReturnResult		GUISystem::Init()
 {
+    START_PERFORMANCE_CHECK( GUI_INIT )
+
+    // @todo If user changed logger, we should honour this decision and not override it.
+    sw::ILogger::SetLogger( std::make_unique< sw::ConsoleLogger >() );
+
     ReturnResult result = Success::True;
 
 	result = result && Initialize();		// Initialize subsystems.
@@ -165,6 +196,7 @@ ReturnResult		GUISystem::Init()
 
 	m_clock.Start();	// Start clock as last in initialization.
 
+	END_PERFORMANCE_CHECK( GUI_INIT )
 	return result;
 }
 
@@ -293,6 +325,7 @@ ReturnResult		GUISystem::DefaultInitCorePaths			()
 
     result = result && m_pathsManager->RegisterAlias( "$(TMP)", m_nativeGUI->GetOS()->GetTempDir() );
     result = result && m_pathsManager->RegisterAlias( "$(CoreGUI-Dir)", m_nativeGUI->GetOS()->GetApplicationDir() );
+    result = result && m_pathsManager->RegisterAlias( "$(SystemFonts)", m_nativeGUI->GetOS()->GetSystemFontsDir() );
 
 	return result;
 }
@@ -325,9 +358,14 @@ ReturnResult		GUISystem::ResourceManagerInitImpl		( ResourceManager* resourceMan
 {
     m_pathsManager = m_resourceManager->GetPathsManager();
 
+	FontPicker picker;
+	picker.RegisterSearchPath( "$(SystemFonts)" );
+
     // GUI needs Textures loader to work.
     ///< @todo What to do if user adds his own Texture loader? We must avoid conflicts between them.
     resourceManager->RegisterLoader( std::make_shared< SoilTextureLoader >() );
+    resourceManager->RegisterLoader( std::make_shared< FreeTypeLoader >( std::move( picker ) ) );
+    resourceManager->RegisterAssetCreator( FontCreator::CreateCreator() );
 
 	return Success::True;
 }

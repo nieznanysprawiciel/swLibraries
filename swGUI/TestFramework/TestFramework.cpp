@@ -96,7 +96,13 @@ ReturnResult			TestFramework::OverridePaths	()
 {
 	auto coreGUISourcePath = impl::FindCoreGUISourcePath( m_nativeGUI->GetOS()->GetApplicationDir() );
 
-	return m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" );
+	ErrorsCollector results;
+
+	results.Add( m_pathsManager->OverrideAlias( "$(CoreGUI-Dir)", coreGUISourcePath ) );
+	results.Add( m_pathsManager->OverrideAlias( "$(CoreGUI-Shader-Dir)", coreGUISourcePath / "Core/Shaders/hlsl" ) );
+    results.Add( m_pathsManager->OverrideAlias( "$(SystemFonts)", coreGUISourcePath / "TestResources/fonts" ) );
+
+	return results;
 }
 
 
@@ -105,7 +111,7 @@ namespace impl
 
 // ================================ //
 // CoreGUI path should have swGUI in path. We look for this string in binaryPath.
-filesystem::Path		FindCoreGUISourcePath			( const filesystem::Path& binaryPath )
+fs::Path				FindCoreGUISourcePath			( const fs::Path& binaryPath )
 {
 	auto path = binaryPath;
 	auto fileName = path.GetFileName();
@@ -121,7 +127,7 @@ filesystem::Path		FindCoreGUISourcePath			( const filesystem::Path& binaryPath )
 		fileName = path.GetFileName();
 	}
 
-	return filesystem::Path();
+	return fs::Path();
 }
 
 }	// impl

@@ -1,14 +1,12 @@
+#include "swGraphicAPI/Tests/TestResources.DX11/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
-
 /**
 @file TestLayoutCreator.cpp
 @author nieznanysprawiciel
 @copyright File is part of Sleeping Wombat Libraries.
 */
 
-
 #include "swGraphicAPI/ResourceManager/AssetCreators/AssetsFactory.h"
-
 #include "swGraphicAPI/ResourceManager/AssetCreators/Shaders/LayoutCreator.h"
 #include "swGraphicAPI/Resources/Shaders/LayoutInitData.h"
 
@@ -118,3 +116,19 @@ TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.PointSize", "[GraphicA
 	REQUIRE( result.Get() != nullptr );
 }
 
+// ================================ //
+//
+TEST_CASE( "GraphicAPI.DX11.LayoutCreator.Create.Semantic.2xTexcoord", "[GraphicAPI]" )
+{
+    AssetsFactory factory;
+
+    InputLayoutDescriptor init;
+    init.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32B32_FLOAT, 0 );
+    init.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT, 12 );
+    init.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT, 20 );
+
+    auto result = factory.CreateAsset( "::/Layout", TypeID::get< ShaderInputLayout >(), std::move( init ) );
+    REQUIRE_IS_VALID( result );
+
+    REQUIRE( result.Get() != nullptr );
+}

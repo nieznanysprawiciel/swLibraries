@@ -14,12 +14,17 @@
 
 // You can place includes here in future.
 
+#include "Colors.h"
+
 // Brushes
 #include "Brushes/SolidColorBrush.h"
 #include "Brushes/LinearGradientBrush.h"
 #include "Brushes/RadialGradientBrush.h"
+#include "Brushes/AngleGradientBrush.h"
 #include "Brushes/ImageBrush.h"
 
 // Geometry
 #include "Geometry/RectangleGeometry.h"
+#include "Geometry/EllipseGeometry.h"
+#include "Geometry/TextGeometry.h"
 

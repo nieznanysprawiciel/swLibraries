@@ -45,7 +45,7 @@ private:
 	ResourceManager*			m_resourceManager;
 
 	ResourcePtr< RenderTarget >	m_renderTarget;
-	ResourcePtr< SwapChain >			m_swapChain;
+	ResourcePtr< SwapChain >	m_swapChain;
 
 	HostLogic					m_hostLogic;
 
@@ -62,7 +62,7 @@ public:
 	const std::string&	GetControlName		( const UIElement* control ) const;
 
 
-	ResourcePtr< RenderTarget >	GetRenderTarget		();
+	ResourcePtr< RenderTarget >			GetRenderTarget		();
 	ResourcePtr< SwapChain >			GetSwapChain		();
 
 	INativeWindow*						GetNativeWindow		();
@@ -71,9 +71,13 @@ public:
 	virtual HostWindow*					GetHost				() const override;
 
 public:
-
+    ///@name HostWindow diagnostic
+    ///@{
 	Size				GetMemorySize		();
 
+	/**@brief Saves performance statistics.*/
+    virtual void		OnKeyDown			( UIElement* sender, KeyEventArgs* e ) override;
+    ///@}
 public:
 	///@name GUI system interaction
 	///@{

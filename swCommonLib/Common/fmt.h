@@ -11,4 +11,5 @@
 #define FMT_UNICODE 0
 
 #include "swCommonLib/External/fmt/format.h"
+#include "swCommonLib/External/fmt/chrono.h"
 

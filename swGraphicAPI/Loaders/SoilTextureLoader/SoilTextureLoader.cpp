@@ -20,9 +20,11 @@
 
 #include <algorithm>
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_FAILURE_USERMSG
 #include "SOIL/stb_image.h"
+#include "SOIL/stb_image_write.h"
 
 
 namespace sw
@@ -168,6 +170,29 @@ LoadingResult									SoilTextureLoader::Load					( const LoadPath& filePath, Ty
 ReturnResult									SoilTextureLoader::Prefetch				( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )
 {
 	return Success::False;
+}
+
+// ================================ //
+//
+ReturnResult									SoilTextureLoader::Save					( const fs::Path& filePath, const Image< u32 >& image )
+{
+	if( image.GetChannels() != 4 )
+		return ReturnResult( fmt::format( "Saving images with {} channels isn't supported", image.GetChannels() ) );
+
+    Size expectedSize = image.GetWidth() * image.GetHeight() * image.GetChannels();
+    if( image.GetSize() != expectedSize )
+        return ReturnResult( fmt::format( "Buffer size: {} doesn't match expected image width = {}, height = {}", expectedSize, image.GetWidth(), image.GetHeight() ) );
+
+	int save_result = stbi_write_png
+	(
+		filePath.String().c_str(),
+		image.GetWidth(), image.GetHeight(), image.GetChannels(),
+		image.GetRawData(), 0
+	);
+
+    if( save_result != 0 )
+		return ReturnResult( fmt::format( "Failed to save texture to file: {}", filePath.String() ) );
+	return Success::True;
 }
 
 

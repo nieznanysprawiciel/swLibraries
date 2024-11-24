@@ -23,9 +23,6 @@ namespace gui
 Geometry::Geometry		( ConstantBufferMode cbMode )
 	:	m_sharedBuffer( cbMode == ConstantBufferMode::UseShared )
 	,	m_useConstantBuffer( cbMode != ConstantBufferMode::Disable )
-    ,   m_invalidateGeometry( true )
-    ,   m_invalidateConstants( true )
-    ,   m_invalidateShader( true )
 {}
 
 
@@ -33,42 +30,42 @@ Geometry::Geometry		( ConstantBufferMode cbMode )
 //
 void			Geometry::InvalidateGeometry		()
 {
-	m_invalidateGeometry = true;
+    m_geometryState.Invalidate();
 }
 
 // ================================ //
 //
 void			Geometry::InvalidateConstants		()
 {
-	m_invalidateConstants = true;
+    m_constantsState.Invalidate();
 }
 
 // ================================ //
 //
 void			Geometry::InvalidateShader			()
 {
-	m_invalidateShader = true;
+    m_shaderState.Invalidate();
 }
 
 // ================================ //
 //
-void			Geometry::ShaderUpdated				()
+void			Geometry::ShaderUpdated				( UpdateTracker16& tracker )
 {
-	m_invalidateShader = false;
+    tracker.Synchronize( m_shaderState );
 }
 
 // ================================ //
 //
-void			Geometry::GeometryUpdated			()
+void			Geometry::GeometryUpdated			( UpdateTracker16& tracker )
 {
-	m_invalidateGeometry = false;
+    tracker.Synchronize( m_geometryState );
 }
 
 // ================================ //
 //
-void			Geometry::ConstantsUpdated			()
+void			Geometry::ConstantsUpdated			( UpdateTracker16& tracker )
 {
-	m_invalidateConstants = false;
+    tracker.Synchronize( m_constantsState );
 }
 
 

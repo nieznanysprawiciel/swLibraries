@@ -26,7 +26,7 @@ Nullable< AssetPath >			AssetPath::FromString		( const std::string& assetPath )
 	if( std::regex_match( assetPath, match, sAssetPathRegex ) )
 	{
 		// Ignore first match, it represents full match, that is full string.
-		return AssetPath( match[ 1 ], match[ 2 ] );
+        return AssetPath( match[ 1 ].str(), match[ 2 ].str() );
 	}
 
 	return std::make_shared< RuntimeException >( "String can't be converted to AssetPath." );

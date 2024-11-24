@@ -52,12 +52,10 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-
   <Import Project="..\Paths.props" />
   <Import Project="..\LibraryConfig.props" />
   <Import Project="..\LinkReflection.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -73,15 +71,17 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
-
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>PERFORMANCE_CHECK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>swGUI/Core/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemDefinitionGroup>
-
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -144,9 +144,11 @@
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\IPanel.h" />
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.h" />
     <ClInclude Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.h" />
+    <ClInclude Include="..\..\..\Core\Controls\FrameworkElement.h" />
     <ClInclude Include="..\..\..\Core\Controls\Shapes\Ellipse.h" />
     <ClInclude Include="..\..\..\Core\Controls\Shapes\Rectangle.h" />
     <ClInclude Include="..\..\..\Core\Controls\Shapes\Shape.h" />
+    <ClInclude Include="..\..\..\Core\Controls\TextualControls\TextBlock.h" />
     <ClInclude Include="..\..\..\Core\Controls\UIElement.h" />
     <ClInclude Include="..\..\..\Core\Controls\Visual.h" />
     <ClInclude Include="..\..\..\Core\Cultures\CultureInfo.h" />
@@ -157,16 +159,19 @@
     <ClInclude Include="..\..\..\Core\Media\Brushes\LinearGradientBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\RadialGradientBrush.h" />
     <ClInclude Include="..\..\..\Core\Media\Brushes\SolidColorBrush.h" />
+    <ClInclude Include="..\..\..\Core\Media\Colors.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\EllipseGeometry.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Geometry.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\Layouts.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.h" />
     <ClInclude Include="..\..\..\Core\Media\Geometry\RectangleGeometry.h" />
+    <ClInclude Include="..\..\..\Core\Media\Geometry\TextGeometry.h" />
     <ClInclude Include="..\..\..\Core\Media\Media.h" />
     <ClInclude Include="..\..\..\Core\stdafx.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\AccessKey.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\CommonTypes.h" />
     <ClInclude Include="..\..\..\Core\System\CommonTypes\Thickness.h" />
+    <ClInclude Include="..\..\..\Core\System\CommonTypes\UpdateTracker.h" />
     <ClInclude Include="..\..\..\Core\System\Config\GUISystemConfig.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\Binding.h" />
     <ClInclude Include="..\..\..\Core\System\DataBinding\BindingInfo.h" />
@@ -201,6 +206,7 @@
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\Drawing.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\IDrawing.h" />
+    <ClInclude Include="..\..\..\Core\System\Rendering\Drawings\TextDrawing.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\RenderingHelpers.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\RenderingParams.h" />
     <ClInclude Include="..\..\..\Core\System\Rendering\RenderingSystem.h" />
@@ -218,9 +224,11 @@
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\IPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\StackPanel.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\ArrangeControls\WrapPanel.cpp" />
+    <ClCompile Include="..\..\..\Core\Controls\FrameworkElement.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Ellipse.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Rectangle.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Shapes\Shape.cpp" />
+    <ClCompile Include="..\..\..\Core\Controls\TextualControls\TextBlock.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\UIElement.cpp" />
     <ClCompile Include="..\..\..\Core\Controls\Visual.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Brushes\AngleGradientBrush.cpp" />
@@ -233,6 +241,7 @@
     <ClCompile Include="..\..\..\Core\Media\Geometry\Geometry.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\Layouts\VertexShape2D.cpp" />
     <ClCompile Include="..\..\..\Core\Media\Geometry\RectangleGeometry.cpp" />
+    <ClCompile Include="..\..\..\Core\Media\Geometry\TextGeometry.cpp" />
     <ClCompile Include="..\..\..\Core\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -263,6 +272,7 @@
     <ClCompile Include="..\..\..\Core\System\Initializers.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\Drawing.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\GeometryDrawing.cpp" />
+    <ClCompile Include="..\..\..\Core\System\Rendering\Drawings\TextDrawing.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\RenderingHelpers.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\RenderingSystem.cpp" />
     <ClCompile Include="..\..\..\Core\System\Rendering\Shading\ShaderBuilder.cpp" />
@@ -270,6 +280,9 @@
     <ClCompile Include="..\..\..\Core\System\Time\Clock.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\swCommonLib\Projects\Visual2015\CommonBase\CommonBase.vcxproj">
+      <Project>{9abcbab4-05b4-47c5-b5d8-f201559fd096}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\swGeometrics\ProjectDir\Visual2015\BasicShapes\BasicShapes.vcxproj">
       <Project>{b70c60c2-29eb-4302-80ef-9d396749d545}</Project>
     </ProjectReference>
@@ -281,6 +294,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\swGraphicAPI\ProjectsDir\Visual2015\SoilTextureLoader\SoilTextureLoader.vcxproj">
       <Project>{7275758b-1abc-4b28-bb42-cbdbcd2584d1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\swGraphicAPI\ProjectsDir\Visual2015\TextAsset\TextAsset.vcxproj">
+      <Project>{1d15dc68-41b7-4c76-8250-411582e5acbf}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -318,9 +334,21 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Geometry\ForwardWithOpacity.vsh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="..\..\..\Core\Shaders\hlsl\Layouts\VertexShape2D.vsh">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Layouts\VertexText2D.vsh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -335,6 +363,18 @@
     <FxCompile Include="..\..\..\Core\Shaders\hlsl\Templates\Basic.vsh">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Templates\Opacity.psh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\..\..\Core\Shaders\hlsl\Templates\Opacity.vsh">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

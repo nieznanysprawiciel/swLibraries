@@ -39,6 +39,24 @@ TEST_CASE( "GUI.Rendering.DX11.Brush.ShaderCompilation.SolidColorBrush", "[GUISy
 
 // ================================ //
 //
+TEST_CASE( "GUI.Rendering.DX11.Brush.ShaderCompilation.SolidColorBrush.Opacity", "[GUISystem][RenderingSystem][Drawing]" )
+{
+    TestFramework* framework = GetGlobalTestFramework();
+
+    FakeDrawingPtr     drawing = std::make_shared< FakeDrawing >();
+    SolidColorBrushPtr brush = std::make_shared< SolidColorBrush >();
+    ShaderProvider*    sp = framework->GetRenderingSystem()->GetShaderProvider();
+
+    drawing->UpdateBrushShader( sp, brush.get(), sp->GetBasicPSTemplate() );
+
+    auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
+
+    INFO( "[SolidColorBrush] Brush Shader compilation failed." );
+    CHECK( renderingData.PixelShader != nullptr );
+}
+
+// ================================ //
+//
 TEST_CASE( "GUI.Rendering.DX11.Brush.ShaderCompilation.LinearGradientBrush", "[GUISystem][RenderingSystem][Drawing]" )
 {
 	TestFramework* framework = GetGlobalTestFramework();
@@ -56,6 +74,24 @@ TEST_CASE( "GUI.Rendering.DX11.Brush.ShaderCompilation.LinearGradientBrush", "[G
 
 // ================================ //
 //
+TEST_CASE( "GUI.Rendering.DX11.Brush.ShaderCompilation.LinearGradientBrush.Opacity", "[GUISystem][RenderingSystem][Drawing]" )
+{
+    TestFramework* framework = GetGlobalTestFramework();
+
+    FakeDrawingPtr         drawing = std::make_shared< FakeDrawing >();
+    LinearGradientBrushPtr brush = std::make_shared< LinearGradientBrush >();
+    ShaderProvider*        sp = framework->GetRenderingSystem()->GetShaderProvider();
+
+    drawing->UpdateBrushShader( sp, brush.get(), sp->GetBasicPSTemplate() );
+
+    auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
+
+    INFO( "[LinearGradientBrush] Brush Shader compilation failed." );
+    CHECK( renderingData.PixelShader != nullptr );
+}
+
+// ================================ //
+//
 TEST_CASE( "GUI.Rendering.DX11.Brush.ShaderCompilation.AngleGradientBrush", "[GUISystem][RenderingSystem][Drawing]" )
 {
     TestFramework* framework = GetGlobalTestFramework();
@@ -64,6 +100,24 @@ TEST_CASE( "GUI.Rendering.DX11.Brush.ShaderCompilation.AngleGradientBrush", "[GU
     AngleGradientBrushPtr brush = std::make_shared< AngleGradientBrush >();
 
     drawing->UpdateBrushShader( framework->GetRenderingSystem()->GetShaderProvider(), brush.get() );
+
+    auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
+
+    INFO( "[AngleGradientBrush] Brush Shader compilation failed." );
+    CHECK( renderingData.PixelShader != nullptr );
+}
+
+// ================================ //
+//
+TEST_CASE( "GUI.Rendering.DX11.Brush.ShaderCompilation.AngleGradientBrush.Opacity", "[GUISystem][RenderingSystem][Drawing]" )
+{
+    TestFramework* framework = GetGlobalTestFramework();
+
+    FakeDrawingPtr        drawing = std::make_shared< FakeDrawing >();
+    AngleGradientBrushPtr brush = std::make_shared< AngleGradientBrush >();
+    ShaderProvider*       sp = framework->GetRenderingSystem()->GetShaderProvider();
+
+    drawing->UpdateBrushShader( sp, brush.get(), sp->GetBasicPSTemplate() );
 
     auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
 
@@ -88,3 +142,20 @@ TEST_CASE( "GUI.Rendering.DX11.Brush.ShaderCompilation.ImageBrush", "[GUISystem]
     CHECK( renderingData.PixelShader != nullptr );
 }
 
+// ================================ //
+//
+TEST_CASE( "GUI.Rendering.DX11.Brush.ShaderCompilation.ImageBrush.Opacity", "[GUISystem][RenderingSystem][Drawing]" )
+{
+    TestFramework* framework = GetGlobalTestFramework();
+
+    FakeDrawingPtr drawing = std::make_shared< FakeDrawing >();
+    ImageBrushPtr  brush = std::make_shared< ImageBrush >();
+    ShaderProvider* sp = framework->GetRenderingSystem()->GetShaderProvider();
+
+    drawing->UpdateBrushShader( sp, brush.get(), sp->GetBasicPSTemplate() );
+
+    auto& renderingData = CLASS_TESTER( Drawing )::GetBrushRenderingData( drawing.get() );
+
+    INFO( "[ImageBrush] Brush Shader compilation failed." );
+    CHECK( renderingData.PixelShader != nullptr );
+}

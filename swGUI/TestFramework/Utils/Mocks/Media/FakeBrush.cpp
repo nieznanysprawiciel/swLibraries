@@ -30,7 +30,7 @@ BufferRange				FakeBrush::BufferData			()
 
 // ================================ //
 //
-filesystem::Path		FakeBrush::ShaderFunctionFile	()
+fs::Path				FakeBrush::ShaderFunctionFile	()
 {	
 	return m_shaderFun;
 }
@@ -72,7 +72,7 @@ void					FakeBrush::ChangeConstsBuffer	( const std::string& newBuffer )
 	if( m_cBuffer != newBuffer )
 	{
 		m_cBuffer = newBuffer;
-		InvalidateConstsBuffer();
+		InvalidateConstants();
 	}
 }
 

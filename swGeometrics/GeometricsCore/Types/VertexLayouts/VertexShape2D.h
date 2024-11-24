@@ -19,6 +19,14 @@ struct VertexShape2D
 	DirectX::XMFLOAT2		UV;
 };
 
+/**@brief Text 2D vertex structure supporting texturing.*/
+struct VertexText2D
+{
+	DirectX::XMFLOAT2		Position;
+	DirectX::XMFLOAT2		UV;
+	DirectX::XMFLOAT2		AtlasCoords;
+};
+
 
 
 }	// geom

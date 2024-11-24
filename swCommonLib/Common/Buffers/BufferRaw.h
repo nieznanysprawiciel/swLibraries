@@ -7,6 +7,7 @@
 
 #include "swCommonLib/Common/TypesDefinitions.h"
 #include "swCommonLib/Common/RTTR.h"
+#include "swCommonLib/Common/Buffers/BufferRange.h"
 
 #include <memory>
 
@@ -51,6 +52,8 @@ public:
 	uint8*				GetData			()				{ return reinterpret_cast< uint8* >( m_data ); }
 	const uint8*		GetData			() const		{ return reinterpret_cast< const uint8* >( m_data ); }
 	bool				IsValid			() const		{ return m_data != nullptr; }
+
+	BufferRange			AsRange			() const { return BufferRange( m_data, m_size ); }
 
 public:
 

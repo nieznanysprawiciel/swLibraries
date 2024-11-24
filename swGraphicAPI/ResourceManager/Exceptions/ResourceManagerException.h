@@ -21,11 +21,11 @@ class ResourceManagerException : public RuntimeException
 private:
 protected:
 
-	filesystem::Path		m_resourceName;
+	fs::Path				m_resourceName;
 	TypeID					m_resourceType;
 
 public:
-	explicit		ResourceManagerException	( const std::string& error, const filesystem::Path& name, TypeID assetType );
+	explicit		ResourceManagerException	( const std::string& error, const fs::Path& name, TypeID assetType );
 	virtual			~ResourceManagerException	() = default;
 
 	std::string		ErrorMessage				() const override;

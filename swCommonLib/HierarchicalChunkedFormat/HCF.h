@@ -56,16 +56,16 @@ public:
 
 ///@name Loading and saving
 ///@{
-	bool			LoadFile		( const filesystem::Path& filePath, bool readOnly );
+	bool			LoadFile		( const fs::Path& filePath, bool readOnly );
 	bool			Load			( DataPtr data, Size size );
 
 	/**@brief Saves content to file.
 	@see HCF::OpenFile*/
-	bool			WriteFile		( const filesystem::Path& filePath );
+	bool			WriteFile		( const fs::Path& filePath );
 
 	/**@brief Opens file for writing.
 	This functions allows to use WriteMode::DirectToFile. If you use Indirect mode, there's no need to call this function.*/
-	bool			OpenFile		( const filesystem::Path& filePath, WriteMode mode );
+	bool			OpenFile		( const fs::Path& filePath, WriteMode mode );
 	///@}
 
 	Chunk			GetRootChunk	();

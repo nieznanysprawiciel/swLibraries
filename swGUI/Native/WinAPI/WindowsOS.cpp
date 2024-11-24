@@ -13,7 +13,7 @@ namespace gui
 
 // ================================ //
 //
-filesystem::Path			WindowsOS::GetTempDir			() const
+fs::Path			WindowsOS::GetTempDir			() const
 {
 	TCHAR lpTempPathBuffer[ MAX_PATH ];
     auto dwRetVal = GetTempPath( MAX_PATH, lpTempPathBuffer );
@@ -26,7 +26,7 @@ filesystem::Path			WindowsOS::GetTempDir			() const
 
 // ================================ //
 //
-filesystem::Path			WindowsOS::GetApplicationDir	() const
+fs::Path			WindowsOS::GetApplicationDir	() const
 {
 	TCHAR lpTempPathBuffer[ MAX_PATH ];
 	int bytes = GetModuleFileName( NULL, lpTempPathBuffer, MAX_PATH );
@@ -34,8 +34,18 @@ filesystem::Path			WindowsOS::GetApplicationDir	() const
 	if( bytes == 0 )
 		return "";
 
-	filesystem::Path path = lpTempPathBuffer;
+	fs::Path path = lpTempPathBuffer;
 	return path.GetParent();	// Get rid of filename.
+}
+
+// ================================ //
+
+fs::Path			WindowsOS::GetSystemFontsDir() const
+{
+	// In the future we shoudl check Registry:
+	// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts
+
+    return fs::Path( "C:\\Windows\\Fonts" );
 }
 
 

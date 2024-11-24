@@ -55,7 +55,7 @@ void				EllipseGeometry::SetThickness		( float thickness )
 
 // ================================ //
 //
-bool				EllipseGeometry::HitTest			( const Point& point )
+bool				EllipseGeometry::HitTest			( const Point& point ) const
 {
 	if( pow( point.x / ( m_width / 2.0f ), 2 ) + pow( point.y / ( m_height / 2.0f ), 2 ) < 1.0f )
 		return true;
@@ -65,7 +65,7 @@ bool				EllipseGeometry::HitTest			( const Point& point )
 
 // ================================ //
 //
-bool				EllipseGeometry::HitTest			( const Rect& rectangle )
+bool				EllipseGeometry::HitTest			( const Rect& rectangle ) const
 {
 	assert( !"Implement me" );
 	return false;
@@ -73,7 +73,7 @@ bool				EllipseGeometry::HitTest			( const Rect& rectangle )
 
 // ================================ //
 //
-GeometryData		EllipseGeometry::Generate			()
+Nullable< GeometryData >	EllipseGeometry::Generate()
 {
 	geom::EllipseWithBorder< VertexShape2D, Index16 > ellipse;
 	ellipse.Width = m_width;
@@ -88,7 +88,7 @@ GeometryData		EllipseGeometry::Generate			()
 	planarUV.MaxY = 0.0f;
 
 	auto geometry = geom::Generate< geom::IndexedGeometryBuffer< VertexShape2D, Index16 > >( ellipse, geom::Translate2D< VertexShape2D >( m_width / 2, -m_height / 2 ), planarUV );
-	/// @todo Error handling or logging.
+    ReturnIfInvalid( geometry );
 
 	GeometryData geomData( geometry.Get().Verticies.MoveToRawBuffer(), geometry.Get().Indicies.MoveToRawBuffer() );
 	geomData.FillIdxEnd = (uint32)ellipse.GetNumberFillIndicies();
@@ -101,7 +101,7 @@ GeometryData		EllipseGeometry::Generate			()
 
 // ================================ //
 //
-BufferRange			EllipseGeometry::BufferData							()
+BufferRange					EllipseGeometry::BufferData()
 {
 	// Rectangle doesn't use contants buffer.
 	return BufferRange();
@@ -109,7 +109,7 @@ BufferRange			EllipseGeometry::BufferData							()
 
 // ================================ //
 //
-filesystem::Path    EllipseGeometry::ShaderFunctionFile					()
+fs::Path			EllipseGeometry::ShaderFunctionFile					()
 {
 	return "$(CoreGUI-Shader-Dir)/Geometry/ForwardAttributes.vsh";
 }

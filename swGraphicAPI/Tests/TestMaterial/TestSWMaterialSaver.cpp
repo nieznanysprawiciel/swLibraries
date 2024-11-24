@@ -34,7 +34,7 @@ namespace DirectX {
 
 // ================================ //
 //
-filesystem::Path        Translate       ( ResourceManager* rm, filesystem::Path path )
+fs::Path                Translate       ( ResourceManager* rm, fs::Path path )
 {
     return rm->GetPathsManager()->Translate( path );
 }

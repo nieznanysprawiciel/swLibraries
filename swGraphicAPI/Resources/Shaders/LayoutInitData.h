@@ -79,6 +79,7 @@ public:
 	void					AddEntryPerInstance		( AttributeSemantic semanticName, ResourceFormat format, uint16 offset, uint16 inputSlot, uint32 instanceDataStep );
 
 	virtual TypeID			GetAssetType			() const override;
+	virtual std::string		ResourceKey				() const override { return ""; }
 
 	const std::vector< LayoutEntry >&			    GetEntries		() const { return m_entries; }
 

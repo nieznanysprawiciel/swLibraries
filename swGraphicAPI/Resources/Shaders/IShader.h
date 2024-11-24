@@ -31,7 +31,7 @@ public:
 
 	virtual bool			ReloadFromFile			() = 0;
 	virtual bool			ReloadFromBinFile		() = 0;
-	virtual void			SaveShaderBinFile		( const filesystem::Path& fileName ) = 0;
+	virtual void			SaveShaderBinFile		( const fs::Path& fileName ) = 0;
 };
 
 }	// sw

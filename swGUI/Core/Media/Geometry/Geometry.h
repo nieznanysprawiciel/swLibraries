@@ -12,6 +12,7 @@
 #include "swGraphicAPI/Rendering/GraphicAPIConstants.h"
 
 #include "swGUI/Core/System/CommonTypes/CommonTypes.h"
+#include "swGUI/Core/System/CommonTypes/UpdateTracker.h"
 
 
 /**@defgroup Geometries Geometries
@@ -68,7 +69,7 @@ class Geometry : public Object
 
 public:
 
-	enum class ConstantBufferMode
+	enum class ConstantBufferMode: u8
 	{
 		Disable,		///< Buffer will not be used.
 		UseShared,		///< Multiple Geometries will use single buffer. Update will happen every render.
@@ -77,9 +78,10 @@ public:
 
 private:
 
-	bool			m_invalidateGeometry : 1;
-	bool			m_invalidateConstants : 1;
-	bool			m_invalidateShader : 1;
+	UpdateCounter16		m_shaderState;
+    UpdateCounter16		m_geometryState;
+    UpdateCounter16		m_constantsState;
+
 	bool			m_useConstantBuffer : 1;
 	bool			m_sharedBuffer : 1;
 
@@ -104,10 +106,10 @@ public:
 	///@{
 
 	/**@brief Check intersection of geometry shape with point.*/
-	virtual bool	HitTest					( const Point& point )			= 0;
+	virtual bool	HitTest					( const Point& point ) const		= 0;
 
 	/**@brief Check intersection of geometry shape with rectangle.*/
-	virtual bool	HitTest					( const Rect& rectangle )		= 0;
+	virtual bool	HitTest					( const Rect& rectangle ) const		= 0;
 
 	///@}
 
@@ -117,12 +119,12 @@ public:
 	///@{
 
 	/**@brief Generates geometry with current parameters.*/
-	virtual	GeometryData	    Generate			() = 0;
+	virtual	Nullable< GeometryData >	    Generate			() = 0;
 	
 	/**@brief Returns BufferRange of new content of constant buffer.
 	@note Geometry object is still owner of returned memory and it shouldn't be freed after return from this function.
 	It is recommended to use @ref StackBuffer in Geometry implementation.*/
-	virtual	BufferRange		    BufferData			() = 0;
+	virtual	BufferRange						BufferData			() = 0;
 
 	/**@brief Returns file name containing function used in Vertex Shader.
 	
@@ -136,18 +138,18 @@ public:
 	This way geometry can be generated once for multiple parameters of shape to avoid data transfers between
 	CPU and GPU. You should override @ref Geometry::GeometryName function, to return the same name, if Vertex
 	Buffer shouldn't be updated.*/
-	virtual filesystem::Path    ShaderFunctionFile	() = 0;
+	virtual fs::Path						ShaderFunctionFile	() = 0;
 
 	/**@brief Returns key used to store/find geometry buffers (VB and IB) in resources.
 	
 	This function should return name of buffer based on shape parameters. You can use the same
 	geometry for different parameters and modify it in Vertex Shader. If you want to use the same
 	buffer for different parameters ranges, return the same name from this function for these ranges.*/
-	virtual std::string   	    GeometryName		() = 0;
+	virtual std::string   					GeometryName		() = 0;
 
 
 	/**@brief Returns key used to store/find contant buffer in resources.*/
-	virtual AssetPath   	    ConstantsName		() = 0;
+	virtual AssetPath   					ConstantsName		() = 0;
 	///@}
 
 
@@ -156,13 +158,17 @@ protected:
 	///@name RenderingSystem API
 	///@{
 
-	void			ShaderUpdated		();
-	void			GeometryUpdated		();
-	void			ConstantsUpdated	();
+	void            ShaderUpdated		( UpdateTracker16& tracker );
+    void            GeometryUpdated		( UpdateTracker16& tracker );
+    void            ConstantsUpdated	( UpdateTracker16& tracker );
 
-	bool			NeedsShaderUpdate	() const { return m_invalidateShader; }
-	bool			NeedsGeometryUpdate	() const { return m_invalidateGeometry; }
-	bool			NeedsConstantsUpdate() const { return m_invalidateConstants; }
+	const UpdateCounter16&		ShaderState		() const { return m_shaderState; }
+    const UpdateCounter16&		GeometryState	() const { return m_geometryState; }
+    const UpdateCounter16&		ConstantsState	() const { return m_constantsState; }
+
+	bool			NeedsShaderUpdate		( const UpdateTracker16& tracker ) const { return m_shaderState.NeedsUpdate( tracker ); }
+	bool			NeedsGeometryUpdate		( const UpdateTracker16& tracker ) const { return m_geometryState.NeedsUpdate( tracker ); }
+	bool			NeedsConstantsUpdate	( const UpdateTracker16& tracker ) const { return m_constantsState.NeedsUpdate( tracker ); }
 	
 	bool			UsesSharedBuffer	() const { return m_sharedBuffer; }
 	bool			UsesConstantBuffer	() const { return m_useConstantBuffer; }

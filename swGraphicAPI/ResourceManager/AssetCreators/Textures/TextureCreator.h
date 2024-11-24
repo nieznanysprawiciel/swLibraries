@@ -24,7 +24,8 @@ public:
 	TexturePtr			Tex;
 
 public:
-	virtual TypeID		GetAssetType	() const override { return TypeID::get< Texture >(); }
+	virtual TypeID			GetAssetType	() const override { return TypeID::get< Texture >(); }
+	virtual std::string		ResourceKey		() const override { return ""; }
 };
 
 

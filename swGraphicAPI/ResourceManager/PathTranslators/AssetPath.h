@@ -33,14 +33,14 @@ class AssetPath
 {
 private:
 
-	filesystem::Path			m_filePath;			///< Path in filesystem.
-	filesystem::Path			m_internalPath;		///< Internal path in asset file or simply asset name.
+	fs::Path			m_filePath;			///< Path in filesystem.
+	fs::Path			m_internalPath;		///< Internal path in asset file or simply asset name.
 
 protected:
 public:
 
 	explicit		AssetPath		() = default;
-	explicit		AssetPath		( filesystem::Path file, filesystem::Path internalPath );
+	explicit		AssetPath		( fs::Path file, fs::Path internalPath );
 					AssetPath		( const std::string& assetPath );
 					AssetPath		( const char* assetPath );
 
@@ -48,8 +48,8 @@ public:
 
 public:
 
-	const filesystem::Path&			GetFile				() const { return m_filePath; }
-	const filesystem::Path&			GetInternalPath		() const { return m_internalPath; }
+	const fs::Path&					GetFile				() const { return m_filePath; }
+	const fs::Path&					GetInternalPath		() const { return m_internalPath; }
 
 	std::string						String				() const;
 
@@ -83,7 +83,7 @@ namespace sw
 
 // ================================ //
 //
-inline				AssetPath::AssetPath		( filesystem::Path file, filesystem::Path internalPath )
+inline				AssetPath::AssetPath		( fs::Path file, fs::Path internalPath )
 	:	m_filePath( file )
 	,	m_internalPath( internalPath )
 {}

@@ -17,17 +17,20 @@ namespace gui
 {
 
 const AssetPath		VertexShape2D_LayoutName = "::sw::gui::VertexShape2D";
+const AssetPath		VertexText2D_LayoutName = "::sw::gui::VertexText2D";
 
 // ================================ //
 //
 template<>
 InputLayoutDescriptor   		CreateLayoutDescriptor< VertexShape2D >	()
 {
-	InputLayoutDescriptor desc;
-    desc.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT, offsetof( VertexShape2D, Position ) );
-    desc.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT, offsetof( VertexShape2D, UV ) );
+    InputLayoutDescriptor desc;
+    desc.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT,
+                   offsetof( VertexShape2D, Position ) );
+    desc.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT,
+                   offsetof( VertexShape2D, UV ) );
 
-	return std::move( desc );
+    return std::move( desc );
 }
 
 // ================================ //
@@ -37,6 +40,27 @@ const AssetPath&				GetLayoutName< VertexShape2D >			()
 {
 	return VertexShape2D_LayoutName;
 }
+
+
+// ================================ //
+//
+template <> InputLayoutDescriptor CreateLayoutDescriptor< VertexText2D >()
+{
+    InputLayoutDescriptor desc;
+    desc.AddEntry( AttributeSemantic::Position, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT,
+                   offsetof( VertexText2D, Position ) );
+    desc.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT,
+                   offsetof( VertexText2D, UV ) );
+    desc.AddEntry( AttributeSemantic::Texcoord, ResourceFormat::RESOURCE_FORMAT_R32G32_FLOAT,
+                   offsetof( VertexText2D, AtlasCoords ) );
+
+    return std::move( desc );
+}
+
+// ================================ //
+//
+template <> const AssetPath& GetLayoutName< VertexText2D >() { return VertexText2D_LayoutName; }
+
 
 
 }	// gui

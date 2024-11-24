@@ -27,17 +27,18 @@ class Buffer : public IBuffer
 	RTTR_ENABLE( IBuffer )
 protected:
 
-	unsigned int		m_elementSize;			///< Element size.
-	unsigned int		m_elementCount;			///< Number of elements.
+	uint32				m_elementSize;   ///< Element size.
+    uint32				m_elementCount;  ///< Number of elements.
 
 	virtual				~Buffer	() = default;
 public:
 
-	explicit			Buffer			( const AssetPath& assetPath, unsigned int elementSize, unsigned int elementCount );
+	explicit			Buffer			( const AssetPath& assetPath, uint32 elementSize, uint32 elementCount );
 
-	inline unsigned int GetStride		() const { return m_elementSize; }
-	inline unsigned int	GetElementSize	() const { return m_elementSize; }
-	inline unsigned int GetElementCount	() const { return m_elementCount; }
+	inline uint32		GetStride		() const { return m_elementSize; }
+    inline uint32       GetElementSize	() const { return m_elementSize; }
+    inline uint32       GetElementCount	() const { return m_elementCount; }
+    inline Size			GetBytesSize	() const { return m_elementCount * m_elementSize; }
 };
 
 DEFINE_RESOURCE_PTR_TYPE( Buffer );

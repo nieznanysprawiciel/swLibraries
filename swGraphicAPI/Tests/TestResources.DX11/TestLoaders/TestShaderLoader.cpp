@@ -1,3 +1,4 @@
+#include "swGraphicAPI/Tests/TestResources.DX11/stdafx.h"
 #include "swCommonLib/External/Catch/catch.hpp"
 /**
 @file TestShaderLoader.cpp
@@ -6,7 +7,6 @@
 */
 
 #include "swGraphicAPI/Resources/Shaders/Exceptions/CompilationException.h"
-
 #include "swGraphicAPI/MockAssets/GraphicAPI.h"
 
 

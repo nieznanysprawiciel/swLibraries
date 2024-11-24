@@ -18,6 +18,8 @@ namespace sw {
 namespace gui
 {
 
+class sw::ResourceManagerAPI;
+
 
 /**@brief Provide interface for visual controls which can be rendered.
 
@@ -60,6 +62,21 @@ public:
 	Drawing object gives Visual it's appearance.*/
 	virtual IDrawing*				QueryDrawing		() const						= 0;
 
+	/**@brief Updates underlying @ref IDrawing object's Resources.
+	
+	This function's prupose is to allow deferred reloading of heavier Resources. There is
+	another function (@ref IDrawing::RebuildResources) that serves the same purpose.
+	The main difference is, that Visual::UpdateDrawing allows doing this on Visual control
+	level.
+
+	The best example illustrating purpose is @ref TextBlock control. There are several
+	properties that decide what @ref FontAsset should be loaded for unrelying @ref TextDrawing:
+	FontStyle, FontWeight and FontFamily. If @ref FontAsset would be loaded immediately,
+	changing all three properties would trigger loading Font 3 times.
+	This could be avoided if all 3 parameters would be avaiable on @ref TextDrawing level,
+	but such a solution would force repeating all parameters in TextDrawing and TextBlock
+	and would prevent from creating higher level abstractions that use simpler bulding blocks.*/
+    virtual ReturnResult			UpdateDrawingResources( sw::ResourceManagerAPI& resourceManager ){ return Success::True; };
 
 	Position						GetVisualOffset		() const { return m_offset; }
     Size2D                          GetSize             () const { return m_size; }

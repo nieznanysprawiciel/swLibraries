@@ -8,6 +8,7 @@
 
 
 #include "swCommonLib/Common/TypesDefinitions.h"
+#include "swCommonLib/Common/Buffers/ImageRegion.h"
 #include "swCommonLib/System/Path.h"
 
 #include "swGraphicAPI/ResourceManager/Loaders/IAssetLoadInfo.h"
@@ -34,6 +35,7 @@ public:
 	virtual LoadingResult			Load				( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )		override;
 	virtual ReturnResult			Prefetch			( const LoadPath& filePath, TypeID resourceType, const IAssetLoadInfo* assetDesc, RMLoaderAPI factory )		override;
 
+	static ReturnResult				Save				( const fs::Path& filePath, const Image< u32 >& image );
 
 public:
 

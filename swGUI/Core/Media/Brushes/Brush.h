@@ -9,6 +9,8 @@
 #include "swCommonLib/Common/Object.h"
 #include "swCommonLib/Common/Buffers/BufferRange.h"
 
+#include "swGraphicAPI/ResourceManager/PathTranslators/AssetPath.h"
+#include "swGUI/Core/System/CommonTypes/UpdateTracker.h"
 
 
 /**@defgroup Brushes Brushes
@@ -16,13 +18,12 @@
 @ingroup Media*/
 
 
+
 namespace sw {
 namespace gui
 {
 
 /**@brief Brush base class.
-
-@todo Reimplement class to allow controls to share brushes.
 
 @ingroup Brushes*/
 class Brush : public Object
@@ -44,10 +45,10 @@ public:
 private:
 
 	bool			m_useConstantBuffer : 1;
-	bool			m_invalidateConstants : 1;
-	bool			m_changeCBuffer : 1;
-	bool			m_invalidateShader : 1;
-	bool			m_invalidateTexture : 1;
+
+	UpdateCounter16		m_shaderState;
+    UpdateCounter16		m_textureState;
+    UpdateCounter16		m_constantsState;
 
 protected:
 
@@ -57,7 +58,6 @@ protected:
 	void			InvalidateConstants		();
 	void			InvalidateShader		();
 	void			InvalidateTexture		();
-	void			InvalidateConstsBuffer	();
 
 	///@}
 
@@ -73,10 +73,10 @@ public:
 
 	/**@brief Returns file name containing function used in Pixel Shader.
 	
-	Pixel Shader is combined from shader template and function defined by Brush.*/
-	virtual filesystem::Path	ShaderFunctionFile	() = 0;
+	Pixel Shader is combined from shader template and function defined by the Brush.*/
+	virtual fs::Path			ShaderFunctionFile	() = 0;
 
-	/**@brief Name of texture to find in resources.*/
+	/**@brief Name of texture to find in @ref ResourceManager.*/
 	virtual AssetPath	        TextureSource		() = 0;
 
 	/**@brief Returns key used to store/find contant buffer in resources.*/
@@ -87,17 +87,19 @@ private:
 	///@name RenderingSystem API
 	///@{
 
-	void			ShaderUpdated		();
-	void			TextureUpdated		();
-	void			ConstantsUpdated	();
-	void			BufferChanged		();
+	void            ShaderUpdated( UpdateTracker16& tracker );
+    void            TextureUpdated( UpdateTracker16& tracker );
+    void            ConstantsUpdated( UpdateTracker16& tracker );
 
 protected:
 
-	bool			NeedsShaderUpdate		() const { return m_invalidateShader; }
-	bool			NeedsTextureUpdate		() const { return m_invalidateTexture; }
-	bool			NeedsConstantsUpdate	() const { return m_invalidateConstants; }
-	bool			NeedsBufferChange		() const { return m_changeCBuffer; }
+	const UpdateCounter16&		ShaderState		() const { return m_shaderState; }
+    const UpdateCounter16&		TextureState	() const { return m_textureState; }
+    const UpdateCounter16&		ConstantsState	() const { return m_constantsState; }
+
+	bool			NeedsShaderUpdate		( const UpdateTracker16& tracker ) const { return m_shaderState.NeedsUpdate( tracker ); }
+	bool			NeedsTextureUpdate		( const UpdateTracker16& tracker ) const { return m_textureState.NeedsUpdate( tracker ); }
+	bool			NeedsConstantsUpdate	( const UpdateTracker16& tracker ) const { return m_constantsState.NeedsUpdate( tracker ); }
 
 	bool			UsesConstantBuffer		() const { return m_useConstantBuffer; }
 

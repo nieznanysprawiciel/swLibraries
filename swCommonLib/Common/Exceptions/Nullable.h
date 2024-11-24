@@ -12,6 +12,7 @@
 #include <memory>
 #include <type_traits>
 #include <assert.h>
+#include <functional>
 
 #include "ResultImpl.h"
 
@@ -83,7 +84,7 @@ public:
 
     using                   Parent::ResultBase;
 
-                            Nullable            (const std::string& error);
+                            Nullable            ( const std::string& error );
     template< typename ExceptionType >
                             Nullable            ( std::shared_ptr< ExceptionType >&& error );
 
@@ -98,6 +99,10 @@ public:
     static Nullable			FromError           ( const std::string& reason );
     static Nullable			FromError           ();
 
+public:
+    /**@brief Takes lambda mapping error to different error. It allows to add context
+    to exception returned from called function.*/
+    Nullable< ContentType > MapErr              ( const std::function< Nullable< ContentType >( typename ErrorType ) >& mapper ) &&;
 };
 
 
@@ -135,6 +140,10 @@ public:
     Otherwise it returns Exception.*/
     template< typename RetType >
     Nullable< RetType >     Ok                  ( RetType&& onSuccess ) const;
+
+    /**@brief Takes lambda mapping error to different error. It allows to add context
+    to exception returned from called function.*/
+    Nullable< void >        MapErr              ( const std::function< Nullable< void >( typename ErrorType ) >& mapper ) &&;
 };
 
 Nullable< void >            operator&&		    ( const Nullable< void >& that, const Nullable< void >& second );
@@ -190,7 +199,7 @@ inline Nullable< Type >            Nullable< ContentType >::Move    ()
 //
 template< typename ContentType >
 inline Nullable< ContentType >     Nullable< ContentType >::FromError       ( const ErrorType& error ) 
-{ 
+{
     Nullable< ContentType > ret; 
     ret.Error = error; 
     return ret; 
@@ -200,8 +209,8 @@ inline Nullable< ContentType >     Nullable< ContentType >::FromError       ( co
 //
 template< typename ContentType >
 inline Nullable< ContentType >     Nullable< ContentType >::FromError       ( const std::string& reason ) 
-{ 
-    return FromError( std::make_shared< std::runtime_error >( reason ) ); 
+{
+    return FromError( std::make_shared< RuntimeException >( reason ) );
 }
 
 // ================================ //
@@ -212,6 +221,15 @@ inline Nullable< ContentType >     Nullable< ContentType >::FromError       ()
     return Nullable< ContentType >(); 
 }
 
+// ================================ //
+//
+template< typename ContentType >
+inline Nullable< ContentType >     Nullable< ContentType >::MapErr( const std::function< Nullable< ContentType >( typename ErrorType ) >& mapper ) &&
+{
+    if( !IsValid() )
+        return mapper( Error );
+    return Nullable< ContentType > ( std::move( this->Content ) );
+}
 
 //====================================================================================//
 //			Specialization for void	
@@ -312,6 +330,15 @@ inline typename Nullable< void >::ErrorType		Nullable< void >::GetError () const
     if( m_isValid )
         assert( false ); // FIXME: error handling(?)
     return Error;
+}
+
+// ================================ //
+//
+inline ReturnResult             Nullable< void >::MapErr( const std::function< ReturnResult( typename ErrorType ) >& mapper ) &&
+{
+    if( !IsValid() )
+        return mapper( Error );
+    return Success::True;
 }
 
 }	// sw
