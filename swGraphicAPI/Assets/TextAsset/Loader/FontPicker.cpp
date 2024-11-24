@@ -108,7 +108,11 @@ Nullable< std::vector< FontSearchEntry > >  FontPicker::ListFonts( PathsManager*
         for( auto& file : files )
         {
             if( m_metadataCache.find( file ) != m_metadataCache.end() )
+            {
+                FontSearchEntry cachedEntry{ m_metadataCache[ file ], LoadPath( AssetPath( file, "" ), pm ) };
+                entries.push_back( cachedEntry );
                 continue;
+            }
 
             auto meta = GetFontMetadata( pm, file );
             if( meta.IsValid() )
